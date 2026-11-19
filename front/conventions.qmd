@@ -1,0 +1,74 @@
+# Notation and conventions {#sec-conventions .unnumbered}
+
+Linear algebra is written in several different notations. None of them is wrong: they come from different traditions, and you will meet all of them in lectures, textbooks, papers and software. This book lets you choose the notation you are used to. Your choice is saved in your browser and used on every page.
+
+::: {#mb-settings-inline}
+:::
+
+You can change these settings at any time with the **Notation** button at the bottom right of every page.
+
+## The options
+
+### Vectors
+
+| Option | Looks like | Where you will meet it |
+|:-------|:----------:|:-----------------------|
+| Bold (default) | $\mathbf{v}$ | Most printed textbooks and papers in engineering, physics and mathematics |
+| Arrow | $\vec{v}$ | School and college mathematics, physics, and handwriting |
+| Underlined | $\underline{v}$ | Handwriting, especially in UK engineering; many lecturers use it on the board |
+
+Bold cannot be handwritten, so if you read bold vectors in print, underline them or give them arrows when you write by hand.
+
+### Matrices
+
+| Option | Looks like | Where you will meet it |
+|:-------|:----------:|:-----------------------|
+| Bold (default) | $\mathbf{A}$ | Engineering textbooks, and anywhere vectors are bold |
+| Italic | $A$ | Mathematics textbooks and most research papers |
+
+### Unit vectors along the axes
+
+| Option | Looks like | Where you will meet it |
+|:-------|:----------:|:-----------------------|
+| i, j, k (default) | $\mathbf{i},\ \mathbf{j},\ \mathbf{k}$ | Engineering and mechanics; styled the same way as your other vectors |
+| Hats | $\hat{\imath},\ \hat{\jmath},\ \hat{k}$ | Physics, and many online resources. The hat means "unit vector" |
+| $\mathbf{e}_1, \mathbf{e}_2, \mathbf{e}_3$ | $\mathbf{e}_1,\ \mathbf{e}_2,\ \mathbf{e}_3$ | Mathematics and data science; it extends naturally to any number of dimensions |
+
+In more than three dimensions the book always writes the standard basis vectors as $\ue{1}, \ue{2}, \dots, \ue{n}$, whichever option you choose.
+
+### Brackets
+
+| Option | Looks like | Where you will meet it |
+|:-------|:----------:|:-----------------------|
+| Round (default) | $\begin{pmatrix}1&2\\3&4\end{pmatrix}$ | UK school and university mathematics, and many engineering texts |
+| Square | $\begin{bmatrix}1&2\\3&4\end{bmatrix}$ | US textbooks, research papers, and MATLAB-style notation |
+
+### Transpose
+
+| Option | Looks like | Where you will meet it |
+|:-------|:----------:|:-----------------------|
+| Letter T (default) | $\mathbf{A}^{\mathsf{T}}$ | Most textbooks |
+| Symbol ⊤ | $\mathbf{A}^{\top}$ | Statistics, machine learning and many research papers |
+
+You will also see $\mathbf{A}'$ for the transpose in statistics and in MATLAB code (`A'`). The book avoids it in mathematics because a prime usually means a derivative.
+
+### Code
+
+Examples are shown in Python and MATLAB, in tabs. Choosing a tab switches every example on the page and is remembered across the book. The setting above chooses which language is shown first.
+
+## Conventions that do not change
+
+Some notation is the same everywhere in the book.
+
+- **Scalars** are italic letters: $a$, $\lambda$, $x_1$.
+- **Entries** of a matrix $\M{A}$ are written $a_{ij}$: row $i$, column $j$, always in that order.
+- **Size** is given as rows by columns: an $m \times n$ matrix has $m$ rows and $n$ columns.
+- **Vectors are columns.** A vector $\vect{x}$ with entries $x_1, x_2, x_3$ is the column $\vect{x} = \mat{x_1 \\ x_2 \\ x_3}$, and $\vect{x}\T$ is the corresponding row. To save space it is sometimes written $\vect{x} = (x_1, x_2, x_3)\T$.
+- **The identity matrix** is $\M{I}$, or $\M{I}_n$ when its size matters. The zero matrix is $\M{0}$ and the zero vector is $\zerovec$.
+- **Determinants** are written $\det \M{A}$, or with vertical bars, $\begin{vmatrix} a & b \\ c & d \end{vmatrix}$.
+- **Lengths** of vectors are written $\lVert \vect{v} \rVert$.
+- **The real numbers** are $\R$, and $\R^n$ is the set of vectors with $n$ real entries.
+
+## Writing your own work
+
+When you hand in work or sit an exam, use your own course's notation. If you are not sure what that is, look at your lecture notes or past papers, and set this book to match.

@@ -1,0 +1,387 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vector Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: graph-paper worksheet; the plane first, then controls and the calculation */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --neg: #b0215a; --vio: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --neg: #f07aa8; --vio: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --neg: #f07aa8; --vio: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.modebar { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; justify-self: start; }
+.modebar button { border: 0; background: transparent; font-weight: 600; }
+.modebar button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+html.embedded.lock .modebar { display: none; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; display: grid; gap: 8px; }
+.holder { width: 100%; max-width: 500px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.ctl { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr) 4.4rem; align-items: center; gap: 10px; }
+.ctl label { font: 600 0.92rem var(--font-num); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.calc { font: 500 0.98rem/1.9 var(--font-num); overflow-wrap: anywhere; }
+.calc .v { color: var(--res); font-weight: 600; } .calc .a { color: var(--row); font-weight: 600; } .calc .b { color: var(--col); font-weight: 600; }
+.calc .x { color: var(--row); font-weight: 600; } .calc .y { color: var(--col); font-weight: 600; }
+.calc .z { color: var(--vio); font-weight: 600; }
+.colv { position: relative; display: inline-grid; padding: 1px 9px; text-align: center; vertical-align: middle; line-height: 1.35; min-width: 3rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid currentColor; }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover { border-color: var(--ink); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets, unit-vector names and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  window.mbNames = s.basis === "e" ? ["e₁", "e₂"] : s.basis === "hat" ? ["î", "ĵ"] : ["𝐢", "𝐣"];
+  window.mbVec = function (n) { return s.vec === "arrow" ? n + "⃗" : s.vec === "underline" ? n + "̲" : ({ a: "𝐚", b: "𝐛", v: "𝐯" })[n] || n; };
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Vector <em>explorer</em></h1>
+    <p>Drag the arrow tips. Watch how components, lengths and angles are connected.</p>
+  </header>
+  <div class="modebar" id="modes" role="group" aria-label="Mode">
+    <button data-mode="components" aria-pressed="true">Components and length</button>
+    <button data-mode="dot" aria-pressed="false">Dot product</button>
+    <button data-mode="cross" aria-pressed="false">Cross product</button>
+  </div>
+  <div class="layout">
+    <section class="panel plane-box" aria-label="Plane">
+      <div class="holder"><canvas id="cv" role="img"></canvas></div>
+      <div class="legend" id="legend"></div>
+    </section>
+    <div class="side">
+      <section class="panel card wide" id="ctlComp" aria-label="Vector">
+        <span class="label">The vector</span>
+        <div class="ctl"><label for="rl">length r</label><input type="range" id="rl" min="0" max="4.5" step="0.1"><input type="number" id="rn" min="0" max="4.5" step="0.1" aria-label="Length, as a number"></div>
+        <div class="ctl"><label for="tl">angle θ (°)</label><input type="range" id="tl" min="-180" max="180" step="1"><input type="number" id="tn" min="-180" max="180" step="1" aria-label="Angle in degrees, as a number"></div>
+        <div class="ctl"><label for="xn" class="x">x component</label><span></span><input type="number" id="xn" step="0.5" aria-label="x component"></div>
+        <div class="ctl"><label for="yn" class="y">y component</label><span></span><input type="number" id="yn" step="0.5" aria-label="y component"></div>
+        <p class="hint">Drag the tip, use the sliders for length and direction, or type the components.</p>
+      </section>
+      <section class="panel card wide" id="ctlTwo" aria-label="Vectors" hidden>
+        <span class="label">The vectors</span>
+        <p class="hint">Drag the tips of the two vectors. Try making them point the same way, at right angles, and in opposite directions.</p>
+        <div class="row">
+          <button data-p="perp">Right angles</button>
+          <button data-p="same">Same direction</button>
+          <button data-p="opp">Opposite</button>
+          <button data-p="ex">Example</button>
+        </div>
+      </section>
+      <section class="panel card wide" aria-label="The calculation">
+        <span class="label">The calculation</span>
+        <div class="calc" id="calc"></div>
+        <div class="status" id="status"></div>
+      </section>
+    </div>
+  </div>
+  <div class="sr-only" id="live" role="status" aria-live="polite"></div>
+</main>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const NAMES = window.mbNames, V = window.mbVec;
+  const R = 5, LIM = 4.5;
+  const S = { mode: 'components', v: [3, 2], a: [3, 1], b: [1, 2.5] };
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  let W = 400, dpr = 1, drag = null, hover = null;
+
+  const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
+  const len = p => Math.hypot(p[0], p[1]);
+  const deg = r => r * 180 / Math.PI;
+  const angBetween = (p, q) => { const L = len(p) * len(q); return L < 1e-9 ? 0 : Math.acos(Math.max(-1, Math.min(1, (p[0] * q[0] + p[1] * q[1]) / L))); };
+  const colv3 = z => `<span class="colv z"><span>0</span><span>0</span><span>${fmt(z)}</span></span>`;
+  const colv = (p, cls) => `<span class="colv ${cls}"><span>${fmt(p[0])}</span><span>${fmt(p[1])}</span></span>`;
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), x: v('--row'), y: v('--col'), v: v('--res'), neg: v('--neg'), vio: v('--vio'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), num: v('--font-num') }; };
+  const u = () => W / (2 * R);
+  const P = p => [W / 2 + p[0] * u(), W / 2 - p[1] * u()];
+
+  function resize() {
+    W = Math.min(cv.parentElement.clientWidth, 500); dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr); cv.style.width = W + 'px'; cv.style.height = W + 'px';
+    draw();
+  }
+  function seg(a, b) { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); }
+  function arrow(from, to, color, w, dash) {
+    const s = P(from), e = P(to), L = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (L < 2) return;
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(12, L * 0.4);
+    ctx.setLineDash(dash || []); seg(s, [e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7]); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42)); ctx.closePath(); ctx.fill();
+  }
+  function text(t, p, color, dx = 8, dy = -6, align = 'left', size = 14, weight = 600) {
+    const s = P(p); ctx.fillStyle = color; ctx.font = `${weight} ${size}px ${css().num}`; ctx.textAlign = align; ctx.textBaseline = 'middle';
+    ctx.fillText(t, s[0] + dx, s[1] + dy);
+  }
+  function handle(p, color, key, dashed) {
+    const s = P(p), big = hover === key || (drag && drag.key === key);
+    ctx.beginPath(); ctx.arc(s[0], s[1], big ? 10 : 7.5, 0, 2 * Math.PI); ctx.fillStyle = css().surface; ctx.fill();
+    ctx.strokeStyle = color; ctx.lineWidth = 2.5; if (dashed) ctx.setLineDash([3, 2.5]); ctx.stroke(); ctx.setLineDash([]);
+  }
+  function arc(r, a0, a1, color) {
+    const c = P([0, 0]); ctx.strokeStyle = color; ctx.lineWidth = 1.6; ctx.beginPath();
+    ctx.arc(c[0], c[1], r, -a0, -a1, a1 > a0); ctx.stroke();
+  }
+  function base(C) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, W);
+    ctx.lineWidth = 1; ctx.strokeStyle = C.pgrid;
+    for (let k = -R; k <= R; k++) { seg(P([k, -R]), P([k, R])); seg(P([-R, k]), P([R, k])); }
+    ctx.strokeStyle = C.muted; ctx.globalAlpha = 0.6; ctx.lineWidth = 1.2; seg(P([-R, 0]), P([R, 0])); seg(P([0, -R]), P([0, R])); ctx.globalAlpha = 1;
+    ctx.fillStyle = C.muted; ctx.font = `500 11px ${C.num}`; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    for (let k = -4; k <= 4; k++) if (k) { const s = P([k, 0]); ctx.fillText(String(k).replace('-', '−'), s[0], s[1] + 4); }
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    for (let k = -4; k <= 4; k++) if (k) { const s = P([0, k]); ctx.fillText(String(k).replace('-', '−'), s[0] - 5, s[1]); }
+  }
+
+  function drawComponents(C) {
+    const v = S.v, th = Math.atan2(v[1], v[0]);
+    // unit vectors
+    arrow([0, 0], [1, 0], C.x, 2.6); arrow([0, 0], [0, 1], C.y, 2.6, [5, 4]);
+    text(NAMES[0], [1, 0], C.x, -6, v[1] >= 0 ? 14 : -14, 'center', 15, 700); text(NAMES[1], [0, 1], C.y, -12, 0, 'center', 15, 700);
+    // components, tip to tail
+    ctx.globalAlpha = 0.55; arrow([0, 0], [v[0], 0], C.x, 4); arrow([v[0], 0], v, C.y, 4, [7, 5]); ctx.globalAlpha = 1;
+    text(fmt(v[0]) + ' ' + NAMES[0], [v[0] * 0.6, 0], C.x, 0, v[1] >= 0 ? 30 : -30, 'center', 13);
+    text(fmt(v[1]) + ' ' + NAMES[1], [v[0], v[1] / 2], C.y, v[0] >= 0 ? 8 : -8, 0, v[0] >= 0 ? 'left' : 'right', 13);
+    // right angle marker
+    if (Math.abs(v[0]) > 0.3 && Math.abs(v[1]) > 0.3) {
+      const sx = Math.sign(v[0]), sy = Math.sign(v[1]), k = 0.25;
+      ctx.strokeStyle = C.muted; ctx.lineWidth = 1; ctx.beginPath();
+      const a = P([v[0] - sx * k, 0]), b = P([v[0] - sx * k, sy * k]), c = P([v[0], sy * k]);
+      ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.lineTo(c[0], c[1]); ctx.stroke();
+    }
+    if (len(v) > 0.2) { arc(28, 0, th, C.ink); text('θ', [0, 0], C.ink, 36 * Math.cos(th / 2), -36 * Math.sin(th / 2), 'center', 13); }
+    arrow([0, 0], v, C.v, 3.4);
+    text(V('v'), v, C.v, 12, -10, 'left', 16, 700);
+    handle(v, C.v, 'v');
+  }
+  function drawTwo(C) {
+    const a = S.a, b = S.b, ta = Math.atan2(a[1], a[0]), tb = Math.atan2(b[1], b[0]), th = angBetween(a, b);
+    if (S.mode === 'cross') {
+      const cr = a[0] * b[1] - a[1] * b[0];
+      ctx.beginPath(); [[0, 0], a, [a[0] + b[0], a[1] + b[1]], b].forEach((p, k) => { const s = P(p); k ? ctx.lineTo(s[0], s[1]) : ctx.moveTo(s[0], s[1]); }); ctx.closePath();
+      ctx.globalAlpha = 0.18; ctx.fillStyle = cr >= 0 ? C.v : C.neg; ctx.fill(); ctx.globalAlpha = 1;
+      ctx.setLineDash([4, 4]); ctx.strokeStyle = C.muted; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+      // height: from b's tip, perpendicular to a
+      const La = len(a);
+      if (La > 1e-6) {
+        const t = (b[0] * a[0] + b[1] * a[1]) / (La * La), foot = [a[0] * t, a[1] * t];
+        ctx.strokeStyle = C.vio; ctx.lineWidth = 2; ctx.setLineDash([5, 4]); seg(P(foot), P(b)); ctx.setLineDash([]);
+        text('height = |' + V('b') + '| sin θ', [(foot[0] + b[0]) / 2, (foot[1] + b[1]) / 2], C.vio, 8, 0, 'left', 12, 600);
+      }
+      // out of / into the screen symbol at the origin side
+      const c = P([-4.3, -4.4]); ctx.strokeStyle = C.vio; ctx.fillStyle = C.vio; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(c[0], c[1], 11, 0, 2 * Math.PI); ctx.stroke();
+      if (cr > 1e-9) { ctx.beginPath(); ctx.arc(c[0], c[1], 3.5, 0, 2 * Math.PI); ctx.fill(); }
+      else if (cr < -1e-9) { const d = 6; seg([c[0] - d, c[1] - d], [c[0] + d, c[1] + d]); seg([c[0] - d, c[1] + d], [c[0] + d, c[1] - d]); }
+      ctx.font = `600 12px ${C.num}`; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText(cr > 1e-9 ? V('a') + '×' + V('b') + ' points out of the screen' : cr < -1e-9 ? V('a') + '×' + V('b') + ' points into the screen' : V('a') + '×' + V('b') + ' = 0', c[0] + 18, c[1]);
+    } else {
+      // projection of b onto a
+      const La = len(a);
+      if (La > 1e-6) {
+        const t = (b[0] * a[0] + b[1] * a[1]) / (La * La), foot = [a[0] * t, a[1] * t];
+        ctx.strokeStyle = C.muted; ctx.lineWidth = 1; ctx.setLineDash([4, 4]); seg(P(foot), P(b)); ctx.setLineDash([]);
+        // extend the line of a if the foot is beyond it
+        ctx.globalAlpha = 0.35; ctx.strokeStyle = C.x; ctx.setLineDash([2, 4]); seg(P([a[0] * -1.6, a[1] * -1.6]), P([a[0] * 1.6, a[1] * 1.6])); ctx.setLineDash([]); ctx.globalAlpha = 1;
+        ctx.strokeStyle = t >= 0 ? C.v : C.neg; ctx.lineWidth = 6; ctx.globalAlpha = 0.55; seg(P([0, 0]), P(foot)); ctx.globalAlpha = 1;
+        const side = Math.sign(a[0] * b[1] - a[1] * b[0]) || 1, nx = a[1] / La * side, ny = -a[0] / La * side;
+        text('|' + V('b') + '| cos θ', [foot[0] / 2, foot[1] / 2], t >= 0 ? C.v : C.neg, nx * 20, -ny * 20, 'center', 12, 600);
+      }
+    }
+    if (len(a) > 0.2 && len(b) > 0.2) {
+      let a0 = ta, a1 = tb, d = a1 - a0; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI;
+      arc(30, a0, a0 + d, C.ink); text('θ', [0, 0], C.ink, 42 * Math.cos(a0 + d / 2), -42 * Math.sin(a0 + d / 2), 'center', 13);
+    }
+    arrow([0, 0], a, C.x, 3.2); arrow([0, 0], b, C.y, 3.2, [7, 5]);
+    text(V('a'), a, C.x, 12, -10, 'left', 16, 700); text(V('b'), b, C.y, 12, -10, 'left', 16, 700);
+    handle(a, C.x, 'a'); handle(b, C.y, 'b', true);
+  }
+  function draw() { const C = css(); base(C); S.mode === 'components' ? drawComponents(C) : drawTwo(C); }
+
+  function readout() {
+    const st = $('status');
+    if (S.mode === 'components') {
+      const v = S.v, r = len(v), th = deg(Math.atan2(v[1], v[0]));
+      $('calc').innerHTML =
+        `<span class="v">${V('v')}</span> = ${colv(v, '')} = <span class="x">${fmt(v[0])}</span> ${NAMES[0]} + <span class="y">${fmt(v[1])}</span> ${NAMES[1]}<br>` +
+        `length = √(<span class="x">${fmt(v[0])}</span>² + <span class="y">${fmt(v[1])}</span>²) = ${fmt(r)}<br>` +
+        `<span class="x">x</span> = r cos θ = ${fmt(r)} × cos ${fmt(th, 1)}° = ${fmt(v[0])}<br>` +
+        `<span class="y">y</span> = r sin θ = ${fmt(r)} × sin ${fmt(th, 1)}° = ${fmt(v[1])}`;
+      st.textContent = 'The components and the length form a right-angled triangle, so Pythagoras gives the length, and cosine and sine give the components.';
+      cv.setAttribute('aria-label', `Vector v = (${fmt(v[0])}, ${fmt(v[1])}), length ${fmt(r)}, angle ${fmt(th, 1)} degrees.`);
+      if (document.activeElement !== $('rn')) $('rn').value = fmt(r, 2).replace('−', '-');
+      if (document.activeElement !== $('tn')) $('tn').value = fmt(th, 1).replace('−', '-');
+      $('rl').value = r; $('tl').value = th;
+      if (document.activeElement !== $('xn')) $('xn').value = fmt(v[0]).replace('−', '-');
+      if (document.activeElement !== $('yn')) $('yn').value = fmt(v[1]).replace('−', '-');
+      return;
+    }
+    const a = S.a, b = S.b, th = angBetween(a, b), La = len(a), Lb = len(b);
+    if (S.mode === 'dot') {
+      const d = a[0] * b[0] + a[1] * b[1];
+      $('calc').innerHTML =
+        `<span class="a">${V('a')}</span> · <span class="b">${V('b')}</span> = ${colv(a, 'a')} · ${colv(b, 'b')}<br>` +
+        `= ${fmt(a[0])} × ${fmt(b[0])} + ${fmt(a[1])} × ${fmt(b[1])} = <b>${fmt(d)}</b><br>` +
+        `|${V('a')}| |${V('b')}| cos θ = ${fmt(La)} × ${fmt(Lb)} × cos ${fmt(deg(th), 1)}° = <b>${fmt(La * Lb * Math.cos(th))}</b>`;
+      st.textContent = Math.abs(d) < 1e-9 ? 'The dot product is zero: the vectors are at right angles.' :
+        d > 0 ? `The angle is less than 90°, so the dot product is positive. The shaded length is how far ${V('b')} reaches along ${V('a')}.` :
+        `The angle is more than 90°, so the dot product is negative: ${V('b')} points partly backwards along ${V('a')}.`;
+    } else {
+      const cr = a[0] * b[1] - a[1] * b[0];
+      $('calc').innerHTML =
+        `area of the parallelogram = |${V('a')}| × height = |${V('a')}| |${V('b')}| sin θ<br>` +
+        `= ${fmt(La)} × ${fmt(Lb)} × sin ${fmt(deg(th), 1)}° = <b>${fmt(Math.abs(cr))}</b><br>` +
+        `${V('a')} × ${V('b')} = ${colv3(cr)} ` +
+        `<span class="hint">(the third entry is ${fmt(a[0])} × ${fmt(b[1])} − ${fmt(a[1])} × ${fmt(b[0])})</span>`;
+      st.textContent = Math.abs(cr) < 1e-9 ? 'The vectors point along the same line, so the parallelogram is flat and the cross product is zero.' :
+        `The cross product is at right angles to the screen, and its length is the shaded area. ` + (cr > 0 ? `${V('b')} is anticlockwise from ${V('a')}, so it points out of the screen.` : `${V('b')} is clockwise from ${V('a')}, so it points into the screen.`);
+    }
+    cv.setAttribute('aria-label', `a = (${fmt(a[0])}, ${fmt(a[1])}), b = (${fmt(b[0])}, ${fmt(b[1])}), angle ${fmt(deg(th), 1)} degrees. ${st.textContent}`);
+  }
+  function update() { draw(); readout(); }
+
+  // controls
+  const clamp = x => Math.max(-LIM, Math.min(LIM, x));
+  function setPolar(r, tdeg) { const t = tdeg * Math.PI / 180; S.v = [clamp(r * Math.cos(t)), clamp(r * Math.sin(t))]; update(); }
+  $('rl').addEventListener('input', e => setPolar(+e.target.value, Math.atan2(S.v[1], S.v[0]) * 180 / Math.PI));
+  $('tl').addEventListener('input', e => setPolar(len(S.v) || 1, +e.target.value));
+  $('rn').addEventListener('change', e => { const v = parseFloat(e.target.value); if (!isNaN(v)) setPolar(Math.max(0, Math.min(4.5, v)), Math.atan2(S.v[1], S.v[0]) * 180 / Math.PI); });
+  $('tn').addEventListener('change', e => { const v = parseFloat(e.target.value); if (!isNaN(v)) setPolar(len(S.v) || 1, v); });
+  $('xn').addEventListener('change', e => { const v = parseFloat(e.target.value); if (!isNaN(v)) { S.v = [clamp(v), S.v[1]]; update(); } });
+  $('yn').addEventListener('change', e => { const v = parseFloat(e.target.value); if (!isNaN(v)) { S.v = [S.v[0], clamp(v)]; update(); } });
+  const PRE = { perp: [[3, 1], [-1, 3]], same: [[3, 1], [1.5, 0.5]], opp: [[3, 1], [-2, -0.5]], ex: [[3, 1], [1, 2.5]] };
+  document.querySelectorAll('[data-p]').forEach(b => b.addEventListener('click', () => { const p = PRE[b.dataset.p]; S.a = p[0].slice(); S.b = p[1].slice(); update(); $('live').textContent = $('status').textContent; }));
+
+  // dragging
+  function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+  function hit(sx, sy) {
+    const pts = S.mode === 'components' ? [['v', S.v]] : [['b', S.b], ['a', S.a]];
+    let best = null, bd = 22;
+    for (const [k, p] of pts) { const s = P(p), d = Math.hypot(s[0] - sx, s[1] - sy); if (d < bd) { bd = d; best = k; } }
+    return best;
+  }
+  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e), k = hit(sx, sy); if (!k) return; drag = { key: k }; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); draw(); });
+  cv.addEventListener('pointermove', e => {
+    const [sx, sy] = pos(e);
+    if (!drag) { const h = hit(sx, sy); if (h !== hover) { hover = h; cv.className = h ? 'grab' : ''; draw(); } return; }
+    const x = clamp(Math.round((sx - W / 2) / u() * 2) / 2), y = clamp(Math.round((W / 2 - sy) / u() * 2) / 2);
+    S[drag.key] = [x, y]; update();
+  });
+  const end = () => { if (drag) { drag = null; cv.className = hover ? 'grab' : ''; draw(); $('live').textContent = $('status').textContent; } };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  cv.addEventListener('pointerleave', () => { if (!drag && hover) { hover = null; cv.className = ''; draw(); } });
+
+  function legend() {
+    const sw = (c, dash) => `<span class="sw" style="border-color:var(${c});${dash ? 'border-top-style:dashed' : ''}"></span>`;
+    $('legend').innerHTML = S.mode === 'components'
+      ? `<span>${sw('--res')}${V('v')}</span><span>${sw('--row')}${NAMES[0]} and the x component</span><span>${sw('--col', 1)}${NAMES[1]} and the y component</span>`
+      : `<span>${sw('--row')}${V('a')}</span><span>${sw('--col', 1)}${V('b')}</span>` + (S.mode === 'dot' ? `<span>${sw('--res')}how far ${V('b')} reaches along ${V('a')}</span>` : `<span>${sw('--vio', 1)}height of the parallelogram</span>`);
+  }
+  function setMode(m) {
+    S.mode = m;
+    document.querySelectorAll('#modes button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+    $('ctlComp').hidden = m !== 'components'; $('ctlTwo').hidden = m === 'components';
+    legend(); update();
+  }
+  document.querySelectorAll('#modes button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+  new ResizeObserver(resize).observe(cv.parentElement);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (document.fonts) document.fonts.ready.then(draw);
+  const qm = new URLSearchParams(location.search).get('mode');
+  setMode(['components', 'dot', 'cross'].includes(qm) ? qm : 'components');
+  resize();
+})();
+</script>
+</body>
+</html>

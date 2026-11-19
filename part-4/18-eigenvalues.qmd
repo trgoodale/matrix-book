@@ -1,0 +1,276 @@
+# Eigenvalues and eigenvectors {#sec-eigenvalues}
+
+[Core]{.level-badge .core}
+
+::: {.callout-note appearance="simple" icon=false}
+## In this chapter you will
+
+- find the eigenvalues of a matrix from its characteristic equation, and its eigenvectors from null spaces
+- use the trace and determinant to check eigenvalues
+- recognise repeated eigenvalues, including matrices without enough eigenvectors
+- interpret complex eigenvalues as rotation combined with stretching
+:::
+
+**Builds on** @sec-determinants, @sec-invariant-lines, @sec-fundamental-subspaces.
+
+@sec-invariant-lines found the lines that a $2 \times 2$ matrix maps onto themselves, with a formula that only works in two dimensions. Along such a line the matrix just stretches: $\M{A}\vect{v} = \lambda\vect{v}$. The vectors $\vect{v}$ are **eigenvectors** and the stretch factors $\lambda$ are **eigenvalues**. This chapter gives the method that works for a square matrix of any size.
+
+Eigenvalues are among the most useful numbers in applied mathematics. They give the natural frequencies of a vibrating structure, the growth rate of a population, the stability of a control system, the principal stresses in a loaded beam and the most important directions in a data set. The rest of Part IV is built on them.
+
+## Build intuition
+
+The invariant line finder from @sec-invariant-lines shows the same idea. Turn the vector $\vect{v}$ and watch for the directions where $\M{A}\vect{v}$ lines up with $\vect{v}$. Each such direction is an eigenvector, and the stretch factor shown is its eigenvalue.
+
+::: {.app-embed}
+<iframe class="app-frame" src="../apps/invariant-lines.html?embed=1" title="Invariant line finder" loading="lazy"></iframe>
+
+[Open the invariant line finder in its own tab](../apps/invariant-lines.html){.app-open target="_blank"}
+:::
+
+Things to try:
+
+- For each preset, predict how many eigenvector directions there will be before you sweep.
+- **Rotate 90°** has none. What do you think its eigenvalues are? (This chapter's answer involves complex numbers.)
+- **Shear** has only one eigenvector direction, although a $2 \times 2$ matrix usually has two. Keep this example in mind for the section on repeated eigenvalues.
+
+## The ideas
+
+### Directions that are only stretched
+
+A non-zero vector $\vect{v}$ is an **eigenvector** of the square matrix $\M{A}$, with **eigenvalue** $\lambda$, if
+$$
+\M{A}\vect{v} = \lambda\vect{v}.
+$$
+The matrix sends $\vect{v}$ to a multiple of itself, so it stays on the same line through the origin. The meaning of $\lambda$ is as in @sec-invariant-lines: points along that line are stretched ($\lambda > 1$), shrunk ($0 < \lambda < 1$), left alone ($\lambda = 1$), squashed to the origin ($\lambda = 0$) or flipped ($\lambda < 0$).
+
+The zero vector is not allowed as an eigenvector (it would satisfy the equation for every $\lambda$), but $\lambda = 0$ is a perfectly good eigenvalue. Any non-zero multiple of an eigenvector is also an eigenvector, with the same eigenvalue, so it is really a *direction* that is being found. Together with $\zerovec$, all the eigenvectors for one eigenvalue form a subspace (@sec-span-independence), called its **eigenspace**.
+
+### The characteristic equation
+
+Rewrite $\M{A}\vect{v} = \lambda\vect{v}$ as $\M{A}\vect{v} - \lambda\M{I}\vect{v} = \zerovec$, that is,
+$$
+(\M{A} - \lambda\M{I})\vect{v} = \zerovec.
+$$
+This homogeneous system has a non-zero solution exactly when $\M{A} - \lambda\M{I}$ is singular (@sec-linear-systems), so the eigenvalues are the solutions of the **characteristic equation**
+$$
+\det(\M{A} - \lambda\M{I}) = 0.
+$$ {#eq-characteristic}
+For an $n \times n$ matrix, $\det(\M{A} - \lambda\M{I})$ is a polynomial in $\lambda$ of degree $n$, the **characteristic polynomial**. So an $n \times n$ matrix has exactly $n$ eigenvalues, provided you count repeated ones as often as they repeat and allow complex numbers.
+
+For a $2 \times 2$ matrix $\M{A} = \mat{a & b \\ c & d}$,
+$$
+\det\mat{a - \lambda & b \\ c & d - \lambda} = \lambda^2 - (a + d)\lambda + (ad - bc).
+$$
+The coefficient $a + d$ is the **trace** of $\M{A}$, written $\operatorname{tr}\M{A}$: the sum of its diagonal entries. So
+$$
+\lambda^2 - (\operatorname{tr}\M{A})\,\lambda + \det\M{A} = 0.
+$$ {#eq-char-2x2}
+This gives a useful check in any size: **the eigenvalues add up to the trace, and multiply to give the determinant** (a proof is in @sec-proofs-eigenvalues).
+
+### Finding the eigenvectors
+
+For each eigenvalue $\lambda$, the eigenvectors are the non-zero solutions of $(\M{A} - \lambda\M{I})\vect{v} = \zerovec$: the null space of $\M{A} - \lambda\M{I}$ (@sec-fundamental-subspaces). Row reduce, and read the solutions off in terms of free variables, as in @sec-gauss-jordan-rank. Because $\M{A} - \lambda\M{I}$ is singular, there is always at least one free variable. If there isn't, the eigenvalue is wrong.
+
+::: {#ex-eigenvalues-1 .callout-note appearance="simple" icon=false}
+### Example 1: a $2 \times 2$ matrix
+
+Find the eigenvalues and eigenvectors of $\M{A} = \mat{4 & 1 \\ 2 & 3}$.
+
+**Solution.** The trace is 7 and the determinant is $12 - 2 = 10$, so by @eq-char-2x2,
+$$
+\lambda^2 - 7\lambda + 10 = 0 \quad\Longrightarrow\quad (\lambda - 5)(\lambda - 2) = 0,
+$$
+giving $\lambda_1 = 5$ and $\lambda_2 = 2$. Check: $5 + 2 = 7$, the trace, and $5 \times 2 = 10$, the determinant. ✓
+
+For $\lambda_1 = 5$: $\M{A} - 5\M{I} = \mat{-1 & 1 \\ 2 & -2}$. Both rows say $x = y$, so $\vect{v}_1 = (1, 1)\T$.
+
+For $\lambda_2 = 2$: $\M{A} - 2\M{I} = \mat{2 & 1 \\ 2 & 1}$. Both rows say $2x + y = 0$, so $\vect{v}_2 = (1, -2)\T$.
+
+Check: $\M{A}(1, -2)\T = (4 - 2, 2 - 6)\T = (2, -4)\T = 2(1, -2)\T$. ✓
+:::
+
+### Quick facts
+
+Some eigenvalues can be seen without any calculation.
+
+- A **triangular** matrix (including a diagonal one) has its diagonal entries as its eigenvalues, because $\M{A} - \lambda\M{I}$ is triangular and its determinant is the product of its diagonal entries.
+- $\lambda = 0$ is an eigenvalue exactly when $\M{A}$ is singular, since then $\M{A}\vect{v} = 0\vect{v}$ has a non-zero solution.
+- If $\M{A}\vect{v} = \lambda\vect{v}$, then $\M{A}^2\vect{v} = \M{A}(\lambda\vect{v}) = \lambda^2\vect{v}$, and in general $\M{A}^k$ has eigenvalue $\lambda^k$ with the same eigenvector. If $\M{A}$ is invertible, $\M{A}^{-1}$ has eigenvalue $1/\lambda$.
+- $\M{A}$ and $\M{A}\T$ have the same eigenvalues (but usually different eigenvectors), since a matrix and its transpose have the same determinant.
+
+### Repeated eigenvalues
+
+When an eigenvalue is a repeated root of the characteristic polynomial, its eigenspace may or may not have as many dimensions as the repeat count. The identity matrix $\M{I}$ has $\lambda = 1$ twice, and every vector is an eigenvector: a whole plane of them. But the shear $\mat{1 & 1 \\ 0 & 1}$ also has $\lambda = 1$ twice, and only the $x$-axis is an eigenvector direction (@sec-invariant-lines, Example 4).
+
+The number of times $\lambda$ repeats as a root is its **algebraic multiplicity**; the dimension of its eigenspace is its **geometric multiplicity**. The geometric multiplicity is always at least 1 and never more than the algebraic multiplicity. A matrix where it is smaller, like the shear, is called **defective**: it doesn't have enough independent eigenvectors to make a basis, which matters in @sec-diagonalisation.
+
+::: {#ex-eigenvalues-2 .callout-note appearance="simple" icon=false}
+### Example 2: a $3 \times 3$ matrix with a repeated eigenvalue
+
+Find the eigenvalues and eigenspaces of $\M{A} = \mat{2 & 1 & 1 \\ 1 & 2 & 1 \\ 1 & 1 & 2}$.
+
+**Solution.** Expanding $\det(\M{A} - \lambda\M{I})$ directly is possible, but a shortcut is quicker. $\M{A} - \M{I}$ has every entry equal to 1, so it has rank 1 and is singular: $\lambda = 1$ is an eigenvalue, and its eigenspace has dimension $3 - 1 = 2$. So $\lambda = 1$ appears at least twice. The trace is 6, so the third eigenvalue is $6 - 1 - 1 = 4$. (Check with the determinant: $1 \times 1 \times 4 = 4 = \det\M{A}$.)
+
+For $\lambda = 1$: $(\M{A} - \M{I})\vect{v} = \zerovec$ is the single equation $x + y + z = 0$. With $y$ and $z$ free, a basis is $(-1, 1, 0)\T$ and $(-1, 0, 1)\T$: the eigenspace is a plane.
+
+For $\lambda = 4$: $\M{A} - 4\M{I} = \mat{-2 & 1 & 1 \\ 1 & -2 & 1 \\ 1 & 1 & -2}$, whose rows each add up to zero, so $\vect{v} = (1, 1, 1)\T$ works. The eigenspace is the line through it.
+
+The repeated eigenvalue has a two-dimensional eigenspace, so this matrix is not defective. (Notice also that $(1, 1, 1)$ is at right angles to the whole plane $x + y + z = 0$. That is no accident: $\M{A}$ is symmetric, @sec-symmetric-matrices.)
+:::
+
+::: {#ex-eigenvalues-3 .callout-note appearance="simple" icon=false}
+### Example 3: a defective matrix
+
+Find the eigenvalues and eigenvectors of the shear $\M{H} = \mat{1 & 1 \\ 0 & 1}$.
+
+**Solution.** It is triangular, so its eigenvalues are its diagonal entries: $\lambda = 1$, twice. $\M{H} - \M{I} = \mat{0 & 1 \\ 0 & 0}$ says $y = 0$, so the eigenvectors are the multiples of $(1, 0)\T$ only. The algebraic multiplicity is 2 but the geometric multiplicity is 1: $\M{H}$ is defective.
+:::
+
+### Complex eigenvalues
+
+The rotation $\M{R}(\theta) = \mat{\cos\theta & -\sin\theta \\ \sin\theta & \cos\theta}$ turns every direction, so for $\theta$ other than $0°$ or $180°$ it has no real eigenvectors. Its characteristic equation is
+$$
+\lambda^2 - 2\cos\theta\,\lambda + 1 = 0,
+\qquad\text{so}\qquad
+\lambda = \cos\theta \pm i\sin\theta = e^{\pm i\theta},
+$$
+a pair of complex numbers (see the [Refresher](../front/refresher.qmd) for complex numbers). Their angle is the angle of rotation, and their size, $\lvert\lambda\rvert = 1$, says that lengths don't change.
+
+In general, a real matrix with complex eigenvalues has them in **conjugate pairs**, $\alpha \pm i\beta$, because the characteristic polynomial has real coefficients. For a $2 \times 2$ matrix, such a pair means the matrix acts like a rotation through the angle of $\lambda$ combined with a stretch by $\lvert\lambda\rvert = \sqrt{\alpha^2 + \beta^2}$, as seen in suitable coordinates. The eigenvectors are complex too. You won't need them in this book except in passing, but the eigenvalues themselves are vital: in @sec-linear-odes they become oscillation frequencies.
+
+::: {#ex-eigenvalues-4 .callout-note appearance="simple" icon=false}
+### Example 4: complex eigenvalues
+
+Find the eigenvalues of $\M{A} = \mat{1 & -1 \\ 1 & 1}$ and interpret them.
+
+**Solution.** The trace is 2 and the determinant is 2, so $\lambda^2 - 2\lambda + 2 = 0$, and
+$$
+\lambda = \frac{2 \pm \sqrt{4 - 8}}{2} = 1 \pm i.
+$$
+Each has size $\lvert\lambda\rvert = \sqrt{2}$ and angle $45°$. Indeed $\M{A} = \sqrt{2}\,\M{R}(45°)$: it rotates by $45°$ and stretches by $\sqrt{2}$. No real direction is left on its own line, so there are no real eigenvectors.
+:::
+
+## In code
+
+`np.linalg.eig` and MATLAB's `eig` return the eigenvalues, and the eigenvectors as the columns of a matrix in the same order, each scaled to length 1. They don't use the characteristic polynomial, which would be slow and inaccurate for large matrices. Instead they use the QR algorithm of @sec-eigenvalue-algorithms. The order of the eigenvalues, and the sign of each eigenvector, may differ from a hand calculation.
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+import numpy as np
+
+A = np.array([[4, 1], [2, 3]])
+values, vectors = np.linalg.eig(A)
+values, vectors = values.real, vectors.real   # recent NumPy returns complex numbers
+print(values)
+print(vectors)                   # columns: (1, 1) and (1, -2), scaled to length 1
+
+print(np.allclose(A @ vectors, vectors * values))   # A v = lambda v for each column
+
+print(np.linalg.eigvals(np.array([[1, -1], [1, 1]])))   # complex: 1 + i and 1 - i
+```
+
+## MATLAB
+
+```matlab
+A = [4 1; 2 3];
+[V, D] = eig(A)            % eigenvectors in the columns of V, eigenvalues on the diagonal of D
+
+eig([1 -1; 1 1])           % complex: 1 + i and 1 - i
+```
+
+```{.text .code-output}
+V =
+
+    0.7071   -0.4472
+    0.7071    0.8944
+
+D =
+
+     5     0
+     0     2
+
+ans =
+
+   1.0000 + 1.0000i
+   1.0000 - 1.0000i
+```
+
+The columns of `V` are $(1, 1)\T$ and $(1, -2)\T$ scaled to length 1, with the second multiplied by $-1$. Either sign describes the same direction.
+:::
+
+## Check your understanding
+
+::: {.callout-tip collapse="true"}
+## A $3 \times 3$ matrix has eigenvalues 2, 2 and $-1$. What are its trace and determinant?
+
+Trace $2 + 2 - 1 = 3$; determinant $2 \times 2 \times (-1) = -4$.
+:::
+
+::: {.callout-tip collapse="true"}
+## If 0 is an eigenvalue of $\M{A}$, what can you say about $\M{A}$?
+
+It is singular: it has no inverse, and $\det\M{A} = 0$.
+:::
+
+::: {.callout-tip collapse="true"}
+## Can a real $3 \times 3$ matrix have no real eigenvalues?
+
+No. Complex eigenvalues come in conjugate pairs, so with three eigenvalues at least one must be real. (Geometrically: every rotation of space has an axis.)
+:::
+
+## Key ideas
+
+- An eigenvector of $\M{A}$ is a non-zero vector whose direction $\M{A}$ doesn't change: $\M{A}\vect{v} = \lambda\vect{v}$, where $\lambda$ is its eigenvalue.
+- The eigenvalues are the roots of the characteristic equation $\det(\M{A} - \lambda\M{I}) = 0$. The eigenvectors for each $\lambda$ form the null space of $\M{A} - \lambda\M{I}$.
+- The eigenvalues add up to the trace and multiply to the determinant, which makes a quick check.
+- A repeated eigenvalue may have fewer independent eigenvectors than its multiplicity; such a matrix is called defective.
+- Complex eigenvalues of a real matrix come in conjugate pairs, and describe a rotation combined with a stretch.
+
+## Exercises {#sec-eigenvalues-exercises}
+
+1. []{#exercise-eigenvalues-1}Find the eigenvalues and eigenvectors of $\mat{5 & 2 \\ 2 & 2}$, and check them with the trace and determinant.
+
+   [Solution to exercise 1](../appendices/solutions-4.qmd#solution-eigenvalues-1){.sol-link}
+
+2. []{#exercise-eigenvalues-2}Write down the eigenvalues of $\mat{2 & 5 & 7 \\ 0 & -1 & 4 \\ 0 & 0 & 3}$ without calculation, and find an eigenvector for $\lambda = 2$.
+
+   [Solution to exercise 2](../appendices/solutions-4.qmd#solution-eigenvalues-2){.sol-link}
+
+3. []{#exercise-eigenvalues-3}Find the eigenvalues and eigenspaces of $\mat{1 & 2 & 0 \\ 2 & 1 & 0 \\ 0 & 0 & 3}$. Is it defective?
+
+   [Solution to exercise 3](../appendices/solutions-4.qmd#solution-eigenvalues-3){.sol-link}
+
+4. []{#exercise-eigenvalues-4}Suppose $\M{A}\vect{v} = \lambda\vect{v}$. Show that (a) $(\M{A} + c\M{I})\vect{v} = (\lambda + c)\vect{v}$ for any number $c$; (b) if $\M{A}$ is invertible, $\M{A}^{-1}\vect{v} = \tfrac{1}{\lambda}\vect{v}$.
+
+   [Solution to exercise 4](../appendices/solutions-4.qmd#solution-eigenvalues-4){.sol-link}
+
+5. []{#exercise-eigenvalues-5}Find the eigenvalues of $\mat{0 & -2 \\ 2 & 0}$ and describe the transformation geometrically.
+
+   [Solution to exercise 5](../appendices/solutions-4.qmd#solution-eigenvalues-5){.sol-link}
+
+6. []{#exercise-eigenvalues-6}Show that $\mat{a & b \\ c & d}$ has real eigenvalues whenever $b$ and $c$ have the same sign. (*Hint*: look at the discriminant of @eq-char-2x2.)
+
+   [Solution to exercise 6](../appendices/solutions-4.qmd#solution-eigenvalues-6){.sol-link}
+
+7. []{#exercise-eigenvalues-7}**Code.** Three equal masses are joined in a line by four equal springs, with the outer springs fixed to walls. Their vibrations are governed by the matrix $\M{K} = \mat{2 & -1 & 0 \\ -1 & 2 & -1 \\ 0 & -1 & 2}$: the natural frequencies are proportional to the square roots of its eigenvalues, and the eigenvectors are the **mode shapes**, the patterns in which the masses move together. Find the eigenvalues and eigenvectors, and describe each mode shape in words.
+
+   [Solution to exercise 7](../appendices/solutions-4.qmd#solution-eigenvalues-7){.sol-link}
+
+Solutions are in @sec-solutions-eigenvalues.
+
+## In practice
+
+- **Vibration**: every structure, from a guitar string to a bridge or an aircraft wing, has natural frequencies at which it vibrates freely, found from the eigenvalues of its stiffness and mass matrices. Engineers keep them away from the frequencies of wind, traffic, engines or footsteps, to avoid resonance. The Millennium Bridge in London swayed on its opening day in 2000 because a sideways natural frequency matched the rhythm of people walking.
+- **Stability**: whether a control system, an electrical network or an ecosystem returns to equilibrium after a disturbance depends on the eigenvalues of its linearised equations (@sec-linear-odes).
+- **Principal stresses**: the eigenvalues of the stress matrix at a point of a loaded material are the largest and smallest normal stresses there, and the eigenvectors are their directions (@sec-symmetric-matrices).
+- **Rankings**: Google's original PageRank was the eigenvector, with eigenvalue 1, of a huge matrix describing the links between web pages (@sec-markov-pagerank).
+- **Quantum mechanics**: the possible energies of an atom or molecule are the eigenvalues of a matrix (or operator) called the Hamiltonian (@sec-physics).
+
+## Going further
+
+- Never compute eigenvalues of large matrices from the characteristic polynomial: the roots of a polynomial can be extremely sensitive to tiny changes in its coefficients. @sec-eigenvalue-algorithms describes the methods that software uses instead.
+- **Gershgorin's theorem** gives a quick estimate: every eigenvalue lies within a distance $\sum_{j \neq i}\lvert a_{ij}\rvert$ of some diagonal entry $a_{ii}$.
+- Defective matrices can't be diagonalised, but they have a **Jordan form**, which is almost diagonal (@sec-diagonalisation).
+- Proofs that the eigenvalues add to the trace and multiply to the determinant: @sec-proofs-eigenvalues.

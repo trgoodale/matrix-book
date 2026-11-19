@@ -1,0 +1,47 @@
+# Part V review {#sec-review-5 .unnumbered}
+
+These exercises mix ideas from Parts I to V. They don't say which chapter they come from, so part of each exercise is deciding which tools to use. Solutions, with the chapters each exercise draws on, are in [Solutions: Part V](../appendices/solutions-5.qmd#sec-solutions-review-5).
+
+1. []{#exercise-review-5-1}Let $\M{A} = \mat{1 & 1 \\ 1 & 1.001}$. Solve $\M{A}\vect{x} = (2, 2.001)\T$ and $\M{A}\vect{x} = (2, 2.002)\T$. Find $\kappa_\infty(\M{A})$, and use it to explain why such a small change in $\vect{b}$ made such a large change in $\vect{x}$.
+
+   [Solution to exercise 1](../appendices/solutions-5.qmd#solution-review-5-1){.sol-link}
+
+2. []{#exercise-review-5-2}Solve
+   $$
+   \begin{aligned}
+   0.0001x + y &= 1, \\
+   x + y &= 2
+   \end{aligned}
+   $$
+   by Gaussian elimination, rounding every result to 3 significant figures, first without row swaps and then with partial pivoting. Compare both with the true solution, and explain what went wrong in the first case.
+
+   [Solution to exercise 2](../appendices/solutions-5.qmd#solution-review-5-2){.sol-link}
+
+3. []{#exercise-review-5-3}A tridiagonal system has $n = 10^6$ unknowns. Estimate the number of floating-point operations and the memory needed (with 8 bytes per number) to solve it (a) by storing the matrix as a dense array and using LU decomposition, and (b) by the Thomas algorithm, which stores only the three diagonals.
+
+   [Solution to exercise 3](../appendices/solutions-5.qmd#solution-review-5-3){.sol-link}
+
+4. []{#exercise-review-5-4}For $\M{A} = \mat{4 & 1 \\ 2 & 5}$, find the iteration matrices of the Jacobi and Gauss–Seidel methods and their spectral radii. About how many iterations of each would reduce the error by a factor of $10^6$?
+
+   [Solution to exercise 4](../appendices/solutions-5.qmd#solution-review-5-4){.sol-link}
+
+5. []{#exercise-review-5-5}Take one step of Newton's method for the system $x^2 + y^2 = 4$, $xy = 1$, starting from $(2, 0.5)$. How close is the result to the true solution near $(1.932, 0.518)$?
+
+   [Solution to exercise 5](../appendices/solutions-5.qmd#solution-review-5-5){.sol-link}
+
+6. []{#exercise-review-5-6}Apply three steps of the power method to $\M{A} = \mat{2 & 1 \\ 1 & 2}$, starting from $(1, 0)\T$ and scaling so that the largest entry is 1 at each step. What are the estimates of the largest eigenvalue? At what rate do they converge, and why?
+
+   [Solution to exercise 6](../appendices/solutions-5.qmd#solution-review-5-6){.sol-link}
+
+7. []{#exercise-review-5-7}Fit the line $y = c_0 + c_1 x$ to the points $(0, 1)$, $(1, 3)$, $(2, 4)$, $(3, 4)$ using a QR factorisation of the design matrix, found by Gram–Schmidt by hand. Check that you get the same line as from the normal equations.
+
+   [Solution to exercise 7](../appendices/solutions-5.qmd#solution-review-5-7){.sol-link}
+
+8. []{#exercise-review-5-8}A least-squares problem has a design matrix with $\kappa_2(\M{X}) = 10^5$. About how many correct significant digits can you expect in double precision if you solve it (a) with the normal equations and (b) with QR?
+
+   [Solution to exercise 8](../appendices/solutions-5.qmd#solution-review-5-8){.sol-link}
+
+9. []{#exercise-review-5-9}**Code.** Run the Jacobi method on $\M{A}\vect{x} = \vect{b}$, with $\M{A}$ from exercise 4 and $\vect{b} = (6, 12)\T$, starting from $\zerovec$. Print the ratio of successive errors $\lVert\vect{x}_{k+1} - \vect{x}\rVert / \lVert\vect{x}_k - \vect{x}\rVert$, and compare it with the spectral radius. Repeat with Gauss–Seidel.
+
+   [Solution to exercise 9](../appendices/solutions-5.qmd#solution-review-5-9){.sol-link}
+

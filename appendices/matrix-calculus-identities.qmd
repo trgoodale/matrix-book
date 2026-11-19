@@ -1,0 +1,53 @@
+# Matrix calculus identities {#sec-identities}
+
+These identities support @sec-matrix-calculus. Throughout, $\vect{x}$ is a vector of variables, $\vect{a}$ and $\vect{b}$ are constant vectors, and $\M{A}$ is a constant matrix.
+
+## A note on layout
+
+The gradient of a scalar $f(\vect{x})$ can be written as a column (the same shape as $\vect{x}$) or as a row. This book uses **columns**, sometimes called *denominator layout*. With this choice, the gradient $\nabla f$ points in the direction of steepest increase, and the Jacobian of a vector function $\vect{f}(\vect{x})$ has one **row** per component of $\vect{f}$:
+
+$$
+\M{J} = \mat{\dfrac{\partial f_1}{\partial x_1} & \cdots & \dfrac{\partial f_1}{\partial x_n} \\ \vdots & \ddots & \vdots \\ \dfrac{\partial f_m}{\partial x_1} & \cdots & \dfrac{\partial f_m}{\partial x_n}}.
+$$
+
+Some books, especially in statistics and machine learning, use the other layout. Their results are the transposes of the ones here.
+
+## Gradients of scalar functions of a vector
+
+| $f(\vect{x})$ | $\nabla f(\vect{x})$ | Notes |
+|:--|:--|:--|
+| $\vect{a}\T\vect{x}$ or $\vect{x}\T\vect{a}$ | $\vect{a}$ | |
+| $\vect{x}\T\vect{x} = \lVert\vect{x}\rVert^2$ | $2\vect{x}$ | |
+| $\vect{x}\T\M{A}\vect{x}$ | $(\M{A} + \M{A}\T)\vect{x}$ | $2\M{A}\vect{x}$ when $\M{A}$ is symmetric |
+| $\lVert\M{A}\vect{x} - \vect{b}\rVert^2$ | $2\M{A}\T(\M{A}\vect{x} - \vect{b})$ | Setting this to zero gives the normal equations |
+| $\lVert\vect{x}\rVert$ | $\vect{x} / \lVert\vect{x}\rVert$ | For $\vect{x} \neq \zerovec$ |
+
+## Jacobians of vector functions
+
+| $\vect{f}(\vect{x})$ | Jacobian $\M{J}$ |
+|:--|:--|
+| $\M{A}\vect{x}$ | $\M{A}$ |
+| $\vect{x}$ | $\M{I}$ |
+| $\vect{g}(\vect{h}(\vect{x}))$ | $\M{J}_{\vect{g}}\big(\vect{h}(\vect{x})\big)\,\M{J}_{\vect{h}}(\vect{x})$ (chain rule) |
+
+## Hessians
+
+| $f(\vect{x})$ | Hessian $\nabla^2 f$ |
+|:--|:--|
+| $\vect{a}\T\vect{x}$ | $\M{0}$ |
+| $\vect{x}\T\M{A}\vect{x}$ | $\M{A} + \M{A}\T$ |
+| $\lVert\M{A}\vect{x} - \vect{b}\rVert^2$ | $2\M{A}\T\M{A}$ |
+
+## Derivatives with respect to a matrix
+
+For a scalar function of a matrix $\M{X}$, the derivative $\partial f / \partial \M{X}$ is the matrix with entries $\partial f / \partial x_{ij}$.
+
+| $f(\M{X})$ | $\partial f / \partial \M{X}$ |
+|:--|:--|
+| $\operatorname{tr}(\M{A}\M{X})$ | $\M{A}\T$ |
+| $\operatorname{tr}(\M{X}\T\M{A})$ | $\M{A}$ |
+| $\operatorname{tr}(\M{X}\T\M{A}\M{X})$ | $(\M{A} + \M{A}\T)\M{X}$ |
+| $\det \M{X}$ | $\det(\M{X})\,(\M{X}^{-1})\T$ |
+| $\ln \lvert\det \M{X}\rvert$ | $(\M{X}^{-1})\T$ |
+
+The standard reference for many more identities is *The Matrix Cookbook* [@petersen2012matrix].

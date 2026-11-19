@@ -1,0 +1,309 @@
+# Floating point and conditioning {#sec-floating-point-conditioning}
+
+[Further]{.level-badge .further}
+
+::: {.callout-note appearance="simple" icon=false}
+## In this chapter you will
+
+- explain how computers store numbers, and where rounding error comes from
+- measure the size of vectors and matrices with norms
+- compute and interpret the condition number of a matrix
+- tell an ill-conditioned problem apart from an unstable method
+:::
+
+**Builds on** @sec-inverses, @sec-gaussian-elimination.
+
+Computers almost never do exact arithmetic. Every number is stored to about 16 significant digits, and every result is rounded. Usually this is harmless: 16 digits is far more than any measurement deserves. But some problems magnify small errors enormously, so that a tiny rounding error, or a tiny error in the data, ruins the answer. This chapter explains how to tell when that will happen. The key number is the **condition number** of a matrix, which says how many digits you can expect to lose when you solve a system with it. You met the warning sign in @sec-linear-systems: lines that are nearly parallel.
+
+## Build intuition
+
+The app solves two equations in two unknowns, then nudges the right-hand side $\vect{b}$ by a small amount in many random directions and plots where the solution goes.
+
+::: {.app-embed}
+<iframe class="app-frame" src="../apps/condition-explorer.html?embed=1" title="Condition explorer" loading="lazy"></iframe>
+
+[Open the condition explorer in its own tab](../apps/condition-explorer.html){.app-open target="_blank"}
+:::
+
+Things to try:
+
+- Compare **Well conditioned**, **Nearly parallel** and **Very nearly parallel**. How much does a 1% change in $\vect{b}$ move the solution in each case? Compare that with the angle between the lines and the condition number.
+- Make the nudge smaller. Does the amplification change, or just the size of the cloud?
+- In **Badly scaled**, the lines are at right angles, but the condition number is 100. Why are errors amplified here? (*Hint*: look at the size of the numbers in the second equation.)
+- In **Nearly parallel**, change $\vect{b}$ to $(2, -2)$. What happens to the cloud, and to the amplification?
+
+## The ideas
+
+### Floating-point numbers
+
+Computers store numbers in binary scientific notation, a **floating-point** number $\pm m \times 2^e$, with a fixed number of binary digits in $m$. The standard **double precision** keeps 53 binary digits, about 16 decimal digits, and allows exponents up to about $\pm 1000$ (numbers up to about $10^{308}$). Python's `float` and MATLAB's default numbers are double precision.
+
+Most numbers, even simple ones like $0.1$, can't be stored exactly in binary, so they are rounded to the nearest floating-point number. The gap between 1 and the next larger floating-point number is the **machine epsilon**
+$$
+\varepsilon = 2^{-52} \approx 2.2 \times 10^{-16},
+$$
+and rounding any number changes it by a relative amount of at most $\varepsilon/2$. The arithmetic operations $+$, $-$, $\times$ and $\div$ give the exact result, rounded in the same way. Two consequences surprise everyone at first:
+
+- `0.1 + 0.2 == 0.3` is false, because none of the three numbers is stored exactly. Never test floating-point numbers for exact equality; test whether they are close.
+- `1 + 1e-16 == 1` is true: the small number is lost entirely, because it is below the precision of the large one.
+
+### Cancellation
+
+Each rounding error is tiny, but some operations magnify errors that are already there. The worst is subtracting two nearly equal numbers. If $a$ and $b$ agree to 12 digits, $a - b$ has only about 4 correct digits left, because the leading digits cancel and only the uncertain ones remain. This is **cancellation**.
+
+The cure is to rearrange the calculation so that the subtraction doesn't happen. For example, $1 - \cos x$ for small $x$ subtracts two nearly equal numbers, but $1 - \cos x = 2\sin^2(x/2)$ doesn't. With $x = 10^{-8}$, $(1 - \cos x)/x^2$ evaluates to 0 on a computer, while $2\sin^2(x/2)/x^2$ gives the correct answer, 0.5.
+
+::: {#ex-floating-point-conditioning-1 .callout-note appearance="simple" icon=false}
+### Example 1: avoiding cancellation in the quadratic formula
+
+The equation $x^2 - 10^8x + 1 = 0$ has roots close to $10^8$ and $10^{-8}$. Explain why the formula $x = \bigl(10^8 - \sqrt{10^{16} - 4}\bigr)/2$ gives a poor value for the small root, and find a better way.
+
+**Solution.** $\sqrt{10^{16} - 4}$ is $10^8$ to about 16 significant digits, so the subtraction cancels almost all the digits. In double precision the formula gives $7.45 \times 10^{-9}$, which is 25% wrong. The large root, $\bigl(10^8 + \sqrt{10^{16} - 4}\bigr)/2$, involves no cancellation and is accurate. The product of the roots is $c/a = 1$, so the small root is
+$$
+x_2 = \frac{1}{x_1} = \frac{1}{10^8} = 10^{-8},
+$$
+correct to full precision. The general rule: compute the root that adds magnitudes with the formula, and the other from $x_1x_2 = c/a$.
+:::
+
+### Norms: the size of a vector or matrix
+
+To talk about the size of errors in vectors, we need a measure of size. A **norm** $\lVert\vect{x}\rVert$ is a length-like measure; the three in common use are
+$$
+\lVert\vect{x}\rVert_1 = \lvert x_1\rvert + \dots + \lvert x_n\rvert,
+\qquad
+\lVert\vect{x}\rVert_2 = \sqrt{x_1^2 + \dots + x_n^2},
+\qquad
+\lVert\vect{x}\rVert_\infty = \max_i\lvert x_i\rvert.
+$$
+The 2-norm is the usual length. The $\infty$-norm, the largest entry in size, is often the most natural for errors: "every entry is correct to within $10^{-6}$".
+
+The size of a matrix is measured by how much it can stretch vectors:
+$$
+\lVert\M{A}\rVert = \max_{\vect{x} \neq \zerovec}\frac{\lVert\M{A}\vect{x}\rVert}{\lVert\vect{x}\rVert},
+$$
+so that $\lVert\M{A}\vect{x}\rVert \le \lVert\M{A}\rVert\,\lVert\vect{x}\rVert$ for every $\vect{x}$. For each vector norm this gives a matrix norm, and they have simple formulas:
+
+- $\lVert\M{A}\rVert_1$ is the largest column sum of the absolute values of the entries;
+- $\lVert\M{A}\rVert_\infty$ is the largest row sum of the absolute values;
+- $\lVert\M{A}\rVert_2$ is the largest singular value $\sigma_1$ (@sec-svd-pca).
+
+### The condition number
+
+Suppose the right-hand side of $\M{A}\vect{x} = \vect{b}$ has an error $\Delta\vect{b}$, from measurement or rounding. The solution then has an error $\Delta\vect{x} = \M{A}^{-1}\Delta\vect{b}$. Comparing relative errors (@sec-proofs-floating-point-conditioning):
+
+::: {.callout-important appearance="simple"}
+## The condition number
+$$
+\frac{\lVert\Delta\vect{x}\rVert}{\lVert\vect{x}\rVert} \le \kappa(\M{A})\,\frac{\lVert\Delta\vect{b}\rVert}{\lVert\vect{b}\rVert},
+\qquad\text{where}\qquad
+\kappa(\M{A}) = \lVert\M{A}\rVert\,\lVert\M{A}^{-1}\rVert
+$$
+is the **condition number** of $\M{A}$. In the 2-norm, $\kappa(\M{A}) = \sigma_1/\sigma_n$.
+:::
+
+The condition number is at least 1. It is 1 for the identity and for any orthogonal matrix, it is large when $\M{A}$ is close to singular, and it is infinite for a singular matrix. A similar bound holds for errors in the entries of $\M{A}$.
+
+A useful rule of thumb follows. Double precision stores about 16 digits, and errors can be magnified by $\kappa(\M{A})$, so
+
+::: {.callout-tip appearance="simple"}
+## Rule of thumb
+When you solve $\M{A}\vect{x} = \vect{b}$ on a computer, expect to lose about $\log_{10}\kappa(\M{A})$ of the 16 significant digits.
+:::
+
+With $\kappa = 10^4$ you can trust about 12 digits; with $\kappa = 10^{12}$, about 4; with $\kappa = 10^{16}$, perhaps none. The same reasoning applies to errors in the data: if $\vect{b}$ comes from measurements accurate to 3 digits and $\kappa = 1000$, the solution may have no correct digits at all, however accurately it is computed.
+
+A small determinant does **not** mean a large condition number. $10^{-3}\M{I}$, of size $100 \times 100$, has determinant $10^{-300}$ but condition number 1 (@sec-determinants).
+
+::: {#ex-floating-point-conditioning-2 .callout-note appearance="simple" icon=false}
+### Example 2: a condition number by hand
+
+Find $\kappa_\infty(\M{A})$ for $\M{A} = \mat{1 & 1 \\ 1 & 1.01}$. Then solve $\M{A}\vect{x} = \vect{b}$ for $\vect{b} = (2, 2.01)\T$ and for $\vect{b} = (2, 2.02)\T$, and compare the change in $\vect{x}$ with the bound.
+
+**Solution.** $\det\M{A} = 0.01$, so
+$$
+\M{A}^{-1} = \frac{1}{0.01}\mat{1.01 & -1 \\ -1 & 1} = \mat{101 & -100 \\ -100 & 100}.
+$$
+The largest absolute row sums are $\lVert\M{A}\rVert_\infty = 2.01$ and $\lVert\M{A}^{-1}\rVert_\infty = 201$, so $\kappa_\infty(\M{A}) = 2.01 \times 201 = 404.01$.
+
+For $\vect{b} = (2, 2.01)\T$, $\vect{x} = (1, 1)\T$. For $\vect{b} = (2, 2.02)\T$, $\vect{x} = \M{A}^{-1}\vect{b} = (0, 2)\T$. The relative change in $\vect{b}$ is $0.01/2.01 \approx 0.5\%$, but the relative change in $\vect{x}$ is $1/1 = 100\%$: an amplification of 201, within the bound of 404. The two lines, $x + y = 2$ and $x + 1.01y = 2.01$, are nearly parallel, so a small shift in one moves their crossing point a long way along them.
+:::
+
+::: {#ex-floating-point-conditioning-3 .callout-note appearance="simple" icon=false}
+### Example 3: the Hilbert matrix
+
+The $n \times n$ **Hilbert matrix** has entries $h_{ij} = 1/(i + j - 1)$:
+$$
+\M{H}_3 = \mat{1 & \tfrac{1}{2} & \tfrac{1}{3} \\ \tfrac{1}{2} & \tfrac{1}{3} & \tfrac{1}{4} \\ \tfrac{1}{3} & \tfrac{1}{4} & \tfrac{1}{5}}.
+$$
+It arises when fitting polynomials by least squares on $[0, 1]$. Choose $\vect{x} = (1, 1, \dots, 1)\T$, compute $\vect{b} = \M{H}\vect{x}$, and solve $\M{H}\hat{\vect{x}} = \vect{b}$ in double precision. How accurate is $\hat{\vect{x}}$?
+
+**Solution.** The results, from the code below:
+
+| $n$ | $\kappa_2(\M{H})$ | largest error in $\hat{\vect{x}}$ | correct digits |
+|:-:|:-:|:-:|:-:|
+| 4 | $1.6 \times 10^{4}$ | about $10^{-13}$ | 13 |
+| 8 | $1.5 \times 10^{10}$ | about $10^{-7}$ | 7 |
+| 12 | $1.6 \times 10^{16}$ | about $0.3$ | 0 |
+
+Each time, the number of digits lost is about $\log_{10}\kappa$, as the rule of thumb predicts. The solver is not at fault: it is backward stable, and the residuals are all around $10^{-16}$. The Hilbert matrix is simply so close to singular that a 16-digit computer cannot tell it apart from many nearby matrices with very different solutions.
+:::
+
+### Conditioning and stability
+
+Two different things can go wrong, and it helps to keep them apart.
+
+- A **problem** is **ill-conditioned** if small changes in its data cause large changes in its answer. This is a property of the problem itself, measured by $\kappa(\M{A})$. No method can fix it; only better data, more digits, or reformulating the problem can.
+- A **method** is **unstable** if it introduces more error than the problem's conditioning makes unavoidable. Gaussian elimination without row swaps is unstable (@sec-pivoting); computing $1 - \cos x$ directly for small $x$ is unstable.
+
+The standard way to judge a method is **backward error analysis**. Instead of asking how wrong the computed answer $\hat{\vect{x}}$ is, ask: is $\hat{\vect{x}}$ the exact answer to a slightly different problem, $(\M{A} + \delta\M{A})\hat{\vect{x}} = \vect{b}$, with $\delta\M{A}$ about as small as the rounding errors in storing $\M{A}$? If so, the method is **backward stable**: it has done as well as anyone could, and any remaining error is due to the problem's conditioning. Gaussian elimination with partial pivoting is backward stable in practice, and so the error in its answer is roughly $\kappa(\M{A})\,\varepsilon$.
+
+One consequence is easy to miss. The **residual** $\vect{r} = \vect{b} - \M{A}\hat{\vect{x}}$ measures how well $\hat{\vect{x}}$ satisfies the equations, and a stable method always makes it tiny. But a tiny residual doesn't mean a small error: for an ill-conditioned matrix, a vector far from the solution can still almost satisfy the equations (exercise 6).
+
+## In code
+
+`np.linalg.norm(x, p)` and `np.linalg.cond(A, p)` compute norms and condition numbers, with `p` equal to `1`, `2` (the default) or `np.inf`; in MATLAB they are `norm(x, p)` and `cond(A, p)`. Computing $\kappa$ exactly needs $\M{A}^{-1}$ or the SVD, which costs more than solving the system, so solvers estimate it cheaply instead: MATLAB's `rcond` gives an estimate of $1/\kappa_1$, and MATLAB warns you when it is close to $\varepsilon$.
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+import numpy as np
+from scipy.linalg import hilbert
+
+print(0.1 + 0.2 == 0.3, np.finfo(float).eps)
+
+x = 1e-8
+print((1 - np.cos(x)) / x**2, 2 * np.sin(x / 2)**2 / x**2)   # cancellation
+
+A = np.array([[1, 1], [1, 1.01]])
+print(np.linalg.cond(A, np.inf), np.linalg.cond(A))
+
+for n in [4, 8, 12]:
+    H = hilbert(n)
+    xtrue = np.ones(n)
+    xhat = np.linalg.solve(H, H @ xtrue)
+    print(f"n = {n:2d}: cond = {np.linalg.cond(H):.1e}, "
+          f"error = {np.linalg.norm(xhat - xtrue, np.inf):.1e}")
+```
+
+## MATLAB
+
+```matlab
+0.1 + 0.2 == 0.3
+eps
+
+x = 1e-8;
+[(1 - cos(x)) / x^2, 2 * sin(x/2)^2 / x^2]   % cancellation
+
+A = [1 1; 1 1.01];
+[cond(A, inf), cond(A)]
+
+for n = [4 8 12]
+    H = hilb(n);
+    xtrue = ones(n, 1);
+    xhat = H \ (H * xtrue);
+    fprintf('n = %2d: cond = %.1e, error = %.1e\n', n, cond(H), norm(xhat - xtrue, inf));
+end
+```
+
+```{.text .code-output}
+ans =
+
+  logical
+
+   0
+
+ans =
+
+   2.2204e-16
+
+ans =
+
+         0    0.5000
+
+ans =
+
+  404.0100  402.0075
+
+n =  4: cond = 1.6e+04, error = 6.1e-13
+n =  8: cond = 1.5e+10, error = 4.2e-07
+Warning: Matrix is close to singular or badly scaled. Results may be inaccurate. RCOND = 2.609829e-17.
+n = 12: cond = 1.6e+16, error = 3.6e-01
+```
+
+The errors depend on exactly how the solver orders its operations, so they vary a little between versions and computers, but their sizes don't.
+:::
+
+## Check your understanding
+
+::: {.callout-tip collapse="true"}
+## What is the condition number of $\mat{2 & 0 \\ 0 & 2}$?
+
+1: the matrix scales every vector by 2, so relative errors are not magnified at all, even though the matrix is not the identity.
+:::
+
+::: {.callout-tip collapse="true"}
+## A system has $\kappa(\M{A}) \approx 10^{9}$. Roughly how many correct digits should you expect in double precision?
+
+About $16 - 9 = 7$.
+:::
+
+::: {.callout-tip collapse="true"}
+## The residual $\M{A}\hat{\vect{x}} - \vect{b}$ is $10^{-15}$. Is $\hat{\vect{x}}$ accurate?
+
+Not necessarily. A small residual shows the method was stable, but the error in $\hat{\vect{x}}$ can still be up to about $\kappa(\M{A})$ times larger, in relative terms.
+:::
+
+## Key ideas
+
+- Computers store numbers with about 16 significant digits, so almost every calculation is rounded; machine epsilon, about $2.2 \times 10^{-16}$, measures the gap.
+- Subtracting nearly equal numbers (cancellation) loses digits, and can often be avoided by rearranging the formula.
+- Norms measure the size of vectors and matrices.
+- The condition number $\kappa(\M{A}) = \lVert\M{A}\rVert\,\lVert\M{A}^{-1}\rVert$ measures how much errors in the data can be magnified in the solution: expect to lose about $\log_{10}\kappa$ digits.
+- Ill-conditioning belongs to the problem, and no method can fix it; instability belongs to the method, and a better method can.
+
+## Exercises {#sec-floating-point-conditioning-exercises}
+
+1. []{#exercise-floating-point-conditioning-1}Find $\lVert\vect{x}\rVert_1$, $\lVert\vect{x}\rVert_2$ and $\lVert\vect{x}\rVert_\infty$ for $\vect{x} = (3, -4, 12)\T$.
+
+   [Solution to exercise 1](../appendices/solutions-5.qmd#solution-floating-point-conditioning-1){.sol-link}
+
+2. []{#exercise-floating-point-conditioning-2}Find $\kappa_\infty(\M{A})$ for $\M{A} = \mat{4 & 2 \\ 3 & 1}$.
+
+   [Solution to exercise 2](../appendices/solutions-5.qmd#solution-floating-point-conditioning-2){.sol-link}
+
+3. []{#exercise-floating-point-conditioning-3}For large $x$, $\sqrt{x + 1} - \sqrt{x}$ suffers from cancellation. Rewrite it in a form that doesn't, and explain why your version is better.
+
+   [Solution to exercise 3](../appendices/solutions-5.qmd#solution-floating-point-conditioning-3){.sol-link}
+
+4. []{#exercise-floating-point-conditioning-4}Show that (a) $\kappa(\M{A}) \ge 1$ for every invertible $\M{A}$, (b) $\kappa(c\M{A}) = \kappa(\M{A})$ for any number $c \neq 0$, and (c) $\kappa_2(\M{Q}) = 1$ for an orthogonal matrix $\M{Q}$.
+
+   [Solution to exercise 4](../appendices/solutions-5.qmd#solution-floating-point-conditioning-4){.sol-link}
+
+5. []{#exercise-floating-point-conditioning-5}Find $\kappa_2$ of $\M{A} = \mat{1 & 0 \\ 0 & 10^{-6}}$. The two equations it represents are perfectly independent. Why is the condition number so large, and how could you rewrite the system to fix it?
+
+   [Solution to exercise 5](../appendices/solutions-5.qmd#solution-floating-point-conditioning-5){.sol-link}
+
+6. []{#exercise-floating-point-conditioning-6}Let $\M{A} = \mat{1 & 1 \\ 1 & 1.0001}$ and $\vect{b} = (2, 2.0001)\T$, whose solution is $\vect{x} = (1, 1)\T$. Show that $\hat{\vect{x}} = (2, 0)\T$ has a residual $\vect{b} - \M{A}\hat{\vect{x}}$ of size $10^{-4}$, although its error is 100%. Explain using $\kappa(\M{A})$.
+
+   [Solution to exercise 6](../appendices/solutions-5.qmd#solution-floating-point-conditioning-6){.sol-link}
+
+7. []{#exercise-floating-point-conditioning-7}**Code.** For the Hilbert matrices with $n = 2, 3, \dots, 14$, compute $\kappa_2(\M{H}_n)$ and the error in solving $\M{H}_n\hat{\vect{x}} = \M{H}_n\vect{1}$. Plot both on a logarithmic scale against $n$, and check the rule of thumb. Roughly how fast does $\kappa$ grow with $n$?
+
+   [Solution to exercise 7](../appendices/solutions-5.qmd#solution-floating-point-conditioning-7){.sol-link}
+
+Solutions are in @sec-solutions-floating-point-conditioning.
+
+## In practice
+
+- **Calibration and fitting**: fitting a polynomial of high degree with the powers $1, t, t^2, \dots$ as basis functions leads to Hilbert-like matrices. Using orthogonal polynomials, or centring and scaling the data first, gives much better conditioned problems (@sec-qr-least-squares).
+- **Structural analysis**: a structure with one very stiff member and one very flexible one gives a stiffness matrix with a large condition number. Analysts check condition numbers, or the warnings their software prints, before trusting results.
+- **Statistics**: when two explanatory variables in a regression are nearly proportional (**collinearity**), the fitted coefficients are ill-conditioned: small changes in the data swing them wildly, even though the fitted values hardly change.
+- **Units matter**: measuring one quantity in millimetres and another in kilometres can make $\kappa$ huge for no physical reason. Rescaling the unknowns or equations to similar sizes is cheap and often fixes it.
+- **Money**: never store amounts of money as floating-point numbers of pounds or dollars; $0.1$ can't be stored exactly. Use whole numbers of pence or cents, or a decimal type.
+
+## Going further
+
+- Proofs of the condition number bound and of the formulas for $\lVert\M{A}\rVert_1$ and $\lVert\M{A}\rVert_\infty$: @sec-proofs-floating-point-conditioning.
+- Single precision keeps about 7 digits and is twice as fast, and half precision keeps about 3 and is much faster again. Machine learning uses them heavily, because its problems tolerate low accuracy. **Mixed precision** methods solve in low precision and then correct the answer in high precision.
+- **Wilkinson's backward error analysis** showed in the 1960s that Gaussian elimination with partial pivoting gives the exact solution of a problem with $\lVert\delta\M{A}\rVert$ of order $n\varepsilon\lVert\M{A}\rVert$ times a "growth factor" that is almost always small (@sec-pivoting). Higham's *Accuracy and Stability of Numerical Algorithms* is the standard reference.

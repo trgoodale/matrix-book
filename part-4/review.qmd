@@ -1,0 +1,38 @@
+# Part IV review {#sec-review-4 .unnumbered}
+
+These exercises mix ideas from Parts I to IV. They don't say which chapter they come from, so part of each exercise is deciding which tools to use. Solutions, with the chapters each exercise draws on, are in [Solutions: Part IV](../appendices/solutions-4.qmd#sec-solutions-review-4).
+
+1. []{#exercise-review-4-1}Find the eigenvalues and eigenvectors of $\M{A} = \mat{2 & 1 \\ 1 & 2}$. Use them to find $\M{A}^{10}$ exactly.
+
+   [Solution to exercise 1](../appendices/solutions-4.qmd#solution-review-4-1){.sol-link}
+
+2. []{#exercise-review-4-2}Each year, 10% of people in a town move to the suburbs and 20% of people in the suburbs move to the town; nobody leaves or arrives. Write down the transition matrix, find its eigenvalues, and find the long-run split between town and suburbs. Roughly how quickly does the population approach this split?
+
+   [Solution to exercise 2](../appendices/solutions-4.qmd#solution-review-4-2){.sol-link}
+
+3. []{#exercise-review-4-3}Sketch the curve $5x^2 + 4xy + 2y^2 = 6$. Find the directions of its axes and their half-lengths. Is it an ellipse or a hyperbola, and how can you tell from the matrix alone?
+
+   [Solution to exercise 3](../appendices/solutions-4.qmd#solution-review-4-3){.sol-link}
+
+4. []{#exercise-review-4-4}Find the singular values of $\M{A} = \mat{3 & 0 \\ 4 & 5}$, by finding the eigenvalues of $\M{A}\T\M{A}$. Check that their product is $\lvert\det\M{A}\rvert$, and find the condition number $\kappa_2(\M{A})$. How far (in the 2-norm) is $\M{A}$ from the nearest singular matrix?
+
+   [Solution to exercise 4](../appendices/solutions-4.qmd#solution-review-4-4){.sol-link}
+
+5. []{#exercise-review-4-5}Solve
+   $$\frac{d\vect{x}}{dt} = \mat{-2 & 1 \\ 1 & -2}\vect{x}, \qquad \vect{x}(0) = \mat{1 \\ 0}.$$
+   Which part of the solution dies away fastest, and what does each part mean physically if $x_1$ and $x_2$ are the temperatures of two connected objects?
+
+   [Solution to exercise 5](../appendices/solutions-4.qmd#solution-review-4-5){.sol-link}
+
+6. []{#exercise-review-4-6}Let $\M{A} = \mat{2 & 1 \\ 1 & 2}$ and $\vect{b} = (1, 1)\T$. Find the minimum of $f(\vect{x}) = \vect{x}\T\M{A}\vect{x} - 2\vect{b}\T\vect{x}$ by setting the gradient to zero, and explain how you know it is a minimum and not a maximum or saddle.
+
+   [Solution to exercise 6](../appendices/solutions-4.qmd#solution-review-4-6){.sol-link}
+
+7. []{#exercise-review-4-7}Find the eigenvalues of $\M{B} = \mat{1 & -2 \\ 1 & 1}$. What happens to the vectors $\vect{x}_k = \M{B}^k\vect{x}_0$ as $k$ grows? What happens to the solutions of $d\vect{x}/dt = \M{B}\vect{x}$?
+
+   [Solution to exercise 7](../appendices/solutions-4.qmd#solution-review-4-7){.sol-link}
+
+8. []{#exercise-review-4-8}**Code.** For the system in exercise 5, compute $\vect{x}(1)$ in two ways: with the built-in matrix exponential, and with $\M{V}e^{\M{\Lambda}t}\M{V}^{-1}\vect{x}(0)$ using the eigenvalues and eigenvectors. Compare both with your formula.
+
+   [Solution to exercise 8](../appendices/solutions-4.qmd#solution-review-4-8){.sol-link}
+

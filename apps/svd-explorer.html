@@ -1,0 +1,464 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SVD Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: graph-paper worksheet; two modes, the geometry of the SVD and low-rank approximation of an image */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.mat { position: relative; display: inline-grid; grid-template-columns: 4.2rem 4.2rem; gap: 6px; padding: 6px 14px; }
+.mat::before, .mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.mat::before { left: 0; border-right: 0; } .mat::after { right: 0; border-left: 0; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.mat input { -moz-appearance: textfield; appearance: textfield; }
+.mat input::-webkit-outer-spin-button, .mat input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.matrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.matrow .nm { font: 600 1.05rem var(--font-num); }
+.status b { font-weight: 600; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.sw.c { border-color: var(--tgt); }
+
+.tabs { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+html.lock .tabs.modes { display: none; }
+.factors { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font: 500 0.95rem var(--font-num); }
+.fm { position: relative; display: inline-grid; grid-template-columns: repeat(2, auto); gap: 2px 10px; padding: 4px 12px; }
+.fm::before, .fm::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.fm::before { left: 0; border-right: 0; } .fm::after { right: 0; border-left: 0; }
+html.br-round .fm::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .fm::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.fm span { text-align: right; }
+.fname { font-weight: 600; }
+.stage { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 10px; align-items: center; }
+.stage output { font: 600 0.9rem var(--font-num); }
+.imgs { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+.imgs figure { margin: 0; display: grid; gap: 4px; justify-items: center; font-size: 0.85rem; color: var(--muted); }
+.imgs canvas { width: 200px; height: 200px; image-rendering: pixelated; border: 1px solid var(--line); border-radius: 6px; }
+@media (max-width: 480px) { .imgs canvas { width: 150px; height: 150px; } }
+#svBox { width: 100%; height: 150px; display: block; }
+.big { font: 600 1.02rem var(--font-num); }
+[hidden] { display: none !important; }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>The singular value decomposition: <em>rotate, stretch, rotate</em></h1>
+    <p>Every matrix can be split into three simple steps, A = UΣVᵀ. See them act on a circle, or see what the same idea does to a picture.</p>
+  </header>
+
+  <div class="tabs modes" role="group" aria-label="Mode">
+    <button data-mode="geo" aria-pressed="true">Circle to ellipse</button>
+    <button data-mode="img" aria-pressed="false">Compressing a picture</button>
+  </div>
+
+  <div class="layout" id="geo">
+    <section class="panel plane-box" aria-label="Plane">
+      <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
+      <div class="legend">
+        <span><span class="sw a"></span><b>v</b>₁ and then where it goes</span>
+        <span><span class="sw b"></span><b>v</b>₂ and then where it goes</span>
+        <span><span class="sw t"></span>the circle, coloured so you can see turns and flips</span>
+      </div>
+    </section>
+    <div class="side">
+      <section class="panel card wide" aria-label="The matrix">
+        <span class="label">The matrix</span>
+        <div class="matrow">
+          <span class="nm">A =</span>
+          <div class="mat">
+            <input type="number" id="m00" step="0.1" aria-label="Row 1, column 1">
+            <input type="number" id="m01" step="0.1" aria-label="Row 1, column 2">
+            <input type="number" id="m10" step="0.1" aria-label="Row 2, column 1">
+            <input type="number" id="m11" step="0.1" aria-label="Row 2, column 2">
+          </div>
+        </div>
+        <div class="row" id="presets"></div>
+      </section>
+      <section class="panel card wide" aria-label="The three steps">
+        <span class="label">The three steps</span>
+        <div class="stage">
+          <input type="range" id="t" min="0" max="3" step="0.01" value="3" aria-label="How far through the three steps">
+          <output id="tOut"></output>
+        </div>
+        <div class="row"><button id="play">Play the three steps</button></div>
+        <div class="status" id="stageText" role="status"></div>
+        <div class="factors" id="factors"></div>
+      </section>
+    </div>
+  </div>
+
+  <div class="layout" id="img" hidden>
+    <section class="panel card" aria-label="Pictures">
+      <div class="imgs">
+        <figure><canvas id="orig" width="120" height="120"></canvas><figcaption>Original (rank up to 120)</figcaption></figure>
+        <figure><canvas id="approx" width="120" height="120"></canvas><figcaption id="apCap"></figcaption></figure>
+      </div>
+      <span class="label">Singular values (log scale), with the ones kept highlighted</span>
+      <canvas id="svBox"></canvas>
+    </section>
+    <div class="side">
+      <section class="panel card wide" aria-label="Rank">
+        <span class="label">How many terms to keep</span>
+        <div class="stage">
+          <input type="range" id="k" min="1" max="60" step="1" value="10" aria-label="Number of terms kept, k">
+          <output id="kOut"></output>
+        </div>
+        <div class="big" id="kInfo"></div>
+        <div class="status" id="kText" role="status"></div>
+      </section>
+      <section class="panel card wide" aria-label="Picture">
+        <span class="label">Picture</span>
+        <div class="row" id="pics"></div>
+        <label class="hint">Or use your own picture (it stays on your computer): <input type="file" id="file" accept="image/*"></label>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+
+  const $ = id => document.getElementById(id);
+  const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), b: v('--col'), t: v('--tgt'), w: v('--res'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), line: v('--line'), num: v('--font-num') }; };
+  // Eigenvalues and (real) eigenvectors of a 2x2 matrix
+  function eig2(A) {
+    const [[a, b], [c, d]] = A, tr = a + d, det = a * d - b * c, disc = tr * tr / 4 - det;
+    if (disc < -1e-12) { const re = tr / 2, im = Math.sqrt(-disc); return { complex: true, re, im, tr, det }; }
+    const s = Math.sqrt(Math.max(0, disc)), l1 = tr / 2 + s, l2 = tr / 2 - s;
+    const vec = l => { const v = Math.abs(b) > 1e-12 || Math.abs(a - l) > 1e-12 ? [b, l - a] : [l - d, c]; const n = Math.hypot(...v); return n < 1e-12 ? null : [v[0] / n, v[1] / n]; };
+    let v1 = vec(l1), v2 = vec(l2);
+    if (Math.abs(b) < 1e-12 && Math.abs(c) < 1e-12) { v1 = a >= d ? [1, 0] : [0, 1]; v2 = a >= d ? [0, 1] : [1, 0]; if (Math.abs(a - d) < 1e-12) v2 = null; }
+    else if (Math.abs(l1 - l2) < 1e-9) v2 = null;
+    return { complex: false, l1, l2, v1, v2, tr, det };
+  }
+  function wireMatrix(S, onChange) {
+    const ids = [['m00', 0, 0], ['m01', 0, 1], ['m10', 1, 0], ['m11', 1, 1]];
+    const sync = () => { for (const [id, i, j] of ids) $(id).value = String(S.A[i][j]); };
+    for (const [id, i, j] of ids) $(id).addEventListener('change', e => {
+      const x = parseFloat(e.target.value); if (!isNaN(x)) S.A[i][j] = Math.max(-9, Math.min(9, Math.round(x * 1000) / 1000));
+      e.target.value = String(S.A[i][j]); onChange();
+    });
+    return sync;
+  }
+  function makePresets(box, list, isOn, apply) {
+    box.innerHTML = '';
+    list.forEach(p => { const b = document.createElement('button'); b.textContent = p[0]; b.addEventListener('click', () => apply(p)); box.appendChild(b); });
+    return () => box.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-pressed', String(isOn(list[k]))));
+  }
+  function arrowPx(ctx, s, e, color, w, alpha = 1, dash) {
+    const len = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (len < 2) { ctx.globalAlpha = 1; return; }
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(12, len * 0.4);
+    if (dash) ctx.setLineDash(dash);
+    ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.lineTo(e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42));
+    ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+  }
+  function watchTheme(draw) {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    if (document.fonts) document.fonts.ready.then(draw);
+  }
+
+  // ---------- 2x2 SVD ----------
+  function svd2(A) {
+    const [[a, b], [c, d]] = A;
+    const M = [[a * a + c * c, a * b + c * d], [a * b + c * d, b * b + d * d]];   // AᵀA
+    const e = eig2(M);
+    let v1 = e.v1 || [1, 0]; let v2 = [-v1[1], v1[0]];
+    const s1 = Math.sqrt(Math.max(0, e.l1)), s2 = Math.sqrt(Math.max(0, e.l2));
+    const Av = v => [a * v[0] + b * v[1], c * v[0] + d * v[1]];
+    let u1 = s1 > 1e-12 ? Av(v1).map(x => x / s1) : [1, 0];
+    let u2 = s2 > 1e-12 ? Av(v2).map(x => x / s2) : [-u1[1], u1[0]];
+    return { s1, s2, v1, v2, u1, u2 };
+  }
+  const PRESETS = [
+    ['Example', [[3, 0], [4, 5]]],
+    ['Shear', [[1, 1], [0, 1]]],
+    ['With a flip', [[1, 2], [2, -1]]],
+    ['Squash flat', [[2, 1], [2, 1]]],
+    ['Rotation', [[0.8, -0.6], [0.6, 0.8]]]
+  ];
+  const S = { A: [[3, 0], [4, 5]], t: 3, mode: 'geo', playing: 0 };
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  let W = 500, dpr = 1, R = 4;
+  const P = p => [W / 2 + p[0] * W / (2 * R), W / 2 - p[1] * W / (2 * R)];
+  const rot = th => [[Math.cos(th), -Math.sin(th)], [Math.sin(th), Math.cos(th)]];
+  const mm = (X, Y) => [[X[0][0] * Y[0][0] + X[0][1] * Y[1][0], X[0][0] * Y[0][1] + X[0][1] * Y[1][1]], [X[1][0] * Y[0][0] + X[1][1] * Y[1][0], X[1][0] * Y[0][1] + X[1][1] * Y[1][1]]];
+  const mv = (X, v) => [X[0][0] * v[0] + X[0][1] * v[1], X[1][0] * v[0] + X[1][1] * v[1]];
+  // The map at stage t: 0 = identity, 1 = after Vᵀ, 2 = after ΣVᵀ, 3 = UΣVᵀ = A. V and U are made rotations (a flip goes into Σ).
+  function stageMap(t) {
+    const s = svd2(S.A);
+    let { v1, v2, u1, u2, s1, s2 } = s;
+    if (v1[0] * v2[1] - v1[1] * v2[0] < 0) { v2 = v2.map(x => -x); u2 = u2.map(x => -x); }
+    let s2s = s2; if (u1[0] * u2[1] - u1[1] * u2[0] < 0) { u2 = u2.map(x => -x); s2s = -s2; }
+    const thV = Math.atan2(v1[1], v1[0]), thU = Math.atan2(u1[1], u1[0]);
+    const f1 = Math.min(1, Math.max(0, t)), f2 = Math.min(1, Math.max(0, t - 1)), f3 = Math.min(1, Math.max(0, t - 2));
+    const Vt = rot(-thV * f1), Sg = [[1 + (s1 - 1) * f2, 0], [0, 1 + (s2s - 1) * f2]], U = rot(thU * f3);
+    return { M: mm(U, mm(Sg, Vt)), s, v1, v2 };
+  }
+  function resize() {
+    W = Math.min(cv.parentElement.clientWidth, 560); dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr); cv.style.width = W + 'px'; cv.style.height = W + 'px'; drawGeo();
+  }
+  function line(a, b) { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); }
+  function drawGeo() {
+    const C = css(), s = svd2(S.A);
+    R = Math.max(2, Math.ceil(Math.max(s.s1, 1) * 1.25));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, W);
+    ctx.lineWidth = 1; ctx.strokeStyle = C.pgrid; for (let k = -R; k <= R; k++) { line(P([k, -R]), P([k, R])); line(P([-R, k]), P([R, k])); }
+    ctx.strokeStyle = C.muted; ctx.globalAlpha = 0.6; ctx.lineWidth = 1.2; line(P([-R, 0]), P([R, 0])); line(P([0, -R]), P([0, R])); ctx.globalAlpha = 1;
+    // faint unit circle
+    ctx.strokeStyle = C.muted; ctx.globalAlpha = 0.5; ctx.setLineDash([3, 4]); ctx.beginPath(); const o = P([0, 0]); ctx.arc(o[0], o[1], W / (2 * R), 0, 2 * Math.PI); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+    const { M, v1, v2 } = stageMap(S.t);
+    // coloured image of the circle
+    const N = 120;
+    for (let k = 0; k < N; k++) {
+      const a0 = k / N * 2 * Math.PI, a1 = (k + 1) / N * 2 * Math.PI;
+      const p0 = mv(M, [Math.cos(a0), Math.sin(a0)]), p1 = mv(M, [Math.cos(a1), Math.sin(a1)]);
+      ctx.strokeStyle = `hsl(${k / N * 300 + 250}, 60%, 55%)`; ctx.lineWidth = 4; line(P(p0), P(p1));
+    }
+    const w1 = mv(M, v1), w2 = mv(M, v2);
+    arrowPx(ctx, P([0, 0]), P(w1), C.a, 3); arrowPx(ctx, P([0, 0]), P(w2), C.b, 3);
+  }
+  function fm(X) { return `<span class="fm">${X.flat().map(x => `<span>${fmt(x)}</span>`).join('')}</span>`; }
+  function readGeo() {
+    const s = svd2(S.A), t = S.t;
+    $('tOut').textContent = t < 0.005 ? 'start' : t < 1 ? 'Vᵀ' : t < 2 ? 'Σ' : t < 2.995 ? 'U' : 'all of A';
+    const txt = t < 0.005 ? `Start with the unit circle. The two arrows are the right singular vectors v₁ and v₂: the directions that A stretches most and least.`
+      : t <= 1 ? `Step 1, Vᵀ: turn the plane so that v₁ and v₂ lie along the axes. Nothing is stretched yet.`
+      : t <= 2 ? `Step 2, Σ: stretch along the axes, by σ₁ = ${fmt(s.s1, 3)} and σ₂ = ${fmt(s.s2, 3)}${s.s2 < 1e-9 ? ' — the second is 0, so everything is squashed onto a line' : ''}. The circle becomes an ellipse.`
+      : `Step 3, U: turn the ellipse into its final position. Its axes are u₁ and u₂, with lengths σ₁ = ${fmt(s.s1, 3)} and σ₂ = ${fmt(s.s2, 3)}.` + (S.A[0][0] * S.A[1][1] - S.A[0][1] * S.A[1][0] < -1e-9 ? ' This matrix includes a flip: see how the colours around the circle now run the other way.' : '');
+    $('stageText').innerHTML = txt;
+    const U = [[s.u1[0], s.u2[0]], [s.u1[1], s.u2[1]]], Sg = [[s.s1, 0], [0, s.s2]], Vt = [[s.v1[0], s.v1[1]], [s.v2[0], s.v2[1]]];
+    $('factors').innerHTML = `<span class="fname">A =</span>${fm(S.A)}<span class="fname">=</span>${fm(U)}${fm(Sg)}${fm(Vt)}`;
+    cv.setAttribute('aria-label', `Unit circle under the matrix, ${$('tOut').textContent}. Singular values ${fmt(s.s1, 3)} and ${fmt(s.s2, 3)}.`);
+  }
+  function updateGeo() { drawGeo(); readGeo(); mark(); }
+  const sync = wireMatrix(S, () => { S.t = 3; $('t').value = 3; updateGeo(); });
+  const mark = makePresets($('presets'), PRESETS, p => JSON.stringify(p[1]) === JSON.stringify(S.A), p => { S.A = p[1].map(r => r.slice()); sync(); S.t = 3; $('t').value = 3; updateGeo(); });
+  $('t').addEventListener('input', e => { stopPlay(); S.t = +e.target.value; drawGeo(); readGeo(); });
+  function stopPlay() { if (S.playing) cancelAnimationFrame(S.playing); S.playing = 0; $('play').textContent = 'Play the three steps'; }
+  $('play').addEventListener('click', () => {
+    if (S.playing) { stopPlay(); return; }
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; let t0 = null;
+    $('play').textContent = 'Pause';
+    const f = now => { if (t0 === null) t0 = now; const t = reduce ? 3 : Math.min(3, (now - t0) / 1500); S.t = t; $('t').value = t; drawGeo(); readGeo(); if (t < 3) S.playing = requestAnimationFrame(f); else stopPlay(); };
+    S.playing = requestAnimationFrame(f);
+  });
+
+  // ---------- image compression ----------
+  const N = 120;
+  let IMG = null, SV = null;
+  function makePicture(kind) {
+    const c = document.createElement('canvas'); c.width = N; c.height = N; const g = c.getContext('2d');
+    if (kind === 'Shapes') {
+      const gr = g.createLinearGradient(0, 0, 0, N); gr.addColorStop(0, '#dde'); gr.addColorStop(1, '#556'); g.fillStyle = gr; g.fillRect(0, 0, N, N);
+      g.fillStyle = '#fff'; g.beginPath(); g.arc(84, 30, 16, 0, 2 * Math.PI); g.fill();
+      g.fillStyle = '#223'; g.beginPath(); g.moveTo(0, 95); g.lineTo(35, 50); g.lineTo(62, 82); g.lineTo(85, 60); g.lineTo(120, 98); g.lineTo(120, 120); g.lineTo(0, 120); g.fill();
+      g.fillStyle = '#000'; g.font = 'bold 30px sans-serif'; g.fillText('SVD', 8, 32);
+    } else if (kind === 'Checks') {
+      for (let i = 0; i < 8; i++) for (let j = 0; j < 8; j++) { g.fillStyle = (i + j) % 2 ? '#222' : '#eee'; g.fillRect(i * 15, j * 15, 15, 15); }
+    } else if (kind === 'Rings') {
+      const im = g.createImageData(N, N);
+      for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) { const r = Math.hypot(x - 60, y - 60), v = 128 + 120 * Math.cos(r / 4); const k = (y * N + x) * 4; im.data[k] = im.data[k + 1] = im.data[k + 2] = v; im.data[k + 3] = 255; }
+      g.putImageData(im, 0, 0);
+    } else if (kind === 'Stripes') {
+      for (let i = 0; i < 12; i++) { g.fillStyle = i % 2 ? '#333' : '#ddd'; g.fillRect(0, i * 10, N, 10); }
+    }
+    return grey(g.getImageData(0, 0, N, N));
+  }
+  const grey = im => { const X = []; for (let y = 0; y < N; y++) { const r = []; for (let x = 0; x < N; x++) { const k = (y * N + x) * 4; r.push((0.299 * im.data[k] + 0.587 * im.data[k + 1] + 0.114 * im.data[k + 2]) / 255); } X.push(r); } return X; };
+  // One-sided Jacobi SVD: orthogonalise the columns of a copy of X
+  function svd(X) {
+    const m = X.length, n = X[0].length, A = X.map(r => r.slice()), V = Array.from({ length: n }, (_, i) => Array.from({ length: n }, (_, j) => +(i === j)));
+    for (let sweep = 0; sweep < 12; sweep++) {
+      let off = 0;
+      for (let p = 0; p < n - 1; p++) for (let q = p + 1; q < n; q++) {
+        let al = 0, be = 0, ga = 0;
+        for (let i = 0; i < m; i++) { const x = A[i][p], y = A[i][q]; al += x * x; be += y * y; ga += x * y; }
+        if (Math.abs(ga) < 1e-12 * Math.sqrt(al * be) || ga === 0) continue;
+        off = Math.max(off, Math.abs(ga) / Math.sqrt(al * be));
+        const ze = (be - al) / (2 * ga), t = Math.sign(ze || 1) / (Math.abs(ze) + Math.sqrt(1 + ze * ze)), c = 1 / Math.sqrt(1 + t * t), s = c * t;
+        for (let i = 0; i < m; i++) { const x = A[i][p], y = A[i][q]; A[i][p] = c * x - s * y; A[i][q] = s * x + c * y; }
+        for (let i = 0; i < n; i++) { const x = V[i][p], y = V[i][q]; V[i][p] = c * x - s * y; V[i][q] = s * x + c * y; }
+      }
+      if (off < 1e-9) break;
+    }
+    const sig = []; for (let j = 0; j < n; j++) { let s = 0; for (let i = 0; i < m; i++) s += A[i][j] ** 2; sig.push(Math.sqrt(s)); }
+    const order = sig.map((s, j) => j).sort((a, b) => sig[b] - sig[a]);
+    return { s: order.map(j => sig[j]), U: order.map(j => A.map(r => sig[j] > 1e-12 ? r[j] / sig[j] : 0)), V: order.map(j => V.map(r => r[j])) };
+  }
+  function paint(cvs, X) {
+    const g = cvs.getContext('2d'), im = g.createImageData(N, N);
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) { const v = Math.round(255 * Math.max(0, Math.min(1, X[y][x]))), k = (y * N + x) * 4; im.data[k] = im.data[k + 1] = im.data[k + 2] = v; im.data[k + 3] = 255; }
+    g.putImageData(im, 0, 0);
+  }
+  function setPicture(X) { IMG = X; SV = svd(X); paint($('orig'), X); updateImg(); }
+  function updateImg() {
+    if (!SV) return;
+    const k = +$('k').value, Y = Array.from({ length: N }, () => new Array(N).fill(0));
+    for (let r = 0; r < k; r++) { const s = SV.s[r], u = SV.U[r], v = SV.V[r]; if (s < 1e-12) continue; for (let i = 0; i < N; i++) { const su = s * u[i]; if (!su) continue; const row = Y[i]; for (let j = 0; j < N; j++) row[j] += su * v[j]; } }
+    paint($('approx'), Y);
+    const tot = SV.s.reduce((a, s) => a + s * s, 0), kept = SV.s.slice(0, k).reduce((a, s) => a + s * s, 0);
+    const store = k * (2 * N + 1) / (N * N) * 100, rank = SV.s.filter(s => s > 1e-8 * SV.s[0]).length;
+    $('kOut').textContent = 'k = ' + k; $('apCap').textContent = `Rank ${k} approximation`;
+    $('kInfo').textContent = `${fmt(store, 1)}% of the numbers, ${fmt(kept / tot * 100, 2)}% of the “energy”`;
+    $('kText').innerHTML = `Keeping k terms σᵢuᵢvᵢᵀ stores k × (120 + 120 + 1) = ${k * 241} numbers instead of 120 × 120 = 14 400. ` + (k >= rank ? `This picture has rank ${rank}, so ${rank} term${rank > 1 ? 's give' : ' gives'} it back exactly.` : `The relative error is ${fmt(Math.sqrt(Math.max(0, tot - kept) / tot) * 100, 1)}%.`);
+    drawSV(k);
+  }
+  function drawSV(k) {
+    const c = $('svBox'), w = c.clientWidth, hh = c.clientHeight, d = window.devicePixelRatio || 1; c.width = w * d; c.height = hh * d;
+    const g = c.getContext('2d'); g.setTransform(d, 0, 0, d, 0, 0); const C = css(); g.fillStyle = C.plane; g.fillRect(0, 0, w, hh);
+    const s = SV.s, top = Math.log10(s[0]), bot = Math.max(top - 6, Math.log10(Math.max(1e-6, s[s.length - 1])));
+    const bw = w / s.length;
+    s.forEach((x, i) => { const y = Math.log10(Math.max(x, 10 ** bot)); const ht = Math.max(1, (y - bot) / (top - bot) * (hh - 8)); g.fillStyle = i < k ? C.w : C.muted; g.globalAlpha = i < k ? 1 : 0.4; g.fillRect(i * bw, hh - ht, Math.max(1, bw - 0.5), ht); });
+    g.globalAlpha = 1;
+  }
+  const PICS = ['Shapes', 'Checks', 'Rings', 'Stripes'];
+  PICS.forEach(p => { const b = document.createElement('button'); b.textContent = p; b.addEventListener('click', () => { $('pics').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); setPicture(makePicture(p)); }); $('pics').appendChild(b); });
+  $('k').addEventListener('input', updateImg);
+  $('file').addEventListener('change', e => {
+    const f = e.target.files[0]; if (!f) return; const img = new Image();
+    img.onload = () => { const c = document.createElement('canvas'); c.width = N; c.height = N; const g = c.getContext('2d'); const s = Math.min(img.width, img.height); g.drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, N, N); $('pics').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', 'false')); setPicture(grey(g.getImageData(0, 0, N, N))); URL.revokeObjectURL(img.src); };
+    img.src = URL.createObjectURL(f);
+  });
+
+  function setMode(m) {
+    S.mode = m; document.querySelectorAll('[data-mode]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+    $('geo').hidden = m !== 'geo'; $('img').hidden = m !== 'img';
+    if (m === 'img' && !SV) { $('pics').querySelector('button').setAttribute('aria-pressed', 'true'); setPicture(makePicture('Shapes')); }
+    if (m === 'img') drawSV(+$('k').value); else resize();
+  }
+  document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+
+  // Optional start-up settings: ?mode=img, ?m=3,0,4,5
+  const q = new URLSearchParams(location.search);
+  if (q.get('m')) { const x = q.get('m').split(',').map(Number); if (x.length === 4 && x.every(isFinite)) S.A = [[x[0], x[1]], [x[2], x[3]]]; }
+  sync();
+  new ResizeObserver(() => { if (S.mode === 'geo') resize(); else if (SV) drawSV(+$('k').value); }).observe(document.body);
+  watchTheme(() => { if (S.mode === 'geo') drawGeo(); else if (SV) drawSV(+$('k').value); });
+  setMode(q.get('mode') === 'img' ? 'img' : 'geo'); updateGeo();
+})();
+</script>
+</body>
+</html>

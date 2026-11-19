@@ -1,0 +1,31 @@
+/*-- scss:defaults --*/
+$font-family-sans-serif: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+$font-family-monospace: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+$headings-font-family: "Newsreader", Georgia, "Times New Roman", serif;
+$headings-font-weight: 500;
+$body-bg: #11161d;
+$body-color: #e4e9f0;
+$link-color: #74a4ff;
+$primary: #e4e9f0;
+$code-color: #f0a35a;
+
+/*-- scss:rules --*/
+/* Muted navigation text must keep 4.5:1 contrast on the dark background. */
+.nav-page .nav-page-text, .nav-page .nav-page-text .chapter-number, .nav-page .nav-page-text .chapter-title,
+.quarto-title-breadcrumbs .breadcrumb-item, .quarto-title-breadcrumbs .breadcrumb-item a,
+.quarto-title-breadcrumbs .breadcrumb-item a .chapter-number, .quarto-title-breadcrumbs .breadcrumb-item a .chapter-title,
+.cell details > summary, details.code-fold > summary { color: #aeb8c4; }
+.quarto-title-breadcrumbs .breadcrumb li:last-of-type a { color: #aeb8c4; }  /* unnumbered pages, such as the Part reviews */
+.mb-settings-actions .btn-outline-secondary { color: var(--mb-ink); border-color: var(--mb-muted); }
+
+:root {
+  --mb-row: #74a4ff;
+  --mb-col: #f0a35a;
+  --mb-res: #43c999;
+  --mb-line: #2c3644;
+  --mb-surface: #171e27;
+  --mb-muted: #94a1b2;
+  --mb-ink: #e4e9f0;
+  --mb-shadow: rgba(0, 0, 0, 0.4);
+  --mb-backdrop: rgba(0, 0, 0, 0.6);
+}

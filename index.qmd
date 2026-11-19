@@ -1,0 +1,30 @@
+# Welcome {.unnumbered}
+
+This book teaches matrices and linear algebra as tools for solving real problems, along with the numerical methods that computers use to apply them at scale. It is written for university students in engineering, the physical sciences, statistics and data science, and for anyone learning the subject on their own.
+
+## What makes this book different
+
+**Interactive apps.** Many chapters open with an app that shows the idea moving: the row and column that build each entry of a product, the area that a determinant scales, the vectors that an eigenvalue stretches. Use them before reading the rules, and come back to them when the rules stop making sense. @sec-apps lists them all.
+
+**Your notation.** Different courses, textbooks and countries write vectors, matrices and unit vectors in different ways. Use the **Notation** button at the bottom right of any page to choose bold or arrowed vectors, $\mathbf{i}, \mathbf{j}, \mathbf{k}$ or $\mathbf{e}_1, \mathbf{e}_2, \mathbf{e}_3$, round or square brackets, and more. Every page then uses your choices. [Notation and conventions](front/conventions.qmd) explains each option.
+
+**Code in Python and MATLAB.** Every method is shown in both languages, side by side in tabs. Choose a tab once and the whole book follows. Python is shown first by default; you can change this with the Notation button.
+
+**Practical first.** The main text explains how and why methods work and when to use them. Proofs are collected in @sec-proofs for readers who want them, linked from the results they prove.
+
+## How to start
+
+If you want to check the background first (vectors, trigonometry, simultaneous equations, or getting started with Python or MATLAB), see the [Refresher](front/refresher.qmd). If you are new to matrices, start at @sec-matrices and work through Part I, Matrices and transformations. If you are here for a particular topic, [How to use this book](front/how-to-use.qmd) suggests routes through the book for different courses and goals.
+
+::: {.callout-note appearance="simple"}
+Spotted a mistake, or have a suggestion? Use the **Report an issue** link on any page.
+:::
+
+## Licence and reuse
+
+© 2026 Tom Goodale. You're welcome to use and adapt this book.
+
+- The text, figures and teaching material are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): you can share and adapt them for any purpose, as long as you credit the author and say if you changed anything.
+- The code (in the chapters, exercises and apps) is licensed under the [MIT licence](https://trgoodale.github.io/matrix-book/LICENSE.md), so you can copy it into your own work freely.
+
+To credit the book: Goodale, T. (2026). *Matrices in Practice: Linear algebra and numerical methods with interactive apps*. Licensed under CC BY 4.0. Full details are in the [licence file](https://trgoodale.github.io/matrix-book/LICENSE.md).

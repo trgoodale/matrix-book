@@ -1,0 +1,16 @@
+/.quarto/
+/.venv/
+/_book/
+/_site/
+*_files/
+.ipynb_checkpoints/
+__pycache__/
+.DS_Store
+Thumbs.db
+
+**/*.quarto_ipynb
+
+# Output from rendering a single chapter on its own (the book itself builds into _book)
+/part-*/*.html
+/front/*.html
+/appendices/*.html

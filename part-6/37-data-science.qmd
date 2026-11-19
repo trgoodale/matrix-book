@@ -1,0 +1,303 @@
+# Data: regression and dimensionality reduction {#sec-data-science}
+
+[Further]{.level-badge .further}
+
+::: {.callout-note appearance="simple" icon=false}
+## In this chapter you will
+
+- set up a multiple linear regression model with a design matrix, and fit it by least squares
+- recognise collinearity, and its effect on the fitted coefficients, through conditioning
+- carry out principal component analysis on a real data set, and interpret the results
+:::
+
+**Builds on** @sec-orthogonality-least-squares, @sec-svd-pca, @sec-qr-least-squares.
+
+## The problem
+
+In 1936 the statistician Ronald Fisher published measurements of 150 iris flowers, 50 from each of three species: *Iris setosa*, *Iris versicolor* and *Iris virginica*. For each flower, Edgar Anderson had measured four things, in centimetres: the length and width of a sepal (the green, leaf-like parts under the petals) and of a petal. The data set has been used ever since to teach and test statistical methods, and it raises two questions that run through all of data science:
+
+- **Prediction**: how well can one measurement be predicted from the others, and which of the others matter?
+- **Structure**: four measurements per flower is four dimensions, too many to plot. Is there a simpler picture, in two dimensions, that captures most of the variation, and does it separate the species?
+
+The first is answered by **multiple regression**, which is least squares (@sec-orthogonality-least-squares). The second is answered by **principal component analysis**, which is the SVD (@sec-svd-pca). Both are matrix calculations on the $150 \times 4$ table of data.
+
+The data are in the file `data/iris.csv` in the book's repository ([download it here](../data/iris.csv)), one row per flower; the code below reads it from there.
+
+## The model
+
+### The design matrix
+
+To predict a quantity $y$ from $p$ explanatory variables $x_1, \dots, x_p$, a **linear model** says
+$$
+y \approx \beta_0 + \beta_1x_1 + \beta_2x_2 + \dots + \beta_px_p.
+$$
+With $n$ observations, each row of data gives one equation. Collecting them,
+$$
+\vect{y} \approx \M{X}\vect{\beta},
+\qquad
+\M{X} = \mat{1 & x_{11} & \cdots & x_{1p} \\ 1 & x_{21} & \cdots & x_{2p} \\ \vdots & \vdots & & \vdots \\ 1 & x_{n1} & \cdots & x_{np}},
+$$
+where $\M{X}$ is the $n \times (p + 1)$ **design matrix**: a column of 1s for the intercept $\beta_0$, and one column per variable. The model is linear in the coefficients $\vect{\beta}$, which is all that matters: columns such as $x_1^2$, $\log x_2$ or $x_1x_2$ are allowed, so the same machinery fits curves and interactions.
+
+### Multiple regression
+
+There are many more observations than coefficients, so the system has no exact solution, and we choose $\hat{\vect{\beta}}$ to minimise the sum of squared residuals $\lVert\vect{y} - \M{X}\vect{\beta}\rVert^2$. That is a least-squares problem, solved by the normal equations
+$$
+\M{X}\T\M{X}\hat{\vect{\beta}} = \M{X}\T\vect{y}
+$$
+(@sec-orthogonality-least-squares), or more accurately by QR (@sec-qr-least-squares), which is what statistical software does. The fitted values are $\hat{\vect{y}} = \M{X}\hat{\vect{\beta}}$, the projection of $\vect{y}$ onto the column space of $\M{X}$. How well the model fits is summarised by the **coefficient of determination**
+$$
+R^2 = 1 - \frac{\lVert\vect{y} - \hat{\vect{y}}\rVert^2}{\lVert\vect{y} - \bar{y}\vect{1}\rVert^2},
+$$
+the fraction of the variation in $y$ that the model explains. Statistical theory adds a measure of the uncertainty in each coefficient, its **standard error**, which is proportional to the square root of the corresponding diagonal entry of $(\M{X}\T\M{X})^{-1}$.
+
+### Collinearity
+
+If two explanatory variables are nearly proportional, the columns of $\M{X}$ are nearly dependent, and $\M{X}$ is ill-conditioned (@sec-floating-point-conditioning). The data can't tell their effects apart: many quite different combinations of the two coefficients fit almost equally well. The symptoms are:
+
+- large standard errors, because the diagonal of $(\M{X}\T\M{X})^{-1}$ is large;
+- coefficients that change a lot, even changing sign, when a variable is added or removed, or the data change slightly;
+- a large condition number of $\M{X}$ (after scaling its columns to comparable sizes).
+
+This is **collinearity** (or multicollinearity). The fitted values $\hat{\vect{y}}$ are still fine, since the column space is still well defined; it is the individual coefficients that become unreliable, and with them any story about which variable "matters". The remedies are to drop or combine variables, to collect data that separate them, or to use **ridge regression** (@sec-matrix-calculus, exercise 6), which adds $\mu\M{I}$ to $\M{X}\T\M{X}$.
+
+### PCA in practice
+
+@sec-svd-pca showed that the principal components of a data set are the right singular vectors of its centred data matrix. In practice, three decisions come first.
+
+- **Centre** each column, by subtracting its mean. Without this, the first component mostly points towards the mean.
+- **Standardise** each column, by dividing by its standard deviation, when the variables are measured in different units or on very different scales. Otherwise the variables with the largest numbers dominate. (For the iris data all four are lengths in centimetres, so either choice is reasonable; standardising is the common default.)
+- **Choose how many components to keep**, typically enough to explain 80–95% of the variance, or where a plot of the explained variance against the component number (a **scree plot**) levels off.
+
+Then interpret the **loadings**, the entries of each principal component vector, which say how much each original variable contributes; and plot the **scores**, each item's coordinates along the first two components.
+
+::: {.callout-note appearance="simple" icon=false}
+### Example 1: a regression by hand
+
+In an experiment, two settings $x_1$ and $x_2$ were varied, coded as in the table, and a response $y$ was measured. Fit $y \approx \beta_0 + \beta_1x_1 + \beta_2x_2$.
+
+| $x_1$ | $-2$ | $-1$ | 0 | 1 | 2 |
+|:--|:-:|:-:|:-:|:-:|:-:|
+| $x_2$ | 1 | $-1$ | 0 | $-1$ | 1 |
+| $y$ | 2 | 3 | 5 | 6 | 9 |
+
+**Solution.** The design matrix has columns $\vect{1}$, $\vect{x}_1$ and $\vect{x}_2$. These happen to be orthogonal: $\vect{1} \cdot \vect{x}_1 = 0$, $\vect{1} \cdot \vect{x}_2 = 0$ and $\vect{x}_1 \cdot \vect{x}_2 = -2 + 1 + 0 - 1 + 2 = 0$. So $\M{X}\T\M{X}$ is diagonal,
+$$
+\M{X}\T\M{X} = \mat{5 & 0 & 0 \\ 0 & 10 & 0 \\ 0 & 0 & 4},
+\qquad
+\M{X}\T\vect{y} = \mat{25 \\ 17 \\ 2},
+$$
+and $\hat{\vect{\beta}} = (5, 1.7, 0.5)\T$: $\hat{y} = 5 + 1.7x_1 + 0.5x_2$. Each coefficient is found separately, and adding or removing a variable doesn't change the others. This is why designed experiments choose their settings to make the columns orthogonal: it is the opposite of collinearity.
+:::
+
+::: {.callout-note appearance="simple" icon=false}
+### Example 2: collinearity in the iris data
+
+Predict sepal length from petal width, then from petal length and petal width together.
+
+**Solution.** From the code below:
+
+| Model | $\hat\beta$ (petal length) | $\hat\beta$ (petal width) | $R^2$ |
+|:--|:-:|:-:|:-:|
+| petal width only | — | $0.889 \;(\pm 0.051)$ | 0.67 |
+| petal length only | $0.409 \;(\pm 0.019)$ | — | 0.76 |
+| both | $0.542 \;(\pm 0.069)$ | $-0.320 \;(\pm 0.160)$ | 0.77 |
+
+(The numbers in brackets are standard errors.) On its own, petal width has a clear positive effect: wider petals go with longer sepals. With petal length included, its coefficient turns *negative*, with a standard error three times as large, while $R^2$ barely moves. The two petal measurements have correlation 0.963, so the columns are nearly dependent, and the condition number of the design matrix rises from about 4 to 25. The negative coefficient doesn't mean that wider petals cause shorter sepals; it means that among flowers *with the same petal length*, which hardly vary in width, the data say little, and the coefficient is poorly determined.
+:::
+
+::: {.callout-note appearance="simple" icon=false}
+### Example 3: principal components of the iris data
+
+Standardise the four measurements and find the principal components.
+
+**Solution.** The singular values of the $150 \times 4$ standardised matrix give the explained variances: 73.0%, 22.9%, 3.7% and 0.5%. Two components capture 96% of the variation, so a two-dimensional plot loses little. The first two loadings are about
+$$
+\vect{v}_1 = (0.52, -0.27, 0.58, 0.57),
+\qquad
+\vect{v}_2 = (-0.38, -0.92, -0.02, -0.07),
+$$
+in the order sepal length, sepal width, petal length, petal width. The first component is roughly the average of three size measurements, minus a little sepal width: overall flower size. The second is almost entirely sepal width. @fig-iris-pca plots the scores: *setosa* forms a separate cluster on the left, far from the other two species, which overlap slightly. PCA never used the species labels, but it found them.
+:::
+
+## Explore
+
+There is no app for this chapter. @fig-iris-pca shows the iris flowers in the plane of the first two principal components.
+
+```{python}
+#| fig-alt: "Scatter plot of 150 iris flowers on the first two principal components; setosa forms a separate cluster on the left, while versicolor and virginica overlap on the right."
+#| label: fig-iris-pca
+#| fig-cap: "The 150 iris flowers plotted by their scores on the first two principal components of the standardised measurements, which together explain 96% of the variance. The species labels were not used to find the components."
+#| code-fold: true
+#| code-summary: "Show the code for this figure"
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = np.genfromtxt("../data/iris.csv", delimiter=",", skip_header=1, dtype=str)
+X = data[:, :4].astype(float)
+species = data[:, 4]
+Z = (X - X.mean(axis=0)) / X.std(axis=0, ddof=1)
+U, s, Vt = np.linalg.svd(Z, full_matrices=False)
+scores = Z @ Vt[:2].T
+
+fig, ax = plt.subplots(figsize=(6, 4))
+for name, colour, marker in [("setosa", "#2153b8", "o"), ("versicolor", "#9c5208", "s"),
+                             ("virginica", "#0a7050", "^")]:
+    pts = scores[species == name]
+    ax.scatter(pts[:, 0], pts[:, 1], s=18, color=colour, marker=marker, label=name, alpha=0.8)
+ax.set_xlabel(f"PC1 ({100 * s[0]**2 / np.sum(s**2):.0f}% of variance)")
+ax.set_ylabel(f"PC2 ({100 * s[1]**2 / np.sum(s**2):.0f}%)")
+ax.legend(fontsize=9)
+ax.set_aspect("equal")
+plt.tight_layout()
+plt.show()
+```
+
+Things to try, with the code:
+
+- Repeat the PCA without standardising (just centring). Does the picture change much? Why might it not, for these data?
+- Add a column to the design matrix of Example 2 for sepal width. What happens to the other coefficients, and to $R^2$?
+- Fit sepal length on the first principal component score alone. How does $R^2$ compare with the models in Example 2?
+
+## In code
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+import numpy as np
+
+data = np.genfromtxt("../data/iris.csv", delimiter=",", skip_header=1, usecols=range(4))
+sepal_len, sepal_wid, petal_len, petal_wid = data.T
+n = len(sepal_len)
+
+# Example 2: regression, with and without collinear variables
+X1 = np.column_stack([np.ones(n), petal_wid])
+X2 = np.column_stack([np.ones(n), petal_len, petal_wid])
+for X in (X1, X2):
+    beta, *_ = np.linalg.lstsq(X, sepal_len, rcond=None)
+    resid = sepal_len - X @ beta
+    R2 = 1 - resid @ resid / np.sum((sepal_len - sepal_len.mean())**2)
+    print(np.round(beta, 4), f"R^2 = {R2:.3f}, cond = {np.linalg.cond(X):.1f}")
+
+# Example 3: PCA of the standardised measurements
+Z = (data - data.mean(axis=0)) / data.std(axis=0, ddof=1)
+U, s, Vt = np.linalg.svd(Z, full_matrices=False)
+print(np.round(s**2 / np.sum(s**2), 4))          # fraction of variance explained
+print(np.round(Vt[0], 4))                        # loadings of the first component
+```
+
+## MATLAB
+
+```matlab
+data = readmatrix('../data/iris.csv');   % the species column is read as NaN
+X = data(:, 1:4);
+y = X(:, 1);                             % sepal length
+n = size(X, 1);
+
+% Example 2: regression, with and without collinear variables
+c1 = [ones(n,1), X(:,4)] \ y
+c2 = [ones(n,1), X(:,3), X(:,4)] \ y
+cond([ones(n,1), X(:,3), X(:,4)])
+
+% Example 3: PCA of the standardised measurements
+Z = (X - mean(X)) ./ std(X);
+[U, S, V] = svd(Z, 'econ');
+explained = diag(S).^2 / sum(diag(S).^2)
+V(:, 1)                                  % loadings of the first component
+```
+
+```{.text .code-output}
+c1 =
+
+    4.7776
+    0.8886
+
+c2 =
+
+    4.1906
+    0.5418
+   -0.3196
+
+ans =
+
+   25.3176
+
+explained =
+
+    0.7296
+    0.2285
+    0.0367
+    0.0052
+
+ans =
+
+    0.5211
+   -0.2693
+    0.5804
+    0.5649
+```
+:::
+
+The Statistics and Machine Learning Toolbox has `fitlm` for regression, with standard errors and much more, and `pca`. In Python, `statsmodels` and `scikit-learn` provide the same. A principal component may come out with all its signs flipped; that is the same component.
+
+## Check your understanding
+
+::: {.callout-tip collapse="true"}
+## Is $y \approx \beta_0 + \beta_1x + \beta_2x^2$ a linear model? What is the row of the design matrix for an observation with $x = 3$?
+
+Yes: it is linear in the coefficients, which is all that matters. The row is $(1, 3, 9)$.
+:::
+
+::: {.callout-tip collapse="true"}
+## Two explanatory variables are nearly proportional. Are the model's predictions unreliable?
+
+Not for data like the data it was fitted to: the fitted values are a projection onto the column space, which is still well defined. It is the individual coefficients that become unreliable, so don't read much into their sizes or signs.
+:::
+
+::: {.callout-tip collapse="true"}
+## Why centre the data before PCA, and when should you also standardise it?
+
+Without centring, the first component mostly points towards the mean of the data, not along its spread. Standardise as well when the variables are in different units or on very different scales, or the variables with the largest numbers dominate.
+:::
+
+## Key ideas
+
+- A regression model is linear in its coefficients, so fitting it is a least-squares problem with a design matrix $\M{X}$, one row per observation.
+- Collinear variables make $\M{X}$ ill-conditioned: predictions can still be good, but individual coefficients become unreliable.
+- PCA finds the directions of greatest variance from the SVD of the centred (and usually standardised) data.
+- The squared singular values show how much of the variance each component explains.
+
+## Exercises {#sec-data-science-exercises}
+
+1. []{#exercise-data-science-1}Fit a straight line $y \approx \beta_0 + \beta_1x$ to the points $(1, 1)$, $(2, 3)$, $(3, 4)$ and $(4, 4)$ by forming and solving the normal equations, and find $R^2$.
+
+   [Solution to exercise 1](../appendices/solutions-6.qmd#solution-data-science-1){.sol-link}
+
+2. []{#exercise-data-science-2}In Example 1, a third variable $x_3 = x_1 + x_2$ is added to the model. What happens to $\M{X}\T\M{X}$, and why can't the coefficients be found any more? What would happen if $x_3$ were $x_1 + x_2$ plus a little measurement noise?
+
+   [Solution to exercise 2](../appendices/solutions-6.qmd#solution-data-science-2){.sol-link}
+
+3. []{#exercise-data-science-3}Show that if the columns of the design matrix are orthogonal, the least-squares coefficient of each variable is $\hat\beta_j = (\vect{x}_j \cdot \vect{y})/(\vect{x}_j \cdot \vect{x}_j)$, the same whether or not the other variables are included.
+
+   [Solution to exercise 3](../appendices/solutions-6.qmd#solution-data-science-3){.sol-link}
+
+4. []{#exercise-data-science-4}Show that the residuals $\vect{y} - \M{X}\hat{\vect{\beta}}$ of a model with an intercept add up to zero.
+
+   [Solution to exercise 4](../appendices/solutions-6.qmd#solution-data-science-4){.sol-link}
+
+5. []{#exercise-data-science-5}The first loading vector of the iris data is about $(0.52, -0.27, 0.58, 0.57)$. A flower has standardised measurements $(1.0, 0.5, 1.2, 1.1)$. Find its score on the first component. Is it more likely to be *setosa* or *virginica*?
+
+   [Solution to exercise 5](../appendices/solutions-6.qmd#solution-data-science-5){.sol-link}
+
+6. []{#exercise-data-science-6}**Code.** Fit sepal length on all three other measurements. Then refit using only the 50 *setosa* flowers. Compare the coefficients and their signs, and the condition numbers of the two design matrices. What does this suggest about fitting one model to data from several groups?
+
+   [Solution to exercise 6](../appendices/solutions-6.qmd#solution-data-science-6){.sol-link}
+
+Solutions are in @sec-solutions-data-science.
+
+## Going further
+
+- **Ridge regression** and the **lasso** add a penalty on the size of the coefficients to the least-squares objective. Ridge regression shrinks the coefficients of collinear variables towards each other; the lasso sets some to exactly zero, choosing variables automatically. Both are central to modern machine learning. Hastie, Tibshirani and Friedman's *The Elements of Statistical Learning* (free online) covers them, and much more, in depth.
+- **Linear discriminant analysis**, another of Fisher's ideas from the same 1936 paper, finds the directions that best *separate* known groups, rather than the directions of greatest variance. It leads to a generalised eigenvalue problem.
+- For data with thousands of variables, such as gene expression or images, PCA is computed with randomised or iterative SVD methods (@sec-eigenvalue-algorithms), which find the first few components without computing all of them.

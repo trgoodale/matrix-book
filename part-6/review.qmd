@@ -1,0 +1,41 @@
+# Part VI review {#sec-review-6 .unnumbered}
+
+These exercises mix the applications of Part VI with methods from the whole book. They don't say which chapter they come from, so part of each exercise is recognising the model. Solutions, with the chapters each exercise draws on, are in [Solutions: Part VI](../appendices/solutions-6.qmd#sec-solutions-review-6).
+
+1. []{#exercise-review-6-1}Two springs hang in a line from a fixed support: spring 1 (stiffness $k_1$) joins the support to mass 1, and spring 2 (stiffness $k_2$) joins mass 1 to mass 2. Let $u_1$ and $u_2$ be the downward displacements of the masses.
+
+   a. Write the extensions of the springs as $\vect{e} = \M{B}\vect{u}$, and show that the stiffness matrix $\M{K} = \M{B}\T\M{D}\M{B}$, with $\M{D} = \mathrm{diag}(k_1, k_2)$, is
+      $$\M{K} = \mat{k_1 + k_2 & -k_2 \\ -k_2 & k_2}.$$
+   b. With $k_1 = k_2 = 100$ N/m, a force of 10 N acts downwards on mass 2 only. Solve $\M{K}\vect{u} = \vect{f}$.
+   c. Explain why $\M{K}$ is positive definite.
+
+   [Solution to exercise 1](../appendices/solutions-6.qmd#solution-review-6-1){.sol-link}
+
+2. []{#exercise-review-6-2}If today is sunny, tomorrow is sunny with probability 0.8; if today is rainy, tomorrow is sunny with probability 0.4. Find the long-run proportion of sunny days. If it is rainy today, what is the probability that it is rainy in two days' time?
+
+   [Solution to exercise 2](../appendices/solutions-6.qmd#solution-review-6-2){.sol-link}
+
+3. []{#exercise-review-6-3}A species has juveniles and adults. Each year, juveniles produce on average 1 offspring and adults 2, and half of the juveniles survive to become adults; no adult survives a second year as an adult. Write down the Leslie matrix, find its dominant eigenvalue, and find the long-run ratio of juveniles to adults.
+
+   [Solution to exercise 3](../appendices/solutions-6.qmd#solution-review-6-3){.sol-link}
+
+4. []{#exercise-review-6-4}Using homogeneous coordinates, find the $3 \times 3$ matrix that reflects the plane in the line $x = 2$, as a product of a translation, a reflection and another translation. Check that it sends $(3, 5)$ to $(1, 5)$, and that applying it twice gives the identity.
+
+   [Solution to exercise 4](../appendices/solutions-6.qmd#solution-review-6-4){.sol-link}
+
+5. []{#exercise-review-6-5}A Hill cipher uses the key $\M{K} = \mat{2 & 3 \\ 1 & 4}$, with A = 0, …, Z = 25. Check that $\M{K}$ is invertible modulo 26, find its inverse modulo 26, encrypt the message GO, and decrypt your answer to check.
+
+   [Solution to exercise 5](../appendices/solutions-6.qmd#solution-review-6-5){.sol-link}
+
+6. []{#exercise-review-6-6}Solve $-u'' = 1$ on $0 \le x \le 1$ with $u(0) = u(1) = 0$, using finite differences with $h = 1/4$. Compare with the exact solution $u = x(1 - x)/2$ at the grid points, and explain why there is no error at all here.
+
+   [Solution to exercise 6](../appendices/solutions-6.qmd#solution-review-6-6){.sol-link}
+
+7. []{#exercise-review-6-7}A data set of two variables has covariance matrix $\mat{4 & 2 \\ 2 & 1}$. Find the principal components and the share of the variance each one explains. What does this tell you about the data?
+
+   [Solution to exercise 7](../appendices/solutions-6.qmd#solution-review-6-7){.sol-link}
+
+8. []{#exercise-review-6-8}**Code.** Five web pages link as follows: A links to B; B links to A and C; C links to A; D links to C and E; E links to D. Find the PageRank with damping $d = 0.85$ by the power method, counting the iterations needed, and check it by solving a linear system. Explain why D and E rank lowest, even though they link to each other.
+
+   [Solution to exercise 8](../appendices/solutions-6.qmd#solution-review-6-8){.sol-link}
+

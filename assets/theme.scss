@@ -1,0 +1,26 @@
+/*-- scss:defaults --*/
+$font-family-sans-serif: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+$font-family-monospace: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+$headings-font-family: "Newsreader", Georgia, "Times New Roman", serif;
+$headings-font-weight: 500;
+$body-bg: #fbfcfd;
+$body-color: #18222f;
+$link-color: #2153b8;
+$primary: #18222f;
+$code-color: #9c5208;
+
+/*-- scss:rules --*/
+/* Inline code in callout titles: keep 4.5:1 contrast on the tinted title bar. */
+.callout .callout-title-container code { color: #3d1f02; }
+
+:root {
+  --mb-row: #2153b8;
+  --mb-col: #9c5208;
+  --mb-res: #0a7050;
+  --mb-line: #c9d2dd;
+  --mb-surface: #ffffff;
+  --mb-muted: #5e6b7c;
+  --mb-ink: #18222f;
+  --mb-shadow: rgba(24, 34, 47, 0.14);
+  --mb-backdrop: rgba(10, 16, 24, 0.45);
+}

@@ -1,0 +1,594 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Systems Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: graph-paper worksheet; the picture first, then the equations and what they mean */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.tabs { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.eqs { display: grid; gap: 8px; }
+.eqrow { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; font: 600 0.98rem var(--font-num); }
+.eqrow input { width: 3.6rem; padding: 3px 4px; -moz-appearance: textfield; appearance: textfield; }
+.eqrow input::-webkit-outer-spin-button, .eqrow input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.eqrow .v { min-width: 1.6rem; }
+.eqrow .sw { margin-right: 6px; }
+/* Column picture: colour each coefficient by its column, so the vectors can be read off downwards */
+.eqs.colmode .eqrow .sw { visibility: hidden; }
+.eqs.colmode .eqrow input.c0 { border-color: var(--row); color: var(--row); }
+.eqs.colmode .eqrow input.c1 { border-color: var(--col); color: var(--col); }
+.eqs.colmode .eqrow input.c2 { border-color: var(--tgt); color: var(--tgt); }
+.eqs.colmode .eqrow input.rhs { border-color: var(--res); color: var(--res); }
+.eqs.colmode .eqrow input { border-width: 2px; }
+.colhint { margin: 0; font-size: 0.88rem; color: var(--muted); }
+.colhint b.a { color: var(--row); } .colhint b.b { color: var(--col); } .colhint b.c { color: var(--tgt); } .colhint b.w { color: var(--res); }
+.rowcheck { margin: 0; display: grid; gap: 2px; font: 500 0.9rem var(--font-num); color: var(--muted); }
+.rowcheck .ok { color: var(--res); font-weight: 600; }
+.rowcheck .bad { color: var(--col); font-weight: 600; }
+.sw.c { border-color: var(--tgt); border-top-style: dotted; }
+.sw.s { border-color: var(--res); border-top-width: 5px; }
+.status.none { border-color: var(--col); border-style: dashed; }
+.status.many { border-color: var(--tgt); }
+.status b { font-weight: 600; }
+.colvecs { font: 500 0.95rem var(--font-num); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.k.c { color: var(--tgt); } .colv.c { color: var(--tgt); }
+html.lock .tabs.dims { display: none; }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Solving equations: <em>two pictures</em></h1>
+    <p>Each equation is a line (with two unknowns) or a plane (with three). A solution is a point on all of them at once. Or think in columns: how much of each column do you need to make the right-hand side?</p>
+  </header>
+
+  <div class="row">
+    <div class="tabs dims" role="group" aria-label="Number of unknowns">
+      <button data-dim="2" aria-pressed="true">2 unknowns</button>
+      <button data-dim="3" aria-pressed="false">3 unknowns</button>
+    </div>
+    <div class="tabs" role="group" aria-label="Picture">
+      <button data-view="row" aria-pressed="true">Row picture</button>
+      <button data-view="col" aria-pressed="false">Column picture</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <section class="panel plane-box" aria-label="Picture">
+      <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
+      <div class="legend" id="legend"></div>
+      <p class="hint" id="dragHint" hidden>Drag the picture, or focus it and use the arrow keys, to turn it.</p>
+    </section>
+
+    <div class="side">
+      <section class="panel card wide" aria-label="The equations">
+        <span class="label">The equations</span>
+        <div class="eqs" id="eqs"></div>
+        <p class="colhint" id="colHint" hidden></p>
+        <div class="row" id="presets"></div>
+      </section>
+
+      <section class="panel card wide" aria-label="What the picture shows">
+        <span class="label">Solutions</span>
+        <div class="status" id="status" role="status"></div>
+        <div class="colvecs" id="colEq"></div>
+        <div class="rowcheck" id="rowCheck" hidden></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const PRESETS = {
+    2: [
+      ['One solution', [[3, 2, 7], [4, -5, -6]]],
+      ['No solution', [[1, 1, 2], [2, 2, 5]]],
+      ['Infinitely many', [[1, 1, 2], [2, 2, 4]]]
+    ],
+    3: [
+      ['One point', [[2, 1, -1, 8], [-3, -1, 2, -11], [-2, 1, 2, -3]]],
+      ['Meet in a line', [[1, 1, 1, 3], [1, -1, 1, 1], [2, 0, 2, 4]]],
+      ['Triangular tube', [[1, 1, 1, 3], [1, -1, 1, 1], [2, 0, 2, 5]]],
+      ['Parallel planes', [[1, 1, 1, 1], [1, 1, 1, 3], [1, -1, 0, 0]]],
+      ['All the same plane', [[1, 1, 1, 2], [2, 2, 2, 4], [-1, -1, -1, -2]]]
+    ]
+  };
+  const S = { dim: 2, view: 'row', M: { 2: PRESETS[2][0][1].map(r => r.slice()), 3: PRESETS[3][0][1].map(r => r.slice()) }, yaw: 0.45, pitch: 0.38 };
+  const R2BASE = 6, L3BASE = 4, F = 14;
+  let R2 = R2BASE, L3 = L3BASE;
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  let W = 500, dpr = 1, drag = null;
+  const VAR = ['x', 'y', 'z'];
+
+  const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), r: [v('--row'), v('--col'), v('--tgt')], s: v('--res'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), num: v('--font-num') }; };
+  const sub = (a, b) => a.map((x, i) => x - b[i]), add = (a, b) => a.map((x, i) => x + b[i]), mul = (k, a) => a.map(x => k * x);
+  const dot = (a, b) => a.reduce((s, x, i) => s + x * b[i], 0);
+  const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+  const norm = a => Math.hypot(...a);
+
+  // ---------- algebra ----------
+  // Reduced row echelon form with partial pivoting; returns the matrix and its pivot columns
+  function rref(M, ncols) {
+    const A = M.map(r => r.slice()), m = A.length, piv = []; let r = 0;
+    for (let c = 0; c < ncols && r < m; c++) {
+      let p = r; for (let i = r + 1; i < m; i++) if (Math.abs(A[i][c]) > Math.abs(A[p][c])) p = i;
+      if (Math.abs(A[p][c]) < 1e-9) continue;
+      [A[r], A[p]] = [A[p], A[r]];
+      const d = A[r][c]; A[r] = A[r].map(x => x / d);
+      for (let i = 0; i < m; i++) if (i !== r) { const f = A[i][c]; A[i] = A[i].map((x, j) => x - f * A[r][j]); }
+      piv.push(c); r++;
+    }
+    return { A, piv };
+  }
+  function analyse() {
+    const n = S.dim, M = S.M[n];
+    const rA = rref(M.map(r => r.slice(0, n)), n).piv.length;
+    const full = rref(M, n + 1), rAb = full.piv.length;
+    const res = { n, rA, rAb };
+    if (rAb > rA) { res.kind = 'none'; return res; }
+    // particular solution: free variables 0
+    const x = Array(n).fill(0);
+    full.piv.forEach((c, i) => { x[c] = full.A[i][n]; });
+    res.x = x;
+    if (rA === n) { res.kind = 'one'; return res; }
+    res.kind = 'many';
+    const free = [...Array(n).keys()].filter(c => !full.piv.includes(c));
+    res.dirs = free.map(f => { const d = Array(n).fill(0); d[f] = 1; full.piv.forEach((c, i) => { d[c] = -full.A[i][f]; }); return d; });
+    return res;
+  }
+  function describe(res) {
+    const n = res.n, M = S.M[n];
+    const normals = M.map(r => r.slice(0, n));
+    const zeroRow = normals.some(v => norm(v) < 1e-9);
+    if (zeroRow) return '';
+    const par = (a, b) => n === 2 ? Math.abs(a[0] * b[1] - a[1] * b[0]) < 1e-9 : norm(cross(a, b)) < 1e-9;
+    const same = (i, j) => par(normals[i], normals[j]) && (() => { const k = Math.abs(normals[i][0]) > 1e-9 ? 0 : Math.abs(normals[i][1]) > 1e-9 ? 1 : 2; const t = normals[j][k] / normals[i][k]; return Math.abs(M[j][n] - t * M[i][n]) < 1e-9; })();
+    const pairs = []; for (let i = 0; i < M.length; i++) for (let j = i + 1; j < M.length; j++) pairs.push([i, j]);
+    if (n === 2) {
+      if (res.kind === 'one') return 'The two lines cross at one point.';
+      if (res.kind === 'none') return 'The two lines are parallel, so they never meet.';
+      return 'The two equations describe the same line, so every point on it is a solution.';
+    }
+    if (res.kind === 'one') return 'The three planes meet at a single point.';
+    if (res.kind === 'many') {
+      if (res.rA === 1) return 'All three equations describe the same plane: every point on it is a solution.';
+      const sames = pairs.filter(([i, j]) => same(i, j));
+      return sames.length ? 'Two of the equations describe the same plane, which meets the third plane in a line.' : 'The three planes all pass through one line, like the pages of an open book.';
+    }
+    const parPairs = pairs.filter(([i, j]) => par(normals[i], normals[j]) && !same(i, j));
+    if (parPairs.length) return parPairs.length === 1 ? 'Two of the planes are parallel and never meet, so no point is on all three.' : 'The planes are parallel and never meet.';
+    return 'Each pair of planes meets in a line, but the three lines are parallel: the planes form a triangular tube with no point common to all three.';
+  }
+
+  // ---------- drawing helpers ----------
+  function resize() {
+    W = Math.min(cv.parentElement.clientWidth, 560); dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr);
+    cv.style.width = W + 'px'; cv.style.height = W + 'px';
+    draw();
+  }
+  const P2 = p => [W / 2 + p[0] * W / (2 * R2), W / 2 - p[1] * W / (2 * R2)];
+  function P3(q) {
+    const sc = L3BASE / L3; q = q.map(v => v * sc);
+    const cy = Math.cos(S.yaw), sy = Math.sin(S.yaw), cp = Math.cos(S.pitch), sp = Math.sin(S.pitch);
+    const x1 = q[0] * cy - q[1] * sy, y1 = q[0] * sy + q[1] * cy;
+    const Y = q[2] * cp + y1 * sp, depth = y1 * cp - q[2] * sp, k = F / (F + depth), u = W / (2 * L3BASE * 1.75);
+    return [W / 2 + x1 * u * k, W / 2 - Y * u * k, depth];
+  }
+  const P = p => S.dim === 2 ? P2(p) : P3(p);
+  function seg(a, b) { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); }
+  function arrow(from, to, color, w, alpha = 1) {
+    const s = P(from), e = P(to), len = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (len < 2) { ctx.globalAlpha = 1; return; }
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(12, len * 0.4);
+    seg(s, [e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42));
+    ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+  }
+  function text(t, s, color, dx = 8, dy = -8, size = 14) {
+    ctx.fillStyle = color; ctx.font = `600 ${size}px ${css().num}`; ctx.textBaseline = 'bottom';
+    // keep labels inside the picture: put them on the left of the point if they would run off the right edge
+    const w = ctx.measureText(t).width;
+    if (s[0] + dx + w > W - 4) { ctx.textAlign = 'right'; ctx.fillText(t, s[0] - Math.abs(dx), s[1] + dy); }
+    else { ctx.textAlign = 'left'; ctx.fillText(t, s[0] + dx, s[1] + dy); }
+    ctx.textAlign = 'left';
+  }
+  // Place a label near a point without overlapping labels already placed (list of boxes).
+  function place(t, s, color, boxes, size = 13) {
+    ctx.font = `600 ${size}px ${css().num}`; const w = ctx.measureText(t).width, h = size + 2;
+    const cands = [[8, -6 - h], [8, 6], [-8 - w, -6 - h], [-8 - w, 6], [-w / 2, -14 - h], [-w / 2, 12]];
+    const inside = (x, y) => x >= 2 && y >= 2 && x + w <= W - 2 && y + h <= W - 2;
+    const hits = (x, y) => boxes.some(b => x < b[0] + b[2] && b[0] < x + w && y < b[1] + b[3] && b[1] < y + h);
+    let best = cands.find(([dx, dy]) => inside(s[0] + dx, s[1] + dy) && !hits(s[0] + dx, s[1] + dy)) || cands.find(([dx, dy]) => inside(s[0] + dx, s[1] + dy)) || cands[0];
+    const x = s[0] + best[0], y = s[1] + best[1];
+    // a backing patch keeps the label readable where it crosses a line or grid
+    ctx.globalAlpha = 0.85; ctx.fillStyle = css().plane; ctx.fillRect(x - 2, y - 1, w + 4, h + 1); ctx.globalAlpha = 1;
+    ctx.fillStyle = color; ctx.textAlign = 'left'; ctx.textBaseline = 'top'; ctx.fillText(t, x, y);
+    boxes.push([x, y, w, h]);
+  }
+  function dotAt(p, color, r = 6) { const s = P(p); ctx.fillStyle = color; ctx.beginPath(); ctx.arc(s[0], s[1], r, 0, 2 * Math.PI); ctx.fill(); ctx.strokeStyle = css().surface; ctx.lineWidth = 2; ctx.stroke(); }
+  const inView = p => p.every(v => Math.abs(v) <= (S.dim === 2 ? R2 : L3) + 1e-9);
+
+  // Clip the line a.x = c (2D) to the square view
+  function clipLine2(a, c) {
+    const pts = [];
+    if (Math.abs(a[1]) > 1e-12) for (const x of [-R2, R2]) { const y = (c - a[0] * x) / a[1]; if (Math.abs(y) <= R2 + 1e-9) pts.push([x, y]); }
+    if (Math.abs(a[0]) > 1e-12) for (const y of [-R2, R2]) { const x = (c - a[1] * y) / a[0]; if (Math.abs(x) <= R2 + 1e-9) pts.push([x, y]); }
+    return pts.length >= 2 ? [pts[0], pts.reduce((b, p) => Math.hypot(p[0] - pts[0][0], p[1] - pts[0][1]) > Math.hypot(b[0] - pts[0][0], b[1] - pts[0][1]) ? p : b, pts[0])] : null;
+  }
+  // Clip the plane a.x = c to the cube [-L3, L3]^3: a polygon
+  function clipPlane(a, c) {
+    const L = L3, V = []; for (const x of [-L, L]) for (const y of [-L, L]) for (const z of [-L, L]) V.push([x, y, z]);
+    const E = []; for (let i = 0; i < 8; i++) for (let j = i + 1; j < 8; j++) { const d = sub(V[i], V[j]).filter(v => v !== 0).length; if (d === 1) E.push([V[i], V[j]]); }
+    const pts = [];
+    for (const [p, q] of E) { const fp = dot(a, p) - c, fq = dot(a, q) - c; if ((fp <= 0 && fq >= 0) || (fp >= 0 && fq <= 0)) { if (Math.abs(fp - fq) < 1e-12) continue; const t = fp / (fp - fq); pts.push(add(p, mul(t, sub(q, p)))); } }
+    if (pts.length < 3) return null;
+    const cen = mul(1 / pts.length, pts.reduce(add)), nrm = mul(1 / norm(a), a);
+    const u = norm(cross(nrm, [1, 0, 0])) > 0.1 ? mul(1 / norm(cross(nrm, [1, 0, 0])), cross(nrm, [1, 0, 0])) : mul(1 / norm(cross(nrm, [0, 1, 0])), cross(nrm, [0, 1, 0]));
+    const v = cross(nrm, u);
+    return pts.map(p => [p, Math.atan2(dot(sub(p, cen), v), dot(sub(p, cen), u))]).sort((m, n) => m[1] - n[1]).map(m => m[0]);
+  }
+
+  // ---------- draw ----------
+  const lstep = () => R2 > 10 ? 4 : 2;
+  function axes2() {
+    const C = css();
+    ctx.lineWidth = 1; ctx.strokeStyle = C.pgrid;
+    for (let k = -R2; k <= R2; k++) { seg(P2([k, -R2]), P2([k, R2])); seg(P2([-R2, k]), P2([R2, k])); }
+    ctx.strokeStyle = C.muted; ctx.globalAlpha = 0.6; ctx.lineWidth = 1.2;
+    seg(P2([-R2, 0]), P2([R2, 0])); seg(P2([0, -R2]), P2([0, R2])); ctx.globalAlpha = 1;
+    ctx.fillStyle = C.muted; ctx.font = `500 11px ${C.num}`; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    for (let k = -Math.floor(R2 / lstep()) * lstep(); k < R2; k += lstep()) if (k && Math.abs(k) < R2) { const s = P2([k, 0]); ctx.fillText(String(k).replace('-', '−'), s[0], s[1] + 4); }
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    for (let k = -Math.floor(R2 / lstep()) * lstep(); k < R2; k += lstep()) if (k && Math.abs(k) < R2) { const s = P2([0, k]); ctx.fillText(String(k).replace('-', '−'), s[0] - 5, s[1]); }
+  }
+  function axes3() {
+    const C = css(), L = L3;
+    ctx.lineWidth = 1; ctx.strokeStyle = C.pgrid;
+    const gs = Math.ceil(L / 4); for (let k = -Math.floor(L / gs) * gs; k <= L; k += gs) { seg(P3([k, -L, 0]), P3([k, L, 0])); seg(P3([-L, k, 0]), P3([L, k, 0])); }
+    ctx.strokeStyle = C.muted; ctx.globalAlpha = 0.6; ctx.lineWidth = 1.2;
+    [[[-L, 0, 0], [L * 1.15, 0, 0], 'x'], [[0, -L, 0], [0, L * 1.15, 0], 'y'], [[0, 0, -L], [0, 0, L * 1.15], 'z']].forEach(([p, q, n]) => { seg(P3(p), P3(q)); ctx.globalAlpha = 1; text(n, P3(q), C.muted, 4, 4, 13); ctx.globalAlpha = 0.6; });
+    ctx.globalAlpha = 0.35; ctx.setLineDash([2, 4]);
+    const V = []; for (const x of [-L, L]) for (const y of [-L, L]) for (const z of [-L, L]) V.push([x, y, z]);
+    for (let i = 0; i < 8; i++) for (let j = i + 1; j < 8; j++) if (sub(V[i], V[j]).filter(v => v !== 0).length === 1) seg(P3(V[i]), P3(V[j]));
+    ctx.setLineDash([]); ctx.globalAlpha = 1;
+  }
+  // In the column picture, zoom out far enough to show b and the path to it
+  function setScale(M, res) {
+    const n = S.dim; R2 = R2BASE; L3 = L3BASE;
+    if (S.view !== 'col') return;
+    const cols = [...Array(n).keys()].map(j => M.map(r => r[j])), pts = [M.map(r => r[n]), ...cols];
+    if (res.kind === 'one') { let at = Array(n).fill(0); cols.forEach((c, j) => { at = add(at, mul(res.x[j], c)); pts.push(at); }); }
+    const m = Math.max(...pts.flat().map(Math.abs));
+    if (n === 2) R2 = Math.max(R2BASE, 2 * Math.ceil(m * 1.12 / 2)); else L3 = Math.max(L3BASE, Math.ceil(m * 1.05));
+  }
+  function draw() {
+    const C = css(), n = S.dim, M = S.M[n], res = analyse();
+    setScale(M, res);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, W);
+    if (n === 2) axes2(); else axes3();
+    if (S.view === 'row') drawRow(C, M, res); else drawCol(C, M, res);
+  }
+  function drawRow(C, M, res) {
+    const n = S.dim;
+    if (n === 2) {
+      M.forEach((r, i) => {
+        const L = clipLine2(r.slice(0, 2), r[2]); if (!L) return;
+        ctx.strokeStyle = C.r[i]; ctx.lineWidth = i ? 2.2 : 3.4; ctx.setLineDash(i ? [8, 6] : []); seg(P2(L[0]), P2(L[1])); ctx.setLineDash([]);
+      });
+    } else {
+      const polys = M.map((r, i) => ({ i, poly: norm(r.slice(0, 3)) > 1e-9 ? clipPlane(r.slice(0, 3), r[3]) : null }))
+        .filter(o => o.poly).map(o => ({ ...o, d: o.poly.reduce((s, p) => s + P3(p)[2], 0) / o.poly.length })).sort((a, b) => b.d - a.d);
+      for (const { i, poly } of polys) {
+        const sp = poly.map(P3);
+        ctx.globalAlpha = 0.16; ctx.fillStyle = C.r[i];
+        ctx.beginPath(); sp.forEach((s, k) => k ? ctx.lineTo(s[0], s[1]) : ctx.moveTo(s[0], s[1])); ctx.closePath(); ctx.fill();
+        ctx.globalAlpha = 0.9; ctx.strokeStyle = C.r[i]; ctx.lineWidth = 1.6; ctx.setLineDash(i === 1 ? [7, 5] : i === 2 ? [2, 4] : []); ctx.stroke(); ctx.setLineDash([]);
+      }
+      ctx.globalAlpha = 1;
+    }
+    // the solutions
+    if (res.kind === 'one' && inView(res.x)) { dotAt(res.x, C.s, 7); text('(' + res.x.map(v => fmt(v)).join(', ') + ')', P(res.x), C.s); }
+    if (res.kind === 'many' && res.dirs.length === 1) {
+      const d = mul(1 / norm(res.dirs[0]), res.dirs[0]), big = 30;
+      ctx.strokeStyle = C.s; ctx.lineWidth = 5; ctx.globalAlpha = 0.8;
+      const pts = []; for (let t = -big; t <= big; t += 0.05) { const p = add(res.x, mul(t, d)); if (inView(p)) pts.push(p); }
+      if (pts.length > 1) seg(P(pts[0]), P(pts[pts.length - 1]));
+      ctx.globalAlpha = 1;
+    }
+  }
+  function drawCol(C, M, res) {
+    const n = S.dim, cols = [...Array(n).keys()].map(j => M.map(r => r[j])), b = M.map(r => r[n]), O = Array(n).fill(0);
+    const names = ['a₁', 'a₂', 'a₃'];
+    const vtxt = v => '(' + v.map(x => fmt(x)).join(', ') + ')';
+    const boxes = [], labels = [];
+    cols.forEach((c, j) => { arrow(O, c, C.r[j], 2.2, 0.45); labels.push([names[j] + (n === 2 ? ' = ' + vtxt(c) : ''), P(c), C.r[j]]); });
+    if (res.kind === 'one') {
+      let at = O.slice();
+      cols.forEach((c, j) => {
+        const nx = add(at, mul(res.x[j], c)); arrow(at, nx, C.r[j], 3.4);
+        // label each step "x a1" at its midpoint, so the path reads as x a1 + y a2
+        if (n === 2 && Math.abs(res.x[j]) > 1e-9) {
+          const m = P(mul(0.5, add(at, nx))), k = fmt(res.x[j]);
+          labels.push([k + names[j], m, C.r[j]]);
+        }
+        at = nx;
+      });
+    }
+    // b as a target
+    const s = P(b); ctx.strokeStyle = C.s; ctx.lineWidth = 2.2; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.arc(s[0], s[1], 11, 0, 2 * Math.PI); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = C.s; ctx.beginPath(); ctx.arc(s[0], s[1], 3, 0, 2 * Math.PI); ctx.fill();
+    // b first, so it gets the best spot; then the columns, then the steps
+    place(n === 2 ? 'b = ' + vtxt(b) : 'b', s, C.s, boxes);
+    labels.forEach(([t, p, c]) => place(t, p, c, boxes));
+    if (res.kind !== 'one') {
+      // show the line or plane that the columns can reach (2D: a line through the origin)
+      if (n === 2) {
+        const c = norm(cols[0]) > 1e-9 ? cols[0] : cols[1];
+        if (norm(c) > 1e-9) { const d = mul(30 / norm(c), c); ctx.strokeStyle = C.muted; ctx.globalAlpha = 0.25; ctx.lineWidth = 9; seg(P(mul(-1, d)), P(d)); ctx.globalAlpha = 1; }
+      }
+    }
+  }
+
+  // ---------- text ----------
+  function term(k, v, first) {
+    if (Math.abs(k) < 1e-12) return '';
+    const sign = k < 0 ? (first ? '−' : ' − ') : (first ? '' : ' + ');
+    const a = Math.abs(k), coef = Math.abs(a - 1) < 1e-12 ? '' : fmt(a);
+    return sign + coef + v;
+  }
+  function eqText(r) {
+    const n = S.dim; let s = '', first = true;
+    for (let j = 0; j < n; j++) { const t = term(r[j], VAR[j], first); if (t) { s += t; first = false; } }
+    return (s || '0') + ' = ' + fmt(r[n]);
+  }
+  function colv(v, cls) { return `<span class="colv ${cls}">${v.map(x => `<span>${fmt(x)}</span>`).join('')}</span>`; }
+  function readout() {
+    const n = S.dim, M = S.M[n], res = analyse(), st = $('status');
+    const desc = describe(res);
+    if (res.kind === 'one') {
+      st.className = 'status hit';
+      st.innerHTML = `<b>One solution:</b> ${res.x.map((v, j) => VAR[j] + ' = ' + fmt(v)).join(', ')}. ${desc}` + (inView(res.x) ? '' : ' (The point is outside the picture.)');
+    } else if (res.kind === 'none') {
+      st.className = 'status none';
+      st.innerHTML = `<b>No solution.</b> ${desc}`;
+    } else {
+      st.className = 'status many';
+      let p = '';
+      if (res.dirs.length === 1) p = ` The solutions are (${res.x.map(v => fmt(v)).join(', ')}) + t(${res.dirs[0].map(v => fmt(v)).join(', ')}) for every number t.`;
+      st.innerHTML = `<b>Infinitely many solutions.</b> ${desc}${p}`;
+    }
+    const cols = [...Array(n).keys()].map(j => M.map(r => r[j])), b = M.map(r => r[n]);
+    const cls = ['a', 'b', 'c'];
+    if (S.view === 'col') {
+      let h = '';
+      cols.forEach((c, j) => { const k = res.kind === 'one' ? (res.x[j] < 0 && j ? '(' + fmt(res.x[j]) + ')' : fmt(res.x[j])) : VAR[j];
+        h += (j ? '<span class="op">+</span>' : '') + `<span class="k ${cls[j]}">${k}</span>${colv(c, cls[j])}`; });
+      h += '<span class="op">=</span>' + colv(b, 'w');
+      $('colEq').innerHTML = h;
+      $('colEq').hidden = false;
+      // Read the vector equation across each row: it gives back the equations
+      const rc = $('rowCheck'); let t = '';
+      M.forEach((r, i) => {
+        let lhs = '', first = true;
+        for (let j = 0; j < n; j++) {
+          if (Math.abs(r[j]) < 1e-12) continue;
+          const v = res.kind === 'one' ? '(' + fmt(res.x[j]) + ')' : VAR[j];
+          const a = Math.abs(r[j]), coef = res.kind === 'one' ? fmt(a) : (Math.abs(a - 1) < 1e-12 ? '' : fmt(a));
+          lhs += (r[j] < 0 ? (first ? '−' : ' − ') : (first ? '' : ' + ')) + coef + v; first = false;
+        }
+        const where = ['Top', n === 2 ? 'Bottom' : 'Middle', 'Bottom'][i];
+        let tail = '';
+        if (res.kind === 'one') { const val = r.slice(0, n).reduce((acc, a, j) => acc + a * res.x[j], 0); tail = ' = ' + fmt(val) + (Math.abs(val - r[n]) < 1e-6 ? ' <span class="ok">✓</span>' : ''); }
+        else tail = ' = ' + fmt(r[n]);
+        t += `<span>Equation ${i + 1} (${where.toLowerCase()} row): ${lhs || '0'}${tail}</span>`;
+      });
+      rc.innerHTML = t; rc.hidden = false;
+    } else { $('colEq').hidden = true; $('rowCheck').hidden = true; }
+    const hint = $('colHint'), eqs = $('eqs');
+    eqs.classList.toggle('colmode', S.view === 'col');
+    if (S.view === 'col') {
+      const nm = ['a₁', 'a₂', 'a₃'], cl = ['a', 'b', 'c'];
+      hint.innerHTML = 'Read the numbers downwards: ' + [...Array(n).keys()].map(j => `the coefficients of ${VAR[j]} make <b class="${cl[j]}">${nm[j]}</b>`).join(', ') + ', and the right-hand sides make <b class="w">b</b>.';
+      hint.hidden = false;
+    } else hint.hidden = true;
+    const lg = S.view === 'row'
+      ? M.map((r, i) => `<span><span class="sw ${['a', 'b', 'c'][i]}"></span>${eqText(r)}</span>`).join('') + '<span><span class="sw s"></span>solutions</span>'
+      : cols.map((c, j) => `<span><span class="sw ${['a', 'b', 'c'][j]}"></span>column ${j + 1}, times ${VAR[j]}</span>`).join('') + '<span><span class="sw w"></span>right-hand side b</span>';
+    $('legend').innerHTML = lg;
+    $('dragHint').hidden = n !== 3;
+    cv.setAttribute('aria-label', (S.view === 'row' ? 'Row picture. ' : 'Column picture. ') + M.map(eqText).join('; ') + '. ' + st.textContent);
+  }
+  function update() { draw(); readout(); }
+
+  // ---------- inputs ----------
+  function buildInputs() {
+    const n = S.dim, M = S.M[n], box = $('eqs'); box.innerHTML = '';
+    M.forEach((r, i) => {
+      const row = document.createElement('div'); row.className = 'eqrow';
+      row.innerHTML = `<span class="sw ${['a', 'b', 'c'][i]}" aria-hidden="true"></span>`;
+      for (let j = 0; j <= n; j++) {
+        const inp = document.createElement('input'); inp.type = 'number'; inp.step = '0.5'; inp.value = String(r[j]); inp.className = j < n ? 'c' + j : 'rhs';
+        inp.setAttribute('aria-label', j < n ? `Equation ${i + 1}, coefficient of ${VAR[j]}` : `Equation ${i + 1}, right-hand side`);
+        inp.addEventListener('change', () => { const v = parseFloat(inp.value); if (!isNaN(v)) r[j] = Math.max(-20, Math.min(20, Math.round(v * 100) / 100)); inp.value = String(r[j]); markPreset(); update(); });
+        row.appendChild(inp);
+        const lab = document.createElement('span'); lab.className = 'v';
+        lab.textContent = j < n - 1 ? VAR[j] + ' +' : j === n - 1 ? VAR[j] + ' =' : '';
+        if (lab.textContent) row.appendChild(lab);
+      }
+      box.appendChild(row);
+    });
+    const pb = $('presets'); pb.innerHTML = '';
+    PRESETS[n].forEach(([name, m]) => {
+      const b = document.createElement('button'); b.textContent = name;
+      b.addEventListener('click', () => { S.M[n] = m.map(r => r.slice()); buildInputs(); update(); });
+      pb.appendChild(b);
+    });
+    markPreset();
+  }
+  function markPreset() {
+    const n = S.dim; $('presets').querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-pressed', String(JSON.stringify(PRESETS[n][k][1]) === JSON.stringify(S.M[n]))));
+  }
+  document.querySelectorAll('[data-dim]').forEach(b => b.addEventListener('click', () => {
+    S.dim = +b.dataset.dim; document.querySelectorAll('[data-dim]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); buildInputs(); update();
+  }));
+  document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => {
+    S.view = b.dataset.view; document.querySelectorAll('[data-view]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); update();
+  }));
+
+  // turning the 3D picture
+  cv.addEventListener('pointerdown', e => { if (S.dim !== 3) return; drag = { x: e.clientX, y: e.clientY }; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; });
+  cv.addEventListener('pointermove', e => {
+    if (S.dim === 3 && !drag) cv.className = 'grab';
+    if (!drag) return;
+    S.yaw -= (e.clientX - drag.x) * 0.01; S.pitch = Math.max(-1.2, Math.min(1.45, S.pitch + (e.clientY - drag.y) * 0.01));
+    drag = { x: e.clientX, y: e.clientY }; draw();
+  });
+  const end = () => { drag = null; cv.className = S.dim === 3 ? 'grab' : ''; };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  cv.addEventListener('keydown', e => {
+    if (S.dim !== 3) return;
+    const k = { ArrowLeft: [0.12, 0], ArrowRight: [-0.12, 0], ArrowUp: [0, 0.1], ArrowDown: [0, -0.1] }[e.key];
+    if (!k) return; e.preventDefault(); S.yaw += k[0]; S.pitch = Math.max(-1.2, Math.min(1.45, S.pitch + k[1])); draw();
+  });
+
+  // Optional start-up settings: ?dim=3&m=2,1,-1,8;-3,-1,2,-11;-2,1,2,-3&view=col
+  const q = new URLSearchParams(location.search);
+  if (q.get('dim') === '3') S.dim = 3;
+  if (q.get('view') === 'col') S.view = 'col';
+  if (q.get('m')) {
+    const m = q.get('m').split(';').map(r => r.split(',').map(Number));
+    const n = m.length; if ((n === 2 || n === 3) && m.every(r => r.length === n + 1 && r.every(isFinite))) { S.dim = n; S.M[n] = m; }
+  }
+  document.querySelectorAll('[data-dim]').forEach(x => x.setAttribute('aria-pressed', String(+x.dataset.dim === S.dim)));
+  document.querySelectorAll('[data-view]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.view === S.view)));
+
+  new ResizeObserver(resize).observe(cv.parentElement);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (document.fonts) document.fonts.ready.then(draw);
+  buildInputs(); resize(); readout();
+})();
+</script>
+</body>
+</html>

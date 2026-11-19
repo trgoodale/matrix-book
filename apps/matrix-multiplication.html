@@ -1,0 +1,587 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Matrix Multiplication Animator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+html{color-scheme:light}body{margin:0}[hidden]{display:none!important}
+
+/* Layout: graph-paper worksheet; controls bar, then a stage with the working line above A × B = C */
+:root {
+  --paper: #f2f5f8;
+  --grid: #dde4ec;
+  --surface: #ffffff;
+  --ink: #18222f;
+  --muted: #5e6b7c;
+  --line: #c9d2dd;
+  --row: #2153b8;
+  --col: #9c5208;
+  --res: #0a7050;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --cell: 2.9rem;
+  --cell-h: 2.5rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2;
+    --line: #2c3644; --row: #74a4ff; --col: #f0a35a; --res: #43c999; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2;
+  --line: #2c3644; --row: #74a4ff; --col: #f0a35a; --res: #43c999; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 18px;
+}
+header h1 {
+  font-family: var(--font-display); font-weight: 500; font-size: clamp(1.9rem, 4vw, 2.6rem);
+  line-height: 1.1; margin: 0; text-wrap: balance;
+}
+header h1 .r { color: var(--row); font-style: italic; }
+header h1 .c { color: var(--col); font-style: italic; }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+
+.panel {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+}
+.controls {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; padding: 14px 16px;
+}
+.group { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.label {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600;
+}
+.dims { font-family: var(--font-num); display: flex; align-items: center; gap: 4px; }
+.dims i { font-family: var(--font-display); font-size: 1.15rem; margin-right: 2px; }
+select {
+  font: 500 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 6px; padding: 3px 4px;
+}
+.inner { color: var(--res); font-weight: 600; }
+.mirror {
+  font: 500 0.95rem var(--font-num); border: 1px dashed var(--res); color: var(--res);
+  border-radius: 6px; padding: 3px 9px;
+}
+.shape { font-family: var(--font-num); font-size: 0.85rem; color: var(--muted); }
+button {
+  font: 500 0.9rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 12px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button.primary { background: var(--ink); color: var(--surface); border-color: var(--ink); min-width: 6.5rem; }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button:focus-visible, select:focus-visible, input:focus-visible, .cell.out:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+input[type="range"] { width: 110px; accent-color: var(--ink); }
+.speedval { font-family: var(--font-num); font-size: 0.85rem; min-width: 3.2ch; }
+label.check { display: flex; align-items: center; gap: 6px; font-size: 0.9rem; }
+
+.stage-wrap { overflow-x: auto; }
+.stage { position: relative; padding: 18px 16px 26px; min-width: min-content; }
+.caption {
+  text-align: center; font-family: var(--font-display); font-size: 1.2rem; min-height: 1.8rem;
+}
+.caption i { font-style: italic; }
+.caption .r { color: var(--row); }
+.caption .c { color: var(--col); }
+.caption .k { color: var(--res); }
+.calc {
+  min-height: 9.2rem; display: flex; flex-direction: column; justify-content: center; gap: 6px; margin: 6px 0 18px;
+}
+.line {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 5px;
+  font-family: var(--font-num); font-size: 1.15rem; min-height: 2.3rem;
+}
+.grp { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.op { color: var(--muted); padding: 0 1px; transition: opacity .25s; }
+.num {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 2.1rem; height: 2.1rem;
+  padding: 0 7px; border-radius: 6px; font-weight: 600; transition: opacity .25s, box-shadow .2s;
+}
+.num.a { color: var(--row); background: color-mix(in srgb, var(--row) 14%, transparent); }
+.num.a { border: 1.5px solid currentColor; }
+.num.b { color: var(--col); background: color-mix(in srgb, var(--col) 15%, transparent); border: 1.5px dashed currentColor; }
+.num.t { color: var(--ink); background: color-mix(in srgb, var(--ink) 7%, transparent); }
+.num.total { color: var(--res); background: color-mix(in srgb, var(--res) 16%, transparent); font-size: 1.3rem; height: 2.4rem; }
+.focus { box-shadow: 0 0 0 2px var(--ink); }
+.op.focus { box-shadow: none; color: var(--ink); }
+.hide { opacity: 0; }
+
+.eq { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 20px; }
+.sym { font-family: var(--font-display); font-size: 1.9rem; color: var(--muted); }
+.block { display: grid; justify-items: center; gap: 8px; }
+.name { font-family: var(--font-display); font-size: 1.1rem; }
+.name i { font-style: italic; }
+.name span { font-family: var(--font-num); font-size: 0.8rem; color: var(--muted); margin-left: 4px; }
+.mat {
+  position: relative; display: grid; grid-template-columns: repeat(var(--cols), var(--cell));
+  gap: 5px; padding: 7px 13px;
+}
+.mat::before, .mat::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 8px; border: 2px solid var(--ink);
+}
+.mat::before { left: 0; border-right: 0; border-radius: 3px 0 0 3px; }
+.mat::after { right: 0; border-left: 0; border-radius: 0 3px 3px 0; }
+.cell {
+  width: var(--cell); height: var(--cell-h); text-align: center; border-radius: 6px;
+  font: 600 1.05rem var(--font-num); color: var(--ink); background: transparent;
+  border: 1px solid transparent; padding: 0; display: flex; align-items: center; justify-content: center;
+  font-variant-numeric: tabular-nums; transition: background-color .25s, border-color .25s, color .25s;
+}
+input.cell:hover:not([readonly]) { border-color: var(--line); }
+input.cell:focus { border-color: var(--row); background: var(--paper); }
+input.cell[readonly] { cursor: default; }
+.cell.out { border: 1px dashed var(--line); cursor: pointer; }
+.cell.out:empty::after { content: "?"; color: var(--line); }
+.cell.out.filled { border-style: solid; border-color: transparent; color: var(--res); }
+.cell.hl-row { background: color-mix(in srgb, var(--row) 16%, transparent); border-color: var(--row); color: var(--row); }
+.cell.hl-col { background: color-mix(in srgb, var(--col) 17%, transparent); border: 2px dashed var(--col); color: var(--col); }
+.cell.hl-row { border-width: 2px; }
+.cell.hl-target { border: 2px solid var(--res); background: color-mix(in srgb, var(--res) 12%, transparent); }
+
+.fly { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+.token {
+  position: absolute; display: flex; align-items: center; justify-content: center; border-radius: 6px;
+  font: 600 1.1rem var(--font-num); background: var(--surface); border: 2px solid currentColor;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--ink) 22%, transparent); will-change: transform;
+}
+.tok-a { color: var(--row); }
+.tok-b { color: var(--col); border-style: dashed; }
+.tok-c { color: var(--res); }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.foot {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; color: var(--muted); font-size: 0.9rem;
+}
+.status { font-family: var(--font-num); color: var(--ink); }
+
+@media (max-width: 560px) {
+  :root { --cell: 2.45rem; --cell-h: 2.2rem; }
+  .cell { font-size: 0.92rem; }
+  .line { font-size: 0.98rem; }
+  .num { min-width: 1.8rem; height: 1.9rem; padding: 0 5px; }
+}
+
+/* Book embedding: hide the page header, follow the book's bracket setting */
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets, unit-vector names and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (s.basis === "e") {
+    var map = [[/\u00EE/g, "e\u2081"], [/\u0135/g, "e\u2082"], [/k\u0302/g, "e\u2083"]];
+    window.mbBasis = function (t) { map.forEach(function (m) { t = t.replace(m[0], m[1]); }); return t; };
+    var fix = function () {
+      var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), n;
+      while ((n = w.nextNode())) { var v = window.mbBasis(n.nodeValue); if (v !== n.nodeValue) n.nodeValue = v; }
+      document.querySelectorAll("[aria-label]").forEach(function (el) {
+        var a = el.getAttribute("aria-label"), v = window.mbBasis(a); if (v !== a) el.setAttribute("aria-label", v);
+      });
+    };
+    document.addEventListener("DOMContentLoaded", function () {
+      fix();
+      new MutationObserver(fix).observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["aria-label"] });
+    });
+  }
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+
+
+<main class="wrap">
+  <header>
+    <h1>Each entry is a <span class="r">row</span> times a <span class="c">column</span></h1>
+    <p>Pick the sizes, edit any entry of <i>A</i> or <i>B</i>, then play. Each entry of the product is built from one row of <i>A</i> and one column of <i>B</i>: multiply matching pairs, then add.</p>
+  </header>
+
+  <section class="panel controls" aria-label="Controls">
+    <div class="group">
+      <span class="label">Sizes</span>
+      <span class="dims"><i>A</i> <select id="m" aria-label="Rows of A"></select> × <select id="n" aria-label="Columns of A and rows of B"></select></span>
+      <span class="dims"><i>B</i> <span class="mirror" id="nMirror" title="Must match the columns of A">3</span> × <select id="p" aria-label="Columns of B"></select></span>
+      <span class="shape" id="shape"></span>
+    </div>
+    <div class="group">
+      <button id="random">New values</button>
+      <label class="check"><input type="checkbox" id="neg"> Negatives</label>
+    </div>
+    <div class="group">
+      <button class="primary" id="play">Play all</button>
+      <button id="step">Next entry</button>
+      <button id="reset">Reset</button>
+    </div>
+    <div class="group">
+      <span class="label">Speed</span>
+      <input type="range" id="speed" min="0.25" max="3" step="0.25" value="1" aria-label="Animation speed">
+      <span class="speedval" id="speedVal">1×</span>
+    </div>
+  </section>
+
+  <section class="panel stage-wrap">
+    <div class="stage" id="stage">
+      <div class="caption" id="caption"></div>
+      <div class="calc" id="calc"></div>
+      <div class="eq">
+        <div class="block"><div class="mat" id="matA"></div><div class="name"><i>A</i><span id="dimA"></span></div></div>
+        <div class="sym">×</div>
+        <div class="block"><div class="mat" id="matB"></div><div class="name"><i>B</i><span id="dimB"></span></div></div>
+        <div class="sym">=</div>
+        <div class="block"><div class="mat" id="matC"></div><div class="name"><i>C</i><span id="dimC"></span></div></div>
+      </div>
+      <div class="fly" id="fly"></div>
+      <div id="ticker" hidden></div>
+    </div>
+  </section>
+
+  <div class="sr-only" id="live" role="status" aria-live="polite"></div>
+
+  <div class="foot">
+    <span>Click any entry of <i>C</i> to animate just that one. Changing <i>A</i> or <i>B</i> clears <i>C</i>.</span>
+    <span class="status" id="status"></span>
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const S = {
+    m: 2, n: 3, p: 2,
+    A: [[1, 2, 3], [4, 5, 6]],
+    B: [[7, 8], [9, 10], [11, 12]],
+    C: null, running: false, paused: false, run: 0, neg: false
+  };
+  // Optional starting matrices from the page address, e.g. ?a=1,2;3,4&b=5;6 (rows separated by ;)
+  (() => {
+    const q = new URLSearchParams(location.search), parse = t => t.split(';').map(r => r.split(',').map(Number));
+    if (!q.get('a') || !q.get('b')) return;
+    const A = parse(q.get('a')), B = parse(q.get('b')), ok = M => M.length >= 1 && M.length <= 6 && M.every(r => r.length === M[0].length && r.length <= 6 && r.every(Number.isFinite));
+    if (ok(A) && ok(B) && A[0].length === B.length) { S.A = A; S.B = B; S.m = A.length; S.n = B.length; S.p = B[0].length; }
+  })();
+  const anims = new Set();
+  let speed = 1;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  class Cancel extends Error {}
+
+  const round = x => { const r = Math.round(x * 1000) / 1000; return Object.is(r, -0) ? 0 : r; };
+  const fmtIn = x => String(round(x));
+  const fmt = x => String(round(x)).replace('-', '−');
+  const fmtTerm = x => round(x) < 0 ? '(' + fmt(x) + ')' : fmt(x);
+  const rnd = () => S.neg ? Math.floor(Math.random() * 19) - 9 : Math.floor(Math.random() * 9) + 1;
+  const T = () => 700 / speed;
+
+  function emptyC() { S.C = Array.from({ length: S.m }, () => Array(S.p).fill(null)); }
+
+  // ---------- rendering ----------
+  function buildInputs(el, key, rows, cols) {
+    el.innerHTML = '';
+    el.style.setProperty('--cols', cols);
+    for (let i = 0; i < rows; i++) for (let j = 0; j < cols; j++) {
+      const inp = document.createElement('input');
+      inp.className = 'cell'; inp.type = 'text'; inp.inputMode = 'decimal';
+      inp.id = key + '-' + i + '-' + j;
+      inp.setAttribute('aria-label', key + ' row ' + (i + 1) + ' column ' + (j + 1));
+      inp.value = fmtIn(S[key][i][j]);
+      inp.addEventListener('change', () => {
+        const v = parseFloat(inp.value.replace('−', '-'));
+        if (isNaN(v)) { inp.value = fmtIn(S[key][i][j]); return; }
+        S[key][i][j] = v; inp.value = fmtIn(v);
+        emptyC(); renderC(); idle();
+      });
+      inp.addEventListener('focus', () => inp.select());
+      el.appendChild(inp);
+    }
+  }
+  function renderC() {
+    const el = $('matC');
+    el.innerHTML = '';
+    el.style.setProperty('--cols', S.p);
+    for (let i = 0; i < S.m; i++) for (let j = 0; j < S.p; j++) {
+      const d = document.createElement('div');
+      d.className = 'cell out'; d.id = 'C-' + i + '-' + j;
+      d.tabIndex = 0; d.setAttribute('role', 'button');
+      const v = S.C[i][j];
+      labelC(d, i, j, v);
+      if (v !== null) { d.textContent = fmt(v); d.classList.add('filled'); }
+      const go = () => { if (!S.running) runCells([[i, j]]); };
+      d.addEventListener('click', go);
+      d.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+      el.appendChild(d);
+    }
+  }
+  function labelC(d, i, j, v) {
+    d.setAttribute('aria-label', 'C row ' + (i + 1) + ' column ' + (j + 1) + (v === null ? ', not yet calculated. Activate to animate.' : ', ' + fmt(v) + '. Activate to replay.'));
+  }
+  const say = t => { $('live').textContent = t; };
+  function renderAll() {
+    buildInputs($('matA'), 'A', S.m, S.n);
+    buildInputs($('matB'), 'B', S.n, S.p);
+    renderC();
+    $('nMirror').textContent = S.n;
+    $('dimA').textContent = S.m + '×' + S.n;
+    $('dimB').textContent = S.n + '×' + S.p;
+    $('dimC').textContent = S.m + '×' + S.p;
+    $('shape').innerHTML = '(' + S.m + '×<span class="inner">' + S.n + '</span>)(<span class="inner">' + S.n + '</span>×' + S.p + ') → ' + S.m + '×' + S.p;
+    idle();
+  }
+  function idle() {
+    $('calc').innerHTML = '';
+    const next = nextCell();
+    $('caption').innerHTML = next
+      ? '<i>c<sub>ij</sub></i> = <span class="r">row <i>i</i> of <i>A</i></span> · <span class="c">column <i>j</i> of <i>B</i></span> = <span class="k">Σ<sub><i>k</i></sub></span> <i>a<sub>ik</sub> b<sub>kj</sub></i>'
+      : '<i>C</i> = <i>AB</i> is complete';
+    updateUI();
+  }
+  function nextCell() {
+    for (let i = 0; i < S.m; i++) for (let j = 0; j < S.p; j++) if (S.C[i][j] === null) return [i, j];
+    return null;
+  }
+  function updateUI() {
+    const r = S.running;
+    $('play').textContent = r ? (S.paused ? 'Resume' : 'Pause') : (nextCell() ? 'Play all' : 'Replay all');
+    $('step').disabled = r || !nextCell();
+    ['m', 'n', 'p', 'random', 'neg'].forEach(id => $(id).disabled = r);
+    document.querySelectorAll('input.cell').forEach(c => c.readOnly = r);
+    const nx = nextCell();
+    if (!r) $('status').textContent = nx ? 'Next: c' + (nx[0] + 1) + (nx[1] + 1) : 'All ' + (S.m * S.p) + ' entries done';
+  }
+  function clearHL() {
+    document.querySelectorAll('.hl-row,.hl-col,.hl-target').forEach(c => c.classList.remove('hl-row', 'hl-col', 'hl-target'));
+  }
+
+  // ---------- pausable animation helpers ----------
+  function guard(run) { if (run !== S.run) throw new Cancel(); }
+  async function track(anim, run) {
+    anims.add(anim);
+    if (S.paused) anim.pause();
+    try { await anim.finished; } catch (e) { throw new Cancel(); } finally { anims.delete(anim); }
+    guard(run);
+  }
+  function sleep(ms, run) {
+    return track($('ticker').animate([{ opacity: 1 }, { opacity: 1 }], { duration: Math.max(1, ms) }), run);
+  }
+  async function fly(from, to, text, cls, run, delay = 0) {
+    const L = $('stage').getBoundingClientRect();
+    const a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+    const tok = document.createElement('div');
+    tok.className = 'token ' + cls; tok.textContent = text;
+    Object.assign(tok.style, {
+      left: (a.left - L.left) + 'px', top: (a.top - L.top) + 'px',
+      width: a.width + 'px', height: a.height + 'px'
+    });
+    $('fly').appendChild(tok);
+    const dx = (b.left + b.width / 2) - (a.left + a.width / 2);
+    const dy = (b.top + b.height / 2) - (a.top + a.height / 2);
+    const lift = -Math.min(70, Math.abs(dx) * 0.12 + 24);
+    const anim = tok.animate([
+      { transform: 'translate(0,0) scale(1)' },
+      { transform: `translate(${dx / 2}px,${dy / 2 + lift}px) scale(1.2)` },
+      { transform: `translate(${dx}px,${dy}px) scale(1)` }
+    ], { duration: reduce ? 1 : T() * 1.1, delay: reduce ? 0 : delay, easing: 'ease-in-out', fill: 'forwards' });
+    try { await track(anim, run); } finally { tok.remove(); }
+  }
+  function pulse(el) {
+    if (reduce) return;
+    el.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.18)' }, { transform: 'scale(1)' }], { duration: 320 });
+  }
+
+  // ---------- one entry ----------
+  function mk(tag, cls, text) {
+    const e = document.createElement(tag); e.className = cls; e.textContent = text; return e;
+  }
+  async function animateCell(i, j, run) {
+    const { n, A, B } = S;
+    clearHL();
+    const rowEls = [], colEls = [];
+    for (let k = 0; k < n; k++) { rowEls.push($('A-' + i + '-' + k)); colEls.push($('B-' + k + '-' + j)); }
+    const target = $('C-' + i + '-' + j);
+    const I = i + 1, J = j + 1;
+    $('caption').innerHTML = `<i>c</i><sub>${I}${J}</sub> = <span class="r">row ${I} of <i>A</i></span> · <span class="c">column ${J} of <i>B</i></span>`;
+    $('status').textContent = 'Working on c' + I + J;
+    rowEls.forEach(e => e.classList.add('hl-row'));
+    colEls.forEach(e => e.classList.add('hl-col'));
+    target.classList.add('hl-target');
+    say('Calculating C row ' + I + ' column ' + J + ': row ' + I + ' of A times column ' + J + ' of B.');
+
+    // Build all three working lines up front (hidden) so layout never shifts mid-flight.
+    const prods = [];
+    for (let k = 0; k < n; k++) prods.push(A[i][k] * B[k][j]);
+    const total = prods.reduce((s, x) => s + x, 0);
+    const calc = $('calc'); calc.innerHTML = '';
+    const l1 = mk('div', 'line', ''), l2 = mk('div', 'line', ''), l3 = mk('div', 'line', '');
+    const aSlots = [], bSlots = [], groups = [], ops1 = [];
+    for (let k = 0; k < n; k++) {
+      const g = [];
+      if (k > 0) { const plus = mk('span', 'op hide', '+'); l1.appendChild(plus); ops1.push(plus); }
+      const grp = mk('span', 'grp', ''); l1.appendChild(grp);
+      if (n > 1) { const o = mk('span', 'op hide', '('); grp.appendChild(o); ops1.push(o); g.push(o); }
+      const sa = mk('span', 'num a hide', fmt(A[i][k])); grp.appendChild(sa); aSlots.push(sa); g.push(sa);
+      const x = mk('span', 'op hide', '×'); grp.appendChild(x); ops1.push(x); g.push(x);
+      const sb = mk('span', 'num b hide', fmt(B[k][j])); grp.appendChild(sb); bSlots.push(sb); g.push(sb);
+      if (n > 1) { const c = mk('span', 'op hide', ')'); grp.appendChild(c); ops1.push(c); g.push(c); }
+      groups.push(g);
+    }
+    const terms = [], ops2 = [];
+    if (n > 1) {
+      const eq2 = mk('span', 'op hide', '='); l2.appendChild(eq2); ops2.push(eq2);
+      prods.forEach((pv, k) => {
+        if (k > 0) { const plus = mk('span', 'op hide', '+'); l2.appendChild(plus); ops2.push(plus); }
+        const t = mk('span', 'num t hide', fmtTerm(pv)); l2.appendChild(t); terms.push(t);
+      });
+    }
+    const eq3 = mk('span', 'op hide', '='); l3.appendChild(eq3);
+    const tot = mk('span', 'num total hide', fmt(total)); l3.appendChild(tot);
+    calc.append(l1, l2, l3);
+
+    await sleep(T() * 0.6, run);
+    ops1.forEach(o => o.classList.remove('hide'));
+    await sleep(T() * 0.35, run);
+
+    for (let k = 0; k < n; k++) {
+      pulse(rowEls[k]); pulse(colEls[k]);
+      await Promise.all([
+        fly(rowEls[k], aSlots[k], fmt(A[i][k]), 'tok-a', run).then(() => aSlots[k].classList.remove('hide')),
+        fly(colEls[k], bSlots[k], fmt(B[k][j]), 'tok-b', run, T() * 0.18).then(() => bSlots[k].classList.remove('hide'))
+      ]);
+      await sleep(T() * 0.15, run);
+    }
+    await sleep(T() * 0.5, run);
+
+    if (n > 1) {
+      ops2[0].classList.remove('hide');
+      for (let k = 0; k < n; k++) {
+        groups[k].forEach(e => e.classList.add('focus'));
+        if (k > 0) ops2[k].classList.remove('hide');
+        await sleep(T() * 0.35, run);
+        terms[k].classList.remove('hide');
+        await sleep(T() * 0.55, run);
+        groups[k].forEach(e => e.classList.remove('focus'));
+      }
+      await sleep(T() * 0.3, run);
+      terms.forEach(t => t.classList.add('focus'));
+      await sleep(T() * 0.5, run);
+      terms.forEach(t => t.classList.remove('focus'));
+    }
+    eq3.classList.remove('hide');
+    tot.classList.remove('hide');
+    await sleep(T() * 0.9, run);
+
+    await fly(tot, target, fmt(total), 'tok-c', run);
+    S.C[i][j] = total;
+    target.textContent = fmt(total);
+    target.classList.add('filled');
+    labelC(target, i, j, total);
+    say('C ' + I + ',' + J + ' = ' + prods.map((_, k) => fmt(A[i][k]) + ' times ' + fmt(B[k][j])).join(' plus ') + (n > 1 ? ' = ' + prods.map(fmt).join(' plus ') : '') + ' = ' + fmt(total) + '.');
+    if (!reduce) target.animate([{ transform: 'scale(1.25)' }, { transform: 'scale(1)' }], { duration: 300, easing: 'ease-out' });
+    await sleep(T() * 1.0, run);
+  }
+
+  // ---------- runs ----------
+  async function runCells(list) {
+    const run = ++S.run;
+    S.running = true; S.paused = false; updateUI();
+    try {
+      for (const [i, j] of list) await animateCell(i, j, run);
+    } catch (e) {
+      if (!(e instanceof Cancel)) throw e;
+    } finally {
+      if (run === S.run) { S.running = false; clearHL(); idle(); }
+    }
+  }
+  function remaining() {
+    const out = [];
+    for (let i = 0; i < S.m; i++) for (let j = 0; j < S.p; j++) if (S.C[i][j] === null) out.push([i, j]);
+    return out;
+  }
+  function stopAll() {
+    S.run++;
+    [...anims].forEach(a => a.cancel());
+    anims.clear();
+    $('fly').innerHTML = '';
+    S.running = false; S.paused = false;
+    clearHL();
+  }
+
+  $('play').addEventListener('click', () => {
+    if (S.running) {
+      S.paused = !S.paused;
+      anims.forEach(a => S.paused ? a.pause() : a.play());
+      $('status').textContent = S.paused ? 'Paused' : 'Running';
+      say(S.paused ? 'Animation paused.' : 'Animation resumed.');
+      updateUI();
+      return;
+    }
+    if (!nextCell()) { emptyC(); renderC(); }
+    runCells(remaining());
+  });
+  $('step').addEventListener('click', () => { const nx = nextCell(); if (nx && !S.running) runCells([nx]); });
+  $('reset').addEventListener('click', () => { stopAll(); emptyC(); renderC(); idle(); });
+  $('random').addEventListener('click', () => {
+    S.A = S.A.map(r => r.map(rnd)); S.B = S.B.map(r => r.map(rnd)); emptyC(); renderAll();
+  });
+  $('neg').addEventListener('change', e => { S.neg = e.target.checked; });
+  $('speed').addEventListener('input', e => { speed = parseFloat(e.target.value); $('speedVal').textContent = speed + '×'; });
+
+  function resize() {
+    const m = +$('m').value, n = +$('n').value, p = +$('p').value;
+    const grow = (M, r, c) => Array.from({ length: r }, (_, i) => Array.from({ length: c }, (_, j) =>
+      (M[i] && M[i][j] !== undefined) ? M[i][j] : rnd()));
+    S.A = grow(S.A, m, n); S.B = grow(S.B, n, p);
+    S.m = m; S.n = n; S.p = p;
+    emptyC(); renderAll();
+  }
+  ['m', 'n', 'p'].forEach(id => {
+    const sel = $(id);
+    for (let v = 1; v <= 6; v++) sel.add(new Option(v, v));
+    sel.value = S[id];
+    sel.addEventListener('change', resize);
+  });
+
+  emptyC();
+  renderAll();
+})();
+</script>
+
+</body>
+</html>

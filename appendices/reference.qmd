@@ -1,0 +1,83 @@
+# Reference: matrices and their rules {#sec-reference}
+
+This appendix collects, in one place, the kinds of matrix and the rules of matrix algebra that the book introduces gradually. Each entry links to the chapter where it is explained.
+
+## Kinds of matrix
+
+| Name | Description | Example | Introduced in |
+|:-----|:------------|:-------:|:-------------|
+| Square | as many rows as columns | $\mat{1 & 2 \\ 3 & 4}$ | @sec-matrices |
+| Main diagonal | the entries $a_{11}, a_{22}, \dots, a_{nn}$ of a square matrix | the 1 and 4 above | @sec-matrices |
+| Symmetric | $a_{ij} = a_{ji}$, a mirror image across the diagonal; $\M{A}\T = \M{A}$ | $\mat{1 & 4 \\ 4 & 2}$ | @sec-matrices |
+| Zero matrix $\M{0}$ | every entry is 0 (any size) | $\mat{0 & 0 \\ 0 & 0}$ | @sec-arithmetic |
+| Identity $\M{I}$ | 1 on the diagonal, 0 elsewhere; $\M{I}\M{A} = \M{A}\M{I} = \M{A}$ | $\mat{1 & 0 \\ 0 & 1}$ | @sec-multiplication |
+| Diagonal | zero everywhere off the main diagonal; a stretch along the axes | $\mat{4 & 0 \\ 0 & -1}$ | @sec-transformations |
+| Upper triangular | zero below the diagonal | $\mat{2 & 5 \\ 0 & 3}$ | @sec-determinants |
+| Lower triangular | zero above the diagonal | $\mat{2 & 0 \\ 5 & 3}$ | @sec-determinants |
+| Singular | square, with determinant 0; has no inverse | $\mat{1 & 2 \\ 2 & 4}$ | @sec-determinants |
+| Invertible | square, with determinant not 0; $\M{A}^{-1}\M{A} = \M{I}$ | $\mat{1 & 2 \\ 3 & 4}$ | @sec-inverses |
+| Orthogonal | $\M{Q}\T\M{Q} = \M{I}$; preserves lengths and angles (rotations and reflections) | $\mat{0 & -1 \\ 1 & 0}$ | @sec-inverses |
+| Skew-symmetric | $a_{ij} = -a_{ji}$, so the diagonal is zero; $\M{A}\T = -\M{A}$ | $\mat{0 & 3 \\ -3 & 0}$ | (used in later chapters) |
+
+## Adding and scaling
+
+For matrices $\M{A}$, $\M{B}$, $\M{C}$ of the same size and numbers $s$, $t$ (see @sec-arithmetic):
+
+| Rule | In symbols |
+|:-----|:-----------|
+| Order of addition doesn't matter | $\M{A} + \M{B} = \M{B} + \M{A}$ |
+| Grouping doesn't matter | $(\M{A} + \M{B}) + \M{C} = \M{A} + (\M{B} + \M{C})$ |
+| Adding zero changes nothing | $\M{A} + \M{0} = \M{A}$ |
+| Every matrix has a negative | $\M{A} + (-\M{A}) = \M{0}$ |
+| Numbers multiply out over brackets | $s(\M{A} + \M{B}) = s\M{A} + s\M{B}$ and $(s + t)\M{A} = s\M{A} + t\M{A}$ |
+| Numbers combine | $s(t\M{A}) = (st)\M{A}$ |
+
+## Multiplying
+
+When the sizes fit (see @sec-multiplication):
+
+| Rule | In symbols |
+|:-----|:-----------|
+| Grouping doesn't matter | $(\M{A}\M{B})\M{C} = \M{A}(\M{B}\M{C})$ |
+| Brackets multiply out, keeping the order | $\M{A}(\M{B} + \M{C}) = \M{A}\M{B} + \M{A}\M{C}$ and $(\M{A} + \M{B})\M{C} = \M{A}\M{C} + \M{B}\M{C}$ |
+| Numbers move freely | $s(\M{A}\M{B}) = (s\M{A})\M{B} = \M{A}(s\M{B})$ |
+| The identity changes nothing | $\M{I}\M{A} = \M{A}\M{I} = \M{A}$ |
+| **Order usually matters** | $\M{A}\M{B} \neq \M{B}\M{A}$ in general |
+| **No cancelling without an inverse** | $\M{A}\M{B} = \M{0}$ does not imply $\M{A} = \M{0}$ or $\M{B} = \M{0}$ |
+
+## Transposes
+
+| Rule | In symbols |
+|:-----|:-----------|
+| Transposing twice | $(\M{A}\T)\T = \M{A}$ |
+| Sums and multiples | $(\M{A} + \M{B})\T = \M{A}\T + \M{B}\T$ and $(s\M{A})\T = s\M{A}\T$ |
+| Products reverse | $(\M{A}\M{B})\T = \M{B}\T\M{A}\T$ |
+| Inverses | $(\M{A}\T)^{-1} = (\M{A}^{-1})\T$ |
+
+## Determinants
+
+For $n \times n$ matrices (see @sec-determinants):
+
+| Rule | In symbols |
+|:-----|:-----------|
+| $2 \times 2$ formula | $\begin{vmatrix} a & b \\ c & d \end{vmatrix} = ad - bc$ |
+| Products | $\det(\M{A}\M{B}) = \det\M{A}\,\det\M{B}$ |
+| Transpose | $\det(\M{A}\T) = \det\M{A}$ |
+| Multiples | $\det(k\M{A}) = k^n\det\M{A}$ |
+| Inverse | $\det(\M{A}^{-1}) = 1/\det\M{A}$ |
+| Triangular matrices | the product of the diagonal entries |
+| Add a multiple of one row to another | no change |
+| Swap two rows | changes the sign |
+| Multiply a row by $c$ | multiplies the determinant by $c$ |
+
+## Inverses
+
+For invertible $n \times n$ matrices (see @sec-inverses):
+
+| Rule | In symbols |
+|:-----|:-----------|
+| $2 \times 2$ formula | $\mat{a & b \\ c & d}^{-1} = \dfrac{1}{ad - bc}\mat{d & -b \\ -c & a}$ |
+| Undoing twice | $(\M{A}^{-1})^{-1} = \M{A}$ |
+| Products reverse | $(\M{A}\M{B})^{-1} = \M{B}^{-1}\M{A}^{-1}$ |
+| Multiples | $(k\M{A})^{-1} = \tfrac{1}{k}\M{A}^{-1}$ for $k \neq 0$ |
+| Solving a system | $\M{A}\vect{x} = \vect{b}$ has the one solution $\vect{x} = \M{A}^{-1}\vect{b}$ |

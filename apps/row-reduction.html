@@ -1,0 +1,488 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Row Reduction Stepper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: graph-paper worksheet; the current matrix and step first, then the set-up */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.tabs { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+html.lock .tabs.modes { display: none; }
+.stage { padding: 16px; display: grid; gap: 14px; }
+.mats { display: flex; flex-wrap: wrap; gap: 18px 26px; align-items: center; justify-content: center; }
+.mwrap { display: grid; gap: 6px; justify-items: center; }
+.mname { font: 600 0.95rem var(--font-num); color: var(--muted); }
+.bm { position: relative; display: inline-grid; gap: 2px 4px; padding: 6px 14px; }
+.bm::before, .bm::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.bm::before { left: 0; border-right: 0; } .bm::after { right: 0; border-left: 0; }
+html.br-round .bm::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .bm::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.cell { min-width: 3.1rem; padding: 5px 6px; text-align: center; font: 500 1.02rem var(--font-num); border-radius: 6px; transition: background-color .25s; }
+.cell.bar { border-left: 1.5px solid var(--ink); border-radius: 0 6px 6px 0; margin-left: 6px; }
+.cell.rowhl { background: color-mix(in srgb, var(--col) 16%, transparent); }
+.cell.srchl { background: color-mix(in srgb, var(--row) 14%, transparent); }
+.cell.piv { outline: 2px solid var(--row); outline-offset: -2px; font-weight: 600; color: var(--row); }
+.cell.zero { background: color-mix(in srgb, var(--res) 22%, transparent); color: var(--res); font-weight: 600; }
+.cell.blank { color: var(--muted); opacity: 0.5; }
+.cell.new { background: color-mix(in srgb, var(--res) 22%, transparent); color: var(--res); font-weight: 600; }
+.op { font: 600 1.15rem var(--font-num); text-align: center; min-height: 1.6em; }
+.note { margin: 0; text-align: center; color: var(--ink); max-width: 62ch; justify-self: center; }
+.controls { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; }
+.counter { font: 500 0.9rem var(--font-num); color: var(--muted); min-width: 7.5rem; text-align: center; }
+.edit { display: grid; gap: 4px; }
+.erow { display: flex; gap: 4px; align-items: center; }
+.erow input { width: 3.4rem; padding: 4px; font: 600 0.92rem var(--font-num); color: var(--ink); background: var(--paper); border: 1.5px solid var(--line); border-radius: 6px; text-align: center; -moz-appearance: textfield; appearance: textfield; }
+.erow input::-webkit-outer-spin-button, .erow input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.erow input.rhs { margin-left: 10px; }
+.sizes { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; font-size: 0.9rem; }
+.sizes select { font: 500 0.9rem var(--font-body); padding: 3px 4px; border-radius: 6px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
+.sizes label { display: inline-flex; gap: 6px; align-items: center; }
+.solved { margin: 0; padding-left: 1.1rem; font: 500 0.95rem var(--font-num); }
+.layout.rr { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+@media (max-width: 860px) { .layout.rr { grid-template-columns: minmax(0, 1fr); } }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Row reduction, <em>one step at a time</em></h1>
+    <p>Step through elimination on a matrix of your choice. Each step is a single row operation, and each one is explained.</p>
+  </header>
+
+  <div class="tabs modes" role="group" aria-label="Method">
+    <button data-mode="ge" aria-pressed="true">Gaussian elimination</button>
+    <button data-mode="rref" aria-pressed="false">Gauss–Jordan</button>
+    <button data-mode="lu" aria-pressed="false">LU decomposition</button>
+  </div>
+
+  <div class="layout rr">
+    <section class="panel stage" aria-label="Current step">
+      <div class="mats" id="mats"></div>
+      <div class="op" id="op" aria-live="polite"></div>
+      <p class="note" id="note"></p>
+      <div class="controls">
+        <button id="first" aria-label="Back to the start">⏮</button>
+        <button id="prev">Back</button>
+        <span class="counter" id="counter"></span>
+        <button id="next">Next step</button>
+        <button id="play">Play</button>
+      </div>
+      <ul class="solved" id="solved" hidden></ul>
+    </section>
+
+    <div class="side">
+      <section class="panel card wide" aria-label="Set up">
+        <span class="label">Start from</span>
+        <div class="row" id="presets"></div>
+        <div class="sizes">
+          <label>Rows <select id="rows"><option>2</option><option selected>3</option><option>4</option></select></label>
+          <label>Columns <select id="cols"><option>2</option><option selected>3</option><option>4</option></select></label>
+          <label id="rhsLab"><input type="checkbox" id="rhs" checked> Right-hand side</label>
+          <label id="invLab" hidden><input type="checkbox" id="inv"> Find the inverse</label>
+        </div>
+        <div class="edit" id="edit"></div>
+        <p class="hint">Type whole numbers, decimals or fractions such as 2/3. Changing the matrix starts again from step 0.</p>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  // ---------- exact fractions ----------
+  const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a || 1; };
+  const fr = (n, d = 1) => { if (d < 0) { n = -n; d = -d; } const g = gcd(n, d); return { n: n / g, d: d / g }; };
+  const F = {
+    add: (a, b) => fr(a.n * b.d + b.n * a.d, a.d * b.d),
+    sub: (a, b) => fr(a.n * b.d - b.n * a.d, a.d * b.d),
+    mul: (a, b) => fr(a.n * b.n, a.d * b.d),
+    div: (a, b) => fr(a.n * b.d, a.d * b.n),
+    neg: a => fr(-a.n, a.d),
+    zero: a => a.n === 0,
+    one: a => a.n === a.d,
+    eq: (a, b) => a.n === b.n && a.d === b.d,
+    str: a => (a.n < 0 ? '−' : '') + (a.d === 1 ? Math.abs(a.n) : Math.abs(a.n) + '/' + a.d),
+    parse: t => {
+      t = String(t).trim().replace('−', '-'); if (!t) return null;
+      if (t.includes('/')) { const [p, q] = t.split('/').map(Number); return Number.isInteger(p) && Number.isInteger(q) && q !== 0 ? fr(p, q) : null; }
+      const x = Number(t); if (!isFinite(x)) return null;
+      const k = (t.split('.')[1] || '').length; if (k > 4) return null;
+      return fr(Math.round(x * 10 ** k), 10 ** k);
+    }
+  };
+  const f = n => fr(n);
+  const SUB = ['₁', '₂', '₃', '₄', '₅'];
+  const Rn = i => 'R' + SUB[i];
+  const copy = M => M.map(r => r.slice());
+  const VAR = ['x', 'y', 'z', 'w'];
+
+  const PRESETS = {
+    ge: [
+      ['One solution', [[2, 1, -1, 8], [-3, -1, 2, -11], [-2, 1, 2, -3]], true],
+      ['Zero pivot', [[0, 1, 1, 3], [1, 1, 1, 6], [2, 3, 1, 11]], true],
+      ['No solution', [[1, 1, 1, 2], [1, 2, 3, 5], [2, 3, 4, 8]], true],
+      ['Infinitely many', [[1, 1, 1, 2], [1, 2, 3, 5], [2, 3, 4, 7]], true]
+    ],
+    rref: [
+      ['One solution', [[2, 1, -1, 8], [-3, -1, 2, -11], [-2, 1, 2, -3]], true],
+      ['Infinitely many', [[1, 1, 1, 2], [1, 2, 3, 5], [2, 3, 4, 7]], true],
+      ['No solution', [[1, 1, 1, 2], [1, 2, 3, 5], [2, 3, 4, 8]], true],
+      ['Rank 2 matrix', [[1, 2, 3], [2, 4, 7], [3, 6, 10]], false],
+      ['Inverse', [[1, 1, 0], [1, 2, 1], [0, 1, 2]], false, true]
+    ],
+    lu: [
+      ['Example', [[2, 1, 1], [4, 3, 3], [8, 7, 9]], false],
+      ['Needs a swap', [[0, 2, 1], [1, 1, 1], [2, 4, 5]], false],
+      ['4 × 4', [[1, 1, 0, 2], [2, 3, 1, 4], [-1, 1, 2, 0], [3, 4, 2, 9]], false]
+    ]
+  };
+  const S = { mode: 'ge', A: null, rhs: true, inv: false, steps: [], k: 0, playing: 0 };
+
+  // ---------- step generation ----------
+  function snapshot(st, extra) { return Object.assign({ M: copy(st.M), L: st.L ? copy(st.L) : null, P: st.P ? st.P.slice() : null, swaps: st.swaps || 0 }, extra); }
+  function forward(st, nA, gj) {
+    const M = st.M, m = M.length, out = [];
+    let r = 0; const piv = [];
+    for (let c = 0; c < nA && r < m; c++) {
+      let p = -1; for (let i = r; i < m; i++) if (!F.zero(M[i][c])) { p = i; break; }
+      if (p < 0) {
+        out.push(snapshot(st, { op: `No pivot in column ${c + 1}`, note: `Every entry of column ${c + 1} from row ${r + 1} down is 0, so there is no pivot here. Move on to the next column.`, hl: { col: c, from: r } }));
+        continue;
+      }
+      if (p !== r) {
+        [M[r], M[p]] = [M[p], M[r]];
+        if (st.L) { for (let j = 0; j < r; j++) [st.L[r][j], st.L[p][j]] = [st.L[p][j], st.L[r][j]]; [st.P[r], st.P[p]] = [st.P[p], st.P[r]]; }
+        st.swaps = (st.swaps || 0) + 1;
+        out.push(snapshot(st, { op: `${Rn(r)} ↔ ${Rn(p)}`, note: `The pivot position, row ${r + 1}, column ${c + 1}, holds 0, and we can't divide by 0. Swap with row ${p + 1}, which has a non-zero entry in this column.` + (st.L ? ' The multipliers already found for these rows swap with them, and so do the rows of P.' : ''), hl: { rows: [r, p] } }));
+      }
+      if (gj && !F.one(M[r][c])) {
+        const pv = M[r][c]; M[r] = M[r].map(x => F.div(x, pv));
+        out.push(snapshot(st, { op: `${Rn(r)} ← ${opScale(pv)}${Rn(r)}`, note: `Divide row ${r + 1} by the pivot, ${F.str(pv)}, so that the pivot becomes 1.`, hl: { rows: [r], piv: [r, c] } }));
+      }
+      for (let i = gj ? 0 : r + 1; i < m; i++) {
+        if (i === r || F.zero(M[i][c])) continue;
+        const mult = F.div(M[i][c], M[r][c]);
+        M[i] = M[i].map((x, j) => F.sub(x, F.mul(mult, M[r][j])));
+        if (st.L) st.L[i][c] = mult;
+        const where = i < r ? 'above' : 'below';
+        out.push(snapshot(st, {
+          op: `${Rn(i)} ← ${Rn(i)} ${opMul(mult)}${Rn(r)}`,
+          note: (gj && F.one(M[r][c]) ? `The entry ${where} the pivot is ${F.str(mult)}, so ${subText(mult, r, i)}` : `The pivot is ${F.str(M[r][c])}. The multiplier is ${F.str(mult)} (the entry to clear divided by the pivot), so ${subText(mult, r, i)}`) + ` to make the entry ${where} the pivot zero.` + (st.L ? ` The multiplier goes into L, in row ${i + 1}, column ${c + 1}.` : ''),
+          hl: { rows: [i], src: r, piv: [r, c], zero: [i, c], newL: st.L ? [i, c] : null }
+        }));
+      }
+      if (st.L) for (let i = r + 1; i < m; i++) if (st.L[i][c] === null) st.L[i][c] = f(0);
+      piv.push(c); r++;
+    }
+    return { out, piv };
+  }
+  const subText = (m, r, i) => m.n < 0 ? `subtract ${'(' + F.str(m) + ')'} × row ${r + 1} from row ${i + 1}, which means adding ${F.str(F.neg(m))} × row ${r + 1}` : `subtract ${F.str(m)} × row ${r + 1} from row ${i + 1}`;
+  const opMul = m => (m.n < 0 ? '+ ' : '− ') + (F.one(fr(Math.abs(m.n), m.d)) ? '' : (m.d === 1 ? Math.abs(m.n) : '(' + Math.abs(m.n) + '/' + m.d + ')') + ' ');
+  const opScale = p => { const q = F.div(f(1), p); if (q.n === -1 && q.d === 1) return '−'; return (q.d === 1 ? F.str(q) : '(' + F.str(q) + ')') + ' '; };
+
+  function build() {
+    const A = S.A.map(r => r.map(x => x)), m = A.length, nTot = A[0].length;
+    let nA = S.rhs ? nTot - 1 : nTot;
+    let M = copy(A);
+    if (S.mode === 'rref' && S.inv) { M = A.map((r, i) => r.concat(A.map((_, j) => f(i === j ? 1 : 0)))); nA = A[0].length; }
+    const st = { M };
+    if (S.mode === 'lu') { st.L = A.map((_, i) => A.map((_, j) => i === j ? f(1) : null)); st.P = A.map((_, i) => i); }
+    const steps = [snapshot(st, { op: '', note: startNote(m, nA), hl: {} })];
+    const { out, piv } = forward(st, nA, S.mode === 'rref');
+    steps.push(...out);
+    const last = st.M, aug = S.mode === 'rref' && S.inv ? 'inv' : S.rhs ? 'rhs' : null;
+    const bad = aug === 'rhs' ? last.findIndex(r => r.slice(0, nA).every(F.zero) && !F.zero(r[nA])) : -1;
+    if (S.mode === 'ge') {
+      steps.push(snapshot(st, { op: 'Row echelon form', note: 'Every entry below the pivots is now zero.' + (aug ? '' : ` There ${piv.length === 1 ? 'is 1 pivot' : 'are ' + piv.length + ' pivots'}.`), hl: { pivs: piv } }));
+      if (aug === 'rhs') {
+        if (bad >= 0) steps.push(snapshot(st, { op: 'No solution', note: `Row ${bad + 1} says 0 = ${F.str(last[bad][nA])}, which is impossible. The system is inconsistent.`, hl: { rows: [bad] } }));
+        else if (piv.length < nA) steps.push(snapshot(st, { op: 'Infinitely many solutions', note: `There are only ${piv.length} pivots for ${nA} unknowns, and no row says 0 = something non-zero. So some unknowns can be chosen freely. Gauss–Jordan elimination writes the solutions out neatly.`, hl: { pivs: piv } }));
+        else backSub(st, steps, nA);
+      }
+    } else if (S.mode === 'rref') {
+      steps.push(snapshot(st, { op: 'Reduced row echelon form', note: 'Every pivot is 1, and it is the only non-zero entry in its column.', hl: { pivs: piv } }));
+      steps.push(snapshot(st, summaryRref(last, piv, nA, aug, bad)));
+    } else {
+      const swapped = st.P.some((p, i) => p !== i);
+      steps.push(snapshot(st, { op: swapped ? 'PA = LU' : 'A = LU', note: piv.length < nA ? 'A pivot was missing, so this matrix is singular: U has a zero on its diagonal.' : (swapped ? 'U is upper triangular and L holds the multipliers. Because rows were swapped, LU equals PA, the matrix A with its rows in the new order.' : 'U is upper triangular, and L holds the multipliers, with 1s on its diagonal. Multiply them to get A back.'), hl: { pivs: piv, done: true } }));
+    }
+    S.steps = steps; S.k = 0;
+  }
+  function startNote(m, nA) {
+    if (S.mode === 'lu') return 'Eliminate below each pivot as usual, but write each multiplier into L as you go. U starts as A.';
+    if (S.mode === 'rref') return S.inv ? 'The matrix A sits next to the identity. Reduce the left half to I; the right half then becomes the inverse.' : 'Make each pivot 1, then clear every other entry in its column, above as well as below.';
+    return 'Work down column by column, clearing the entries below each pivot.';
+  }
+  const par = x => (x.n < 0 || x.d !== 1) ? '(' + F.str(x) + ')' : F.str(x);
+  function backSub(st, steps, n) {
+    const U = st.M, x = Array(n).fill(null), lines = [];
+    for (let i = n - 1; i >= 0; i--) {
+      let rhs = U[i][n], parts = [];
+      for (let j = i + 1; j < n; j++) if (!F.zero(U[i][j])) { rhs = F.sub(rhs, F.mul(U[i][j], x[j])); parts.push(`${par(U[i][j])}×${par(x[j])}`); }
+      x[i] = F.div(rhs, U[i][i]);
+      const eq = parts.length ? `(${F.str(U[i][n])} − ${parts.join(' − ')}) / ${par(U[i][i])}` : `${F.str(U[i][n])} / ${par(U[i][i])}`;
+      lines.push(`${VAR[i] || 'x' + (i + 1)} = ${eq} = ${F.str(x[i])}`);
+      steps.push(snapshot(st, { op: `Back substitution: ${VAR[i] || 'x' + (i + 1)} = ${F.str(x[i])}`, note: i === n - 1 ? `The last row has only one unknown, so solve it first.` : `Row ${i + 1} now has only one unknown left, because the ones below it are known.`, hl: { rows: [i] }, solved: lines.slice() }));
+    }
+  }
+  function summaryRref(R, piv, nA, aug, bad) {
+    const rank = piv.length;
+    if (aug === 'inv') {
+      if (rank < nA) return { op: 'No inverse', note: `The left half could not be reduced to I: there are only ${rank} pivots. The matrix is singular.`, hl: { pivs: piv } };
+      return { op: 'Right half = inverse', note: 'The left half is now I, so the right half is the inverse of A. Check by multiplying.', hl: { pivs: piv, invHalf: true } };
+    }
+    if (aug !== 'rhs') return { op: `Rank ${rank}`, note: `There ${rank === 1 ? 'is 1 pivot' : 'are ' + rank + ' pivots'}, so the rank is ${rank}.` + (rank < nA ? ` Columns without a pivot belong to free variables.` : ''), hl: { pivs: piv } };
+    if (bad >= 0) return { op: 'No solution', note: `Row ${bad + 1} says 0 = ${F.str(R[bad][nA])}. The rank of A is ${rank}, but adding b increases it to ${rank + 1}.`, hl: { rows: [bad] } };
+    const free = [...Array(nA).keys()].filter(c => !piv.includes(c)), V = j => VAR[j] || 'x' + (j + 1);
+    const lines = piv.map((c, i) => {
+      let s = F.str(R[i][nA]); for (const j of free) if (!F.zero(R[i][j])) s += ` ${R[i][j].n > 0 ? '−' : '+'} ${F.one(fr(Math.abs(R[i][j].n), R[i][j].d)) ? '' : F.str(fr(Math.abs(R[i][j].n), R[i][j].d))}${V(j)}`;
+      return `${V(c)} = ${s}`;
+    });
+    if (!free.length) return { op: 'One solution', note: 'Rank ' + rank + ', with a pivot in every column: read the solution straight off the last column.', hl: { pivs: piv }, solved: lines };
+    return { op: 'Infinitely many solutions', note: `Rank ${rank}, but ${nA} unknowns. ${free.map(V).join(' and ')} ${free.length > 1 ? 'are free' : 'is free'}: choose any value${free.length > 1 ? 's' : ''}, and each row gives a pivot variable.`, hl: { pivs: piv }, solved: lines.concat(free.map(j => `${V(j)} is free`)) };
+  }
+
+  // ---------- display ----------
+  function matHTML(M, name, opts = {}) {
+    const n = M[0].length, bar = opts.bar;
+    let h = `<div class="mwrap"><span class="mname">${name}</span><div class="bm" role="table" aria-label="${name}" style="grid-template-columns: repeat(${n}, auto)">`;
+    M.forEach((r, i) => {
+      h += '<span role="row" style="display: contents">';
+      r.forEach((x, j) => {
+        const c = ['cell'];
+        if (bar && j === bar) c.push('bar');
+        if (opts.cls) { const k = opts.cls(i, j, x); if (k) c.push(k); }
+        h += `<span class="${c.join(' ')}" role="cell">${x === null ? '·' : F.str(x)}</span>`;
+      });
+      h += '</span>';
+    });
+    return h + '</div></div>';
+  }
+  function render() {
+    const st = S.steps[S.k], hl = st.hl || {}, M = st.M, nTot = M[0].length;
+    const nA = S.mode === 'rref' && S.inv ? nTot / 2 : S.rhs && S.mode !== 'lu' ? nTot - 1 : nTot;
+    const cls = (i, j) => {
+      if (hl.zero && hl.zero[0] === i && hl.zero[1] === j) return 'zero';
+      if (hl.piv && hl.piv[0] === i && hl.piv[1] === j) return 'piv';
+      if (hl.pivs) { const r = hl.pivs.indexOf(j); if (r === i) return 'piv'; }
+      if (hl.rows && hl.rows.includes(i)) return 'rowhl';
+      if (hl.src === i) return 'srchl';
+      if (hl.col === j && i >= hl.from) return 'rowhl';
+      return '';
+    };
+    let h = '';
+    if (S.mode === 'lu') {
+      if (st.P && st.P.some((p, i) => p !== i)) h += matHTML(st.P.map(p => st.P.map((_, j) => f(p === j ? 1 : 0))), 'P');
+      h += matHTML(st.L, 'L', { cls: (i, j, x) => x === null ? 'blank' : hl.newL && hl.newL[0] === i && hl.newL[1] === j ? 'new' : '' });
+      h += matHTML(M, 'U', { cls });
+    } else {
+      h += matHTML(M, S.mode === 'rref' && S.inv ? '[A | I]' : S.rhs ? '[A | b]' : 'A', { bar: nA < nTot ? nA : 0, cls });
+    }
+    $('mats').innerHTML = h;
+    $('op').textContent = st.op || 'Start';
+    $('note').textContent = st.note || '';
+    $('counter').textContent = `Step ${S.k} of ${S.steps.length - 1}`;
+    $('prev').disabled = $('first').disabled = S.k === 0;
+    $('next').disabled = S.k === S.steps.length - 1;
+    const sol = $('solved');
+    if (st.solved) { sol.hidden = false; sol.innerHTML = st.solved.map(t => `<li>${t}</li>`).join(''); } else sol.hidden = true;
+  }
+  function go(k) { S.k = Math.max(0, Math.min(S.steps.length - 1, k)); render(); }
+  $('next').addEventListener('click', () => { stop(); go(S.k + 1); });
+  $('prev').addEventListener('click', () => { stop(); go(S.k - 1); });
+  $('first').addEventListener('click', () => { stop(); go(0); });
+  function stop() { if (S.playing) clearInterval(S.playing); S.playing = 0; $('play').textContent = 'Play'; }
+  $('play').addEventListener('click', () => {
+    if (S.playing) { stop(); return; }
+    if (S.k === S.steps.length - 1) go(0);
+    $('play').textContent = 'Pause';
+    S.playing = setInterval(() => { if (S.k >= S.steps.length - 1) { stop(); return; } go(S.k + 1); }, 1800);
+  });
+
+  // ---------- set-up ----------
+  function setMatrix(rows, rhs, inv) {
+    S.A = rows.map(r => r.map(x => typeof x === 'number' ? fr(Math.round(x * 1e4), 1e4) : x));
+    S.rhs = !!rhs; S.inv = !!inv;
+    $('rows').value = S.A.length; $('cols').value = S.rhs ? S.A[0].length - 1 : S.A[0].length;
+    $('rhs').checked = S.rhs; $('inv').checked = S.inv;
+    buildEdit(); stop(); build(); render(); markPreset();
+  }
+  function buildEdit() {
+    const box = $('edit'); box.innerHTML = '';
+    const nA = S.rhs ? S.A[0].length - 1 : S.A[0].length;
+    S.A.forEach((r, i) => {
+      const row = document.createElement('div'); row.className = 'erow';
+      r.forEach((x, j) => {
+        const inp = document.createElement('input'); inp.type = 'text'; inp.inputMode = 'decimal'; inp.value = F.str(x).replace('−', '-');
+        if (S.rhs && j === nA) inp.className = 'rhs';
+        inp.setAttribute('aria-label', S.rhs && j === nA ? `Row ${i + 1}, right-hand side` : `Row ${i + 1}, column ${j + 1}`);
+        inp.addEventListener('change', () => { const v = F.parse(inp.value); if (v) S.A[i][j] = v; inp.value = F.str(S.A[i][j]).replace('−', '-'); stop(); build(); render(); markPreset(); });
+        row.appendChild(inp);
+      });
+      box.appendChild(row);
+    });
+  }
+  function resize() {
+    let m = +$('rows').value, n = +$('cols').value;
+    if (S.mode === 'lu' || S.inv) n = m;
+    const old = S.A, rhs = S.mode === 'lu' || S.inv ? false : $('rhs').checked;
+    const nn = n + (rhs ? 1 : 0);
+    const A = [...Array(m)].map((_, i) => [...Array(nn)].map((_, j) => old[i] && old[i][j] !== undefined ? old[i][j] : f(i === j ? 2 : (i + j) % 3)));
+    setMatrix(A, rhs, S.inv);
+  }
+  $('rows').addEventListener('change', resize);
+  $('cols').addEventListener('change', resize);
+  $('rhs').addEventListener('change', resize);
+  $('inv').addEventListener('change', () => { S.inv = $('inv').checked; if (S.inv) { $('rhs').checked = false; } resize(); });
+  function markPreset() {
+    $('presets').querySelectorAll('button').forEach((b, k) => {
+      const p = PRESETS[S.mode][k];
+      const same = JSON.stringify(p[1].map(r => r.map(x => F.str(f(x))))) === JSON.stringify(S.A.map(r => r.map(F.str))) && !!p[2] === S.rhs && !!p[3] === S.inv;
+      b.setAttribute('aria-pressed', String(same));
+    });
+  }
+  function setMode(mode) {
+    S.mode = mode;
+    document.querySelectorAll('[data-mode]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
+    $('rhsLab').hidden = mode === 'lu'; $('invLab').hidden = mode !== 'rref';
+    $('cols').disabled = mode === 'lu';
+    const pb = $('presets'); pb.innerHTML = '';
+    PRESETS[mode].forEach(([name, m, rhs, inv]) => {
+      const b = document.createElement('button'); b.textContent = name;
+      b.addEventListener('click', () => setMatrix(m, rhs, inv));
+      pb.appendChild(b);
+    });
+    const p = PRESETS[mode][0]; setMatrix(p[1], p[2], p[3]);
+  }
+  document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+
+  // Optional start-up settings: ?mode=ge|rref|lu&preset=Name or &m=2,1,-1,8;-3,-1,2,-11;-2,1,2,-3&rhs
+  const q = new URLSearchParams(location.search);
+  setMode(['ge', 'rref', 'lu'].includes(q.get('mode')) ? q.get('mode') : 'ge');
+  if (q.get('preset')) { const p = PRESETS[S.mode].find(x => x[0] === q.get('preset')); if (p) setMatrix(p[1], p[2], p[3]); }
+  if (q.get('m')) {
+    const rows = q.get('m').split(';').map(r => r.split(',').map(F.parse));
+    if (rows.length >= 2 && rows.length <= 4 && rows.every(r => r.length === rows[0].length && r.every(Boolean)) && rows[0].length >= 2 && rows[0].length <= 5)
+      setMatrix(rows, q.has('rhs') && S.mode !== 'lu', q.has('inv') && S.mode === 'rref');
+  }
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+    if (e.key === 'ArrowRight') { stop(); go(S.k + 1); } else if (e.key === 'ArrowLeft') { stop(); go(S.k - 1); }
+  });
+})();
+</script>
+</body>
+</html>

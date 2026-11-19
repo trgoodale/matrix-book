@@ -1,0 +1,616 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transformation Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: graph-paper worksheet; plane(s) first, then the matrix and mode-specific controls */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --neg: #b0215a; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee; --tgrid: #8fa7c9;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --neg: #f07aa8; --tgt: #b89cff;
+    --plane: #131920; --pgrid: #222b36; --tgrid: #4d6487; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --neg: #f07aa8; --tgt: #b89cff;
+  --plane: #131920; --pgrid: #222b36; --tgrid: #4d6487; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1120px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 64ch; }
+.modebar { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; justify-self: start; }
+.modebar button { border: 0; background: transparent; font-weight: 600; }
+.modebar button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.layout.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 560px) { .layout.two { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; display: grid; gap: 8px; }
+.plane-title { font: 500 1.05rem var(--font-display); text-align: center; }
+.plane-title b { font-family: var(--font-num); font-weight: 600; font-size: 0.95rem; }
+.holder { width: 100%; max-width: 540px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.i { border-color: var(--row); } .sw.j { border-color: var(--col); border-top-style: dashed; }
+.sw.o { border-top: 2px dashed var(--muted); } .sw.r { border-color: var(--res); }
+.sw.t { border-top: 2px dotted var(--tgt); } .sw.m { border-top: 2px dotted var(--col); }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.matrow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.mname { font: italic 500 1.4rem var(--font-display); }
+.mat { position: relative; display: grid; grid-template-columns: repeat(2, 4rem); gap: 6px; padding: 8px 14px; }
+.mat::before, .mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 8px; border: 2px solid var(--ink); }
+.mat::before { left: 0; border-right: 0; border-radius: 3px 0 0 3px; }
+.mat::after { right: 0; border-left: 0; border-radius: 0 3px 3px 0; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.mat input, .mat output {
+  width: 100%; height: 2.4rem; text-align: center; font: 600 1rem var(--font-num); border-radius: 6px;
+  background: var(--paper); color: var(--ink); border: 1.5px solid var(--line); padding: 0 2px;
+  display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums;
+}
+.mat .c1 { border-color: var(--row); color: var(--row); }
+.mat .c2 { border-color: var(--col); color: var(--col); border-style: dashed; }
+.mat output { background: transparent; }
+.note { font-size: 0.88rem; color: var(--muted); margin: 0; max-width: 34ch; }
+.note b.i { color: var(--row); } .note b.j { color: var(--col); }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+button, select {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button.primary { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.good { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.warn { border-color: var(--neg); border-style: dashed; }
+.prod { font: 500 0.95rem var(--font-num); }
+.score { font: 600 0.9rem var(--font-num); color: var(--muted); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.embedded.lock .modebar { display: none; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets, unit-vector names and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  window.mbNames = s.basis === "e" ? ["e₁", "e₂"] : s.basis === "hat" ? ["î", "ĵ"] : ["𝐢", "𝐣"];
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Transformation <em>lab</em></h1>
+    <p>A 2 × 2 matrix moves every point of the plane. Its columns say where the two unit vectors land; everything else follows.</p>
+  </header>
+
+  <div class="modebar" id="modes" role="group" aria-label="Mode">
+    <button data-mode="explore" aria-pressed="true">Explore</button>
+    <button data-mode="quiz" aria-pressed="false">Find the matrix</button>
+    <button data-mode="compose" aria-pressed="false">Combine two</button>
+    <button data-mode="undo" aria-pressed="false">Undo</button>
+  </div>
+
+  <!-- Single-plane modes: explore, quiz, undo -->
+  <div class="layout" id="single">
+    <section class="panel plane-box" aria-label="Plane">
+      <div class="holder"><canvas id="cv" role="img"></canvas></div>
+      <div class="legend" id="legend1"></div>
+    </section>
+    <div class="side">
+      <section class="panel card" aria-label="Matrix">
+        <span class="label">Matrix</span>
+        <div class="matrow">
+          <span class="mname">M =</span>
+          <div class="mat" id="matM"></div>
+          <p class="note" id="colnote"></p>
+        </div>
+      </section>
+      <section class="panel card wide" id="ctlExplore" aria-label="Try">
+        <span class="label">Try</span>
+        <div class="row" id="presetsExplore"></div>
+        <div class="row"><button class="primary" id="playE">Play from start</button></div>
+        <div class="status" id="stExplore"></div>
+      </section>
+      <section class="panel card wide" id="ctlQuiz" aria-label="Find the matrix" hidden>
+        <span class="label">Find the matrix <span class="score" id="score"></span></span>
+        <p class="note" style="max-width:none">Drag the arrow tips, or type entries, until your shape (green) covers the target (dotted purple).</p>
+        <div class="row">
+          <button class="primary" id="check">Check</button>
+          <button id="hint">Hint</button>
+          <button id="reveal">Show the answer</button>
+          <button id="nextQ">New question</button>
+        </div>
+        <div class="status" id="stQuiz" role="status"></div>
+      </section>
+      <section class="panel card wide" id="ctlUndo" aria-label="Undo" hidden>
+        <span class="label">Do it, then undo it</span>
+        <div class="row" id="presetsUndo"></div>
+        <div class="row">
+          <button class="primary" id="doIt">Apply M</button>
+          <button id="undoIt">Undo</button>
+          <button id="resetU">Reset</button>
+        </div>
+        <div class="matrow" id="invRow">
+          <span class="mname">M<sup>−1</sup> =</span>
+          <div class="mat" id="matInv"></div>
+        </div>
+        <div class="status" id="stUndo" role="status"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Compose mode -->
+  <div id="compose" hidden>
+    <div class="layout two">
+      <section class="panel plane-box" aria-label="B then A">
+        <div class="plane-title">First <b>B</b>, then <b>A</b>: the matrix <b>AB</b></div>
+        <div class="holder"><canvas id="cvL" role="img"></canvas></div>
+        <div class="prod" id="prodL"></div>
+      </section>
+      <section class="panel plane-box" aria-label="A then B">
+        <div class="plane-title">First <b>A</b>, then <b>B</b>: the matrix <b>BA</b></div>
+        <div class="holder"><canvas id="cvR" role="img"></canvas></div>
+        <div class="prod" id="prodR"></div>
+      </section>
+    </div>
+    <div class="layout two" style="margin-top:16px">
+      <section class="panel card" aria-label="Matrix A">
+        <span class="label">Matrix A</span>
+        <div class="matrow"><span class="mname">A =</span><div class="mat" id="matA"></div>
+          <select id="selA" aria-label="Choose a transformation for A"></select></div>
+      </section>
+      <section class="panel card" aria-label="Matrix B">
+        <span class="label">Matrix B</span>
+        <div class="matrow"><span class="mname">B =</span><div class="mat" id="matB"></div>
+          <select id="selB" aria-label="Choose a transformation for B"></select></div>
+      </section>
+    </div>
+    <div class="legend" style="margin-top:10px">
+      <span><span class="sw o"></span>start</span>
+      <span><span class="sw m"></span>after the first step</span>
+      <span><span class="sw r"></span>after both steps</span>
+    </div>
+    <div class="status" id="stCompose" role="status" style="margin-top:10px"></div>
+  </div>
+  <div class="sr-only" id="live" role="status" aria-live="polite"></div>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const NAMES = window.mbNames || ['i', 'j'];
+  const R = 4.6, LIM = 4;
+  const F = [[0, 0], [0.5, 0], [0.5, 0.85], [1.1, 0.85], [1.1, 1.3], [0.5, 1.3], [0.5, 1.75], [1.3, 1.75], [1.3, 2.2], [0, 2.2]];
+  const c30 = Math.sqrt(3) / 2, s45 = Math.SQRT1_2;
+  const LIB = {
+    'Identity': [1, 0, 0, 1],
+    'Rotate 90°': [0, -1, 1, 0],
+    'Rotate 30°': [c30, -0.5, 0.5, c30],
+    'Rotate 45°': [s45, -s45, s45, s45],
+    'Reflect in x-axis': [1, 0, 0, -1],
+    'Reflect in y-axis': [-1, 0, 0, 1],
+    'Reflect in y = x': [0, 1, 1, 0],
+    'Enlarge ×2': [2, 0, 0, 2],
+    'Stretch x ×2': [2, 0, 0, 1],
+    'Shear (x)': [1, 1, 0, 1],
+    'Shear (y)': [1, 0, 1, 1],
+    'Project onto x-axis': [1, 0, 0, 0],
+    'Squash flat': [1, 2, 0.5, 1]
+  };
+  const S = {
+    mode: 'explore', M: [2, 1, 1, 1.5], t: 1, anim: 0,
+    target: null, hints: 0, score: 0, tries: 0,
+    undoStage: 0, undoT: 0, start: F,
+    A: LIB['Reflect in x-axis'].slice(), B: LIB['Rotate 90°'].slice()
+  };
+
+  // ---------- maths ----------
+  const ap = (m, p) => [m[0] * p[0] + m[1] * p[1], m[2] * p[0] + m[3] * p[1]];
+  const mul = (a, b) => [a[0] * b[0] + a[1] * b[2], a[0] * b[1] + a[1] * b[3], a[2] * b[0] + a[3] * b[2], a[2] * b[1] + a[3] * b[3]];
+  const det = m => m[0] * m[3] - m[1] * m[2];
+  const inv = m => { const d = det(m); return Math.abs(d) < 1e-9 ? null : [m[3] / d, -m[1] / d, -m[2] / d, m[0] / d]; };
+  const lerp = (a, b, t) => a.map((v, k) => v + (b[k] - v) * t);
+  const I = [1, 0, 0, 1];
+  const same = (a, b) => a.every((v, k) => Math.abs(v - b[k]) < 1e-6);
+  const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
+  const vec = p => `(${fmt(p[0])}, ${fmt(p[1])})`;
+
+  // ---------- drawing ----------
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), i: v('--row'), j: v('--col'), res: v('--res'), neg: v('--neg'), tgt: v('--tgt'), plane: v('--plane'), pgrid: v('--pgrid'), tgrid: v('--tgrid'), surface: v('--surface'), num: v('--font-num') }; };
+  function sizeCanvas(cv) {
+    const W = Math.min(cv.parentElement.clientWidth, 540), dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr); cv.style.width = W + 'px'; cv.style.height = W + 'px';
+    cv._W = W; cv._dpr = dpr;
+  }
+  function plane(cv) {
+    const W = cv._W, u = W / (2 * R), ctx = cv.getContext('2d');
+    const P = p => [W / 2 + p[0] * u, W / 2 - p[1] * u];
+    return { ctx, W, u, P };
+  }
+  function seg(ctx, a, b) { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); }
+  function poly(g, pts) { const { ctx, P } = g; ctx.beginPath(); pts.forEach((p, k) => { const s = P(p); k ? ctx.lineTo(s[0], s[1]) : ctx.moveTo(s[0], s[1]); }); ctx.closePath(); }
+  function arrow(g, to, color, w, dash) {
+    const { ctx, P } = g, s = P([0, 0]), e = P(to), len = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (len < 2) return;
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(12, len * 0.4);
+    ctx.setLineDash(dash || []); seg(ctx, s, [e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7]); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42)); ctx.closePath(); ctx.fill();
+  }
+  function base(g, C, M, showGrid) {
+    const { ctx, W, P } = g, N = Math.ceil(R) + 1;
+    ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, W);
+    ctx.lineWidth = 1; ctx.strokeStyle = C.pgrid;
+    for (let k = -N; k <= N; k++) { seg(ctx, P([k, -N]), P([k, N])); seg(ctx, P([-N, k]), P([N, k])); }
+    ctx.strokeStyle = C.muted; ctx.globalAlpha = 0.6; ctx.lineWidth = 1.2;
+    seg(ctx, P([-N, 0]), P([N, 0])); seg(ctx, P([0, -N]), P([0, N])); ctx.globalAlpha = 1;
+    ctx.fillStyle = C.muted; ctx.font = `500 ${Math.max(10, Math.round(g.u * 0.22))}px ${C.num}`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    for (let k = -4; k <= 4; k++) if (k) { const s = P([k, 0]); ctx.fillText(String(k).replace('-', '−'), s[0], s[1] + 4); }
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    for (let k = -4; k <= 4; k++) if (k) { const s = P([0, k]); ctx.fillText(String(k).replace('-', '−'), s[0] - 5, s[1]); }
+    if (showGrid && M) {
+      const G = 14; ctx.strokeStyle = C.tgrid; ctx.lineWidth = 1; ctx.globalAlpha = 0.7;
+      for (let k = -G; k <= G; k++) { seg(ctx, P(ap(M, [k, -G])), P(ap(M, [k, G]))); seg(ctx, P(ap(M, [-G, k])), P(ap(M, [G, k]))); }
+      ctx.globalAlpha = 1;
+    }
+  }
+  function shape(g, pts, style, C) {
+    const { ctx } = g;
+    if (style === 'before') { poly(g, pts); ctx.setLineDash([5, 4]); ctx.strokeStyle = C.muted; ctx.lineWidth = 1.5; ctx.stroke(); ctx.setLineDash([]); }
+    else if (style === 'mid') { poly(g, pts); ctx.setLineDash([2, 3]); ctx.strokeStyle = C.j; ctx.lineWidth = 1.6; ctx.stroke(); ctx.setLineDash([]); }
+    else if (style === 'target') { poly(g, pts); ctx.globalAlpha = 0.08; ctx.fillStyle = C.tgt; ctx.fill(); ctx.globalAlpha = 1; ctx.setLineDash([2, 3]); ctx.strokeStyle = C.tgt; ctx.lineWidth = 2.2; ctx.stroke(); ctx.setLineDash([]); }
+    else { poly(g, pts); ctx.globalAlpha = 0.25; ctx.fillStyle = C.res; ctx.fill(); ctx.globalAlpha = 1; ctx.strokeStyle = C.res; ctx.lineWidth = 2; ctx.stroke(); }
+  }
+  function basis(g, M, C, handles) {
+    const { ctx, P } = g;
+    ctx.globalAlpha = 0.3; arrow(g, [1, 0], C.i, 2); arrow(g, [0, 1], C.j, 2, [5, 4]); ctx.globalAlpha = 1;
+    const ih = [M[0], M[2]], jh = [M[1], M[3]];
+    arrow(g, ih, C.i, 3.2); arrow(g, jh, C.j, 3.2, [7, 5]);
+    [[ih, C.i, 0, false], [jh, C.j, 1, true]].forEach(([p, col, k, dashed]) => {
+      const s = P(p);
+      if (handles) {
+        const big = hover === k || (drag && drag.k === k);
+        ctx.beginPath(); ctx.arc(s[0], s[1], big ? 10 : 7.5, 0, 2 * Math.PI); ctx.fillStyle = C.surface; ctx.fill();
+        ctx.strokeStyle = col; ctx.lineWidth = 2.5; if (dashed) ctx.setLineDash([3, 2.5]); ctx.stroke(); ctx.setLineDash([]);
+      }
+      ctx.fillStyle = col; ctx.font = `700 16px ${C.num}`; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+      ctx.fillText(NAMES[k], s[0] + 9, s[1] - 5);
+    });
+  }
+  function dot(g, p, color, r = 5) { const { ctx, P } = g, s = P(p); ctx.beginPath(); ctx.arc(s[0], s[1], r, 0, 2 * Math.PI); ctx.fillStyle = color; ctx.fill(); }
+
+  // ---------- matrix editors ----------
+  function editor(el, get, set, label) {
+    el.innerHTML = '';
+    ['a', 'b', 'c', 'd'].forEach((nm, k) => {
+      const inp = document.createElement('input');
+      inp.type = 'number'; inp.step = '0.5'; inp.className = k % 2 ? 'c2' : 'c1';
+      inp.setAttribute('aria-label', `${label}, row ${k < 2 ? 1 : 2} column ${k % 2 + 1}`);
+      inp.addEventListener('input', () => { const v = parseFloat(inp.value); if (isNaN(v)) return; const m = get().slice(); m[k] = Math.max(-LIM, Math.min(LIM, v)); set(m, true); });
+      inp.addEventListener('change', () => syncEditors());
+      el.appendChild(inp);
+    });
+  }
+  function fill(el, m) { [...el.querySelectorAll('input')].forEach((inp, k) => { if (document.activeElement !== inp) inp.value = Math.round(m[k] * 1000) / 1000; }); }
+  function showMat(el, m) { el.innerHTML = m ? m.map((v, k) => `<output class="${k % 2 ? 'c2' : 'c1'}">${fmt(v)}</output>`).join('') : '<output>—</output><output>—</output><output>—</output><output>—</output>'; }
+  function syncEditors() { fill($('matM'), S.M); fill($('matA'), S.A); fill($('matB'), S.B); }
+
+  // ---------- single-plane drawing ----------
+  const cv = $('cv'), cvL = $('cvL'), cvR = $('cvR');
+  let drag = null, hover = null;
+  function current() { return S.mode === 'explore' ? lerp(I, S.M, S.t) : S.M; }
+  function drawSingle() {
+    if (!cv._W) return;
+    const C = css(), g = plane(cv); g.ctx.setTransform(cv._dpr, 0, 0, cv._dpr, 0, 0);
+    if (S.mode === 'undo') return drawUndo(g, C);
+    const M = current();
+    base(g, C, M, true);
+    shape(g, F, 'before', C);
+    if (S.mode === 'quiz' && S.target) {
+      shape(g, F.map(p => ap(S.target, p)), 'target', C);
+      if (S.hints >= 1) dot(g, [S.target[0], S.target[2]], C.i, 6);
+      if (S.hints >= 2) dot(g, [S.target[1], S.target[3]], C.j, 6);
+    }
+    shape(g, F.map(p => ap(M, p)), 'after', C);
+    basis(g, M, C, true);
+  }
+  function drawUndo(g, C) {
+    const A = S.M, Ai = inv(A);
+    let M, stageMat;
+    if (S.undoStage === 0) M = lerp(I, A, S.undoT);
+    else if (S.undoStage === 1) M = Ai ? mul(lerp(I, Ai, S.undoT), A) : A;
+    else M = I;
+    base(g, C, M, true);
+    shape(g, F, 'before', C);
+    shape(g, F.map(p => ap(M, p)), 'after', C);
+    basis(g, M, C, false);
+    if (!Ai && S.undoStage === 1) {
+      // two different points that land in the same place
+      const n = Math.abs(A[0]) + Math.abs(A[1]) > 1e-9 ? [-A[1], A[0]] : [-A[3], A[2]];
+      const len = Math.hypot(...n) || 1, nn = [n[0] / len, n[1] / len];
+      const p1 = [0.25, 1.0], p2 = [p1[0] + 1.4 * nn[0], p1[1] + 1.4 * nn[1]], q = ap(A, p1);
+      dot(g, p1, C.neg, 6); dot(g, p2, C.neg, 6);
+      g.ctx.strokeStyle = C.neg; g.ctx.setLineDash([3, 3]); g.ctx.lineWidth = 1.5;
+      seg(g.ctx, g.P(p1), g.P(q)); seg(g.ctx, g.P(p2), g.P(q)); g.ctx.setLineDash([]);
+      g.ctx.beginPath(); const sq = g.P(q); g.ctx.arc(sq[0], sq[1], 9, 0, 2 * Math.PI); g.ctx.strokeStyle = C.neg; g.ctx.lineWidth = 2.5; g.ctx.stroke();
+    }
+  }
+
+  // ---------- compose ----------
+  function drawCompose() {
+    const C = css();
+    [[cvL, S.B, S.A], [cvR, S.A, S.B]].forEach(([c, first, second]) => {
+      if (!c._W) return;
+      const g = plane(c); g.ctx.setTransform(c._dpr, 0, 0, c._dpr, 0, 0);
+      const M = mul(second, first);
+      base(g, C, M, false);
+      shape(g, F, 'before', C);
+      shape(g, F.map(p => ap(first, p)), 'mid', C);
+      shape(g, F.map(p => ap(M, p)), 'after', C);
+      basis(g, M, C, false);
+    });
+    const AB = mul(S.A, S.B), BA = mul(S.B, S.A);
+    $('prodL').textContent = `AB = [${fmt(AB[0])}, ${fmt(AB[1])}; ${fmt(AB[2])}, ${fmt(AB[3])}]`;
+    $('prodR').textContent = `BA = [${fmt(BA[0])}, ${fmt(BA[1])}; ${fmt(BA[2])}, ${fmt(BA[3])}]`;
+    const st = $('stCompose');
+    if (same(AB, BA)) { st.className = 'status good'; st.textContent = 'Same result either way: these two transformations commute.'; }
+    else { st.className = 'status'; st.textContent = 'Different results: the order matters, so AB ≠ BA.'; }
+    cvL.setAttribute('aria-label', `Apply B then A. The combined matrix AB is ${$('prodL').textContent}.`);
+    cvR.setAttribute('aria-label', `Apply A then B. The combined matrix BA is ${$('prodR').textContent}.`);
+  }
+
+  // ---------- readouts ----------
+  function colnote() {
+    $('colnote').innerHTML = `Column 1 is where <b class="i">${NAMES[0]}</b> lands, column 2 is where <b class="j">${NAMES[1]}</b> lands. Drag the arrow tips, or type the entries.`;
+  }
+  function readExplore() {
+    const M = S.M, d = det(M);
+    $('stExplore').textContent = `${NAMES[0]} → ${vec([M[0], M[2]])},  ${NAMES[1]} → ${vec([M[1], M[3]])}. ` +
+      (Math.abs(d) < 1e-9 ? 'The plane is squashed onto a line.' : d < 0 ? 'The shape comes out mirrored.' : 'The shape keeps its orientation.');
+    cv.setAttribute('aria-label', `Plane transformed by M = [${fmt(M[0])}, ${fmt(M[1])}; ${fmt(M[2])}, ${fmt(M[3])}]. ${$('stExplore').textContent}`);
+  }
+  let liveT = 0;
+  const say = t => { clearTimeout(liveT); liveT = setTimeout(() => { $('live').textContent = t; }, 400); };
+  function update() {
+    if (S.mode === 'compose') return drawCompose();
+    drawSingle();
+    if (S.mode === 'explore') readExplore();
+    if (S.mode === 'quiz') cv.setAttribute('aria-label', `Your matrix sends ${NAMES[0]} to ${vec([S.M[0], S.M[2]])} and ${NAMES[1]} to ${vec([S.M[1], S.M[3]])}. The target is the image of the F under a hidden matrix.`);
+  }
+
+  // ---------- set matrices ----------
+  function setM(m, fromInput) {
+    S.M = m.map(v => Math.max(-LIM, Math.min(LIM, v)));
+    S.t = 1; stopAnim();
+    if (S.mode === 'undo') { S.undoStage = 0; S.undoT = 0; refreshUndo(); }
+    if (S.mode === 'quiz') { $('stQuiz').className = 'status'; $('stQuiz').textContent = 'Keep going, then press Check.'; }
+    if (!fromInput) syncEditors(); update();
+  }
+
+  // ---------- animation ----------
+  function stopAnim() { if (S.anim) { cancelAnimationFrame(S.anim); S.anim = 0; } }
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function animate(step, done, dur = 1300) {
+    stopAnim();
+    if (reduce) { step(1); done && done(); return; }
+    const t0 = performance.now();
+    const f = now => { const k = Math.min(1, (now - t0) / dur), e = k < 0.5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2; step(e);
+      if (k < 1) S.anim = requestAnimationFrame(f); else { S.anim = 0; done && done(); } };
+    S.anim = requestAnimationFrame(f);
+  }
+
+  // ---------- explore ----------
+  ['Rotate 90°', 'Rotate 30°', 'Reflect in y = x', 'Enlarge ×2', 'Stretch x ×2', 'Shear (x)', 'Project onto x-axis'].forEach(n => {
+    const b = document.createElement('button'); b.textContent = n;
+    b.addEventListener('click', () => { setM(LIB[n]); S.t = 0; animate(e => { S.t = e; update(); }); });
+    $('presetsExplore').appendChild(b);
+  });
+  $('playE').addEventListener('click', () => { S.t = 0; animate(e => { S.t = e; update(); }); say('Playing from the identity to M.'); });
+
+  // ---------- quiz ----------
+  const POOL = ['Rotate 90°', 'Reflect in x-axis', 'Reflect in y-axis', 'Reflect in y = x', 'Enlarge ×2', 'Stretch x ×2', 'Shear (x)', 'Shear (y)'].map(n => LIB[n])
+    .concat([[0, 1, -1, 0], [-1, 0, 0, -1], [0, -1, -1, 0], [1, -1, 0, 1], [1, 0, 0, 2], [2, 0, 0, -1], [0.5, 0, 0, 0.5]]);
+  function newQuestion() {
+    let T, tries = 0;
+    do {
+      if (Math.random() < 0.55) T = POOL[Math.floor(Math.random() * POOL.length)].slice();
+      else { const r = () => [-2, -1, -1, 0, 0, 1, 1, 2][Math.floor(Math.random() * 8)]; T = [r(), r(), r(), r()]; }
+      tries++;
+    } while ((Math.abs(det(T)) < 0.5 || same(T, I) || F.some(p => { const q = ap(T, p); return Math.abs(q[0]) > 4.3 || Math.abs(q[1]) > 4.3; }) || (S.target && same(T, S.target))) && tries < 200);
+    S.target = T; S.hints = 0; S.tries = 0;
+    S.M = I.slice(); syncEditors();
+    $('stQuiz').className = 'status'; $('stQuiz').textContent = 'Which matrix moves the dashed F onto the purple target?';
+    update(); say('New question.');
+  }
+  $('nextQ').addEventListener('click', newQuestion);
+  $('check').addEventListener('click', () => {
+    const T = S.target, M = S.M, st = $('stQuiz'); S.tries++;
+    if (same(M, T)) {
+      S.score++; $('score').textContent = `· solved ${S.score}`;
+      st.className = 'status good'; st.textContent = `Correct: M = [${fmt(T[0])}, ${fmt(T[1])}; ${fmt(T[2])}, ${fmt(T[3])}]. Press New question for another.`;
+    } else {
+      const c1 = Math.abs(M[0] - T[0]) < 1e-6 && Math.abs(M[2] - T[2]) < 1e-6, c2 = Math.abs(M[1] - T[1]) < 1e-6 && Math.abs(M[3] - T[3]) < 1e-6;
+      st.className = 'status warn';
+      st.textContent = c1 ? `Column 1 is right. Column 2 isn't yet: where should ${NAMES[1]} land?` :
+        c2 ? `Column 2 is right. Column 1 isn't yet: where should ${NAMES[0]} land?` :
+        `Not yet: neither column is right. Where must ${NAMES[0]} and ${NAMES[1]} land to make the target? Try a hint.`;
+    }
+    say(st.textContent);
+  });
+  $('hint').addEventListener('click', () => {
+    S.hints = Math.min(2, S.hints + 1);
+    $('stQuiz').className = 'status';
+    $('stQuiz').textContent = S.hints === 1 ? `Hint: the blue dot shows where ${NAMES[0]} must land. That is column 1.` : `Hint: the orange dot shows where ${NAMES[1]} must land. That is column 2.`;
+    update(); say($('stQuiz').textContent);
+  });
+  $('reveal').addEventListener('click', () => { S.M = S.target.slice(); syncEditors(); update(); $('stQuiz').className = 'status'; $('stQuiz').textContent = `The answer is M = [${fmt(S.M[0])}, ${fmt(S.M[1])}; ${fmt(S.M[2])}, ${fmt(S.M[3])}]. Its columns are where ${NAMES[0]} and ${NAMES[1]} land.`; });
+
+  // ---------- undo ----------
+  ['Rotate 30°', 'Shear (x)', 'Stretch x ×2', 'Reflect in y = x', 'Project onto x-axis', 'Squash flat'].forEach(n => {
+    const b = document.createElement('button'); b.textContent = n;
+    b.addEventListener('click', () => setM(LIB[n]));
+    $('presetsUndo').appendChild(b);
+  });
+  function refreshUndo() {
+    const Ai = inv(S.M); showMat($('matInv'), Ai);
+    const st = $('stUndo');
+    if (S.undoStage === 0 && S.undoT === 0) { st.className = 'status'; st.textContent = Ai ? 'Press Apply M to move the shape, then Undo to bring it back.' : `This matrix has determinant 0. Press Apply M and then try to undo it.`; }
+    $('undoIt').disabled = !(S.undoStage === 0 && S.undoT === 1);
+  }
+  $('doIt').addEventListener('click', () => {
+    S.undoStage = 0; S.undoT = 0; $('undoIt').disabled = true;
+    animate(e => { S.undoT = e; drawSingle(); }, () => { refreshUndo(); $('stUndo').textContent = 'Now press Undo to apply the inverse matrix.'; say('Applied M.'); });
+  });
+  $('undoIt').addEventListener('click', () => {
+    const Ai = inv(S.M), st = $('stUndo');
+    S.undoStage = 1; S.undoT = 0; $('undoIt').disabled = true;
+    if (!Ai) {
+      drawSingle();
+      st.className = 'status warn';
+      st.textContent = 'There is no inverse. The two red points started in different places but landed on the same point, so there is no way to know which one to send it back to.';
+      say(st.textContent); return;
+    }
+    animate(e => { S.undoT = e; drawSingle(); }, () => {
+      S.undoStage = 2; drawSingle();
+      st.className = 'status good'; st.textContent = 'Back where it started: applying M and then its inverse gives the identity.';
+      say(st.textContent);
+    });
+  });
+  $('resetU').addEventListener('click', () => { stopAnim(); S.undoStage = 0; S.undoT = 0; refreshUndo(); drawSingle(); });
+
+  // ---------- compose ----------
+  const OPTS = ['Rotate 90°', 'Rotate 45°', 'Reflect in x-axis', 'Reflect in y = x', 'Shear (x)', 'Stretch x ×2', 'Enlarge ×2'];
+  [['selA', 'A'], ['selB', 'B']].forEach(([id, key]) => {
+    const sel = $(id);
+    sel.add(new Option('Choose…', ''));
+    OPTS.forEach(n => sel.add(new Option(n, n)));
+    sel.addEventListener('change', () => { if (!sel.value) return; S[key] = LIB[sel.value].slice(); syncEditors(); drawCompose(); });
+  });
+
+  // ---------- dragging (explore, quiz) ----------
+  function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+  function hit(sx, sy) {
+    if (!(S.mode === 'explore' || S.mode === 'quiz')) return null;
+    const g = plane(cv), M = current(); let best = null, bd = 22;
+    [[0, [M[0], M[2]]], [1, [M[1], M[3]]]].forEach(([k, p]) => { const s = g.P(p), d = Math.hypot(s[0] - sx, s[1] - sy); if (d < bd) { bd = d; best = k; } });
+    return best;
+  }
+  cv.addEventListener('pointerdown', e => {
+    const [sx, sy] = pos(e), k = hit(sx, sy); if (k === null) return;
+    stopAnim(); S.t = 1; drag = { k }; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); drawSingle();
+  });
+  cv.addEventListener('pointermove', e => {
+    const [sx, sy] = pos(e);
+    if (!drag) { const h = hit(sx, sy); if (h !== hover) { hover = h; cv.className = h !== null ? 'grab' : ''; drawSingle(); } return; }
+    const g = plane(cv);
+    let x = Math.round(((sx - cv._W / 2) / g.u) * 2) / 2, y = Math.round(((cv._W / 2 - sy) / g.u) * 2) / 2;
+    x = Math.max(-LIM, Math.min(LIM, x)); y = Math.max(-LIM, Math.min(LIM, y));
+    const m = S.M.slice(); if (drag.k === 0) { m[0] = x; m[2] = y; } else { m[1] = x; m[3] = y; }
+    setM(m);
+  });
+  const end = () => { if (drag) { drag = null; cv.className = hover !== null ? 'grab' : ''; drawSingle(); } };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  cv.addEventListener('pointerleave', () => { if (!drag && hover !== null) { hover = null; cv.className = ''; drawSingle(); } });
+
+  // ---------- modes ----------
+  function legend() {
+    const l = $('legend1');
+    const items = [['o', 'shape before'], ['r', 'shape after'], ['i', `where ${NAMES[0]} lands`], ['j', `where ${NAMES[1]} lands`]];
+    if (S.mode === 'quiz') items.splice(2, 0, ['t', 'target']);
+    l.innerHTML = items.map(([c, t]) => `<span><span class="sw ${c}"></span>${t}</span>`).join('');
+  }
+  function setMode(m) {
+    stopAnim(); S.mode = m;
+    document.querySelectorAll('#modes button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+    $('single').hidden = m === 'compose'; $('compose').hidden = m !== 'compose';
+    $('ctlExplore').hidden = m !== 'explore'; $('ctlQuiz').hidden = m !== 'quiz'; $('ctlUndo').hidden = m !== 'undo';
+    legend();
+    if (m === 'quiz') newQuestion();
+    if (m === 'undo') { if (same(S.M, I)) S.M = LIB['Shear (x)'].slice(); S.undoStage = 0; S.undoT = 0; syncEditors(); refreshUndo(); }
+    if (m === 'explore') S.t = 1;
+    resize();
+  }
+  document.querySelectorAll('#modes button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+
+  function resize() {
+    if (S.mode === 'compose') { sizeCanvas(cvL); sizeCanvas(cvR); drawCompose(); }
+    else { sizeCanvas(cv); update(); }
+  }
+  editor($('matM'), () => S.M, (m, fi) => setM(m, fi), 'M');
+  editor($('matA'), () => S.A, (m) => { S.A = m; $('selA').value = ''; drawCompose(); }, 'A');
+  editor($('matB'), () => S.B, (m) => { S.B = m; $('selB').value = ''; drawCompose(); }, 'B');
+  colnote(); syncEditors();
+  new ResizeObserver(() => resize()).observe(document.querySelector('.wrap'));
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => resize());
+  new MutationObserver(() => resize()).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (document.fonts) document.fonts.ready.then(() => resize());
+
+  const qm = new URLSearchParams(location.search).get('mode');
+  if (qm === 'undo') S.M = LIB['Shear (x)'].slice();
+  setMode(['explore', 'quiz', 'compose', 'undo'].includes(qm) ? qm : 'explore');
+})();
+</script>
+</body>
+</html>

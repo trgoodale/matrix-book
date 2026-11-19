@@ -1,0 +1,352 @@
+# The singular value decomposition and PCA {#sec-svd-pca}
+
+[Further]{.level-badge .further}
+
+::: {.callout-note appearance="simple" icon=false}
+## In this chapter you will
+
+- explain the singular value decomposition $\M{A} = \M{U}\M{\Sigma}\M{V}\T$ as rotate, stretch, rotate
+- find singular values from the eigenvalues of $\M{A}\T\M{A}$
+- use the SVD for low-rank approximation, as in image compression
+- carry out principal component analysis on a data set
+:::
+
+**Builds on** @sec-orthogonality-least-squares, @sec-symmetric-matrices.
+
+Eigenvalues only make sense for square matrices, and even then they can be complex, or too few. The **singular value decomposition** (SVD) works for every matrix, of any shape, and always gives real, non-negative numbers and perpendicular directions. It says that every matrix, however complicated, does three simple things in turn: a rotation, a stretch along perpendicular axes, and another rotation. It is probably the most useful factorisation in applied linear algebra: it measures how close a matrix is to singular, finds the best low-rank approximation to a data set or an image, and is the engine of principal component analysis.
+
+## Build intuition
+
+The app shows what a $2 \times 2$ matrix does to the unit circle, one step at a time: the circle is turned, stretched into an ellipse, and turned again. The two stretch factors, shown as $\sigma_1$ and $\sigma_2$, are the half-lengths of the ellipse's longest and shortest axes; this chapter calls them the **singular values**. (The app's second mode, **Compressing a picture**, comes back later in the chapter, once the idea behind it has been explained.)
+
+::: {.app-embed}
+<iframe class="app-frame" src="../apps/svd-explorer.html?embed=1" title="SVD explorer" loading="lazy"></iframe>
+
+[Open the SVD explorer in its own tab](../apps/svd-explorer.html){.app-open target="_blank"}
+:::
+
+Things to try:
+
+- Drag the slider slowly from left to right in **Example**. Which step changes the shape, and which only turn it?
+- Try **Shear** and **Rotation**. How much does a rotation stretch the circle? What are $\sigma_1$ and $\sigma_2$, and why?
+- In **Squash flat**, what happens to the ellipse? What does $\sigma_2 = 0$ say about the matrix?
+
+## The ideas
+
+### Rotate, stretch, rotate
+
+::: {.callout-important appearance="simple"}
+## The singular value decomposition
+Every $m \times n$ matrix $\M{A}$ can be written as
+$$
+\M{A} = \M{U}\M{\Sigma}\M{V}\T,
+$$
+where $\M{U}$ ($m \times m$) and $\M{V}$ ($n \times n$) are orthogonal, and $\M{\Sigma}$ ($m \times n$) is zero except for the **singular values** $\sigma_1 \ge \sigma_2 \ge \dots \ge 0$ down its main diagonal.
+:::
+
+Read from right to left, as always (@sec-composition):
+
+1. $\M{V}\T$ turns space (a rotation, perhaps with a reflection), so that the columns $\vect{v}_1, \vect{v}_2, \dots$ of $\M{V}$ line up with the axes;
+2. $\M{\Sigma}$ stretches along the axes by $\sigma_1, \sigma_2, \dots$;
+3. $\M{U}$ turns the result into place, so that the axes line up with the columns $\vect{u}_1, \vect{u}_2, \dots$ of $\M{U}$.
+
+The unit circle (or sphere) becomes an ellipse (or ellipsoid) whose semi-axes are $\sigma_1\vect{u}_1, \sigma_2\vect{u}_2, \dots$
+
+Column by column, the decomposition says
+$$
+\M{A}\vect{v}_i = \sigma_i\vect{u}_i.
+$$ {#eq-svd-columns}
+Compare $\M{A}\vect{v} = \lambda\vect{v}$: the **right singular vectors** $\vect{v}_i$ are perpendicular directions in the input that $\M{A}$ sends to perpendicular directions $\vect{u}_i$ in the output (the **left singular vectors**), stretched by $\sigma_i$. Unlike eigenvectors, the input and output directions can differ, which is what makes the SVD possible for every matrix.
+
+### Finding the SVD
+
+Multiply $\M{A}$ by its transpose:
+$$
+\M{A}\T\M{A} = \M{V}\M{\Sigma}\T\M{U}\T\M{U}\M{\Sigma}\M{V}\T = \M{V}(\M{\Sigma}\T\M{\Sigma})\M{V}\T.
+$$
+This is the orthogonal diagonalisation of the symmetric matrix $\M{A}\T\M{A}$ (@sec-symmetric-matrices). So:
+
+1. the **right singular vectors** $\vect{v}_i$ are the eigenvectors of $\M{A}\T\M{A}$;
+2. the **singular values** are the square roots of its eigenvalues, $\sigma_i = \sqrt{\lambda_i}$ (which are never negative, since $\M{A}\T\M{A}$ is positive semidefinite);
+3. the **left singular vectors** follow from @eq-svd-columns: $\vect{u}_i = \M{A}\vect{v}_i / \sigma_i$ for each $\sigma_i > 0$.
+
+By hand this works for small examples. Software uses more accurate methods, which avoid forming $\M{A}\T\M{A}$.
+
+::: {#ex-svd-pca-1 .callout-note appearance="simple" icon=false}
+### Example 1: an SVD by hand
+
+Find the SVD of $\M{A} = \mat{3 & 0 \\ 4 & 5}$.
+
+**Solution.** First,
+$$
+\M{A}\T\M{A} = \mat{3 & 4 \\ 0 & 5}\mat{3 & 0 \\ 4 & 5} = \mat{25 & 20 \\ 20 & 25},
+$$
+with trace 50 and determinant $625 - 400 = 225$, so its eigenvalues are 45 and 5, with eigenvectors $(1, 1)\T$ and $(1, -1)\T$. So
+$$
+\sigma_1 = \sqrt{45} = 3\sqrt{5},
+\qquad
+\sigma_2 = \sqrt{5},
+\qquad
+\vect{v}_1 = \tfrac{1}{\sqrt{2}}(1, 1)\T,
+\qquad
+\vect{v}_2 = \tfrac{1}{\sqrt{2}}(1, -1)\T.
+$$
+Then $\vect{u}_1 = \M{A}\vect{v}_1/\sigma_1 = \tfrac{1}{\sqrt{2}}(3, 9)\T / (3\sqrt{5}) = \tfrac{1}{\sqrt{10}}(1, 3)\T$, and $\vect{u}_2 = \M{A}\vect{v}_2/\sigma_2 = \tfrac{1}{\sqrt{2}}(3, -1)\T/\sqrt{5} = \tfrac{1}{\sqrt{10}}(3, -1)\T$. These are perpendicular, as they must be. So
+$$
+\M{A} = \frac{1}{\sqrt{10}}\mat{1 & 3 \\ 3 & -1}\mat{3\sqrt{5} & 0 \\ 0 & \sqrt{5}}\frac{1}{\sqrt{2}}\mat{1 & 1 \\ 1 & -1}.
+$$
+Check: $\sigma_1\sigma_2 = 15 = \lvert\det\M{A}\rvert$. ✓ This is **Example** in the app.
+:::
+
+### What the singular values tell you
+
+- **Rank.** The number of non-zero singular values is the rank of $\M{A}$. In floating-point arithmetic, tiny singular values signal a matrix that is *nearly* of lower rank, which is how `matrix_rank` and MATLAB's `rank` decide (@sec-gauss-jordan-rank).
+- **Size.** $\sigma_1$ is the largest factor by which $\M{A}$ stretches any vector: $\lVert\M{A}\vect{x}\rVert \le \sigma_1\lVert\vect{x}\rVert$.
+- **Closeness to singular.** For a square matrix, $\lvert\det\M{A}\rvert = \sigma_1\sigma_2\cdots\sigma_n$, and the ratio $\sigma_1/\sigma_n$, the **condition number**, measures how much errors can be magnified when solving $\M{A}\vect{x} = \vect{b}$ (@sec-floating-point-conditioning).
+- **The four subspaces.** The first $r$ columns of $\M{V}$ are an orthonormal basis for the row space, the rest for the null space; the first $r$ columns of $\M{U}$ are an orthonormal basis for the column space, the rest for the left null space (@sec-fundamental-subspaces). This is how `null_space` and `orth` work.
+
+### Low-rank approximation
+
+Multiplying out $\M{U}\M{\Sigma}\M{V}\T$ column by row writes $\M{A}$ as a sum of simple pieces,
+$$
+\M{A} = \sigma_1\vect{u}_1\vect{v}_1\T + \sigma_2\vect{u}_2\vect{v}_2\T + \dots + \sigma_r\vect{u}_r\vect{v}_r\T,
+$$
+each a rank-1 matrix (a column times a row), in decreasing order of importance. Keeping only the first $k$ terms gives a matrix $\M{A}_k$ of rank $k$. The **Eckart–Young theorem** says that this is the best possible: no matrix of rank $k$ is closer to $\M{A}$, measuring closeness by the square root of the sum of the squared differences of the entries. The error of the approximation is $\sqrt{\sigma_{k+1}^2 + \dots + \sigma_r^2}$.
+
+An $m \times n$ greyscale image is a matrix of pixel brightnesses. Storing $\M{A}_k$ needs only $k$ columns $\vect{u}_i$, $k$ rows $\vect{v}_i\T$ and $k$ numbers $\sigma_i$: $k(m + n + 1)$ numbers instead of $mn$. Natural images have singular values that fall off quickly, so a modest $k$ gives a recognisable picture. (Real image formats such as JPEG use a related idea with fixed basis patterns, which is faster.)
+
+The SVD explorer from the start of the chapter, in its second mode, builds a picture up one rank-1 term at a time.
+
+::: {.app-embed}
+<iframe class="app-frame" src="../apps/svd-explorer.html?embed=1&mode=img" title="SVD explorer: compressing a picture" loading="lazy"></iframe>
+
+[Open the picture compression in its own tab](../apps/svd-explorer.html?mode=img){.app-open target="_blank"}
+:::
+
+Things to try:
+
+- How many terms do you need before the picture looks right? How many numbers does that store, compared with the whole picture?
+- Watch the plot of singular values as you add terms. Where does the picture stop improving much?
+- Try **Checks** and **Stripes**. Why are so few terms enough? (*Hint*: how many genuinely different rows does each picture have, and what does that say about its rank?)
+
+::: {#ex-svd-pca-2 .callout-note appearance="simple" icon=false}
+### Example 2: the best rank-1 approximation
+
+Find the best rank-1 approximation to $\M{A}$ in Example 1, and its error.
+
+**Solution.** Keep the first term:
+$$
+\M{A}_1 = \sigma_1\vect{u}_1\vect{v}_1\T = 3\sqrt{5} \cdot \frac{1}{\sqrt{10}}\mat{1 \\ 3} \cdot \frac{1}{\sqrt{2}}\mat{1 & 1} = \frac{3}{2}\mat{1 & 1 \\ 3 & 3}.
+$$
+The error is $\M{A} - \M{A}_1 = \mat{1.5 & -1.5 \\ -0.5 & 0.5}$, and the square root of the sum of its squared entries is $\sqrt{2.25 + 2.25 + 0.25 + 0.25} = \sqrt{5} = \sigma_2$, exactly as the Eckart–Young theorem says.
+:::
+
+### Principal component analysis
+
+Take a data set of $n$ items measured on $p$ variables, as an $n \times p$ matrix $\M{X}$ with each column's mean subtracted (@sec-symmetric-matrices). Write its SVD as $\M{X} = \M{U}\M{\Sigma}\M{V}\T$. Then the covariance matrix is
+$$
+\M{C} = \frac{1}{n - 1}\M{X}\T\M{X} = \M{V}\,\frac{\M{\Sigma}\T\M{\Sigma}}{n - 1}\,\M{V}\T,
+$$
+so the columns of $\M{V}$ are the eigenvectors of $\M{C}$: the directions of greatest spread in the data, called the **principal components**. The variance along the $i$th one is $\sigma_i^2/(n - 1)$, and the fraction of the total variance it accounts for is
+$$
+\frac{\sigma_i^2}{\sigma_1^2 + \sigma_2^2 + \dots + \sigma_p^2}.
+$$
+**Principal component analysis** (PCA) describes each item by its coordinates along the first few principal components, its **scores** $\M{X}\vect{v}_i$, instead of by all $p$ of its original variables. When the first few components explain most of the variance, little information is lost, and data with dozens of variables can be plotted in two or three dimensions.
+
+::: {#ex-svd-pca-3 .callout-note appearance="simple" icon=false}
+### Example 3: principal components of a small data set
+
+Five items are measured on two variables: $(1, 2)$, $(2, 3)$, $(3, 5)$, $(4, 4)$ and $(5, 6)$. Find the principal components and how much of the variance each explains.
+
+**Solution.** The means are 3 and 4, so the centred data are
+$$
+\M{X} = \mat{-2 & -2 \\ -1 & -1 \\ 0 & 1 \\ 1 & 0 \\ 2 & 2},
+$$
+and the covariance matrix is
+$$
+\M{C} = \frac{1}{4}\M{X}\T\M{X} = \frac{1}{4}\mat{10 & 9 \\ 9 & 10}.
+$$
+Its eigenvalues are $\tfrac{19}{4}$ and $\tfrac{1}{4}$, with eigenvectors $(1, 1)\T$ and $(1, -1)\T$. The first principal component is the direction $\tfrac{1}{\sqrt{2}}(1, 1)$, explaining $\tfrac{19}{20} = 95\%$ of the variance; the second, at right angles to it, explains the remaining 5%. The data lie close to a line through their mean in the direction $(1, 1)$, so describing each item by its single score along that line loses little.
+:::
+
+### The pseudoinverse
+
+If $\M{A}$ has rank $r$, replacing each non-zero $\sigma_i$ in $\M{\Sigma}$ by $1/\sigma_i$, and transposing, gives $\M{\Sigma}^+$, and the **pseudoinverse** is
+$$
+\M{A}^+ = \M{V}\M{\Sigma}^+\M{U}\T.
+$$
+For an invertible matrix it is the ordinary inverse. For any $\M{A}$, $\hat{\vect{x}} = \M{A}^+\vect{b}$ is the least-squares solution of $\M{A}\vect{x} = \vect{b}$ (@sec-orthogonality-least-squares), and when there are many least-squares solutions, because the columns are dependent, it picks the shortest one.
+
+## In code
+
+`np.linalg.svd` returns $\M{U}$, the singular values as a list, and $\M{V}\T$ (not $\M{V}$). MATLAB's `svd` returns $\M{U}$, $\M{\Sigma}$ and $\M{V}$. With `full_matrices=False`, or `'econ'` in MATLAB, a tall matrix gets only the columns of $\M{U}$ that matter, which saves a lot of memory for data sets.
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+import numpy as np
+
+A = np.array([[3, 0], [4, 5]])
+U, s, Vt = np.linalg.svd(A)
+print(s)                                   # 3*sqrt(5) and sqrt(5)
+print(U)
+print(Vt)                                  # rows are v1 and v2 (signs may differ)
+
+# PCA of Example 3
+X = np.array([[1, 2], [2, 3], [3, 5], [4, 4], [5, 6]])
+Xc = X - X.mean(axis=0)                    # centre each column
+U, s, Vt = np.linalg.svd(Xc, full_matrices=False)
+print(Vt[0])                               # first principal component
+print(s**2 / np.sum(s**2))                 # fraction of variance explained
+```
+
+The figure compresses a $120 \times 120$ picture, made of simple shapes, by keeping $k$ terms of its SVD.
+
+```{python}
+#| fig-alt: "A row of four greyscale images, the original and rank 1, 5 and 20 approximations, becoming clearer as the rank grows, followed by a log-scale plot of singular values that drops steeply then levels off."
+#| label: fig-svd-compress
+#| fig-cap: "A 120 × 120 picture and its best approximations of rank 1, 5 and 20, with the percentage of the original 14 400 numbers each one needs. The first 60 singular values (right, on a logarithmic scale) fall quickly at first, which is why so few terms are needed."
+#| code-fold: true
+#| code-summary: "Show the code for this figure"
+import matplotlib.pyplot as plt
+
+n = 120
+y, x = np.mgrid[0:n, 0:n]
+img = 0.85 - 0.5 * y / n                                   # sky, darker lower down
+img[(x - 84)**2 + (y - 30)**2 < 16**2] = 1.0               # sun
+ridge = np.minimum(np.abs(x - 35) * 1.25 + 50, np.abs(x - 85) * 1.6 + 60)
+img[y > ridge] = 0.15                                      # mountains
+img[8:28, 8:40] = np.where((x[8:28, 8:40] // 4) % 2, 0.0, 0.9)   # stripes
+
+U, s, Vt = np.linalg.svd(img)
+fig, axes = plt.subplots(1, 5, figsize=(11, 2.6), gridspec_kw={"width_ratios": [1, 1, 1, 1, 1.3]})
+for ax, k in zip(axes[:4], [None, 1, 5, 20]):
+    approx = img if k is None else (U[:, :k] * s[:k]) @ Vt[:k]
+    ax.imshow(np.clip(approx, 0, 1), cmap="gray", vmin=0, vmax=1)
+    ax.set_title("original" if k is None else f"k = {k} ({100 * k * (2 * n + 1) / n**2:.0f}%)", fontsize=10)
+    ax.axis("off")
+axes[4].semilogy(np.arange(1, 61), s[:60], ".", ms=4, color="#2153b8")
+axes[4].set_title("first 60 singular values", fontsize=10)
+axes[4].set_xlabel("i")
+plt.tight_layout()
+plt.show()
+```
+
+## MATLAB
+
+```matlab
+A = [3 0; 4 5];
+[U, S, V] = svd(A)         % columns of V are v1 and v2 (signs may differ)
+
+% PCA of Example 3
+X = [1 2; 2 3; 3 5; 4 4; 5 6];
+Xc = X - mean(X);          % centre each column
+[~, S2, V2] = svd(Xc, 'econ');
+V2(:, 1)                   % first principal component
+explained = diag(S2).^2 / sum(diag(S2).^2)
+```
+
+```{.text .code-output}
+U =
+
+   -0.3162   -0.9487
+   -0.9487    0.3162
+
+S =
+
+    6.7082         0
+         0    2.2361
+
+V =
+
+   -0.7071   -0.7071
+   -0.7071    0.7071
+
+ans =
+
+    0.7071
+    0.7071
+
+explained =
+
+    0.9500
+    0.0500
+```
+
+Software may return any singular vector multiplied by $-1$, as long as its partner is too: $\vect{u}_i$ and $\vect{v}_i$ always change sign together. The Statistics and Machine Learning Toolbox also has a `pca` function, which centres the data and returns the components and explained variances directly.
+:::
+
+## Check your understanding
+
+::: {.callout-tip collapse="true"}
+## What are the singular values of a rotation matrix?
+
+All 1: a rotation turns the unit circle without stretching it.
+:::
+
+::: {.callout-tip collapse="true"}
+## A $5 \times 3$ matrix has singular values 4, 1 and 0. What is its rank?
+
+2: the number of non-zero singular values.
+:::
+
+::: {.callout-tip collapse="true"}
+## How are the singular values of a symmetric positive definite matrix related to its eigenvalues?
+
+They are the same: $\M{A} = \M{Q}\M{\Lambda}\M{Q}\T$ is already an SVD, with $\M{U} = \M{V} = \M{Q}$.
+:::
+
+## Key ideas
+
+- Every matrix, of any shape, has a singular value decomposition $\M{A} = \M{U}\M{\Sigma}\M{V}\T$: rotate, stretch along the axes, rotate.
+- The singular values are the square roots of the eigenvalues of $\M{A}\T\M{A}$, and they measure how much $\M{A}$ stretches in each direction.
+- The number of non-zero singular values is the rank, and the ratio of the largest to the smallest is the condition number.
+- Keeping only the largest $k$ singular values gives the best rank-$k$ approximation to $\M{A}$, the basis of compression.
+- Principal component analysis is the SVD of centred data: the right singular vectors are the principal directions, and the squared singular values measure the variance along each.
+
+## Exercises {#sec-svd-pca-exercises}
+
+1. []{#exercise-svd-pca-1}Find the singular values of $\mat{1 & 1 \\ 0 & 0}$, and describe what the matrix does to the unit circle.
+
+   [Solution to exercise 1](../appendices/solutions-4.qmd#solution-svd-pca-1){.sol-link}
+
+2. []{#exercise-svd-pca-2}Find the SVD of $\mat{2 & 0 \\ 0 & -3}$. (*Hint*: the singular values must be positive and in decreasing order.)
+
+   [Solution to exercise 2](../appendices/solutions-4.qmd#solution-svd-pca-2){.sol-link}
+
+3. []{#exercise-svd-pca-3}Show that the singular values of $\M{A}$ and $\M{A}\T$ are the same.
+
+   [Solution to exercise 3](../appendices/solutions-4.qmd#solution-svd-pca-3){.sol-link}
+
+4. []{#exercise-svd-pca-4}A $500 \times 800$ greyscale image is compressed by keeping $k = 40$ terms of its SVD. What fraction of the original storage does this need?
+
+   [Solution to exercise 4](../appendices/solutions-4.qmd#solution-svd-pca-4){.sol-link}
+
+5. []{#exercise-svd-pca-5}Explain why, for a square matrix, $\lvert\det\M{A}\rvert = \sigma_1\sigma_2\cdots\sigma_n$.
+
+   [Solution to exercise 5](../appendices/solutions-4.qmd#solution-svd-pca-5){.sol-link}
+
+6. []{#exercise-svd-pca-6}Find the pseudoinverse of $\M{A} = \mat{1 & 1 \\ 1 & 1}$, and use it to find the shortest least-squares solution of $\M{A}\vect{x} = (1, 3)\T$.
+
+   [Solution to exercise 6](../appendices/solutions-4.qmd#solution-svd-pca-6){.sol-link}
+
+7. []{#exercise-svd-pca-7}**Code.** Generate data for 200 people with two closely related measurements, for example with `rng = np.random.default_rng(1)`, `h = rng.normal(170, 10, 200)` (heights in cm) and `s = h + rng.normal(0, 4, 200)` (arm spans in cm). Find the principal components and the fraction of the variance explained by each, and interpret the first component.
+
+   [Solution to exercise 7](../appendices/solutions-4.qmd#solution-svd-pca-7){.sol-link}
+
+Solutions are in @sec-solutions-svd-pca.
+
+## In practice
+
+- **Data science**: PCA is one of the first steps in exploring a data set with many variables, from gene expression measurements to survey responses, both to visualise it and to reduce the number of variables before further modelling (@sec-data-science).
+- **Recommender systems**: a table of users' ratings of films or products is approximately low-rank, because tastes are driven by a few underlying factors. Low-rank approximations, close relatives of the truncated SVD, fill in the missing ratings to make recommendations.
+- **Engineering**: in measurements or simulations of fluid flow, structural vibration or heat, the SVD of a matrix of snapshots picks out the dominant patterns, called modes. Models built from a few modes can run thousands of times faster than the full simulation.
+- **Numerical computing**: the SVD gives reliable ranks, orthonormal bases for the four subspaces, condition numbers and least-squares solutions even when a matrix is nearly singular.
+- **Signal and image processing**: noise spreads over all the singular values, while the signal is concentrated in the first few, so dropping the small ones removes much of the noise.
+
+## Going further
+
+- For very large matrices, **randomised SVD** finds the first few singular values and vectors by multiplying the matrix by a handful of random vectors, at a fraction of the cost of a full SVD.
+- A proof that every matrix has an SVD, from the spectral theorem applied to $\M{A}\T\M{A}$, and of a form of the Eckart–Young theorem: @sec-proofs-svd-pca.
+- PCA results depend on the units of the variables. When variables are measured on different scales, they are usually standardised first (divided by their standard deviations), which amounts to using the correlation matrix instead of the covariance matrix.

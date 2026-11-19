@@ -1,0 +1,49 @@
+# Part I review {#sec-review-1 .unnumbered}
+
+These exercises mix ideas from the whole of Part I, in no particular order. They don't say which chapter they come from, so part of each exercise is deciding which tools to use. Mixing topics like this is harder than practising one chapter at a time, but it is what makes ideas stick. Solutions, with the chapters each exercise draws on, are in [Solutions: Part I](../appendices/solutions-1.qmd#sec-solutions-review-1).
+
+1. []{#exercise-review-1-1}Let
+   $$\M{A} = \mat{2 & 1 \\ 1 & 3}, \qquad \M{B} = \mat{0 & 1 \\ -1 & 0}.$$
+
+   a. Describe the transformation $\M{B}$ in words.
+   b. Find $\M{A}\M{B}$ and $\M{B}\M{A}$. Are they equal?
+   c. Check that $\det(\M{A}\M{B}) = \det\M{A}\,\det\M{B}$.
+
+   [Solution to exercise 1](../appendices/solutions-1.qmd#solution-review-1-1){.sol-link}
+
+2. []{#exercise-review-1-2}A shape is reflected in the $y$-axis and then rotated $90^\circ$ anticlockwise about the origin. Find the single matrix that does both, and identify it as a single transformation. What single transformation do you get if the two steps are done in the other order?
+
+   [Solution to exercise 2](../appendices/solutions-1.qmd#solution-review-1-2){.sol-link}
+
+3. []{#exercise-review-1-3}The parallelogram $OPQR$ has vertices $O(0, 0)$, $P(3, 1)$, $Q(4, 3)$ and $R(1, 2)$. Find its area. It is transformed by $\M{M} = \mat{2 & -1 \\ 1 & 1}$. Find the area of the image, and say whether the image has the same orientation as the original.
+
+   [Solution to exercise 3](../appendices/solutions-1.qmd#solution-review-1-3){.sol-link}
+
+4. []{#exercise-review-1-4}Find the $2 \times 2$ matrix $\M{X}$ with $\M{A}\M{X} + \M{I} = \M{C}$, where
+   $$\M{A} = \mat{2 & 1 \\ 5 & 3}, \qquad \M{C} = \mat{4 & 1 \\ 8 & 4}.$$
+   Explain why the answer is not $(\M{C} - \M{I})\M{A}^{-1}$.
+
+   [Solution to exercise 4](../appendices/solutions-1.qmd#solution-review-1-4){.sol-link}
+
+5. []{#exercise-review-1-5}For which value of $k$ is
+   $$\M{M} = \mat{1 & 2 & k \\ 0 & 1 & 1 \\ 2 & k & 0}$$
+   singular? For that value, what does the transformation do to a unit cube?
+
+   [Solution to exercise 5](../appendices/solutions-1.qmd#solution-review-1-5){.sol-link}
+
+6. []{#exercise-review-1-6}Find the invariant lines through the origin of $\M{T} = \mat{3 & 1 \\ 0 & 2}$. Is either of them a line of invariant points?
+
+   [Solution to exercise 6](../appendices/solutions-1.qmd#solution-review-1-6){.sol-link}
+
+7. []{#exercise-review-1-7}A point in three dimensions is rotated $90^\circ$ about the $z$-axis and then $90^\circ$ about the $x$-axis (both anticlockwise, looking back towards the origin from the positive axis). Find the single matrix $\M{R}$ that does both. Check that $(1, -1, 1)$ is unchanged by $\M{R}$, so that $\M{R}$ is a rotation about the line through this point. Find the angle of rotation, using the fact that a rotation through angle $\alpha$ has $\operatorname{trace}\M{R} = 1 + 2\cos\alpha$, where the trace is the sum of the diagonal entries.
+
+   [Solution to exercise 7](../appendices/solutions-1.qmd#solution-review-1-7){.sol-link}
+
+8. []{#exercise-review-1-8}Let $\M{A} = \mat{1 & 2 \\ 0 & 1 \\ 1 & 0}$. Find $\M{A}\T\M{A}$ and $\M{A}\M{A}\T$, and note their sizes. Both are symmetric: show that $\M{A}\T\M{A}$ is symmetric for *any* matrix $\M{A}$.
+
+   [Solution to exercise 8](../appendices/solutions-1.qmd#solution-review-1-8){.sol-link}
+
+9. []{#exercise-review-1-9}**Code.** Make two random $4 \times 4$ matrices $\M{A}$ and $\M{B}$. Check numerically that $(\M{A}\M{B})^{-1} = \M{B}^{-1}\M{A}^{-1}$, and that this is *not* the same as $\M{A}^{-1}\M{B}^{-1}$. Explain the order using the idea of undoing two transformations.
+
+   [Solution to exercise 9](../appendices/solutions-1.qmd#solution-review-1-9){.sol-link}
+

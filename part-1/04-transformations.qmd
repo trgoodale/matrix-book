@@ -1,0 +1,323 @@
+# Matrices as transformations {#sec-transformations}
+
+[Core]{.level-badge .core}
+
+::: {.callout-note appearance="simple" icon=false}
+## In this chapter you will
+
+- read a $2 \times 2$ matrix as a transformation that moves every point of the plane
+- find the matrix of a transformation from where $\ui$ and $\uj$ land
+- recognise rotations, reflections, enlargements, stretches, shears and projections from their matrices
+- explain which transformations can be written as matrices, and which cannot
+:::
+
+**Builds on** @sec-multiplication.
+
+So far a matrix has been a table of numbers. This chapter gives it a second meaning, which is the key to most of the book: **a matrix is a machine that moves points**. Feed in a vector $\vect{x}$ and out comes $\M{A}\vect{x}$. Seeing matrices this way explains what multiplication means, what determinants and inverses measure, and what eigenvectors are.
+
+## Build intuition
+
+Take the matrix $\M{A} = \mat{2 & 1 \\ 1 & 3}$ and apply it to the two unit vectors along the axes:
+$$
+\M{A}\ui = \mat{2 & 1 \\ 1 & 3}\mat{1 \\ 0} = \mat{2 \\ 1},
+$$
+$$
+\M{A}\uj = \mat{2 & 1 \\ 1 & 3}\mat{0 \\ 1} = \mat{1 \\ 3}.
+$$
+These are just the two columns of $\M{A}$. Now any vector is $\vect{x} = x\ui + y\uj$, and by the column view of multiplication (@sec-multiplication),
+$$
+\M{A}\vect{x} = x\,\M{A}\ui + y\,\M{A}\uj.
+$$
+So once you know where $\ui$ and $\uj$ land, you know where everything lands. The grid of unit squares becomes a grid of parallelograms, each one with the two columns as its sides.
+
+Try it. Drag the two arrow tips, or type entries into the matrix, and watch the letter F and the whole grid move with them.
+
+::: {.app-embed}
+<iframe class="app-frame" src="../apps/transformation-lab.html?embed=1&mode=explore" title="Transformation lab" loading="lazy"></iframe>
+
+[Open the transformation lab in its own tab](../apps/transformation-lab.html){.app-open target="_blank"}
+:::
+
+Things to try:
+
+- Press the buttons for a rotation, a reflection and a shear. In each case, look at where the two arrows end up, and compare with the columns of the matrix.
+- Drag the blue arrow onto the orange one. What happens to the F, and to the grid?
+- Switch to **Find the matrix**. You are shown a target and must find the matrix that produces it. Work out where each arrow has to go, and check.
+
+## The ideas
+
+### The columns are where the unit vectors land
+
+This is the single most useful fact in Part I.
+
+::: {.callout-important appearance="simple"}
+## The columns of a matrix
+Column 1 of $\M{A}$ is $\M{A}\ui$, the image of $\ui$. Column 2 is $\M{A}\uj$, the image of $\uj$. In three dimensions, column 3 is $\M{A}\uk$.
+:::
+
+It works in both directions. To *read* a matrix, look at its columns and picture where the unit square goes. To *find* the matrix of a transformation, work out where $\ui$ and $\uj$ go and write them down as columns.
+
+::: {#ex-transformations-1 .callout-note appearance="simple" icon=false}
+### Example 1: rotation by a quarter turn
+
+Find the matrix of the rotation by $90°$ anticlockwise about the origin, and the image of the point $(3, 1)$.
+
+**Solution.** A quarter turn takes $\ui = (1, 0)\T$ to $(0, 1)\T$ and $\uj = (0, 1)\T$ to $(-1, 0)\T$. Writing these as columns,
+$$
+\M{R} = \mat{0 & -1 \\ 1 & 0},
+$$
+$$
+\M{R}\mat{3 \\ 1} = \mat{-1 \\ 3}.
+$$
+This agrees with $\M{R}(90°)$ from the formula, since $\cos 90° = 0$ and $\sin 90° = 1$.
+:::
+
+### Linearity
+
+Matrix transformations are **linear**: for any vectors $\vect{x}$, $\vect{y}$ and scalars $s$, $t$,
+$$
+\M{A}(s\vect{x} + t\vect{y}) = s\M{A}\vect{x} + t\M{A}\vect{y}.
+$$
+Geometrically this means:
+
+- the origin stays where it is, since $\M{A}\zerovec = \zerovec$;
+- straight lines go to straight lines (or, if the matrix squashes the plane, to single points);
+- parallel lines stay parallel, and equally spaced points stay equally spaced.
+
+So the grid always becomes a grid of identical parallelograms. Conversely, **any** transformation of the plane with these properties is given by a matrix: the one whose columns are the images of $\ui$ and $\uj$.
+
+A **translation** (sliding everything by a fixed vector) is not linear, because it moves the origin. It cannot be written as a $2 \times 2$ matrix. @sec-graphics-robotics shows the standard trick for handling translations with matrices anyway.
+
+::: {#ex-transformations-2 .callout-note appearance="simple" icon=false}
+### Example 2: from two images to a matrix
+
+A linear transformation sends $(1, 1)\T$ to $(3, 1)\T$ and $(1, -1)\T$ to $(1, 5)\T$. Find its matrix.
+
+**Solution.** We need the images of $\ui$ and $\uj$. Since $\ui = \tfrac{1}{2}\left[(1, 1)\T + (1, -1)\T\right]$, linearity gives
+$$
+\M{A}\ui = \tfrac{1}{2}\left[(3, 1)\T + (1, 5)\T\right] = (2, 3)\T.
+$$
+Similarly, $\uj = \tfrac{1}{2}\left[(1, 1)\T - (1, -1)\T\right]$, so $\M{A}\uj = \tfrac{1}{2}\left[(3, 1)\T - (1, 5)\T\right] = (1, -2)\T$. Therefore
+$$
+\M{A} = \mat{2 & 1 \\ 3 & -2}.
+$$
+Check: $\M{A}(1, 1)\T = (3, 1)\T$ ✓ and $\M{A}(1, -1)\T = (1, 5)\T$ ✓.
+:::
+
+### A gallery of transformations
+
+```{python}
+#| fig-alt: "A grid of six panels, each showing a letter F before (dashed outline) and after (filled) one transformation, with arrows for the images of the two unit vectors."
+#| label: fig-transformation-gallery
+#| fig-cap: "Six transformations applied to a letter F. The dashed outline is the original; the filled shape is its image. Arrows show the images of the two unit vectors, which are the columns of the matrix."
+#| code-fold: true
+#| code-summary: "Show the code for this figure"
+import numpy as np
+import matplotlib.pyplot as plt
+
+F = np.array([[0, 0], [0.5, 0], [0.5, 0.85], [1.1, 0.85], [1.1, 1.3], [0.5, 1.3],
+              [0.5, 1.75], [1.3, 1.75], [1.3, 2.2], [0, 2.2]]).T
+c, s = np.cos(np.pi / 6), np.sin(np.pi / 6)
+gallery = [
+    ("Rotation by 30°", np.array([[c, -s], [s, c]])),
+    ("Reflection in y = x", np.array([[0, 1], [1, 0]])),
+    ("Enlargement, factor 1.5", np.array([[1.5, 0], [0, 1.5]])),
+    ("Stretch, factor 2 along x", np.array([[2, 0], [0, 1]])),
+    ("Shear, factor 1 along x", np.array([[1, 1], [0, 1]])),
+    ("Projection onto the x-axis", np.array([[1, 0], [0, 0]])),
+]
+fig, axes = plt.subplots(2, 3, figsize=(9, 6.2))
+for ax, (title, M) in zip(axes.flat, gallery):
+    G = M @ F
+    ax.fill(*F, fill=False, ls="--", ec="grey", lw=1)
+    ax.fill(*G, color="#0a7050", alpha=0.25, ec="#0a7050", lw=1.5)
+    for col, colour in [(M[:, 0], "#2153b8"), (M[:, 1], "#9c5208")]:
+        ax.annotate("", xy=col, xytext=(0, 0),
+                    arrowprops=dict(arrowstyle="-|>", color=colour, lw=2))
+    ax.set_title(title, fontsize=10)
+    ax.text(0.03, 0.04, "[[{:.2g}, {:.2g}], [{:.2g}, {:.2g}]]".format(*M.flat),
+            transform=ax.transAxes, fontsize=8, family="monospace", color="#5e6b7c")
+    ax.set_xlim(-1.6, 3.7); ax.set_ylim(-0.8, 3.5)
+    ax.set_aspect("equal"); ax.grid(alpha=0.25)
+    ax.axhline(0, color="grey", lw=0.6); ax.axvline(0, color="grey", lw=0.6)
+plt.tight_layout()
+plt.show()
+```
+
+Each of these has a matrix you can work out from the images of $\ui$ and $\uj$.
+
+**Rotation** by angle $\theta$ anticlockwise about the origin. The unit vector $\ui$ goes to $(\cos\theta, \sin\theta)\T$, and $\uj$, a quarter turn further round, goes to $(-\sin\theta, \cos\theta)\T$:
+$$
+\M{R}(\theta) = \mat{\cos\theta & -\sin\theta \\ \sin\theta & \cos\theta}.
+$$
+
+**Reflection** in a line through the origin. The three you will use most are easy to work out from where $\ui$ and $\uj$ go:
+
+- in the $x$-axis, $\ui$ stays put and $\uj$ flips to $-\uj$: $\mat{1 & 0 \\ 0 & -1}$;
+- in the $y$-axis, $\ui$ flips and $\uj$ stays put: $\mat{-1 & 0 \\ 0 & 1}$;
+- in the line $y = x$, $\ui$ and $\uj$ swap places: $\mat{0 & 1 \\ 1 & 0}$.
+
+::: {.callout-note appearance="simple" collapse="true"}
+## Optional: reflection in any line through the origin
+The reflection in the line at angle $\theta$ to the $x$-axis (the line $y = x\tan\theta$) has matrix
+$$
+\mat{\cos 2\theta & \sin 2\theta \\ \sin 2\theta & -\cos 2\theta}.
+$$
+Putting $\theta = 0°$, $90°$ and $45°$ gives the three matrices above. Exercise 5 asks you to check that this matrix really is a reflection.
+:::
+
+**Enlargement** by scale factor $k$ about the origin: $k\M{I} = \mat{k & 0 \\ 0 & k}$. With $k = -1$ this is the same as a rotation by $180°$.
+
+**Stretch** by factor $a$ parallel to the $x$-axis and $b$ parallel to the $y$-axis: $\mat{a & 0 \\ 0 & b}$. A matrix like this, with zeros everywhere except on the main diagonal, is called a **diagonal matrix**. Every diagonal matrix is a stretch along the axes (combined with a reflection if $a$ or $b$ is negative).
+
+**Shear** parallel to the $x$-axis with factor $k$: $\mat{1 & k \\ 0 & 1}$. Points keep their height, but each one slides sideways by $k$ times its height. The $x$-axis stays fixed. A shear parallel to the $y$-axis is $\mat{1 & 0 \\ k & 1}$.
+
+**Projection** onto the $x$-axis: $\mat{1 & 0 \\ 0 & 0}$. Every point drops straight down onto the axis. The plane is flattened onto a line, which is why the F becomes a segment. Unlike the others, this can't be undone; @sec-inverses explains how to tell from the matrix.
+
+::: {#ex-transformations-3 .callout-note appearance="simple" icon=false}
+### Example 3: identifying a transformation
+
+Describe the transformations given by
+$$
+\M{A} = \mat{-1 & 0 \\ 0 & -1},
+$$
+$$
+\M{B} = \mat{0 & -1 \\ -1 & 0},
+$$
+$$
+\M{C} = \mat{1 & 0 \\ -2 & 1}.
+$$
+
+**Solution.** Look at the columns.
+
+- $\M{A}$ sends $\ui \to -\ui$ and $\uj \to -\uj$: a rotation by $180°$ (equivalently, an enlargement with factor $-1$).
+- $\M{B}$ swaps $\ui$ and $\uj$ and reverses both: $\ui \to (0, -1)\T$ and $\uj \to (-1, 0)\T$. To identify it, look for points that don't move: $\M{B}(1, -1)\T = (1, -1)\T$, so every point on the line $y = -x$ stays put, while $\M{B}(1, 1)\T = (-1, -1)\T$ is flipped across it. This is the reflection in the line $y = -x$. (Looking for points that don't move is a powerful idea in its own right: @sec-invariant-lines makes it systematic.)
+- $\M{C}$ fixes $\uj$ and sends $\ui$ to $(1, -2)\T$: a shear parallel to the $y$-axis with factor $-2$. Points keep their $x$-coordinate and move down by $2x$.
+:::
+
+## In code
+
+To transform a whole shape at once, store its points as the **columns** of a matrix. Then one multiplication moves every point, because column $j$ of $\M{A}\M{P}$ is $\M{A}$ times column $j$ of $\M{P}$.
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+#| fig-alt: "A unit square (dashed) and the parallelogram it becomes under a horizontal shear, leaning to the right."
+#| fig-cap: "A unit square (dashed) and its image under the shear with factor 0.5."
+import numpy as np
+import matplotlib.pyplot as plt
+
+P = np.array([[0, 1, 1, 0],          # x-coordinates of the corners
+              [0, 0, 1, 1]])         # y-coordinates
+A = np.array([[1, 0.5],
+              [0, 1]])               # shear, factor 0.5
+Q = A @ P                            # transform every corner at once
+print(Q)
+
+fig, ax = plt.subplots(figsize=(4, 3))
+ax.fill(*P, fill=False, ls="--", ec="grey")
+ax.fill(*Q, alpha=0.3, ec="black")
+ax.set_aspect("equal"); ax.grid(alpha=0.3)
+plt.show()
+```
+
+## MATLAB
+
+```matlab
+P = [0 1 1 0;           % x-coordinates of the corners
+     0 0 1 1];          % y-coordinates
+A = [1 0.5;
+     0 1];              % shear, factor 0.5
+Q = A * P               % transform every corner at once
+
+figure
+fill(P(1,:), P(2,:), 'w', 'LineStyle', '--'); hold on
+fill(Q(1,:), Q(2,:), [0.6 0.8 0.75], 'FaceAlpha', 0.5)
+axis equal; grid on
+```
+
+```{.text .code-output}
+Q =
+
+         0    1.0000    1.5000    0.5000
+         0         0    1.0000    1.0000
+```
+
+The plot matches the Python version.
+:::
+
+## Check your understanding
+
+::: {.callout-tip collapse="true"}
+## Without calculating, where does $\mat{0 & 2 \\ 3 & 0}$ send $\ui$ and $\uj$?
+
+$\ui \to (0, 3)\T$ and $\uj \to (2, 0)\T$: the first and second columns.
+:::
+
+::: {.callout-tip collapse="true"}
+## Why can't "move every point 2 units right" be done by a $2 \times 2$ matrix?
+
+It moves the origin to $(2, 0)$, but every matrix sends $\zerovec$ to $\zerovec$.
+:::
+
+::: {.callout-tip collapse="true"}
+## What does the matrix $\mat{\cos\theta & \sin\theta \\ -\sin\theta & \cos\theta}$ do?
+
+It is $\M{R}(-\theta)$, since $\cos(-\theta) = \cos\theta$ and $\sin(-\theta) = -\sin\theta$: a rotation by $\theta$ *clockwise*.
+:::
+
+## Key ideas
+
+- A $2 \times 2$ matrix moves every point of the plane: $\vect{x}$ goes to $\M{A}\vect{x}$.
+- The columns of the matrix are where $\ui$ and $\uj$ land. To find the matrix of a transformation, find where those two vectors go.
+- Matrices give exactly the linear transformations: those that keep the origin fixed and keep straight lines straight and evenly spaced.
+- Rotations, reflections, enlargements, stretches, shears and projections each have a recognisable matrix. Translations are not linear, and have no $2 \times 2$ matrix.
+
+## Exercises {#sec-transformations-exercises}
+
+1. []{#exercise-transformations-1}Write down the matrix of each transformation:
+   (a) reflection in the $y$-axis; (b) rotation by $60°$ anticlockwise; (c) stretch by factor 3 parallel to the $y$-axis; (d) shear parallel to the $x$-axis that sends $(0, 1)$ to $(2, 1)$; (e) reflection in the line $y = \sqrt{3}\,x$ (use the optional formula).
+
+   [Solution to exercise 1](../appendices/solutions-1.qmd#solution-transformations-1){.sol-link}
+
+2. []{#exercise-transformations-2}Describe fully the transformation given by each matrix (the optional reflection formula helps with (c)):
+
+   (a) $\mat{0 & 1 \\ -1 & 0}$
+   (b) $\mat{3 & 0 \\ 0 & 3}$
+   (c) $\mat{0.6 & 0.8 \\ 0.8 & -0.6}$
+   (d) $\mat{0 & 0 \\ 0 & 1}$
+
+   [Solution to exercise 2](../appendices/solutions-1.qmd#solution-transformations-2){.sol-link}
+
+3. []{#exercise-transformations-3}The unit square with corners $(0, 0)$, $(1, 0)$, $(1, 1)$, $(0, 1)$ is transformed by $\mat{3 & 1 \\ 1 & 2}$. Find the corners of the image and sketch it. What is its area? (Compare your answer with $3 \times 2 - 1 \times 1$; @sec-determinants explains why they agree.)
+
+   [Solution to exercise 3](../appendices/solutions-1.qmd#solution-transformations-3){.sol-link}
+
+4. []{#exercise-transformations-4}A linear transformation sends $(2, 1)\T$ to $(4, 5)\T$ and $(1, 1)\T$ to $(1, 3)\T$. Find its matrix.
+
+   [Solution to exercise 4](../appendices/solutions-1.qmd#solution-transformations-4){.sol-link}
+
+5. []{#exercise-transformations-5}*(Uses the optional formula.)* Show that the reflection matrix $\mat{\cos 2\theta & \sin 2\theta \\ \sin 2\theta & -\cos 2\theta}$ leaves the vector $(\cos\theta, \sin\theta)\T$ unchanged, and sends $(-\sin\theta, \cos\theta)\T$ to its negative. Explain why this proves that it is the reflection in the line at angle $\theta$.
+
+   [Solution to exercise 5](../appendices/solutions-1.qmd#solution-transformations-5){.sol-link}
+
+6. []{#exercise-transformations-6}Explain why a linear transformation sends the midpoint of any segment to the midpoint of the image segment.
+
+   [Solution to exercise 6](../appendices/solutions-1.qmd#solution-transformations-6){.sol-link}
+
+7. []{#exercise-transformations-7}**Code.** Apply the rotation $\M{R}(\theta)$ to the F shape (corner coordinates are in the code for @fig-transformation-gallery) for $\theta = 0°, 45°, 90°, \dots, 315°$, and plot all eight images on one set of axes.
+
+   [Solution to exercise 7](../appendices/solutions-1.qmd#solution-transformations-7){.sol-link}
+
+Solutions are in @sec-solutions-transformations.
+
+## In practice
+
+- **Computer graphics** rotates, scales and shears every point of a scene with matrices. Fonts are stored as outlines, and italic text is often made by a shear.
+- **Materials**: when a solid object is squashed or twisted slightly, each small piece of it is stretched and sheared by a $2 \times 2$ or $3 \times 3$ matrix. Engineers check that these stretches stay small enough for the material to survive.
+- **Image processing**: rotating, resizing and correcting the perspective of photographs all start from these matrices.
+
+## Going further
+
+Not every useful transformation is linear. Sliding everything sideways (a translation) moves the origin, and the perspective of a camera, where distant things look smaller, makes parallel lines meet. A clever trick handles both: give every point an extra coordinate, always equal to 1, and these transformations become matrix multiplications in one dimension higher. This trick, called **homogeneous coordinates**, is used by every graphics card; see @sec-graphics-robotics.

@@ -1,0 +1,111 @@
+/*-- scss:rules --*/
+/* Shared components for both themes. Colours come from the --mb-* variables set in theme.scss and theme-dark.scss. */
+
+h1, h2, h3, .title { letter-spacing: -0.005em; text-wrap: balance; }
+h1.title, .quarto-title h1 { font-size: 2.4rem; }
+
+/* Chapter level badges */
+.level-badge {
+  display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 2px 10px; border-radius: 999px; border: 1.5px solid currentColor; margin-bottom: 0.6rem;
+}
+.level-badge.core { color: var(--mb-res); }
+.level-badge.further { color: var(--mb-row); border-style: dashed; }
+.draft-note { color: var(--mb-muted); font-size: 0.92rem; }
+
+/* Embedded apps */
+.app-embed { margin: 1.2rem 0 1.6rem; }
+.app-embed iframe.app-frame {
+  width: 100%; min-height: 420px; border: 1px solid var(--mb-line); border-radius: 10px; display: block;
+  background: var(--mb-surface);
+}
+.app-embed .app-open { font-size: 0.88rem; margin-top: 0.4rem; display: inline-block; }
+.planned-app {
+  border: 1.5px dashed var(--mb-line); border-radius: 10px; padding: 0.8rem 1rem; color: var(--mb-muted);
+}
+.planned-app strong { color: var(--mb-ink); }
+
+/* Notation settings */
+.mb-settings-button {
+  position: fixed; z-index: 1030;
+  right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  font: 500 0.88rem "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; padding: 7px 14px; border-radius: 999px;
+  background: var(--mb-surface); color: var(--mb-ink); border: 1px solid var(--mb-line);
+  box-shadow: 0 4px 14px var(--mb-shadow); cursor: pointer;
+}
+.mb-settings-button:hover { border-color: var(--mb-ink); }
+.mb-settings-button:focus-visible { outline: 2px solid var(--mb-row); outline-offset: 2px; }
+.mb-settings-dialog {
+  border: 1px solid var(--mb-line); border-radius: 12px; padding: 1.1rem 1.25rem; width: min(560px, calc(100vw - 32px));
+  background: var(--mb-surface); color: var(--mb-ink); max-height: calc(100vh - 40px);
+}
+.mb-settings-dialog::backdrop { background: var(--mb-backdrop); }
+.mb-dlg-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.mb-dlg-head h2 { margin: 0; font-size: 1.5rem; border: 0; }
+.mb-dlg-intro { color: var(--mb-muted); font-size: 0.92rem; margin: 0.4rem 0 0.8rem; }
+.mb-settings-form { display: grid; gap: 0.7rem; }
+.mb-settings-form fieldset { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0; padding: 0; border: 0; }
+.mb-settings-form legend {
+  float: left; width: 9.5rem; margin: 0; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--mb-muted); padding-top: 4px;
+}
+.mb-opt {
+  display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--mb-line); border-radius: 8px;
+  padding: 4px 10px; cursor: pointer; font-size: 0.9rem; min-height: 2.4rem;
+}
+.mb-opt:has(input:checked) { border-color: var(--mb-ink); box-shadow: inset 0 0 0 1px var(--mb-ink); }
+.mb-opt input { accent-color: var(--mb-ink); }
+.mb-opt-example { color: var(--mb-muted); }
+.mb-settings-actions { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-top: 0.3rem; }
+.mb-settings-note { color: var(--mb-muted); font-size: 0.85rem; }
+#mb-settings-inline {
+  border: 1px solid var(--mb-line); border-radius: 12px; padding: 1rem 1.1rem; margin: 1rem 0 1.5rem; background: var(--mb-surface);
+}
+@media (max-width: 560px) {
+  .mb-settings-form legend { float: none; width: 100%; }
+}
+
+/* Comparison tables on the conventions page */
+.conv-table td, .conv-table th { vertical-align: middle; }
+
+.quarto-dark .mb-dlg-head .btn-close { filter: invert(1); }
+
+/* Keep wide content inside the page on small screens: wide equations and tables scroll sideways on their own */
+mjx-container[display="true"] { display: block; position: relative; max-width: 100%; min-width: 0 !important; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+p code, li code, td code { overflow-wrap: anywhere; white-space: pre-wrap; }
+@media (max-width: 767.98px) {
+  main table.table, main table { display: block; max-width: 100%; overflow-x: auto; }
+}
+mjx-container { position: relative; }
+
+/* Newer Quarto versions give figures a fixed pixel width; let them shrink to fit the column */
+figure img, .cell-output-display img, .quarto-figure img { max-width: 100%; height: auto; }
+
+/* Long inline code (such as web addresses) wraps instead of widening the page */
+p code, li code, td code { overflow-wrap: anywhere; white-space: pre-wrap; }
+
+/* Displays of large matrices: shrink on narrow screens so that they fit without scrolling */
+@media (max-width: 640px) {
+  .wide-matrix mjx-container[display="true"] { font-size: 72% !important; }
+  .wide-matrix.very-wide mjx-container[display="true"] { font-size: 58% !important; }
+}
+
+/* Keyboard focus on reveal-answer headers and scrollable output */
+.callout-header[role="button"] { cursor: pointer; }
+.callout-header[role="button"]:focus-visible,
+pre[role="region"]:focus-visible { outline: 2px solid var(--mb-row); outline-offset: 2px; }
+
+/* Previous/next links: let long chapter titles wrap on narrow screens */
+.page-navigation { gap: 0.75rem; }
+.page-navigation .nav-page { min-width: 0; }
+.page-navigation .nav-page .pagination-link { white-space: normal; overflow-wrap: anywhere; }
+.page-navigation .nav-page-next { text-align: right; }
+
+/* Very narrow screens (320 px, or 400% zoom): shrink display maths slightly
+   so most equations fit without sideways scrolling. */
+@media (max-width: 360px) {
+  mjx-container[display="true"] { font-size: 92% !important; }
+}
+
+/* Links between each exercise and its solution: small, so they don't invite a look before trying. */
+.sol-link { font-size: 0.875rem; }

@@ -1,0 +1,347 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Power Method</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: the unit circle with the current direction and its trail, then the matrix, the method and the table of estimates */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.mat { position: relative; display: inline-grid; grid-template-columns: 4.2rem 4.2rem; gap: 6px; padding: 6px 14px; }
+.mat::before, .mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.mat::before { left: 0; border-right: 0; } .mat::after { right: 0; border-left: 0; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.mat input { -moz-appearance: textfield; appearance: textfield; }
+.mat input::-webkit-outer-spin-button, .mat input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.matrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.matrow .nm { font: 600 1.05rem var(--font-num); }
+.status b { font-weight: 600; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.sw.c { border-color: var(--tgt); }
+
+.tbl { border-collapse: collapse; font-size: 0.86rem; width: 100%; }
+.tbl th { text-align: left; font-weight: 500; color: var(--muted); font-size: 0.78rem; padding: 2px 6px; position: sticky; top: 0; background: var(--surface); }
+.tbl td { padding: 2px 6px; border-top: 1px solid var(--line); font-family: var(--font-num); white-space: nowrap; }
+.tbl td.r, .tbl th.r { text-align: right; }
+.scroll { max-height: 13rem; overflow-y: auto; border: 1px solid var(--line); border-radius: 8px; }
+.slide { display: grid; grid-template-columns: auto minmax(0, 1fr) 3.6rem; gap: 10px; align-items: center; font-size: 0.9rem; }
+.slide output { font: 600 0.9rem var(--font-num); text-align: right; }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Multiply, rescale, <em>repeat</em></h1>
+    <p>The power method finds an eigenvector by multiplying by A over and over, rescaling to length 1 each time. Inverse iteration does the same with A⁻¹, and a shift lets it home in on any eigenvalue you choose.</p>
+  </header>
+
+  <div class="layout">
+    <section class="panel plane-box" aria-label="Plane">
+      <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
+      <div class="legend">
+        <span><span class="sw a"></span>start, <b>q</b>₀ (drag round the circle)</span>
+        <span><span class="sw w"></span><b>q</b>₁, <b>q</b>₂, … each rescaled to length 1</span>
+        <span><span class="sw t"></span>eigenvector lines</span>
+      </div>
+      <p class="hint">With the picture focused, the arrow keys turn <b>q</b>₀ and the space bar takes a step.</p>
+    </section>
+
+    <div class="side">
+      <section class="panel card wide" aria-label="The matrix and method">
+        <span class="label">The matrix</span>
+        <div class="matrow">
+          <span class="nm">A =</span>
+          <div class="mat">
+            <input type="number" id="m00" step="0.1" aria-label="Row 1, column 1">
+            <input type="number" id="m01" step="0.1" aria-label="Row 1, column 2">
+            <input type="number" id="m10" step="0.1" aria-label="Row 2, column 1">
+            <input type="number" id="m11" step="0.1" aria-label="Row 2, column 2">
+          </div>
+        </div>
+        <div class="row" id="presets"></div>
+        <span class="label">Method</span>
+        <div class="row" id="methods"></div>
+        <div class="slide" id="shiftrow"><label for="mu">Shift μ</label><input type="range" id="mu" min="-5" max="5" step="0.1" value="2"><output id="muv">2</output></div>
+      </section>
+      <section class="panel card wide" aria-label="Steps">
+        <span class="label">Steps</span>
+        <div class="row"><button id="step">Take a step</button><button id="play">Play</button><button id="reset">Start again</button></div>
+        <div class="scroll"><table class="tbl" id="tbl"></table></div>
+        <div class="status" id="status" role="status"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+
+  const $ = id => document.getElementById(id);
+  const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), b: v('--col'), t: v('--tgt'), w: v('--res'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), line: v('--line'), num: v('--font-num') }; };
+  // Eigenvalues and (real) eigenvectors of a 2x2 matrix
+  function eig2(A) {
+    const [[a, b], [c, d]] = A, tr = a + d, det = a * d - b * c, disc = tr * tr / 4 - det;
+    if (disc < -1e-12) { const re = tr / 2, im = Math.sqrt(-disc); return { complex: true, re, im, tr, det }; }
+    const s = Math.sqrt(Math.max(0, disc)), l1 = tr / 2 + s, l2 = tr / 2 - s;
+    const vec = l => { const v = Math.abs(b) > 1e-12 || Math.abs(a - l) > 1e-12 ? [b, l - a] : [l - d, c]; const n = Math.hypot(...v); return n < 1e-12 ? null : [v[0] / n, v[1] / n]; };
+    let v1 = vec(l1), v2 = vec(l2);
+    if (Math.abs(b) < 1e-12 && Math.abs(c) < 1e-12) { v1 = a >= d ? [1, 0] : [0, 1]; v2 = a >= d ? [0, 1] : [1, 0]; if (Math.abs(a - d) < 1e-12) v2 = null; }
+    else if (Math.abs(l1 - l2) < 1e-9) v2 = null;
+    return { complex: false, l1, l2, v1, v2, tr, det };
+  }
+  function wireMatrix(S, onChange) {
+    const ids = [['m00', 0, 0], ['m01', 0, 1], ['m10', 1, 0], ['m11', 1, 1]];
+    const sync = () => { for (const [id, i, j] of ids) $(id).value = String(S.A[i][j]); };
+    for (const [id, i, j] of ids) $(id).addEventListener('change', e => {
+      const x = parseFloat(e.target.value); if (!isNaN(x)) S.A[i][j] = Math.max(-9, Math.min(9, Math.round(x * 1000) / 1000));
+      e.target.value = String(S.A[i][j]); onChange();
+    });
+    return sync;
+  }
+  function makePresets(box, list, isOn, apply) {
+    box.innerHTML = '';
+    list.forEach(p => { const b = document.createElement('button'); b.textContent = p[0]; b.addEventListener('click', () => apply(p)); box.appendChild(b); });
+    return () => box.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-pressed', String(isOn(list[k]))));
+  }
+  function arrowPx(ctx, s, e, color, w, alpha = 1, dash) {
+    const len = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (len < 2) { ctx.globalAlpha = 1; return; }
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(12, len * 0.4);
+    if (dash) ctx.setLineDash(dash);
+    ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.lineTo(e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42));
+    ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+  }
+  function watchTheme(draw) {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    if (document.fonts) document.fonts.ready.then(draw);
+  }
+
+  const PRESETS = [
+    ['Symmetric', [[2, 1], [1, 3]]],
+    ['Close eigenvalues', [[3, 0.4], [0.4, 2.8]]],
+    ['Negative dominant', [[-3, 1], [1, 1]]],
+    ['Equal sizes', [[0, 1], [1, 0]]],
+    ['Rotation', [[0.6, -0.8], [0.8, 0.6]]]
+  ];
+  const METHODS = [['Power', 'power'], ['Inverse', 'inverse'], ['Shifted inverse', 'shift']];
+  const S = { A: null, th: 100 * Math.PI / 180, qs: [], method: 'power', mu: 2, playing: 0 };
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  let W = 500, dpr = 1, drag = false, hover = false; const R = 1.6;
+  const mul = (A, v) => [A[0][0] * v[0] + A[0][1] * v[1], A[1][0] * v[0] + A[1][1] * v[1]];
+  const sub = k => String(k).split('').map(d => '₀₁₂₃₄₅₆₇₈₉'[d]).join('');
+  function B() {
+    const s = S.method === 'shift' ? S.mu : 0, M = [[S.A[0][0] - s, S.A[0][1]], [S.A[1][0], S.A[1][1] - s]];
+    if (S.method === 'power') return S.A;
+    const d = M[0][0] * M[1][1] - M[0][1] * M[1][0]; if (Math.abs(d) < 1e-12) return null;
+    return [[M[1][1] / d, -M[0][1] / d], [-M[1][0] / d, M[0][0] / d]];
+  }
+  const rq = q => { const y = mul(S.A, q); return (q[0] * y[0] + q[1] * y[1]) / (q[0] * q[0] + q[1] * q[1]); };
+  function target() {
+    const e = eig2(S.A); if (e.complex) return null;
+    const ls = [e.l1, e.l2], key = S.method === 'power' ? l => -Math.abs(l) : S.method === 'inverse' ? l => Math.abs(l) : l => Math.abs(l - S.mu);
+    const sorted = ls.slice().sort((a, b) => key(a) - key(b));
+    const ratio = Math.abs(key(sorted[1])) < 1e-12 ? Infinity : S.method === 'power' ? Math.abs(sorted[1]) / Math.abs(sorted[0]) : key(sorted[0]) / key(sorted[1]);
+    return { lam: sorted[0], other: sorted[1], ratio, e };
+  }
+  const P = p => [W / 2 + p[0] * W / (2 * R), W / 2 - p[1] * W / (2 * R)];
+  function resize() {
+    W = Math.min(cv.parentElement.clientWidth, 560); dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr); cv.style.width = W + 'px'; cv.style.height = W + 'px'; draw();
+  }
+  function line(a, b) { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); }
+  function draw() {
+    const C = css();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, W);
+    ctx.lineWidth = 1; ctx.strokeStyle = C.pgrid; for (let k = -1.5; k <= 1.5; k += 0.5) { line(P([k, -R]), P([k, R])); line(P([-R, k]), P([R, k])); }
+    ctx.strokeStyle = C.muted; ctx.globalAlpha = 0.6; ctx.lineWidth = 1.2; line(P([-R, 0]), P([R, 0])); line(P([0, -R]), P([0, R]));
+    ctx.beginPath(); ctx.arc(W / 2, W / 2, W / (2 * R), 0, 2 * Math.PI); ctx.stroke(); ctx.globalAlpha = 1;
+    const e = eig2(S.A);
+    if (!e.complex) [[e.v1, e.l1, 1], [e.v2, e.l2, -1]].forEach(([v, l, side]) => {
+      if (!v) return;
+      ctx.strokeStyle = C.t; ctx.lineWidth = 1.6; ctx.setLineDash([7, 5]); line(P([-v[0] * 3, -v[1] * 3]), P([v[0] * 3, v[1] * 3])); ctx.setLineDash([]);
+      const sg = v[0] < -1e-9 || (Math.abs(v[0]) < 1e-9 && v[1] < 0) ? -side : side, q = P([v[0] * 1.3 * sg, v[1] * 1.3 * sg]);
+      ctx.fillStyle = C.t; ctx.font = `600 13px ${C.num}`; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom'; ctx.fillText('λ = ' + fmt(l, 3), q[0] + 8, q[1] - 2);
+    });
+    S.qs.forEach((q, k) => { if (!k) return; const last = k === S.qs.length - 1; arrowPx(ctx, P([0, 0]), P(q), C.w, last ? 3 : 1.6, last ? 1 : Math.max(0.12, 0.45 - 0.03 * (S.qs.length - 1 - k))); });
+    const q0 = S.qs[0]; arrowPx(ctx, P([0, 0]), P(q0), C.a, 3);
+    const s = P(q0); ctx.beginPath(); ctx.arc(s[0], s[1], hover || drag ? 10 : 7, 0, 2 * Math.PI); ctx.fillStyle = C.surface; ctx.fill(); ctx.strokeStyle = C.a; ctx.lineWidth = 2.5; ctx.stroke();
+    if (S.qs.length > 1) { const p = P(S.qs[S.qs.length - 1]); ctx.fillStyle = C.w; ctx.font = `600 14px ${C.num}`; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom'; ctx.fillText('q' + sub(S.qs.length - 1), p[0] + 8, p[1] - 6); }
+  }
+  const num = v => { const a = Math.abs(v); return (a !== 0 && a < 1e-4 ? v.toExponential(1) : fmt(v, 5)).replace('-', '−'); };
+  function readout() {
+    $('muv').textContent = fmt(S.mu, 1); $('shiftrow').hidden = S.method !== 'shift';
+    const t = target(), st = $('status');
+    let h = '<tr><th>k</th><th>q_k</th><th class="r">estimate of λ</th>' + (t ? '<th class="r">error</th>' : '') + '</tr>';
+    S.qs.forEach((q, k) => { const l = rq(q); h += `<tr><td>${k}</td><td>(${fmt(q[0], 4)}, ${fmt(q[1], 4)})</td><td class="r">${num(l)}</td>` + (t ? `<td class="r">${num(Math.abs(l - t.lam))}</td>` : '') + '</tr>'; });
+    $('tbl').innerHTML = h; const sc = $('tbl').parentElement; sc.scrollTop = sc.scrollHeight;
+    const n = S.qs.length - 1;
+    if (!B()) st.innerHTML = 'The shift is exactly an eigenvalue, so A − μI is singular and cannot be inverted. Move the shift slightly.';
+    else if (!t) st.innerHTML = 'The eigenvalues are complex, so there is no real eigenvector to find: the direction keeps turning and never settles.';
+    else if (t.ratio >= 0.999) st.innerHTML = `The two eigenvalues are equally ${S.method === 'power' ? 'large' : 'close'} in size (${fmt(t.lam, 3)} and ${fmt(t.other, 3)}), so neither takes over and the direction never settles` + (S.method === 'power' ? '. Try a shift.' : '.');
+    else st.innerHTML = `The method finds λ = ${fmt(t.lam, 4)}, the eigenvalue ${S.method === 'power' ? 'largest in size' : S.method === 'inverse' ? 'smallest in size' : 'closest to the shift μ = ' + fmt(S.mu, 1)}. ` +
+      `Each step multiplies the error in the direction by about <b>${fmt(t.ratio, 3)}</b>` + (S.method === 'power' ? ` = |${fmt(t.other, 3)}| / |${fmt(t.lam, 3)}|.` : S.method === 'inverse' ? ` = |${fmt(t.lam, 3)}| / |${fmt(t.other, 3)}|.` : ` = |λ − μ| for the closest eigenvalue divided by the same for the other.`) +
+      (t.lam < 0 && S.method === 'power' ? ' The eigenvalue is negative, so q flips direction at every step while settling on its line.' : '') +
+      (t.e && Math.abs(S.A[0][1] - S.A[1][0]) < 1e-12 ? ' A is symmetric, so the error in the estimate of λ shrinks even faster, by the square of that factor.' : '');
+    cv.setAttribute('aria-label', `After ${n} steps, q is (${fmt(S.qs[n][0], 3)}, ${fmt(S.qs[n][1], 3)}). ` + st.textContent);
+  }
+  function stop() { if (S.playing) clearInterval(S.playing); S.playing = 0; $('play').textContent = 'Play'; }
+  function restart() { S.qs = [[Math.cos(S.th), Math.sin(S.th)]]; stop(); draw(); readout(); }
+  function step() { const M = B(); if (!M || S.qs.length > 40) return; const y = mul(M, S.qs[S.qs.length - 1]), n = Math.hypot(...y); if (n < 1e-300) return; S.qs.push([y[0] / n, y[1] / n]); draw(); readout(); }
+  $('step').addEventListener('click', () => { stop(); step(); });
+  $('reset').addEventListener('click', restart);
+  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; } $('play').textContent = 'Pause'; S.playing = setInterval(() => { if (S.qs.length > 25) { stop(); return; } step(); }, 600); });
+  $('mu').addEventListener('input', e => { S.mu = +e.target.value; restart(); });
+  const sync = wireMatrix(S, () => { mark(); restart(); });
+  const mark = makePresets($('presets'), PRESETS, p => JSON.stringify(p[1]) === JSON.stringify(S.A), p => { S.A = p[1].map(r => r.slice()); sync(); mark(); restart(); });
+  const markM = makePresets($('methods'), METHODS, m => m[1] === S.method, m => { S.method = m[1]; markM(); restart(); });
+
+  function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+  const onTip = (sx, sy) => { const s = P(S.qs[0]); return Math.hypot(s[0] - sx, s[1] - sy) < 18; };
+  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); if (!onTip(sx, sy)) return; drag = true; stop(); cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); });
+  cv.addEventListener('pointermove', e => {
+    const [sx, sy] = pos(e);
+    if (!drag) { const h = onTip(sx, sy); if (h !== hover) { hover = h; cv.className = h ? 'grab' : ''; draw(); } return; }
+    S.th = Math.round(Math.atan2(W / 2 - sy, sx - W / 2) * 180 / Math.PI) * Math.PI / 180; restart();
+  });
+  const end = () => { if (drag) { drag = false; cv.className = hover ? 'grab' : ''; draw(); } };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  cv.addEventListener('keydown', e => {
+    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); stop(); step(); return; }
+    const d = { ArrowLeft: 5, ArrowUp: 5, ArrowRight: -5, ArrowDown: -5 }[e.key];
+    if (!d) return; e.preventDefault(); S.th += d * Math.PI / 180; restart();
+  });
+
+  // Optional start-up settings: ?preset=Close%20eigenvalues&method=shift&mu=2.5, or ?m=2,1,1,3
+  const q = new URLSearchParams(location.search);
+  const start = PRESETS.find(p => p[0] === q.get('preset')) || PRESETS[0];
+  S.A = start[1].map(r => r.slice());
+  if (q.get('m')) { const x = q.get('m').split(',').map(Number); if (x.length === 4 && x.every(isFinite)) S.A = [[x[0], x[1]], [x[2], x[3]]]; }
+  if (METHODS.some(m => m[1] === q.get('method'))) S.method = q.get('method');
+  if (isFinite(parseFloat(q.get('mu')))) { S.mu = Math.max(-5, Math.min(5, parseFloat(q.get('mu')))); $('mu').value = String(S.mu); }
+  sync(); mark(); markM();
+  new ResizeObserver(resize).observe(cv.parentElement); watchTheme(draw);
+  restart(); resize();
+})();
+</script>
+</body>
+</html>

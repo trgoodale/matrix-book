@@ -1,0 +1,269 @@
+# Cryptography: the Hill cipher {#sec-cryptography}
+
+[Core]{.level-badge .core}
+
+::: {.callout-note appearance="simple" icon=false}
+## In this chapter you will
+
+- encrypt and decrypt messages with a Hill cipher, by matrix multiplication modulo 26
+- find the inverse of a matrix modulo 26, and decide when one exists
+- break the cipher from a little known plaintext, by solving a linear system
+:::
+
+**Builds on** @sec-multiplication, @sec-inverses.
+
+## The problem
+
+For most of history, secret messages were protected by substitution: replace each letter by another, according to a key. Such ciphers are easily broken by counting letters, because E is the most common letter in English text, so the most common letter in the ciphertext probably stands for E. In 1929 the American mathematician Lester Hill published a cipher that defeats simple letter counting by mixing letters together: each letter of the ciphertext depends on several letters of the message, through a matrix.
+
+The Hill cipher was never widely used, and it is easy to break today. But it is the first cipher built on linear algebra, it shows clearly why invertibility matters, and the weakness that breaks it, linearity, is exactly what modern ciphers are designed to avoid.
+
+## The model
+
+### Arithmetic modulo 26
+
+Number the letters A = 0, B = 1, …, Z = 25. Arithmetic is done **modulo 26**: after each calculation, keep only the remainder on division by 26, so that the result is again a letter. For example, $33 \equiv 7 \pmod{26}$ and $-3 \equiv 23 \pmod{26}$. Addition, subtraction and multiplication work as usual, and matrix multiplication modulo 26 just means multiplying as usual and reducing every entry at the end.
+
+Division is the problem. A number $a$ has an **inverse modulo 26**, a number $a^{-1}$ with $aa^{-1} \equiv 1$, only if $a$ and 26 have no common factor: $\gcd(a, 26) = 1$. So the odd numbers other than 13 have inverses, and the even numbers and 13 don't. For example, $3 \times 9 = 27 \equiv 1$, so $3^{-1} \equiv 9$; but $2x$ is always even, and so never $\equiv 1$, since every multiple of 26 is even too.
+
+### Encryption by matrix multiplication
+
+Choose a $2 \times 2$ **key matrix** $\M{K}$ with entries from 0 to 25. Split the message into pairs of letters (adding an X if needed), and turn each pair into a vector $\vect{p}$. The ciphertext pair is
+$$
+\vect{c} \equiv \M{K}\vect{p} \pmod{26}.
+$$
+Each ciphertext letter depends on both letters of the pair, so the same letter is encrypted differently in different pairs, and a single-letter count reveals little. Larger keys, $3 \times 3$ or more, mix more letters together.
+
+### Inverses modulo 26
+
+To decrypt, we need a matrix $\M{K}^{-1}$ with $\M{K}^{-1}\M{K} \equiv \M{I} \pmod{26}$; then $\vect{p} \equiv \M{K}^{-1}\vect{c}$. The formula for the inverse of a $2 \times 2$ matrix (@sec-inverses) still works, with division by the determinant replaced by multiplication by its inverse modulo 26:
+$$
+\M{K} = \mat{a & b \\ c & d}
+\qquad\Longrightarrow\qquad
+\M{K}^{-1} \equiv (\det\M{K})^{-1}\mat{d & -b \\ -c & a} \pmod{26}.
+$$
+So:
+
+::: {.callout-important appearance="simple"}
+## When a Hill key works
+$\M{K}$ has an inverse modulo 26 if and only if $\gcd(\det\M{K}, 26) = 1$: the determinant, reduced modulo 26, must be odd and not 13.
+:::
+
+A non-zero determinant, which is enough over the real numbers, is not enough here. If $\det\M{K}$ is even, for example, then two different messages encrypt to the same ciphertext (exercise 4), and no one, not even the intended recipient, can tell which was sent. The proof is in @sec-proofs-cryptography.
+
+### Breaking the cipher
+
+The Hill cipher's weakness is its linearity. Suppose an attacker knows, or guesses, the plaintext of just two pairs of letters, perhaps a standard greeting or the sender's name. Put the two known plaintext pairs as the columns of $\M{P}$, and the matching ciphertext pairs as the columns of $\M{C}$. Then $\M{C} \equiv \M{K}\M{P}$, and if $\M{P}$ is invertible modulo 26,
+$$
+\M{K} \equiv \M{C}\M{P}^{-1} \pmod{26}.
+$$
+Four known letters reveal the whole key, and with it every message. This is a **known-plaintext attack**. For an $n \times n$ key, $n$ known pairs of length $n$ are enough. Even without known plaintext, the attacker can try all $26^4 = 456\,976$ possible $2 \times 2$ keys, a moment's work for a computer, and pick the one that gives readable English.
+
+::: {.callout-note appearance="simple" icon=false}
+### Example 1: encrypting
+
+Encrypt HELP with the key $\M{K} = \mat{3 & 3 \\ 2 & 5}$.
+
+**Solution.** HELP is H = 7, E = 4, L = 11, P = 15, giving the pairs $(7, 4)$ and $(11, 15)$.
+$$
+\M{K}\mat{7 \\ 4} = \mat{21 + 12 \\ 14 + 20} = \mat{33 \\ 34} \equiv \mat{7 \\ 8} = \text{HI},
+\qquad
+\M{K}\mat{11 \\ 15} = \mat{33 + 45 \\ 22 + 75} = \mat{78 \\ 97} \equiv \mat{0 \\ 19} = \text{AT}.
+$$
+The ciphertext is HIAT. The two letters of the second pair are both affected by both letters of the first: changing HELP to HELD would change the AT.
+:::
+
+::: {.callout-note appearance="simple" icon=false}
+### Example 2: decrypting
+
+Find $\M{K}^{-1}$ modulo 26 and decrypt HIAT.
+
+**Solution.** $\det\M{K} = 15 - 6 = 9$, and $\gcd(9, 26) = 1$, so the key is valid. Since $9 \times 3 = 27 \equiv 1$, $9^{-1} \equiv 3$. Then
+$$
+\M{K}^{-1} \equiv 3\mat{5 & -3 \\ -2 & 3} = \mat{15 & -9 \\ -6 & 9} \equiv \mat{15 & 17 \\ 20 & 9} \pmod{26}.
+$$
+Check: $\M{K}^{-1}\M{K} = \mat{45 + 34 & 45 + 85 \\ 60 + 18 & 60 + 45} = \mat{79 & 130 \\ 78 & 105} \equiv \mat{1 & 0 \\ 0 & 1}$. ✓ Decrypting the first pair, $\M{K}^{-1}(7, 8)\T = (105 + 136, \; 140 + 72) = (241, 212) \equiv (7, 4)$ = HE, and the second, $\M{K}^{-1}(0, 19)\T = (323, 171) \equiv (11, 15)$ = LP.
+:::
+
+::: {.callout-note appearance="simple" icon=false}
+### Example 3: a known-plaintext attack
+
+An attacker intercepts the ciphertext HIAT and correctly guesses that the message is HELP. Find the key.
+
+**Solution.** The plaintext pairs HE and LP, and the ciphertext pairs HI and AT, as columns:
+$$
+\M{P} = \mat{7 & 11 \\ 4 & 15},
+\qquad
+\M{C} = \mat{7 & 0 \\ 8 & 19}.
+$$
+$\det\M{P} = 105 - 44 = 61 \equiv 9$, whose inverse is 3, so
+$$
+\M{P}^{-1} \equiv 3\mat{15 & -11 \\ -4 & 7} \equiv \mat{19 & 19 \\ 14 & 21},
+\qquad
+\M{K} \equiv \M{C}\M{P}^{-1} = \mat{133 & 133 \\ 418 & 551} \equiv \mat{3 & 3 \\ 2 & 5}.
+$$
+The whole key, from one guessed word.
+:::
+
+## Explore
+
+::: {.app-embed}
+<iframe class="app-frame" src="../apps/hill-cipher.html?embed=1" title="Hill cipher" loading="lazy"></iframe>
+
+[Open the Hill cipher machine in its own tab](../apps/hill-cipher.html){.app-open target="_blank"}
+:::
+
+Things to try:
+
+- Type a message with a repeated pair, such as THETHE. Is the repeated pair encrypted the same way each time? What about THEXTHE, where the repeat starts halfway through a pair?
+- Encrypt a message, then press **Use the output as the new message** to decrypt it. Then change one entry of the key and decrypt again. How much of the message survives?
+- Choose **Not invertible**. Find two different messages that encrypt to the same ciphertext.
+- Which values of the top-left entry, with the other entries 3, 2 and 5, give a valid key?
+
+## In code
+
+Python's built-in `pow(a, -1, 26)` finds an inverse modulo 26 (and raises an error if there is none). In MATLAB, `[g, u] = gcd(a, 26)` gives the greatest common divisor `g`, and when `g` is 1, `u` is an inverse of `a`.
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+import numpy as np
+
+def to_nums(text):
+    return [ord(ch) - ord("A") for ch in text]
+
+def to_text(nums):
+    return "".join(chr(int(n) + ord("A")) for n in nums)
+
+def hill(K, message):
+    """Encrypt (or, with the inverse key, decrypt) a message of even length."""
+    pairs = np.array(to_nums(message)).reshape(-1, 2).T     # pairs as columns
+    return to_text((K @ pairs % 26).T.ravel())
+
+def inverse_mod26(K):
+    det = round(np.linalg.det(K)) % 26
+    d_inv = pow(det, -1, 26)               # error if gcd(det, 26) != 1
+    adj = np.array([[K[1, 1], -K[0, 1]], [-K[1, 0], K[0, 0]]])
+    return d_inv * adj % 26
+
+K = np.array([[3, 3], [2, 5]])
+c = hill(K, "HELP")
+Kinv = inverse_mod26(K)
+print(c, hill(Kinv, c))
+print(Kinv)
+
+# Known-plaintext attack (Example 3)
+P = np.array([[7, 11], [4, 15]])
+C = np.array([[7, 0], [8, 19]])
+print(C @ inverse_mod26(P) % 26)
+```
+
+## MATLAB
+
+```matlab
+K = [3 3; 2 5];
+c = hill(K, 'HELP')
+Kinv = inv26(K)
+p = hill(Kinv, c)
+
+% Known-plaintext attack (Example 3)
+P = [7 11; 4 15]; C = [7 0; 8 19];
+Kfound = mod(C * inv26(P), 26)
+
+function out = hill(K, msg)
+% Encrypt (or, with the inverse key, decrypt) a message of even length.
+v = reshape(double(msg) - 65, 2, []);      % pairs as columns
+out = char(mod(K * v, 26) + 65);
+out = out(:)';
+end
+
+function Kinv = inv26(K)
+d = mod(round(det(K)), 26);
+[g, u] = gcd(d, 26);
+if g ~= 1, error('Key not invertible mod 26'); end
+Kinv = mod(mod(u, 26) * [K(2,2) -K(1,2); -K(2,1) K(1,1)], 26);
+end
+```
+
+```{.text .code-output}
+c =
+
+    'HIAT'
+
+Kinv =
+
+    15    17
+    20     9
+
+p =
+
+    'HELP'
+
+Kfound =
+
+     3     3
+     2     5
+```
+:::
+
+## Check your understanding
+
+::: {.callout-tip collapse="true"}
+## Which of these keys can be used: $\mat{2 & 1 \\ 1 & 1}$, $\mat{3 & 1 \\ 1 & 3}$, $\mat{5 & 2 \\ 1 & 3}$?
+
+Only the first. Their determinants are 1, 8 and 13. A key works only if its determinant has no common factor with 26, and 8 is even while 13 divides 26.
+:::
+
+::: {.callout-tip collapse="true"}
+## Over the real numbers a non-zero determinant is enough for an inverse. Why not modulo 26?
+
+The inverse formula divides by the determinant, which modulo 26 means multiplying by its inverse, and only numbers with no common factor with 26 have one. With an even determinant, for example, two different messages encrypt to the same ciphertext, so no one can decrypt reliably.
+:::
+
+::: {.callout-tip collapse="true"}
+## A known-plaintext attack needs the matrix $\M{P}$ of known plaintext pairs to be invertible modulo 26. What can the attacker do if it isn't?
+
+Then $\M{C} \equiv \M{K}\M{P}$ doesn't fix the key: several keys fit. If more plaintext is known, the attacker picks two other known pairs whose matrix is invertible. Otherwise they try each key that fits the known pairs, far fewer than all 456 976, and keep the one that gives readable text.
+:::
+
+## Key ideas
+
+- The Hill cipher encrypts blocks of letters by multiplying by a key matrix, with all arithmetic done modulo 26.
+- Decrypting needs the inverse of the key modulo 26.
+- The inverse exists exactly when the determinant has no common factor with 26 (it is odd and not a multiple of 13).
+- A few known plaintext–ciphertext pairs give a linear system for the key, so the cipher is easily broken.
+
+## Exercises {#sec-cryptography-exercises}
+
+1. []{#exercise-cryptography-1}Find the inverses of 5, 7 and 25 modulo 26, and explain why 13 has none.
+
+   [Solution to exercise 1](../appendices/solutions-6.qmd#solution-cryptography-1){.sol-link}
+
+2. []{#exercise-cryptography-2}Encrypt MATH with the key $\mat{5 & 8 \\ 17 & 3}$, and find the inverse key.
+
+   [Solution to exercise 2](../appendices/solutions-6.qmd#solution-cryptography-2){.sol-link}
+
+3. []{#exercise-cryptography-3}Decide whether each matrix can be used as a Hill key: (a) $\mat{2 & 3 \\ 1 & 4}$; (b) $\mat{1 & 2 \\ 3 & 4}$; (c) $\mat{4 & 1 \\ 3 & 1}$.
+
+   [Solution to exercise 3](../appendices/solutions-6.qmd#solution-cryptography-3){.sol-link}
+
+4. []{#exercise-cryptography-4}With the key $\M{K} = \mat{2 & 4 \\ 1 & 3}$, show that the pairs AA and NN encrypt to the same ciphertext. Explain this using $\det\M{K}$.
+
+   [Solution to exercise 4](../appendices/solutions-6.qmd#solution-cryptography-4){.sol-link}
+
+5. []{#exercise-cryptography-5}Explain why encrypting a message twice, with keys $\M{K}_1$ and then $\M{K}_2$, is no more secure than encrypting it once. What single key does the same job?
+
+   [Solution to exercise 5](../appendices/solutions-6.qmd#solution-cryptography-5){.sol-link}
+
+6. []{#exercise-cryptography-6}**Code.** The ciphertext `FRFMKCFRJGBF` was encrypted with an unknown $2 \times 2$ Hill key, and you know the message begins with ATTA. Find the key and decrypt the whole message.
+
+   [Solution to exercise 6](../appendices/solutions-6.qmd#solution-cryptography-6){.sol-link}
+
+Solutions are in @sec-solutions-cryptography.
+
+## Going further
+
+- Modern block ciphers, such as **AES**, which protects most internet traffic, use a matrix multiplication over a finite field as one step (its **MixColumns** step is a $4 \times 4$ matrix acting on bytes), but they combine it with non-linear **substitution** steps and many rounds, precisely so that no known-plaintext attack like the one above can work.
+- **Public-key cryptography**, such as RSA, uses arithmetic modulo very large numbers, and relies on the same fact as this chapter: a number has an inverse modulo $n$ exactly when it shares no factor with $n$. Singh's *The Code Book* is an entertaining history of codes and ciphers; Hoffstein, Pipher and Silverman's *An Introduction to Mathematical Cryptography* covers the mathematics.
+- Linear algebra **over finite fields**, where arithmetic is done modulo a prime, is the basis of the error-correcting codes in QR codes, CDs, mobile phones and deep-space communication. Gaussian elimination works there exactly as in @sec-gaussian-elimination, since every non-zero number has an inverse.

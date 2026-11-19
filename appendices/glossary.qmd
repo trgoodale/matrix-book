@@ -1,0 +1,442 @@
+# Glossary {#sec-glossary}
+
+Absorbing state
+: A state of a Markov chain that, once entered, is never left. The other states are **transient**. See @sec-markov-pagerank.
+
+Adjacency matrix
+: A table of connections: entry $(i, j)$ is 1 if item $i$ is linked to item $j$, and 0 otherwise. See @sec-matrices.
+
+Affine transformation
+: A linear transformation followed by a translation, $\vect{x} \mapsto \M{M}\vect{x} + \vect{t}$. In homogeneous coordinates it is a single matrix. See @sec-graphics-robotics.
+
+Algebraic multiplicity
+: The number of times an eigenvalue is repeated as a root of the characteristic polynomial. Compare **geometric multiplicity**. See @sec-eigenvalues.
+
+Augmented matrix
+: The matrix $[\M{A} \mid \vect{b}]$ formed by adding the right-hand side of a linear system as an extra column. See @sec-gaussian-elimination.
+
+Back substitution
+: Solving an upper triangular system from the last equation upwards. See @sec-gaussian-elimination.
+
+Backward stable
+: Describes a method whose computed answer is the exact answer to a problem within rounding error of the one posed. Its remaining error is then due only to the problem's conditioning. See @sec-floating-point-conditioning.
+
+Banded matrix
+: A matrix whose non-zero entries all lie within a fixed distance of the main diagonal. Elimination without row swaps keeps the band. See @sec-cost-sparse.
+
+Basin of attraction
+: The set of starting points from which an iterative method, such as Newton's method, reaches a particular solution. See @sec-newton-systems.
+
+Basis
+: A set of linearly independent vectors that spans a subspace. Every vector in the subspace is a combination of them in exactly one way. See @sec-basis-change.
+
+Cancellation
+: The loss of accuracy when two nearly equal numbers are subtracted, leaving only their uncertain digits. See @sec-floating-point-conditioning.
+
+Characteristic polynomial
+: The polynomial $\det(\M{A} - \lambda\M{I})$, whose roots are the eigenvalues of $\M{A}$. Setting it to zero gives the **characteristic equation**. See @sec-eigenvalues.
+
+Cholesky factorisation
+: The factorisation $\M{A} = \M{L}\M{L}\T$ of a symmetric positive definite matrix, with $\M{L}$ lower triangular with positive diagonal entries. See @sec-symmetric-matrices.
+
+Coefficient of determination
+: $R^2$: the fraction of the variation in the data that a regression model explains. See @sec-data-science.
+
+Cofactor
+: The determinant left after crossing out row $i$ and column $j$ of a square matrix (the **minor**), multiplied by $(-1)^{i+j}$. See @sec-determinants and @sec-inverses.
+
+Collinearity
+: Near-dependence between the explanatory variables in a regression, which makes the design matrix ill-conditioned and the coefficients unreliable. See @sec-data-science.
+
+Column space
+: The span of the columns of a matrix: every vector $\M{A}\vect{x}$. $\M{A}\vect{x} = \vect{b}$ has a solution exactly when $\vect{b}$ is in it. See @sec-fundamental-subspaces.
+
+Composition
+: Doing one transformation after another. "Apply $\M{B}$, then $\M{A}$" has matrix $\M{A}\M{B}$. See @sec-composition.
+
+Condition number
+: For a square matrix, the ratio $\sigma_1/\sigma_n$ of its largest to smallest singular value. It measures how much errors can be magnified when solving $\M{A}\vect{x} = \vect{b}$. See @sec-svd-pca and @sec-floating-point-conditioning.
+
+Conductance matrix
+: The symmetric matrix $\M{G}$ of nodal analysis, with $\M{G}\vect{v} = \vect{i}$ relating node voltages to injected currents; $\M{G} = \M{A}\T\M{C}\M{A}$. See @sec-circuits.
+
+Conjugate gradient method
+: An iterative method for symmetric positive definite systems that minimises $\tfrac{1}{2}\vect{x}\T\M{A}\vect{x} - \vect{b}\T\vect{x}$ along mutually conjugate directions. See @sec-iterative-methods.
+
+Consistent system
+: A system of equations with at least one solution. One with no solution is **inconsistent**. See @sec-linear-systems.
+
+Coordinates
+: The coefficients that write a vector as a combination of the vectors of a basis. See @sec-basis-change.
+
+Covariance matrix
+: For data with $p$ variables, the $p \times p$ symmetric matrix whose entry $(i, j)$ is the covariance of variables $i$ and $j$, with the variances on the diagonal. See @sec-symmetric-matrices and @sec-svd-pca.
+
+Defective matrix
+: A square matrix without enough independent eigenvectors to form a basis, such as a shear. It can't be diagonalised. See @sec-eigenvalues and @sec-diagonalisation.
+
+Design matrix
+: The matrix $\M{X}$ of a linear model $\vect{y} \approx \M{X}\vect{\beta}$: a column of 1s for the intercept and one column per explanatory variable. See @sec-data-science.
+
+Determinant
+: The factor by which a square matrix scales areas (in 2D) or volumes (in 3D), with a negative sign when it reverses orientation. See @sec-determinants.
+
+Diagonal matrix
+: A square matrix whose entries off the main diagonal are all zero. It stretches space along the axes. See @sec-transformations.
+
+Diagonalisation
+: Writing $\M{A} = \M{P}\M{D}\M{P}^{-1}$, with the eigenvectors of $\M{A}$ as the columns of $\M{P}$ and its eigenvalues on the diagonal of $\M{D}$. See @sec-diagonalisation.
+
+Diagonally dominant
+: Describes a matrix whose diagonal entry in each row is larger in size than the sum of the sizes of the other entries in that row (strictly diagonally dominant), or at least as large. See @sec-iterative-methods and @sec-pivoting.
+
+Dimension
+: The number of vectors in any basis of a subspace: 1 for a line, 2 for a plane, $n$ for $\R^n$. See @sec-basis-change.
+
+Dominant eigenvalue
+: The eigenvalue of largest absolute value, when it is strictly larger than all the others. It decides the long-run behaviour of $\M{A}^k\vect{x}$. See @sec-diagonalisation.
+
+Dot product
+: For two lists of numbers of the same length, the sum of the products of matching entries: $(1, 2, 3) \cdot (4, 5, 6) = 4 + 10 + 18 = 32$. See the [Refresher](../front/refresher.qmd) and @sec-multiplication.
+
+Eigenspace
+: All the eigenvectors for one eigenvalue $\lambda$, together with $\zerovec$: the null space of $\M{A} - \lambda\M{I}$. See @sec-eigenvalues.
+
+Eigenvalue
+: A number $\lambda$ for which $\M{A}\vect{v} = \lambda\vect{v}$ has a non-zero solution $\vect{v}$, the **eigenvector**: the factor by which $\M{A}$ stretches that direction. See @sec-eigenvalues.
+
+Eigenvector
+: A non-zero vector that a matrix only stretches (or flips), so that it stays on the same line through the origin: $\M{A}\vect{v} = \lambda\vect{v}$. The number $\lambda$ is the matching **eigenvalue**. See @sec-invariant-lines and @sec-eigenvalues.
+
+Elasticity
+: In population models, the proportional change in the growth rate $\lambda$ for a proportional change in one matrix entry. See @sec-population-models.
+
+Entry
+: One of the numbers in a matrix. The entry in row $i$ and column $j$ of $\M{A}$ is written $a_{ij}$. See @sec-matrices.
+
+Equilibrium
+: A state that does not change. For $\dot{\vect{x}} = \M{A}\vect{x}$, the origin is an equilibrium, and it is **stable** if every solution tends to it. See @sec-linear-odes.
+
+Equilibrium matrix
+: The matrix whose columns give the forces that each member force and reaction exerts on the joints of a truss. See @sec-trusses.
+
+Fill-in
+: New non-zero entries created in the factors of a sparse matrix during elimination. See @sec-cost-sparse.
+
+Finite difference
+: An approximation to a derivative from values at neighbouring grid points, such as $u'' \approx (u_{i-1} - 2u_i + u_{i+1})/h^2$. See @sec-finite-differences.
+
+Floating-point number
+: A number stored as $\pm m \times 2^e$ with a fixed number of binary digits in $m$; double precision keeps about 16 significant decimal digits. See @sec-floating-point-conditioning.
+
+Forward kinematics
+: Finding the position and orientation of a robot's hand from its joint angles, as a product of transformation matrices. The reverse problem is **inverse kinematics**. See @sec-graphics-robotics.
+
+Forward substitution
+: Solving a lower triangular system from the first equation downwards. See @sec-lu-decomposition.
+
+Free variable
+: An unknown whose column has no pivot in the reduced row echelon form. It can take any value, and the **pivot variables** are then found from it. See @sec-gauss-jordan-rank.
+
+Fundamental matrix
+: For an absorbing Markov chain, $\M{N} = (\M{I} - \M{Q})^{-1}$, where $\M{Q}$ holds the probabilities of moving between transient states. Its entries are expected numbers of visits, its column sums the expected times until absorption. See @sec-markov-pagerank.
+
+Gauss–Seidel method
+: An iterative method that solves each equation for its own unknown, using the newest values of the others as soon as they are available. See @sec-iterative-methods.
+
+Geometric multiplicity
+: The dimension of the eigenspace of an eigenvalue: the number of independent eigenvectors it has. It is never more than the **algebraic multiplicity**. See @sec-eigenvalues.
+
+Gradient
+: The column vector $\nabla f$ of the partial derivatives of a scalar function $f(\vect{x})$. It points in the direction of steepest increase, perpendicular to the contours. See @sec-matrix-calculus.
+
+Gradient descent
+: Minimising a function by repeatedly stepping in the direction of $-\nabla f$. See @sec-matrix-calculus.
+
+Gram–Schmidt process
+: A method for turning independent vectors into orthonormal vectors with the same span. See @sec-orthogonality-least-squares.
+
+Growth factor
+: The largest entry produced during elimination divided by the largest entry of the original matrix. Large growth magnifies rounding errors. See @sec-pivoting.
+
+Hermitian matrix
+: A complex square matrix equal to its conjugate transpose: the complex version of a symmetric matrix. Its eigenvalues are real. See @sec-physics.
+
+Hessian
+: The symmetric matrix of second partial derivatives $\partial^2 f/\partial x_i\partial x_j$ of a scalar function. Its eigenvalues classify stationary points. See @sec-matrix-calculus.
+
+Hill cipher
+: A cipher that encrypts blocks of letters by multiplying them by a key matrix modulo 26. See @sec-cryptography.
+
+Homogeneous coordinates
+: Representing the point $(x, y)$ as $(x, y, 1)$ (or $(x, y, z)$ as $(x, y, z, 1)$), so that translations and perspective become matrix multiplications. See @sec-graphics-robotics.
+
+Homogeneous system
+: A system $\M{A}\vect{x} = \zerovec$, with every right-hand side zero. It always has the solution $\vect{x} = \zerovec$. See @sec-linear-systems.
+
+Householder reflection
+: The orthogonal matrix $\M{I} - 2\vect{v}\vect{v}\T/(\vect{v}\T\vect{v})$, a reflection, chosen to zero all but the first entry of a vector. See @sec-qr-least-squares.
+
+Identity matrix
+: The square matrix $\M{I}$ with 1 on the main diagonal and 0 elsewhere. Multiplying by it changes nothing. See @sec-multiplication.
+
+Ill-conditioned
+: Describes a problem whose answer changes a lot when its data change a little, such as a system with a large condition number. See @sec-floating-point-conditioning.
+
+Incidence matrix
+: For a network, the matrix with one row per edge, holding $+1$ and $-1$ in the columns of the two nodes it joins. See @sec-circuits.
+
+Inertia tensor
+: The symmetric matrix $\M{I}$ with $\vect{L} = \M{I}\vect{\omega}$, relating a rigid body's angular velocity to its angular momentum. Its eigenvectors are the **principal axes**. See @sec-physics.
+
+Invariant line
+: A line that a transformation maps onto itself, though the points on it may move along it. See @sec-invariant-lines.
+
+Invariant point
+: A point that a transformation leaves where it is: $\M{A}\vect{x} = \vect{x}$. A whole line of them is a **line of invariant points**. See @sec-invariant-lines.
+
+Inverse
+: The matrix $\M{A}^{-1}$ that undoes $\M{A}$, so that $\M{A}^{-1}\M{A} = \M{I}$. See @sec-inverses.
+
+Inverse iteration
+: The power method applied to $(\M{A} - \mu\M{I})^{-1}$, which finds the eigenvalue of $\M{A}$ closest to the shift $\mu$. See @sec-eigenvalue-algorithms.
+
+Inverse modulo n
+: A number $a^{-1}$ with $aa^{-1} \equiv 1 \pmod{n}$, which exists exactly when $\gcd(a, n) = 1$. See @sec-cryptography.
+
+Iteration matrix
+: The matrix $\M{T}$ in an iteration $\vect{x}_{k+1} = \M{T}\vect{x}_k + \vect{c}$; the error is multiplied by $\M{T}$ at each step. See @sec-iterative-methods.
+
+Jacobi method
+: An iterative method that solves each equation for its own unknown, using the previous values of all the others. See @sec-iterative-methods.
+
+Jacobian
+: The $m \times n$ matrix of partial derivatives $\partial f_i/\partial x_j$ of a function from $\R^n$ to $\R^m$: the matrix of its best linear approximation at a point. See @sec-matrix-calculus.
+
+Kronecker product
+: The block matrix $\M{A} \otimes \M{B}$ whose $(i, j)$ block is $a_{ij}\M{B}$; it builds the matrices of grid problems in two and three dimensions. See @sec-finite-differences.
+
+Least squares
+: Choosing $\vect{x}$ to make the sum of the squares of the errors in $\M{A}\vect{x} \approx \vect{b}$ as small as possible, by solving the normal equations. See @sec-orthogonality-least-squares.
+
+Left null space
+: The null space of $\M{A}\T$: the combinations of the rows of $\M{A}$ that add up to zero. See @sec-fundamental-subspaces.
+
+Leslie matrix
+: A population projection matrix with fecundities in its first row and survival rates just below the diagonal. See @sec-diagonalisation and @sec-population-models.
+
+Linear combination
+: A sum of scaled vectors, such as $s\vect{a} + t\vect{b}$. See @sec-arithmetic.
+
+Linear equation
+: An equation in which the unknowns are only multiplied by numbers and added, such as $3x + 2y - z = 1$. See @sec-matrices.
+
+Linear independence
+: Vectors are linearly independent if no combination of them gives $\zerovec$ except the one with all coefficients zero. Otherwise they are **linearly dependent**, and one of them is a combination of the others. See @sec-span-independence.
+
+Linear transformation
+: A transformation with $\M{A}(s\vect{x} + t\vect{y}) = s\M{A}\vect{x} + t\M{A}\vect{y}$. Every matrix gives one, and in the plane or space every one is given by a matrix. See @sec-transformations.
+
+Low-rank approximation
+: A matrix of rank $k$ close to a given matrix. Keeping the first $k$ terms of the SVD gives the closest one (the Eckart–Young theorem). See @sec-svd-pca.
+
+LU decomposition
+: Writing a square matrix as $\M{A} = \M{L}\M{U}$, with $\M{L}$ lower triangular (holding the multipliers of elimination) and $\M{U}$ upper triangular. With row swaps, $\M{P}\M{A} = \M{L}\M{U}$. See @sec-lu-decomposition.
+
+Machine epsilon
+: The gap between 1 and the next larger floating-point number, about $2.2 \times 10^{-16}$ in double precision. See @sec-floating-point-conditioning.
+
+Main diagonal
+: The entries $a_{11}, a_{22}, \dots$ of a square matrix, running from top left to bottom right. See @sec-matrices.
+
+Markov chain
+: A process that moves between states at random, with probabilities that depend only on the current state, described by $\vect{x}_{k+1} = \M{M}\vect{x}_k$ with a matrix whose columns add to 1. See @sec-diagonalisation.
+
+Matrix
+: A rectangular array of numbers. An $m \times n$ matrix has $m$ rows and $n$ columns. See @sec-matrices.
+
+Matrix exponential
+: The matrix $e^{\M{A}t} = \M{I} + \M{A}t + (\M{A}t)^2/2! + \cdots$, which solves $\dot{\vect{x}} = \M{A}\vect{x}$ as $\vect{x}(t) = e^{\M{A}t}\vect{x}_0$. See @sec-linear-odes.
+
+Mechanism
+: A structure that can move without any member changing length; its equilibrium matrix doesn't have full row rank, and its stiffness matrix is singular. See @sec-trusses.
+
+Mode
+: A pattern that evolves on its own in a linear system: an eigenvector, multiplied by $\lambda^k$ in a discrete process or by $e^{\lambda t}$ in a continuous one. See @sec-diagonalisation and @sec-linear-odes.
+
+Modified nodal analysis
+: Nodal analysis extended with the currents through voltage sources as extra unknowns. See @sec-circuits.
+
+Multiplier
+: In Gaussian elimination, the number $m_{ik} = a_{ik}/a_{kk}$ such that subtracting $m_{ik}$ times the pivot row clears the entry below the pivot. See @sec-gaussian-elimination.
+
+Newton's method
+: Solving $\vect{f}(\vect{x}) = \zerovec$ by repeatedly solving the linear system $\M{J}(\vect{x}_k)\,\Delta\vect{x} = -\vect{f}(\vect{x}_k)$ and setting $\vect{x}_{k+1} = \vect{x}_k + \Delta\vect{x}$. See @sec-newton-systems.
+
+Norm
+: A measure of the size of a vector, such as the length $\lVert\vect{x}\rVert_2$ or the largest entry $\lVert\vect{x}\rVert_\infty$; for a matrix, the most it stretches any vector. See @sec-floating-point-conditioning.
+
+Normal equations
+: $\M{A}\T\M{A}\hat{\vect{x}} = \M{A}\T\vect{b}$, whose solution is the least-squares solution of $\M{A}\vect{x} = \vect{b}$. See @sec-orthogonality-least-squares.
+
+Null space
+: All the solutions of $\M{A}\vect{x} = \zerovec$. Its dimension is the **nullity**. See @sec-fundamental-subspaces.
+
+Orthogonal matrix
+: A square matrix $\M{Q}$ with $\M{Q}\T\M{Q} = \M{I}$. It preserves lengths and angles: a rotation or a reflection. See @sec-inverses.
+
+Orthogonal vectors
+: Vectors at right angles: their dot product is zero. **Orthonormal** vectors are orthogonal and of length 1. See @sec-orthogonality-least-squares.
+
+PageRank
+: The steady state of a random surfer on the web, following links with probability $d$ and jumping to a random page otherwise. See @sec-markov-pagerank.
+
+Partial pivoting
+: Swapping rows during elimination so that each pivot is the largest entry, in size, in its column on or below the diagonal. See @sec-pivoting.
+
+Particular solution
+: Any one solution of $\M{A}\vect{x} = \vect{b}$. Every solution is a particular solution plus a solution of $\M{A}\vect{x} = \zerovec$. See @sec-linear-systems.
+
+Permutation matrix
+: The identity matrix with its rows in a different order. Multiplying by it reorders the rows of a matrix. See @sec-lu-decomposition.
+
+Phase portrait
+: A picture of the paths followed by the solutions of a system of two differential equations in the plane. See @sec-linear-odes.
+
+Pivot
+: The entry used to clear the others in its column during elimination: in echelon form, the first non-zero entry of each row. It must not be zero, and in practice should not be small. See @sec-gaussian-elimination and @sec-pivoting.
+
+Positive definite matrix
+: A symmetric matrix with $\vect{x}\T\M{A}\vect{x} > 0$ for every $\vect{x} \neq \zerovec$; equivalently, with all eigenvalues positive. **Positive semidefinite** allows $\ge 0$. See @sec-symmetric-matrices.
+
+Power method
+: Finding the dominant eigenvector by repeatedly multiplying a vector by $\M{A}$ and rescaling it. See @sec-eigenvalue-algorithms.
+
+Preconditioner
+: An approximation $\M{M}$ to $\M{A}$, easy to solve with, used to transform a system so that iterative methods converge faster. See @sec-iterative-methods.
+
+Principal component analysis
+: Describing data by its coordinates along the directions of greatest variance, the **principal components**: the eigenvectors of the covariance matrix, or the right singular vectors of the centred data. See @sec-svd-pca.
+
+Principal stresses
+: The eigenvalues of a stress matrix: the normal stresses along the perpendicular directions in which there is no shear. See @sec-symmetric-matrices.
+
+Projection
+: The closest point to a vector in a line or subspace, found by dropping a perpendicular. See @sec-orthogonality-least-squares.
+
+Pseudoinverse
+: The matrix $\M{A}^+ = \M{V}\M{\Sigma}^+\M{U}\T$, built from the SVD by inverting the non-zero singular values. $\M{A}^+\vect{b}$ is the shortest least-squares solution of $\M{A}\vect{x} = \vect{b}$. See @sec-svd-pca.
+
+QR algorithm
+: The standard method for computing all eigenvalues: factorise $\M{A}_k = \M{Q}_k\M{R}_k$, set $\M{A}_{k+1} = \M{R}_k\M{Q}_k$, and repeat. See @sec-eigenvalue-algorithms.
+
+QR factorisation
+: Writing $\M{A} = \M{Q}\M{R}$, with $\M{Q}$ having orthonormal columns and $\M{R}$ upper triangular. See @sec-orthogonality-least-squares and @sec-qr-least-squares.
+
+Quadratic convergence
+: Convergence in which each error is roughly proportional to the square of the previous one, so the number of correct digits roughly doubles at each step. See @sec-newton-systems.
+
+Quadratic form
+: A function $\vect{x}\T\M{A}\vect{x}$ with $\M{A}$ symmetric, such as $ax^2 + 2bxy + cy^2$. See @sec-symmetric-matrices.
+
+$\R^n$
+: The set of all vectors with $n$ real-number entries: the plane is $\R^2$ and ordinary space is $\R^3$. See @sec-span-independence.
+
+Rank
+: The number of pivots in the echelon form of a matrix: the number of independent rows. See @sec-gauss-jordan-rank.
+
+Rank–nullity theorem
+: For a matrix with $n$ columns, rank plus nullity equals $n$. See @sec-fundamental-subspaces.
+
+Rayleigh quotient
+: The estimate $\vect{q}\T\M{A}\vect{q}$ of an eigenvalue, for an approximate eigenvector $\vect{q}$ of length 1. See @sec-eigenvalue-algorithms.
+
+Reduced row echelon form
+: A row echelon form in which every pivot is 1 and is the only non-zero entry in its column. Each matrix has exactly one. See @sec-gauss-jordan-rank.
+
+Residual
+: The vector $\vect{b} - \M{A}\hat{\vect{x}}$, showing how well an approximate solution $\hat{\vect{x}}$ satisfies $\M{A}\vect{x} = \vect{b}$. See @sec-floating-point-conditioning.
+
+Row echelon form
+: A matrix in which each row's first non-zero entry is to the right of the one above, so that all entries below the pivots are zero. See @sec-gauss-jordan-rank.
+
+Row operation
+: Adding a multiple of one row to another, swapping two rows, or multiplying a row by a non-zero number. See @sec-determinants and @sec-gaussian-elimination.
+
+Row space
+: The span of the rows of a matrix. Its dimension is the rank. See @sec-fundamental-subspaces.
+
+Scalar
+: A single number, as opposed to a vector or matrix. Multiplying by a scalar scales every entry. See @sec-arithmetic.
+
+Similar matrices
+: Matrices related by $\M{B} = \M{P}^{-1}\M{A}\M{P}$: the same transformation described in different bases. See @sec-basis-change.
+
+Singular matrix
+: A square matrix with determinant zero. It has no inverse, and $\M{A}\vect{x} = \vect{b}$ has either no solution or infinitely many. See @sec-determinants.
+
+Singular value decomposition
+: The factorisation $\M{A} = \M{U}\M{\Sigma}\M{V}\T$ of any matrix, with $\M{U}$ and $\M{V}$ orthogonal and the **singular values** $\sigma_1 \ge \sigma_2 \ge \dots \ge 0$ on the diagonal of $\M{\Sigma}$: rotate, stretch, rotate. See @sec-svd-pca.
+
+Skew-symmetric matrix
+: A square matrix with $\M{A}\T = -\M{A}$. In three dimensions it represents a cross product with a fixed vector, such as an angular velocity. See @sec-physics.
+
+Span
+: The set of all linear combinations of some vectors. See @sec-span-independence.
+
+Sparse matrix
+: A matrix with so many zero entries that it pays to store and use only the non-zeros. See @sec-cost-sparse.
+
+Spectral radius
+: The largest absolute value of the eigenvalues of a matrix, written $\rho(\M{T})$. An iteration with iteration matrix $\M{T}$ converges if and only if $\rho(\M{T}) < 1$. See @sec-iterative-methods.
+
+Spectral theorem
+: Every real symmetric matrix can be written $\M{Q}\M{\Lambda}\M{Q}\T$, with real eigenvalues and orthonormal eigenvectors. See @sec-symmetric-matrices.
+
+Square matrix
+: A matrix with as many rows as columns. See @sec-matrices.
+
+Stable age distribution
+: The proportions in each age class or stage that a population settles into: the eigenvector of the dominant eigenvalue of its projection matrix. See @sec-population-models.
+
+Statically determinate
+: Describes a structure whose member forces are fixed by equilibrium alone: its equilibrium matrix is square and invertible. If there are more unknowns than equations it is **statically indeterminate**. See @sec-trusses.
+
+Stationary point
+: A point where the gradient of a function is zero: a minimum, a maximum or a saddle point. See @sec-matrix-calculus.
+
+Steady state
+: A vector left unchanged by a process $\vect{x}_{k+1} = \M{M}\vect{x}_k$: an eigenvector with eigenvalue 1. See @sec-diagonalisation.
+
+Stiffness matrix
+: The symmetric matrix $\M{K} = \M{B}\T\M{D}\M{B}$ relating joint displacements to applied loads, $\M{K}\vect{u} = \vect{p}$. See @sec-trusses.
+
+Subspace
+: A set of vectors that contains $\zerovec$ and is closed under adding and scaling, such as a line or plane through the origin. See @sec-span-independence.
+
+Successive over-relaxation
+: SOR: Gauss–Seidel with each update stretched by a factor $\omega$ between 0 and 2, usually above 1, to speed convergence. See @sec-iterative-methods.
+
+Symmetric matrix
+: A square matrix equal to its transpose, so that $a_{ij} = a_{ji}$. See @sec-matrices.
+
+Thomas algorithm
+: Gaussian elimination specialised to tridiagonal matrices, needing about $8n$ operations. See @sec-cost-sparse.
+
+Trace
+: The sum of the diagonal entries of a square matrix, equal to the sum of its eigenvalues. See @sec-eigenvalues.
+
+Transition matrix
+: The matrix of probabilities $m_{ij}$ of moving from state $j$ to state $i$ in one step of a Markov chain; its columns add to 1 (it is **column-stochastic**). See @sec-markov-pagerank.
+
+Transpose
+: The matrix $\M{A}\T$ whose rows are the columns of $\M{A}$. See @sec-matrices.
+
+Triangular matrix
+: A square matrix that is zero below the main diagonal (upper triangular) or above it (lower triangular). See @sec-determinants.
+
+Tridiagonal matrix
+: A matrix whose only non-zero entries are on the main diagonal and the diagonals just above and below it. See @sec-cost-sparse.
+
+View matrix
+: The $4 \times 4$ matrix that moves a 3D scene so that the camera sits at the origin, looking along the negative $z$ axis. See @sec-graphics-robotics.

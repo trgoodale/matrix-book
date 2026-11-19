@@ -1,0 +1,491 @@
+# Solutions: Part III {#sec-solutions-part-3}
+
+Solutions to the exercises in Part III, grouped by chapter, followed by the solutions to the Part III review. Try each exercise before reading its solution. The link after each solution takes you back to its exercise.
+
+## Span and linear independence {#sec-solutions-span-independence}
+
+Exercises from @sec-span-independence.
+
+[**1.**]{#solution-span-independence-1}
+
+(a) The line through the origin in the direction $(1, 2)\T$.
+
+(b) All of $\R^2$: the two vectors don't lie along the same line ($\det\mat{1 & 3 \\ 2 & 1} = -5 \neq 0$).
+
+(c) The $xy$-plane in $\R^3$.
+
+(d) The line through the origin in the direction $(1, 1, 1)\T$: the second vector is twice the first.
+
+[Back to exercise 1](../part-3/14-span-independence.qmd#exercise-span-independence-1){.sol-link}
+
+[**2.**]{#solution-span-independence-2} Yes. Solving $c_1(1, 1, 1)\T + c_2(1, 2, 3)\T = (3, 4, 5)\T$: the first two entries give $c_1 + c_2 = 3$ and $c_1 + 2c_2 = 4$, so $c_2 = 1$ and $c_1 = 2$, and the third entry checks: $2 + 3 = 5$. So $(3, 4, 5)\T = 2(1, 1, 1)\T + (1, 2, 3)\T$.
+
+[Back to exercise 2](../part-3/14-span-independence.qmd#exercise-span-independence-2){.sol-link}
+
+[**3.**]{#solution-span-independence-3}
+
+(a) Dependent. Row reduction of the matrix with these columns leaves no pivot in column 3, and gives the relation $(1, 2, 3)\T - 2(4, 5, 6)\T + (7, 8, 9)\T = \zerovec$.
+
+(b) Independent: the matrix with these columns has determinant $1(4 - 1) - 0 + 1(0 - 2) = 1 \neq 0$.
+
+[Back to exercise 3](../part-3/14-span-independence.qmd#exercise-span-independence-3){.sol-link}
+
+[**4.**]{#solution-span-independence-4} Two vectors in $\R^2$ are dependent exactly when the matrix they form has determinant zero: $4 - k^2 = 0$, so $k = 2$ or $k = -2$. (For $k = 2$, $(2, 4)\T = 2(1, 2)\T$.)
+
+[Back to exercise 4](../part-3/14-span-independence.qmd#exercise-span-independence-4){.sol-link}
+
+[**5.**]{#solution-span-independence-5}
+
+(a) Suppose $c_1\vect{v}_1 + c_2\vect{v}_2 = \zerovec$. Then $c_1\vect{v}_1 + c_2\vect{v}_2 + 0\vect{v}_3 = \zerovec$, and independence of all three forces $c_1 = c_2 = 0$.
+
+(b) Suppose $a(\vect{u} + \vect{v}) + b(\vect{u} - \vect{v}) = \zerovec$. Rearranging, $(a + b)\vect{u} + (a - b)\vect{v} = \zerovec$, so by independence $a + b = 0$ and $a - b = 0$, which give $a = b = 0$.
+
+[Back to exercise 5](../part-3/14-span-independence.qmd#exercise-span-independence-5){.sol-link}
+
+[**6.**]{#solution-span-independence-6} $\zerovec$ satisfies $0 + 0 + 0 = 0$. If $\vect{p}$ and $\vect{q}$ have entries adding to 0, so do $\vect{p} + \vect{q}$ (the sums add) and $k\vect{p}$ (the sum is multiplied by $k$). So the plane is a subspace. The plane $x + y + z = 1$ is not: it doesn't contain $\zerovec$.
+
+[Back to exercise 6](../part-3/14-span-independence.qmd#exercise-span-independence-6){.sol-link}
+
+[**7.**]{#solution-span-independence-7}
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+import numpy as np
+from scipy.linalg import null_space
+
+V = np.column_stack([[1, 2, 0], [0, 1, 1], [1, 0, 1], [2, 3, 2]])
+print(np.linalg.matrix_rank(V))              # 3 < 4: dependent
+c = null_space(V)
+print(c.ravel() / c[0, 0])                   # scaled so that c1 = 1
+print(np.linalg.matrix_rank(V[:, :3]))       # 3: the first three are independent
+```
+
+## MATLAB
+
+```matlab
+V = [1 0 1 2;
+     2 1 0 3;
+     0 1 1 2];
+rank(V)                    % 3 < 4: dependent
+c = null(V);
+c = c / c(1)               % scaled so that c1 = 1
+rank(V(:, 1:3))            % 3: the first three are independent
+```
+
+```{.text .code-output}
+ans =
+
+     3
+
+c =
+
+    1.0000
+    1.0000
+    1.0000
+   -1.0000
+
+ans =
+
+     3
+```
+:::
+
+Four vectors in $\R^3$ must be dependent. The relation is $\vect{v}_1 + \vect{v}_2 + \vect{v}_3 - \vect{v}_4 = \zerovec$: the fourth vector is the sum of the other three. The first three have rank 3, so they are independent.
+
+[Back to exercise 7](../part-3/14-span-independence.qmd#exercise-span-independence-7){.sol-link}
+
+## Basis, dimension and change of basis {#sec-solutions-basis-change}
+
+Exercises from @sec-basis-change.
+
+[**1.**]{#solution-basis-change-1}
+
+(a) Not a basis: $(2, 4)\T = 2(1, 2)\T$, so the vectors are dependent.
+
+(b) A basis of $\R^2$: the determinant is $4 - 6 = -2 \neq 0$.
+
+(c) Not a basis of $\R^3$: two vectors can't span a space of dimension 3. (They are a basis for the $xy$-plane.)
+
+(d) A basis of $\R^3$: the determinant is 2 (@sec-span-independence, Example 3).
+
+[Back to exercise 1](../part-3/15-basis-change.qmd#exercise-basis-change-1){.sol-link}
+
+[**2.**]{#solution-basis-change-2} Solve $c_1 + c_2 = 4$ and $2c_1 + 3c_2 = 7$. Subtracting twice the first from the second gives $c_2 = -1$, so $c_1 = 5$: $[\vect{v}]_B = (5, -1)\T$. Check: $5(1, 2)\T - (1, 3)\T = (4, 7)\T$. ✓
+
+[Back to exercise 2](../part-3/15-basis-change.qmd#exercise-basis-change-2){.sol-link}
+
+[**3.**]{#solution-basis-change-3} The third vector is the sum of the first two, and the first two are not parallel. So $(1, -1, 0)\T$ and $(0, 1, -1)\T$ form a basis, and the dimension is 2. (The span is the plane $x + y + z = 0$, the subject of Exercise 4.)
+
+[Back to exercise 3](../part-3/15-basis-change.qmd#exercise-basis-change-3){.sol-link}
+
+[**4.**]{#solution-basis-change-4} The equation gives $x = -y - z$, with $y$ and $z$ free, so every point of the plane is $y(-1, 1, 0)\T + z(-1, 0, 1)\T$. These two vectors are independent, so they form a basis, and the dimension is 2.
+
+[Back to exercise 4](../part-3/15-basis-change.qmd#exercise-basis-change-4){.sol-link}
+
+[**5.**]{#solution-basis-change-5} Take $\vect{b}_1 = (1, 1)\T$ along the line and $\vect{b}_2 = (-1, 1)\T$ at right angles to it. The projection keeps $\vect{b}_1$ and sends $\vect{b}_2$ to $\zerovec$, so in this basis its matrix is $\M{B} = \mat{1 & 0 \\ 0 & 0}$. With $\M{P} = \mat{1 & -1 \\ 1 & 1}$ and $\M{P}^{-1} = \tfrac{1}{2}\mat{1 & 1 \\ -1 & 1}$,
+$$
+\M{A} = \M{P}\M{B}\M{P}^{-1} = \mat{1 & 0 \\ 1 & 0} \cdot \frac{1}{2}\mat{1 & 1 \\ -1 & 1} = \frac{1}{2}\mat{1 & 1 \\ 1 & 1}.
+$$
+Check: $\M{A}(1, 1)\T = (1, 1)\T$ and $\M{A}(-1, 1)\T = \zerovec$. ✓
+
+[Back to exercise 5](../part-3/15-basis-change.qmd#exercise-basis-change-5){.sol-link}
+
+[**6.**]{#solution-basis-change-6} $\M{B}^2 = (\M{P}^{-1}\M{A}\M{P})(\M{P}^{-1}\M{A}\M{P}) = \M{P}^{-1}\M{A}(\M{P}\M{P}^{-1})\M{A}\M{P} = \M{P}^{-1}\M{A}^2\M{P}$. Geometrically: doing the transformation twice is the same transformation whichever coordinates you describe it in, so its matrix in the new basis is the new matrix squared.
+
+[Back to exercise 6](../part-3/15-basis-change.qmd#exercise-basis-change-6){.sol-link}
+
+[**7.**]{#solution-basis-change-7}
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+import numpy as np
+
+p = np.array([1, -1, 0]) / np.sqrt(2)
+q = np.array([1, 1, -2]) / np.sqrt(6)
+u = np.array([1, 1, 1]) / np.sqrt(3)
+P = np.column_stack([p, q, u])
+
+th = np.radians(120)
+Rz = np.array([[np.cos(th), -np.sin(th), 0],
+               [np.sin(th),  np.cos(th), 0],
+               [0, 0, 1]])
+print(np.round(P @ Rz @ P.T, 10) + 0)
+```
+
+## MATLAB
+
+```matlab
+p = [1; -1; 0] / sqrt(2);
+q = [1; 1; -2] / sqrt(6);
+u = [1; 1; 1] / sqrt(3);
+P = [p q u];
+
+Rz = [cosd(120) -sind(120) 0;
+      sind(120)  cosd(120) 0;
+      0 0 1];
+round(P * Rz * P', 10)
+```
+
+```{.text .code-output}
+ans =
+
+     0     0     1
+     1     0     0
+     0     1     0
+```
+:::
+
+The result is exactly $\M{C}$. In the basis $\vect{p}, \vect{q}, \vect{u}$, the rotation is the simple $\M{R}_z(120°)$; the change of basis carries it over to the usual coordinates.
+
+[Back to exercise 7](../part-3/15-basis-change.qmd#exercise-basis-change-7){.sol-link}
+
+## Column space, null space and rank–nullity {#sec-solutions-fundamental-subspaces}
+
+Exercises from @sec-fundamental-subspaces.
+
+[**1.**]{#solution-fundamental-subspaces-1} Row 2 is twice row 1, so the echelon form is $\mat{1 & 2 & 3 \\ 0 & 0 & 0}$, with rank 1. The column space has basis $(1, 2)\T$. With $x_2 = s$ and $x_3 = t$ free, $x_1 = -2s - 3t$, so the null space has basis $(-2, 1, 0)\T$ and $(-3, 0, 1)\T$. Rank–nullity: $1 + 2 = 3$, the number of columns. ✓
+
+[Back to exercise 1](../part-3/16-fundamental-subspaces.qmd#exercise-fundamental-subspaces-1){.sol-link}
+
+[**2.**]{#solution-fundamental-subspaces-2} Row 3 is row 1 plus row 2, and the reduced form is $\mat{1 & 0 & 2 \\ 0 & 1 & 1 \\ 0 & 0 & 0}$, with rank 2.
+
+- Column space: $(1, 0, 1)\T$ and $(0, 1, 1)\T$, the pivot columns.
+- Null space: with $x_3 = t$, $x_1 = -2t$ and $x_2 = -t$, so the basis is $(-2, -1, 1)\T$.
+- Row space: $(1, 0, 2)$ and $(0, 1, 1)$.
+- Left null space: row 1 plus row 2 minus row 3 is zero, so the basis is $(1, 1, -1)\T$.
+
+The null space is at right angles to the row space: $(1, 0, 2) \cdot (-2, -1, 1) = 0$ and $(0, 1, 1) \cdot (-2, -1, 1) = 0$. ✓
+
+[Back to exercise 2](../part-3/16-fundamental-subspaces.qmd#exercise-fundamental-subspaces-2){.sol-link}
+
+[**3.**]{#solution-fundamental-subspaces-3} One equation in three unknowns: $x_1 = 6 - 2x_2 - 3x_3$, with $x_2 = s$ and $x_3 = t$ free. So
+$$
+\vect{x} = \mat{6 \\ 0 \\ 0} + s\mat{-2 \\ 1 \\ 0} + t\mat{-3 \\ 0 \\ 1}.
+$$
+The solutions form a plane in $\R^3$, parallel to the null space, which is the plane $x_1 + 2x_2 + 3x_3 = 0$ through the origin.
+
+[Back to exercise 3](../part-3/16-fundamental-subspaces.qmd#exercise-fundamental-subspaces-3){.sol-link}
+
+[**4.**]{#solution-fundamental-subspaces-4} Independent columns means rank 4. So the column space has dimension 4 (inside $\R^6$), the null space dimension $4 - 4 = 0$, the row space dimension 4 (all of $\R^4$) and the left null space dimension $6 - 4 = 2$. Since the null space is $\{\zerovec\}$, $\M{A}\vect{x} = \vect{b}$ has at most one solution: exactly one if $\vect{b}$ is in the column space, and none otherwise.
+
+[Back to exercise 4](../part-3/16-fundamental-subspaces.qmd#exercise-fundamental-subspaces-4){.sol-link}
+
+[**5.**]{#solution-fundamental-subspaces-5} If every $\vect{b}$ in $\R^m$ can be reached, the column space is all of $\R^m$, which has dimension $m$. The dimension of the column space is the rank, so $\operatorname{rank}\M{A} = m$. The rank is also at most the number of columns, so $m \le n$.
+
+[Back to exercise 5](../part-3/16-fundamental-subspaces.qmd#exercise-fundamental-subspaces-5){.sol-link}
+
+[**6.**]{#solution-fundamental-subspaces-6} If $\M{A}\vect{x} = \zerovec$ then $\M{A}\T\M{A}\vect{x} = \M{A}\T\zerovec = \zerovec$. Conversely, if $\M{A}\T\M{A}\vect{x} = \zerovec$, then
+$$
+0 = \vect{x}\T\M{A}\T\M{A}\vect{x} = (\M{A}\vect{x})\T(\M{A}\vect{x}) = \lVert\M{A}\vect{x}\rVert^2,
+$$
+and a vector of length zero is $\zerovec$, so $\M{A}\vect{x} = \zerovec$. So the two null spaces are the same.
+
+[Back to exercise 6](../part-3/16-fundamental-subspaces.qmd#exercise-fundamental-subspaces-6){.sol-link}
+
+[**7.**]{#solution-fundamental-subspaces-7}
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+import numpy as np
+from scipy.linalg import null_space, orth
+
+rng = np.random.default_rng(7)
+A = rng.standard_normal((5, 3)) @ rng.standard_normal((3, 8))
+m, n = A.shape
+r = np.linalg.matrix_rank(A)
+print("rank", r)
+print("column space", orth(A).shape[1], " null space", null_space(A).shape[1],
+      " row space", orth(A.T).shape[1], " left null space", null_space(A.T).shape[1])
+print("largest row . null vector:", np.abs(A @ null_space(A)).max())
+```
+
+## MATLAB
+
+```matlab
+A = randn(5, 3) * randn(3, 8);
+r = rank(A)
+dims = [size(orth(A), 2), size(null(A), 2), size(orth(A'), 2), size(null(A'), 2)]
+max(abs(A * null(A)), [], 'all')     % tiny: rows are perpendicular to the null space
+```
+
+```{.text .code-output}
+r =
+
+     3
+
+dims =
+
+     3     5     3     2
+
+ans =
+
+   8.0939e-16
+```
+:::
+
+The dimensions are $r = 3$, $n - r = 5$, $r = 3$ and $m - r = 2$, as the table predicts, and every row dotted with every null space vector gives zero, up to rounding error of about $10^{-15}$.
+
+[Back to exercise 7](../part-3/16-fundamental-subspaces.qmd#exercise-fundamental-subspaces-7){.sol-link}
+
+## Orthogonality and least squares {#sec-solutions-orthogonality-least-squares}
+
+Exercises from @sec-orthogonality-least-squares.
+
+[**1.**]{#solution-orthogonality-least-squares-1}
+
+(a) $(1, 2, 2) \cdot (2, 1, -2) = 2 + 2 - 4 = 0$, so the angle is $90°$.
+
+(b) The dot product is 1 and both lengths are $\sqrt{2}$, so $\cos\theta = \tfrac{1}{2}$ and $\theta = 60°$.
+
+[Back to exercise 1](../part-3/17-orthogonality-least-squares.qmd#exercise-orthogonality-least-squares-1){.sol-link}
+
+[**2.**]{#solution-orthogonality-least-squares-2} $\vect{a} \cdot \vect{b} = 9$ and $\vect{a} \cdot \vect{a} = 3$, so $\vect{p} = 3\vect{a} = (3, 3, 3)\T$. The error is $\vect{e} = (-1, 0, 1)\T$, and $\vect{e} \cdot \vect{a} = -1 + 0 + 1 = 0$. ✓
+
+[Back to exercise 2](../part-3/17-orthogonality-least-squares.qmd#exercise-orthogonality-least-squares-2){.sol-link}
+
+[**3.**]{#solution-orthogonality-least-squares-3} With $\M{A} = \mat{1 & 0 \\ 1 & 1 \\ 1 & 2}$ and $\vect{y} = (6, 0, 0)\T$, the normal equations are
+$$
+\mat{3 & 3 \\ 3 & 5}\mat{c \\ m} = \mat{6 \\ 0}.
+$$
+Subtracting the first from the second gives $2m = -6$, so $m = -3$ and $c = 5$: the line is $y = 5 - 3t$. The errors are $6 - 5 = 1$, $0 - 2 = -2$ and $0 - (-1) = 1$, so the sum of squared errors is $1 + 4 + 1 = 6$.
+
+[Back to exercise 3](../part-3/17-orthogonality-least-squares.qmd#exercise-orthogonality-least-squares-3){.sol-link}
+
+[**4.**]{#solution-orthogonality-least-squares-4} $\M{A}\T\M{A}$ is symmetric, so its inverse is too, and
+$$
+\M{P}\T = (\M{A}\T)\T\big((\M{A}\T\M{A})^{-1}\big)\T\M{A}\T = \M{A}(\M{A}\T\M{A})^{-1}\M{A}\T = \M{P}.
+$$
+And
+$$
+\M{P}^2 = \M{A}(\M{A}\T\M{A})^{-1}(\M{A}\T\M{A})(\M{A}\T\M{A})^{-1}\M{A}\T = \M{A}(\M{A}\T\M{A})^{-1}\M{A}\T = \M{P}.
+$$
+Geometrically, $\M{P}\vect{b}$ is already in the column space, and projecting a vector that is already in the subspace leaves it where it is.
+
+[Back to exercise 4](../part-3/17-orthogonality-least-squares.qmd#exercise-orthogonality-least-squares-4){.sol-link}
+
+[**5.**]{#solution-orthogonality-least-squares-5} $\lVert\vect{a}_1\rVert = 3$, so $\vect{q}_1 = \tfrac{1}{3}(1, 2, 2)\T$. Then $\vect{q}_1 \cdot \vect{a}_2 = \tfrac{1}{3}(1 + 0 + 2) = 1$, so
+$$
+\begin{aligned}
+\vect{v}_2 &= \vect{a}_2 - \vect{q}_1 = (1, 0, 1)\T - \tfrac{1}{3}(1, 2, 2)\T \\
+&= \tfrac{1}{3}(2, -2, 1)\T,
+\end{aligned}
+$$
+which already has length 1. So $\vect{q}_2 = \tfrac{1}{3}(2, -2, 1)\T$. Check: $\vect{q}_1 \cdot \vect{q}_2 = \tfrac{1}{9}(2 - 4 + 2) = 0$. ✓
+
+[Back to exercise 5](../part-3/17-orthogonality-least-squares.qmd#exercise-orthogonality-least-squares-5){.sol-link}
+
+[**6.**]{#solution-orthogonality-least-squares-6} The normal equations say $\M{A}\T\vect{e} = \zerovec$, where $\vect{e} = \vect{y} - \M{A}\hat{\vect{x}}$. The first column of $\M{A}$ is all 1s, so the first row of $\M{A}\T$ is all 1s, and the first entry of $\M{A}\T\vect{e}$ is $e_1 + e_2 + \dots + e_k = 0$.
+
+[Back to exercise 6](../part-3/17-orthogonality-least-squares.qmd#exercise-orthogonality-least-squares-6){.sol-link}
+
+[**7.**]{#solution-orthogonality-least-squares-7}
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+import numpy as np
+
+t = np.array([0, 0.5, 1, 1.5, 2, 2.5])
+h = np.array([2.1, 7.6, 11.3, 11.8, 10.5, 6.2])
+A = np.column_stack([np.ones_like(t), t, t**2])
+c, *_ = np.linalg.lstsq(A, h, rcond=None)
+print(np.round(c, 3))
+print("g is about", round(-2 * c[2], 2), "m/s^2")
+```
+
+## MATLAB
+
+```matlab
+t = [0; 0.5; 1; 1.5; 2; 2.5];
+h = [2.1; 7.6; 11.3; 11.8; 10.5; 6.2];
+A = [ones(6, 1), t, t.^2];
+c = A \ h
+g = -2 * c(3)
+```
+
+```{.text .code-output}
+c =
+
+    2.0214
+   14.0186
+   -4.9286
+
+g =
+
+    9.8571
+```
+:::
+
+The fit is $h \approx 2.02 + 14.02t - 4.93t^2$. Comparing with $h_0 + ut - \tfrac{1}{2}gt^2$ gives $\tfrac{1}{2}g \approx 4.93$, so $g \approx 9.86$ m/s², close to the true value of about 9.81.
+
+[Back to exercise 7](../part-3/17-orthogonality-least-squares.qmd#exercise-orthogonality-least-squares-7){.sol-link}
+
+## Part III review {#sec-solutions-review-3}
+
+Exercises from the [Part III review](../part-3/review.qmd).
+
+[**1.**]{#solution-review-3-1} *Uses @sec-span-independence and @sec-determinants.* They are dependent:
+$$(1, -1, -1) = (2, 1, 0) - (1, 2, 1).$$
+The first two are not parallel, so all three span a plane through the origin. Its normal is $(2, 1, 0) \times (1, 2, 1) = (1, -2, 3)$, so the plane is $x - 2y + 3z = 0$. The matrix with these columns has determinant 0, because its columns are dependent: it flattens space onto this plane.
+
+[Back to exercise 1](../part-3/review.qmd#exercise-review-3-1){.sol-link}
+
+[**2.**]{#solution-review-3-2} *Uses @sec-basis-change and @sec-invariant-lines.* Solve $c_1(1, 1) + c_2(1, -1) = (5, 1)$: $c_1 + c_2 = 5$ and $c_1 - c_2 = 1$, so the coordinates are $(3, 2)$. With $\M{P} = \mat{1 & 1 \\ 1 & -1}$,
+$$\M{P}^{-1}\M{S}\M{P} = \mat{1 & 0 \\ 0 & -1}.$$
+$\M{S}$ is the reflection in $y = x$. The first basis vector lies along the mirror line, so it stays put, and the second is perpendicular to it, so it is reversed. In a basis made of invariant directions, the matrix is diagonal.
+
+[Back to exercise 2](../part-3/review.qmd#exercise-review-3-2){.sol-link}
+
+[**3.**]{#solution-review-3-3} *Uses @sec-fundamental-subspaces and @sec-gauss-jordan-rank.* The reduced row echelon form is $\mat{1 & 2 & 0 \\ 0 & 0 & 1}$, so the rank is 2, with pivots in columns 1 and 3.
+
+- Column space: the pivot columns $(1, 2)$ and $(1, 3)$ of $\M{A}$, which span all of $\R^2$.
+- Row space: $(1, 2, 0)$ and $(0, 0, 1)$, the nonzero rows of the reduced form.
+- Null space: $x_2$ is free, with $x_1 = -2x_2$ and $x_3 = 0$, so the basis is $(-2, 1, 0)$.
+- Left null space: only $\zerovec$, since the column space is all of $\R^2$.
+
+Rank–nullity: $2 + 1 = 3$, the number of columns, and $2 + 0 = 2$, the number of rows. $\M{A}\vect{x} = \vect{b}$ is solvable for every $\vect{b}$, because the column space is all of $\R^2$, but the solution is never unique: any multiple of $(-2, 1, 0)$ can be added to it.
+
+[Back to exercise 3](../part-3/review.qmd#exercise-review-3-3){.sol-link}
+
+[**4.**]{#solution-review-3-4} *Uses @sec-orthogonality-least-squares.* With
+$$
+\M{X} = \mat{1 & 0 \\ 1 & 1 \\ 1 & 2 \\ 1 & 3}, \qquad \vect{y} = \mat{1 \\ 3 \\ 4 \\ 4},
+$$
+the normal equations $\M{X}\T\M{X}\vect{c} = \M{X}\T\vect{y}$ are
+$$\mat{4 & 6 \\ 6 & 14}\mat{c_0 \\ c_1} = \mat{12 \\ 23},$$
+with solution $c_0 = 1.5$, $c_1 = 1$: the line is $y = 1.5 + x$. The fitted values are $1.5, 2.5, 3.5, 4.5$, so the residuals are $-0.5, 0.5, 0.5, -0.5$. They add up to zero (orthogonal to the column of 1s), and $0(-0.5) + 1(0.5) + 2(0.5) + 3(-0.5) = 0$ (orthogonal to the column of $x$ values).
+
+[Back to exercise 4](../part-3/review.qmd#exercise-review-3-4){.sol-link}
+
+[**5.**]{#solution-review-3-5} *Uses @sec-orthogonality-least-squares.* With $\M{A}$ having columns $(1, 0, 1)$ and $(0, 1, 1)$,
+$$\M{A}\T\M{A} = \mat{2 & 1 \\ 1 & 2}, \qquad \M{A}\T\vect{b} = \mat{1 \\ 2},$$
+so $\hat{\vect{x}} = (0, 1)$ and the projection is $\vect{p} = \M{A}\hat{\vect{x}} = (0, 1, 1)$. The error $\vect{e} = \vect{b} - \vect{p} = (1, 1, -1)$ is orthogonal to both columns, and the distance is $\lVert\vect{e}\rVert = \sqrt{3}$. (Check: the plane's normal is $(-1, -1, 1)$, and $\lvert\vect{b} \cdot \vect{n}\rvert / \lVert\vect{n}\rVert = 3/\sqrt{3} = \sqrt{3}$.)
+
+[Back to exercise 5](../part-3/review.qmd#exercise-review-3-5){.sol-link}
+
+[**6.**]{#solution-review-3-6} *Uses @sec-basis-change, @sec-inverses and @sec-invariant-lines.* $\M{A}(1, 1) = (5, 5)$ and $\M{A}(1, -2) = (2, -4)$, so $\M{A}\M{P} = \M{P}\mat{5 & 0 \\ 0 & 2}$, and
+$$\M{P}^{-1}\M{A}\M{P} = \mat{5 & 0 \\ 0 & 2}.$$
+The lines through $(1, 1)$ and $(1, -2)$ are invariant lines of $\M{A}$: it stretches the first by a factor of 5 and the second by a factor of 2. In Part IV these directions are called eigenvectors.
+
+[Back to exercise 6](../part-3/review.qmd#exercise-review-3-6){.sol-link}
+
+[**7.**]{#solution-review-3-7} *Uses @sec-fundamental-subspaces and @sec-span-independence.*
+
+a. The null space has dimension $7 - 4 = 3$, the column space and row space have dimension 4, and the left null space has dimension $5 - 4 = 1$.
+b. No. The column space is a 4-dimensional subspace of $\R^5$, so some $\vect{b}$ are out of reach: exactly those with a nonzero component along the left null space.
+c. Three, one for each dimension of the null space.
+d. No. Seven vectors in $\R^5$ are always dependent; equivalently, the null space is not just $\zerovec$.
+
+[Back to exercise 7](../part-3/review.qmd#exercise-review-3-7){.sol-link}
+
+[**8.**]{#solution-review-3-8} *Uses @sec-orthogonality-least-squares.*
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+import numpy as np
+
+def gram_schmidt(A):
+    A = np.asarray(A, dtype=float)
+    Q = np.zeros_like(A)
+    for j in range(A.shape[1]):
+        v = A[:, j] - Q[:, :j] @ (Q[:, :j].T @ A[:, j])   # remove projections
+        Q[:, j] = v / np.linalg.norm(v)
+    return Q
+
+A = np.array([[1, 1, 0], [1, 0, 1], [0, 1, 1]])
+Q = gram_schmidt(A)
+print(np.round(Q, 4))
+print("Q^T Q = I:", np.allclose(Q.T @ Q, np.eye(3)))
+
+Q2, R2 = np.linalg.qr(A)
+print("Same columns up to sign:", np.allclose(np.abs(Q2), np.abs(Q)))
+```
+
+## MATLAB
+
+Save the function as `gram_schmidt.m`:
+
+```matlab
+function Q = gram_schmidt(A)
+    Q = zeros(size(A));
+    for j = 1:size(A, 2)
+        v = A(:, j) - Q(:, 1:j-1) * (Q(:, 1:j-1)' * A(:, j));   % remove projections
+        Q(:, j) = v / norm(v);
+    end
+end
+```
+
+Then:
+
+```matlab
+A = [1 1 0; 1 0 1; 0 1 1];
+Q = gram_schmidt(A)
+fprintf('Q''*Q = I: %d\n', norm(Q'*Q - eye(3)) < 1e-12)
+[Q2, R2] = qr(A);
+fprintf('Same columns up to sign: %d\n', norm(abs(Q2) - abs(Q)) < 1e-12)
+```
+
+```{.text .code-output}
+Q =
+
+    0.7071    0.4082   -0.5774
+    0.7071   -0.4082    0.5774
+         0    0.8165    0.5774
+
+Q'*Q = I: 1
+Same columns up to sign: 1
+```
+:::
+
+The built-in QR may choose the opposite sign for some columns. Either sign gives an orthonormal basis for the same space.
+
+[Back to exercise 8](../part-3/review.qmd#exercise-review-3-8){.sol-link}

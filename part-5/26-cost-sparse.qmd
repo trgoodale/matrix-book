@@ -1,0 +1,307 @@
+# Cost, banded and sparse systems {#sec-cost-sparse}
+
+[Further]{.level-badge .further}
+
+::: {.callout-note appearance="simple" icon=false}
+## In this chapter you will
+
+- count the arithmetic operations in matrix calculations, and predict running times
+- solve tridiagonal systems with the Thomas algorithm, in time proportional to $n$
+- store sparse matrices efficiently, and recognise fill-in
+- choose between dense, banded and sparse solvers
+:::
+
+**Builds on** @sec-gaussian-elimination, @sec-lu-decomposition.
+
+Engineering and scientific models routinely lead to linear systems with a million unknowns: one for each point of a grid covering a wing, a reservoir or a weather system. Gaussian elimination on a full $10^6 \times 10^6$ matrix would need about $7 \times 10^{17}$ operations and 8 terabytes of memory. Yet such systems are solved every day, on ordinary computers, in seconds. The reason is that their matrices are **sparse**: almost all their entries are zero, because each grid point is connected only to its few neighbours. This chapter shows how to count the cost of a calculation, and how to exploit zeros so that most of that cost disappears.
+
+## Build intuition
+
+There is no app for this chapter. Instead, consider the two matrices in @fig-arrow. Both are $12 \times 12$, with non-zero entries only on the diagonal and in one row and one column, and in fact they are the same system with the unknowns numbered in the opposite order. Before reading the caption, predict: when you carry out elimination on each, which entries that start as zero will become non-zero?
+
+```{python}
+#| fig-alt: "Four sparsity patterns. An arrow matrix with a full first row and column has completely filled LU factors; reordered with the full row and column last, its factors keep the arrow pattern with no fill-in."
+#| label: fig-arrow
+#| fig-cap: "Left pair: an arrow matrix with its full row and column first, and the non-zero entries of its LU factors (L and U drawn together in one square). Elimination fills in the entire matrix. Right pair: the same matrix with the unknowns in the opposite order. Now the factors have no new non-zero entries at all."
+#| code-fold: true
+#| code-summary: "Show the code for this figure"
+import numpy as np
+import scipy.linalg
+import matplotlib.pyplot as plt
+
+n = 12
+A = np.eye(n) * 4
+A[0, :] = A[:, 0] = 1
+A[0, 0] = 4
+B = A[::-1, ::-1]                       # number the unknowns in reverse
+
+fig, axes = plt.subplots(1, 4, figsize=(10, 2.8))
+for ax, M, title in [(axes[0], A, "A"), (axes[2], B, "A, reordered")]:
+    ax.spy(M, markersize=4, color="#2153b8")
+    ax.set_title(title, fontsize=10)
+for ax, M in [(axes[1], A), (axes[3], B)]:
+    P, L, U = scipy.linalg.lu(M)
+    LU = np.abs(L) + np.abs(U) > 1e-12
+    ax.spy(LU, markersize=4, color="#9c5208")
+    ax.set_title(f"L and U: {LU.sum()} non-zeros", fontsize=10)
+for ax in axes:
+    ax.set_xticks([]); ax.set_yticks([])
+plt.tight_layout()
+plt.show()
+```
+
+## The ideas
+
+### Counting operations
+
+The running time of a numerical method is roughly proportional to the number of arithmetic operations it performs, its **flops** (floating-point operations). Counting them for the basic tasks:
+
+| Task | Operations (approximately) |
+|:--|:--|
+| Dot product of two vectors of length $n$ | $2n$ |
+| Matrix–vector product $\M{A}\vect{x}$, $\M{A}$ of size $n \times n$ | $2n^2$ |
+| Matrix–matrix product of two $n \times n$ matrices | $2n^3$ |
+| Forward or back substitution with a triangular matrix | $n^2$ |
+| LU factorisation (Gaussian elimination) | $\tfrac{2}{3}n^3$ |
+| Inverse $\M{A}^{-1}$ | $2n^3$ |
+
+Only the leading power of $n$ matters for large $n$. An $n^3$ method gets 8 times slower when $n$ doubles, and 1000 times slower when $n$ grows tenfold. A laptop does somewhere around $10^{10}$ to $10^{11}$ operations a second, so a dense system with $n = 1000$ takes a few hundredths of a second, $n = 10^4$ takes seconds, and $n = 10^5$ takes hours and needs 80 GB just to store the matrix.
+
+Two practical rules follow from the table.
+
+- **Factorise once, solve many times.** Once $\M{L}$ and $\M{U}$ are known, each new right-hand side costs only $2n^2$. If you need to solve with the same matrix many times, as in a simulation stepping forward in time, keep the factors (@sec-lu-decomposition).
+- **Don't compute the inverse to solve a system.** Computing $\M{A}^{-1}$ and then $\M{A}^{-1}\vect{b}$ costs three times as much as elimination, and is less accurate.
+
+::: {#ex-cost-sparse-1 .callout-note appearance="simple" icon=false}
+### Example 1: how long will it take?
+
+A dense system with $n = 2000$ takes 0.1 seconds to solve on a certain computer. Estimate the time for $n = 20\,000$, and the memory needed for its matrix.
+
+**Solution.** The cost grows like $n^3$, so ten times as many unknowns take $10^3 = 1000$ times as long: about 100 seconds. The matrix has $20\,000^2 = 4 \times 10^8$ entries of 8 bytes each, 3.2 GB. Increasing to $n = 200\,000$ would take about a day, and 320 GB of memory, which is why large problems need sparse methods.
+:::
+
+### Banded and tridiagonal matrices
+
+A matrix is **banded** if its non-zero entries all lie within a distance $p$ of the main diagonal: $a_{ij} = 0$ whenever $\lvert i - j\rvert > p$. Eliminating below a pivot then involves only the $p$ rows below it, and only the $p$ entries to its right, so elimination without row swaps never creates non-zeros outside the band. The cost drops from $\tfrac{2}{3}n^3$ to about $2np^2$.
+
+The most important case is the **tridiagonal** matrix, with $p = 1:$
+$$
+\mat{d_1 & c_1 & & & \\ a_2 & d_2 & c_2 & & \\ & a_3 & d_3 & \ddots & \\ & & \ddots & \ddots & c_{n-1} \\ & & & a_n & d_n}.
+$$
+Tridiagonal systems come from anything arranged in a line, where each point interacts only with its two neighbours: heat flow along a rod, a hanging cable, a chain of masses and springs, spline curves. Elimination simplifies to the **Thomas algorithm**: one sweep down, removing each $a_i$, and one sweep up, back substitution.
+
+::: {.callout-important appearance="simple"}
+## The Thomas algorithm
+*Forward sweep.* Set $c'_1 = c_1/d_1$ and $b'_1 = b_1/d_1$. For $i = 2, \dots, n$:
+$$
+m = d_i - a_ic'_{i-1},
+\qquad
+c'_i = c_i/m,
+\qquad
+b'_i = (b_i - a_ib'_{i-1})/m.
+$$
+*Back substitution.* Set $x_n = b'_n$. For $i = n-1, \dots, 1$: $x_i = b'_i - c'_ix_{i+1}$.
+:::
+
+It needs about $8n$ operations instead of $\tfrac{2}{3}n^3$: a million unknowns in a few milliseconds. It uses no pivoting, which is safe when the matrix is diagonally dominant or symmetric positive definite (@sec-pivoting), as it is in most applications.
+
+::: {#ex-cost-sparse-2 .callout-note appearance="simple" icon=false}
+### Example 2: the Thomas algorithm
+
+Solve
+$$
+\mat{2 & -1 & 0 & 0 \\ -1 & 2 & -1 & 0 \\ 0 & -1 & 2 & -1 \\ 0 & 0 & -1 & 2}\vect{x} = \mat{1 \\ 0 \\ 0 \\ 1}.
+$$
+
+**Solution.** Here every $d_i = 2$, $a_i = -1$ and $c_i = -1$. The forward sweep gives
+$$
+\begin{aligned}
+c'_1 &= -\tfrac{1}{2}, & b'_1 &= \tfrac{1}{2}, \\
+m &= 2 - \tfrac{1}{2} = \tfrac{3}{2}, & c'_2 &= -\tfrac{2}{3}, & b'_2 &= \bigl(0 + \tfrac{1}{2}\bigr)\big/\tfrac{3}{2} = \tfrac{1}{3}, \\
+m &= 2 - \tfrac{2}{3} = \tfrac{4}{3}, & c'_3 &= -\tfrac{3}{4}, & b'_3 &= \bigl(0 + \tfrac{1}{3}\bigr)\big/\tfrac{4}{3} = \tfrac{1}{4}, \\
+m &= 2 - \tfrac{3}{4} = \tfrac{5}{4}, & & & b'_4 &= \bigl(1 + \tfrac{1}{4}\bigr)\big/\tfrac{5}{4} = 1.
+\end{aligned}
+$$
+Back substitution: $x_4 = 1$, $x_3 = \tfrac{1}{4} + \tfrac{3}{4} \cdot 1 = 1$, $x_2 = \tfrac{1}{3} + \tfrac{2}{3} \cdot 1 = 1$, $x_1 = \tfrac{1}{2} + \tfrac{1}{2} \cdot 1 = 1$. So $\vect{x} = (1, 1, 1, 1)\T$.
+:::
+
+### Sparse matrices
+
+A matrix is **sparse** when most of its entries are zero and it pays to take advantage of that. A grid of $1000 \times 1000$ points with each point linked to its four neighbours gives a $10^6 \times 10^6$ matrix with about $5 \times 10^6$ non-zeros: five per row. Storing all $10^{12}$ entries would be absurd. Instead, sparse formats store only the non-zeros and their positions. The most common, **compressed sparse row** (CSR), uses three lists:
+
+- the non-zero values, row by row;
+- the column number of each value;
+- for each row, where its values start in the first list (with one extra entry at the end).
+
+For example,
+$$
+\M{A} = \mat{5 & 0 & 0 & 1 \\ 0 & 3 & 0 & 0 \\ 2 & 0 & 4 & 0 \\ 0 & 0 & 6 & 7}
+\quad\text{is stored as}\quad
+\begin{aligned}
+\text{values} &= (5, 1, 3, 2, 4, 6, 7), \\
+\text{columns} &= (0, 3, 1, 0, 2, 2, 3), \\
+\text{row starts} &= (0, 2, 3, 5, 7),
+\end{aligned}
+$$
+counting from 0, as Python does. A matrix–vector product then needs only 2 operations per non-zero.
+
+::: {#ex-cost-sparse-3 .callout-note appearance="simple" icon=false}
+### Example 3: storage for a grid problem
+
+Heat flow on a square plate is modelled on a grid of $500 \times 500$ interior points, each linked to its four neighbours. Compare the storage needed for the matrix in dense and sparse form.
+
+**Solution.** There are $n = 250\,000$ unknowns. Dense storage needs $n^2 = 6.25 \times 10^{10}$ numbers, 500 GB. Each row has at most 5 non-zeros, so CSR stores at most $1.25 \times 10^6$ values and $1.25 \times 10^6$ column numbers, plus $n + 1$ row starts: about 20 MB, 25 000 times less.
+:::
+
+### Fill-in and reordering
+
+Elimination on a sparse matrix can create new non-zeros where there were zeros, called **fill-in**. Subtracting a multiple of the pivot row puts non-zeros wherever the pivot row has them. In the arrow matrix of @fig-arrow, the first row is full, so eliminating with it fills in the whole matrix, and the factors are dense. Numbering the unknowns in the reverse order puts the full row last, and there is no fill-in at all.
+
+The order of the unknowns doesn't change the solution, but it can change the cost of elimination enormously. Sparse direct solvers, such as SciPy's `spsolve` and MATLAB's backslash on a sparse matrix, first reorder the unknowns with fast heuristics (such as **approximate minimum degree** or **nested dissection**) designed to keep fill-in small, and only then factorise.
+
+When even the reordered factors are too large, which happens for big three-dimensional problems, **iterative methods** take over. They need only matrix–vector products, so they never create fill-in (@sec-iterative-methods).
+
+## In code
+
+SciPy's `scipy.sparse` module stores sparse matrices, and `scipy.sparse.linalg.spsolve` solves sparse systems. In MATLAB, `sparse` and `spdiags` create sparse matrices, and backslash automatically uses a sparse solver for them. The example solves $-u'' = 1$ on $0 < t < 1$, with $u = 0$ at both ends, by finite differences (@sec-finite-differences): $n$ grid points give a tridiagonal system. Its exact solution is $u = t(1 - t)/2$.
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+import numpy as np
+import scipy.sparse as sp
+from scipy.sparse.linalg import spsolve
+import time
+
+def thomas(a, d, c, b):
+    """Solve a tridiagonal system: a below, d on and c above the diagonal."""
+    n = len(d)
+    cp, bp = np.zeros(n), np.zeros(n)
+    cp[0], bp[0] = c[0] / d[0], b[0] / d[0]
+    for i in range(1, n):
+        m = d[i] - a[i] * cp[i - 1]
+        cp[i] = c[i] / m if i < n - 1 else 0
+        bp[i] = (b[i] - a[i] * bp[i - 1]) / m
+    x = np.zeros(n)
+    x[-1] = bp[-1]
+    for i in range(n - 2, -1, -1):
+        x[i] = bp[i] - cp[i] * x[i + 1]
+    return x
+
+print(thomas([0, -1, -1, -1], [2, 2, 2, 2], [-1, -1, -1, 0], [1, 0, 0, 1]))
+
+n = 100_000
+h = 1 / (n + 1)
+A = sp.diags([-1.0, 2.0, -1.0], [-1, 0, 1], shape=(n, n), format="csr")
+b = h**2 * np.ones(n)
+start = time.perf_counter()
+u = spsolve(A, b)
+print(f"sparse solve: {time.perf_counter() - start:.3f} s, {A.nnz} non-zeros")
+t = np.arange(1, n + 1) * h
+print(np.max(np.abs(u - t * (1 - t) / 2)))     # error
+```
+
+## MATLAB
+
+```matlab
+n = 100000;
+h = 1 / (n + 1);
+e = ones(n, 1);
+A = spdiags([-e 2*e -e], -1:1, n, n);   % sparse tridiagonal
+b = h^2 * ones(n, 1);
+u = A \ b;                               % sparse solver
+t = (1:n)' * h;
+max(abs(u - t .* (1 - t) / 2))           % error
+nnz(A)
+```
+
+```{.text .code-output}
+ans =
+
+   5.2547e-11
+
+ans =
+
+      299998
+```
+:::
+
+Timings depend on the computer. The dense solver would need 80 GB for this matrix and could not even store it.
+
+## Check your understanding
+
+::: {.callout-tip collapse="true"}
+## Solving one dense system with $n = 500$ takes 10 ms. About how long for $n = 1000$?
+
+About 80 ms: doubling $n$ multiplies the $n^3$ cost by 8.
+:::
+
+::: {.callout-tip collapse="true"}
+## Why is computing $\M{A}^{-1}\vect{b}$ a bad way to solve $\M{A}\vect{x} = \vect{b}$, even for one right-hand side?
+
+It costs about $2n^3$ operations instead of $\tfrac{2}{3}n^3$, and it is less accurate. For a sparse matrix it is far worse: the inverse is usually completely full.
+:::
+
+::: {.callout-tip collapse="true"}
+## How many operations does a matrix–vector product take for a sparse matrix with $N$ non-zeros?
+
+About $2N$: one multiplication and one addition per non-zero, whatever the size of the matrix.
+:::
+
+## Key ideas
+
+- Counting operations predicts running times: dense elimination costs about $\tfrac{2}{3}n^3$, so it slows down quickly as $n$ grows.
+- A tridiagonal system can be solved by the Thomas algorithm in time proportional to $n$.
+- Sparse matrices are stored by their non-zero entries only, which can save almost all of the memory and the work.
+- Elimination can create new non-zeros (fill-in), and reordering the unknowns can reduce it a great deal.
+- Choose a solver to match the structure: dense for small or full matrices, banded or sparse when most entries are zero.
+
+## Exercises {#sec-cost-sparse-exercises}
+
+1. []{#exercise-cost-sparse-1}Count exactly the multiplications and additions in (a) the dot product of two vectors of length $n$, (b) the product $\M{A}\vect{x}$ of an $n \times n$ matrix and a vector, (c) the product of two $n \times n$ matrices.
+
+   [Solution to exercise 1](../appendices/solutions-5.qmd#solution-cost-sparse-1){.sol-link}
+
+2. []{#exercise-cost-sparse-2}A simulation solves $\M{A}\vect{x} = \vect{b}$ with the same $2000 \times 2000$ matrix for 50 different right-hand sides. Estimate the operations needed (a) by solving each system from scratch, (b) by factorising once and reusing the factors.
+
+   [Solution to exercise 2](../appendices/solutions-5.qmd#solution-cost-sparse-2){.sol-link}
+
+3. []{#exercise-cost-sparse-3}Use the Thomas algorithm to solve $\mat{4 & 1 & 0 \\ 1 & 4 & 1 \\ 0 & 1 & 4}\vect{x} = \mat{5 \\ 6 \\ 5}$.
+
+   [Solution to exercise 3](../appendices/solutions-5.qmd#solution-cost-sparse-3){.sol-link}
+
+4. []{#exercise-cost-sparse-4}Write down the CSR storage (values, columns and row starts, counting from 0) of
+   $$
+   \mat{0 & 2 & 0 \\ 1 & 0 & 3 \\ 0 & 0 & 4}.
+   $$
+
+   [Solution to exercise 4](../appendices/solutions-5.qmd#solution-cost-sparse-4){.sol-link}
+
+5. []{#exercise-cost-sparse-5}Show that when a tridiagonal matrix is factorised as $\M{L}\M{U}$ without row swaps, $\M{L}$ has non-zeros only on its diagonal and just below it, and $\M{U}$ only on its diagonal and just above it. So there is no fill-in.
+
+   [Solution to exercise 5](../appendices/solutions-5.qmd#solution-cost-sparse-5){.sol-link}
+
+6. []{#exercise-cost-sparse-6}A matrix has non-zeros on its diagonal and in its last row and last column. How many non-zeros do its LU factors have? What changes if the full row and column are moved to the top?
+
+   [Solution to exercise 6](../appendices/solutions-5.qmd#solution-cost-sparse-6){.sol-link}
+
+7. []{#exercise-cost-sparse-7}**Code.** Time the solution of the tridiagonal system in the code above for $n = 500$, $1000$, $2000$ and $4000$, using (a) a dense matrix and `np.linalg.solve` or backslash on a full matrix, (b) the sparse solver. On a log–log plot, estimate the power of $n$ that each time grows like.
+
+   [Solution to exercise 7](../appendices/solutions-5.qmd#solution-cost-sparse-7){.sol-link}
+
+Solutions are in @sec-solutions-cost-sparse.
+
+## In practice
+
+- **Finite differences and finite elements** turn differential equations into sparse systems: tridiagonal for problems in a line, banded or more general sparse patterns in two and three dimensions (@sec-finite-differences).
+- **Circuit simulation** packages, such as SPICE, solve sparse systems with one unknown per node, because each component touches only two nodes (@sec-circuits).
+- **Networks**: the link matrices of road networks, power grids and the web are extremely sparse; the web's has billions of rows and a few dozen non-zeros in each (@sec-markov-pagerank).
+- **Splines**: drawing a smooth cubic curve through $n$ points needs a tridiagonal solve, which is why spline routines are so fast.
+- **GPUs** do dense matrix multiplication at enormous speed, so for medium-sized problems a dense method on a GPU can beat a sparse one on a CPU. Counting operations is a guide, not the final word.
+
+## Going further
+
+- Davis's *Direct Methods for Sparse Linear Systems* explains sparse factorisations and the reordering methods behind `spsolve` and backslash, with code.
+- Strassen's algorithm multiplies matrices in about $n^{2.81}$ operations instead of $2n^3$, by a clever way of combining $2 \times 2$ blocks. Methods with even lower powers exist, but only win for impractically large $n$.
+- Modern computers are often limited by moving data rather than by arithmetic, so libraries arrange calculations in blocks that fit in fast memory. This is why a library routine can be 100 times faster than the same operation count in a simple loop.

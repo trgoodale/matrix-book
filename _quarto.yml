@@ -1,0 +1,118 @@
+project:
+  type: book
+  output-dir: _book
+  resources:
+    - apps/
+    - data/
+    - LICENSE.md
+
+execute:
+  freeze: auto
+
+book:
+  title: "Matrices in Practice"
+  subtitle: "Linear algebra and numerical methods with interactive apps"
+  author: "Tom Goodale"
+  date: last-modified
+  date-format: "D MMMM YYYY"
+  repo-url: https://github.com/trgoodale/matrix-book
+  repo-actions: [edit, issue]
+  search: true
+  page-footer:
+    center: "© 2026 Tom Goodale. Text and figures licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); code licensed under the [MIT licence](https://trgoodale.github.io/matrix-book/LICENSE.md)."
+  page-navigation: true
+  chapters:
+      - index.qmd
+      - front/how-to-use.qmd
+      - front/conventions.qmd
+      - front/refresher.qmd
+      - part: "Part I: Matrices and transformations"
+        chapters:
+          - part-1/01-matrices.qmd
+          - part-1/02-arithmetic.qmd
+          - part-1/03-multiplication.qmd
+          - part-1/04-transformations.qmd
+          - part-1/05-composition.qmd
+          - part-1/06-determinants.qmd
+          - part-1/07-inverses.qmd
+          - part-1/08-transformations-3d.qmd
+          - part-1/09-invariant-lines.qmd
+          - part-1/review.qmd
+      - part: "Part II: Linear systems"
+        chapters:
+          - part-2/10-linear-systems.qmd
+          - part-2/11-gaussian-elimination.qmd
+          - part-2/12-gauss-jordan-rank.qmd
+          - part-2/13-lu-decomposition.qmd
+          - part-2/review.qmd
+      - part: "Part III: Vector spaces"
+        chapters:
+          - part-3/14-span-independence.qmd
+          - part-3/15-basis-change.qmd
+          - part-3/16-fundamental-subspaces.qmd
+          - part-3/17-orthogonality-least-squares.qmd
+          - part-3/review.qmd
+      - part: "Part IV: Eigenvalues and matrix calculus"
+        chapters:
+          - part-4/18-eigenvalues.qmd
+          - part-4/19-diagonalisation.qmd
+          - part-4/20-symmetric-matrices.qmd
+          - part-4/21-svd-pca.qmd
+          - part-4/22-matrix-calculus.qmd
+          - part-4/23-linear-odes.qmd
+          - part-4/review.qmd
+      - part: "Part V: Numerical methods"
+        chapters:
+          - part-5/24-floating-point-conditioning.qmd
+          - part-5/25-pivoting.qmd
+          - part-5/26-cost-sparse.qmd
+          - part-5/27-iterative-methods.qmd
+          - part-5/28-newton-systems.qmd
+          - part-5/29-eigenvalue-algorithms.qmd
+          - part-5/30-qr-least-squares.qmd
+          - part-5/review.qmd
+      - part: "Part VI: Applications"
+        chapters:
+          - part-6/31-trusses.qmd
+          - part-6/32-circuits.qmd
+          - part-6/33-finite-differences.qmd
+          - part-6/34-graphics-robotics.qmd
+          - part-6/35-markov-pagerank.qmd
+          - part-6/36-population-models.qmd
+          - part-6/37-data-science.qmd
+          - part-6/38-physics.qmd
+          - part-6/39-cryptography.qmd
+          - part-6/review.qmd
+      - references.qmd
+  appendices:
+    - appendices/apps.qmd
+    - appendices/reference.qmd
+    - appendices/proofs.qmd
+    - appendices/matrix-calculus-identities.qmd
+    - appendices/solutions-1.qmd
+    - appendices/solutions-2.qmd
+    - appendices/solutions-3.qmd
+    - appendices/solutions-4.qmd
+    - appendices/solutions-5.qmd
+    - appendices/solutions-6.qmd
+    - appendices/glossary.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      light: [cosmo, assets/theme.scss, assets/components.scss]
+      dark: [darkly, assets/theme-dark.scss, assets/components.scss]
+    include-in-header: assets/notation-header.html
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js"
+    code-copy: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 3
+    number-depth: 2
+    crossref:
+      chapters: true
+    callout-appearance: simple

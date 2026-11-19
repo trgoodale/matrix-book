@@ -1,0 +1,439 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Truss Solver</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: the truss across the full width, then the load, the options and the results */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.mat { position: relative; display: inline-grid; grid-template-columns: 4.2rem 4.2rem; gap: 6px; padding: 6px 14px; }
+.mat::before, .mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.mat::before { left: 0; border-right: 0; } .mat::after { right: 0; border-left: 0; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.mat input { -moz-appearance: textfield; appearance: textfield; }
+.mat input::-webkit-outer-spin-button, .mat input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.matrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.matrow .nm { font: 600 1.05rem var(--font-num); }
+.status b { font-weight: 600; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.sw.c { border-color: var(--tgt); }
+
+.layout.tr { grid-template-columns: minmax(0, 1fr); }
+.tr .plane-box .holder { max-width: none; }
+.tr .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+@media (max-width: 700px) { .tr .side { grid-template-columns: minmax(0, 1fr); } }
+.slide { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; gap: 10px; align-items: center; font-size: 0.9rem; }
+.slide output { font: 600 0.9rem var(--font-num); text-align: right; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.nums { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 14px; font-size: 0.9rem; }
+.nums b { font: 600 0.9rem var(--font-num); }
+.sw.ten { border-color: var(--row); } .sw.com { border-color: var(--col); } .sw.def { border-color: var(--muted); border-top-style: dashed; }
+.status.bad { border-color: var(--col); }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Load the bridge, <em>find the forces</em></h1>
+    <p>A pin-jointed truss carries loads by pulling and pushing along its members. The app writes the equilibrium of every joint as one linear system and solves it. Click a joint to move the load there; click a member to remove it, and see whether the structure still stands.</p>
+  </header>
+
+  <div class="layout tr">
+    <section class="panel plane-box" aria-label="Truss">
+      <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
+      <div class="legend">
+        <span><span class="sw ten"></span>tension (pulled)</span>
+        <span><span class="sw com"></span>compression (pushed)</span>
+        <span><span class="sw def"></span>deflected shape (exaggerated)</span>
+      </div>
+      <p class="hint">Thicker members carry larger forces. Triangles are pinned supports; circles under a triangle are rollers, which can only push up. With the picture focused, the left and right arrow keys move the load.</p>
+    </section>
+
+    <div class="side">
+      <section class="panel card" aria-label="Structure and load">
+        <span class="label">Structure</span>
+        <div class="row" id="presets"></div>
+        <span class="label">Load</span>
+        <div class="slide"><label for="mag">Size</label><input type="range" id="mag" min="0" max="50" step="1" value="20"><output id="magv">20 kN</output></div>
+        <div class="row" id="dirs"></div>
+        <div class="toggles">
+          <label><input type="checkbox" id="labels" checked> Force values</label>
+          <label><input type="checkbox" id="defl" checked> Deflected shape</label>
+        </div>
+        <div class="row"><button id="restore">Restore all members</button></div>
+      </section>
+      <section class="panel card" aria-label="Results">
+        <span class="label">Results</span>
+        <div class="nums" id="nums"></div>
+        <div class="status" id="status" role="status"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+
+  const $ = id => document.getElementById(id);
+  const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), b: v('--col'), t: v('--tgt'), w: v('--res'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), line: v('--line'), num: v('--font-num') }; };
+  // Eigenvalues and (real) eigenvectors of a 2x2 matrix
+  function eig2(A) {
+    const [[a, b], [c, d]] = A, tr = a + d, det = a * d - b * c, disc = tr * tr / 4 - det;
+    if (disc < -1e-12) { const re = tr / 2, im = Math.sqrt(-disc); return { complex: true, re, im, tr, det }; }
+    const s = Math.sqrt(Math.max(0, disc)), l1 = tr / 2 + s, l2 = tr / 2 - s;
+    const vec = l => { const v = Math.abs(b) > 1e-12 || Math.abs(a - l) > 1e-12 ? [b, l - a] : [l - d, c]; const n = Math.hypot(...v); return n < 1e-12 ? null : [v[0] / n, v[1] / n]; };
+    let v1 = vec(l1), v2 = vec(l2);
+    if (Math.abs(b) < 1e-12 && Math.abs(c) < 1e-12) { v1 = a >= d ? [1, 0] : [0, 1]; v2 = a >= d ? [0, 1] : [1, 0]; if (Math.abs(a - d) < 1e-12) v2 = null; }
+    else if (Math.abs(l1 - l2) < 1e-9) v2 = null;
+    return { complex: false, l1, l2, v1, v2, tr, det };
+  }
+  function wireMatrix(S, onChange) {
+    const ids = [['m00', 0, 0], ['m01', 0, 1], ['m10', 1, 0], ['m11', 1, 1]];
+    const sync = () => { for (const [id, i, j] of ids) $(id).value = String(S.A[i][j]); };
+    for (const [id, i, j] of ids) $(id).addEventListener('change', e => {
+      const x = parseFloat(e.target.value); if (!isNaN(x)) S.A[i][j] = Math.max(-9, Math.min(9, Math.round(x * 1000) / 1000));
+      e.target.value = String(S.A[i][j]); onChange();
+    });
+    return sync;
+  }
+  function makePresets(box, list, isOn, apply) {
+    box.innerHTML = '';
+    list.forEach(p => { const b = document.createElement('button'); b.textContent = p[0]; b.addEventListener('click', () => apply(p)); box.appendChild(b); });
+    return () => box.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-pressed', String(isOn(list[k]))));
+  }
+  function arrowPx(ctx, s, e, color, w, alpha = 1, dash) {
+    const len = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (len < 2) { ctx.globalAlpha = 1; return; }
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(12, len * 0.4);
+    if (dash) ctx.setLineDash(dash);
+    ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.lineTo(e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42));
+    ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+  }
+  function watchTheme(draw) {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    if (document.fonts) document.fonts.ready.then(draw);
+  }
+
+  // joints [x, y], supports {joint: 'pin' | 'roller'}, members [i, j], default loaded joint
+  const PRESETS = [
+    ['Triangle', [[0, 0], [4, 0], [2, 2]], { 0: 'pin', 1: 'roller' }, [[0, 1], [0, 2], [1, 2]], 2],
+    ['Pratt bridge', [[0, 0], [4, 0], [8, 0], [12, 0], [16, 0], [4, 4], [8, 4], [12, 4]], { 0: 'pin', 4: 'roller' },
+      [[0, 1], [1, 2], [2, 3], [3, 4], [5, 6], [6, 7], [1, 5], [2, 6], [3, 7], [0, 5], [4, 7], [5, 2], [7, 2]], 2],
+    ['Warren bridge', [[0, 0], [4, 0], [8, 0], [12, 0], [2, 3.5], [6, 3.5], [10, 3.5]], { 0: 'pin', 3: 'roller' },
+      [[0, 1], [1, 2], [2, 3], [4, 5], [5, 6], [0, 4], [4, 1], [1, 5], [5, 2], [2, 6], [6, 3]], 1],
+    ['Cantilever', [[0, 0], [0, 2.5], [3, 0.5], [3, 2.5], [6, 1.5]], { 0: 'pin', 1: 'pin' },
+      [[0, 2], [1, 3], [2, 3], [0, 3], [2, 4], [3, 4]], 4],
+    ['Square', [[0, 0], [3, 0], [3, 3], [0, 3]], { 0: 'pin', 1: 'roller' }, [[0, 1], [1, 2], [2, 3], [3, 0]], 2],
+    ['Doubly braced', [[0, 0], [3, 0], [3, 3], [0, 3]], { 0: 'pin', 1: 'roller' }, [[0, 1], [1, 2], [2, 3], [3, 0], [0, 2], [1, 3]], 2]
+  ];
+  const DIRS = [['Down', [0, -1]], ['Right', [1, 0]]];
+  const EA = 1e5;  // kN, the same for every member
+  const S = { k: 0, load: 2, mag: 20, dir: 0, off: new Set(), labels: true, defl: true };
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  let W = 800, H = 380, dpr = 1, scale = 40, ox = 0, oy = 0, hoverJ = -1, hoverM = -1, res = null;
+  const sys = () => PRESETS[S.k];
+
+  // Solve K u = F by elimination with partial pivoting; report rank and a null vector if singular
+  function solveSym(K, F) {
+    const n = F.length, A = K.map((r, i) => r.concat([F[i]])), piv = [], free = [];
+    const big = Math.max(1e-12, ...K.flatMap(r => r.map(Math.abs)));
+    let row = 0;
+    for (let c = 0; c < n && row < n; c++) {
+      let p = row; for (let i = row + 1; i < n; i++) if (Math.abs(A[i][c]) > Math.abs(A[p][c])) p = i;
+      if (Math.abs(A[p][c]) < 1e-9 * big) { free.push(c); continue; }
+      [A[p], A[row]] = [A[row], A[p]];
+      for (let i = row + 1; i < n; i++) { const m = A[i][c] / A[row][c]; if (m) for (let j = c; j <= n; j++) A[i][j] -= m * A[row][j]; }
+      piv.push(c); row++;
+    }
+    for (let c = (piv.length ? piv[piv.length - 1] + 1 : 0); c < n; c++) if (!piv.includes(c) && !free.includes(c)) free.push(c);
+    const back = (rhsCol, setFree) => {
+      const x = new Array(n).fill(0); if (setFree !== undefined) x[setFree] = 1;
+      for (let r = piv.length - 1; r >= 0; r--) { const c = piv[r]; let s = rhsCol ? A[r][n] : 0; for (let j = c + 1; j < n; j++) s -= A[r][j] * x[j]; x[c] = s / A[r][c]; }
+      return x;
+    };
+    if (free.length) return { rank: piv.length, null: back(false, free[0]) };
+    return { rank: n, x: back(true) };
+  }
+  function analyse() {
+    const [, P, sup, M0] = sys(), nj = P.length;
+    const M = M0.filter((_, k) => !S.off.has(k));
+    const fixed = new Set(); Object.entries(sup).forEach(([j, t]) => { fixed.add(2 * j + 1); if (t === 'pin') fixed.add(2 * j); });
+    const freeDof = []; for (let d = 0; d < 2 * nj; d++) if (!fixed.has(d)) freeDof.push(d);
+    const idx = new Map(freeDof.map((d, i) => [d, i])), n = freeDof.length;
+    const K = Array.from({ length: n }, () => new Array(n).fill(0));
+    const geo = M.map(([i, j]) => { const dx = P[j][0] - P[i][0], dy = P[j][1] - P[i][1], L = Math.hypot(dx, dy); return { i, j, L, c: dx / L, s: dy / L }; });
+    geo.forEach(g => {
+      const k = EA / g.L, d = [2 * g.i, 2 * g.i + 1, 2 * g.j, 2 * g.j + 1], v = [-g.c, -g.s, g.c, g.s];
+      for (let a = 0; a < 4; a++) for (let b = 0; b < 4; b++) if (idx.has(d[a]) && idx.has(d[b])) K[idx.get(d[a])][idx.get(d[b])] += k * v[a] * v[b];
+    });
+    const F = new Array(n).fill(0), dir = DIRS[S.dir][1];
+    [0, 1].forEach(q => { const d = 2 * S.load + q; if (idx.has(d)) F[idx.get(d)] += S.mag * dir[q]; });
+    const r = Object.values(sup).reduce((s, t) => s + (t === 'pin' ? 2 : 1), 0);
+    const out = { m: M.length, r, j: nj, geo, idx, n };
+    const sol = solveSym(K, F);
+    out.rank = sol.rank;
+    if (sol.null) {
+      out.mech = true; const u = new Array(2 * nj).fill(0); freeDof.forEach((d, i) => u[d] = sol.null[i]); out.u = u; return out;
+    }
+    const u = new Array(2 * nj).fill(0); freeDof.forEach((d, i) => u[d] = sol.x[i]); out.u = u;
+    out.N = geo.map(g => EA / g.L * ((u[2 * g.j] - u[2 * g.i]) * g.c + (u[2 * g.j + 1] - u[2 * g.i + 1]) * g.s));
+    // reactions: minus the sum of member forces at each support, plus the applied load there
+    out.R = {};
+    Object.entries(sup).forEach(([jj, t]) => {
+      const j = +jj; let rx = 0, ry = 0;
+      geo.forEach((g, k) => { const sgn = g.i === j ? 1 : g.j === j ? -1 : 0; if (sgn) { rx -= sgn * out.N[k] * g.c; ry -= sgn * out.N[k] * g.s; } });
+      if (j === S.load) { rx -= S.mag * dir[0]; ry -= S.mag * dir[1]; }
+      out.R[j] = [rx, ry];
+    });
+    return out;
+  }
+  const T = p => [ox + p[0] * scale, oy - p[1] * scale];
+  function resize() {
+    W = cv.parentElement.clientWidth; H = Math.round(Math.max(260, Math.min(460, W * 0.48))); dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); cv.style.width = W + 'px'; cv.style.height = H + 'px'; draw();
+  }
+  function fit() {
+    const P = sys()[1], xs = P.map(p => p[0]), ys = P.map(p => p[1]);
+    const minx = Math.min(...xs), maxx = Math.max(...xs), miny = Math.min(...ys), maxy = Math.max(...ys);
+    const padX = 60, padTop = 70, padBot = 60;
+    scale = Math.min((W - 2 * padX) / Math.max(maxx - minx, 1), (H - padTop - padBot) / Math.max(maxy - miny, 1));
+    ox = (W - (maxx - minx) * scale) / 2 - minx * scale; oy = padTop + maxy * scale + ((H - padTop - padBot) - (maxy - miny) * scale) / 2;
+  }
+  function line(a, b) { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); }
+  function draw() {
+    const C = css(), [, P, sup, M0] = sys();
+    fit(); res = analyse();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, H);
+    const span = Math.max(...P.map(p => p[0])) - Math.min(...P.map(p => p[0])) || 1;
+    const umax = Math.max(1e-12, ...res.u.map(Math.abs)), amp = res.mech ? 0.12 * span / umax : 0.06 * span / umax;
+    const D = j => [P[j][0] + amp * res.u[2 * j], P[j][1] + amp * res.u[2 * j + 1]];
+    // removed members
+    M0.forEach(([i, j], k) => { if (!S.off.has(k)) return; ctx.strokeStyle = C.muted; ctx.globalAlpha = hoverM === k ? 0.9 : 0.45; ctx.lineWidth = 1.5; ctx.setLineDash([4, 5]); line(T(P[i]), T(P[j])); ctx.setLineDash([]); ctx.globalAlpha = 1; });
+    // deflected shape (or the mechanism's motion)
+    if (S.defl || res.mech) {
+      ctx.strokeStyle = res.mech ? C.b : C.muted; ctx.lineWidth = 1.5; ctx.setLineDash([6, 4]); ctx.globalAlpha = 0.8;
+      res.geo.forEach(g => line(T(D(g.i)), T(D(g.j)))); ctx.setLineDash([]); ctx.globalAlpha = 1;
+    }
+    const Nmax = res.N ? Math.max(1e-9, ...res.N.map(Math.abs)) : 1;
+    let kOn = 0;
+    M0.forEach(([i, j], k) => {
+      if (S.off.has(k)) return;
+      const N = res.N ? res.N[kOn] : 0; kOn++;
+      const zero = !res.N || Math.abs(N) < 1e-6 * Nmax;
+      ctx.strokeStyle = zero ? C.muted : N > 0 ? C.a : C.b; ctx.lineWidth = zero ? 2 : 2 + 7 * Math.abs(N) / Nmax;
+      if (hoverM === k) { ctx.globalAlpha = 0.6; }
+      ctx.lineCap = 'round'; line(T(P[i]), T(P[j])); ctx.globalAlpha = 1;
+    });
+    // supports
+    Object.entries(sup).forEach(([jj, t]) => {
+      const [x, y] = T(P[+jj]), s = 13, wall = P[+jj][0] === Math.min(...P.map(p => p[0])) && sys()[0] === 'Cantilever';
+      ctx.fillStyle = C.surface; ctx.strokeStyle = C.ink; ctx.lineWidth = 1.6;
+      if (wall) { ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - s * 1.1, y - s * 0.8); ctx.lineTo(x - s * 1.1, y + s * 0.8); ctx.closePath(); ctx.fill(); ctx.stroke(); line([x - s * 1.1, y - s * 1.3], [x - s * 1.1, y + s * 1.3]); return; }
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - s * 0.8, y + s * 1.1); ctx.lineTo(x + s * 0.8, y + s * 1.1); ctx.closePath(); ctx.fill(); ctx.stroke();
+      if (t === 'roller') { [-0.45, 0.45].forEach(o => { ctx.beginPath(); ctx.arc(x + o * s, y + s * 1.1 + 4, 3.5, 0, 2 * Math.PI); ctx.stroke(); }); line([x - s, y + s * 1.1 + 8], [x + s, y + s * 1.1 + 8]); }
+      else line([x - s, y + s * 1.1], [x + s, y + s * 1.1]);
+    });
+    // force labels
+    if (S.labels && res.N) {
+      ctx.font = `600 11px ${C.num}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      res.geo.forEach((g, k) => {
+        const a = T(P[g.i]), b = T(P[g.j]), m = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2], N = res.N[k];
+        const txt = Math.abs(N) < 0.05 ? '0' : fmt(N, 1);
+        const w = ctx.measureText(txt).width + 8;
+        ctx.fillStyle = C.surface; ctx.globalAlpha = 0.9; ctx.fillRect(m[0] - w / 2, m[1] - 8, w, 16); ctx.globalAlpha = 1;
+        ctx.fillStyle = Math.abs(N) < 0.05 ? C.muted : N > 0 ? C.a : C.b; ctx.fillText(txt, m[0], m[1] + 0.5);
+      });
+    }
+    // joints
+    P.forEach((p, j) => { const s = T(p); ctx.beginPath(); ctx.arc(s[0], s[1], hoverJ === j ? 7.5 : 5.5, 0, 2 * Math.PI); ctx.fillStyle = C.surface; ctx.fill(); ctx.strokeStyle = C.ink; ctx.lineWidth = 2; ctx.stroke(); });
+    // load arrow
+    if (S.mag > 0) {
+      const s = T(P[S.load]), d = DIRS[S.dir][1], len = 22 + 30 * S.mag / 50;
+      const start = [s[0] - d[0] * (len + 8), s[1] + d[1] * (len + 8)], end = [s[0] - d[0] * 8, s[1] + d[1] * 8];
+      arrowPx(ctx, start, end, C.t, 3);
+      ctx.font = `600 12px ${C.num}`; const lab = S.mag + ' kN', lw = ctx.measureText(lab).width + 8;
+      const lx = d[0] ? start[0] - 4 - lw : start[0] - lw / 2, ly = d[0] ? start[1] - 9 : start[1] - 20;
+      ctx.fillStyle = C.surface; ctx.globalAlpha = 0.9; ctx.fillRect(lx, ly, lw, 17); ctx.globalAlpha = 1;
+      ctx.fillStyle = C.t; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(lab, lx + 4, ly + 9);
+    }
+    readout();
+  }
+  function readout() {
+    $('magv').textContent = S.mag + ' kN';
+    const st = $('status'), m = res.m, r = res.r, j2 = 2 * res.j;
+    let h = `<span>Members m, reactions r</span><b>${m} + ${r} = ${m + r}</b><span>Equations, 2 × joints</span><b>${j2}</b>`;
+    if (res.N) {
+      const imax = res.N.reduce((b, v, k) => v > res.N[b] ? k : b, 0), imin = res.N.reduce((b, v, k) => v < res.N[b] ? k : b, 0);
+      h += `<span>Largest tension</span><b>${res.N[imax] > 0.05 ? fmt(res.N[imax], 1) + ' kN' : 'none'}</b><span>Largest compression</span><b>${res.N[imin] < -0.05 ? fmt(-res.N[imin], 1) + ' kN' : 'none'}</b>`;
+      const sup = Object.entries(res.R).map(([jj, v]) => `(${fmt(v[0], 1)}, ${fmt(v[1], 1)})`).join(', ');
+      h += `<span>Support reactions</span><b>${sup} kN</b>`;
+    }
+    $('nums').innerHTML = h;
+    if (res.mech) { st.className = 'status bad'; st.innerHTML = `<b>Mechanism.</b> The stiffness matrix is singular (rank ${res.rank} of ${res.n}), so the structure can move without stretching any member, as the orange dashed shape shows. It would collapse. ` + (m + r < j2 ? `There are fewer unknowns (${m + r}) than equations (${j2}).` : 'There are enough members, but they are badly arranged: some are redundant while another part is free to move.'); }
+    else if (m + r === j2) { st.className = 'status hit'; st.innerHTML = '<b>Statically determinate.</b> The equilibrium equations alone fix every member force: a square, invertible system. Remove any member and the truss becomes a mechanism.'; }
+    else { st.className = 'status'; st.innerHTML = `<b>Statically indeterminate</b>, with ${m + r - j2} redundant member${m + r - j2 > 1 ? 's' : ''}. Equilibrium alone has many solutions; the forces shown also use how much each member stretches (all members are equally stiff here). You can remove ${m + r - j2 > 1 ? 'some members' : 'one member'} and keep it standing.`; }
+    cv.setAttribute('aria-label', `${sys()[0]} truss with a ${S.mag} kN load. ` + st.textContent);
+  }
+  function hit(sx, sy) {
+    const P = sys()[1];
+    const j = P.findIndex(p => { const s = T(p); return Math.hypot(s[0] - sx, s[1] - sy) < 14; });
+    if (j >= 0) return ['j', j];
+    let best = -1, bd = 9;
+    sys()[3].forEach(([a, b], k) => {
+      const A = T(P[a]), B = T(P[b]), dx = B[0] - A[0], dy = B[1] - A[1], t = Math.max(0, Math.min(1, ((sx - A[0]) * dx + (sy - A[1]) * dy) / (dx * dx + dy * dy)));
+      const d = Math.hypot(A[0] + t * dx - sx, A[1] + t * dy - sy); if (d < bd) { bd = d; best = k; }
+    });
+    return best >= 0 ? ['m', best] : null;
+  }
+  const pos = e => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  cv.addEventListener('pointermove', e => { const h = hit(...pos(e)); const nj = h && h[0] === 'j' ? h[1] : -1, nm = h && h[0] === 'm' ? h[1] : -1; if (nj !== hoverJ || nm !== hoverM) { hoverJ = nj; hoverM = nm; cv.style.cursor = h ? 'pointer' : ''; draw(); } });
+  cv.addEventListener('pointerleave', () => { hoverJ = hoverM = -1; draw(); });
+  cv.addEventListener('pointerdown', e => { const h = hit(...pos(e)); if (!h) return; if (h[0] === 'j') S.load = h[1]; else { S.off.has(h[1]) ? S.off.delete(h[1]) : S.off.add(h[1]); } draw(); });
+  cv.addEventListener('keydown', e => {
+    const P = sys()[1], order = P.map((p, j) => j).sort((a, b) => P[a][0] - P[b][0] || P[a][1] - P[b][1]), at = order.indexOf(S.load);
+    if (e.key === 'ArrowRight') { S.load = order[Math.min(order.length - 1, at + 1)]; e.preventDefault(); draw(); }
+    if (e.key === 'ArrowLeft') { S.load = order[Math.max(0, at - 1)]; e.preventDefault(); draw(); }
+  });
+  const mark = makePresets($('presets'), PRESETS, p => p === sys(), p => { S.k = PRESETS.indexOf(p); S.load = p[4]; S.off.clear(); mark(); draw(); });
+  const markD = makePresets($('dirs'), DIRS, d => d === DIRS[S.dir], d => { S.dir = DIRS.indexOf(d); markD(); draw(); });
+  $('mag').addEventListener('input', e => { S.mag = +e.target.value; draw(); });
+  $('labels').addEventListener('change', e => { S.labels = e.target.checked; draw(); });
+  $('defl').addEventListener('change', e => { S.defl = e.target.checked; draw(); });
+  $('restore').addEventListener('click', () => { S.off.clear(); draw(); });
+
+  // Optional start-up settings: ?preset=Pratt%20bridge&load=1&kN=30&dir=right&off=7,8
+  const q = new URLSearchParams(location.search);
+  S.k = Math.max(0, PRESETS.findIndex(p => p[0] === q.get('preset'))); S.load = sys()[4];
+  if (q.get('load') !== null && +q.get('load') >= 0 && +q.get('load') < sys()[1].length) S.load = +q.get('load');
+  if (isFinite(parseFloat(q.get('kN')))) { S.mag = Math.max(0, Math.min(50, Math.round(parseFloat(q.get('kN'))))); $('mag').value = String(S.mag); }
+  if (q.get('dir') === 'right') S.dir = 1;
+  if (q.get('off')) q.get('off').split(',').map(Number).filter(k => k >= 0 && k < sys()[3].length).forEach(k => S.off.add(k));
+  mark(); markD();
+  new ResizeObserver(resize).observe(cv.parentElement); watchTheme(draw);
+  resize();
+})();
+</script>
+</body>
+</html>

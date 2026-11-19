@@ -1,0 +1,596 @@
+# Proofs {#sec-proofs}
+
+This appendix collects the proofs of results used in the main text, so that the chapters can stay practical. Each section matches a chapter and links back to it.
+
+## Matrix multiplication {#sec-proofs-multiplication}
+
+For @sec-multiplication.
+
+### Associativity of matrix multiplication
+
+**Result.** If $\M{A}$ is $m \times n$, $\M{B}$ is $n \times p$ and $\M{C}$ is $p \times q$, then $(\M{A}\M{B})\M{C} = \M{A}(\M{B}\M{C})$.
+
+**Proof.** Both sides are $m \times q$. Using @eq-matmul twice, the $(i, j)$ entry of the left side is
+$$
+\sum_{l=1}^{p} (\M{A}\M{B})_{il}\, c_{lj} = \sum_{l=1}^{p} \left( \sum_{k=1}^{n} a_{ik} b_{kl} \right) c_{lj} = \sum_{k=1}^{n} \sum_{l=1}^{p} a_{ik} b_{kl} c_{lj},
+$$
+and the $(i, j)$ entry of the right side is
+$$
+\sum_{k=1}^{n} a_{ik} (\M{B}\M{C})_{kj} = \sum_{k=1}^{n} a_{ik} \left( \sum_{l=1}^{p} b_{kl} c_{lj} \right) = \sum_{k=1}^{n} \sum_{l=1}^{p} a_{ik} b_{kl} c_{lj}.
+$$
+These are the same finite sum, so the matrices are equal. $\blacksquare$
+
+The geometric reason is simpler: both sides mean "apply $\M{C}$, then $\M{B}$, then $\M{A}$" (@sec-composition).
+
+### Transpose of a product
+
+**Result.** If $\M{A}$ is $m \times n$ and $\M{B}$ is $n \times p$, then $(\M{A}\M{B})\T = \M{B}\T\M{A}\T$.
+
+**Proof.** Both sides are $p \times m$. The $(i, j)$ entry of the left side is the $(j, i)$ entry of $\M{A}\M{B}$:
+$$
+\left((\M{A}\M{B})\T\right)_{ij} = (\M{A}\M{B})_{ji} = \sum_{k=1}^{n} a_{jk} b_{ki}.
+$$
+The $(i, j)$ entry of the right side is
+$$
+\sum_{k=1}^{n} (\M{B}\T)_{ik} (\M{A}\T)_{kj} = \sum_{k=1}^{n} b_{ki} a_{jk},
+$$
+which is the same. $\blacksquare$
+
+## Determinants {#sec-proofs-determinants}
+
+For @sec-determinants.
+
+### The determinant of a product
+
+**Result.** For $n \times n$ matrices, $\det(\M{A}\M{B}) = \det\M{A}\,\det\M{B}$.
+
+**Proof.** Each row operation can be done by multiplying on the left by an **elementary matrix** $\M{E}$: the result of doing the same operation to $\M{I}$ (see @sec-gauss-jordan-rank). By the previous result, $\det\M{E}$ is $-1$ for a swap, $c$ for scaling a row by $c$, and $1$ for adding a multiple of a row, and in each case $\det(\M{E}\M{B}) = \det\M{E}\,\det\M{B}$ for any $\M{B}$.
+
+*If $\M{A}$ is invertible*, row reduction turns it into $\M{I}$, so $\M{E}_k \cdots \M{E}_1 \M{A} = \M{I}$ and, undoing each step, $\M{A} = \M{F}_1 \cdots \M{F}_k$ is a product of elementary matrices. Applying the rule for elementary matrices one factor at a time,
+$$
+\det(\M{A}\M{B}) = \det\M{F}_1 \cdots \det\M{F}_k \det\M{B} = \det\M{A}\,\det\M{B},
+$$
+where the last step uses the same calculation with $\M{B} = \M{I}$.
+
+*If $\M{A}$ is singular*, $\det\M{A} = 0$, and $\M{A}$ squashes space into a line, plane or other lower-dimensional set. Then so does $\M{A}\M{B}$, since its outputs are outputs of $\M{A}$, so $\M{A}\M{B}$ is singular and $\det(\M{A}\M{B}) = 0 = \det\M{A}\,\det\M{B}$. $\blacksquare$
+
+### Row operations and the determinant
+
+We take the cofactor expansion of @sec-determinants as the definition of the determinant, and use the fact (stated there) that expanding along any row gives the same answer.
+
+**Result.** Let $\M{B}$ be obtained from a square matrix $\M{A}$ by one row operation. Then
+
+1. if two rows are swapped, $\det\M{B} = -\det\M{A}$;
+2. if a row is multiplied by $c$, $\det\M{B} = c\det\M{A}$;
+3. if a multiple of one row is added to another, $\det\M{B} = \det\M{A}$.
+
+**Proof.** *Scaling (2).* Expand both determinants along the scaled row. The minors are the same, since they don't involve that row, and each entry of the row is multiplied by $c$, so the whole sum is.
+
+*Swapping (1).* For $2 \times 2$ matrices, $\begin{vmatrix} c & d \\ a & b \end{vmatrix} = cb - da = -(ad - bc)$. For $n \ge 3$, assume the result for size $n - 1$ and expand along a row not involved in the swap. Each minor is an $(n - 1) \times (n - 1)$ determinant with two rows swapped, so each changes sign, and so does the total.
+
+*Two equal rows.* If two rows of $\M{A}$ are equal, swapping them gives the same matrix but, by (1), the negative determinant. So $\det\M{A} = -\det\M{A}$, and $\det\M{A} = 0$.
+
+*Adding a multiple (3).* Suppose $R_i$ is replaced by $R_i + kR_j$. Expanding along row $i$, the determinant is a sum of terms (entry of row $i$) × (cofactor), and the cofactors don't involve row $i$. So it splits as
+$$
+\det\M{B} = \det\M{A} + k\det\M{A}',
+$$
+where $\M{A}'$ is $\M{A}$ with row $i$ replaced by a copy of row $j$. $\M{A}'$ has two equal rows, so $\det\M{A}' = 0$. $\blacksquare$
+
+## Inverse matrices {#sec-proofs-inverses}
+
+For @sec-inverses.
+
+### Uniqueness of the inverse
+
+**Result.** A square matrix has at most one inverse.
+
+**Proof.** Suppose $\M{B}$ and $\M{C}$ are both inverses of $\M{A}$, so that $\M{B}\M{A} = \M{I}$ and $\M{A}\M{C} = \M{I}$. Then, using associativity,
+$$
+\M{B} = \M{B}\M{I} = \M{B}(\M{A}\M{C}) = (\M{B}\M{A})\M{C} = \M{I}\M{C} = \M{C}. \qquad \blacksquare
+$$
+The same argument shows that a left inverse and a right inverse of the same matrix must be equal.
+
+### Inverse of a product
+
+**Result.** If $\M{A}$ and $\M{B}$ are invertible $n \times n$ matrices, then $\M{A}\M{B}$ is invertible and $(\M{A}\M{B})^{-1} = \M{B}^{-1}\M{A}^{-1}$.
+
+**Proof.** Multiply in both orders, using associativity:
+$$
+(\M{A}\M{B})(\M{B}^{-1}\M{A}^{-1}) = \M{A}(\M{B}\M{B}^{-1})\M{A}^{-1} = \M{A}\M{I}\M{A}^{-1} = \M{I},
+$$
+$$
+(\M{B}^{-1}\M{A}^{-1})(\M{A}\M{B}) = \M{B}^{-1}(\M{A}^{-1}\M{A})\M{B} = \M{B}^{-1}\M{I}\M{B} = \M{I}.
+$$
+So $\M{B}^{-1}\M{A}^{-1}$ is an inverse of $\M{A}\M{B}$, and by uniqueness it is the inverse. $\blacksquare$
+
+## Transformations in three dimensions {#sec-proofs-transformations-3d}
+
+For @sec-transformations-3d.
+
+### Orthogonal matrices preserve dot products
+
+**Result.** If $\M{Q}\T\M{Q} = \M{I}$, then $(\M{Q}\vect{x}) \cdot (\M{Q}\vect{y}) = \vect{x} \cdot \vect{y}$ for all vectors $\vect{x}$ and $\vect{y}$. In particular, $\M{Q}$ preserves lengths and angles.
+
+**Proof.** Writing the dot product as a matrix product, $\vect{x} \cdot \vect{y} = \vect{x}\T\vect{y}$ (@sec-multiplication), and using the transpose rule,
+$$
+(\M{Q}\vect{x}) \cdot (\M{Q}\vect{y}) = (\M{Q}\vect{x})\T(\M{Q}\vect{y}) = \vect{x}\T\M{Q}\T\M{Q}\vect{y} = \vect{x}\T\vect{y} = \vect{x} \cdot \vect{y}.
+$$
+Lengths come from dot products, $\lVert\vect{x}\rVert^2 = \vect{x} \cdot \vect{x}$, and so do angles, through $\vect{x} \cdot \vect{y} = \lVert\vect{x}\rVert\,\lVert\vect{y}\rVert\cos\theta$. So both are unchanged. $\blacksquare$
+
+### Every rotation of space has an axis
+
+**Result.** A $3 \times 3$ matrix $\M{Q}$ with $\M{Q}\T\M{Q} = \M{I}$ and $\det\M{Q} = 1$ is a rotation about a line through the origin.
+
+**Proof.** *Step 1: there is a line of invariant points.* Since $\M{Q}\T\M{Q} = \M{I}$, we can write $\M{Q} - \M{I} = \M{Q} - \M{Q}\M{Q}\T = \M{Q}(\M{I} - \M{Q}\T)$. Taking determinants, and using $\det\M{Q} = 1$ and $\det(\M{A}\T) = \det\M{A}$,
+$$
+\det(\M{Q} - \M{I}) = \det\M{Q}\,\det\big((\M{I} - \M{Q})\T\big) = \det(\M{I} - \M{Q}).
+$$
+But $\M{I} - \M{Q} = (-1)(\M{Q} - \M{I})$, and multiplying a $3 \times 3$ matrix by $-1$ multiplies its determinant by $(-1)^3 = -1$. So $\det(\M{Q} - \M{I}) = -\det(\M{Q} - \M{I})$, which means $\det(\M{Q} - \M{I}) = 0$. By @sec-invariant-lines, $(\M{Q} - \M{I})\vect{x} = \zerovec$ then has a solution $\vect{x} \neq \zerovec$. Let $\vect{u}$ be a unit vector along it. Then $\M{Q}\vect{u} = \vect{u}$, and every point of the line through $\vect{u}$ is invariant.
+
+*Step 2: the plane at right angles to the axis is turned within itself.* Let $\vect{x}$ be any vector perpendicular to $\vect{u}$, so $\vect{x} \cdot \vect{u} = 0$. By the first result, $(\M{Q}\vect{x}) \cdot \vect{u} = (\M{Q}\vect{x}) \cdot (\M{Q}\vect{u}) = \vect{x} \cdot \vect{u} = 0$, so $\M{Q}\vect{x}$ is perpendicular to $\vect{u}$ too. So $\M{Q}$ maps the plane through the origin at right angles to $\vect{u}$ onto itself, preserving lengths and angles.
+
+*Step 3: within that plane, it is a rotation.* Choose two unit vectors $\vect{p}$ and $\vect{q}$ in the plane, at right angles to each other and to $\vect{u}$, with $\vect{u}$, $\vect{p}$, $\vect{q}$ in the right-handed order. Measure positions along these three directions instead of along $\ui$, $\uj$, $\uk$. In these coordinates, $\M{Q}$ leaves the $\vect{u}$-coordinate alone and acts on the other two by a $2 \times 2$ matrix $\M{P}$ that preserves lengths and angles, so the columns of $\M{P}$ are perpendicular unit vectors. Its first column is then $(\cos\theta, \sin\theta)\T$ for some angle $\theta$, and its second, being perpendicular to the first and of length 1, is $\pm(-\sin\theta, \cos\theta)\T$. Changing coordinates in this way does not change the determinant (@sec-basis-change), so $\det\M{P} = \det\M{Q} = 1$, which picks the $+$ sign: $\M{P}$ is the rotation $\M{R}(\theta)$. So $\M{Q}$ is the rotation by $\theta$ about the axis through $\vect{u}$. $\blacksquare$
+
+The same argument with $\det\M{Q} = -1$ shows that every other $3 \times 3$ orthogonal matrix is a rotation combined with a reflection in the plane at right angles to its axis.
+
+## Gaussian elimination {#sec-proofs-gaussian-elimination}
+
+For @sec-gaussian-elimination.
+
+### Row operations do not change the solution set
+
+**Result.** If the augmented matrix $[\M{B} \mid \vect{c}]$ is obtained from $[\M{A} \mid \vect{b}]$ by a row operation, then $\M{A}\vect{x} = \vect{b}$ and $\M{B}\vect{x} = \vect{c}$ have exactly the same solutions.
+
+**Proof.** Write the equations of the first system as $E_1, \dots, E_m$, where $E_i$ says $\vect{r}_i\T\vect{x} = b_i$ and $\vect{r}_i\T$ is row $i$ of $\M{A}$.
+
+*Every solution of the old system solves the new one.* Suppose $\vect{x}$ satisfies every $E_i$. A swap only reorders the equations, and scaling $E_i$ by $c$ gives $c\,\vect{r}_i\T\vect{x} = c\,b_i$, which $\vect{x}$ still satisfies. The operation $R_i \leftarrow R_i - mR_j$ replaces $E_i$ with
+$$
+(\vect{r}_i - m\vect{r}_j)\T\vect{x} = b_i - m b_j,
+$$
+and since $\vect{r}_i\T\vect{x} = b_i$ and $\vect{r}_j\T\vect{x} = b_j$, the left side equals $b_i - m b_j$. The other equations are unchanged. So $\vect{x}$ solves the new system.
+
+*Every solution of the new system solves the old one.* Each row operation can be undone by another row operation: a swap by the same swap, $R_i \leftarrow cR_i$ by $R_i \leftarrow \tfrac{1}{c}R_i$ (this is why $c \neq 0$ is required), and $R_i \leftarrow R_i - mR_j$ by $R_i \leftarrow R_i + mR_j$. Applying the first part of the argument to the undoing operation shows that every solution of the new system solves the old one.
+
+The two solution sets are therefore equal. Since Gaussian elimination is a sequence of row operations, the echelon form has the same solutions as the original system. $\blacksquare$
+
+## Gauss–Jordan elimination and rank {#sec-proofs-gauss-jordan-rank}
+
+For @sec-gauss-jordan-rank.
+
+### Uniqueness of the reduced row echelon form
+
+**Result.** Every matrix can be reduced to exactly one matrix in reduced row echelon form, whatever row operations are used.
+
+**Proof.** That at least one exists follows from Gauss–Jordan elimination, which always finishes. For uniqueness, suppose $\M{A}$ can be reduced to two reduced row echelon forms $\M{R}$ and $\M{S}$. We show that $\M{R} = \M{S}$.
+
+*Step 1: row operations keep every relationship between the columns.* A relationship $c_1\vect{a}_1 + \dots + c_n\vect{a}_n = \zerovec$ between the columns of $\M{A}$ says that $\vect{c} = (c_1, \dots, c_n)\T$ solves $\M{A}\vect{x} = \zerovec$ (by the column view of multiplication). Row operations don't change the solutions of a homogeneous system (@sec-proofs-gaussian-elimination). So the columns of $\M{A}$, $\M{R}$ and $\M{S}$ all satisfy exactly the same relationships.
+
+*Step 2: the pivot columns are the same.* In a reduced row echelon form, a column has a pivot exactly when it is *not* a combination of the columns to its left. (A pivot column has a 1 in a row where every earlier column has a 0, so no combination of earlier columns can produce it. A non-pivot column has non-zero entries only in rows that already have pivots to its left, so it is a combination of those pivot columns, which are columns of the identity.) By Step 1, whether a column is a combination of the earlier ones is the same in $\M{R}$ and $\M{S}$. So they have their pivots in the same columns.
+
+*Step 3: the other columns are the same.* The pivot columns of $\M{R}$ and $\M{S}$ are the same columns of the identity, $\ue{1}, \ue{2}, \dots, \ue{r}$, in the same places. A non-pivot column of $\M{R}$ is $c_1\ue{1} + \dots + c_r\ue{r}$, a combination of the pivot columns to its left, and its entries are exactly the coefficients $c_1, \dots, c_r$. By Step 1, the same column of $\M{S}$ is the same combination of the same pivot columns, so it has the same entries.
+
+Every column of $\M{R}$ equals the corresponding column of $\M{S}$, so $\M{R} = \M{S}$. $\blacksquare$
+
+Since the rank is the number of pivots, it follows that the rank doesn't depend on how the matrix is reduced either.
+
+## LU decomposition {#sec-proofs-lu-decomposition}
+
+For @sec-lu-decomposition.
+
+### Elimination without row swaps gives $\M{A} = \M{L}\M{U}$
+
+**Result.** Suppose Gaussian elimination on the $n \times n$ matrix $\M{A}$ needs no row swaps, using multipliers $m_{ij}$ ($i > j$) and ending with the upper triangular matrix $\M{U}$. Let $\M{L}$ be the lower triangular matrix with 1s on its diagonal and $\ell_{ij} = m_{ij}$ below it. Then $\M{A} = \M{L}\M{U}$.
+
+**Proof.** Write $\vect{a}_i\T$ and $\vect{u}_i\T$ for row $i$ of $\M{A}$ and of $\M{U}$. Row 1 is never changed, so $\vect{u}_1\T = \vect{a}_1\T$. Row $i$ is changed once while each earlier column $j = 1, \dots, i - 1$ is cleared, by subtracting $m_{ij}$ times the pivot row. When column $j$ is being cleared, the pivot row $j$ has already received all of its changes (it was finished while clearing columns $1, \dots, j - 1$), so it is $\vect{u}_j\T$. After the last change, row $i$ is finished too. So
+$$
+\vect{u}_i\T = \vect{a}_i\T - \sum_{j=1}^{i-1} m_{ij}\,\vect{u}_j\T,
+\qquad\text{that is,}\qquad
+\vect{a}_i\T = \sum_{j=1}^{i-1} m_{ij}\,\vect{u}_j\T + 1 \cdot \vect{u}_i\T.
+$$
+The right-hand side is a combination of the rows of $\M{U}$ with coefficients $m_{i1}, \dots, m_{i,i-1}, 1, 0, \dots, 0$, which is row $i$ of $\M{L}$. By the row view of multiplication, it is row $i$ of $\M{L}\M{U}$. This holds for every $i$, so $\M{A} = \M{L}\M{U}$. $\blacksquare$
+
+### The factors are unique
+
+**Result.** If $\M{A}$ is invertible and $\M{A} = \M{L}_1\M{U}_1 = \M{L}_2\M{U}_2$, where $\M{L}_1$, $\M{L}_2$ are lower triangular with 1s on the diagonal and $\M{U}_1$, $\M{U}_2$ are upper triangular, then $\M{L}_1 = \M{L}_2$ and $\M{U}_1 = \M{U}_2$.
+
+**Proof.** We use two facts about triangular matrices, which follow from the row-times-column rule as in @sec-lu-decomposition, Exercise 6: products of lower triangular matrices are lower triangular, and the same holds for upper triangular matrices; and the inverse of a triangular matrix with non-zero diagonal entries is triangular of the same kind (it can be found by forward or back substitution, column by column). Moreover, if both factors have 1s on the diagonal, so does the product and so does the inverse.
+
+Since $\det\M{A} = \det\M{L}_1\det\M{U}_1 = \det\M{U}_1 \neq 0$, the diagonal entries of $\M{U}_1$ are non-zero, and likewise for $\M{U}_2$. So all four factors are invertible, and
+$$
+\M{L}_2^{-1}\M{L}_1 = \M{U}_2\M{U}_1^{-1}.
+$$
+The left side is lower triangular with 1s on the diagonal; the right side is upper triangular. A matrix that is both is the identity. So $\M{L}_1 = \M{L}_2$ and $\M{U}_1 = \M{U}_2$. $\blacksquare$
+
+## Basis, dimension and change of basis {#sec-proofs-basis-change}
+
+For @sec-basis-change.
+
+### Every basis has the same number of vectors
+
+**Result.** If $k$ vectors span a subspace $V$, then any set of more than $k$ vectors in $V$ is linearly dependent. Consequently, every basis of $V$ has the same number of vectors.
+
+**Proof.** Let $\vect{v}_1, \dots, \vect{v}_k$ span $V$, and let $\vect{w}_1, \dots, \vect{w}_m$ be vectors in $V$ with $m > k$. Each $\vect{w}_j$ is a combination of the $\vect{v}_i$, say $\vect{w}_j = a_{1j}\vect{v}_1 + \dots + a_{kj}\vect{v}_k$. The coefficients form a $k \times m$ matrix $\M{A}$ with more columns than rows, so $\M{A}\vect{c} = \zerovec$ has a non-zero solution $\vect{c}$ (@sec-gauss-jordan-rank, Exercise 6). Then
+$$
+\begin{aligned}
+c_1\vect{w}_1 + \dots + c_m\vect{w}_m &= \sum_{j} c_j \sum_{i} a_{ij}\vect{v}_i = \sum_{i} \Big(\sum_{j} a_{ij}c_j\Big)\vect{v}_i \\
+&= \sum_i (\M{A}\vect{c})_i\,\vect{v}_i = \zerovec,
+\end{aligned}
+$$
+a dependence relation among the $\vect{w}_j$ with not all $c_j$ zero.
+
+Now suppose $V$ has two bases, with $k$ and $m$ vectors. The first spans $V$ and the second is independent, so $m \le k$; swapping their roles, $k \le m$. So $k = m$. $\blacksquare$
+
+## Column space, null space and rank–nullity {#sec-proofs-fundamental-subspaces}
+
+For @sec-fundamental-subspaces.
+
+### The rank–nullity theorem
+
+**Result.** For an $m \times n$ matrix $\M{A}$ of rank $r$, the null space has dimension $n - r$, so $\operatorname{rank}\M{A} + \operatorname{nullity}\M{A} = n$.
+
+**Proof.** $\M{A}\vect{x} = \zerovec$ has the same solutions as $\M{R}\vect{x} = \zerovec$, where $\M{R}$ is the reduced row echelon form of $\M{A}$. $\M{R}$ has $r$ pivot columns and $n - r$ free columns. For each free variable $x_f$, let $\vect{h}_f$ be the solution with $x_f = 1$ and every other free variable 0 (the pivot variables are then fixed by the rows of $\M{R}$).
+
+*They span the null space.* Any solution $\vect{x}$ is determined by its free variables, since each row of $\M{R}$ gives a pivot variable in terms of them. The vector $\sum_f x_f\vect{h}_f$ is also a solution with the same free variables, so it equals $\vect{x}$.
+
+*They are independent.* In the position of free variable $f$, the vector $\vect{h}_f$ has a 1 and every other $\vect{h}_{f'}$ has a 0. So in $\sum_f c_f\vect{h}_f = \zerovec$, reading off that position gives $c_f = 0$, for every $f$.
+
+So the $n - r$ vectors $\vect{h}_f$ form a basis, and the null space has dimension $n - r$. $\blacksquare$
+
+### Row rank equals column rank
+
+**Result.** The row space and the column space of $\M{A}$ have the same dimension, the rank $r$.
+
+**Proof.** The column space has the pivot columns of $\M{A}$ as a basis (@sec-basis-change), so its dimension is $r$. For the row space: each row operation replaces a row by a combination of rows, and can be undone by another row operation, so it doesn't change the span of the rows. So $\M{A}$ and its echelon form have the same row space. The $r$ non-zero rows of the echelon form are independent: in any combination of them that gives zero, look at the column of the first pivot, where only the first row is non-zero, so its coefficient is zero; then repeat with the next pivot. So they are a basis, and the row space has dimension $r$. $\blacksquare$
+
+## Orthogonality and least squares {#sec-proofs-orthogonality-least-squares}
+
+For @sec-orthogonality-least-squares.
+
+### The Cauchy–Schwarz inequality
+
+**Result.** For any vectors $\vect{x}$ and $\vect{y}$ in $\R^n$, $\lvert\vect{x} \cdot \vect{y}\rvert \le \lVert\vect{x}\rVert\,\lVert\vect{y}\rVert$.
+
+**Proof.** If $\vect{y} = \zerovec$, both sides are 0. Otherwise, for every number $t$,
+$$
+0 \le \lVert\vect{x} - t\vect{y}\rVert^2 = \lVert\vect{x}\rVert^2 - 2t\,(\vect{x} \cdot \vect{y}) + t^2\lVert\vect{y}\rVert^2.
+$$
+Choose $t = (\vect{x} \cdot \vect{y})/\lVert\vect{y}\rVert^2$, the value that makes the right-hand side smallest (it is the projection coefficient of @eq-project-line). Then
+$$
+0 \le \lVert\vect{x}\rVert^2 - \frac{(\vect{x} \cdot \vect{y})^2}{\lVert\vect{y}\rVert^2},
+$$
+so $(\vect{x} \cdot \vect{y})^2 \le \lVert\vect{x}\rVert^2\lVert\vect{y}\rVert^2$. Taking square roots gives the result. $\blacksquare$
+
+### The normal equations give the minimum
+
+**Result.** If $\M{A}\T\M{A}\hat{\vect{x}} = \M{A}\T\vect{b}$, then $\lVert\M{A}\vect{x} - \vect{b}\rVert \ge \lVert\M{A}\hat{\vect{x}} - \vect{b}\rVert$ for every $\vect{x}$. If the columns of $\M{A}$ are independent, $\M{A}\T\M{A}$ is invertible and $\hat{\vect{x}}$ is the only minimiser.
+
+**Proof.** Let $\vect{e} = \vect{b} - \M{A}\hat{\vect{x}}$. The normal equations say $\M{A}\T\vect{e} = \zerovec$: $\vect{e}$ is at right angles to every column of $\M{A}$, and so to every vector $\M{A}\vect{z}$. For any $\vect{x}$,
+$$
+\vect{b} - \M{A}\vect{x} = \vect{e} + \M{A}(\hat{\vect{x}} - \vect{x}),
+$$
+a sum of two orthogonal vectors. By Pythagoras,
+$$
+\lVert\vect{b} - \M{A}\vect{x}\rVert^2 = \lVert\vect{e}\rVert^2 + \lVert\M{A}(\hat{\vect{x}} - \vect{x})\rVert^2 \ge \lVert\vect{e}\rVert^2,
+$$
+with equality only when $\M{A}(\hat{\vect{x}} - \vect{x}) = \zerovec$.
+
+$\M{A}\T\M{A}$ has the same null space as $\M{A}$ (@sec-fundamental-subspaces, Exercise 6). If the columns of $\M{A}$ are independent, that null space is $\{\zerovec\}$, so the square matrix $\M{A}\T\M{A}$ is invertible, and equality needs $\vect{x} = \hat{\vect{x}}$. $\blacksquare$
+
+### The Gram–Schmidt process works
+
+**Result.** If $\vect{a}_1, \dots, \vect{a}_k$ are independent, the Gram–Schmidt process produces orthonormal vectors $\vect{q}_1, \dots, \vect{q}_k$, and for each $j$, $\vect{q}_1, \dots, \vect{q}_j$ span the same subspace as $\vect{a}_1, \dots, \vect{a}_j$.
+
+**Proof.** By induction on $j$. For $j = 1$, $\vect{a}_1 \neq \zerovec$ (independent vectors are non-zero), so $\vect{q}_1 = \vect{a}_1/\lVert\vect{a}_1\rVert$ is defined, has length 1, and spans the same line.
+
+Suppose it holds up to $j - 1$, and let $\vect{v}_j = \vect{a}_j - \sum_{i<j}(\vect{q}_i \cdot \vect{a}_j)\vect{q}_i$. For each $\ell < j$, using orthonormality of the earlier $\vect{q}_i$,
+$$
+\vect{q}_\ell \cdot \vect{v}_j = \vect{q}_\ell \cdot \vect{a}_j - (\vect{q}_\ell \cdot \vect{a}_j)(\vect{q}_\ell \cdot \vect{q}_\ell) = 0.
+$$
+So $\vect{v}_j$ is orthogonal to the earlier $\vect{q}_i$. It is not $\zerovec$: otherwise $\vect{a}_j$ would be a combination of $\vect{q}_1, \dots, \vect{q}_{j-1}$, and so of $\vect{a}_1, \dots, \vect{a}_{j-1}$, contradicting independence. So $\vect{q}_j = \vect{v}_j/\lVert\vect{v}_j\rVert$ is a unit vector orthogonal to the others. Finally, $\vect{q}_j$ is a combination of $\vect{a}_j$ and the earlier $\vect{q}_i$, and $\vect{a}_j$ is a combination of $\vect{q}_j$ and the earlier $\vect{q}_i$, so the spans agree. $\blacksquare$
+
+## Eigenvalues and eigenvectors {#sec-proofs-eigenvalues}
+
+For @sec-eigenvalues.
+
+### The eigenvalues add to the trace and multiply to the determinant
+
+**Claim.** If the eigenvalues of the $n \times n$ matrix $\M{A}$, counted with multiplicity and including any complex ones, are $\lambda_1, \dots, \lambda_n$, then $\lambda_1 + \dots + \lambda_n = a_{11} + \dots + a_{nn}$ and $\lambda_1\lambda_2\cdots\lambda_n = \det\M{A}$.
+
+**Proof.** The characteristic polynomial $p(\lambda) = \det(\M{A} - \lambda\M{I})$ has degree $n$, and its roots are the eigenvalues. Over the complex numbers it factorises completely, and its leading term is $(-1)^n\lambda^n$, so
+$$
+\det(\M{A} - \lambda\M{I}) = (\lambda_1 - \lambda)(\lambda_2 - \lambda)\cdots(\lambda_n - \lambda).
+$$
+Putting $\lambda = 0$ gives $\det\M{A} = \lambda_1\lambda_2\cdots\lambda_n$.
+
+For the trace, compare the coefficients of $\lambda^{n-1}$. On the right it is $(-1)^{n-1}(\lambda_1 + \dots + \lambda_n)$. On the left, expanding the determinant by cofactors over and over writes it as a sum of terms, each a product of $n$ entries of $\M{A} - \lambda\M{I}$ with one from each row and one from each column. A term that uses an entry off the diagonal, in row $i$ and column $j$ with $i \neq j$, can't also use the diagonal entries in row $i$ or column $j$, so it contains at most $n - 2$ factors involving $\lambda$. So the $\lambda^{n-1}$ terms all come from the product of the diagonal entries,
+$$
+(a_{11} - \lambda)(a_{22} - \lambda)\cdots(a_{nn} - \lambda),
+$$
+in which the coefficient of $\lambda^{n-1}$ is $(-1)^{n-1}(a_{11} + \dots + a_{nn})$. Equating the two coefficients gives the result. $\blacksquare$
+
+## Diagonalisation {#sec-proofs-diagonalisation}
+
+For @sec-diagonalisation.
+
+### Eigenvectors for different eigenvalues are independent
+
+**Claim.** If $\vect{v}_1, \dots, \vect{v}_k$ are eigenvectors of $\M{A}$ with eigenvalues $\lambda_1, \dots, \lambda_k$ that are all different, then $\vect{v}_1, \dots, \vect{v}_k$ are linearly independent.
+
+**Proof.** Suppose not. Among all the dependence relations between them, choose one that uses the fewest vectors, say (after renumbering)
+$$
+c_1\vect{v}_1 + c_2\vect{v}_2 + \dots + c_m\vect{v}_m = \zerovec,
+$$
+with every $c_i \neq 0$. Then $m \ge 2$, since an eigenvector is never $\zerovec$. Multiply by $\M{A}$:
+$$
+c_1\lambda_1\vect{v}_1 + c_2\lambda_2\vect{v}_2 + \dots + c_m\lambda_m\vect{v}_m = \zerovec.
+$$
+Subtract $\lambda_m$ times the first relation:
+$$
+c_1(\lambda_1 - \lambda_m)\vect{v}_1 + \dots + c_{m-1}(\lambda_{m-1} - \lambda_m)\vect{v}_{m-1} = \zerovec.
+$$
+The eigenvalues are different, so every coefficient here is non-zero, and this is a dependence relation using only $m - 1$ of the vectors. That contradicts the choice of $m$, so no dependence relation exists. $\blacksquare$
+
+In particular, an $n \times n$ matrix with $n$ different eigenvalues has $n$ independent eigenvectors, so it can be diagonalised.
+
+## Symmetric and positive definite matrices {#sec-proofs-symmetric-matrices}
+
+For @sec-symmetric-matrices.
+
+### Eigenvalues of a real symmetric matrix are real
+
+**Claim.** If $\M{A}$ is real and symmetric, all its eigenvalues are real.
+
+**Proof.** Let $\M{A}\vect{v} = \lambda\vect{v}$, where $\lambda$ and the entries of $\vect{v} \neq \zerovec$ may be complex. Write $\bar{\vect{v}}$ for the vector of complex conjugates. Since $\M{A}$ is real, taking conjugates gives $\M{A}\bar{\vect{v}} = \bar{\lambda}\bar{\vect{v}}$. Now compute $\bar{\vect{v}}\T\M{A}\vect{v}$ in two ways:
+$$
+\bar{\vect{v}}\T(\M{A}\vect{v}) = \lambda\,\bar{\vect{v}}\T\vect{v},
+\qquad
+\bar{\vect{v}}\T\M{A}\vect{v} = (\M{A}\T\bar{\vect{v}})\T\vect{v} = (\M{A}\bar{\vect{v}})\T\vect{v} = \bar{\lambda}\,\bar{\vect{v}}\T\vect{v},
+$$
+using $\M{A}\T = \M{A}$. And $\bar{\vect{v}}\T\vect{v} = \lvert v_1\rvert^2 + \dots + \lvert v_n\rvert^2 > 0$. So $\lambda = \bar{\lambda}$, which means $\lambda$ is real. $\blacksquare$
+
+Since $\lambda$ is real, $\M{A} - \lambda\M{I}$ is a real singular matrix, so it has real null vectors: the eigenvectors can be taken to be real.
+
+### Eigenvectors for distinct eigenvalues are orthogonal
+
+**Claim.** If $\M{A}$ is symmetric, $\M{A}\vect{v}_1 = \lambda_1\vect{v}_1$ and $\M{A}\vect{v}_2 = \lambda_2\vect{v}_2$ with $\lambda_1 \neq \lambda_2$, then $\vect{v}_1 \cdot \vect{v}_2 = 0$.
+
+**Proof.** Using $\M{A}\T = \M{A}$,
+$$
+\lambda_1(\vect{v}_1 \cdot \vect{v}_2) = (\M{A}\vect{v}_1)\T\vect{v}_2 = \vect{v}_1\T\M{A}\T\vect{v}_2 = \vect{v}_1\T\M{A}\vect{v}_2 = \lambda_2(\vect{v}_1 \cdot \vect{v}_2).
+$$
+So $(\lambda_1 - \lambda_2)(\vect{v}_1 \cdot \vect{v}_2) = 0$, and since $\lambda_1 \neq \lambda_2$, $\vect{v}_1 \cdot \vect{v}_2 = 0$. $\blacksquare$
+
+## The singular value decomposition {#sec-proofs-svd-pca}
+
+For @sec-svd-pca.
+
+### Every matrix has an SVD
+
+**Claim.** Every real $m \times n$ matrix $\M{A}$ can be written as $\M{A} = \M{U}\M{\Sigma}\M{V}\T$, with $\M{U}$ and $\M{V}$ orthogonal and $\M{\Sigma}$ zero except for $\sigma_1 \ge \sigma_2 \ge \dots \ge 0$ on its main diagonal.
+
+**Proof.** $\M{A}\T\M{A}$ is symmetric and positive semidefinite, so by the spectral theorem it has orthonormal eigenvectors $\vect{v}_1, \dots, \vect{v}_n$ with eigenvalues $\mu_1 \ge \dots \ge \mu_n \ge 0$. Let $\sigma_i = \sqrt{\mu_i}$, and let $r$ be the number of them that are positive. Note that
+$$
+(\M{A}\vect{v}_i) \cdot (\M{A}\vect{v}_j) = \vect{v}_i\T\M{A}\T\M{A}\vect{v}_j = \mu_j\,\vect{v}_i \cdot \vect{v}_j,
+$$
+which is $\sigma_i^2$ when $i = j$ and 0 otherwise. So for $i > r$, $\lVert\M{A}\vect{v}_i\rVert = 0$ and $\M{A}\vect{v}_i = \zerovec$. For $i \le r$, let $\vect{u}_i = \M{A}\vect{v}_i/\sigma_i$; by the same calculation these are orthonormal. Extend $\vect{u}_1, \dots, \vect{u}_r$ to an orthonormal basis $\vect{u}_1, \dots, \vect{u}_m$ of $\R^m$ (add any vectors to make a basis, then apply Gram–Schmidt, @sec-proofs-orthogonality-least-squares). Let $\M{U}$ and $\M{V}$ have these vectors as columns. Then $\M{A}\vect{v}_i = \sigma_i\vect{u}_i$ for $i \le r$ and $\M{A}\vect{v}_i = \zerovec$ for $i > r$, which says column by column that $\M{A}\M{V} = \M{U}\M{\Sigma}$. Multiplying on the right by $\M{V}\T = \M{V}^{-1}$ gives $\M{A} = \M{U}\M{\Sigma}\M{V}\T$. $\blacksquare$
+
+### Truncating the SVD gives the best low-rank approximation
+
+Write $\lVert\M{M}\rVert_F$ for the square root of the sum of the squares of the entries of $\M{M}$, and $\M{A}_k = \sum_{i \le k}\sigma_i\vect{u}_i\vect{v}_i\T$.
+
+**Claim.** (a) $\lVert\M{A} - \M{A}_k\rVert_F^2 = \sigma_{k+1}^2 + \dots + \sigma_r^2$. (b) For every matrix $\M{B}$ of rank at most $k$, there is a unit vector $\vect{x}$ with $\lVert(\M{A} - \M{B})\vect{x}\rVert \ge \sigma_{k+1}$, while $\lVert(\M{A} - \M{A}_k)\vect{x}\rVert \le \sigma_{k+1}$ for every unit vector $\vect{x}$.
+
+**Proof.** (a) Multiplying a matrix by an orthogonal matrix does not change the lengths of its columns, so it does not change $\lVert\cdot\rVert_F$. Since $\M{A} - \M{A}_k = \M{U}\M{\Sigma}'\M{V}\T$, where $\M{\Sigma}'$ is $\M{\Sigma}$ with $\sigma_1, \dots, \sigma_k$ replaced by zeros, $\lVert\M{A} - \M{A}_k\rVert_F = \lVert\M{\Sigma}'\rVert_F$, which gives (a).
+
+(b) $\M{B}$ has rank at most $k$, so by rank–nullity its null space has dimension at least $n - k$. The span of $\vect{v}_1, \dots, \vect{v}_{k+1}$ has dimension $k + 1$. These dimensions add to more than $n$, so the two subspaces share a unit vector $\vect{x} = c_1\vect{v}_1 + \dots + c_{k+1}\vect{v}_{k+1}$, with $c_1^2 + \dots + c_{k+1}^2 = 1$. Then $\M{B}\vect{x} = \zerovec$, and since the $\vect{u}_i$ are orthonormal,
+$$
+\lVert(\M{A} - \M{B})\vect{x}\rVert^2 = \lVert\M{A}\vect{x}\rVert^2 = \lVert c_1\sigma_1\vect{u}_1 + \dots + c_{k+1}\sigma_{k+1}\vect{u}_{k+1}\rVert^2 = \sum_{i \le k+1} c_i^2\sigma_i^2 \ge \sigma_{k+1}^2.
+$$
+On the other hand, for a unit vector $\vect{x} = \sum c_i\vect{v}_i$, $\lVert(\M{A} - \M{A}_k)\vect{x}\rVert^2 = \sum_{i > k} c_i^2\sigma_i^2 \le \sigma_{k+1}^2$. $\blacksquare$
+
+Part (b) says that no matrix of rank $k$ approximates $\M{A}$ better than $\M{A}_k$, when the error is measured by the largest stretch of $\M{A} - \M{B}$. The corresponding statement for $\lVert\cdot\rVert_F$, used in @sec-svd-pca, follows from a refinement of the same argument, applied to each singular value of $\M{A} - \M{B}$ in turn.
+
+## Matrix calculus {#sec-proofs-matrix-calculus}
+
+For @sec-matrix-calculus.
+
+### The gradient of a quadratic form
+
+**Claim.** $\nabla(\vect{a}\T\vect{x}) = \vect{a}$ and $\nabla(\vect{x}\T\M{A}\vect{x}) = (\M{A} + \M{A}\T)\vect{x}$.
+
+**Proof.** $\vect{a}\T\vect{x} = \sum_j a_jx_j$, whose derivative with respect to $x_k$ is $a_k$. Next, $\vect{x}\T\M{A}\vect{x} = \sum_i\sum_j a_{ij}x_ix_j$. Differentiating with respect to $x_k$, the terms with $i = k$ give $\sum_j a_{kj}x_j$, and the terms with $j = k$ give $\sum_i a_{ik}x_i$ (the term $a_{kk}x_k^2$ is counted in both, correctly, since its derivative is $2a_{kk}x_k$). So
+$$
+\frac{\partial}{\partial x_k}(\vect{x}\T\M{A}\vect{x}) = (\M{A}\vect{x})_k + (\M{A}\T\vect{x})_k. \qquad \blacksquare
+$$
+
+### The second derivative test
+
+**Claim.** Let $f$ have continuous second derivatives, and $\nabla f(\vect{x}^*) = \zerovec$. If the Hessian $\M{H} = \M{H}(\vect{x}^*)$ is positive definite, $\vect{x}^*$ is a local minimum; if it has a negative eigenvalue and a positive one, $\vect{x}^*$ is a saddle point.
+
+**Proof.** Taylor's theorem applied to $g(s) = f(\vect{x}^* + s\vect{h})$ gives
+$$
+f(\vect{x}^* + \vect{h}) = f(\vect{x}^*) + \tfrac{1}{2}\vect{h}\T\M{H}\vect{h} + \varepsilon(\vect{h})\lVert\vect{h}\rVert^2,
+$$
+where $\varepsilon(\vect{h}) \to 0$ as $\vect{h} \to \zerovec$. Write $\vect{h}$ in terms of orthonormal eigenvectors $\vect{q}_i$ of $\M{H}$, with eigenvalues $\mu_i$: $\vect{h} = \sum c_i\vect{q}_i$ and $\vect{h}\T\M{H}\vect{h} = \sum\mu_ic_i^2$.
+
+If every $\mu_i > 0$, let $\mu$ be the smallest. Then $\vect{h}\T\M{H}\vect{h} \ge \mu\sum c_i^2 = \mu\lVert\vect{h}\rVert^2$, so $f(\vect{x}^* + \vect{h}) - f(\vect{x}^*) \ge (\tfrac{1}{2}\mu + \varepsilon(\vect{h}))\lVert\vect{h}\rVert^2$, which is positive once $\vect{h}$ is small enough that $\lvert\varepsilon(\vect{h})\rvert < \tfrac{1}{2}\mu$.
+
+If $\mu_1 < 0 < \mu_2$, take $\vect{h} = s\vect{q}_1$ and $\vect{h} = s\vect{q}_2$ for small $s$: the change in $f$ is $(\tfrac{1}{2}\mu_1 + \varepsilon)s^2 < 0$ along the first and $(\tfrac{1}{2}\mu_2 + \varepsilon)s^2 > 0$ along the second, so $\vect{x}^*$ is neither a minimum nor a maximum. $\blacksquare$
+
+## Linear ODE systems {#sec-proofs-linear-odes}
+
+For @sec-linear-odes.
+
+### The derivative of $e^{\M{A}t}$
+
+**Claim.** The series $e^{\M{A}t} = \sum_{k \ge 0}\M{A}^kt^k/k!$ converges for every square matrix $\M{A}$ and every $t$, and $\frac{d}{dt}e^{\M{A}t} = \M{A}e^{\M{A}t} = e^{\M{A}t}\M{A}$.
+
+**Proof.** Let $a$ be the largest absolute value of an entry of $\M{A}$. Each entry of $\M{A}^2$ is a sum of $n$ products of two entries of $\M{A}$, so it is at most $na^2$ in absolute value, and by induction each entry of $\M{A}^k$ is at most $n^{k-1}a^k \le (na)^k$. So each entry of the series is bounded term by term by the convergent series for $e^{na\lvert t\rvert}$, and converges absolutely. A convergent power series can be differentiated term by term, so
+$$
+\frac{d}{dt}e^{\M{A}t} = \sum_{k \ge 1}\frac{\M{A}^kt^{k-1}}{(k-1)!} = \M{A}\sum_{k \ge 1}\frac{\M{A}^{k-1}t^{k-1}}{(k-1)!} = \M{A}e^{\M{A}t},
+$$
+and taking the factor $\M{A}$ out on the right instead gives $e^{\M{A}t}\M{A}$. $\blacksquare$
+
+So $\vect{x}(t) = e^{\M{A}t}\vect{x}_0$ satisfies $\dot{\vect{x}} = \M{A}\vect{x}$, and $\vect{x}(0) = \M{I}\vect{x}_0 = \vect{x}_0$.
+
+### The solution is unique
+
+**Claim.** If $\dot{\vect{x}} = \M{A}\vect{x}$ and $\vect{x}(0) = \vect{x}_0$, then $\vect{x}(t) = e^{\M{A}t}\vect{x}_0$.
+
+**Proof.** Let $\vect{y}(t) = e^{-\M{A}t}\vect{x}(t)$. By the product rule and the previous claim (with $-\M{A}$ in place of $\M{A}$),
+$$
+\dot{\vect{y}} = -e^{-\M{A}t}\M{A}\vect{x} + e^{-\M{A}t}\M{A}\vect{x} = \zerovec,
+$$
+so $\vect{y}$ is constant, equal to $\vect{y}(0) = \vect{x}_0$. The same argument applied to $e^{-\M{A}t}e^{\M{A}t}\vect{c}$, for any fixed $\vect{c}$, shows that $e^{-\M{A}t}e^{\M{A}t} = \M{I}$, so $e^{-\M{A}t}$ is the inverse of $e^{\M{A}t}$. Hence $\vect{x}(t) = e^{\M{A}t}\vect{x}_0$. $\blacksquare$
+
+## Floating point and conditioning {#sec-proofs-floating-point-conditioning}
+
+For @sec-floating-point-conditioning.
+
+### Formulas for the 1- and $\infty$-norms of a matrix
+
+**Claim.** $\lVert\M{A}\rVert_\infty = \max_i\sum_j\lvert a_{ij}\rvert$ (the largest absolute row sum) and $\lVert\M{A}\rVert_1 = \max_j\sum_i\lvert a_{ij}\rvert$ (the largest absolute column sum).
+
+**Proof.** Let $s$ be the largest absolute row sum, attained in row $k$. For any $\vect{x}$ with $\lVert\vect{x}\rVert_\infty = 1$, every $\lvert x_j\rvert \le 1$, so
+$$
+\lvert(\M{A}\vect{x})_i\rvert = \Bigl\lvert\sum_j a_{ij}x_j\Bigr\rvert \le \sum_j\lvert a_{ij}\rvert \le s,
+$$
+so $\lVert\M{A}\vect{x}\rVert_\infty \le s$. Choosing $x_j = \pm 1$ with the same sign as $a_{kj}$ makes $(\M{A}\vect{x})_k = s$, so the maximum $s$ is reached.
+
+For the 1-norm, let $c$ be the largest absolute column sum, attained in column $k$. For any $\vect{x}$,
+$$
+\lVert\M{A}\vect{x}\rVert_1 = \sum_i\Bigl\lvert\sum_j a_{ij}x_j\Bigr\rvert \le \sum_j\lvert x_j\rvert\sum_i\lvert a_{ij}\rvert \le c\,\lVert\vect{x}\rVert_1,
+$$
+and $\vect{x} = \ue{k}$ gives $\lVert\M{A}\ue{k}\rVert_1 = c$. $\blacksquare$
+
+### The condition number bound
+
+**Claim.** If $\M{A}\vect{x} = \vect{b}$ and $\M{A}(\vect{x} + \Delta\vect{x}) = \vect{b} + \Delta\vect{b}$, with $\vect{b} \neq \zerovec$, then
+$$
+\frac{\lVert\Delta\vect{x}\rVert}{\lVert\vect{x}\rVert} \le \lVert\M{A}\rVert\,\lVert\M{A}^{-1}\rVert\,\frac{\lVert\Delta\vect{b}\rVert}{\lVert\vect{b}\rVert}.
+$$
+
+**Proof.** Subtracting the two equations, $\M{A}\,\Delta\vect{x} = \Delta\vect{b}$, so $\Delta\vect{x} = \M{A}^{-1}\Delta\vect{b}$ and $\lVert\Delta\vect{x}\rVert \le \lVert\M{A}^{-1}\rVert\,\lVert\Delta\vect{b}\rVert$. Also $\lVert\vect{b}\rVert = \lVert\M{A}\vect{x}\rVert \le \lVert\M{A}\rVert\,\lVert\vect{x}\rVert$, so $1/\lVert\vect{x}\rVert \le \lVert\M{A}\rVert/\lVert\vect{b}\rVert$. Multiplying the two inequalities gives the result. $\blacksquare$
+
+Both inequalities can be equalities at once, for suitable $\vect{b}$ and $\Delta\vect{b}$, so the bound cannot be improved. In the 2-norm, $\lVert\M{A}\rVert_2 = \sigma_1$ and $\lVert\M{A}^{-1}\rVert_2 = 1/\sigma_n$ (the singular values of $\M{A}^{-1} = \M{V}\M{\Sigma}^{-1}\M{U}\T$ are the $1/\sigma_i$), so $\kappa_2(\M{A}) = \sigma_1/\sigma_n$.
+
+## Iterative methods {#sec-proofs-iterative-methods}
+
+For @sec-iterative-methods.
+
+### Convergence needs a spectral radius below 1
+
+**Claim.** Let $\M{T}$ be diagonalisable. Then $\vect{e}_k = \M{T}^k\vect{e}_0 \to \zerovec$ for every $\vect{e}_0$ if and only if $\rho(\M{T}) < 1$.
+
+**Proof.** Write $\vect{e}_0 = c_1\vect{v}_1 + \dots + c_n\vect{v}_n$ in terms of eigenvectors of $\M{T}$ (possibly complex). Then $\M{T}^k\vect{e}_0 = c_1\lambda_1^k\vect{v}_1 + \dots + c_n\lambda_n^k\vect{v}_n$. If every $\lvert\lambda_i\rvert < 1$, every term tends to $\zerovec$. If some $\lvert\lambda_i\rvert \ge 1$, starting from $\vect{e}_0 = \vect{v}_i$ gives $\lVert\M{T}^k\vect{e}_0\rVert = \lvert\lambda_i\rvert^k\lVert\vect{v}_i\rVert$, which does not tend to zero. (For a real iteration with a complex $\lambda_i$, the real part of $\vect{v}_i$ or of $i\vect{v}_i$ gives a real starting error that does not die away.) $\blacksquare$
+
+The same holds for matrices that are not diagonalisable, using the Jordan form, but the proof is longer.
+
+### Jacobi converges for strictly diagonally dominant matrices
+
+**Claim.** If $\lvert a_{ii}\rvert > \sum_{j \neq i}\lvert a_{ij}\rvert$ for every $i$, then the Jacobi iteration converges from every starting guess.
+
+**Proof.** The Jacobi iteration matrix $\M{T}_J = -\M{D}^{-1}(\M{L} + \M{U})$ has entries $-a_{ij}/a_{ii}$ off the diagonal and 0 on it. Its largest absolute row sum is
+$$
+\lVert\M{T}_J\rVert_\infty = \max_i\sum_{j \neq i}\frac{\lvert a_{ij}\rvert}{\lvert a_{ii}\rvert} = q < 1,
+$$
+by diagonal dominance. So $\lVert\vect{e}_{k+1}\rVert_\infty = \lVert\M{T}_J\vect{e}_k\rVert_\infty \le q\lVert\vect{e}_k\rVert_\infty$, and $\lVert\vect{e}_k\rVert_\infty \le q^k\lVert\vect{e}_0\rVert_\infty \to 0$. $\blacksquare$
+
+A similar but more careful argument shows that Gauss–Seidel converges for these matrices too, with $\lVert\vect{e}_{k+1}\rVert_\infty \le q\lVert\vect{e}_k\rVert_\infty$ for the same $q$.
+
+## Newton's method {#sec-proofs-newton-systems}
+
+For @sec-newton-systems.
+
+### Quadratic convergence
+
+**Claim.** Let $\vect{f}$ have continuous second derivatives near a root $\vect{x}^*$, with $\M{J}(\vect{x}^*)$ invertible. Then there are constants $\delta > 0$ and $C$ such that if $\lVert\vect{x}_k - \vect{x}^*\rVert < \delta$, the Newton step gives $\lVert\vect{x}_{k+1} - \vect{x}^*\rVert \le C\lVert\vect{x}_k - \vect{x}^*\rVert^2$.
+
+**Proof.** Write $\vect{e}_k = \vect{x}_k - \vect{x}^*$. By Taylor's theorem applied to each component of $\vect{f}$, expanding about $\vect{x}_k$,
+$$
+\zerovec = \vect{f}(\vect{x}^*) = \vect{f}(\vect{x}_k) - \M{J}(\vect{x}_k)\vect{e}_k + \vect{r}_k,
+\qquad
+\lVert\vect{r}_k\rVert \le M\lVert\vect{e}_k\rVert^2,
+$$
+where $M$ depends on the size of the second derivatives near $\vect{x}^*$. The Newton step is defined by $\vect{f}(\vect{x}_k) + \M{J}(\vect{x}_k)(\vect{x}_{k+1} - \vect{x}_k) = \zerovec$. Subtracting the two equations,
+$$
+\M{J}(\vect{x}_k)(\vect{x}_{k+1} - \vect{x}_k + \vect{e}_k) = \vect{r}_k,
+\qquad\text{that is}\qquad
+\M{J}(\vect{x}_k)\vect{e}_{k+1} = \vect{r}_k.
+$$
+Because $\M{J}$ is continuous and invertible at $\vect{x}^*$, it stays invertible nearby, with $\lVert\M{J}(\vect{x})^{-1}\rVert \le B$ for some $B$ when $\lVert\vect{x} - \vect{x}^*\rVert < \delta$. So $\lVert\vect{e}_{k+1}\rVert \le B\lVert\vect{r}_k\rVert \le BM\lVert\vect{e}_k\rVert^2$, which is the claim with $C = BM$. $\blacksquare$
+
+If also $\delta \le 1/(2C)$, then $\lVert\vect{e}_{k+1}\rVert \le \tfrac{1}{2}\lVert\vect{e}_k\rVert$, so once an iterate is within $\delta$ of the root, all later ones are too, and they converge quadratically.
+
+## Eigenvalue algorithms {#sec-proofs-eigenvalue-algorithms}
+
+For @sec-eigenvalue-algorithms.
+
+### Convergence of the power method
+
+**Claim.** Let $\M{A}$ have independent eigenvectors $\vect{v}_1, \dots, \vect{v}_n$ with eigenvalues $\lvert\lambda_1\rvert > \lvert\lambda_2\rvert \ge \dots \ge \lvert\lambda_n\rvert$, and let $\vect{q}_0 = c_1\vect{v}_1 + \dots + c_n\vect{v}_n$ with $c_1 \neq 0$. Then the power method's $\vect{q}_k$ approaches the line through $\vect{v}_1$, with the distance to it shrinking like $\lvert\lambda_2/\lambda_1\rvert^k$.
+
+**Proof.** Rescaling doesn't change directions, so $\vect{q}_k$ is $\M{A}^k\vect{q}_0$ scaled to length 1, and
+$$
+\M{A}^k\vect{q}_0 = c_1\lambda_1^k\Bigl(\vect{v}_1 + \sum_{i \ge 2}\frac{c_i}{c_1}\Bigl(\frac{\lambda_i}{\lambda_1}\Bigr)^k\vect{v}_i\Bigr) = c_1\lambda_1^k(\vect{v}_1 + \vect{w}_k),
+$$
+with $\lVert\vect{w}_k\rVert \le \Bigl(\sum_{i \ge 2}\lvert c_i/c_1\rvert\,\lVert\vect{v}_i\rVert\Bigr)\lvert\lambda_2/\lambda_1\rvert^k$, since every $\lvert\lambda_i/\lambda_1\rvert \le \lvert\lambda_2/\lambda_1\rvert$ for $i \ge 2$. So $\vect{q}_k = \pm(\vect{v}_1 + \vect{w}_k)/\lVert\vect{v}_1 + \vect{w}_k\rVert$, which differs from $\pm\vect{v}_1/\lVert\vect{v}_1\rVert$ by an amount proportional to $\lVert\vect{w}_k\rVert$. $\blacksquare$
+
+### The Rayleigh quotient of a symmetric matrix is accurate to second order
+
+**Claim.** If $\M{A}$ is symmetric, $\M{A}\vect{v} = \lambda\vect{v}$ with $\lVert\vect{v}\rVert = 1$, and $\vect{q} = (\vect{v} + \vect{w})/\lVert\vect{v} + \vect{w}\rVert$ with $\vect{w}$ perpendicular to $\vect{v}$, then $\lvert\vect{q}\T\M{A}\vect{q} - \lambda\rvert \le 2\lVert\M{A}\rVert_2\lVert\vect{w}\rVert^2$.
+
+**Proof.** Since $\M{A}$ is symmetric, $\vect{v}\T\M{A}\vect{w} = (\M{A}\vect{v})\T\vect{w} = \lambda\vect{v}\T\vect{w} = 0$. So
+$$
+\vect{q}\T\M{A}\vect{q} = \frac{(\vect{v} + \vect{w})\T\M{A}(\vect{v} + \vect{w})}{1 + \lVert\vect{w}\rVert^2} = \frac{\lambda + \vect{w}\T\M{A}\vect{w}}{1 + \lVert\vect{w}\rVert^2},
+$$
+and
+$$
+\vect{q}\T\M{A}\vect{q} - \lambda = \frac{\vect{w}\T\M{A}\vect{w} - \lambda\lVert\vect{w}\rVert^2}{1 + \lVert\vect{w}\rVert^2}.
+$$
+The numerator is at most $2\lVert\M{A}\rVert_2\lVert\vect{w}\rVert^2$ in size, since $\lvert\lambda\rvert \le \lVert\M{A}\rVert_2$, and the denominator is at least 1. $\blacksquare$
+
+So an error $\varepsilon$ in the eigenvector gives an error of order $\varepsilon^2$ in the eigenvalue estimate.
+
+## QR factorisation {#sec-proofs-qr-least-squares}
+
+For @sec-qr-least-squares.
+
+### Householder reflections
+
+**Claim.** For $\vect{v} \neq \zerovec$, $\M{H} = \M{I} - 2\vect{v}\vect{v}\T/(\vect{v}\T\vect{v})$ is symmetric and orthogonal. If $\vect{x} \neq \zerovec$ and $\vect{v} = \vect{x} + s\lVert\vect{x}\rVert\ue{1}$ with $s = \pm 1$ (and $\vect{v} \neq \zerovec$), then $\M{H}\vect{x} = -s\lVert\vect{x}\rVert\ue{1}$.
+
+**Proof.** Symmetry and orthogonality are shown in the solution to @sec-qr-least-squares exercise 3. For the second part, write $\alpha = \lVert\vect{x}\rVert$. Then
+$$
+\vect{v}\T\vect{v} = \vect{x}\T\vect{x} + 2s\alpha x_1 + \alpha^2 = 2\alpha^2 + 2s\alpha x_1 = 2(\alpha^2 + s\alpha x_1),
+\qquad
+\vect{v}\T\vect{x} = \alpha^2 + s\alpha x_1.
+$$
+So $\vect{v}\T\vect{x} = \tfrac{1}{2}\vect{v}\T\vect{v}$, and
+$$
+\M{H}\vect{x} = \vect{x} - \frac{2\vect{v}\T\vect{x}}{\vect{v}\T\vect{v}}\vect{v} = \vect{x} - \vect{v} = -s\alpha\ue{1}. \qquad \blacksquare
+$$
+
+Choosing $s = \operatorname{sign}(x_1)$ makes $\alpha^2 + s\alpha x_1 \ge \alpha^2$, so $\vect{v}$ is never short and is computed without cancellation.
+
+### Least squares via QR
+
+**Claim.** If $\M{A} = \M{Q}\M{R}$ with $\M{Q}\T\M{Q} = \M{I}$ and $\M{R}$ invertible, the least-squares solution of $\M{A}\vect{x} \approx \vect{b}$ is the solution of $\M{R}\hat{\vect{x}} = \M{Q}\T\vect{b}$, and $\kappa_2(\M{A}\T\M{A}) = \kappa_2(\M{A})^2$.
+
+**Proof.** The normal equations are $\M{A}\T\M{A}\hat{\vect{x}} = \M{A}\T\vect{b}$ (@sec-proofs-orthogonality-least-squares). Substituting, $\M{R}\T\M{Q}\T\M{Q}\M{R}\hat{\vect{x}} = \M{R}\T\M{Q}\T\vect{b}$, that is $\M{R}\T(\M{R}\hat{\vect{x}} - \M{Q}\T\vect{b}) = \zerovec$, and $\M{R}\T$ is invertible. The condition numbers are compared in the solution to @sec-qr-least-squares exercise 5. $\blacksquare$
+
+## The Hill cipher {#sec-proofs-cryptography}
+
+For @sec-cryptography.
+
+### When a matrix is invertible modulo 26
+
+**Claim.** An integer matrix $\M{K}$ has an inverse modulo 26 (an integer matrix $\M{K}'$ with $\M{K}'\M{K} \equiv \M{K}\M{K}' \equiv \M{I}$) if and only if $\gcd(\det\M{K}, 26) = 1$.
+
+**Proof.** First, a number $a$ has an inverse modulo 26 exactly when $\gcd(a, 26) = 1$. If $\gcd(a, 26) = 1$, Euclid's algorithm finds integers $u$ and $v$ with $ua + 26v = 1$, so $ua \equiv 1$. If $\gcd(a, 26) = g > 1$, then every $ua + 26v$ is a multiple of $g$, so it is never 1, and no $u$ works.
+
+Now suppose $\gcd(\det\M{K}, 26) = 1$, with $d$ the inverse of $\det\M{K}$. The adjugate $\operatorname{adj}\M{K}$ (the transposed matrix of cofactors, @sec-inverses) has integer entries and satisfies $\M{K}\operatorname{adj}\M{K} = \operatorname{adj}\M{K}\,\M{K} = (\det\M{K})\M{I}$ exactly. Multiplying by $d$, $\M{K}' = d\operatorname{adj}\M{K}$ satisfies $\M{K}\M{K}' \equiv \M{K}'\M{K} \equiv \M{I}$.
+
+Conversely, suppose $\M{K}'\M{K} \equiv \M{I}$, so $\M{K}'\M{K} = \M{I} + 26\M{E}$ for some integer matrix $\M{E}$. The determinant is a polynomial in the entries with integer coefficients, so $\det(\M{I} + 26\M{E}) \equiv \det\M{I} = 1$, and $\det\M{K}'\det\M{K} = \det(\M{K}'\M{K}) \equiv 1$. So $\det\M{K}$ has an inverse modulo 26, and $\gcd(\det\M{K}, 26) = 1$. $\blacksquare$
+
+The same holds with any modulus $m$ in place of 26. When $m$ is a prime $p$, every non-zero number has an inverse, and the condition becomes $\det\M{K} \not\equiv 0 \pmod{p}$, just as over the real numbers.

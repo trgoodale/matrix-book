@@ -1,0 +1,341 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robot Arm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: the arm and its workspace first, then the joint angles, the transformation matrices and the target */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.mat { position: relative; display: inline-grid; grid-template-columns: 4.2rem 4.2rem; gap: 6px; padding: 6px 14px; }
+.mat::before, .mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.mat::before { left: 0; border-right: 0; } .mat::after { right: 0; border-left: 0; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.mat input { -moz-appearance: textfield; appearance: textfield; }
+.mat input::-webkit-outer-spin-button, .mat input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.matrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.matrow .nm { font: 600 1.05rem var(--font-num); }
+.status b { font-weight: 600; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.sw.c { border-color: var(--tgt); }
+
+.slide { display: grid; grid-template-columns: 4.2rem minmax(0, 1fr) 4.2rem; gap: 10px; align-items: center; font-size: 0.9rem; }
+.slide output { font: 600 0.9rem var(--font-num); text-align: right; }
+.mats { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 0.82rem var(--font-num); }
+.hm { position: relative; display: inline-block; padding: 2px 9px; }
+.hm::before, .hm::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.hm::before { left: 0; border-right: 0; } .hm::after { right: 0; border-left: 0; }
+html.br-round .hm::before { border-top: 0; border-bottom: 0; width: 7px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .hm::after { border-top: 0; border-bottom: 0; width: 7px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.hm table { border-collapse: collapse; } .hm td { padding: 0 4px; text-align: right; }
+.hm tr:last-child td { color: var(--muted); }
+.hm td.tr { color: var(--res); font-weight: 600; }
+.mats .nm { font-weight: 600; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.sw.ws { border-color: var(--muted); border-top-style: dotted; }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Turn the joints, <em>place the hand</em></h1>
+    <p>Each link of a robot arm is a rotation followed by a translation, which one 3 × 3 matrix in homogeneous coordinates can hold. Multiply the matrices for the two links and the last column tells you where the hand is. Or drag the target and let Newton’s method find the joint angles.</p>
+  </header>
+
+  <div class="layout">
+    <section class="panel plane-box" aria-label="Arm">
+      <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
+      <div class="legend">
+        <span><span class="sw a"></span>link 1</span>
+        <span><span class="sw b"></span>link 2</span>
+        <span><span class="sw t"></span>target (drag)</span>
+        <span><span class="sw ws"></span>edge of the reachable region</span>
+      </div>
+      <p class="hint">Small arrows show each joint's own x and y axes. With the picture focused, the arrow keys move the target.</p>
+    </section>
+
+    <div class="side">
+      <section class="panel card wide" aria-label="Joints">
+        <span class="label">Joint angles and link lengths</span>
+        <div class="slide"><label for="t1">θ₁</label><input type="range" id="t1" min="-180" max="180" step="1"><output id="t1v"></output></div>
+        <div class="slide"><label for="t2">θ₂</label><input type="range" id="t2" min="-180" max="180" step="1"><output id="t2v"></output></div>
+        <div class="slide"><label for="l1">L₁</label><input type="range" id="l1" min="0.5" max="2" step="0.1"><output id="l1v"></output></div>
+        <div class="slide"><label for="l2">L₂</label><input type="range" id="l2" min="0.5" max="2" step="0.1"><output id="l2v"></output></div>
+        <div class="mats" id="mats"></div>
+      </section>
+      <section class="panel card wide" aria-label="Reach">
+        <span class="label">Reach for the target</span>
+        <div class="row"><button id="reach">Reach with Newton’s method</button></div>
+        <div class="toggles"><label><input type="checkbox" id="frames" checked> Show joint axes</label></div>
+        <div class="status" id="status" role="status"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+
+  const $ = id => document.getElementById(id);
+  const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), b: v('--col'), t: v('--tgt'), w: v('--res'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), line: v('--line'), num: v('--font-num') }; };
+  // Eigenvalues and (real) eigenvectors of a 2x2 matrix
+  function eig2(A) {
+    const [[a, b], [c, d]] = A, tr = a + d, det = a * d - b * c, disc = tr * tr / 4 - det;
+    if (disc < -1e-12) { const re = tr / 2, im = Math.sqrt(-disc); return { complex: true, re, im, tr, det }; }
+    const s = Math.sqrt(Math.max(0, disc)), l1 = tr / 2 + s, l2 = tr / 2 - s;
+    const vec = l => { const v = Math.abs(b) > 1e-12 || Math.abs(a - l) > 1e-12 ? [b, l - a] : [l - d, c]; const n = Math.hypot(...v); return n < 1e-12 ? null : [v[0] / n, v[1] / n]; };
+    let v1 = vec(l1), v2 = vec(l2);
+    if (Math.abs(b) < 1e-12 && Math.abs(c) < 1e-12) { v1 = a >= d ? [1, 0] : [0, 1]; v2 = a >= d ? [0, 1] : [1, 0]; if (Math.abs(a - d) < 1e-12) v2 = null; }
+    else if (Math.abs(l1 - l2) < 1e-9) v2 = null;
+    return { complex: false, l1, l2, v1, v2, tr, det };
+  }
+  function wireMatrix(S, onChange) {
+    const ids = [['m00', 0, 0], ['m01', 0, 1], ['m10', 1, 0], ['m11', 1, 1]];
+    const sync = () => { for (const [id, i, j] of ids) $(id).value = String(S.A[i][j]); };
+    for (const [id, i, j] of ids) $(id).addEventListener('change', e => {
+      const x = parseFloat(e.target.value); if (!isNaN(x)) S.A[i][j] = Math.max(-9, Math.min(9, Math.round(x * 1000) / 1000));
+      e.target.value = String(S.A[i][j]); onChange();
+    });
+    return sync;
+  }
+  function makePresets(box, list, isOn, apply) {
+    box.innerHTML = '';
+    list.forEach(p => { const b = document.createElement('button'); b.textContent = p[0]; b.addEventListener('click', () => apply(p)); box.appendChild(b); });
+    return () => box.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-pressed', String(isOn(list[k]))));
+  }
+  function arrowPx(ctx, s, e, color, w, alpha = 1, dash) {
+    const len = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (len < 2) { ctx.globalAlpha = 1; return; }
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(12, len * 0.4);
+    if (dash) ctx.setLineDash(dash);
+    ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.lineTo(e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42));
+    ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+  }
+  function watchTheme(draw) {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    if (document.fonts) document.fonts.ready.then(draw);
+  }
+
+  const S = { t1: 30, t2: 60, l1: 1.5, l2: 1, target: [-1, 1.5], frames: true, anim: 0, steps: [] };
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  let W = 500, dpr = 1, drag = false, hover = false; const R = 3.8;
+  const rad = d => d * Math.PI / 180, deg = r => r * 180 / Math.PI;
+  const wrap = d => ((d + 180) % 360 + 360) % 360 - 180;
+  // homogeneous matrices: rotation by t, then translation along the new x axis by L
+  const link = (t, L) => [[Math.cos(t), -Math.sin(t), L * Math.cos(t)], [Math.sin(t), Math.cos(t), L * Math.sin(t)], [0, 0, 1]];
+  const mm = (A, B) => A.map((r, i) => B[0].map((_, j) => r.reduce((s, v, k) => s + v * B[k][j], 0)));
+  const forward = (t1, t2) => { const T1 = link(rad(t1), S.l1), T2 = link(rad(t2), S.l2), T = mm(T1, T2); return { T1, T2, T, elbow: [T1[0][2], T1[1][2]], hand: [T[0][2], T[1][2]] }; };
+  const P = p => [W / 2 + p[0] * W / (2 * R), W / 2 - p[1] * W / (2 * R)];
+  function resize() {
+    W = Math.min(cv.parentElement.clientWidth, 560); dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr); cv.style.width = W + 'px'; cv.style.height = W + 'px'; draw();
+  }
+  function line(a, b) { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); }
+  function frame(C, T) {
+    const o = [T[0][2], T[1][2]], s = 0.35;
+    arrowPx(ctx, P(o), P([o[0] + s * T[0][0], o[1] + s * T[1][0]]), C.ink, 1.6, 0.55);
+    arrowPx(ctx, P(o), P([o[0] + s * T[0][1], o[1] + s * T[1][1]]), C.ink, 1.6, 0.3);
+  }
+  function draw() {
+    const C = css(), F = forward(S.t1, S.t2);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, W);
+    ctx.lineWidth = 1; ctx.strokeStyle = C.pgrid; for (let k = -3; k <= 3; k++) { line(P([k, -R]), P([k, R])); line(P([-R, k]), P([R, k])); }
+    ctx.strokeStyle = C.muted; ctx.globalAlpha = 0.6; ctx.lineWidth = 1.2; line(P([-R, 0]), P([R, 0])); line(P([0, -R]), P([0, R])); ctx.globalAlpha = 1;
+    // workspace: an annulus between |L1 - L2| and L1 + L2
+    ctx.strokeStyle = C.muted; ctx.setLineDash([2, 4]); ctx.lineWidth = 1.4;
+    [S.l1 + S.l2, Math.abs(S.l1 - S.l2)].forEach(r => { if (r > 0.01) { ctx.beginPath(); ctx.arc(W / 2, W / 2, r * W / (2 * R), 0, 2 * Math.PI); ctx.stroke(); } }); ctx.setLineDash([]);
+    // Newton trail
+    if (S.steps.length > 1) { ctx.fillStyle = C.t; ctx.globalAlpha = 0.5; S.steps.forEach(([a, b]) => { const p = P(forward(a, b).hand); ctx.beginPath(); ctx.arc(p[0], p[1], 3, 0, 2 * Math.PI); ctx.fill(); }); ctx.globalAlpha = 1; }
+    // target
+    const tp = P(S.target); ctx.strokeStyle = C.t; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(tp[0], tp[1], hover || drag ? 11 : 9, 0, 2 * Math.PI); ctx.stroke(); line([tp[0] - 14, tp[1]], [tp[0] + 14, tp[1]]); line([tp[0], tp[1] - 14], [tp[0], tp[1] + 14]);
+    // base
+    const b = P([0, 0]); ctx.fillStyle = C.surface; ctx.strokeStyle = C.ink; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(b[0], b[1]); ctx.lineTo(b[0] - 14, b[1] + 18); ctx.lineTo(b[0] + 14, b[1] + 18); ctx.closePath(); ctx.fill(); ctx.stroke();
+    // links
+    ctx.lineCap = 'round'; ctx.lineWidth = 9; ctx.strokeStyle = C.a; line(P([0, 0]), P(F.elbow)); ctx.strokeStyle = C.b; line(P(F.elbow), P(F.hand)); ctx.lineCap = 'butt';
+    [[0, 0], F.elbow].forEach(p => { const s = P(p); ctx.beginPath(); ctx.arc(s[0], s[1], 6.5, 0, 2 * Math.PI); ctx.fillStyle = C.surface; ctx.fill(); ctx.strokeStyle = C.ink; ctx.lineWidth = 2; ctx.stroke(); });
+    const hp = P(F.hand); ctx.beginPath(); ctx.arc(hp[0], hp[1], 5, 0, 2 * Math.PI); ctx.fillStyle = C.ink; ctx.fill();
+    if (S.frames) { frame(C, [[1, 0, 0], [0, 1, 0], [0, 0, 1]]); frame(C, F.T1); frame(C, F.T); }
+    ctx.fillStyle = C.ink; ctx.font = `600 12px ${C.num}`; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom'; ctx.fillText(`(${fmt(F.hand[0])}, ${fmt(F.hand[1])})`, hp[0] + 9, hp[1] - 6);
+    readout(F);
+  }
+  const tbl = (M, cls) => '<span class="hm"><table>' + M.map((r, i) => '<tr>' + r.map((v, j) => `<td${j === 2 && i < 2 ? ' class="tr"' : ''}>${fmt(v)}</td>`).join('') + '</tr>').join('') + '</table></span>';
+  function readout(F) {
+    $('t1').value = String(Math.round(S.t1)); $('t2').value = String(Math.round(S.t2)); $('l1').value = String(S.l1); $('l2').value = String(S.l2);
+    $('t1v').textContent = Math.round(S.t1) + '°'; $('t2v').textContent = Math.round(S.t2) + '°'; $('l1v').textContent = fmt(S.l1, 1); $('l2v').textContent = fmt(S.l2, 1);
+    $('mats').innerHTML = `<span class="nm">T₁ T₂ =</span>${tbl(F.T1)}${tbl(F.T2)}<span class="nm">=</span>${tbl(F.T)}`;
+    const d = Math.hypot(...S.target), dist = Math.hypot(F.hand[0] - S.target[0], F.hand[1] - S.target[1]);
+    const reach = d <= S.l1 + S.l2 + 1e-9 && d >= Math.abs(S.l1 - S.l2) - 1e-9;
+    const detJ = S.l1 * S.l2 * Math.sin(rad(S.t2));
+    $('status').innerHTML = `The hand is at (${fmt(F.hand[0])}, ${fmt(F.hand[1])}), the last column of T₁T₂. ` +
+      (dist < 1e-3 ? '<b>It is on the target.</b> ' : reach ? `The target is ${fmt(dist)} away and within reach: press the button. ` : '<b>The target is out of reach</b>: Newton’s method will get as close as it can. ') +
+      (Math.abs(detJ) < 0.05 ? 'The arm is (nearly) straight or folded back, where the Jacobian is singular: the hand cannot move along the arm, and Newton steps become unreliable.' : `The Jacobian determinant is L₁L₂ sin θ₂ = ${fmt(detJ)}.`);
+    cv.setAttribute('aria-label', `Two-link arm with joint angles ${Math.round(S.t1)} and ${Math.round(S.t2)} degrees; hand at (${fmt(F.hand[0])}, ${fmt(F.hand[1])}); target at (${fmt(S.target[0])}, ${fmt(S.target[1])}).`);
+  }
+  // One Newton step for f(θ) = hand(θ) − target, with the step limited for smooth motion
+  function newtonStep() {
+    const a = rad(S.t1), b = rad(S.t2), F = forward(S.t1, S.t2), f = [F.hand[0] - S.target[0], F.hand[1] - S.target[1]];
+    const s1 = Math.sin(a), c1 = Math.cos(a), s12 = Math.sin(a + b), c12 = Math.cos(a + b);
+    const J = [[-S.l1 * s1 - S.l2 * s12, -S.l2 * s12], [S.l1 * c1 + S.l2 * c12, S.l2 * c12]], det = J[0][0] * J[1][1] - J[0][1] * J[1][0];
+    let d;
+    if (Math.abs(det) < 1e-3) d = [-(J[0][0] * f[0] + J[1][0] * f[1]) * 0.3, -(J[0][1] * f[0] + J[1][1] * f[1]) * 0.3];   // gradient step at a singular point
+    else d = [-(J[1][1] * f[0] - J[0][1] * f[1]) / det, -(-J[1][0] * f[0] + J[0][0] * f[1]) / det];
+    const n = Math.hypot(...d), cap = 0.6; if (n > cap) d = d.map(v => v * cap / n);
+    S.t1 = wrap(S.t1 + deg(d[0])); S.t2 = wrap(S.t2 + deg(d[1])); S.steps.push([S.t1, S.t2]);
+    return Math.hypot(...f);
+  }
+  function stopAnim() { if (S.anim) clearInterval(S.anim); S.anim = 0; }
+  $('reach').addEventListener('click', () => {
+    stopAnim(); S.steps = [[S.t1, S.t2]]; let k = 0;
+    S.anim = setInterval(() => { const r = newtonStep(); k++; draw(); if (r < 1e-6 || k > 30) stopAnim(); }, 260);
+  });
+  [['t1', 't1'], ['t2', 't2'], ['l1', 'l1'], ['l2', 'l2']].forEach(([id, key]) => $(id).addEventListener('input', e => { stopAnim(); S[key] = +e.target.value; S.steps = []; draw(); }));
+  $('frames').addEventListener('change', e => { S.frames = e.target.checked; draw(); });
+  function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+  const onT = (sx, sy) => { const s = P(S.target); return Math.hypot(s[0] - sx, s[1] - sy) < 18; };
+  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); if (!onT(sx, sy)) return; drag = true; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); });
+  cv.addEventListener('pointermove', e => {
+    const [sx, sy] = pos(e);
+    if (!drag) { const h = onT(sx, sy); if (h !== hover) { hover = h; cv.className = h ? 'grab' : ''; draw(); } return; }
+    S.target = [Math.round(((sx - W / 2) / W * 2 * R) * 10) / 10, Math.round(((W / 2 - sy) / W * 2 * R) * 10) / 10]; S.steps = []; draw();
+  });
+  const end = () => { if (drag) { drag = false; cv.className = hover ? 'grab' : ''; draw(); } };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  cv.addEventListener('keydown', e => {
+    const d = { ArrowLeft: [-0.1, 0], ArrowRight: [0.1, 0], ArrowUp: [0, 0.1], ArrowDown: [0, -0.1] }[e.key];
+    if (!d) return; e.preventDefault(); S.target = [Math.round((S.target[0] + d[0]) * 10) / 10, Math.round((S.target[1] + d[1]) * 10) / 10]; S.steps = []; draw();
+  });
+
+  // Optional start-up settings: ?angles=30,60&lengths=1.5,1&target=-1,1.5
+  const q = new URLSearchParams(location.search);
+  const pair = k => { const x = (q.get(k) || '').split(',').map(Number); return x.length === 2 && x.every(isFinite) ? x : null; };
+  const a = pair('angles'), L = pair('lengths'), t = pair('target');
+  if (a) { S.t1 = wrap(a[0]); S.t2 = wrap(a[1]); }
+  if (L) { S.l1 = Math.max(0.5, Math.min(2, L[0])); S.l2 = Math.max(0.5, Math.min(2, L[1])); }
+  if (t) S.target = t;
+  new ResizeObserver(resize).observe(cv.parentElement); watchTheme(draw);
+  resize();
+})();
+</script>
+</body>
+</html>

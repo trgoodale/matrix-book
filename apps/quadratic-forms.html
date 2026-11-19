@@ -1,0 +1,349 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quadratic Forms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: graph-paper worksheet; the contour map first, then the matrix and its classification */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.mat { position: relative; display: inline-grid; grid-template-columns: 4.2rem 4.2rem; gap: 6px; padding: 6px 14px; }
+.mat::before, .mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.mat::before { left: 0; border-right: 0; } .mat::after { right: 0; border-left: 0; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.mat input { -moz-appearance: textfield; appearance: textfield; }
+.mat input::-webkit-outer-spin-button, .mat input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.matrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.matrow .nm { font: 600 1.05rem var(--font-num); }
+.status b { font-weight: 600; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.sw.c { border-color: var(--tgt); }
+
+.sym { display: grid; grid-template-columns: auto 4.2rem; gap: 6px 10px; align-items: center; font: 600 0.98rem var(--font-num); }
+.sym input { width: 4.2rem; -moz-appearance: textfield; appearance: textfield; }
+.sym input::-webkit-outer-spin-button, .sym input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.qf { font: 600 1.02rem var(--font-num); }
+.sw.p { border-color: var(--res); border-top-width: 8px; opacity: .35; }
+.sw.n { border-color: var(--col); border-top-width: 8px; opacity: .35; }
+.status.pd { border-color: var(--res); }
+.status.ind { border-color: var(--col); border-style: dashed; }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>The shape of <em>x</em>ᵀ<em>Ax</em></h1>
+    <p>For a symmetric matrix A, the quadratic form q(x) = xᵀAx gives a number at every point of the plane. Its contours are ellipses, hyperbolas or straight lines, and their axes are the eigenvectors of A.</p>
+  </header>
+
+  <div class="layout">
+    <section class="panel plane-box" aria-label="Contour map">
+      <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
+      <div class="legend">
+        <span><span class="sw p"></span>q &gt; 0</span>
+        <span><span class="sw n"></span>q &lt; 0</span>
+        <span><span class="sw w"></span>q = 1</span>
+        <span><span class="sw b"></span>q = −1</span>
+        <span><span class="sw t"></span>eigenvectors (principal axes)</span>
+      </div>
+      <p class="hint">Drag the point to read off q at any position. With the picture focused, the arrow keys move it.</p>
+    </section>
+
+    <div class="side">
+      <section class="panel card wide" aria-label="The matrix">
+        <span class="label">The symmetric matrix A</span>
+        <div class="matrow">
+          <span class="nm">A =</span>
+          <div class="mat">
+            <input type="number" id="ia" step="0.5" aria-label="Top-left entry, a">
+            <input type="number" id="ib" step="0.5" aria-label="Off-diagonal entry, b">
+            <input type="number" id="ib2" step="0.5" aria-label="Off-diagonal entry, b (the same, because A is symmetric)">
+            <input type="number" id="ic" step="0.5" aria-label="Bottom-right entry, c">
+          </div>
+        </div>
+        <div class="qf" id="qf"></div>
+        <div class="row" id="presets"></div>
+      </section>
+      <section class="panel card wide" aria-label="Classification">
+        <span class="label">What kind of form is it?</span>
+        <div class="status" id="status" role="status"></div>
+        <div class="status" id="point"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+
+  const $ = id => document.getElementById(id);
+  const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), b: v('--col'), t: v('--tgt'), w: v('--res'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), line: v('--line'), num: v('--font-num') }; };
+  // Eigenvalues and (real) eigenvectors of a 2x2 matrix
+  function eig2(A) {
+    const [[a, b], [c, d]] = A, tr = a + d, det = a * d - b * c, disc = tr * tr / 4 - det;
+    if (disc < -1e-12) { const re = tr / 2, im = Math.sqrt(-disc); return { complex: true, re, im, tr, det }; }
+    const s = Math.sqrt(Math.max(0, disc)), l1 = tr / 2 + s, l2 = tr / 2 - s;
+    const vec = l => { const v = Math.abs(b) > 1e-12 || Math.abs(a - l) > 1e-12 ? [b, l - a] : [l - d, c]; const n = Math.hypot(...v); return n < 1e-12 ? null : [v[0] / n, v[1] / n]; };
+    let v1 = vec(l1), v2 = vec(l2);
+    if (Math.abs(b) < 1e-12 && Math.abs(c) < 1e-12) { v1 = a >= d ? [1, 0] : [0, 1]; v2 = a >= d ? [0, 1] : [1, 0]; if (Math.abs(a - d) < 1e-12) v2 = null; }
+    else if (Math.abs(l1 - l2) < 1e-9) v2 = null;
+    return { complex: false, l1, l2, v1, v2, tr, det };
+  }
+  function wireMatrix(S, onChange) {
+    const ids = [['m00', 0, 0], ['m01', 0, 1], ['m10', 1, 0], ['m11', 1, 1]];
+    const sync = () => { for (const [id, i, j] of ids) $(id).value = String(S.A[i][j]); };
+    for (const [id, i, j] of ids) $(id).addEventListener('change', e => {
+      const x = parseFloat(e.target.value); if (!isNaN(x)) S.A[i][j] = Math.max(-9, Math.min(9, Math.round(x * 1000) / 1000));
+      e.target.value = String(S.A[i][j]); onChange();
+    });
+    return sync;
+  }
+  function makePresets(box, list, isOn, apply) {
+    box.innerHTML = '';
+    list.forEach(p => { const b = document.createElement('button'); b.textContent = p[0]; b.addEventListener('click', () => apply(p)); box.appendChild(b); });
+    return () => box.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-pressed', String(isOn(list[k]))));
+  }
+  function arrowPx(ctx, s, e, color, w, alpha = 1, dash) {
+    const len = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (len < 2) { ctx.globalAlpha = 1; return; }
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(12, len * 0.4);
+    if (dash) ctx.setLineDash(dash);
+    ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.lineTo(e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42));
+    ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+  }
+  function watchTheme(draw) {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    if (document.fonts) document.fonts.ready.then(draw);
+  }
+
+  const PRESETS = [
+    ['Ellipse', [5, 2, 2]],
+    ['Circle', [1, 0, 1]],
+    ['Saddle', [1, 2, 1]],
+    ['Valley', [1, 1, 1]],
+    ['Upside down', [-2, 1, -2]]
+  ];
+  const S = { a: 5, b: 2, c: 2, p: [1, 0.5] };
+  const R = 3;
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  let W = 500, dpr = 1, drag = false, hover = false;
+  const P = p => [W / 2 + p[0] * W / (2 * R), W / 2 - p[1] * W / (2 * R)];
+  const q = (x, y) => S.a * x * x + 2 * S.b * x * y + S.c * y * y;
+  const A = () => [[S.a, S.b], [S.b, S.c]];
+  function resize() {
+    W = Math.min(cv.parentElement.clientWidth, 560); dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr); cv.style.width = W + 'px'; cv.style.height = W + 'px'; draw();
+  }
+  const hex = c => { const m = c.match(/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i); return m ? [1, 2, 3].map(i => parseInt(m[i], 16)) : [128, 128, 128]; };
+  function line(a, b) { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); }
+  // The curve q = level, drawn radially: along direction u the curve is at distance sqrt(level / q(u))
+  function levelCurve(level, color) {
+    ctx.strokeStyle = color; ctx.lineWidth = 2.6;
+    let open = false; ctx.beginPath();
+    for (let k = 0; k <= 720; k++) {
+      const t = k / 720 * 2 * Math.PI, u = [Math.cos(t), Math.sin(t)], qu = q(u[0], u[1]);
+      if (qu * level > 1e-9) { const r = Math.sqrt(level / qu); if (r < R * 1.6) { const s = P([u[0] * r, u[1] * r]); open ? ctx.lineTo(s[0], s[1]) : ctx.moveTo(s[0], s[1]); open = true; continue; } }
+      if (open) { ctx.stroke(); ctx.beginPath(); open = false; }
+    }
+    if (open) ctx.stroke();
+  }
+  function draw() {
+    const C = css();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, W);
+    // filled bands
+    const N = 160, img = ctx.createImageData(N, N), pos = hex(C.w), neg = hex(C.b), bg = hex(C.plane);
+    const big = Math.max(Math.abs(S.a), Math.abs(S.c), Math.abs(S.b), 0.5) * R * R;
+    for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) {
+      const x = -R + (i + 0.5) / N * 2 * R, y = R - (j + 0.5) / N * 2 * R, v = q(x, y);
+      const band = Math.floor(Math.abs(v) / big * 10), t = Math.min(0.55, 0.06 + 0.05 * band) * (band % 2 ? 1 : 0.8);
+      const col = v >= 0 ? pos : neg, k = (j * N + i) * 4;
+      for (let c = 0; c < 3; c++) img.data[k + c] = Math.round(bg[c] * (1 - t) + col[c] * t);
+      img.data[k + 3] = 255;
+    }
+    const off = document.createElement('canvas'); off.width = N; off.height = N; off.getContext('2d').putImageData(img, 0, 0);
+    ctx.imageSmoothingEnabled = true; ctx.drawImage(off, 0, 0, W, W);
+    ctx.lineWidth = 1; ctx.strokeStyle = C.pgrid; ctx.globalAlpha = 0.7;
+    for (let k = -R; k <= R; k++) { line(P([k, -R]), P([k, R])); line(P([-R, k]), P([R, k])); }
+    ctx.globalAlpha = 0.7; ctx.strokeStyle = C.muted; ctx.lineWidth = 1.2; line(P([-R, 0]), P([R, 0])); line(P([0, -R]), P([0, R])); ctx.globalAlpha = 1;
+    levelCurve(1, C.w); levelCurve(-1, C.b);
+    const e = eig2(A());
+    [[e.v1, e.l1], [e.v2, e.l2]].forEach(([v, l], k) => {
+      if (!v) return;
+      ctx.strokeStyle = C.t; ctx.lineWidth = 1.6; ctx.setLineDash([7, 5]); line(P([-v[0] * R * 2, -v[1] * R * 2]), P([v[0] * R * 2, v[1] * R * 2])); ctx.setLineDash([]);
+      const sg = v[0] < -1e-9 || (Math.abs(v[0]) < 1e-9 && v[1] < 0) ? -1 : 1, s = P([v[0] * R * 0.8 * sg, v[1] * R * 0.8 * sg]);
+      ctx.fillStyle = C.t; ctx.font = `600 13px ${C.num}`; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom'; ctx.fillText('λ = ' + fmt(l), s[0] + 8, s[1] - 2);
+    });
+    const s = P(S.p); ctx.beginPath(); ctx.arc(s[0], s[1], hover || drag ? 9 : 6.5, 0, 2 * Math.PI); ctx.fillStyle = C.ink; ctx.fill(); ctx.strokeStyle = C.surface; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = C.ink; ctx.font = `600 13px ${C.num}`; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom'; ctx.fillText('q = ' + fmt(q(...S.p)), s[0] + 10, s[1] - 6);
+  }
+  const sgn = (x, v) => (x < 0 ? ' − ' : ' + ') + (Math.abs(Math.abs(x) - 1) < 1e-9 ? '' : fmt(Math.abs(x))) + v;
+  function readout() {
+    let f = 'q = '; let first = true;
+    for (const [k, v] of [[S.a, 'x²'], [2 * S.b, 'xy'], [S.c, 'y²']]) { if (Math.abs(k) < 1e-12) continue; const t = sgn(k, v); f += first ? t.replace(' + ', '').replace(' − ', '−') : t; first = false; }
+    $('qf').textContent = first ? 'q = 0' : f;
+    const e = eig2(A()), [l1, l2] = [e.l1, e.l2], st = $('status');
+    let cls, msg;
+    if (l2 > 1e-9 && Math.abs(l1 - l2) < 1e-9) { cls = 'pd'; msg = '<b>Positive definite.</b> Both eigenvalues are equal and positive, so q is the same in every direction: the contours are circles, and every vector is an eigenvector.'; }
+    else if (l2 > 1e-9) { cls = 'pd'; msg = '<b>Positive definite.</b> Both eigenvalues are positive, so q &gt; 0 everywhere except at the origin: a bowl with its lowest point at 0. The contours are ellipses, longest along the eigenvector with the smaller eigenvalue.'; }
+    else if (l1 < -1e-9) { cls = 'ind'; msg = '<b>Negative definite.</b> Both eigenvalues are negative, so q &lt; 0 everywhere except at the origin: an upside-down bowl. The contours are ellipses.'; }
+    else if (l1 > 1e-9 && l2 < -1e-9) { cls = 'ind'; msg = '<b>Indefinite.</b> One eigenvalue is positive and one negative, so q is positive in some directions and negative in others: a saddle. The contours are hyperbolas.'; }
+    else if (Math.abs(l1) < 1e-9 && Math.abs(l2) < 1e-9) { cls = ''; msg = '<b>Zero.</b> Every point gives q = 0.'; }
+    else { cls = 'pd'; msg = `<b>${l1 > 0 ? 'Positive' : 'Negative'} semidefinite.</b> One eigenvalue is 0, so q is 0 all along that eigenvector: a valley${l1 > 0 ? '' : ' turned upside down'}. The contours are pairs of parallel lines.`; }
+    st.className = 'status ' + cls;
+    st.innerHTML = `Eigenvalues ${fmt(l1, 3)} and ${fmt(l2, 3)}. ` + msg;
+    const len = Math.hypot(...S.p), u = len ? [S.p[0] / len, S.p[1] / len] : [1, 0];
+    $('point').innerHTML = `At (${fmt(S.p[0])}, ${fmt(S.p[1])}), q = ${fmt(q(...S.p), 3)}. Along this direction, q = ${fmt(q(...u), 3)} × (distance)²` + (len ? '' : '') + `. On the unit circle q is largest, ${fmt(l1, 3)}, along the first eigenvector, and smallest, ${fmt(l2, 3)}, along the second.`;
+    cv.setAttribute('aria-label', $('qf').textContent + '. ' + st.textContent);
+  }
+  function update() { draw(); readout(); mark(); }
+  const sync = () => { $('ia').value = S.a; $('ib').value = S.b; $('ib2').value = S.b; $('ic').value = S.c; };
+  [['ia', 'a'], ['ib', 'b'], ['ib2', 'b'], ['ic', 'c']].forEach(([id, k]) => $(id).addEventListener('change', e => { const x = parseFloat(e.target.value); if (!isNaN(x)) S[k] = Math.max(-9, Math.min(9, Math.round(x * 100) / 100)); sync(); update(); }));
+  const mark = makePresets($('presets'), PRESETS, p => p[1][0] === S.a && p[1][1] === S.b && p[1][2] === S.c, p => { [S.a, S.b, S.c] = p[1]; sync(); update(); });
+
+  function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+  const toW = (sx, sy) => [Math.max(-R, Math.min(R, Math.round((sx - W / 2) / W * 2 * R * 10) / 10)), Math.max(-R, Math.min(R, Math.round((W / 2 - sy) / W * 2 * R * 10) / 10))];
+  const onP = (sx, sy) => { const s = P(S.p); return Math.hypot(s[0] - sx, s[1] - sy) < 16; };
+  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); drag = true; S.p = toW(sx, sy); cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); draw(); readout(); });
+  cv.addEventListener('pointermove', e => {
+    const [sx, sy] = pos(e);
+    if (!drag) { const h = onP(sx, sy); if (h !== hover) { hover = h; cv.className = h ? 'grab' : ''; draw(); } return; }
+    S.p = toW(sx, sy); draw(); readout();
+  });
+  const end = () => { if (drag) { drag = false; cv.className = hover ? 'grab' : ''; draw(); } };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  cv.addEventListener('keydown', e => {
+    const d = { ArrowLeft: [-0.1, 0], ArrowRight: [0.1, 0], ArrowUp: [0, 0.1], ArrowDown: [0, -0.1] }[e.key];
+    if (!d) return; e.preventDefault(); S.p = [Math.max(-R, Math.min(R, Math.round((S.p[0] + d[0]) * 10) / 10)), Math.max(-R, Math.min(R, Math.round((S.p[1] + d[1]) * 10) / 10))]; draw(); readout();
+  });
+
+  // Optional start-up settings: ?m=5,2,2 for a, b, c, or ?preset=Saddle
+  const qs = new URLSearchParams(location.search);
+  const pr = PRESETS.find(p => p[0] === qs.get('preset')); if (pr) [S.a, S.b, S.c] = pr[1];
+  if (qs.get('m')) { const x = qs.get('m').split(',').map(Number); if (x.length === 3 && x.every(isFinite)) [S.a, S.b, S.c] = x; }
+  sync();
+  new ResizeObserver(resize).observe(cv.parentElement); watchTheme(draw);
+  resize(); update();
+})();
+</script>
+</body>
+</html>
