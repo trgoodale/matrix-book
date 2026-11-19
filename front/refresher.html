@@ -1,0 +1,2303 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Refresher – Matrices in Practice</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../part-1/01-matrices.html" rel="next">
+<link href="../front/conventions.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-a4502c8cbc339fc51dc0f3ab78f51ea6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-ae6c1fbcc07bf00db2a7efa1353188f4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+
+<script>
+
+/*
+
+  Notation settings for the book.
+
+  All mathematics is written with the macros below, never with hard-coded notation:
+
+    \vect{v}   a vector            \M{A}      a matrix
+
+    \ui \uj \uk  standard unit vectors in 2D/3D   \ue{n}  general basis vector e_n
+
+    \mat{..}   a matrix in brackets (rows split by \\, entries by &)
+
+    \amat{ccc|c}{..}  an augmented matrix   \T  transpose   \R  real numbers
+
+  The reader's choices are stored in localStorage under "mb-settings" and read
+
+  here, before MathJax loads, so every page is typeset in their notation.
+
+*/
+
+(function () {
+
+  var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python" };
+
+  var s = {};
+
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) { s = {}; }
+
+  for (var k in DEFAULTS) if (!(k in s)) s[k] = DEFAULTS[k];
+
+  window.mbSettings = s;
+
+  window.mbDefaults = DEFAULTS;
+
+
+
+  var vec = { bold: "\\mathbf{#1}", arrow: "\\vec{#1}", underline: "\\underline{#1}" }[s.vec] || "\\mathbf{#1}";
+
+  var unit = function (letter, dotless, idx) {
+
+    if (s.basis === "e") return vec.replace("#1", "e") + "_{" + idx + "}";
+
+    if (s.basis === "hat") return "\\hat{" + dotless + "}";
+
+    return vec.replace("#1", letter);
+
+  };
+
+  var open = s.br === "square" ? "[" : "(";
+
+  var close = s.br === "square" ? "]" : ")";
+
+  var env = s.br === "square" ? "bmatrix" : "pmatrix";
+
+
+
+  window.MathJax = {
+
+    tex: {
+
+      macros: {
+
+        vect: [vec, 1],
+
+        M: [s.mat === "italic" ? "#1" : "\\mathbf{#1}", 1],
+
+        ui: unit("i", "\\imath", 1),
+
+        uj: unit("j", "\\jmath", 2),
+
+        uk: unit("k", "k", 3),
+
+        ue: [vec.replace("#1", "e") + "_{#1}", 1],
+
+        mat: ["\\begin{" + env + "}#1\\end{" + env + "}", 1],
+
+        amat: ["\\left" + open + "\\begin{array}{#1}#2\\end{array}\\right" + close, 2],
+
+        T: s.tr === "top" ? "^{\\top}" : "^{\\mathsf{T}}",
+
+        R: "\\mathbb{R}",
+
+        zerovec: vec.replace("#1", "0")
+
+      }
+
+    },
+
+    // MathJax 4: break long equations across lines to fit narrow screens
+
+    output: { displayOverflow: "linebreak", linebreaks: { inline: true, width: "100%", lineleading: 0.6 } },
+
+    chtml: { scale: 1.0 }
+
+  };
+
+
+
+  // Default language for code tabs: Quarto reads this when the page is shown.
+
+  try {
+
+    var key = "quarto-persistent-tabsets-data";
+
+    var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+
+    if (!tabs.language) { tabs.language = s.code; localStorage.setItem(key, JSON.stringify(tabs)); }
+
+  } catch (e) {}
+
+
+
+  // ---------- settings panel ----------
+
+  var GROUPS = [
+
+    { key: "vec", label: "Vectors", opts: [["bold", "Bold", "\\mathbf{v}"], ["arrow", "Arrow", "\\vec{v}"], ["underline", "Underlined", "\\underline{v}"]] },
+
+    { key: "mat", label: "Matrices", opts: [["bold", "Bold", "\\mathbf{A}"], ["italic", "Italic", "A"]] },
+
+    { key: "basis", label: "Unit vectors", opts: [["ijk", "i, j, k", "\\mathbf{i},\\ \\mathbf{j},\\ \\mathbf{k}"], ["hat", "Hats", "\\hat{\\imath},\\ \\hat{\\jmath},\\ \\hat{k}"], ["e", "e₁, e₂, e₃", "\\mathbf{e}_1,\\ \\mathbf{e}_2,\\ \\mathbf{e}_3"]] },
+
+    { key: "br", label: "Brackets", opts: [["round", "Round", "\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}"], ["square", "Square", "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}"]] },
+
+    { key: "tr", label: "Transpose", opts: [["T", "Letter T", "\\mathbf{A}^{\\mathsf{T}}"], ["top", "Symbol ⊤", "\\mathbf{A}^{\\top}"]] },
+
+    { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] }
+
+  ];
+
+
+
+  function buildForm(prefix) {
+
+    var form = document.createElement("form");
+
+    form.className = "mb-settings-form";
+
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+
+    GROUPS.forEach(function (g) {
+
+      var fs = document.createElement("fieldset");
+
+      var lg = document.createElement("legend");
+
+      lg.textContent = g.label;
+
+      fs.appendChild(lg);
+
+      g.opts.forEach(function (o) {
+
+        var id = prefix + "-" + g.key + "-" + o[0];
+
+        var lab = document.createElement("label");
+
+        lab.className = "mb-opt";
+
+        lab.htmlFor = id;
+
+        var inp = document.createElement("input");
+
+        inp.type = "radio"; inp.name = prefix + "-" + g.key; inp.id = id; inp.value = o[0];
+
+        inp.checked = s[g.key] === o[0];
+
+        lab.appendChild(inp);
+
+        var txt = document.createElement("span");
+
+        txt.className = "mb-opt-name";
+
+        txt.textContent = o[1];
+
+        lab.appendChild(txt);
+
+        if (o[2]) {
+
+          var ex = document.createElement("span");
+
+          ex.className = "mb-opt-example";
+
+          ex.textContent = "\\(" + o[2] + "\\)";
+
+          lab.appendChild(ex);
+
+        }
+
+        fs.appendChild(lab);
+
+      });
+
+      form.appendChild(fs);
+
+    });
+
+    var row = document.createElement("div");
+
+    row.className = "mb-settings-actions";
+
+    var apply = document.createElement("button");
+
+    apply.type = "button"; apply.className = "btn btn-primary"; apply.textContent = "Apply";
+
+    var reset = document.createElement("button");
+
+    reset.type = "button"; reset.className = "btn btn-outline-secondary"; reset.textContent = "Restore defaults";
+
+    var note = document.createElement("span");
+
+    note.className = "mb-settings-note";
+
+    note.textContent = "Saved in this browser and used on every page.";
+
+    row.appendChild(apply); row.appendChild(reset); row.appendChild(note);
+
+    form.appendChild(row);
+
+
+
+    apply.addEventListener("click", function () {
+
+      var next = {};
+
+      GROUPS.forEach(function (g) {
+
+        var c = form.querySelector('input[name="' + prefix + "-" + g.key + '"]:checked');
+
+        next[g.key] = c ? c.value : DEFAULTS[g.key];
+
+      });
+
+      save(next);
+
+    });
+
+    reset.addEventListener("click", function () { save(Object.assign({}, DEFAULTS)); });
+
+    return form;
+
+  }
+
+
+
+  function save(next) {
+
+    try {
+
+      localStorage.setItem("mb-settings", JSON.stringify(next));
+
+      var key = "quarto-persistent-tabsets-data";
+
+      var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+
+      tabs.language = next.code;
+
+      localStorage.setItem(key, JSON.stringify(tabs));
+
+      sessionStorage.setItem("mb-scroll", String(window.scrollY));
+
+    } catch (e) {}
+
+    location.reload();
+
+  }
+
+
+
+  function typeset(el) {
+
+    var M = window.MathJax;
+
+    if (!M || !M.startup || !M.startup.promise) return;
+
+    M.startup.promise.then(function () { return M.typesetPromise([el]); }).catch(function () {});
+
+  }
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    try {
+
+      var y = sessionStorage.getItem("mb-scroll");
+
+      if (y !== null) { sessionStorage.removeItem("mb-scroll"); window.addEventListener("load", function () { window.scrollTo(0, +y); }); }
+
+    } catch (e) {}
+
+
+
+    // Inline panel (on the conventions page)
+
+    var inline = document.getElementById("mb-settings-inline");
+
+    if (inline) { inline.appendChild(buildForm("inline")); typeset(inline); }
+
+
+
+    // Floating button and dialog on every page
+
+    var btn = document.createElement("button");
+
+    btn.type = "button";
+
+    btn.className = "mb-settings-button";
+
+    btn.setAttribute("aria-haspopup", "dialog");
+
+    btn.innerHTML = '<span aria-hidden="true">⚙</span> Notation';
+
+    var dlg = document.createElement("dialog");
+
+    dlg.className = "mb-settings-dialog";
+
+    dlg.setAttribute("aria-labelledby", "mb-dlg-title");
+
+    dlg.innerHTML = '<div class="mb-dlg-head"><h2 id="mb-dlg-title">Notation and code</h2>' +
+
+      '<button type="button" class="btn-close" aria-label="Close"></button></div>' +
+
+      '<p class="mb-dlg-intro">Choose the notation you are used to. Every page of the book, and the apps, will use it. ' +
+
+      'See <a class="mb-conv-link">Notation and conventions</a> for what each option means.</p>';
+
+    dlg.appendChild(buildForm("dlg"));
+
+    document.body.appendChild(btn);
+
+    document.body.appendChild(dlg);
+
+    var conv = dlg.querySelector(".mb-conv-link");
+
+    var sideLink = document.querySelector('a[href$="conventions.html"]');
+
+    conv.href = sideLink ? sideLink.getAttribute("href") : "conventions.html";
+
+    btn.addEventListener("click", function () { dlg.showModal(); typeset(dlg); });
+
+    dlg.querySelector(".btn-close").addEventListener("click", function () { dlg.close(); });
+
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+
+
+    // Size embedded apps to their content (same origin)
+
+    document.querySelectorAll("iframe.app-frame").forEach(function (f) {
+
+      function fit() {
+
+        try { var d = f.contentDocument; if (d && d.documentElement) f.style.height = d.documentElement.scrollHeight + "px"; } catch (e) {}
+
+      }
+
+      f.addEventListener("load", function () {
+
+        fit();
+
+        try { new ResizeObserver(fit).observe(f.contentDocument.body); } catch (e) {}
+
+      });
+
+    });
+
+  });
+
+})();
+
+</script>
+
+<script>
+
+/* Accessibility fixes for markup that Quarto generates. */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // Collapsible callouts ("Check your understanding"): make the header a real,
+
+  // keyboard-operable button that announces whether the answer is shown.
+
+  document.querySelectorAll(".callout-header[data-bs-toggle='collapse']").forEach(function (h) {
+
+    var target = document.querySelector(h.getAttribute("data-bs-target"));
+
+    h.setAttribute("role", "button");
+
+    h.setAttribute("tabindex", "0");
+
+    if (target) {
+
+      if (!target.id) target.id = "mb-" + Math.random().toString(36).slice(2, 9);
+
+      h.setAttribute("aria-controls", target.id);
+
+    }
+
+    h.addEventListener("keydown", function (e) {
+
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); h.click(); }
+
+    });
+
+  });
+
+  // Sidebar: label the landmark, and stop section toggles posing as landmarks.
+
+  var side = document.getElementById("quarto-sidebar");
+
+  if (side) side.setAttribute("aria-label", "Book contents");
+
+  document.querySelectorAll("#quarto-sidebar [data-bs-toggle='collapse'][role='navigation']").forEach(function (a) {
+
+    a.setAttribute("role", "button");
+
+  });
+
+  var toc = document.querySelector("nav#TOC");
+
+  if (toc && !toc.getAttribute("aria-label")) toc.setAttribute("aria-label", "On this page");
+
+  // Code output that scrolls sideways must be reachable from the keyboard.
+
+  function markScrollers() {
+
+    var n = 0;
+
+    document.querySelectorAll(".cell-output pre, pre.code-output, div.code-output pre").forEach(function (p) {
+
+      if (p.scrollWidth > p.clientWidth + 1) {
+
+        n += 1;
+
+        p.setAttribute("tabindex", "0");
+
+        p.setAttribute("role", "region");
+
+        p.setAttribute("aria-label", "Code output " + n + " (scrolls sideways)");
+
+      } else if (p.getAttribute("role") === "region") {
+
+        p.removeAttribute("tabindex"); p.removeAttribute("role"); p.removeAttribute("aria-label");
+
+      }
+
+    });
+
+  }
+
+  markScrollers();
+
+  window.addEventListener("resize", markScrollers);
+
+  document.addEventListener("shown.bs.tab", markScrollers);
+
+});
+
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../front/refresher.html">Refresher</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Matrices in Practice</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/trgoodale/matrix-book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/how-to-use.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to use this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/conventions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notation and conventions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/refresher.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Refresher</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Matrices and transformations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/01-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is a matrix?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/02-arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Adding and scaling matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/03-multiplication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix multiplication</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/04-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrices as transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/05-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Composing transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/06-determinants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Determinants</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/07-inverses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Inverse matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/08-transformations-3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Transformations in three dimensions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/09-invariant-lines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Invariant points and lines</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part I review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Linear systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/10-linear-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Systems of linear equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/11-gaussian-elimination.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Gaussian elimination</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/12-gauss-jordan-rank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Gauss–Jordan elimination and rank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/13-lu-decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LU decomposition</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part II review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part III: Vector spaces</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/14-span-independence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Span and linear independence</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/15-basis-change.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Basis, dimension and change of basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/16-fundamental-subspaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Column space, null space and rank–nullity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/17-orthogonality-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Orthogonality and least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part IV: Eigenvalues and matrix calculus</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/18-eigenvalues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Eigenvalues and eigenvectors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/19-diagonalisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Diagonalisation and matrix powers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/20-symmetric-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Symmetric and positive definite matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/21-svd-pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">The singular value decomposition and PCA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/22-matrix-calculus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Derivatives with vectors and matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/23-linear-odes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear ODE systems and the matrix exponential</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part V: Numerical methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/24-floating-point-conditioning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Floating point and conditioning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/25-pivoting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Pivoting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/26-cost-sparse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Cost, banded and sparse systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/27-iterative-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Iterative methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/28-newton-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Newton’s method for nonlinear systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/29-eigenvalue-algorithms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Eigenvalue algorithms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/30-qr-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">QR factorisation and stable least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part V review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part VI: Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/31-trusses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Structures: pin-jointed trusses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/32-circuits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Electrical circuits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/33-finite-differences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Heat flow and finite differences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/34-graphics-robotics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Computer graphics and robotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/35-markov-pagerank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Markov chains and PageRank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/36-population-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Population models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/37-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Data: regression and dimensionality reduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/38-physics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Physics: rotations, inertia and quantum states</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/39-cryptography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Cryptography: the Hill cipher</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part VI review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/apps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Interactive apps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Reference: matrices and their rules</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/matrix-calculus-identities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Matrix calculus identities</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Solutions: Part I</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions: Part II</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Solutions: Part III</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Solutions: Part IV</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Solutions: Part V</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Solutions: Part VI</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#angles-and-trigonometry" id="toc-angles-and-trigonometry" class="nav-link active" data-scroll-target="#angles-and-trigonometry">Angles and trigonometry</a>
+  <ul class="collapse">
+  <li><a href="#degrees-and-radians" id="toc-degrees-and-radians" class="nav-link" data-scroll-target="#degrees-and-radians">Degrees and radians</a></li>
+  <li><a href="#sine-and-cosine" id="toc-sine-and-cosine" class="nav-link" data-scroll-target="#sine-and-cosine">Sine and cosine</a></li>
+  <li><a href="#identities-you-will-need" id="toc-identities-you-will-need" class="nav-link" data-scroll-target="#identities-you-will-need">Identities you will need</a></li>
+  </ul></li>
+  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors">Vectors</a>
+  <ul class="collapse">
+  <li><a href="#unit-vectors-along-the-axes" id="toc-unit-vectors-along-the-axes" class="nav-link" data-scroll-target="#unit-vectors-along-the-axes">Unit vectors along the axes</a></li>
+  <li><a href="#length" id="toc-length" class="nav-link" data-scroll-target="#length">Length</a></li>
+  <li><a href="#length-and-direction" id="toc-length-and-direction" class="nav-link" data-scroll-target="#length-and-direction">Length and direction</a></li>
+  <li><a href="#adding-and-scaling" id="toc-adding-and-scaling" class="nav-link" data-scroll-target="#adding-and-scaling">Adding and scaling</a></li>
+  <li><a href="#the-dot-product" id="toc-the-dot-product" class="nav-link" data-scroll-target="#the-dot-product">The dot product</a></li>
+  <li><a href="#the-cross-product" id="toc-the-cross-product" class="nav-link" data-scroll-target="#the-cross-product">The cross product</a></li>
+  </ul></li>
+  <li><a href="#sigma-notation" id="toc-sigma-notation" class="nav-link" data-scroll-target="#sigma-notation">Sigma notation</a></li>
+  <li><a href="#simultaneous-equations" id="toc-simultaneous-equations" class="nav-link" data-scroll-target="#simultaneous-equations">Simultaneous equations</a>
+  <ul class="collapse">
+  <li><a href="#when-there-is-no-single-answer" id="toc-when-there-is-no-single-answer" class="nav-link" data-scroll-target="#when-there-is-no-single-answer">When there is no single answer</a></li>
+  </ul></li>
+  <li><a href="#complex-numbers" id="toc-complex-numbers" class="nav-link" data-scroll-target="#complex-numbers">Complex numbers</a></li>
+  <li><a href="#sec-code-primer" id="toc-sec-code-primer" class="nav-link" data-scroll-target="#sec-code-primer">Getting started with the code</a>
+  <ul class="collapse">
+  <li><a href="#setting-up" id="toc-setting-up" class="nav-link" data-scroll-target="#setting-up">Setting up</a></li>
+  <li><a href="#the-basics-side-by-side" id="toc-the-basics-side-by-side" class="nav-link" data-scroll-target="#the-basics-side-by-side">The basics, side by side</a></li>
+  <li><a href="#a-first-example" id="toc-a-first-example" class="nav-link" data-scroll-target="#a-first-example">A first example</a></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions">Functions</a></li>
+  <li><a href="#when-things-go-wrong" id="toc-when-things-go-wrong" class="nav-link" data-scroll-target="#when-things-go-wrong">When things go wrong</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/front/refresher.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-refresher" class="quarto-section-identifier">Refresher</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This chapter collects the background that the rest of the book assumes. You don’t need to read it straight through. Skim the headings, try the quick questions, and read properly any section where the questions give you trouble. Each section says where in the book the ideas are first used.</p>
+<section id="angles-and-trigonometry" class="level2">
+<h2 class="anchored" data-anchor-id="angles-and-trigonometry">Angles and trigonometry</h2>
+<p><em>First used in <a href="../part-1/04-transformations.html" class="quarto-xref"><span>4&nbsp; Matrices as transformations</span></a>, and in the vectors section below.</em></p>
+<section id="degrees-and-radians" class="level3">
+<h3 class="anchored" data-anchor-id="degrees-and-radians">Degrees and radians</h3>
+<p>Angles are measured in degrees or in <strong>radians</strong>, where a full turn is <span class="math inline">\(360° = 2\pi\)</span> radians. So <span class="math inline">\(180° = \pi\)</span>, <span class="math inline">\(90° = \pi/2\)</span> and <span class="math inline">\(1 \text{ radian} \approx 57.3°\)</span>. Mathematics and programming languages use radians by default: in Python, <code>np.sin(np.pi / 2)</code> is 1, but <code>np.sin(90)</code> is the sine of 90 <em>radians</em>. MATLAB has <code>sind</code> and <code>cosd</code> for degrees.</p>
+</section>
+<section id="sine-and-cosine" class="level3">
+<h3 class="anchored" data-anchor-id="sine-and-cosine">Sine and cosine</h3>
+<p>Measure an angle <span class="math inline">\(\theta\)</span> anticlockwise from the positive <span class="math inline">\(x\)</span>-axis. The point at that angle on the circle of radius 1 about the origin is <span class="math inline">\((\cos\theta, \sin\theta)\)</span>. This is the picture behind every rotation matrix in the book.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">\(\theta\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(0°\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(30°\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(45°\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(60°\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(90°\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">radians</td>
+<td style="text-align: center;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\pi/6\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\pi/4\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\pi/3\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\pi/2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\cos\theta\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sqrt{3}/2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1/\sqrt{2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1/2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\sin\theta\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1/2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1/\sqrt{2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sqrt{3}/2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="identities-you-will-need" class="level3">
+<h3 class="anchored" data-anchor-id="identities-you-will-need">Identities you will need</h3>
+<p><span class="math display">\[
+\cos^2\theta + \sin^2\theta = 1
+\]</span> (Pythagoras on the unit circle), and <span class="math display">\[
+\cos(-\theta) = \cos\theta,
+\]</span> <span class="math display">\[
+\sin(-\theta) = -\sin\theta.
+\]</span> The angle addition formulas, <span class="math display">\[
+\cos(\alpha + \beta) = \cos\alpha\cos\beta - \sin\alpha\sin\beta,
+\]</span> <span class="math display">\[
+\sin(\alpha + \beta) = \sin\alpha\cos\beta + \cos\alpha\sin\beta,
+\]</span> are derived from matrices in <a href="../part-1/05-composition.html" class="quarto-xref"><span>5&nbsp; Composing transformations</span></a>, so you don’t need to remember them.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Quick check: what are the coordinates of the point at <span class="math inline">\(120°\)</span> on the unit circle?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\((\cos 120°, \sin 120°) = (-\tfrac{1}{2}, \tfrac{\sqrt{3}}{2})\)</span>: it is the reflection of the <span class="math inline">\(60°\)</span> point in the <span class="math inline">\(y\)</span>-axis.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="vectors" class="level2">
+<h2 class="anchored" data-anchor-id="vectors">Vectors</h2>
+<p><em>First used in <a href="../part-1/01-matrices.html" class="quarto-xref"><span>1&nbsp; What is a matrix?</span></a>.</em></p>
+<p>A <strong>vector</strong> is a quantity with both a size and a direction, such as a velocity or a force. It can be drawn as an arrow, and described by a list of numbers called its <strong>components</strong>: how far the arrow goes along each axis. In two dimensions, <span class="math display">\[
+\vect{v} = \mat{3 \\ 4}
+\]</span> is the arrow from the origin to the point <span class="math inline">\((3, 4)\)</span>: 3 units along the <span class="math inline">\(x\)</span>-axis and 4 up the <span class="math inline">\(y\)</span>-axis. In three dimensions there is a third component, for the <span class="math inline">\(z\)</span>-axis.</p>
+<p>This book writes vectors as columns, as above. (Later chapters sometimes write a column on one line to save space, as <span class="math inline">\((3, 4)\T\)</span>; the small <span class="math inline">\(\mathsf{T}\)</span> is explained in <a href="../part-1/01-matrices.html" class="quarto-xref"><span>1&nbsp; What is a matrix?</span></a>.)</p>
+<section id="unit-vectors-along-the-axes" class="level3">
+<h3 class="anchored" data-anchor-id="unit-vectors-along-the-axes">Unit vectors along the axes</h3>
+<p>The vectors of length 1 pointing along the axes are <span class="math display">\[
+\ui = \mat{1 \\ 0},
+\]</span> <span class="math display">\[
+\uj = \mat{0 \\ 1}
+\]</span> in two dimensions, and <span class="math display">\[
+\ui = \mat{1 \\ 0 \\ 0},
+\]</span> <span class="math display">\[
+\uj = \mat{0 \\ 1 \\ 0},
+\]</span> <span class="math display">\[
+\uk = \mat{0 \\ 0 \\ 1}
+\]</span> in three. Any vector can be built from them by taking the right amount of each: <span class="math display">\[
+\mat{3 \\ 4} = 3\ui + 4\uj.
+\]</span></p>
+<p>(If you are used to a different notation for these, such as <span class="math inline">\(\hat{\imath}\)</span> or <span class="math inline">\(\mathbf{e}_1\)</span>, choose it with the <strong>Notation</strong> button.)</p>
+</section>
+<section id="length" class="level3">
+<h3 class="anchored" data-anchor-id="length">Length</h3>
+<p>By Pythagoras’ theorem, the length (or <strong>magnitude</strong>) of <span class="math inline">\(\vect{v} = (v_1, v_2)\T\)</span> is <span class="math display">\[
+\lVert \vect{v} \rVert = \sqrt{v_1^2 + v_2^2},
+\]</span> and in three dimensions <span class="math inline">\(\lVert \vect{v} \rVert = \sqrt{v_1^2 + v_2^2 + v_3^2}\)</span>. For example, the vector with components 3 and 4 has length <span class="math inline">\(\sqrt{9 + 16} = 5\)</span>.</p>
+</section>
+<section id="length-and-direction" class="level3">
+<h3 class="anchored" data-anchor-id="length-and-direction">Length and direction</h3>
+<p>Instead of giving its components, you can describe a vector in two dimensions by its length <span class="math inline">\(r\)</span> and the angle <span class="math inline">\(\theta\)</span> it makes with the positive <span class="math inline">\(x\)</span>-axis. The components and the length form a right-angled triangle, so <span class="math display">\[
+x = r\cos\theta,
+\]</span> <span class="math display">\[
+y = r\sin\theta,
+\]</span> <span class="math display">\[
+r = \sqrt{x^2 + y^2}.
+\]</span></p>
+<p>Try it below. Drag the tip of the vector, or change its length and angle with the sliders, and watch its components change. The faint arrows at the origin are the unit vectors <span class="math inline">\(\ui\)</span> and <span class="math inline">\(\uj\)</span>, and the vector is built from them tip to tail.</p>
+<div class="app-embed">
+<iframe class="app-frame" src="../apps/vector-explorer.html?embed=1&amp;mode=components&amp;lock" title="Vector components and length" loading="lazy">
+</iframe>
+<p><a href="../apps/vector-explorer.html?mode=components" class="app-open" target="_blank">Open the vector explorer in its own tab</a></p>
+</div>
+<p>Things to try:</p>
+<ul>
+<li>Keep the length fixed and turn the vector all the way round. When is each component positive, negative or zero?</li>
+<li>Set the angle to <span class="math inline">\(90°\)</span>. Which component is zero, and why?</li>
+<li>Find a vector with length 5 and whole-number components. (There are several.)</li>
+</ul>
+</section>
+<section id="adding-and-scaling" class="level3">
+<h3 class="anchored" data-anchor-id="adding-and-scaling">Adding and scaling</h3>
+<p>Vectors are added component by component, which on a diagram means placing them tip to tail. Multiplying a vector by a number scales its length, and reverses its direction if the number is negative. <a href="../part-1/02-arithmetic.html" class="quarto-xref"><span>2&nbsp; Adding and scaling matrices</span></a> covers this in detail, with an interactive app.</p>
+</section>
+<section id="the-dot-product" class="level3">
+<h3 class="anchored" data-anchor-id="the-dot-product">The dot product</h3>
+<p>The <strong>dot product</strong> of two vectors multiplies matching components and adds: <span class="math display">\[
+\vect{a} \cdot \vect{b} = a_1 b_1 + a_2 b_2 + a_3 b_3.
+\]</span> For example, <span class="math display">\[
+\mat{1 \\ 2 \\ 3} \cdot \mat{4 \\ -5 \\ 6} = 1 \times 4 + 2 \times (-5) + 3 \times 6 = 12.
+\]</span></p>
+<p>The dot product measures how much two vectors point the same way. If <span class="math inline">\(\theta\)</span> is the angle between them, <span class="math display">\[
+\vect{a} \cdot \vect{b} = \lVert \vect{a} \rVert \, \lVert \vect{b} \rVert \cos\theta.
+\]</span> Geometrically, <span class="math inline">\(\lVert \vect{b} \rVert \cos\theta\)</span> is how far <span class="math inline">\(\vect{b}\)</span> reaches along the direction of <span class="math inline">\(\vect{a}\)</span>: the length of its shadow on the line of <span class="math inline">\(\vect{a}\)</span>. So the dot product is positive when the angle is less than <span class="math inline">\(90°\)</span>, negative when it is more, and <strong>zero exactly when the vectors are at right angles</strong> (perpendicular).</p>
+<p>Drag the two vectors below and compare the two ways of working out the dot product.</p>
+<div class="app-embed">
+<iframe class="app-frame" src="../apps/vector-explorer.html?embed=1&amp;mode=dot&amp;lock" title="Dot product explorer" loading="lazy">
+</iframe>
+<p><a href="../apps/vector-explorer.html?mode=dot" class="app-open" target="_blank">Open the vector explorer in its own tab</a></p>
+</div>
+</section>
+<section id="the-cross-product" class="level3">
+<h3 class="anchored" data-anchor-id="the-cross-product">The cross product</h3>
+<p>In three dimensions only, the <strong>cross product</strong> <span class="math inline">\(\vect{a} \times \vect{b}\)</span> is a vector at right angles to both <span class="math inline">\(\vect{a}\)</span> and <span class="math inline">\(\vect{b}\)</span>: <span class="math display">\[
+\vect{a} \times \vect{b} = \mat{a_2 b_3 - a_3 b_2 \\ a_3 b_1 - a_1 b_3 \\ a_1 b_2 - a_2 b_1}.
+\]</span> Its length is the area of the parallelogram with sides <span class="math inline">\(\vect{a}\)</span> and <span class="math inline">\(\vect{b}\)</span>. That parallelogram has base <span class="math inline">\(\lVert \vect{a} \rVert\)</span> and height <span class="math inline">\(\lVert \vect{b} \rVert \sin\theta\)</span>, so <span class="math display">\[
+\lVert \vect{a} \times \vect{b} \rVert = \lVert \vect{a} \rVert \, \lVert \vect{b} \rVert \sin\theta.
+\]</span> The cross product is largest when the vectors are at right angles, and zero when they point along the same line. Compare the dot product, which has <span class="math inline">\(\cos\theta\)</span> instead.</p>
+<p>Its direction follows the <strong>right-hand rule</strong>: point the fingers of your right hand along <span class="math inline">\(\vect{a}\)</span> and curl them towards <span class="math inline">\(\vect{b}\)</span>, and your thumb points along <span class="math inline">\(\vect{a} \times \vect{b}\)</span>. For example, <span class="math inline">\(\ui \times \uj = \uk\)</span>.</p>
+<p>In the app below, both vectors lie flat in the screen, so their cross product points straight out of the screen or into it, and only its third component is non-zero.</p>
+<div class="app-embed">
+<iframe class="app-frame" src="../apps/vector-explorer.html?embed=1&amp;mode=cross&amp;lock" title="Cross product explorer" loading="lazy">
+</iframe>
+<p><a href="../apps/vector-explorer.html?mode=cross" class="app-open" target="_blank">Open the vector explorer in its own tab</a></p>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Quick check: find the length of the vector with components 1, 2, 2, and decide whether the vectors with components <span class="math inline">\((2, 1)\)</span> and <span class="math inline">\((-1, 2)\)</span> are perpendicular.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\sqrt{1 + 4 + 4} = 3\)</span>. The dot product is <span class="math inline">\(-2 + 2 = 0\)</span>, so yes, they are perpendicular.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="sigma-notation" class="level2">
+<h2 class="anchored" data-anchor-id="sigma-notation">Sigma notation</h2>
+<p><em>First used in <a href="../part-1/03-multiplication.html" class="quarto-xref"><span>3&nbsp; Matrix multiplication</span></a>.</em></p>
+<p>The Greek capital sigma, <span class="math inline">\(\Sigma\)</span>, means “add up”. The expression <span class="math display">\[
+\sum_{k=1}^{4} k^2 = 1^2 + 2^2 + 3^2 + 4^2 = 30
+\]</span> says: let <span class="math inline">\(k\)</span> run through <span class="math inline">\(1, 2, 3, 4\)</span>, work out <span class="math inline">\(k^2\)</span> each time, and add the results. The letter <span class="math inline">\(k\)</span> is just a counter, and any other letter would do.</p>
+<p>The most important use in this book is adding up products of matching entries. With <span class="math inline">\(a_1, a_2, a_3 = 1, 2, 3\)</span> and <span class="math inline">\(b_1, b_2, b_3 = 4, 5, 6\)</span>, <span class="math display">\[
+\sum_{k=1}^{3} a_k b_k = a_1 b_1 + a_2 b_2 + a_3 b_3 = 4 + 10 + 18 = 32,
+\]</span> which is the dot product.</p>
+<p>Two sums can be nested, and the order in which you add up a finite number of terms doesn’t matter, so <span class="math display">\[
+\sum_{i=1}^{m} \sum_{j=1}^{n} c_{ij} = \sum_{j=1}^{n} \sum_{i=1}^{m} c_{ij}.
+\]</span> Both add up every entry of a table: one row by row, the other column by column.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Quick check: write <span class="math inline">\(x_1 + 2x_2 + 3x_3 + 4x_4 + 5x_5\)</span> with sigma notation.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\sum_{k=1}^{5} k\,x_k\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="simultaneous-equations" class="level2">
+<h2 class="anchored" data-anchor-id="simultaneous-equations">Simultaneous equations</h2>
+<p><em>First used in <a href="../part-1/02-arithmetic.html" class="quarto-xref"><span>2&nbsp; Adding and scaling matrices</span></a>, and the main subject of Part II.</em></p>
+<p>A set of equations that must all hold at once is called a <strong>system</strong> of simultaneous equations. To solve <span class="math display">\[
+\begin{aligned}
+2x + y &amp;= 7 \\
+x - y &amp;= 2,
+\end{aligned}
+\]</span> add the equations to <strong>eliminate</strong> <span class="math inline">\(y\)</span>: <span class="math inline">\(3x = 9\)</span>, so <span class="math inline">\(x = 3\)</span>. Then <strong>substitute</strong> back: <span class="math inline">\(3 - y = 2\)</span>, so <span class="math inline">\(y = 1\)</span>. Always check in the original equations: <span class="math inline">\(2(3) + 1 = 7\)</span> ✓ and <span class="math inline">\(3 - 1 = 2\)</span> ✓.</p>
+<p>Three equations in three unknowns work the same way: use pairs of equations to eliminate one unknown, leaving two equations in two unknowns. For example, <span class="math display">\[
+\begin{aligned}
+x + y + z &amp;= 6 \\
+x - y + z &amp;= 2 \\
+2x + y - z &amp;= 1.
+\end{aligned}
+\]</span> Subtracting the second equation from the first gives <span class="math inline">\(2y = 4\)</span>, so <span class="math inline">\(y = 2\)</span>. The first and third then become <span class="math inline">\(x + z = 4\)</span> and <span class="math inline">\(2x - z = -1\)</span>; adding these gives <span class="math inline">\(3x = 3\)</span>, so <span class="math inline">\(x = 1\)</span> and <span class="math inline">\(z = 3\)</span>.</p>
+<section id="when-there-is-no-single-answer" class="level3">
+<h3 class="anchored" data-anchor-id="when-there-is-no-single-answer">When there is no single answer</h3>
+<p>Each equation in two unknowns is a straight line, and the solution is where the lines cross. Two lines usually cross at one point, but not always (<a href="#fig-two-lines" class="quarto-xref">Figure&nbsp;<span>1</span></a>).</p>
+<div id="cell-fig-two-lines" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Show the code for this figure</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>cases <span class="op">=</span> [</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"One solution"</span>, [(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="st">"2x + y = 7"</span>), (<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>, <span class="st">"x − y = 2"</span>)], (<span class="dv">3</span>, <span class="dv">1</span>)),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"No solution"</span>, [(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="st">"x + y = 2"</span>), (<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="st">"2x + 2y = 5"</span>)], <span class="va">None</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Infinitely many"</span>, [(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="st">"x + y = 2"</span>), (<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="st">"2x + 2y = 4"</span>)], <span class="va">None</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="fl">9.6</span>, <span class="fl">3.4</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (title, lines, point) <span class="kw">in</span> <span class="bu">zip</span>(axes, cases):</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k, (a, b, c, label) <span class="kw">in</span> <span class="bu">enumerate</span>(lines):</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        ax.plot(x, (c <span class="op">-</span> a <span class="op">*</span> x) <span class="op">/</span> b, lw<span class="op">=</span><span class="dv">3</span> <span class="cf">if</span> k <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="fl">1.8</span>, ls<span class="op">=</span><span class="st">"-"</span> <span class="cf">if</span> k <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">"--"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                color<span class="op">=</span>[<span class="st">"#2153b8"</span>, <span class="st">"#9c5208"</span>][k], label<span class="op">=</span>label)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> point:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        ax.plot(<span class="op">*</span>point, <span class="st">"o"</span>, color<span class="op">=</span><span class="st">"#0a7050"</span>, ms<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        ax.annotate(<span class="st">"(3, 1)"</span>, point, xytext<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>), textcoords<span class="op">=</span><span class="st">"offset points"</span>, color<span class="op">=</span><span class="st">"#0a7050"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    ax.set_title(title, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim(<span class="op">-</span><span class="dv">1</span>, <span class="dv">5</span>)<span class="op">;</span> ax.set_ylim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">5</span>)<span class="op">;</span> ax.grid(alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"grey"</span>, lw<span class="op">=</span><span class="fl">0.6</span>)<span class="op">;</span> ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"grey"</span>, lw<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>, loc<span class="op">=</span><span class="st">"upper right"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-two-lines" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three panels, each with a pair of straight lines: in the first they cross at the single point (3, 1); in the second they are parallel and never meet; in the third they lie on top of each other.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-two-lines-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="refresher_files/figure-html/fig-two-lines-output-1.png" alt="Three panels, each with a pair of straight lines: in the first they cross at the single point (3, 1); in the second they are parallel and never meet; in the third they lie on top of each other." width="917" height="317" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two-lines-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Two equations in two unknowns are two lines. Left: they cross once, so there is one solution. Middle: they are parallel, so there is none. Right: they are the same line, so every point on it is a solution.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><span class="math inline">\(x + y = 2\)</span> and <span class="math inline">\(2x + 2y = 5\)</span> are <strong>parallel</strong> lines: no solution. (Doubling the first gives <span class="math inline">\(2x + 2y = 4\)</span>, which contradicts the second.)</li>
+<li><span class="math inline">\(x + y = 2\)</span> and <span class="math inline">\(2x + 2y = 4\)</span> are the <strong>same</strong> line: infinitely many solutions, one for every point on it.</li>
+</ul>
+<p><a href="../part-2/11-gaussian-elimination.html" class="quarto-xref"><span>11&nbsp; Gaussian elimination</span></a> turns elimination into a systematic method that works for any number of equations, and shows how to spot these cases.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Quick check: solve <span class="math inline">\(3x + 2y = 12\)</span>, <span class="math inline">\(x - 2y = 4\)</span>.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Adding: <span class="math inline">\(4x = 16\)</span>, so <span class="math inline">\(x = 4\)</span> and then <span class="math inline">\(y = 0\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="complex-numbers" class="level2">
+<h2 class="anchored" data-anchor-id="complex-numbers">Complex numbers</h2>
+<p><em>First used in Part IV, for eigenvalues of rotations and vibrations.</em></p>
+<p>The number <span class="math inline">\(i\)</span> is defined by <span class="math inline">\(i^2 = -1\)</span>. A <strong>complex number</strong> <span class="math inline">\(z = a + bi\)</span> has a <em>real part</em> <span class="math inline">\(a\)</span> and an <em>imaginary part</em> <span class="math inline">\(b\)</span>, and can be pictured as the point <span class="math inline">\((a, b)\)</span> in a plane. Complex numbers are added and multiplied like ordinary algebra, replacing <span class="math inline">\(i^2\)</span> by <span class="math inline">\(-1\)</span>: <span class="math display">\[
+(2 + 3i)(1 - i) = 2 - 2i + 3i - 3i^2 = 5 + i.
+\]</span></p>
+<p>The <strong>modulus</strong> <span class="math inline">\(|z| = \sqrt{a^2 + b^2}\)</span> is the distance from the origin, and the <strong>argument</strong> <span class="math inline">\(\arg z\)</span> is the angle from the positive real axis. Euler’s formula, <span class="math display">\[
+e^{i\theta} = \cos\theta + i\sin\theta,
+\]</span> links complex numbers to rotation: multiplying by <span class="math inline">\(e^{i\theta}\)</span> rotates a point by <span class="math inline">\(\theta\)</span> about the origin. <a href="../part-1/05-composition.html" class="quarto-xref"><span>5&nbsp; Composing transformations</span></a> shows the same idea with matrices.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Quick check: find <span class="math inline">\(|3 + 4i|\)</span> and <span class="math inline">\((1 + i)^2\)</span>.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(|3 + 4i| = 5\)</span>, and <span class="math inline">\((1 + i)^2 = 1 + 2i + i^2 = 2i\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-code-primer" class="level2">
+<h2 class="anchored" data-anchor-id="sec-code-primer">Getting started with the code</h2>
+<p>Every chapter shows its methods in both Python and MATLAB. Choose a tab and the whole book follows; you can set which language appears first with the <strong>Notation</strong> button. You only need one of the two.</p>
+<section id="setting-up" class="level3">
+<h3 class="anchored" data-anchor-id="setting-up">Setting up</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Python is free. The simplest way to get it is to install <a href="https://www.anaconda.com/download">Anaconda</a>, which comes with all the libraries this book uses, as well as Jupyter. <a href="https://github.com/conda-forge/miniforge">Miniforge</a> is a smaller alternative; with Miniforge, install the libraries by typing this in its terminal (called Miniforge Prompt on Windows):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install numpy scipy matplotlib jupyter</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If you already have Python from somewhere else, such as <a href="https://www.python.org">python.org</a>, use <code>pip</code> instead:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy scipy matplotlib jupyter</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use one or the other for a given Python installation: mixing <code>conda</code> and <code>pip</code> in the same environment can cause conflicts.</p>
+<p>Write and run code in <a href="https://jupyter.org">Jupyter</a> notebooks or in an editor such as <a href="https://code.visualstudio.com">VS Code</a>. You can also run Python in a browser, with nothing to install, using <a href="https://colab.research.google.com">Google Colab</a>.</p>
+<p>Every Python example in this book starts by loading NumPy, the library for working with arrays of numbers:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>MATLAB needs a licence, which most universities provide. You can also use <a href="https://matlab.mathworks.com">MATLAB Online</a> in a browser. <a href="https://octave.org">GNU Octave</a> is a free alternative that runs almost all of the MATLAB in this book unchanged.</p>
+<p>Type commands at the <code>&gt;&gt;</code> prompt in the Command Window, or save them in a script file (ending <code>.m</code>) and press <strong>Run</strong>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-basics-side-by-side" class="level3">
+<h3 class="anchored" data-anchor-id="the-basics-side-by-side">The basics, side by side</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 53%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Task</th>
+<th style="text-align: left;">Python (NumPy)</th>
+<th style="text-align: left;">MATLAB</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A matrix</td>
+<td style="text-align: left;"><code>A = np.array([[1, 2], [3, 4]])</code></td>
+<td style="text-align: left;"><code>A = [1 2; 3 4]</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A vector</td>
+<td style="text-align: left;"><code>x = np.array([5, 6])</code></td>
+<td style="text-align: left;"><code>x = [5; 6]</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Size</td>
+<td style="text-align: left;"><code>A.shape</code></td>
+<td style="text-align: left;"><code>size(A)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Entry in row 1, column 2</td>
+<td style="text-align: left;"><code>A[0, 1]</code></td>
+<td style="text-align: left;"><code>A(1,2)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Row 1 / column 2</td>
+<td style="text-align: left;"><code>A[0, :]</code> / <code>A[:, 1]</code></td>
+<td style="text-align: left;"><code>A(1,:)</code> / <code>A(:,2)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Transpose</td>
+<td style="text-align: left;"><code>A.T</code></td>
+<td style="text-align: left;"><code>A'</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Matrix product</td>
+<td style="text-align: left;"><code>A @ B</code></td>
+<td style="text-align: left;"><code>A * B</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Entry-by-entry product</td>
+<td style="text-align: left;"><code>A * B</code></td>
+<td style="text-align: left;"><code>A .* B</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Identity matrix</td>
+<td style="text-align: left;"><code>np.eye(3)</code></td>
+<td style="text-align: left;"><code>eye(3)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Matrix of zeros</td>
+<td style="text-align: left;"><code>np.zeros((2, 3))</code></td>
+<td style="text-align: left;"><code>zeros(2, 3)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Solve <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span></td>
+<td style="text-align: left;"><code>np.linalg.solve(A, b)</code></td>
+<td style="text-align: left;"><code>A \ b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Square root, sine (radians)</td>
+<td style="text-align: left;"><code>np.sqrt(2)</code>, <code>np.sin(x)</code></td>
+<td style="text-align: left;"><code>sqrt(2)</code>, <code>sin(x)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Two differences cause most early mistakes:</p>
+<ul>
+<li><strong>Counting.</strong> Python counts rows and columns from 0, MATLAB from 1. The entry <span class="math inline">\(a_{12}\)</span> is <code>A[0, 1]</code> in Python and <code>A(1,2)</code> in MATLAB.</li>
+<li><strong>Multiplying.</strong> The symbol for an ordinary matrix product is <code>@</code> in Python and <code>*</code> in MATLAB. In Python, <code>*</code> multiplies entry by entry, which is a different operation (<a href="../part-1/03-multiplication.html" class="quarto-xref"><span>3&nbsp; Matrix multiplication</span></a>).</li>
+</ul>
+</section>
+<section id="a-first-example" class="level3">
+<h3 class="anchored" data-anchor-id="a-first-example">A first example</h3>
+<p>This builds a matrix and a vector, multiplies them, and plots the result as an arrow.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div id="6047fa9d" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">1</span>],</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">1</span>, <span class="dv">3</span>]])</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>])</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> A <span class="op">@</span> x                       <span class="co"># matrix times vector</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>ax.quiver(<span class="dv">0</span>, <span class="dv">0</span>, <span class="op">*</span>x, angles<span class="op">=</span><span class="st">"xy"</span>, scale_units<span class="op">=</span><span class="st">"xy"</span>, scale<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">"grey"</span>, label<span class="op">=</span><span class="st">"x"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>ax.quiver(<span class="dv">0</span>, <span class="dv">0</span>, <span class="op">*</span>y, angles<span class="op">=</span><span class="st">"xy"</span>, scale_units<span class="op">=</span><span class="st">"xy"</span>, scale<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">"C0"</span>, label<span class="op">=</span><span class="st">"Ax"</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="op">-</span><span class="dv">1</span>, <span class="dv">8</span>)<span class="op">;</span> ax.set_ylim(<span class="op">-</span><span class="dv">1</span>, <span class="dv">8</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">"equal"</span>)<span class="op">;</span> ax.grid(alpha<span class="op">=</span><span class="fl">0.3</span>)<span class="op">;</span> ax.legend()</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[4 7]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="refresher_files/figure-html/cell-3-output-2.png" alt="Two arrows from the origin: the vector (1, 2) and its image (4, 7) after multiplying by the matrix." width="348" height="343" class="figure-img"></p>
+<figcaption>The vector (1, 2) and its image after multiplying by the matrix A.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Lines starting with <code>#</code> are comments, ignored by Python. <code>print</code> shows a value; <code>plt.show()</code> shows a figure.</p>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> [<span class="fl">2</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>     <span class="fl">1</span> <span class="fl">3</span>]<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">;</span> <span class="fl">2</span>]<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="va">y</span> <span class="op">=</span> <span class="va">A</span> <span class="op">*</span> <span class="va">x</span>                <span class="co">% matrix times vector</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="va">quiver</span>(<span class="fl">0</span><span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="va">x</span>(<span class="fl">1</span>)<span class="op">,</span> <span class="va">x</span>(<span class="fl">2</span>)<span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="ss">'Color'</span><span class="op">,</span> [<span class="fl">0.5</span> <span class="fl">0.5</span> <span class="fl">0.5</span>])<span class="op">;</span> <span class="va">hold</span> <span class="va">on</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="va">quiver</span>(<span class="fl">0</span><span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="va">y</span>(<span class="fl">1</span>)<span class="op">,</span> <span class="va">y</span>(<span class="fl">2</span>)<span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="ss">'b'</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="va">axis</span> <span class="va">equal</span><span class="op">;</span> <span class="va">grid</span> <span class="va">on</span><span class="op">;</span> <span class="va">xlim</span>([<span class="op">-</span><span class="fl">1</span> <span class="fl">8</span>])<span class="op">;</span> <span class="va">ylim</span>([<span class="op">-</span><span class="fl">1</span> <span class="fl">8</span>])</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="va">legend</span>(<span class="ss">'x'</span><span class="op">,</span> <span class="ss">'Ax'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>y =
+
+     4
+     7</code></pre>
+<p>Text after <code>%</code> is a comment. A line without a semicolon at the end shows its result; ending a line with <code>;</code> hides it. The final <code>0</code> in <code>quiver</code> stops MATLAB rescaling the arrows.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="functions" class="level3">
+<h3 class="anchored" data-anchor-id="functions">Functions</h3>
+<p>Wrapping a calculation in a function lets you reuse it. Chapters often define small functions like this one.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div id="72eb577f" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rotation(theta_deg):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Matrix of the rotation by theta degrees anticlockwise."""</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> np.radians(theta_deg)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array([[np.cos(t), <span class="op">-</span>np.sin(t)],</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                     [np.sin(t),  np.cos(t)]])</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(rotation(<span class="dv">90</span>), <span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[ 0. -1.]
+ [ 1.  0.]]</code></pre>
+</div>
+</div>
+<p>Indentation matters in Python: the lines inside the function must be indented. <code>np.round(..., 10)</code> hides tiny rounding errors.</p>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">rotation</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">theta</span>) [<span class="va">cosd</span>(<span class="va">theta</span>) <span class="op">-</span><span class="va">sind</span>(<span class="va">theta</span>)<span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                     <span class="va">sind</span>(<span class="va">theta</span>)  <span class="va">cosd</span>(<span class="va">theta</span>)]<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="va">rotation</span>(<span class="fl">90</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>ans =
+
+     0    -1
+     1     0</code></pre>
+<p>The <code>@(theta)</code> creates a short <em>anonymous function</em>. Longer functions go at the end of a script, or in their own file, starting with the word <code>function</code> (see <a href="../part-2/11-gaussian-elimination.html" class="quarto-xref"><span>11&nbsp; Gaussian elimination</span></a> for an example).</p>
+</div>
+</div>
+</div>
+</section>
+<section id="when-things-go-wrong" class="level3">
+<h3 class="anchored" data-anchor-id="when-things-go-wrong">When things go wrong</h3>
+<ul>
+<li><strong>Read the last line of the error message first.</strong> It usually names the problem, such as a size mismatch or a misspelt name.</li>
+<li><strong>Check sizes.</strong> Print <code>A.shape</code> or <code>size(A)</code> for every matrix in a failing line. Most errors in linear algebra code are matrices of the wrong size.</li>
+<li><strong>Expect tiny rounding errors.</strong> Computers store numbers to about 16 significant figures, so you will see results like <code>0.30000000000000004</code> instead of <code>0.3</code>. Compare numbers with a tolerance (<code>np.isclose</code> in Python, <code>abs(a - b) &lt; 1e-10</code> in MATLAB), never with <code>==</code>.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../front/conventions.html" class="pagination-link" aria-label="Notation and conventions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Notation and conventions</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../part-1/01-matrices.html" class="pagination-link" aria-label="What is a matrix?">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is a matrix?</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2026 Tom Goodale. Text and figures licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; code licensed under the <a href="https://trgoodale.github.io/matrix-book/LICENSE.md">MIT licence</a>.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/front/refresher.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

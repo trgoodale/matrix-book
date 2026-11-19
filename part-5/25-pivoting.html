@@ -1,0 +1,2143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>25&nbsp; Pivoting – Matrices in Practice</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../part-5/26-cost-sparse.html" rel="next">
+<link href="../part-5/24-floating-point-conditioning.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-a4502c8cbc339fc51dc0f3ab78f51ea6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-ae6c1fbcc07bf00db2a7efa1353188f4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+
+<script>
+
+/*
+
+  Notation settings for the book.
+
+  All mathematics is written with the macros below, never with hard-coded notation:
+
+    \vect{v}   a vector            \M{A}      a matrix
+
+    \ui \uj \uk  standard unit vectors in 2D/3D   \ue{n}  general basis vector e_n
+
+    \mat{..}   a matrix in brackets (rows split by \\, entries by &)
+
+    \amat{ccc|c}{..}  an augmented matrix   \T  transpose   \R  real numbers
+
+  The reader's choices are stored in localStorage under "mb-settings" and read
+
+  here, before MathJax loads, so every page is typeset in their notation.
+
+*/
+
+(function () {
+
+  var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python" };
+
+  var s = {};
+
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) { s = {}; }
+
+  for (var k in DEFAULTS) if (!(k in s)) s[k] = DEFAULTS[k];
+
+  window.mbSettings = s;
+
+  window.mbDefaults = DEFAULTS;
+
+
+
+  var vec = { bold: "\\mathbf{#1}", arrow: "\\vec{#1}", underline: "\\underline{#1}" }[s.vec] || "\\mathbf{#1}";
+
+  var unit = function (letter, dotless, idx) {
+
+    if (s.basis === "e") return vec.replace("#1", "e") + "_{" + idx + "}";
+
+    if (s.basis === "hat") return "\\hat{" + dotless + "}";
+
+    return vec.replace("#1", letter);
+
+  };
+
+  var open = s.br === "square" ? "[" : "(";
+
+  var close = s.br === "square" ? "]" : ")";
+
+  var env = s.br === "square" ? "bmatrix" : "pmatrix";
+
+
+
+  window.MathJax = {
+
+    tex: {
+
+      macros: {
+
+        vect: [vec, 1],
+
+        M: [s.mat === "italic" ? "#1" : "\\mathbf{#1}", 1],
+
+        ui: unit("i", "\\imath", 1),
+
+        uj: unit("j", "\\jmath", 2),
+
+        uk: unit("k", "k", 3),
+
+        ue: [vec.replace("#1", "e") + "_{#1}", 1],
+
+        mat: ["\\begin{" + env + "}#1\\end{" + env + "}", 1],
+
+        amat: ["\\left" + open + "\\begin{array}{#1}#2\\end{array}\\right" + close, 2],
+
+        T: s.tr === "top" ? "^{\\top}" : "^{\\mathsf{T}}",
+
+        R: "\\mathbb{R}",
+
+        zerovec: vec.replace("#1", "0")
+
+      }
+
+    },
+
+    // MathJax 4: break long equations across lines to fit narrow screens
+
+    output: { displayOverflow: "linebreak", linebreaks: { inline: true, width: "100%", lineleading: 0.6 } },
+
+    chtml: { scale: 1.0 }
+
+  };
+
+
+
+  // Default language for code tabs: Quarto reads this when the page is shown.
+
+  try {
+
+    var key = "quarto-persistent-tabsets-data";
+
+    var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+
+    if (!tabs.language) { tabs.language = s.code; localStorage.setItem(key, JSON.stringify(tabs)); }
+
+  } catch (e) {}
+
+
+
+  // ---------- settings panel ----------
+
+  var GROUPS = [
+
+    { key: "vec", label: "Vectors", opts: [["bold", "Bold", "\\mathbf{v}"], ["arrow", "Arrow", "\\vec{v}"], ["underline", "Underlined", "\\underline{v}"]] },
+
+    { key: "mat", label: "Matrices", opts: [["bold", "Bold", "\\mathbf{A}"], ["italic", "Italic", "A"]] },
+
+    { key: "basis", label: "Unit vectors", opts: [["ijk", "i, j, k", "\\mathbf{i},\\ \\mathbf{j},\\ \\mathbf{k}"], ["hat", "Hats", "\\hat{\\imath},\\ \\hat{\\jmath},\\ \\hat{k}"], ["e", "e₁, e₂, e₃", "\\mathbf{e}_1,\\ \\mathbf{e}_2,\\ \\mathbf{e}_3"]] },
+
+    { key: "br", label: "Brackets", opts: [["round", "Round", "\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}"], ["square", "Square", "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}"]] },
+
+    { key: "tr", label: "Transpose", opts: [["T", "Letter T", "\\mathbf{A}^{\\mathsf{T}}"], ["top", "Symbol ⊤", "\\mathbf{A}^{\\top}"]] },
+
+    { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] }
+
+  ];
+
+
+
+  function buildForm(prefix) {
+
+    var form = document.createElement("form");
+
+    form.className = "mb-settings-form";
+
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+
+    GROUPS.forEach(function (g) {
+
+      var fs = document.createElement("fieldset");
+
+      var lg = document.createElement("legend");
+
+      lg.textContent = g.label;
+
+      fs.appendChild(lg);
+
+      g.opts.forEach(function (o) {
+
+        var id = prefix + "-" + g.key + "-" + o[0];
+
+        var lab = document.createElement("label");
+
+        lab.className = "mb-opt";
+
+        lab.htmlFor = id;
+
+        var inp = document.createElement("input");
+
+        inp.type = "radio"; inp.name = prefix + "-" + g.key; inp.id = id; inp.value = o[0];
+
+        inp.checked = s[g.key] === o[0];
+
+        lab.appendChild(inp);
+
+        var txt = document.createElement("span");
+
+        txt.className = "mb-opt-name";
+
+        txt.textContent = o[1];
+
+        lab.appendChild(txt);
+
+        if (o[2]) {
+
+          var ex = document.createElement("span");
+
+          ex.className = "mb-opt-example";
+
+          ex.textContent = "\\(" + o[2] + "\\)";
+
+          lab.appendChild(ex);
+
+        }
+
+        fs.appendChild(lab);
+
+      });
+
+      form.appendChild(fs);
+
+    });
+
+    var row = document.createElement("div");
+
+    row.className = "mb-settings-actions";
+
+    var apply = document.createElement("button");
+
+    apply.type = "button"; apply.className = "btn btn-primary"; apply.textContent = "Apply";
+
+    var reset = document.createElement("button");
+
+    reset.type = "button"; reset.className = "btn btn-outline-secondary"; reset.textContent = "Restore defaults";
+
+    var note = document.createElement("span");
+
+    note.className = "mb-settings-note";
+
+    note.textContent = "Saved in this browser and used on every page.";
+
+    row.appendChild(apply); row.appendChild(reset); row.appendChild(note);
+
+    form.appendChild(row);
+
+
+
+    apply.addEventListener("click", function () {
+
+      var next = {};
+
+      GROUPS.forEach(function (g) {
+
+        var c = form.querySelector('input[name="' + prefix + "-" + g.key + '"]:checked');
+
+        next[g.key] = c ? c.value : DEFAULTS[g.key];
+
+      });
+
+      save(next);
+
+    });
+
+    reset.addEventListener("click", function () { save(Object.assign({}, DEFAULTS)); });
+
+    return form;
+
+  }
+
+
+
+  function save(next) {
+
+    try {
+
+      localStorage.setItem("mb-settings", JSON.stringify(next));
+
+      var key = "quarto-persistent-tabsets-data";
+
+      var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+
+      tabs.language = next.code;
+
+      localStorage.setItem(key, JSON.stringify(tabs));
+
+      sessionStorage.setItem("mb-scroll", String(window.scrollY));
+
+    } catch (e) {}
+
+    location.reload();
+
+  }
+
+
+
+  function typeset(el) {
+
+    var M = window.MathJax;
+
+    if (!M || !M.startup || !M.startup.promise) return;
+
+    M.startup.promise.then(function () { return M.typesetPromise([el]); }).catch(function () {});
+
+  }
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    try {
+
+      var y = sessionStorage.getItem("mb-scroll");
+
+      if (y !== null) { sessionStorage.removeItem("mb-scroll"); window.addEventListener("load", function () { window.scrollTo(0, +y); }); }
+
+    } catch (e) {}
+
+
+
+    // Inline panel (on the conventions page)
+
+    var inline = document.getElementById("mb-settings-inline");
+
+    if (inline) { inline.appendChild(buildForm("inline")); typeset(inline); }
+
+
+
+    // Floating button and dialog on every page
+
+    var btn = document.createElement("button");
+
+    btn.type = "button";
+
+    btn.className = "mb-settings-button";
+
+    btn.setAttribute("aria-haspopup", "dialog");
+
+    btn.innerHTML = '<span aria-hidden="true">⚙</span> Notation';
+
+    var dlg = document.createElement("dialog");
+
+    dlg.className = "mb-settings-dialog";
+
+    dlg.setAttribute("aria-labelledby", "mb-dlg-title");
+
+    dlg.innerHTML = '<div class="mb-dlg-head"><h2 id="mb-dlg-title">Notation and code</h2>' +
+
+      '<button type="button" class="btn-close" aria-label="Close"></button></div>' +
+
+      '<p class="mb-dlg-intro">Choose the notation you are used to. Every page of the book, and the apps, will use it. ' +
+
+      'See <a class="mb-conv-link">Notation and conventions</a> for what each option means.</p>';
+
+    dlg.appendChild(buildForm("dlg"));
+
+    document.body.appendChild(btn);
+
+    document.body.appendChild(dlg);
+
+    var conv = dlg.querySelector(".mb-conv-link");
+
+    var sideLink = document.querySelector('a[href$="conventions.html"]');
+
+    conv.href = sideLink ? sideLink.getAttribute("href") : "conventions.html";
+
+    btn.addEventListener("click", function () { dlg.showModal(); typeset(dlg); });
+
+    dlg.querySelector(".btn-close").addEventListener("click", function () { dlg.close(); });
+
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+
+
+    // Size embedded apps to their content (same origin)
+
+    document.querySelectorAll("iframe.app-frame").forEach(function (f) {
+
+      function fit() {
+
+        try { var d = f.contentDocument; if (d && d.documentElement) f.style.height = d.documentElement.scrollHeight + "px"; } catch (e) {}
+
+      }
+
+      f.addEventListener("load", function () {
+
+        fit();
+
+        try { new ResizeObserver(fit).observe(f.contentDocument.body); } catch (e) {}
+
+      });
+
+    });
+
+  });
+
+})();
+
+</script>
+
+<script>
+
+/* Accessibility fixes for markup that Quarto generates. */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // Collapsible callouts ("Check your understanding"): make the header a real,
+
+  // keyboard-operable button that announces whether the answer is shown.
+
+  document.querySelectorAll(".callout-header[data-bs-toggle='collapse']").forEach(function (h) {
+
+    var target = document.querySelector(h.getAttribute("data-bs-target"));
+
+    h.setAttribute("role", "button");
+
+    h.setAttribute("tabindex", "0");
+
+    if (target) {
+
+      if (!target.id) target.id = "mb-" + Math.random().toString(36).slice(2, 9);
+
+      h.setAttribute("aria-controls", target.id);
+
+    }
+
+    h.addEventListener("keydown", function (e) {
+
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); h.click(); }
+
+    });
+
+  });
+
+  // Sidebar: label the landmark, and stop section toggles posing as landmarks.
+
+  var side = document.getElementById("quarto-sidebar");
+
+  if (side) side.setAttribute("aria-label", "Book contents");
+
+  document.querySelectorAll("#quarto-sidebar [data-bs-toggle='collapse'][role='navigation']").forEach(function (a) {
+
+    a.setAttribute("role", "button");
+
+  });
+
+  var toc = document.querySelector("nav#TOC");
+
+  if (toc && !toc.getAttribute("aria-label")) toc.setAttribute("aria-label", "On this page");
+
+  // Code output that scrolls sideways must be reachable from the keyboard.
+
+  function markScrollers() {
+
+    var n = 0;
+
+    document.querySelectorAll(".cell-output pre, pre.code-output, div.code-output pre").forEach(function (p) {
+
+      if (p.scrollWidth > p.clientWidth + 1) {
+
+        n += 1;
+
+        p.setAttribute("tabindex", "0");
+
+        p.setAttribute("role", "region");
+
+        p.setAttribute("aria-label", "Code output " + n + " (scrolls sideways)");
+
+      } else if (p.getAttribute("role") === "region") {
+
+        p.removeAttribute("tabindex"); p.removeAttribute("role"); p.removeAttribute("aria-label");
+
+      }
+
+    });
+
+  }
+
+  markScrollers();
+
+  window.addEventListener("resize", markScrollers);
+
+  document.addEventListener("shown.bs.tab", markScrollers);
+
+});
+
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-5/24-floating-point-conditioning.html">Part V: Numerical methods</a></li><li class="breadcrumb-item"><a href="../part-5/25-pivoting.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Pivoting</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Matrices in Practice</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/trgoodale/matrix-book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/how-to-use.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to use this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/conventions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notation and conventions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/refresher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Refresher</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Matrices and transformations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/01-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is a matrix?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/02-arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Adding and scaling matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/03-multiplication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix multiplication</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/04-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrices as transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/05-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Composing transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/06-determinants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Determinants</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/07-inverses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Inverse matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/08-transformations-3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Transformations in three dimensions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/09-invariant-lines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Invariant points and lines</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part I review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Linear systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/10-linear-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Systems of linear equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/11-gaussian-elimination.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Gaussian elimination</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/12-gauss-jordan-rank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Gauss–Jordan elimination and rank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/13-lu-decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LU decomposition</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part II review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part III: Vector spaces</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/14-span-independence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Span and linear independence</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/15-basis-change.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Basis, dimension and change of basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/16-fundamental-subspaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Column space, null space and rank–nullity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/17-orthogonality-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Orthogonality and least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part IV: Eigenvalues and matrix calculus</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/18-eigenvalues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Eigenvalues and eigenvectors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/19-diagonalisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Diagonalisation and matrix powers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/20-symmetric-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Symmetric and positive definite matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/21-svd-pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">The singular value decomposition and PCA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/22-matrix-calculus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Derivatives with vectors and matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/23-linear-odes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear ODE systems and the matrix exponential</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part V: Numerical methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/24-floating-point-conditioning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Floating point and conditioning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/25-pivoting.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Pivoting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/26-cost-sparse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Cost, banded and sparse systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/27-iterative-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Iterative methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/28-newton-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Newton’s method for nonlinear systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/29-eigenvalue-algorithms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Eigenvalue algorithms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/30-qr-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">QR factorisation and stable least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part V review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part VI: Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/31-trusses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Structures: pin-jointed trusses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/32-circuits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Electrical circuits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/33-finite-differences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Heat flow and finite differences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/34-graphics-robotics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Computer graphics and robotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/35-markov-pagerank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Markov chains and PageRank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/36-population-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Population models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/37-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Data: regression and dimensionality reduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/38-physics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Physics: rotations, inertia and quantum states</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/39-cryptography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Cryptography: the Hill cipher</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part VI review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/apps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Interactive apps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Reference: matrices and their rules</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/matrix-calculus-identities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Matrix calculus identities</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Solutions: Part I</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions: Part II</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Solutions: Part III</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Solutions: Part IV</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Solutions: Part V</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Solutions: Part VI</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#build-intuition" id="toc-build-intuition" class="nav-link active" data-scroll-target="#build-intuition"><span class="header-section-number">25.1</span> Build intuition</a></li>
+  <li><a href="#the-ideas" id="toc-the-ideas" class="nav-link" data-scroll-target="#the-ideas"><span class="header-section-number">25.2</span> The ideas</a>
+  <ul class="collapse">
+  <li><a href="#when-elimination-without-swaps-goes-wrong" id="toc-when-elimination-without-swaps-goes-wrong" class="nav-link" data-scroll-target="#when-elimination-without-swaps-goes-wrong">When elimination without swaps goes wrong</a></li>
+  <li><a href="#partial-pivoting" id="toc-partial-pivoting" class="nav-link" data-scroll-target="#partial-pivoting">Partial pivoting</a></li>
+  <li><a href="#how-well-does-it-work" id="toc-how-well-does-it-work" class="nav-link" data-scroll-target="#how-well-does-it-work">How well does it work?</a></li>
+  <li><a href="#scaled-and-complete-pivoting" id="toc-scaled-and-complete-pivoting" class="nav-link" data-scroll-target="#scaled-and-complete-pivoting">Scaled and complete pivoting</a></li>
+  <li><a href="#when-pivoting-isnt-needed" id="toc-when-pivoting-isnt-needed" class="nav-link" data-scroll-target="#when-pivoting-isnt-needed">When pivoting isn’t needed</a></li>
+  </ul></li>
+  <li><a href="#in-code" id="toc-in-code" class="nav-link" data-scroll-target="#in-code"><span class="header-section-number">25.3</span> In code</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">25.4</span> Check your understanding</a></li>
+  <li><a href="#key-ideas" id="toc-key-ideas" class="nav-link" data-scroll-target="#key-ideas"><span class="header-section-number">25.5</span> Key ideas</a></li>
+  <li><a href="#sec-pivoting-exercises" id="toc-sec-pivoting-exercises" class="nav-link" data-scroll-target="#sec-pivoting-exercises"><span class="header-section-number">25.6</span> Exercises</a></li>
+  <li><a href="#in-practice" id="toc-in-practice" class="nav-link" data-scroll-target="#in-practice"><span class="header-section-number">25.7</span> In practice</a></li>
+  <li><a href="#going-further" id="toc-going-further" class="nav-link" data-scroll-target="#going-further"><span class="header-section-number">25.8</span> Going further</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/part-5/25-pivoting.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-5/24-floating-point-conditioning.html">Part V: Numerical methods</a></li><li class="breadcrumb-item"><a href="../part-5/25-pivoting.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Pivoting</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-pivoting" class="quarto-section-identifier"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Pivoting</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><span class="level-badge further">Further</span></p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>In this chapter you will
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>explain why elimination without row swaps can fail, or give wildly wrong answers</li>
+<li>apply partial pivoting, and write the result as <span class="math inline">\(\M{P}\M{A} = \M{L}\M{U}\)</span></li>
+<li>recognise when scaled pivoting is needed, and when no pivoting is needed at all</li>
+</ul>
+</div>
+</div>
+<p><strong>Builds on</strong> <a href="../part-2/11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a>, <a href="../part-2/13-lu-decomposition.html" class="quarto-xref"><span>Chapter 13</span></a>, <a href="24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>.</p>
+<p>Gaussian elimination, as described in <a href="../part-2/11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a>, swaps rows only when a pivot is exactly zero. On a computer that is not enough. A pivot that is merely <em>small</em> produces huge multipliers, which swamp the other numbers in the matrix, and the rounding errors that follow can destroy the answer, even for a perfectly well-conditioned system. The cure is cheap: before each elimination step, swap rows so that the pivot is as large as possible. This is <strong>partial pivoting</strong>, and every library solver does it.</p>
+<section id="build-intuition" class="level2" data-number="25.1">
+<h2 data-number="25.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">25.1</span> Build intuition</h2>
+<p>The app carries out elimination on a pretend computer that keeps only a few significant digits, rounding after every operation, so that the effects of rounding are large enough to see. Real computers keep about 16 digits, and the same things happen to larger systems.</p>
+<div class="app-embed">
+<iframe class="app-frame" src="../apps/pivoting.html?embed=1" title="Pivoting explorer" loading="lazy">
+</iframe>
+<p><a href="../apps/pivoting.html" class="app-open" target="_blank">Open the pivoting explorer in its own tab</a></p>
+</div>
+<p>Things to try:</p>
+<ul>
+<li>In <strong>Tiny pivot</strong>, with no pivoting, follow the numbers. Where is the information in the second equation lost? Then choose <strong>Partial</strong>, which swaps rows before each step so that the pivot is the largest entry available in its column.</li>
+<li>Increase the number of digits kept, with no pivoting. Does it fix the problem, or only make it smaller?</li>
+<li><strong>Three equations</strong> uses 4 digits. Compare the multipliers with and without pivoting.</li>
+</ul>
+</section>
+<section id="the-ideas" class="level2" data-number="25.2">
+<h2 data-number="25.2" class="anchored" data-anchor-id="the-ideas"><span class="header-section-number">25.2</span> The ideas</h2>
+<section id="when-elimination-without-swaps-goes-wrong" class="level3">
+<h3 class="anchored" data-anchor-id="when-elimination-without-swaps-goes-wrong">When elimination without swaps goes wrong</h3>
+<p>Consider <span class="math display">\[
+\begin{aligned}
+10^{-20}x + y &amp;= 1, \\
+x + y &amp;= 2,
+\end{aligned}
+\]</span> whose solution is extremely close to <span class="math inline">\(x = 1\)</span>, <span class="math inline">\(y = 1\)</span>. The matrix is well conditioned (<span class="math inline">\(\kappa \approx 2.6\)</span>). Eliminating without a swap uses the pivot <span class="math inline">\(10^{-20}\)</span> and the multiplier <span class="math inline">\(10^{20}\)</span>: <span class="math display">\[
+(1 - 10^{20})\,y = 2 - 10^{20}.
+\]</span> In double precision, <span class="math inline">\(1 - 10^{20}\)</span> and <span class="math inline">\(2 - 10^{20}\)</span> both round to <span class="math inline">\(-10^{20}\)</span>: the 1 and the 2 are far below the 16 digits kept. So <span class="math inline">\(y = 1\)</span>, and then <span class="math inline">\(10^{-20}x = 1 - y = 0\)</span> gives <span class="math inline">\(x = 0\)</span>. The second equation has been completely swamped by a huge multiple of the first.</p>
+<p>Swapping the equations first uses the pivot 1 and the multiplier <span class="math inline">\(10^{-20}\)</span>: <span class="math display">\[
+(1 - 10^{-20})\,y = 1 - 2 \times 10^{-20},
+\]</span> which rounds to <span class="math inline">\(y = 1\)</span>, and then <span class="math inline">\(x = 2 - y = 1\)</span>. Both answers are correct to 16 digits.</p>
+<p>The general lesson: <strong>a large multiplier magnifies the rounding errors in the pivot row</strong>, and lets them swamp the other rows. Small multipliers keep errors small.</p>
+</section>
+<section id="partial-pivoting" class="level3">
+<h3 class="anchored" data-anchor-id="partial-pivoting">Partial pivoting</h3>
+<div class="callout callout-style-simple callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Partial pivoting
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>At each step <span class="math inline">\(k\)</span> of elimination, look at the entries in column <span class="math inline">\(k\)</span> on and below the diagonal. Swap the row containing the <strong>largest in size</strong> into the pivot position, then eliminate as usual.</p>
+</div>
+</div>
+<p>The pivot is then at least as large as every entry below it, so every multiplier is at most 1 in size. This doesn’t remove rounding errors, but it stops them from being magnified at each step.</p>
+<p>All the row swaps can be collected into a permutation matrix <span class="math inline">\(\M{P}\)</span>, as in <a href="../part-2/13-lu-decomposition.html" class="quarto-xref"><span>Chapter 13</span></a>, giving <span class="math display">\[
+\M{P}\M{A} = \M{L}\M{U},
+\]</span> with every entry of <span class="math inline">\(\M{L}\)</span> at most 1 in size. This is what <code>scipy.linalg.lu</code>, MATLAB’s <code>lu</code>, and the solvers behind <code>np.linalg.solve</code> and MATLAB’s backslash compute. The extra cost is tiny: searching a column takes <span class="math inline">\(n\)</span> comparisons, while eliminating with it takes about <span class="math inline">\(n^2\)</span> arithmetic operations.</p>
+<div id="ex-pivoting-1" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 1: four-digit arithmetic, with and without pivoting
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Solve <span class="math display">\[
+\begin{aligned}
+0.0003x + 1.566y &amp;= 1.569, \\
+0.3454x - 2.436y &amp;= 1.018
+\end{aligned}
+\]</span> rounding every result to 4 significant digits, first without pivoting and then with partial pivoting. The exact solution is <span class="math inline">\(x = 10\)</span>, <span class="math inline">\(y = 1\)</span>.</p>
+<p><strong>Solution.</strong> <em>Without pivoting</em>, the multiplier is <span class="math inline">\(0.3454/0.0003 = 1151.3\ldots\)</span>, which rounds to <span class="math inline">\(1151\)</span>. Then, rounding each product and each difference to 4 digits, <span class="math display">\[
+\begin{aligned}
+a_{22} &amp;= -2.436 - 1151 \times 1.566 \\
+&amp;= -2.436 - 1802 = -1804, \\
+b_2 &amp;= 1.018 - 1151 \times 1.569 \\
+&amp;= 1.018 - 1806 = -1805.
+\end{aligned}
+\]</span> So <span class="math inline">\(y = 1805/1804 = 1.001\)</span>, and <span class="math display">\[
+x = \frac{1.569 - 1.566 \times 1.001}{0.0003} = \frac{1.569 - 1.568}{0.0003} = 3.333.
+\]</span> The small error in <span class="math inline">\(y\)</span> was divided by the tiny pivot <span class="math inline">\(0.0003\)</span>, giving an answer for <span class="math inline">\(x\)</span> that is 67% wrong.</p>
+<p><em>With partial pivoting</em>, <span class="math inline">\(0.3454 &gt; 0.0003\)</span>, so swap the equations. The multiplier is <span class="math inline">\(0.0003/0.3454 = 0.0008686\)</span>, and <span class="math display">\[
+a_{22} = 1.566 + 0.0008686 \times 2.436 = 1.568,
+\qquad
+b_2 = 1.569 - 0.0008686 \times 1.018 = 1.568,
+\]</span> so <span class="math inline">\(y = 1.000\)</span> and <span class="math inline">\(x = (1.018 + 2.436 \times 1.000)/0.3454 = 10.00\)</span>, correct to all 4 digits.</p>
+</div>
+</div>
+<div id="ex-pivoting-2" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 2: <span class="math inline">\(\M{P}\M{A} = \M{L}\M{U}\)</span> with partial pivoting
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Factorise <span class="math inline">\(\M{A} = \mat{1 &amp; 2 &amp; 1 \\ 2 &amp; 6 &amp; 1 \\ 4 &amp; 8 &amp; 6}\)</span> with partial pivoting, and use the factors to solve <span class="math inline">\(\M{A}\vect{x} = (4, 9, 18)\T\)</span>.</p>
+<p><strong>Solution.</strong> In column 1 the largest entry is 4, in row 3, so swap rows 1 and 3. The multipliers are <span class="math inline">\(\ell_{21} = 2/4 = \tfrac{1}{2}\)</span> and <span class="math inline">\(\ell_{31} = 1/4\)</span>: <span class="math display">\[
+\mat{4 &amp; 8 &amp; 6 \\ 2 &amp; 6 &amp; 1 \\ 1 &amp; 2 &amp; 1}
+\;\to\;
+\mat{4 &amp; 8 &amp; 6 \\ 0 &amp; 2 &amp; -2 \\ 0 &amp; 0 &amp; -\tfrac{1}{2}}.
+\]</span> In column 2 the candidates are 2 and 0, so no swap is needed, and the multiplier is 0. So <span class="math display">\[
+\M{P} = \mat{0 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 0},
+\qquad
+\M{L} = \mat{1 &amp; 0 &amp; 0 \\ \tfrac{1}{2} &amp; 1 &amp; 0 \\ \tfrac{1}{4} &amp; 0 &amp; 1},
+\qquad
+\M{U} = \mat{4 &amp; 8 &amp; 6 \\ 0 &amp; 2 &amp; -2 \\ 0 &amp; 0 &amp; -\tfrac{1}{2}}.
+\]</span> Every multiplier is at most 1 in size, as promised. To solve, reorder <span class="math inline">\(\vect{b}\)</span> in the same way, <span class="math inline">\(\M{P}\vect{b} = (18, 9, 4)\T\)</span>. Forward substitution with <span class="math inline">\(\M{L}\)</span> gives <span class="math inline">\(\vect{y} = (18, 0, -\tfrac{1}{2})\T\)</span>, and back substitution with <span class="math inline">\(\M{U}\)</span> gives <span class="math inline">\(\vect{x} = (1, 1, 1)\T\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="how-well-does-it-work" class="level3">
+<h3 class="anchored" data-anchor-id="how-well-does-it-work">How well does it work?</h3>
+<p>Errors can still grow if the entries of the matrix grow during elimination. The <strong>growth factor</strong> is the largest entry that appears in <span class="math inline">\(\M{U}\)</span> divided by the largest entry of <span class="math inline">\(\M{A}\)</span>. With partial pivoting it can be as large as <span class="math inline">\(2^{n-1}\)</span>: Wilkinson’s example, with 1s on the diagonal and in the last column and <span class="math inline">\(-1\)</span>s below the diagonal, achieves it (exercise 4). In practice such matrices essentially never arise: decades of experience show growth factors stay small for real problems, which is why partial pivoting is trusted everywhere.</p>
+</section>
+<section id="scaled-and-complete-pivoting" class="level3">
+<h3 class="anchored" data-anchor-id="scaled-and-complete-pivoting">Scaled and complete pivoting</h3>
+<p>Partial pivoting compares the sizes of entries in one column, but that comparison can mislead when the rows are on very different scales. Multiplying an equation by <span class="math inline">\(10^6\)</span> makes its entries look large without changing the system. Two refinements deal with this:</p>
+<ul>
+<li><strong>Scaled partial pivoting</strong> compares each candidate pivot with the largest entry in its own row, and picks the row where the pivot is largest relative to the rest of its row.</li>
+<li><strong>Complete pivoting</strong> searches the whole remaining submatrix for the largest entry and swaps both rows and columns to bring it into the pivot position. Its growth factor is much better bounded, but the search costs about <span class="math inline">\(n^3/3\)</span> comparisons, so it is rarely used.</li>
+</ul>
+<p>To see this, go back to the app at the start of the chapter and choose <strong>Badly scaled</strong>. Partial pivoting doesn’t help: look at the sizes of the numbers in each row, and then try <strong>Scaled partial</strong>.</p>
+<p>A simpler and very effective alternative to scaled pivoting is to <strong>equilibrate</strong> the system first, dividing each row by its largest entry, so that all rows have similar sizes.</p>
+<div id="ex-pivoting-3" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 3: when partial pivoting is fooled by scaling
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In 4-digit arithmetic, solve <span class="math display">\[
+\begin{aligned}
+30x + 591\,400y &amp;= 591\,700, \\
+5.291x - 6.130y &amp;= 46.78,
+\end{aligned}
+\]</span> whose exact solution is <span class="math inline">\(x = 10\)</span>, <span class="math inline">\(y = 1\)</span>.</p>
+<p><strong>Solution.</strong> This is Example 1 with the first equation multiplied by <span class="math inline">\(10^5\)</span>. Partial pivoting compares 30 with 5.291 and makes no swap, so it repeats the mistake of Example 1: the 4-digit result is <span class="math inline">\(x = -10.00\)</span>, <span class="math inline">\(y = 1.001\)</span>. The pivot 30 looked large, but it is tiny compared with the rest of its row.</p>
+<p>Scaled partial pivoting compares <span class="math inline">\(30/591\,400 \approx 0.00005\)</span> with <span class="math inline">\(5.291/6.130 \approx 0.86\)</span>, swaps the equations, and gets <span class="math inline">\(x = 10.00\)</span>, <span class="math inline">\(y = 1.000\)</span>. This is <strong>Badly scaled</strong> in the app.</p>
+</div>
+</div>
+</section>
+<section id="when-pivoting-isnt-needed" class="level3">
+<h3 class="anchored" data-anchor-id="when-pivoting-isnt-needed">When pivoting isn’t needed</h3>
+<p>Two important kinds of matrix are safe without any row swaps:</p>
+<ul>
+<li><strong>Symmetric positive definite</strong> matrices (<a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>). Elimination never meets a small pivot, and the Cholesky factorisation <span class="math inline">\(\M{L}\M{L}\T\)</span> needs no pivoting.</li>
+<li><strong>Diagonally dominant</strong> matrices, where each diagonal entry is larger in size than the sum of the other entries in its column. Partial pivoting would make no swaps, so it can be skipped, which matters for the banded systems of <a href="26-cost-sparse.html" class="quarto-xref"><span>Chapter 26</span></a>: swapping rows can widen the band.</li>
+</ul>
+</section>
+</section>
+<section id="in-code" class="level2" data-number="25.3">
+<h2 data-number="25.3" class="anchored" data-anchor-id="in-code"><span class="header-section-number">25.3</span> In code</h2>
+<p>Adding partial pivoting to the elimination function from <a href="../part-2/11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a> takes three lines: find the row with the largest entry in the pivot column, and swap it into place, in both <span class="math inline">\(\M{A}\)</span> and <span class="math inline">\(\vect{b}\)</span>.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div id="3c40f2b3" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.linalg</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solve_ge(A, b, pivot<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Solve Ax = b by Gaussian elimination, with or without partial pivoting."""</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.array(A, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> np.array(b, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(b)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(n <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pivot:</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>            p <span class="op">=</span> k <span class="op">+</span> np.argmax(np.<span class="bu">abs</span>(A[k:, k]))   <span class="co"># row of the largest entry</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            A[[k, p]] <span class="op">=</span> A[[p, k]]                 <span class="co"># swap rows k and p</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            b[[k, p]] <span class="op">=</span> b[[p, k]]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(k <span class="op">+</span> <span class="dv">1</span>, n):</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>            m <span class="op">=</span> A[i, k] <span class="op">/</span> A[k, k]</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>            A[i, k:] <span class="op">-=</span> m <span class="op">*</span> A[k, k:]</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            b[i] <span class="op">-=</span> m <span class="op">*</span> b[k]</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.zeros(n)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n <span class="op">-</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        x[i] <span class="op">=</span> (b[i] <span class="op">-</span> A[i, i <span class="op">+</span> <span class="dv">1</span>:] <span class="op">@</span> x[i <span class="op">+</span> <span class="dv">1</span>:]) <span class="op">/</span> A[i, i]</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [[<span class="fl">1e-20</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>]]</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>]</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(solve_ge(A, b, pivot<span class="op">=</span><span class="va">False</span>))         <span class="co"># wrong: [0, 1]</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(solve_ge(A, b, pivot<span class="op">=</span><span class="va">True</span>))          <span class="co"># right: [1, 1]</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">1</span>], [<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">6</span>]])</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>P, L, U <span class="op">=</span> scipy.linalg.lu(A)               <span class="co"># note: A = P @ L @ U</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(P.T)                                 <span class="co"># the P of P A = L U</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(L)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(U)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0. 1.]
+[1. 1.]
+[[0. 0. 1.]
+ [0. 1. 0.]
+ [1. 0. 0.]]
+[[1.   0.   0.  ]
+ [0.5  1.   0.  ]
+ [0.25 0.   1.  ]]
+[[ 4.   8.   6. ]
+ [ 0.   2.  -2. ]
+ [ 0.   0.  -0.5]]</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> [<span class="fl">1e-20</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">1</span> <span class="fl">1</span>]<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">b</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">;</span> <span class="fl">2</span>]<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">x_naive</span> <span class="op">=</span> <span class="va">solve_ge</span>(<span class="va">A</span><span class="op">,</span> <span class="va">b</span><span class="op">,</span> <span class="va">false</span>)    <span class="co">% wrong: [0; 1]</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="va">x_pivot</span> <span class="op">=</span> <span class="va">solve_ge</span>(<span class="va">A</span><span class="op">,</span> <span class="va">b</span><span class="op">,</span> <span class="va">true</span>)     <span class="co">% right: [1; 1]</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">2</span> <span class="fl">6</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">4</span> <span class="fl">8</span> <span class="fl">6</span>]<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>[<span class="va">L</span><span class="op">,</span> <span class="va">U</span><span class="op">,</span> <span class="va">P</span>] <span class="op">=</span> <span class="va">lu</span>(<span class="va">A</span>)                  <span class="co">% P*A = L*U</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="va">x</span> <span class="op">=</span> <span class="va">solve_ge</span>(<span class="va">A</span><span class="op">,</span> <span class="va">b</span><span class="op">,</span> <span class="va">pivot</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">% Solve Ax = b by Gaussian elimination, with or without partial pivoting.</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="va">length</span>(<span class="va">b</span>)<span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">-</span><span class="fl">1</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="va">pivot</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        [<span class="op">~,</span> <span class="va">p</span>] <span class="op">=</span> <span class="va">max</span>(<span class="va">abs</span>(<span class="va">A</span>(<span class="va">k</span><span class="op">:</span><span class="va">n</span><span class="op">,</span> <span class="va">k</span>)))<span class="op">;</span>   <span class="co">% row of the largest entry</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">p</span> <span class="op">=</span> <span class="va">p</span> <span class="op">+</span> <span class="va">k</span> <span class="op">-</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">A</span>([<span class="va">k</span> <span class="va">p</span>]<span class="op">,</span> <span class="op">:</span>) <span class="op">=</span> <span class="va">A</span>([<span class="va">p</span> <span class="va">k</span>]<span class="op">,</span> <span class="op">:</span>)<span class="op">;</span>      <span class="co">% swap rows k and p</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">b</span>([<span class="va">k</span> <span class="va">p</span>]) <span class="op">=</span> <span class="va">b</span>([<span class="va">p</span> <span class="va">k</span>])<span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="va">k</span><span class="op">+</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">m</span> <span class="op">=</span> <span class="va">A</span>(<span class="va">i</span><span class="op">,</span><span class="va">k</span>) <span class="op">/</span> <span class="va">A</span>(<span class="va">k</span><span class="op">,</span><span class="va">k</span>)<span class="op">;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">A</span>(<span class="va">i</span><span class="op">,</span><span class="va">k</span><span class="op">:</span><span class="va">n</span>) <span class="op">=</span> <span class="va">A</span>(<span class="va">i</span><span class="op">,</span><span class="va">k</span><span class="op">:</span><span class="va">n</span>) <span class="op">-</span> <span class="va">m</span> <span class="op">*</span> <span class="va">A</span>(<span class="va">k</span><span class="op">,</span><span class="va">k</span><span class="op">:</span><span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">b</span>(<span class="va">i</span>) <span class="op">=</span> <span class="va">b</span>(<span class="va">i</span>) <span class="op">-</span> <span class="va">m</span> <span class="op">*</span> <span class="va">b</span>(<span class="va">k</span>)<span class="op">;</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">n</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="va">n</span><span class="op">:-</span><span class="fl">1</span><span class="op">:</span><span class="fl">1</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="va">x</span>(<span class="va">i</span>) <span class="op">=</span> (<span class="va">b</span>(<span class="va">i</span>) <span class="op">-</span> <span class="va">A</span>(<span class="va">i</span><span class="op">,</span><span class="va">i</span><span class="op">+</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span>) <span class="op">*</span> <span class="va">x</span>(<span class="va">i</span><span class="op">+</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span>)) <span class="op">/</span> <span class="va">A</span>(<span class="va">i</span><span class="op">,</span><span class="va">i</span>)<span class="op">;</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>x_naive =
+
+     0
+     1
+
+x_pivot =
+
+     1
+     1
+
+L =
+
+    1.0000         0         0
+    0.5000    1.0000         0
+    0.2500         0    1.0000
+
+U =
+
+    4.0000    8.0000    6.0000
+         0    2.0000   -2.0000
+         0         0   -0.5000
+
+P =
+
+     0     0     1
+     0     1     0
+     1     0     0</code></pre>
+</div>
+</div>
+</div>
+<p>SciPy’s <code>lu</code> returns the permutation the other way round from MATLAB’s, so that <span class="math inline">\(\M{A} = \M{P}\M{L}\M{U}\)</span>; its transpose is the <span class="math inline">\(\M{P}\)</span> of <span class="math inline">\(\M{P}\M{A} = \M{L}\M{U}\)</span>.</p>
+</section>
+<section id="check-your-understanding" class="level2" data-number="25.4">
+<h2 data-number="25.4" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">25.4</span> Check your understanding</h2>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>With partial pivoting, can a multiplier ever be larger than 1 in size?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>No.&nbsp;The pivot is the largest entry in its column (on and below the diagonal), so each multiplier, an entry divided by the pivot, is at most 1 in size.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Does pivoting help with an ill-conditioned system?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Not with its conditioning. Pivoting stops the <em>method</em> from adding unnecessary error; it can’t remove the sensitivity built into the <em>problem</em> (<a href="24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>).</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Why doesn’t <code>np.linalg.solve</code> let you turn pivoting off?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Because there is no reason to: pivoting costs almost nothing and protects against disaster. The only common exceptions, symmetric positive definite matrices, have their own solver, Cholesky.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="key-ideas" class="level2" data-number="25.5">
+<h2 data-number="25.5" class="anchored" data-anchor-id="key-ideas"><span class="header-section-number">25.5</span> Key ideas</h2>
+<ul>
+<li>Elimination without row swaps fails at a zero pivot, and can give wildly wrong answers at a small one, because large multipliers magnify rounding errors.</li>
+<li>Partial pivoting swaps rows so that each pivot is the largest available in its column, which keeps every multiplier at most 1 in size.</li>
+<li>The result is written <span class="math inline">\(\M{P}\M{A} = \M{L}\M{U}\)</span>, and it is what library solvers compute.</li>
+<li>Badly scaled rows can fool partial pivoting; scaled pivoting, or rescaling the equations first, fixes this.</li>
+<li>Symmetric positive definite and diagonally dominant matrices need no pivoting at all.</li>
+</ul>
+</section>
+<section id="sec-pivoting-exercises" class="level2" data-number="25.6">
+<h2 data-number="25.6" class="anchored" data-anchor-id="sec-pivoting-exercises"><span class="header-section-number">25.6</span> Exercises</h2>
+<ol type="1">
+<li><p><span id="exercise-pivoting-1"></span>Solve <span class="math inline">\(0.0001x + y = 1\)</span>, <span class="math inline">\(x + y = 2\)</span> rounding every result to 3 significant digits, first without pivoting and then with partial pivoting. Compare both with the exact solution.</p>
+<p><a href="../appendices/solutions-5.html#solution-pivoting-1" class="sol-link">Solution to exercise 1</a></p></li>
+<li><p><span id="exercise-pivoting-2"></span>Find <span class="math inline">\(\M{P}\M{A} = \M{L}\M{U}\)</span> with partial pivoting for <span class="math inline">\(\M{A} = \mat{0 &amp; 1 &amp; 1 \\ 1 &amp; 2 &amp; 0 \\ 2 &amp; 2 &amp; 4}\)</span>.</p>
+<p><a href="../appendices/solutions-5.html#solution-pivoting-2" class="sol-link">Solution to exercise 2</a></p></li>
+<li><p><span id="exercise-pivoting-3"></span>Show that with partial pivoting, every entry of <span class="math inline">\(\M{L}\)</span> is at most 1 in size.</p>
+<p><a href="../appendices/solutions-5.html#solution-pivoting-3" class="sol-link">Solution to exercise 3</a></p></li>
+<li><p><span id="exercise-pivoting-4"></span>Wilkinson’s matrix of size 4 is <span class="math inline">\(\M{W} = \mat{1 &amp; 0 &amp; 0 &amp; 1 \\ -1 &amp; 1 &amp; 0 &amp; 1 \\ -1 &amp; -1 &amp; 1 &amp; 1 \\ -1 &amp; -1 &amp; -1 &amp; 1}\)</span>. Carry out elimination with partial pivoting (taking the first row when there is a tie). Find <span class="math inline">\(\M{U}\)</span> and the growth factor, and predict the growth factor for size <span class="math inline">\(n\)</span>.</p>
+<p><a href="../appendices/solutions-5.html#solution-pivoting-4" class="sol-link">Solution to exercise 4</a></p></li>
+<li><p><span id="exercise-pivoting-5"></span>Show that if <span class="math inline">\(\M{A}\)</span> is <span class="math inline">\(2 \times 2\)</span> and diagonally dominant by columns, <span class="math inline">\(\lvert a_{11}\rvert &gt; \lvert a_{21}\rvert\)</span> and <span class="math inline">\(\lvert a_{22}\rvert &gt; \lvert a_{12}\rvert\)</span>, then partial pivoting makes no swaps, and the second pivot is not zero.</p>
+<p><a href="../appendices/solutions-5.html#solution-pivoting-5" class="sol-link">Solution to exercise 5</a></p></li>
+<li><p><span id="exercise-pivoting-6"></span>For the system in Example 3, divide each equation by the largest coefficient on its left-hand side, then apply partial pivoting. Which pivot does it choose? Explain why equilibrating the rows in this way has the same effect as scaled partial pivoting.</p>
+<p><a href="../appendices/solutions-5.html#solution-pivoting-6" class="sol-link">Solution to exercise 6</a></p></li>
+<li><p><span id="exercise-pivoting-7"></span><strong>Code.</strong> Build Wilkinson’s matrix for <span class="math inline">\(n = 10\)</span>, <span class="math inline">\(30\)</span> and <span class="math inline">\(60\)</span>, choose a random <span class="math inline">\(\vect{x}\)</span>, set <span class="math inline">\(\vect{b} = \M{W}\vect{x}\)</span>, and solve with <code>np.linalg.solve</code> or backslash. Compare the relative error with the condition number of <span class="math inline">\(\M{W}\)</span>, and with the largest entry of <span class="math inline">\(\M{U}\)</span>. What do you conclude?</p>
+<p><a href="../appendices/solutions-5.html#solution-pivoting-7" class="sol-link">Solution to exercise 7</a></p></li>
+</ol>
+<p>Solutions are in <a href="../appendices/solutions-5.html#sec-solutions-pivoting" class="quarto-xref"><span>Section I.2</span></a>.</p>
+</section>
+<section id="in-practice" class="level2" data-number="25.7">
+<h2 data-number="25.7" class="anchored" data-anchor-id="in-practice"><span class="header-section-number">25.7</span> In practice</h2>
+<ul>
+<li>Every general-purpose dense solver, in LAPACK and so in NumPy, SciPy, MATLAB, R and Julia, uses partial pivoting. You get it automatically.</li>
+<li><strong>Sparse solvers</strong> face a trade-off: swapping rows for accuracy can destroy the sparsity that makes them fast (<a href="26-cost-sparse.html" class="quarto-xref"><span>Chapter 26</span></a>). They often use <strong>threshold pivoting</strong>, accepting any pivot at least, say, 10% of the largest in its column.</li>
+<li><strong>Finite element</strong> stiffness matrices are symmetric positive definite, so their solvers use Cholesky and skip pivoting altogether.</li>
+<li>Many matrices from physical problems are diagonally dominant: heat conduction, diffusion and circuit equations, for example. Solvers for their banded systems skip pivoting safely.</li>
+</ul>
+</section>
+<section id="going-further" class="level2" data-number="25.8">
+<h2 data-number="25.8" class="anchored" data-anchor-id="going-further"><span class="header-section-number">25.8</span> Going further</h2>
+<ul>
+<li>Higham’s <em>Accuracy and Stability of Numerical Algorithms</em> gives the full backward error analysis of elimination with pivoting, and Trefethen and Bau’s <em>Numerical Linear Algebra</em> discusses why large growth factors are so rare.</li>
+<li><strong>Rook pivoting</strong>, a compromise between partial and complete pivoting, searches along the pivot’s row and column alternately until it finds an entry largest in both.</li>
+<li>For symmetric matrices that are not positive definite, the <strong>Bunch–Kaufman</strong> method pivots symmetrically, using <span class="math inline">\(1 \times 1\)</span> and <span class="math inline">\(2 \times 2\)</span> blocks, to keep the symmetry and halve the work.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../part-5/24-floating-point-conditioning.html" class="pagination-link" aria-label="Floating point and conditioning">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Floating point and conditioning</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../part-5/26-cost-sparse.html" class="pagination-link" aria-label="Cost, banded and sparse systems">
+        <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Cost, banded and sparse systems</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2026 Tom Goodale. Text and figures licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; code licensed under the <a href="https://trgoodale.github.io/matrix-book/LICENSE.md">MIT licence</a>.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/part-5/25-pivoting.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

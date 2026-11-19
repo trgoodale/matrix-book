@@ -1,0 +1,353 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vector Mixer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: graph-paper worksheet; the plane first, then coefficient controls and the equation */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Mixing two vectors: <em>linear combinations</em></h1>
+    <p>Choose how much of each vector to take. Scale the first, then add the second tip to tail. Can you reach the target?</p>
+  </header>
+
+  <div class="layout">
+    <section class="panel plane-box" aria-label="Plane">
+      <div class="holder"><canvas id="cv" role="img" tabindex="-1"></canvas></div>
+      <div class="legend">
+        <span><span class="sw a"></span>first vector, <b>a</b></span>
+        <span><span class="sw b"></span>second vector, <b>b</b></span>
+        <span><span class="sw w"></span>the combination</span>
+        <span id="legT"><span class="sw t"></span>target</span>
+      </div>
+    </section>
+
+    <div class="side">
+      <section class="panel card" aria-label="How much of each vector">
+        <span class="label">How much of each</span>
+        <div class="coef">
+          <label class="a" for="s1">s</label>
+          <input type="range" id="s1" min="-3" max="3" step="0.1" value="1" aria-label="Amount of the first vector, s">
+          <input type="number" id="n1" min="-3" max="3" step="0.1" value="1" aria-label="Amount of the first vector, s, as a number">
+        </div>
+        <div class="coef">
+          <label class="b" for="s2">t</label>
+          <input type="range" id="s2" min="-3" max="3" step="0.1" value="1" aria-label="Amount of the second vector, t">
+          <input type="number" id="n2" min="-3" max="3" step="0.1" value="1" aria-label="Amount of the second vector, t, as a number">
+        </div>
+        <p class="hint">Drag the tips of the two vectors to change them. Drag the target to move it.</p>
+      </section>
+
+      <section class="panel card" aria-label="The calculation">
+        <span class="label">The calculation</span>
+        <div class="eq" id="eq"></div>
+      </section>
+
+      <section class="panel card wide" aria-label="Target">
+        <span class="label">Challenge</span>
+        <div class="status" id="status" role="status"></div>
+        <div class="row">
+          <button id="show">Show the answer</button>
+          <button id="newT">New target</button>
+          <button data-p="ij">Use the axes</button>
+          <button data-p="ex">Example</button>
+          <button data-p="par">Same direction</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const S = { a: [2, 1], b: [-1, 1], s: 1, t: 1, target: [1, 5] };
+  const R = 6, LIM = 5.5;
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  let W = 500, dpr = 1, drag = null, hover = null, lastHit = false;
+
+  const fmt = (x, dp = 2) => {
+    const r = Math.round(x * 10 ** dp) / 10 ** dp;
+    return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−');
+  };
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), b: v('--col'), w: v('--res'), t: v('--tgt'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), num: v('--font-num') }; };
+  const u = () => W / (2 * R);
+  const P = p => [W / 2 + p[0] * u(), W / 2 - p[1] * u()];
+  const add = (p, q) => [p[0] + q[0], p[1] + q[1]];
+  const mul = (k, p) => [k * p[0], k * p[1]];
+  const result = () => add(mul(S.s, S.a), mul(S.t, S.b));
+  const det = () => S.a[0] * S.b[1] - S.a[1] * S.b[0];
+  function solve() {
+    const d = det();
+    if (Math.abs(d) < 1e-9) return null;
+    const [x, y] = S.target;
+    return [(x * S.b[1] - y * S.b[0]) / d, (S.a[0] * y - S.a[1] * x) / d];
+  }
+
+  function resize() {
+    W = Math.min(cv.parentElement.clientWidth, 560); dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr);
+    cv.style.width = W + 'px'; cv.style.height = W + 'px';
+    draw();
+  }
+  function seg(p, q) { ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]); ctx.stroke(); }
+  function arrow(from, to, color, w, dash) {
+    const s = P(from), e = P(to), len = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (len < 2) return;
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(12, len * 0.4);
+    ctx.setLineDash(dash || []);
+    seg(s, [e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7]);
+    ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42));
+    ctx.closePath(); ctx.fill();
+  }
+  function label(text, p, color, dx = 8, dy = -6) {
+    const s = P(p); ctx.fillStyle = color; ctx.font = `600 14px ${css().num}`;
+    ctx.textAlign = 'left'; ctx.textBaseline = 'bottom'; ctx.fillText(text, s[0] + dx, s[1] + dy);
+  }
+  function handle(p, color, big, dashed) {
+    const s = P(p); ctx.beginPath(); ctx.arc(s[0], s[1], big ? 10 : 7.5, 0, 2 * Math.PI);
+    ctx.fillStyle = css().surface; ctx.fill(); ctx.strokeStyle = color; ctx.lineWidth = 2.5;
+    if (dashed) ctx.setLineDash([3, 2.5]); ctx.stroke(); ctx.setLineDash([]);
+  }
+
+  function draw() {
+    const C = css();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, W);
+    ctx.lineWidth = 1; ctx.strokeStyle = C.pgrid;
+    for (let k = -R; k <= R; k++) { seg(P([k, -R]), P([k, R])); seg(P([-R, k]), P([R, k])); }
+    ctx.strokeStyle = C.muted; ctx.globalAlpha = 0.6; ctx.lineWidth = 1.2;
+    seg(P([-R, 0]), P([R, 0])); seg(P([0, -R]), P([0, R])); ctx.globalAlpha = 1;
+    ctx.fillStyle = C.muted; ctx.font = `500 11px ${C.num}`; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    for (let k = -R + 1; k < R; k++) if (k) { const s = P([k, 0]); ctx.fillText(String(k).replace('-', '−'), s[0], s[1] + 4); }
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    for (let k = -R + 1; k < R; k++) if (k) { const s = P([0, k]); ctx.fillText(String(k).replace('-', '−'), s[0] - 5, s[1]); }
+
+    // If a and b are parallel, show the only line their combinations can reach
+    const d = det(), dir = Math.hypot(...S.a) > 1e-9 ? S.a : S.b;
+    if (Math.abs(d) < 1e-9 && Math.hypot(...dir) > 1e-9) {
+      const n = Math.hypot(...dir), e = [dir[0] / n * 20, dir[1] / n * 20];
+      ctx.strokeStyle = C.w; ctx.globalAlpha = 0.18; ctx.lineWidth = 10; seg(P(mul(-1, e)), P(e)); ctx.globalAlpha = 1;
+    }
+
+    // Target
+    const T = S.target, ts = P(T);
+    ctx.strokeStyle = C.t; ctx.lineWidth = 2; ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.arc(ts[0], ts[1], hover === 't' || (drag && drag.key === 't') ? 13 : 11, 0, 2 * Math.PI); ctx.stroke();
+    ctx.setLineDash([]); ctx.fillStyle = C.t; ctx.beginPath(); ctx.arc(ts[0], ts[1], 2.5, 0, 2 * Math.PI); ctx.fill();
+    label('target', T, C.t, 13, -4);
+
+    // Scaled pieces, tip to tail
+    const sa = mul(S.s, S.a), w = result();
+    ctx.globalAlpha = 0.45; arrow([0, 0], sa, C.a, 4); arrow(sa, w, C.b, 4, [7, 5]); ctx.globalAlpha = 1;
+    arrow([0, 0], w, C.w, 3.2);
+    // The two original vectors
+    arrow([0, 0], S.a, C.a, 2.6); arrow([0, 0], S.b, C.b, 2.6, [6, 4]);
+    handle(S.a, C.a, hover === 'a' || (drag && drag.key === 'a'), false);
+    handle(S.b, C.b, hover === 'b' || (drag && drag.key === 'b'), true);
+    label('a', S.a, C.a); label('b', S.b, C.b);
+  }
+
+  function colv(v, cls) { return `<span class="colv ${cls}"><span>${fmt(v[0])}</span><span>${fmt(v[1])}</span></span>`; }
+  function readout() {
+    const w = result();
+    $('eq').innerHTML = `<span class="k a">${fmt(S.s)}</span>${colv(S.a, 'a')}<span class="op">+</span><span class="k b">${fmt(S.t)}</span>${colv(S.b, 'b')}<span class="op">=</span>${colv(w, 'w')}`;
+    const T = S.target, hit = Math.hypot(w[0] - T[0], w[1] - T[1]) < 0.051, st = $('status'), sol = solve();
+    if (sol === null) {
+      st.className = 'status stuck';
+      st.textContent = 'a and b point along the same line, so every combination stays on that line (shaded). Targets off the line can never be reached.';
+    } else if (hit) {
+      st.className = 'status hit';
+      st.textContent = `Target reached: ${fmt(S.s)} a + ${fmt(S.t)} b = (${fmt(T[0])}, ${fmt(T[1])}).`;
+    } else {
+      st.className = 'status';
+      st.textContent = `Change s and t until the green arrow ends on the target at (${fmt(T[0])}, ${fmt(T[1])}).`;
+    }
+    $('show').disabled = sol === null;
+    cv.setAttribute('aria-label', `a = (${fmt(S.a[0])}, ${fmt(S.a[1])}), b = (${fmt(S.b[0])}, ${fmt(S.b[1])}). ` +
+      `${fmt(S.s)} a + ${fmt(S.t)} b = (${fmt(w[0])}, ${fmt(w[1])}). Target at (${fmt(T[0])}, ${fmt(T[1])}).`);
+    lastHit = hit;
+  }
+  function sync() { $('s1').value = S.s; $('n1').value = fmt(S.s).replace('−', '-'); $('s2').value = S.t; $('n2').value = fmt(S.t).replace('−', '-'); }
+  function update() { draw(); readout(); }
+
+  const clampC = x => Math.max(-3, Math.min(3, x));
+  $('s1').addEventListener('input', e => { S.s = +e.target.value; sync(); update(); });
+  $('s2').addEventListener('input', e => { S.t = +e.target.value; sync(); update(); });
+  $('n1').addEventListener('change', e => { const v = parseFloat(e.target.value); if (!isNaN(v)) S.s = clampC(v); sync(); update(); });
+  $('n2').addEventListener('change', e => { const v = parseFloat(e.target.value); if (!isNaN(v)) S.t = clampC(v); sync(); update(); });
+  $('show').addEventListener('click', () => {
+    const sol = solve(); if (!sol) return;
+    if (Math.abs(sol[0]) > 3 || Math.abs(sol[1]) > 3) {
+      $('status').className = 'status';
+      $('status').textContent = `You would need s = ${fmt(sol[0])} and t = ${fmt(sol[1])}, beyond the sliders' range. Try moving a or b.`;
+      return;
+    }
+    S.s = Math.round(sol[0] * 100) / 100; S.t = Math.round(sol[1] * 100) / 100; sync(); update();
+  });
+  $('newT').addEventListener('click', () => {
+    let T;
+    do { T = [Math.round((Math.random() * 8 - 4) * 2) / 2, Math.round((Math.random() * 8 - 4) * 2) / 2]; }
+    while (Math.hypot(...T) < 1.5);
+    S.target = T; update();
+  });
+  const presets = { ij: [[1, 0], [0, 1]], ex: [[2, 1], [-1, 1]], par: [[2, 1], [-1, -0.5]] };
+  document.querySelectorAll('[data-p]').forEach(b => b.addEventListener('click', () => {
+    const p = presets[b.dataset.p]; S.a = p[0].slice(); S.b = p[1].slice(); S.s = 1; S.t = 1;
+    if (b.dataset.p === 'ex') S.target = [1, 5];
+    sync(); update();
+  }));
+
+  // Dragging
+  function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+  function hit(sx, sy) {
+    let best = null, bd = 22;
+    for (const [k, p] of [['t', S.target], ['b', S.b], ['a', S.a]]) {
+      const s = P(p), d = Math.hypot(s[0] - sx, s[1] - sy); if (d < bd) { bd = d; best = k; }
+    }
+    return best;
+  }
+  cv.addEventListener('pointerdown', e => {
+    const [sx, sy] = pos(e), k = hit(sx, sy); if (!k) return;
+    drag = { key: k }; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); draw();
+  });
+  cv.addEventListener('pointermove', e => {
+    const [sx, sy] = pos(e);
+    if (!drag) { const h = hit(sx, sy); if (h !== hover) { hover = h; cv.className = h ? 'grab' : ''; draw(); } return; }
+    let x = (sx - W / 2) / u(), y = (W / 2 - sy) / u();
+    x = Math.max(-LIM, Math.min(LIM, Math.round(x * 2) / 2)); y = Math.max(-LIM, Math.min(LIM, Math.round(y * 2) / 2));
+    if (drag.key === 'a') S.a = [x, y]; else if (drag.key === 'b') S.b = [x, y]; else S.target = [x, y];
+    update();
+  });
+  const end = () => { if (drag) { drag = null; cv.className = hover ? 'grab' : ''; draw(); } };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  cv.addEventListener('pointerleave', () => { if (!drag && hover) { hover = null; cv.className = ''; draw(); } });
+
+  new ResizeObserver(resize).observe(cv.parentElement);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (document.fonts) document.fonts.ready.then(draw);
+  sync(); resize(); readout();
+})();
+</script>
+</body>
+</html>

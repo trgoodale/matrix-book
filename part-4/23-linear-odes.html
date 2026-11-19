@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>23&nbsp; Linear ODE systems and the matrix exponential – Matrices in Practice</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../part-4/review.html" rel="next">
+<link href="../part-4/22-matrix-calculus.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-a4502c8cbc339fc51dc0f3ab78f51ea6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-ae6c1fbcc07bf00db2a7efa1353188f4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+
+<script>
+
+/*
+
+  Notation settings for the book.
+
+  All mathematics is written with the macros below, never with hard-coded notation:
+
+    \vect{v}   a vector            \M{A}      a matrix
+
+    \ui \uj \uk  standard unit vectors in 2D/3D   \ue{n}  general basis vector e_n
+
+    \mat{..}   a matrix in brackets (rows split by \\, entries by &)
+
+    \amat{ccc|c}{..}  an augmented matrix   \T  transpose   \R  real numbers
+
+  The reader's choices are stored in localStorage under "mb-settings" and read
+
+  here, before MathJax loads, so every page is typeset in their notation.
+
+*/
+
+(function () {
+
+  var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python" };
+
+  var s = {};
+
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) { s = {}; }
+
+  for (var k in DEFAULTS) if (!(k in s)) s[k] = DEFAULTS[k];
+
+  window.mbSettings = s;
+
+  window.mbDefaults = DEFAULTS;
+
+
+
+  var vec = { bold: "\\mathbf{#1}", arrow: "\\vec{#1}", underline: "\\underline{#1}" }[s.vec] || "\\mathbf{#1}";
+
+  var unit = function (letter, dotless, idx) {
+
+    if (s.basis === "e") return vec.replace("#1", "e") + "_{" + idx + "}";
+
+    if (s.basis === "hat") return "\\hat{" + dotless + "}";
+
+    return vec.replace("#1", letter);
+
+  };
+
+  var open = s.br === "square" ? "[" : "(";
+
+  var close = s.br === "square" ? "]" : ")";
+
+  var env = s.br === "square" ? "bmatrix" : "pmatrix";
+
+
+
+  window.MathJax = {
+
+    tex: {
+
+      macros: {
+
+        vect: [vec, 1],
+
+        M: [s.mat === "italic" ? "#1" : "\\mathbf{#1}", 1],
+
+        ui: unit("i", "\\imath", 1),
+
+        uj: unit("j", "\\jmath", 2),
+
+        uk: unit("k", "k", 3),
+
+        ue: [vec.replace("#1", "e") + "_{#1}", 1],
+
+        mat: ["\\begin{" + env + "}#1\\end{" + env + "}", 1],
+
+        amat: ["\\left" + open + "\\begin{array}{#1}#2\\end{array}\\right" + close, 2],
+
+        T: s.tr === "top" ? "^{\\top}" : "^{\\mathsf{T}}",
+
+        R: "\\mathbb{R}",
+
+        zerovec: vec.replace("#1", "0")
+
+      }
+
+    },
+
+    // MathJax 4: break long equations across lines to fit narrow screens
+
+    output: { displayOverflow: "linebreak", linebreaks: { inline: true, width: "100%", lineleading: 0.6 } },
+
+    chtml: { scale: 1.0 }
+
+  };
+
+
+
+  // Default language for code tabs: Quarto reads this when the page is shown.
+
+  try {
+
+    var key = "quarto-persistent-tabsets-data";
+
+    var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+
+    if (!tabs.language) { tabs.language = s.code; localStorage.setItem(key, JSON.stringify(tabs)); }
+
+  } catch (e) {}
+
+
+
+  // ---------- settings panel ----------
+
+  var GROUPS = [
+
+    { key: "vec", label: "Vectors", opts: [["bold", "Bold", "\\mathbf{v}"], ["arrow", "Arrow", "\\vec{v}"], ["underline", "Underlined", "\\underline{v}"]] },
+
+    { key: "mat", label: "Matrices", opts: [["bold", "Bold", "\\mathbf{A}"], ["italic", "Italic", "A"]] },
+
+    { key: "basis", label: "Unit vectors", opts: [["ijk", "i, j, k", "\\mathbf{i},\\ \\mathbf{j},\\ \\mathbf{k}"], ["hat", "Hats", "\\hat{\\imath},\\ \\hat{\\jmath},\\ \\hat{k}"], ["e", "e₁, e₂, e₃", "\\mathbf{e}_1,\\ \\mathbf{e}_2,\\ \\mathbf{e}_3"]] },
+
+    { key: "br", label: "Brackets", opts: [["round", "Round", "\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}"], ["square", "Square", "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}"]] },
+
+    { key: "tr", label: "Transpose", opts: [["T", "Letter T", "\\mathbf{A}^{\\mathsf{T}}"], ["top", "Symbol ⊤", "\\mathbf{A}^{\\top}"]] },
+
+    { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] }
+
+  ];
+
+
+
+  function buildForm(prefix) {
+
+    var form = document.createElement("form");
+
+    form.className = "mb-settings-form";
+
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+
+    GROUPS.forEach(function (g) {
+
+      var fs = document.createElement("fieldset");
+
+      var lg = document.createElement("legend");
+
+      lg.textContent = g.label;
+
+      fs.appendChild(lg);
+
+      g.opts.forEach(function (o) {
+
+        var id = prefix + "-" + g.key + "-" + o[0];
+
+        var lab = document.createElement("label");
+
+        lab.className = "mb-opt";
+
+        lab.htmlFor = id;
+
+        var inp = document.createElement("input");
+
+        inp.type = "radio"; inp.name = prefix + "-" + g.key; inp.id = id; inp.value = o[0];
+
+        inp.checked = s[g.key] === o[0];
+
+        lab.appendChild(inp);
+
+        var txt = document.createElement("span");
+
+        txt.className = "mb-opt-name";
+
+        txt.textContent = o[1];
+
+        lab.appendChild(txt);
+
+        if (o[2]) {
+
+          var ex = document.createElement("span");
+
+          ex.className = "mb-opt-example";
+
+          ex.textContent = "\\(" + o[2] + "\\)";
+
+          lab.appendChild(ex);
+
+        }
+
+        fs.appendChild(lab);
+
+      });
+
+      form.appendChild(fs);
+
+    });
+
+    var row = document.createElement("div");
+
+    row.className = "mb-settings-actions";
+
+    var apply = document.createElement("button");
+
+    apply.type = "button"; apply.className = "btn btn-primary"; apply.textContent = "Apply";
+
+    var reset = document.createElement("button");
+
+    reset.type = "button"; reset.className = "btn btn-outline-secondary"; reset.textContent = "Restore defaults";
+
+    var note = document.createElement("span");
+
+    note.className = "mb-settings-note";
+
+    note.textContent = "Saved in this browser and used on every page.";
+
+    row.appendChild(apply); row.appendChild(reset); row.appendChild(note);
+
+    form.appendChild(row);
+
+
+
+    apply.addEventListener("click", function () {
+
+      var next = {};
+
+      GROUPS.forEach(function (g) {
+
+        var c = form.querySelector('input[name="' + prefix + "-" + g.key + '"]:checked');
+
+        next[g.key] = c ? c.value : DEFAULTS[g.key];
+
+      });
+
+      save(next);
+
+    });
+
+    reset.addEventListener("click", function () { save(Object.assign({}, DEFAULTS)); });
+
+    return form;
+
+  }
+
+
+
+  function save(next) {
+
+    try {
+
+      localStorage.setItem("mb-settings", JSON.stringify(next));
+
+      var key = "quarto-persistent-tabsets-data";
+
+      var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+
+      tabs.language = next.code;
+
+      localStorage.setItem(key, JSON.stringify(tabs));
+
+      sessionStorage.setItem("mb-scroll", String(window.scrollY));
+
+    } catch (e) {}
+
+    location.reload();
+
+  }
+
+
+
+  function typeset(el) {
+
+    var M = window.MathJax;
+
+    if (!M || !M.startup || !M.startup.promise) return;
+
+    M.startup.promise.then(function () { return M.typesetPromise([el]); }).catch(function () {});
+
+  }
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    try {
+
+      var y = sessionStorage.getItem("mb-scroll");
+
+      if (y !== null) { sessionStorage.removeItem("mb-scroll"); window.addEventListener("load", function () { window.scrollTo(0, +y); }); }
+
+    } catch (e) {}
+
+
+
+    // Inline panel (on the conventions page)
+
+    var inline = document.getElementById("mb-settings-inline");
+
+    if (inline) { inline.appendChild(buildForm("inline")); typeset(inline); }
+
+
+
+    // Floating button and dialog on every page
+
+    var btn = document.createElement("button");
+
+    btn.type = "button";
+
+    btn.className = "mb-settings-button";
+
+    btn.setAttribute("aria-haspopup", "dialog");
+
+    btn.innerHTML = '<span aria-hidden="true">⚙</span> Notation';
+
+    var dlg = document.createElement("dialog");
+
+    dlg.className = "mb-settings-dialog";
+
+    dlg.setAttribute("aria-labelledby", "mb-dlg-title");
+
+    dlg.innerHTML = '<div class="mb-dlg-head"><h2 id="mb-dlg-title">Notation and code</h2>' +
+
+      '<button type="button" class="btn-close" aria-label="Close"></button></div>' +
+
+      '<p class="mb-dlg-intro">Choose the notation you are used to. Every page of the book, and the apps, will use it. ' +
+
+      'See <a class="mb-conv-link">Notation and conventions</a> for what each option means.</p>';
+
+    dlg.appendChild(buildForm("dlg"));
+
+    document.body.appendChild(btn);
+
+    document.body.appendChild(dlg);
+
+    var conv = dlg.querySelector(".mb-conv-link");
+
+    var sideLink = document.querySelector('a[href$="conventions.html"]');
+
+    conv.href = sideLink ? sideLink.getAttribute("href") : "conventions.html";
+
+    btn.addEventListener("click", function () { dlg.showModal(); typeset(dlg); });
+
+    dlg.querySelector(".btn-close").addEventListener("click", function () { dlg.close(); });
+
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+
+
+    // Size embedded apps to their content (same origin)
+
+    document.querySelectorAll("iframe.app-frame").forEach(function (f) {
+
+      function fit() {
+
+        try { var d = f.contentDocument; if (d && d.documentElement) f.style.height = d.documentElement.scrollHeight + "px"; } catch (e) {}
+
+      }
+
+      f.addEventListener("load", function () {
+
+        fit();
+
+        try { new ResizeObserver(fit).observe(f.contentDocument.body); } catch (e) {}
+
+      });
+
+    });
+
+  });
+
+})();
+
+</script>
+
+<script>
+
+/* Accessibility fixes for markup that Quarto generates. */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // Collapsible callouts ("Check your understanding"): make the header a real,
+
+  // keyboard-operable button that announces whether the answer is shown.
+
+  document.querySelectorAll(".callout-header[data-bs-toggle='collapse']").forEach(function (h) {
+
+    var target = document.querySelector(h.getAttribute("data-bs-target"));
+
+    h.setAttribute("role", "button");
+
+    h.setAttribute("tabindex", "0");
+
+    if (target) {
+
+      if (!target.id) target.id = "mb-" + Math.random().toString(36).slice(2, 9);
+
+      h.setAttribute("aria-controls", target.id);
+
+    }
+
+    h.addEventListener("keydown", function (e) {
+
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); h.click(); }
+
+    });
+
+  });
+
+  // Sidebar: label the landmark, and stop section toggles posing as landmarks.
+
+  var side = document.getElementById("quarto-sidebar");
+
+  if (side) side.setAttribute("aria-label", "Book contents");
+
+  document.querySelectorAll("#quarto-sidebar [data-bs-toggle='collapse'][role='navigation']").forEach(function (a) {
+
+    a.setAttribute("role", "button");
+
+  });
+
+  var toc = document.querySelector("nav#TOC");
+
+  if (toc && !toc.getAttribute("aria-label")) toc.setAttribute("aria-label", "On this page");
+
+  // Code output that scrolls sideways must be reachable from the keyboard.
+
+  function markScrollers() {
+
+    var n = 0;
+
+    document.querySelectorAll(".cell-output pre, pre.code-output, div.code-output pre").forEach(function (p) {
+
+      if (p.scrollWidth > p.clientWidth + 1) {
+
+        n += 1;
+
+        p.setAttribute("tabindex", "0");
+
+        p.setAttribute("role", "region");
+
+        p.setAttribute("aria-label", "Code output " + n + " (scrolls sideways)");
+
+      } else if (p.getAttribute("role") === "region") {
+
+        p.removeAttribute("tabindex"); p.removeAttribute("role"); p.removeAttribute("aria-label");
+
+      }
+
+    });
+
+  }
+
+  markScrollers();
+
+  window.addEventListener("resize", markScrollers);
+
+  document.addEventListener("shown.bs.tab", markScrollers);
+
+});
+
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-4/18-eigenvalues.html">Part IV: Eigenvalues and matrix calculus</a></li><li class="breadcrumb-item"><a href="../part-4/23-linear-odes.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear ODE systems and the matrix exponential</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Matrices in Practice</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/trgoodale/matrix-book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/how-to-use.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to use this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/conventions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notation and conventions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/refresher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Refresher</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Matrices and transformations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/01-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is a matrix?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/02-arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Adding and scaling matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/03-multiplication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix multiplication</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/04-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrices as transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/05-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Composing transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/06-determinants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Determinants</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/07-inverses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Inverse matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/08-transformations-3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Transformations in three dimensions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/09-invariant-lines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Invariant points and lines</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part I review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Linear systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/10-linear-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Systems of linear equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/11-gaussian-elimination.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Gaussian elimination</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/12-gauss-jordan-rank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Gauss–Jordan elimination and rank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/13-lu-decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LU decomposition</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part II review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part III: Vector spaces</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/14-span-independence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Span and linear independence</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/15-basis-change.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Basis, dimension and change of basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/16-fundamental-subspaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Column space, null space and rank–nullity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/17-orthogonality-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Orthogonality and least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part IV: Eigenvalues and matrix calculus</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/18-eigenvalues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Eigenvalues and eigenvectors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/19-diagonalisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Diagonalisation and matrix powers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/20-symmetric-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Symmetric and positive definite matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/21-svd-pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">The singular value decomposition and PCA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/22-matrix-calculus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Derivatives with vectors and matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/23-linear-odes.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear ODE systems and the matrix exponential</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part V: Numerical methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/24-floating-point-conditioning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Floating point and conditioning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/25-pivoting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Pivoting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/26-cost-sparse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Cost, banded and sparse systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/27-iterative-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Iterative methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/28-newton-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Newton’s method for nonlinear systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/29-eigenvalue-algorithms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Eigenvalue algorithms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/30-qr-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">QR factorisation and stable least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part V review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part VI: Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/31-trusses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Structures: pin-jointed trusses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/32-circuits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Electrical circuits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/33-finite-differences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Heat flow and finite differences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/34-graphics-robotics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Computer graphics and robotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/35-markov-pagerank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Markov chains and PageRank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/36-population-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Population models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/37-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Data: regression and dimensionality reduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/38-physics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Physics: rotations, inertia and quantum states</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/39-cryptography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Cryptography: the Hill cipher</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part VI review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/apps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Interactive apps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Reference: matrices and their rules</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/matrix-calculus-identities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Matrix calculus identities</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Solutions: Part I</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions: Part II</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Solutions: Part III</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Solutions: Part IV</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Solutions: Part V</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Solutions: Part VI</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#build-intuition" id="toc-build-intuition" class="nav-link active" data-scroll-target="#build-intuition"><span class="header-section-number">23.1</span> Build intuition</a></li>
+  <li><a href="#the-ideas" id="toc-the-ideas" class="nav-link" data-scroll-target="#the-ideas"><span class="header-section-number">23.2</span> The ideas</a>
+  <ul class="collapse">
+  <li><a href="#systems-of-differential-equations" id="toc-systems-of-differential-equations" class="nav-link" data-scroll-target="#systems-of-differential-equations">Systems of differential equations</a></li>
+  <li><a href="#eigenvector-solutions" id="toc-eigenvector-solutions" class="nav-link" data-scroll-target="#eigenvector-solutions">Eigenvector solutions</a></li>
+  <li><a href="#complex-eigenvalues-oscillation" id="toc-complex-eigenvalues-oscillation" class="nav-link" data-scroll-target="#complex-eigenvalues-oscillation">Complex eigenvalues: oscillation</a></li>
+  <li><a href="#stability" id="toc-stability" class="nav-link" data-scroll-target="#stability">Stability</a></li>
+  <li><a href="#the-matrix-exponential" id="toc-the-matrix-exponential" class="nav-link" data-scroll-target="#the-matrix-exponential">The matrix exponential</a></li>
+  </ul></li>
+  <li><a href="#in-code" id="toc-in-code" class="nav-link" data-scroll-target="#in-code"><span class="header-section-number">23.3</span> In code</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">23.4</span> Check your understanding</a></li>
+  <li><a href="#key-ideas" id="toc-key-ideas" class="nav-link" data-scroll-target="#key-ideas"><span class="header-section-number">23.5</span> Key ideas</a></li>
+  <li><a href="#sec-linear-odes-exercises" id="toc-sec-linear-odes-exercises" class="nav-link" data-scroll-target="#sec-linear-odes-exercises"><span class="header-section-number">23.6</span> Exercises</a></li>
+  <li><a href="#in-practice" id="toc-in-practice" class="nav-link" data-scroll-target="#in-practice"><span class="header-section-number">23.7</span> In practice</a></li>
+  <li><a href="#going-further" id="toc-going-further" class="nav-link" data-scroll-target="#going-further"><span class="header-section-number">23.8</span> Going further</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/part-4/23-linear-odes.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-4/18-eigenvalues.html">Part IV: Eigenvalues and matrix calculus</a></li><li class="breadcrumb-item"><a href="../part-4/23-linear-odes.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear ODE systems and the matrix exponential</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-linear-odes" class="quarto-section-identifier"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear ODE systems and the matrix exponential</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><span class="level-badge further">Further</span></p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>In this chapter you will
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>write coupled linear differential equations as <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x}\)</span></li>
+<li>solve them with eigenvalues and eigenvectors</li>
+<li>use the matrix exponential <span class="math inline">\(e^{\M{A}t}\)</span></li>
+<li>classify equilibria as stable or unstable from the eigenvalues</li>
+</ul>
+</div>
+</div>
+<p><strong>Builds on</strong> <a href="18-eigenvalues.html" class="quarto-xref"><span>Chapter 18</span></a>, <a href="19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>, and first-order differential equations.</p>
+<p>Two rooms lose heat to the outside and to each other; two masses on springs push and pull on each other; a drug passes from the gut into the blood and is then removed. In each case several quantities change at once, and the rate at which each one changes depends on all of them. When the dependence is linear, the whole system is one equation, <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x}\)</span>, where the dot means the derivative with respect to time. <a href="19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a> solved <span class="math inline">\(\vect{x}_{k+1} = \M{A}\vect{x}_k\)</span> for systems that change in steps; this chapter does the same for systems that change continuously, with the same tools. This chapter assumes you have met first-order differential equations such as <span class="math inline">\(\dot{x} = ax\)</span>.</p>
+<section id="build-intuition" class="level2" data-number="23.1">
+<h2 data-number="23.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">23.1</span> Build intuition</h2>
+<p>The app draws the <strong>phase portrait</strong> of <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x}\)</span>: the paths that the state <span class="math inline">\(\vect{x}(t)\)</span> traces out in the plane, from many starting points. Small arrows show the direction of motion at each point, and the chart on the right places the matrix by its trace and determinant.</p>
+<div class="app-embed">
+<iframe class="app-frame" src="../apps/phase-portrait.html?embed=1" title="Phase portrait explorer" loading="lazy">
+</iframe>
+<p><a href="../apps/phase-portrait.html" class="app-open" target="_blank">Open the phase portrait explorer in its own tab</a></p>
+</div>
+<p>Things to try:</p>
+<ul>
+<li>In <strong>Two rooms cooling</strong>, click to start some new paths. They all end at the origin, but how do they approach it? Compare the paths with the dashed eigenvector lines.</li>
+<li>In <strong>Saddle</strong>, start paths close to each eigenvector line. Which line do paths move along towards the origin, and which away?</li>
+<li>Compare <strong>Damped spring</strong>, <strong>Undamped spring</strong> and <strong>Growing spiral</strong>. Their eigenvalues are complex. What does the real part decide?</li>
+<li>Change one entry of <span class="math inline">\(\M{A}\)</span> at a time and watch the dot move on the trace–determinant chart, which this chapter explains later. Where on the chart does the picture change type?</li>
+</ul>
+</section>
+<section id="the-ideas" class="level2" data-number="23.2">
+<h2 data-number="23.2" class="anchored" data-anchor-id="the-ideas"><span class="header-section-number">23.2</span> The ideas</h2>
+<section id="systems-of-differential-equations" class="level3">
+<h3 class="anchored" data-anchor-id="systems-of-differential-equations">Systems of differential equations</h3>
+<p>Suppose quantities <span class="math inline">\(x_1, \dots, x_n\)</span> change with time <span class="math inline">\(t\)</span>, and each rate of change is a linear combination of all of them: <span class="math display">\[
+\begin{aligned}
+\dot{x}_1 &amp;= a_{11}x_1 + \dots + a_{1n}x_n, \\
+&amp;\;\;\vdots \\
+\dot{x}_n &amp;= a_{n1}x_1 + \dots + a_{nn}x_n.
+\end{aligned}
+\]</span> In matrix form this is <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x}\)</span>, and together with a starting state <span class="math inline">\(\vect{x}(0) = \vect{x}_0\)</span> it has exactly one solution. The origin is an <strong>equilibrium</strong>: if <span class="math inline">\(\vect{x} = \zerovec\)</span>, nothing changes.</p>
+<p>Higher-order equations fit the same pattern. For a mass on a spring with damping, <span class="math inline">\(\ddot{x} + c\dot{x} + kx = 0\)</span>, take the position and the velocity as the two quantities, <span class="math inline">\(x_1 = x\)</span> and <span class="math inline">\(x_2 = \dot{x}\)</span>. Then <span class="math inline">\(\dot{x}_1 = x_2\)</span> and <span class="math inline">\(\dot{x}_2 = -kx_1 - cx_2\)</span>, so <span class="math display">\[
+\frac{d}{dt}\mat{x_1 \\ x_2} = \mat{0 &amp; 1 \\ -k &amp; -c}\mat{x_1 \\ x_2}.
+\]</span> Any linear equation of order <span class="math inline">\(n\)</span> becomes a system of <span class="math inline">\(n\)</span> first-order equations in this way, which is also how numerical ODE solvers expect equations to be written.</p>
+</section>
+<section id="eigenvector-solutions" class="level3">
+<h3 class="anchored" data-anchor-id="eigenvector-solutions">Eigenvector solutions</h3>
+<p>For one equation, <span class="math inline">\(\dot{x} = ax\)</span> has solution <span class="math inline">\(x = e^{at}x_0\)</span>. So try <span class="math inline">\(\vect{x}(t) = e^{\lambda t}\vect{v}\)</span> for a fixed vector <span class="math inline">\(\vect{v}\)</span>. Then <span class="math inline">\(\dot{\vect{x}} = \lambda e^{\lambda t}\vect{v}\)</span> and <span class="math inline">\(\M{A}\vect{x} = e^{\lambda t}\M{A}\vect{v}\)</span>, and these are equal exactly when <span class="math inline">\(\M{A}\vect{v} = \lambda\vect{v}\)</span>. Every eigenvector gives a solution that stays on its line through the origin, growing if <span class="math inline">\(\lambda &gt; 0\)</span> and shrinking if <span class="math inline">\(\lambda &lt; 0\)</span>.</p>
+<p>The equation is linear, so sums of solutions are solutions. If <span class="math inline">\(\M{A}\)</span> has <span class="math inline">\(n\)</span> independent eigenvectors, write the starting state in terms of them, <span class="math inline">\(\vect{x}_0 = c_1\vect{v}_1 + \dots + c_n\vect{v}_n\)</span> (<a href="../part-3/15-basis-change.html" class="quarto-xref"><span>Chapter 15</span></a>). Then <span id="eq-ode-modes"><span class="math display">\[
+\vect{x}(t) = c_1e^{\lambda_1 t}\vect{v}_1 + c_2e^{\lambda_2 t}\vect{v}_2 + \dots + c_ne^{\lambda_n t}\vect{v}_n.
+\tag{23.1}\]</span></span> Each term is a <strong>mode</strong> of the system, evolving independently of the others. This is <a href="19-diagonalisation.html#eq-modes" class="quarto-xref">Equation&nbsp;<span>19.3</span></a> of <a href="19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a> with <span class="math inline">\(\lambda^k\)</span> replaced by <span class="math inline">\(e^{\lambda t}\)</span>. In the long run, the mode with the largest <span class="math inline">\(\lambda\)</span> dominates.</p>
+<div id="ex-linear-odes-1" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 1: two rooms cooling
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Two rooms, at temperatures <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> above the outside temperature, each lose heat to the outside and exchange heat with each other through a shared wall. With suitable units, <span class="math display">\[
+\dot{x}_1 = -x_1 - (x_1 - x_2),
+\qquad
+\dot{x}_2 = -x_2 - (x_2 - x_1).
+\]</span> Starting from <span class="math inline">\(\vect{x}_0 = (3, 1)\T\)</span>, find <span class="math inline">\(\vect{x}(t)\)</span>.</p>
+<p><strong>Solution.</strong> The matrix is <span class="math inline">\(\M{A} = \mat{-2 &amp; 1 \\ 1 &amp; -2}\)</span>, with trace <span class="math inline">\(-4\)</span> and determinant 3, so <span class="math inline">\(\lambda^2 + 4\lambda + 3 = 0\)</span> and <span class="math inline">\(\lambda = -1\)</span> or <span class="math inline">\(-3\)</span>. Eigenvectors: <span class="math inline">\((1, 1)\T\)</span> for <span class="math inline">\(\lambda = -1\)</span> and <span class="math inline">\((1, -1)\T\)</span> for <span class="math inline">\(\lambda = -3\)</span>. Writing <span class="math inline">\(\vect{x}_0 = (3, 1)\T = 2(1, 1)\T + 1(1, -1)\T\)</span>, <span class="math display">\[
+\vect{x}(t) = 2e^{-t}\mat{1 \\ 1} + e^{-3t}\mat{1 \\ -1}.
+\]</span> The modes have a physical meaning. In the first, both rooms are equally warm, so no heat crosses the wall and both cool at rate 1. In the second, one room is warmer than the other by as much as the other is cooler; heat also flows through the wall, so this difference dies away three times as fast. After a short time the temperatures are almost equal, and both fall together. This is <strong>Two rooms cooling</strong> in the app: paths first move parallel to <span class="math inline">\((1, -1)\)</span> onto the line through <span class="math inline">\((1, 1)\)</span>, then slide along it to the origin.</p>
+</div>
+</div>
+</section>
+<section id="complex-eigenvalues-oscillation" class="level3">
+<h3 class="anchored" data-anchor-id="complex-eigenvalues-oscillation">Complex eigenvalues: oscillation</h3>
+<p>A real matrix can have complex eigenvalues <span class="math inline">\(\lambda = \alpha \pm \beta i\)</span> (<a href="18-eigenvalues.html" class="quarto-xref"><span>Chapter 18</span></a>). <a href="#eq-ode-modes" class="quarto-xref">Equation&nbsp;<span>23.1</span></a> still holds, and by Euler’s formula <span class="math display">\[
+e^{(\alpha + \beta i)t} = e^{\alpha t}(\cos\beta t + i\sin\beta t).
+\]</span> The imaginary parts cancel in the real solution, leaving combinations of <span class="math inline">\(e^{\alpha t}\cos\beta t\)</span> and <span class="math inline">\(e^{\alpha t}\sin\beta t\)</span>. The imaginary part <span class="math inline">\(\beta\)</span> sets the angular frequency of oscillation, and the real part <span class="math inline">\(\alpha\)</span> decides whether the oscillation dies away (<span class="math inline">\(\alpha &lt; 0\)</span>), grows (<span class="math inline">\(\alpha &gt; 0\)</span>) or carries on for ever (<span class="math inline">\(\alpha = 0\)</span>).</p>
+<div id="ex-linear-odes-2" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 2: a damped spring
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Solve <span class="math inline">\(\ddot{x} + 2\dot{x} + 5x = 0\)</span> with <span class="math inline">\(x(0) = 1\)</span>, <span class="math inline">\(\dot{x}(0) = 0\)</span>, and describe the motion.</p>
+<p><strong>Solution.</strong> With <span class="math inline">\(x_1 = x\)</span> and <span class="math inline">\(x_2 = \dot{x}\)</span>, the matrix is <span class="math inline">\(\M{A} = \mat{0 &amp; 1 \\ -5 &amp; -2}\)</span>, with trace <span class="math inline">\(-2\)</span> and determinant 5. So <span class="math inline">\(\lambda^2 + 2\lambda + 5 = 0\)</span>, giving <span class="math inline">\(\lambda = -1 \pm 2i\)</span>. The solution is a combination of <span class="math inline">\(e^{-t}\cos 2t\)</span> and <span class="math inline">\(e^{-t}\sin 2t\)</span>: <span class="math display">\[
+x(t) = e^{-t}(a\cos 2t + b\sin 2t).
+\]</span> From <span class="math inline">\(x(0) = 1\)</span>, <span class="math inline">\(a = 1\)</span>. Differentiating, <span class="math inline">\(\dot{x}(0) = -a + 2b = 0\)</span>, so <span class="math inline">\(b = \tfrac{1}{2}\)</span>, and <span class="math display">\[
+x(t) = e^{-t}\left(\cos 2t + \tfrac{1}{2}\sin 2t\right).
+\]</span> The mass oscillates with angular frequency 2, and the amplitude decays like <span class="math inline">\(e^{-t}\)</span>: a stable spiral in the phase plane, <strong>Damped spring</strong> in the app. Without damping (<span class="math inline">\(\ddot{x} + 4x = 0\)</span>, <strong>Undamped spring</strong>), the eigenvalues would be <span class="math inline">\(\pm 2i\)</span> and the paths closed ellipses.</p>
+</div>
+</div>
+</section>
+<section id="stability" class="level3">
+<h3 class="anchored" data-anchor-id="stability">Stability</h3>
+<p>The equilibrium is <strong>stable</strong> if every solution tends to <span class="math inline">\(\zerovec\)</span>, and that depends only on the real parts of the eigenvalues.</p>
+<div class="callout callout-style-simple callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Stability of <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x}\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Every solution tends to <span class="math inline">\(\zerovec\)</span> if and only if every eigenvalue of <span class="math inline">\(\M{A}\)</span> has negative real part. If any eigenvalue has positive real part, most solutions grow without limit.</p>
+</div>
+</div>
+<p>Compare the discrete case of <a href="19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>, where the test was <span class="math inline">\(\lvert\lambda\rvert &lt; 1\)</span>: there the factor per step is <span class="math inline">\(\lambda\)</span>, here it is <span class="math inline">\(e^{\lambda}\)</span> per unit time, and <span class="math inline">\(\lvert e^{\lambda}\rvert &lt; 1\)</span> exactly when the real part of <span class="math inline">\(\lambda\)</span> is negative.</p>
+<p>For a <span class="math inline">\(2 \times 2\)</span> matrix, the eigenvalues are the roots of <span class="math inline">\(\lambda^2 - \tau\lambda + \Delta = 0\)</span>, where <span class="math inline">\(\tau\)</span> is the trace and <span class="math inline">\(\Delta\)</span> the determinant (<a href="18-eigenvalues.html" class="quarto-xref"><span>Chapter 18</span></a>), so these two numbers decide the type of the phase portrait:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Condition</th>
+<th style="text-align: left;">Eigenvalues</th>
+<th style="text-align: left;">Phase portrait</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\Delta &lt; 0\)</span></td>
+<td style="text-align: left;">real, opposite signs</td>
+<td style="text-align: left;"><strong>saddle</strong>: unstable</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\Delta &gt; 0\)</span>, <span class="math inline">\(\tau^2 &gt; 4\Delta\)</span></td>
+<td style="text-align: left;">real, same sign</td>
+<td style="text-align: left;"><strong>node</strong>: stable if <span class="math inline">\(\tau &lt; 0\)</span>, unstable if <span class="math inline">\(\tau &gt; 0\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\Delta &gt; 0\)</span>, <span class="math inline">\(\tau^2 &lt; 4\Delta\)</span>, <span class="math inline">\(\tau \neq 0\)</span></td>
+<td style="text-align: left;">complex</td>
+<td style="text-align: left;"><strong>spiral</strong>: stable if <span class="math inline">\(\tau &lt; 0\)</span>, unstable if <span class="math inline">\(\tau &gt; 0\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\Delta &gt; 0\)</span>, <span class="math inline">\(\tau = 0\)</span></td>
+<td style="text-align: left;">purely imaginary</td>
+<td style="text-align: left;"><strong>centre</strong>: closed orbits</td>
+</tr>
+</tbody>
+</table>
+<p>This is the chart in the app: the parabola <span class="math inline">\(\tau^2 = 4\Delta\)</span> separates nodes from spirals, and the vertical axis separates stable from unstable.</p>
+</section>
+<section id="the-matrix-exponential" class="level3">
+<h3 class="anchored" data-anchor-id="the-matrix-exponential">The matrix exponential</h3>
+<p>For one equation the solution is <span class="math inline">\(e^{at}x_0\)</span>. For a system, define the <strong>matrix exponential</strong> by the same power series as <span class="math inline">\(e^x\)</span>: <span class="math display">\[
+e^{\M{A}t} = \M{I} + \M{A}t + \frac{(\M{A}t)^2}{2!} + \frac{(\M{A}t)^3}{3!} + \cdots
+\]</span> The series always converges, and differentiating term by term gives <span class="math inline">\(\frac{d}{dt}e^{\M{A}t} = \M{A}e^{\M{A}t}\)</span> (<a href="../appendices/proofs.html#sec-proofs-linear-odes" class="quarto-xref"><span>Section C.16</span></a>). So the solution of <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x}\)</span>, <span class="math inline">\(\vect{x}(0) = \vect{x}_0\)</span>, is <span class="math display">\[
+\vect{x}(t) = e^{\M{A}t}\vect{x}_0,
+\]</span> for every square matrix, diagonalisable or not. The matrix <span class="math inline">\(e^{\M{A}t}\)</span> maps the state at time 0 to the state at time <span class="math inline">\(t\)</span>.</p>
+<p>When <span class="math inline">\(\M{A} = \M{P}\M{D}\M{P}^{-1}\)</span> is diagonalisable, every power is <span class="math inline">\(\M{A}^k = \M{P}\M{D}^k\M{P}^{-1}\)</span> (<a href="19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>), so the whole series factorises: <span class="math display">\[
+e^{\M{A}t} = \M{P}e^{\M{D}t}\M{P}^{-1},
+\qquad
+e^{\M{D}t} = \mat{e^{\lambda_1 t} &amp; &amp; \\ &amp; \ddots &amp; \\ &amp; &amp; e^{\lambda_n t}}.
+\]</span> This is <a href="#eq-ode-modes" class="quarto-xref">Equation&nbsp;<span>23.1</span></a> again, written as a single matrix. One warning: <span class="math inline">\(e^{\M{A}}e^{\M{B}}\)</span> equals <span class="math inline">\(e^{\M{A} + \M{B}}\)</span> only when <span class="math inline">\(\M{A}\M{B} = \M{B}\M{A}\)</span>, because matrix multiplication is not commutative.</p>
+<div id="ex-linear-odes-3" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 3: a matrix exponential
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Find <span class="math inline">\(e^{\M{A}t}\)</span> for the matrix of Example 1, and use it to find <span class="math inline">\(\vect{x}(1)\)</span>.</p>
+<p><strong>Solution.</strong> The unit eigenvectors are <span class="math inline">\(\tfrac{1}{\sqrt{2}}(1, 1)\T\)</span> and <span class="math inline">\(\tfrac{1}{\sqrt{2}}(1, -1)\T\)</span>, and since <span class="math inline">\(\M{A}\)</span> is symmetric, <span class="math inline">\(\M{P}^{-1} = \M{P}\T\)</span> (<a href="20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>). Then <span class="math display">\[
+e^{\M{A}t} = \M{P}\mat{e^{-t} &amp; 0 \\ 0 &amp; e^{-3t}}\M{P}\T = \frac{1}{2}\mat{e^{-t} + e^{-3t} &amp; e^{-t} - e^{-3t} \\ e^{-t} - e^{-3t} &amp; e^{-t} + e^{-3t}}.
+\]</span> At <span class="math inline">\(t = 0\)</span> this is <span class="math inline">\(\M{I}\)</span>, as it should be. At <span class="math inline">\(t = 1\)</span>, <span class="math display">\[
+\vect{x}(1) = e^{\M{A}}\mat{3 \\ 1} = \mat{2e^{-1} + e^{-3} \\ 2e^{-1} - e^{-3}} \approx \mat{0.7855 \\ 0.6860},
+\]</span> which agrees with Example 1.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="in-code" class="level2" data-number="23.3">
+<h2 data-number="23.3" class="anchored" data-anchor-id="in-code"><span class="header-section-number">23.3</span> In code</h2>
+<p>SciPy’s <code>expm</code> and MATLAB’s <code>expm</code> compute the matrix exponential directly, without needing eigenvectors, and work for any square matrix. For systems that are not linear, or not constant in time, numerical solvers such as <code>solve_ivp</code> and <code>ode45</code> step the solution forward in time; they are worth trying on linear systems too, where you can check their answers.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div id="ee87fed2" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="op">-</span><span class="dv">2</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>]])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">1</span>])</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(expm(A <span class="op">*</span> <span class="fl">1.0</span>) <span class="op">@</span> x0)                  <span class="co"># x(1) for Example 1</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 2: the damped spring, solved numerically</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">1</span>], [<span class="op">-</span><span class="dv">5</span>, <span class="op">-</span><span class="dv">2</span>]])</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> solve_ivp(<span class="kw">lambda</span> t, x: S <span class="op">@</span> x, [<span class="dv">0</span>, <span class="dv">2</span>], [<span class="dv">1</span>, <span class="dv">0</span>], rtol<span class="op">=</span><span class="fl">1e-10</span>, atol<span class="op">=</span><span class="fl">1e-12</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sol.y[:, <span class="op">-</span><span class="dv">1</span>])                        <span class="co"># position and velocity at t = 2</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.exp(<span class="op">-</span><span class="dv">2</span>) <span class="op">*</span> (np.cos(<span class="dv">4</span>) <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> np.sin(<span class="dv">4</span>)))   <span class="co"># exact position</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.eigvals(S))                <span class="co"># -1 + 2i and -1 - 2i</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0.78554595 0.68597181]
+[-0.13967208  0.2560552 ]
+-0.13967208459371888
+[-1.+2.j -1.-2.j]</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> [<span class="op">-</span><span class="fl">2</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">1</span> <span class="op">-</span><span class="fl">2</span>]<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">x0</span> <span class="op">=</span> [<span class="fl">3</span><span class="op">;</span> <span class="fl">1</span>]<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">expm</span>(<span class="va">A</span> <span class="op">*</span> <span class="fl">1</span>) <span class="op">*</span> <span class="va">x0</span>           <span class="co">% x(1) for Example 1</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">% Example 2: the damped spring, solved numerically</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="va">S</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span><span class="op">;</span> <span class="op">-</span><span class="fl">5</span> <span class="op">-</span><span class="fl">2</span>]<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="va">opts</span> <span class="op">=</span> <span class="va">odeset</span>(<span class="ss">'RelTol'</span><span class="op">,</span> <span class="fl">1e-10</span><span class="op">,</span> <span class="ss">'AbsTol'</span><span class="op">,</span> <span class="fl">1e-12</span>)<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>[<span class="va">t</span><span class="op">,</span> <span class="va">x</span>] <span class="op">=</span> <span class="va">ode45</span>(<span class="op">@</span>(<span class="va">t</span><span class="op">,</span> <span class="va">x</span>) <span class="va">S</span> <span class="op">*</span> <span class="va">x</span><span class="op">,</span> [<span class="fl">0</span> <span class="fl">2</span>]<span class="op">,</span> [<span class="fl">1</span><span class="op">;</span> <span class="fl">0</span>]<span class="op">,</span> <span class="va">opts</span>)<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="va">x</span>(<span class="kw">end</span><span class="op">,</span> <span class="op">:</span>)                  <span class="co">% position and velocity at t = 2</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="va">exp</span>(<span class="op">-</span><span class="fl">2</span>) <span class="op">*</span> (<span class="va">cos</span>(<span class="fl">4</span>) <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="va">sin</span>(<span class="fl">4</span>))   <span class="co">% exact position</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="va">eig</span>(<span class="va">S</span>)                     <span class="co">% -1 + 2i and -1 - 2i</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>ans =
+
+    0.7855
+    0.6860
+
+ans =
+
+   -0.1397    0.2561
+
+ans =
+
+   -0.1397
+
+ans =
+
+  -1.0000 + 2.0000i
+  -1.0000 - 2.0000i</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="check-your-understanding" class="level2" data-number="23.4">
+<h2 data-number="23.4" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">23.4</span> Check your understanding</h2>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A <span class="math inline">\(2 \times 2\)</span> matrix has eigenvalues <span class="math inline">\(-1\)</span> and <span class="math inline">\(2\)</span>. Is the origin stable?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>No: it is a saddle. Paths along the eigenvector for <span class="math inline">\(-1\)</span> go in, but almost every other path is eventually carried away along the eigenvector for 2.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What is <span class="math inline">\(e^{\M{A}t}\)</span> when <span class="math inline">\(\M{A} = \M{0}\)</span>?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\M{I}\)</span>, for every <span class="math inline">\(t\)</span>: nothing changes.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Can the trace alone tell you that a <span class="math inline">\(2 \times 2\)</span> system is unstable?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Yes, if it is positive: the trace is the sum of the eigenvalues (or twice their real part), so at least one eigenvalue has positive real part. A negative trace alone is not enough, since a saddle can have negative trace.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="key-ideas" class="level2" data-number="23.5">
+<h2 data-number="23.5" class="anchored" data-anchor-id="key-ideas"><span class="header-section-number">23.5</span> Key ideas</h2>
+<ul>
+<li>Coupled linear differential equations can be written as <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x}\)</span>.</li>
+<li>Each eigenvector <span class="math inline">\(\vect{v}\)</span> with eigenvalue <span class="math inline">\(\lambda\)</span> gives a solution <span class="math inline">\(e^{\lambda t}\vect{v}\)</span>, and the general solution is a combination of these.</li>
+<li>Complex eigenvalues <span class="math inline">\(\alpha \pm \beta i\)</span> give oscillation at frequency <span class="math inline">\(\beta\)</span>, growing or decaying like <span class="math inline">\(e^{\alpha t}\)</span>.</li>
+<li>The equilibrium at the origin is stable when every eigenvalue has a negative real part.</li>
+<li>The matrix exponential solves every such system at once: <span class="math inline">\(\vect{x}(t) = e^{\M{A}t}\vect{x}(0)\)</span>.</li>
+</ul>
+</section>
+<section id="sec-linear-odes-exercises" class="level2" data-number="23.6">
+<h2 data-number="23.6" class="anchored" data-anchor-id="sec-linear-odes-exercises"><span class="header-section-number">23.6</span> Exercises</h2>
+<ol type="1">
+<li><p><span id="exercise-linear-odes-1"></span>Write <span class="math inline">\(\ddot{x} + 3\dot{x} + 2x = 0\)</span> as a first-order system, find the eigenvalues, and classify the equilibrium.</p>
+<p><a href="../appendices/solutions-4.html#solution-linear-odes-1" class="sol-link">Solution to exercise 1</a></p></li>
+<li><p><span id="exercise-linear-odes-2"></span>Solve <span class="math inline">\(\dot{\vect{x}} = \mat{1 &amp; 2 \\ 2 &amp; 1}\vect{x}\)</span> with <span class="math inline">\(\vect{x}(0) = (1, 0)\T\)</span>. What happens to <span class="math inline">\(\vect{x}(t)\)</span> as <span class="math inline">\(t\)</span> grows?</p>
+<p><a href="../appendices/solutions-4.html#solution-linear-odes-2" class="sol-link">Solution to exercise 2</a></p></li>
+<li><p><span id="exercise-linear-odes-3"></span>Classify the equilibrium for each matrix, using the trace and determinant. <span class="math display">\[
+\text{(a) } \mat{0 &amp; 1 \\ -4 &amp; 0}
+\qquad
+\text{(b) } \mat{3 &amp; -2 \\ 4 &amp; -1}
+\qquad
+\text{(c) } \mat{-3 &amp; 1 \\ 1 &amp; -3}
+\qquad
+\text{(d) } \mat{2 &amp; 0 \\ 0 &amp; -1}
+\]</span></p>
+<p><a href="../appendices/solutions-4.html#solution-linear-odes-3" class="sol-link">Solution to exercise 3</a></p></li>
+<li><p><span id="exercise-linear-odes-4"></span>(a) Show that <span class="math inline">\(e^{\M{D}t} = \mat{e^{at} &amp; 0 \\ 0 &amp; e^{bt}}\)</span> for <span class="math inline">\(\M{D} = \mat{a &amp; 0 \\ 0 &amp; b}\)</span>, using the power series.<br>
+</p>
+<ol start="2" type="a">
+<li>For <span class="math inline">\(\M{N} = \mat{0 &amp; 1 \\ 0 &amp; 0}\)</span>, show that <span class="math inline">\(e^{\M{N}t} = \M{I} + \M{N}t\)</span>, and use it to solve <span class="math inline">\(\dot{\vect{x}} = \M{N}\vect{x}\)</span>. What physical situation does this describe?</li>
+</ol>
+<p><a href="../appendices/solutions-4.html#solution-linear-odes-4" class="sol-link">Solution to exercise 4</a></p></li>
+<li><p><span id="exercise-linear-odes-5"></span>A mass on a spring obeys <span class="math inline">\(\ddot{x} + c\dot{x} + 4x = 0\)</span> with damping constant <span class="math inline">\(c \ge 0\)</span>. For which values of <span class="math inline">\(c\)</span> does the mass oscillate? What happens at the boundary value?</p>
+<p><a href="../appendices/solutions-4.html#solution-linear-odes-5" class="sol-link">Solution to exercise 5</a></p></li>
+<li><p><span id="exercise-linear-odes-6"></span>Show that if <span class="math inline">\(\M{A}\)</span> is symmetric and negative definite, every solution of <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x}\)</span> tends to <span class="math inline">\(\zerovec\)</span>, and that <span class="math inline">\(\lVert\vect{x}(t)\rVert\)</span> decreases all the time. (<em>Hint</em>: use orthonormal eigenvectors, <a href="20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>.)</p>
+<p><a href="../appendices/solutions-4.html#solution-linear-odes-6" class="sol-link">Solution to exercise 6</a></p></li>
+<li><p><span id="exercise-linear-odes-7"></span><strong>Code.</strong> A dose of 100 mg of a drug is swallowed. The amount <span class="math inline">\(x_1\)</span> in the gut and <span class="math inline">\(x_2\)</span> in the blood obey <span class="math display">\[
+\dot{x}_1 = -0.5x_1,
+\qquad
+\dot{x}_2 = 0.5x_1 - 0.2x_2,
+\]</span> with time in hours. Use the matrix exponential to compute <span class="math inline">\(\vect{x}(t)\)</span> for <span class="math inline">\(0 \le t \le 20\)</span>, plot both amounts, and find when the amount in the blood is greatest and what it is. Check against the exact answer from the eigenvalues.</p>
+<p><a href="../appendices/solutions-4.html#solution-linear-odes-7" class="sol-link">Solution to exercise 7</a></p></li>
+</ol>
+<p>Solutions are in <a href="../appendices/solutions-4.html#sec-solutions-linear-odes" class="quarto-xref"><span>Section H.6</span></a>.</p>
+</section>
+<section id="in-practice" class="level2" data-number="23.7">
+<h2 data-number="23.7" class="anchored" data-anchor-id="in-practice"><span class="header-section-number">23.7</span> In practice</h2>
+<ul>
+<li><strong>Control engineering</strong>: aircraft, robots and power grids are modelled near an operating point by <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x} + \M{B}\vect{u}\)</span>, where <span class="math inline">\(\vect{u}\)</span> is the control input. Feedback <span class="math inline">\(\vect{u} = -\M{K}\vect{x}\)</span> changes the matrix to <span class="math inline">\(\M{A} - \M{B}\M{K}\)</span>, and controller design chooses <span class="math inline">\(\M{K}\)</span> to move its eigenvalues into the left half of the complex plane.</li>
+<li><strong>Vibration</strong>: undamped structures obey <span class="math inline">\(\ddot{\vect{x}} = -\M{K}\vect{x}\)</span>, and each eigenvector of <span class="math inline">\(\M{K}\)</span> is a mode shape vibrating at angular frequency <span class="math inline">\(\sqrt{\lambda}\)</span>, as in <a href="18-eigenvalues.html" class="quarto-xref"><span>Chapter 18</span></a> exercise 7. Engineers check that these frequencies avoid those of engines, footsteps or wind.</li>
+<li><strong>Pharmacokinetics</strong>: compartment models like exercise 7, with more compartments, predict drug levels in the body and guide dosing.</li>
+<li><strong>Electrical circuits</strong>: the currents and voltages in a circuit with resistors, capacitors and inductors obey a linear system, whose eigenvalues give the circuit’s time constants and resonant frequencies (<a href="../part-6/32-circuits.html" class="quarto-xref"><span>Chapter 32</span></a>).</li>
+<li><strong>Nonlinear systems</strong>: near an equilibrium, a nonlinear system <span class="math inline">\(\dot{\vect{x}} = \vect{f}(\vect{x})\)</span> behaves like <span class="math inline">\(\dot{\vect{x}} = \M{J}\vect{x}\)</span>, where <span class="math inline">\(\M{J}\)</span> is the Jacobian there (<a href="22-matrix-calculus.html" class="quarto-xref"><span>Chapter 22</span></a>). The eigenvalues of the Jacobian decide whether populations, chemical reactions or orbits are stable.</li>
+</ul>
+</section>
+<section id="going-further" class="level2" data-number="23.8">
+<h2 data-number="23.8" class="anchored" data-anchor-id="going-further"><span class="header-section-number">23.8</span> Going further</h2>
+<ul>
+<li>Proofs that <span class="math inline">\(\frac{d}{dt}e^{\M{A}t} = \M{A}e^{\M{A}t}\)</span> and that the solution is unique: <a href="../appendices/proofs.html#sec-proofs-linear-odes" class="quarto-xref"><span>Section C.16</span></a>.</li>
+<li>A defective matrix, such as <span class="math inline">\(\mat{\lambda &amp; 1 \\ 0 &amp; \lambda}\)</span>, gives solutions containing <span class="math inline">\(te^{\lambda t}\)</span>, as exercise 4(b) shows for <span class="math inline">\(\lambda = 0\)</span>. The <strong>Jordan form</strong> organises all such cases, but in practice <code>expm</code> handles them without it.</li>
+<li>Forced systems <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x} + \vect{f}(t)\)</span> are solved by <span class="math inline">\(\vect{x}(t) = e^{\M{A}t}\vect{x}_0 + \int_0^t e^{\M{A}(t - s)}\vect{f}(s)\,ds\)</span>, the vector version of the integrating factor method.</li>
+<li>When eigenvalues differ hugely in size, as in chemical kinetics, the fast modes die almost at once but force ordinary solvers to take tiny steps. Such <strong>stiff</strong> systems need special solvers, such as <code>solve_ivp(..., method="BDF")</code> or MATLAB’s <code>ode15s</code>.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../part-4/22-matrix-calculus.html" class="pagination-link" aria-label="Derivatives with vectors and matrices">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Derivatives with vectors and matrices</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../part-4/review.html" class="pagination-link" aria-label="Part IV review">
+        <span class="nav-page-text">Part IV review</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2026 Tom Goodale. Text and figures licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; code licensed under the <a href="https://trgoodale.github.io/matrix-book/LICENSE.md">MIT licence</a>.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/part-4/23-linear-odes.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

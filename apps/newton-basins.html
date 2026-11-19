@@ -1,0 +1,333 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Newton Basins</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: the plane coloured by which root each starting point reaches, then the equations and a table of Newton steps */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.mat { position: relative; display: inline-grid; grid-template-columns: 4.2rem 4.2rem; gap: 6px; padding: 6px 14px; }
+.mat::before, .mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.mat::before { left: 0; border-right: 0; } .mat::after { right: 0; border-left: 0; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.mat input { -moz-appearance: textfield; appearance: textfield; }
+.mat input::-webkit-outer-spin-button, .mat input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.matrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.matrow .nm { font: 600 1.05rem var(--font-num); }
+.status b { font-weight: 600; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.sw.c { border-color: var(--tgt); }
+
+.tbl { border-collapse: collapse; font-size: 0.86rem; width: 100%; }
+.tbl th { text-align: left; font-weight: 500; color: var(--muted); font-size: 0.78rem; padding: 2px 6px; }
+.tbl td { padding: 2px 6px; border-top: 1px solid var(--line); font-family: var(--font-num); white-space: nowrap; }
+.tbl td.r, .tbl th.r { text-align: right; }
+.scroll { max-height: 15rem; overflow-y: auto; border: 1px solid var(--line); border-radius: 8px; }
+.eqs { font: 500 0.95rem var(--font-num); line-height: 1.7; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.sw.p { border-color: var(--ink); }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Start here, <em>end up there</em></h1>
+    <p>Newton's method solves two equations in two unknowns by following the Jacobian’s straight-line approximation, step after step. Each point is coloured by the root that Newton’s method reaches from it. Click to follow one start.</p>
+  </header>
+
+  <div class="layout">
+    <section class="panel plane-box" aria-label="Plane">
+      <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
+      <div class="legend">
+        <span><span class="sw p"></span>Newton steps from your starting point</span>
+        <span>white dots: the roots</span>
+        <span>darker: more steps needed</span>
+      </div>
+      <p class="hint">Click or tap anywhere to start there. With the picture focused, the arrow keys move the start.</p>
+    </section>
+
+    <div class="side">
+      <section class="panel card wide" aria-label="The equations">
+        <span class="label">The equations f(x, y) = 0</span>
+        <div class="eqs" id="eqs"></div>
+        <div class="row" id="presets"></div>
+        <div class="toggles"><label><input type="checkbox" id="damp"> Damped steps (shorten a step until it reduces |f|)</label></div>
+      </section>
+      <section class="panel card wide" aria-label="Newton steps">
+        <span class="label">Newton steps</span>
+        <div class="scroll" tabindex="0" role="region" aria-label="Iterations table"><table class="tbl" id="tbl"></table></div>
+        <div class="status" id="status" role="status"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+
+  const $ = id => document.getElementById(id);
+  const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), b: v('--col'), t: v('--tgt'), w: v('--res'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), line: v('--line'), num: v('--font-num') }; };
+  // Eigenvalues and (real) eigenvectors of a 2x2 matrix
+  function eig2(A) {
+    const [[a, b], [c, d]] = A, tr = a + d, det = a * d - b * c, disc = tr * tr / 4 - det;
+    if (disc < -1e-12) { const re = tr / 2, im = Math.sqrt(-disc); return { complex: true, re, im, tr, det }; }
+    const s = Math.sqrt(Math.max(0, disc)), l1 = tr / 2 + s, l2 = tr / 2 - s;
+    const vec = l => { const v = Math.abs(b) > 1e-12 || Math.abs(a - l) > 1e-12 ? [b, l - a] : [l - d, c]; const n = Math.hypot(...v); return n < 1e-12 ? null : [v[0] / n, v[1] / n]; };
+    let v1 = vec(l1), v2 = vec(l2);
+    if (Math.abs(b) < 1e-12 && Math.abs(c) < 1e-12) { v1 = a >= d ? [1, 0] : [0, 1]; v2 = a >= d ? [0, 1] : [1, 0]; if (Math.abs(a - d) < 1e-12) v2 = null; }
+    else if (Math.abs(l1 - l2) < 1e-9) v2 = null;
+    return { complex: false, l1, l2, v1, v2, tr, det };
+  }
+  function wireMatrix(S, onChange) {
+    const ids = [['m00', 0, 0], ['m01', 0, 1], ['m10', 1, 0], ['m11', 1, 1]];
+    const sync = () => { for (const [id, i, j] of ids) $(id).value = String(S.A[i][j]); };
+    for (const [id, i, j] of ids) $(id).addEventListener('change', e => {
+      const x = parseFloat(e.target.value); if (!isNaN(x)) S.A[i][j] = Math.max(-9, Math.min(9, Math.round(x * 1000) / 1000));
+      e.target.value = String(S.A[i][j]); onChange();
+    });
+    return sync;
+  }
+  function makePresets(box, list, isOn, apply) {
+    box.innerHTML = '';
+    list.forEach(p => { const b = document.createElement('button'); b.textContent = p[0]; b.addEventListener('click', () => apply(p)); box.appendChild(b); });
+    return () => box.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-pressed', String(isOn(list[k]))));
+  }
+  function arrowPx(ctx, s, e, color, w, alpha = 1, dash) {
+    const len = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (len < 2) { ctx.globalAlpha = 1; return; }
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(12, len * 0.4);
+    if (dash) ctx.setLineDash(dash);
+    ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.lineTo(e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42));
+    ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+  }
+  function watchTheme(draw) {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    if (document.fonts) document.fonts.ready.then(draw);
+  }
+
+  // Each system: name, f, Jacobian, the roots, display text, view radius, default start
+  const PRESETS = [
+    ['Cube roots of 1', v => { const [x, y] = v; return [x * x * x - 3 * x * y * y - 1, 3 * x * x * y - y * y * y]; },
+      v => { const [x, y] = v; return [[3 * x * x - 3 * y * y, -6 * x * y], [6 * x * y, 3 * x * x - 3 * y * y]]; },
+      [[1, 0], [-0.5, Math.sqrt(3) / 2], [-0.5, -Math.sqrt(3) / 2]], 'x³ − 3xy² − 1 = 0<br>3x²y − y³ = 0', 2, [-0.8, 0.25]],
+    ['Circle and hyperbola', v => { const [x, y] = v; return [x * x + y * y - 4, x * y - 1]; },
+      v => { const [x, y] = v; return [[2 * x, 2 * y], [y, x]]; },
+      [[(Math.sqrt(6) + Math.sqrt(2)) / 2, (Math.sqrt(6) - Math.sqrt(2)) / 2], [(Math.sqrt(6) - Math.sqrt(2)) / 2, (Math.sqrt(6) + Math.sqrt(2)) / 2],
+       [-(Math.sqrt(6) + Math.sqrt(2)) / 2, -(Math.sqrt(6) - Math.sqrt(2)) / 2], [-(Math.sqrt(6) - Math.sqrt(2)) / 2, -(Math.sqrt(6) + Math.sqrt(2)) / 2]],
+      'x² + y² − 4 = 0<br>xy − 1 = 0', 3, [1, 1.2]],
+    ['Circle and parabola', v => { const [x, y] = v; return [x * x + y * y - 4, y - x * x + 1]; },
+      v => { const [x, y] = v; return [[2 * x, 2 * y], [-2 * x, 1]]; },
+      (() => { const x2 = (1 + Math.sqrt(13)) / 2, x = Math.sqrt(x2); return [[x, x2 - 1], [-x, x2 - 1]]; })(),
+      'x² + y² − 4 = 0<br>y − x² + 1 = 0', 3, [0.3, -1]]
+  ];
+  const S = { k: 0, x0: null, damp: false };
+  const cv = $('cv'), ctx = cv.getContext('2d'), off = document.createElement('canvas'), N = 240;
+  let W = 500, dpr = 1, R = 2, img = null, imgKey = '';
+  const sys = () => PRESETS[S.k];
+  function step(x) {
+    const [, f, J] = sys(), F = f(x), M = J(x), d = M[0][0] * M[1][1] - M[0][1] * M[1][0];
+    if (Math.abs(d) < 1e-14) return null;
+    let dx = [-(F[0] * M[1][1] - M[0][1] * F[1]) / d, -(M[0][0] * F[1] - M[1][0] * F[0]) / d];
+    if (S.damp) { const n0 = Math.hypot(...F); let t = 1; while (t > 1 / 64 && Math.hypot(...f([x[0] + t * dx[0], x[1] + t * dx[1]])) >= n0) t /= 2; dx = [t * dx[0], t * dx[1]]; }
+    return [x[0] + dx[0], x[1] + dx[1]];
+  }
+  function run(x0, n = 40) {
+    const pts = [x0.slice()]; let x = x0.slice();
+    for (let k = 0; k < n; k++) { const y = step(x); if (!y || !y.every(isFinite) || Math.hypot(...y) > 1e8) return { pts, root: -1, fail: true }; pts.push(y); const dstep = Math.hypot(y[0] - x[0], y[1] - x[1]); x = y; if (near(x) >= 0 && dstep < 1e-12) break; }
+    return { pts, root: near(x) };
+  }
+  const near = x => { const rs = sys()[3]; for (let i = 0; i < rs.length; i++) if (Math.hypot(x[0] - rs[i][0], x[1] - rs[i][1]) < 1e-6) return i; return -1; };
+  const P = p => [W / 2 + p[0] * W / (2 * R), W / 2 - p[1] * W / (2 * R)];
+  function hex(c) { const d = document.createElement('div'); d.style.color = c; document.body.appendChild(d); const m = getComputedStyle(d).color.match(/\d+/g).map(Number); d.remove(); return m; }
+  function basins() {
+    const C = css(), key = S.k + '|' + S.damp + '|' + C.a + C.surface;
+    if (key === imgKey) return; imgKey = key;
+    const cols = [C.a, C.b, C.w, C.t].map(hex), dark = hex(C.surface).reduce((s, v) => s + v, 0) < 300, bg = hex(C.plane);
+    off.width = N; off.height = N; const g = off.getContext('2d'), im = g.createImageData(N, N);
+    for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) {
+      const x0 = [(i + 0.5) / N * 2 * R - R, R - (j + 0.5) / N * 2 * R];
+      let x = x0, it = 0, root = -1;
+      for (; it < 40; it++) { root = near(x); if (root >= 0) break; const y = step(x); if (!y || !y.every(isFinite) || Math.hypot(...y) > 1e8) break; x = y; }
+      const o = 4 * (j * N + i);
+      let c = root >= 0 ? cols[root] : (dark ? [40, 44, 52] : [70, 74, 82]);
+      const shade = root >= 0 ? Math.max(0.35, 1 - it / 28) : 1;
+      // mix with the background so the colours stay soft
+      const mix = root >= 0 ? 0.62 * shade : 1;
+      for (let q = 0; q < 3; q++) im.data[o + q] = Math.round(bg[q] * (1 - mix) + c[q] * mix);
+      im.data[o + 3] = 255;
+    }
+    g.putImageData(im, 0, 0); img = off;
+  }
+  function resize() {
+    W = Math.min(cv.parentElement.clientWidth, 560); dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr); cv.style.width = W + 'px'; cv.style.height = W + 'px'; draw();
+  }
+  function line(a, b) { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); }
+  function draw() {
+    const C = css(); R = sys()[5]; basins();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.imageSmoothingEnabled = false; ctx.drawImage(img, 0, 0, W, W);
+    ctx.strokeStyle = C.ink; ctx.globalAlpha = 0.35; ctx.lineWidth = 1; line(P([-R, 0]), P([R, 0])); line(P([0, -R]), P([0, R])); ctx.globalAlpha = 1;
+    ctx.fillStyle = C.ink; ctx.font = `500 11px ${C.num}`; ctx.textAlign = 'right'; ctx.textBaseline = 'top'; ctx.fillText(String(R), W - 4, P([0, 0])[1] + 4);
+    sys()[3].forEach(r => { const s = P(r); ctx.beginPath(); ctx.arc(s[0], s[1], 5, 0, 2 * Math.PI); ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#222'; ctx.lineWidth = 1.5; ctx.stroke(); });
+    const res = run(S.x0);
+    ctx.strokeStyle = C.ink; ctx.lineWidth = 2; ctx.beginPath(); res.pts.forEach((p, k) => { const s = P(p); k ? ctx.lineTo(s[0], s[1]) : ctx.moveTo(s[0], s[1]); }); ctx.stroke();
+    res.pts.forEach((p, k) => { const s = P(p); ctx.beginPath(); ctx.arc(s[0], s[1], k ? 3 : 7, 0, 2 * Math.PI); ctx.fillStyle = k ? C.ink : C.surface; ctx.fill(); if (!k) { ctx.strokeStyle = C.ink; ctx.lineWidth = 2.5; ctx.stroke(); } });
+    readout(res);
+  }
+  const num = v => { const a = Math.abs(v); return (a !== 0 && (a < 1e-3 || a >= 1e5) ? v.toExponential(1) : fmt(v, 5)).replace('-', '−'); };
+  function readout(res) {
+    const [, f] = sys(), rts = sys()[3];
+    const target = res.root >= 0 ? rts[res.root] : null;
+    let h = '<tr><th>k</th><th>x</th><th>y</th><th class="r">|f|</th>' + (target ? '<th class="r">distance to root</th>' : '') + '</tr>';
+    res.pts.forEach((p, k) => { if (k > 25) return; const F = f(p); h += `<tr><td>${k}</td><td>${num(p[0])}</td><td>${num(p[1])}</td><td class="r">${num(Math.hypot(...F))}</td>` + (target ? `<td class="r">${num(Math.hypot(p[0] - target[0], p[1] - target[1]))}</td>` : '') + '</tr>'; });
+    $('tbl').innerHTML = h;
+    const st = $('status'), n = res.pts.length - 1;
+    if (!target) st.innerHTML = res.fail ? 'Newton’s method <b>failed</b> from here: the Jacobian became singular, or the steps ran away. Try another start' + (S.damp ? '.' : ', or damped steps.') : `After ${n} steps Newton’s method has not reached a root from this start: it wanders without settling down. Newton’s method is only guaranteed to converge from starts close enough to a root.`;
+    else {
+      st.innerHTML = `Reached the root (${fmt(target[0], 4)}, ${fmt(target[1], 4)}) in ${n} steps. ` + 'Once close, the distance to the root is roughly squared at each step, so the number of correct digits about doubles: <b>quadratic convergence</b>. ' +
+        (n > 12 ? 'From this start it wandered for a while first.' : '');
+    }
+    cv.setAttribute('aria-label', `Basins of attraction for ${sys()[0]}. Starting at (${fmt(S.x0[0])}, ${fmt(S.x0[1])}). ` + st.textContent);
+  }
+  const mark = makePresets($('presets'), PRESETS, p => p === sys(), p => { S.k = PRESETS.indexOf(p); S.x0 = p[6].slice(); $('eqs').innerHTML = p[4]; mark(); draw(); });
+  $('damp').addEventListener('change', e => { S.damp = e.target.checked; draw(); });
+  cv.addEventListener('pointerdown', e => { const r = cv.getBoundingClientRect(); S.x0 = [Math.round(((e.clientX - r.left) / W * 2 * R - R) * 100) / 100, Math.round((R - (e.clientY - r.top) / W * 2 * R) * 100) / 100]; draw(); });
+  cv.addEventListener('keydown', e => {
+    const d = { ArrowLeft: [-0.05, 0], ArrowRight: [0.05, 0], ArrowUp: [0, 0.05], ArrowDown: [0, -0.05] }[e.key];
+    if (!d) return; e.preventDefault(); S.x0 = [Math.round((S.x0[0] + d[0]) * 100) / 100, Math.round((S.x0[1] + d[1]) * 100) / 100]; draw();
+  });
+
+  // Optional start-up settings: ?preset=Circle%20and%20hyperbola&x=1,1.2&damped
+  const q = new URLSearchParams(location.search);
+  S.k = Math.max(0, PRESETS.findIndex(p => p[0] === q.get('preset'))); S.x0 = sys()[6].slice();
+  if (q.get('x')) { const x = q.get('x').split(',').map(Number); if (x.length === 2 && x.every(isFinite)) S.x0 = x; }
+  if (q.has('damped')) { S.damp = true; $('damp').checked = true; }
+  $('eqs').innerHTML = sys()[4]; mark();
+  new ResizeObserver(resize).observe(cv.parentElement); watchTheme(() => { imgKey = ''; draw(); });
+  resize();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>36&nbsp; Population models – Matrices in Practice</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../part-6/37-data-science.html" rel="next">
+<link href="../part-6/35-markov-pagerank.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-a4502c8cbc339fc51dc0f3ab78f51ea6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-ae6c1fbcc07bf00db2a7efa1353188f4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+
+<script>
+
+/*
+
+  Notation settings for the book.
+
+  All mathematics is written with the macros below, never with hard-coded notation:
+
+    \vect{v}   a vector            \M{A}      a matrix
+
+    \ui \uj \uk  standard unit vectors in 2D/3D   \ue{n}  general basis vector e_n
+
+    \mat{..}   a matrix in brackets (rows split by \\, entries by &)
+
+    \amat{ccc|c}{..}  an augmented matrix   \T  transpose   \R  real numbers
+
+  The reader's choices are stored in localStorage under "mb-settings" and read
+
+  here, before MathJax loads, so every page is typeset in their notation.
+
+*/
+
+(function () {
+
+  var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python" };
+
+  var s = {};
+
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) { s = {}; }
+
+  for (var k in DEFAULTS) if (!(k in s)) s[k] = DEFAULTS[k];
+
+  window.mbSettings = s;
+
+  window.mbDefaults = DEFAULTS;
+
+
+
+  var vec = { bold: "\\mathbf{#1}", arrow: "\\vec{#1}", underline: "\\underline{#1}" }[s.vec] || "\\mathbf{#1}";
+
+  var unit = function (letter, dotless, idx) {
+
+    if (s.basis === "e") return vec.replace("#1", "e") + "_{" + idx + "}";
+
+    if (s.basis === "hat") return "\\hat{" + dotless + "}";
+
+    return vec.replace("#1", letter);
+
+  };
+
+  var open = s.br === "square" ? "[" : "(";
+
+  var close = s.br === "square" ? "]" : ")";
+
+  var env = s.br === "square" ? "bmatrix" : "pmatrix";
+
+
+
+  window.MathJax = {
+
+    tex: {
+
+      macros: {
+
+        vect: [vec, 1],
+
+        M: [s.mat === "italic" ? "#1" : "\\mathbf{#1}", 1],
+
+        ui: unit("i", "\\imath", 1),
+
+        uj: unit("j", "\\jmath", 2),
+
+        uk: unit("k", "k", 3),
+
+        ue: [vec.replace("#1", "e") + "_{#1}", 1],
+
+        mat: ["\\begin{" + env + "}#1\\end{" + env + "}", 1],
+
+        amat: ["\\left" + open + "\\begin{array}{#1}#2\\end{array}\\right" + close, 2],
+
+        T: s.tr === "top" ? "^{\\top}" : "^{\\mathsf{T}}",
+
+        R: "\\mathbb{R}",
+
+        zerovec: vec.replace("#1", "0")
+
+      }
+
+    },
+
+    // MathJax 4: break long equations across lines to fit narrow screens
+
+    output: { displayOverflow: "linebreak", linebreaks: { inline: true, width: "100%", lineleading: 0.6 } },
+
+    chtml: { scale: 1.0 }
+
+  };
+
+
+
+  // Default language for code tabs: Quarto reads this when the page is shown.
+
+  try {
+
+    var key = "quarto-persistent-tabsets-data";
+
+    var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+
+    if (!tabs.language) { tabs.language = s.code; localStorage.setItem(key, JSON.stringify(tabs)); }
+
+  } catch (e) {}
+
+
+
+  // ---------- settings panel ----------
+
+  var GROUPS = [
+
+    { key: "vec", label: "Vectors", opts: [["bold", "Bold", "\\mathbf{v}"], ["arrow", "Arrow", "\\vec{v}"], ["underline", "Underlined", "\\underline{v}"]] },
+
+    { key: "mat", label: "Matrices", opts: [["bold", "Bold", "\\mathbf{A}"], ["italic", "Italic", "A"]] },
+
+    { key: "basis", label: "Unit vectors", opts: [["ijk", "i, j, k", "\\mathbf{i},\\ \\mathbf{j},\\ \\mathbf{k}"], ["hat", "Hats", "\\hat{\\imath},\\ \\hat{\\jmath},\\ \\hat{k}"], ["e", "e₁, e₂, e₃", "\\mathbf{e}_1,\\ \\mathbf{e}_2,\\ \\mathbf{e}_3"]] },
+
+    { key: "br", label: "Brackets", opts: [["round", "Round", "\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}"], ["square", "Square", "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}"]] },
+
+    { key: "tr", label: "Transpose", opts: [["T", "Letter T", "\\mathbf{A}^{\\mathsf{T}}"], ["top", "Symbol ⊤", "\\mathbf{A}^{\\top}"]] },
+
+    { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] }
+
+  ];
+
+
+
+  function buildForm(prefix) {
+
+    var form = document.createElement("form");
+
+    form.className = "mb-settings-form";
+
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+
+    GROUPS.forEach(function (g) {
+
+      var fs = document.createElement("fieldset");
+
+      var lg = document.createElement("legend");
+
+      lg.textContent = g.label;
+
+      fs.appendChild(lg);
+
+      g.opts.forEach(function (o) {
+
+        var id = prefix + "-" + g.key + "-" + o[0];
+
+        var lab = document.createElement("label");
+
+        lab.className = "mb-opt";
+
+        lab.htmlFor = id;
+
+        var inp = document.createElement("input");
+
+        inp.type = "radio"; inp.name = prefix + "-" + g.key; inp.id = id; inp.value = o[0];
+
+        inp.checked = s[g.key] === o[0];
+
+        lab.appendChild(inp);
+
+        var txt = document.createElement("span");
+
+        txt.className = "mb-opt-name";
+
+        txt.textContent = o[1];
+
+        lab.appendChild(txt);
+
+        if (o[2]) {
+
+          var ex = document.createElement("span");
+
+          ex.className = "mb-opt-example";
+
+          ex.textContent = "\\(" + o[2] + "\\)";
+
+          lab.appendChild(ex);
+
+        }
+
+        fs.appendChild(lab);
+
+      });
+
+      form.appendChild(fs);
+
+    });
+
+    var row = document.createElement("div");
+
+    row.className = "mb-settings-actions";
+
+    var apply = document.createElement("button");
+
+    apply.type = "button"; apply.className = "btn btn-primary"; apply.textContent = "Apply";
+
+    var reset = document.createElement("button");
+
+    reset.type = "button"; reset.className = "btn btn-outline-secondary"; reset.textContent = "Restore defaults";
+
+    var note = document.createElement("span");
+
+    note.className = "mb-settings-note";
+
+    note.textContent = "Saved in this browser and used on every page.";
+
+    row.appendChild(apply); row.appendChild(reset); row.appendChild(note);
+
+    form.appendChild(row);
+
+
+
+    apply.addEventListener("click", function () {
+
+      var next = {};
+
+      GROUPS.forEach(function (g) {
+
+        var c = form.querySelector('input[name="' + prefix + "-" + g.key + '"]:checked');
+
+        next[g.key] = c ? c.value : DEFAULTS[g.key];
+
+      });
+
+      save(next);
+
+    });
+
+    reset.addEventListener("click", function () { save(Object.assign({}, DEFAULTS)); });
+
+    return form;
+
+  }
+
+
+
+  function save(next) {
+
+    try {
+
+      localStorage.setItem("mb-settings", JSON.stringify(next));
+
+      var key = "quarto-persistent-tabsets-data";
+
+      var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+
+      tabs.language = next.code;
+
+      localStorage.setItem(key, JSON.stringify(tabs));
+
+      sessionStorage.setItem("mb-scroll", String(window.scrollY));
+
+    } catch (e) {}
+
+    location.reload();
+
+  }
+
+
+
+  function typeset(el) {
+
+    var M = window.MathJax;
+
+    if (!M || !M.startup || !M.startup.promise) return;
+
+    M.startup.promise.then(function () { return M.typesetPromise([el]); }).catch(function () {});
+
+  }
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    try {
+
+      var y = sessionStorage.getItem("mb-scroll");
+
+      if (y !== null) { sessionStorage.removeItem("mb-scroll"); window.addEventListener("load", function () { window.scrollTo(0, +y); }); }
+
+    } catch (e) {}
+
+
+
+    // Inline panel (on the conventions page)
+
+    var inline = document.getElementById("mb-settings-inline");
+
+    if (inline) { inline.appendChild(buildForm("inline")); typeset(inline); }
+
+
+
+    // Floating button and dialog on every page
+
+    var btn = document.createElement("button");
+
+    btn.type = "button";
+
+    btn.className = "mb-settings-button";
+
+    btn.setAttribute("aria-haspopup", "dialog");
+
+    btn.innerHTML = '<span aria-hidden="true">⚙</span> Notation';
+
+    var dlg = document.createElement("dialog");
+
+    dlg.className = "mb-settings-dialog";
+
+    dlg.setAttribute("aria-labelledby", "mb-dlg-title");
+
+    dlg.innerHTML = '<div class="mb-dlg-head"><h2 id="mb-dlg-title">Notation and code</h2>' +
+
+      '<button type="button" class="btn-close" aria-label="Close"></button></div>' +
+
+      '<p class="mb-dlg-intro">Choose the notation you are used to. Every page of the book, and the apps, will use it. ' +
+
+      'See <a class="mb-conv-link">Notation and conventions</a> for what each option means.</p>';
+
+    dlg.appendChild(buildForm("dlg"));
+
+    document.body.appendChild(btn);
+
+    document.body.appendChild(dlg);
+
+    var conv = dlg.querySelector(".mb-conv-link");
+
+    var sideLink = document.querySelector('a[href$="conventions.html"]');
+
+    conv.href = sideLink ? sideLink.getAttribute("href") : "conventions.html";
+
+    btn.addEventListener("click", function () { dlg.showModal(); typeset(dlg); });
+
+    dlg.querySelector(".btn-close").addEventListener("click", function () { dlg.close(); });
+
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+
+
+    // Size embedded apps to their content (same origin)
+
+    document.querySelectorAll("iframe.app-frame").forEach(function (f) {
+
+      function fit() {
+
+        try { var d = f.contentDocument; if (d && d.documentElement) f.style.height = d.documentElement.scrollHeight + "px"; } catch (e) {}
+
+      }
+
+      f.addEventListener("load", function () {
+
+        fit();
+
+        try { new ResizeObserver(fit).observe(f.contentDocument.body); } catch (e) {}
+
+      });
+
+    });
+
+  });
+
+})();
+
+</script>
+
+<script>
+
+/* Accessibility fixes for markup that Quarto generates. */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // Collapsible callouts ("Check your understanding"): make the header a real,
+
+  // keyboard-operable button that announces whether the answer is shown.
+
+  document.querySelectorAll(".callout-header[data-bs-toggle='collapse']").forEach(function (h) {
+
+    var target = document.querySelector(h.getAttribute("data-bs-target"));
+
+    h.setAttribute("role", "button");
+
+    h.setAttribute("tabindex", "0");
+
+    if (target) {
+
+      if (!target.id) target.id = "mb-" + Math.random().toString(36).slice(2, 9);
+
+      h.setAttribute("aria-controls", target.id);
+
+    }
+
+    h.addEventListener("keydown", function (e) {
+
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); h.click(); }
+
+    });
+
+  });
+
+  // Sidebar: label the landmark, and stop section toggles posing as landmarks.
+
+  var side = document.getElementById("quarto-sidebar");
+
+  if (side) side.setAttribute("aria-label", "Book contents");
+
+  document.querySelectorAll("#quarto-sidebar [data-bs-toggle='collapse'][role='navigation']").forEach(function (a) {
+
+    a.setAttribute("role", "button");
+
+  });
+
+  var toc = document.querySelector("nav#TOC");
+
+  if (toc && !toc.getAttribute("aria-label")) toc.setAttribute("aria-label", "On this page");
+
+  // Code output that scrolls sideways must be reachable from the keyboard.
+
+  function markScrollers() {
+
+    var n = 0;
+
+    document.querySelectorAll(".cell-output pre, pre.code-output, div.code-output pre").forEach(function (p) {
+
+      if (p.scrollWidth > p.clientWidth + 1) {
+
+        n += 1;
+
+        p.setAttribute("tabindex", "0");
+
+        p.setAttribute("role", "region");
+
+        p.setAttribute("aria-label", "Code output " + n + " (scrolls sideways)");
+
+      } else if (p.getAttribute("role") === "region") {
+
+        p.removeAttribute("tabindex"); p.removeAttribute("role"); p.removeAttribute("aria-label");
+
+      }
+
+    });
+
+  }
+
+  markScrollers();
+
+  window.addEventListener("resize", markScrollers);
+
+  document.addEventListener("shown.bs.tab", markScrollers);
+
+});
+
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-6/31-trusses.html">Part VI: Applications</a></li><li class="breadcrumb-item"><a href="../part-6/36-population-models.html"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Population models</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Matrices in Practice</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/trgoodale/matrix-book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/how-to-use.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to use this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/conventions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notation and conventions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/refresher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Refresher</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Matrices and transformations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/01-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is a matrix?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/02-arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Adding and scaling matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/03-multiplication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix multiplication</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/04-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrices as transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/05-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Composing transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/06-determinants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Determinants</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/07-inverses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Inverse matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/08-transformations-3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Transformations in three dimensions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/09-invariant-lines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Invariant points and lines</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part I review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Linear systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/10-linear-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Systems of linear equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/11-gaussian-elimination.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Gaussian elimination</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/12-gauss-jordan-rank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Gauss–Jordan elimination and rank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/13-lu-decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LU decomposition</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part II review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part III: Vector spaces</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/14-span-independence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Span and linear independence</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/15-basis-change.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Basis, dimension and change of basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/16-fundamental-subspaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Column space, null space and rank–nullity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/17-orthogonality-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Orthogonality and least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part IV: Eigenvalues and matrix calculus</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/18-eigenvalues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Eigenvalues and eigenvectors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/19-diagonalisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Diagonalisation and matrix powers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/20-symmetric-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Symmetric and positive definite matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/21-svd-pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">The singular value decomposition and PCA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/22-matrix-calculus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Derivatives with vectors and matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/23-linear-odes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear ODE systems and the matrix exponential</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part V: Numerical methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/24-floating-point-conditioning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Floating point and conditioning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/25-pivoting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Pivoting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/26-cost-sparse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Cost, banded and sparse systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/27-iterative-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Iterative methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/28-newton-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Newton’s method for nonlinear systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/29-eigenvalue-algorithms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Eigenvalue algorithms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/30-qr-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">QR factorisation and stable least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part V review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part VI: Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/31-trusses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Structures: pin-jointed trusses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/32-circuits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Electrical circuits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/33-finite-differences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Heat flow and finite differences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/34-graphics-robotics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Computer graphics and robotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/35-markov-pagerank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Markov chains and PageRank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/36-population-models.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Population models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/37-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Data: regression and dimensionality reduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/38-physics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Physics: rotations, inertia and quantum states</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/39-cryptography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Cryptography: the Hill cipher</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part VI review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/apps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Interactive apps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Reference: matrices and their rules</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/matrix-calculus-identities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Matrix calculus identities</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Solutions: Part I</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions: Part II</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Solutions: Part III</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Solutions: Part IV</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Solutions: Part V</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Solutions: Part VI</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-problem" id="toc-the-problem" class="nav-link active" data-scroll-target="#the-problem"><span class="header-section-number">36.1</span> The problem</a></li>
+  <li><a href="#the-model" id="toc-the-model" class="nav-link" data-scroll-target="#the-model"><span class="header-section-number">36.2</span> The model</a>
+  <ul class="collapse">
+  <li><a href="#leslie-matrices" id="toc-leslie-matrices" class="nav-link" data-scroll-target="#leslie-matrices">Leslie matrices</a></li>
+  <li><a href="#stage-based-models" id="toc-stage-based-models" class="nav-link" data-scroll-target="#stage-based-models">Stage-based models</a></li>
+  <li><a href="#growth-rate-and-stable-distribution" id="toc-growth-rate-and-stable-distribution" class="nav-link" data-scroll-target="#growth-rate-and-stable-distribution">Growth rate and stable distribution</a></li>
+  <li><a href="#which-rates-matter-most" id="toc-which-rates-matter-most" class="nav-link" data-scroll-target="#which-rates-matter-most">Which rates matter most?</a></li>
+  </ul></li>
+  <li><a href="#explore" id="toc-explore" class="nav-link" data-scroll-target="#explore"><span class="header-section-number">36.3</span> Explore</a></li>
+  <li><a href="#in-code" id="toc-in-code" class="nav-link" data-scroll-target="#in-code"><span class="header-section-number">36.4</span> In code</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">36.5</span> Check your understanding</a></li>
+  <li><a href="#key-ideas" id="toc-key-ideas" class="nav-link" data-scroll-target="#key-ideas"><span class="header-section-number">36.6</span> Key ideas</a></li>
+  <li><a href="#sec-population-models-exercises" id="toc-sec-population-models-exercises" class="nav-link" data-scroll-target="#sec-population-models-exercises"><span class="header-section-number">36.7</span> Exercises</a></li>
+  <li><a href="#going-further" id="toc-going-further" class="nav-link" data-scroll-target="#going-further"><span class="header-section-number">36.8</span> Going further</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/part-6/36-population-models.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-6/31-trusses.html">Part VI: Applications</a></li><li class="breadcrumb-item"><a href="../part-6/36-population-models.html"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Population models</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-population-models" class="quarto-section-identifier"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Population models</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><span class="level-badge core">Core</span></p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>In this chapter you will
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>build Leslie and stage-based matrices from survival and birth rates</li>
+<li>predict long-term growth or decline from the dominant eigenvalue</li>
+<li>interpret the stable age distribution</li>
+<li>use a real model to compare conservation strategies</li>
+</ul>
+</div>
+</div>
+<p><strong>Builds on</strong> <a href="../part-4/18-eigenvalues.html" class="quarto-xref"><span>Chapter 18</span></a>, <a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>.</p>
+<section id="the-problem" class="level2" data-number="36.1">
+<h2 data-number="36.1" class="anchored" data-anchor-id="the-problem"><span class="header-section-number">36.1</span> The problem</h2>
+<p>In the early 1980s, loggerhead sea turtles nesting on the beaches of the south-eastern United States were in decline. Conservation effort had focused on the most visible stage of their lives: protecting eggs on nesting beaches and helping hatchlings reach the sea. But were the eggs the right place to intervene? Loggerheads take decades to mature, and many juveniles drowned in shrimp trawling nets.</p>
+<p>In 1987, Deborah Crouse, Larry Crowder and Hal Caswell answered the question with a <span class="math inline">\(7 \times 7\)</span> matrix. Their model showed that even if every egg survived, the population would still decline, whereas modest improvements in the survival of large juveniles could reverse the decline. The work helped persuade the US government to require <strong>turtle excluder devices</strong> in shrimp nets, which let turtles escape. This chapter builds the mathematics behind that model.</p>
+</section>
+<section id="the-model" class="level2" data-number="36.2">
+<h2 data-number="36.2" class="anchored" data-anchor-id="the-model"><span class="header-section-number">36.2</span> The model</h2>
+<section id="leslie-matrices" class="level3">
+<h3 class="anchored" data-anchor-id="leslie-matrices">Leslie matrices</h3>
+<p>Divide a population of females into age classes: newborns (age 0 to 1), one-year-olds, and so on, and count them once a year. Two kinds of number describe the life cycle:</p>
+<ul>
+<li>the <strong>fecundity</strong> <span class="math inline">\(f_i\)</span>: the average number of female offspring, surviving to the next count, produced by each female in class <span class="math inline">\(i\)</span>;</li>
+<li>the <strong>survival rate</strong> <span class="math inline">\(s_i\)</span>: the fraction of class <span class="math inline">\(i\)</span> that survives to join class <span class="math inline">\(i + 1\)</span> a year later.</li>
+</ul>
+<p>If <span class="math inline">\(\vect{x}_k\)</span> lists the numbers in each class in year <span class="math inline">\(k\)</span>, then next year’s newborns are <span class="math inline">\(f_1x_1 + f_2x_2 + \dots + f_nx_n\)</span>, and each other class is the survivors of the one before. In matrix form, <span class="math inline">\(\vect{x}_{k+1} = \M{L}\vect{x}_k\)</span>, with the <strong>Leslie matrix</strong> <span class="math display">\[
+\M{L} = \mat{f_1 &amp; f_2 &amp; \cdots &amp; f_{n-1} &amp; f_n \\ s_1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\ 0 &amp; s_2 &amp; \cdots &amp; 0 &amp; 0 \\ \vdots &amp; &amp; \ddots &amp; &amp; \vdots \\ 0 &amp; 0 &amp; \cdots &amp; s_{n-1} &amp; 0}.
+\]</span></p>
+</section>
+<section id="stage-based-models" class="level3">
+<h3 class="anchored" data-anchor-id="stage-based-models">Stage-based models</h3>
+<p>For long-lived species, counting every year of age gives an enormous matrix, and individuals of the same age can be very different in size. Biologists instead group them into <strong>stages</strong>, such as eggs, juveniles, subadults and adults, each lasting several years. A stage-based (<strong>Lefkovitch</strong>) matrix has three kinds of entry: fecundities in the first row; <span class="math inline">\(P_i\)</span> on the diagonal, the probability of surviving and <em>staying</em> in stage <span class="math inline">\(i\)</span>; and <span class="math inline">\(G_i\)</span> below the diagonal, the probability of surviving and <em>growing</em> into the next stage. If a stage lasts <span class="math inline">\(D_i\)</span> years and its annual survival is <span class="math inline">\(s_i\)</span>, a standard approximation is <span class="math display">\[
+P_i = s_i\,\frac{1 - s_i^{D_i - 1}}{1 - s_i^{D_i}},
+\qquad
+G_i = \frac{s_i^{D_i}(1 - s_i)}{1 - s_i^{D_i}}.
+\]</span></p>
+</section>
+<section id="growth-rate-and-stable-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="growth-rate-and-stable-distribution">Growth rate and stable distribution</h3>
+<p>Either way, <span class="math inline">\(\vect{x}_k = \M{L}^k\vect{x}_0\)</span>, and <a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a> tells us what happens in the long run. A population matrix has non-negative entries, and if every stage can eventually lead to every other (through births), the Perron–Frobenius theorem says that it has a positive real eigenvalue <span class="math inline">\(\lambda_1\)</span>, larger in size than all the others (in the usual cases), with an eigenvector <span class="math inline">\(\vect{w}\)</span> of positive entries. Then, for large <span class="math inline">\(k\)</span>, <span class="math display">\[
+\vect{x}_k \approx c\,\lambda_1^k\vect{w}.
+\]</span> So:</p>
+<ul>
+<li><span class="math inline">\(\lambda_1\)</span> is the long-run <strong>growth rate</strong>: the population grows by a factor <span class="math inline">\(\lambda_1\)</span> each year. It increases if <span class="math inline">\(\lambda_1 &gt; 1\)</span>, decreases if <span class="math inline">\(\lambda_1 &lt; 1\)</span>, and holds steady if <span class="math inline">\(\lambda_1 = 1\)</span>. Ecologists usually write <span class="math inline">\(\lambda\)</span> without the subscript.</li>
+<li><span class="math inline">\(\vect{w}\)</span>, scaled so that its entries add up to 1, is the <strong>stable age distribution</strong> (or stable stage distribution): the proportions in each class that the population settles into, whatever it started with.</li>
+<li>The other eigenvalues decide how quickly it settles: the transient effects die away like <span class="math inline">\(\lvert\lambda_2/\lambda_1\rvert^k\)</span>.</li>
+</ul>
+</section>
+<section id="which-rates-matter-most" class="level3">
+<h3 class="anchored" data-anchor-id="which-rates-matter-most">Which rates matter most?</h3>
+<p>A manager can afford to improve only some survival or birth rates. Which change raises <span class="math inline">\(\lambda\)</span> the most? The <strong>sensitivity</strong> of <span class="math inline">\(\lambda\)</span> to the entry <span class="math inline">\(a_{ij}\)</span> of the matrix is <span class="math display">\[
+\frac{\partial\lambda}{\partial a_{ij}} = \frac{v_iw_j}{\vect{v} \cdot \vect{w}},
+\]</span> where <span class="math inline">\(\vect{w}\)</span> is the right eigenvector (the stable distribution) and <span class="math inline">\(\vect{v}\)</span> is the <strong>left eigenvector</strong>, <span class="math inline">\(\vect{v}\T\M{L} = \lambda\vect{v}\T\)</span>, whose entries are the <strong>reproductive values</strong> of the stages: how much an individual in each stage will contribute to future generations. Because fecundities and survival rates are on very different scales, ecologists compare <strong>elasticities</strong>, <span class="math inline">\(e_{ij} = (a_{ij}/\lambda)\,\partial\lambda/\partial a_{ij}\)</span>: the proportional change in <span class="math inline">\(\lambda\)</span> for a 1% change in <span class="math inline">\(a_{ij}\)</span>. The elasticities add up to 1.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 1: a three-class Leslie matrix
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An animal lives for at most three years. Half the newborns survive their first year, and a quarter of one-year-olds survive their second. One-year-olds have 4 female young on average and two-year-olds have 3. Find the long-run growth rate and the stable age distribution.</p>
+<p><strong>Solution.</strong> <span class="math display">\[
+\M{L} = \mat{0 &amp; 4 &amp; 3 \\ 0.5 &amp; 0 &amp; 0 \\ 0 &amp; 0.25 &amp; 0}.
+\]</span> Expanding <span class="math inline">\(\det(\M{L} - \lambda\M{I})\)</span> along the first column (<a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a>), <span class="math display">\[
+-\lambda(\lambda^2 - 0) - 0.5\,(4\cdot(-\lambda) - 3 \times 0.25) = -\lambda^3 + 2\lambda + 0.375,
+\]</span> so the eigenvalues solve <span class="math inline">\(\lambda^3 - 2\lambda - 0.375 = 0\)</span>. Trying <span class="math inline">\(\lambda = 1.5\)</span>: <span class="math inline">\(3.375 - 3 - 0.375 = 0\)</span>. ✓ Dividing out <span class="math inline">\(\lambda - 1.5\)</span> leaves <span class="math inline">\(\lambda^2 + 1.5\lambda + 0.25 = 0\)</span>, with roots <span class="math inline">\(-1.309\)</span> and <span class="math inline">\(-0.191\)</span>, so 1.5 is the dominant eigenvalue: in the long run the population grows by 50% a year. For the eigenvector, the second and third rows of <span class="math inline">\((\M{L} - 1.5\M{I})\vect{w} = \zerovec\)</span> give <span class="math inline">\(w_2 = w_1/3\)</span> and <span class="math inline">\(w_3 = w_2/6 = w_1/18\)</span>, so <span class="math inline">\(\vect{w} \propto (18, 6, 1)\)</span>, and scaled to add to 1, <span class="math inline">\(\vect{w} = (0.72, 0.24, 0.04)\)</span>: 72% newborns, 24% one-year-olds and 4% two-year-olds.</p>
+<p>The second eigenvalue, <span class="math inline">\(-1.309\)</span>, is not much smaller in size than 1.5, so the population takes a long time to settle, oscillating as it does (the ratio <span class="math inline">\(1.309/1.5 \approx 0.87\)</span> per year). Starting from 100 newborns, after 10 years the proportions are still <span class="math inline">\((0.81, 0.14, 0.05)\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 2: loggerhead sea turtles
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Crouse, Crowder and Caswell divided the loggerhead’s life into seven stages: eggs and hatchlings (H), small juveniles (<span class="math inline">\(J_s\)</span>), large juveniles (<span class="math inline">\(J_l\)</span>), subadults (Sub), novice breeders (<span class="math inline">\(B_1\)</span>), first-year remigrants (<span class="math inline">\(B_2\)</span>) and mature breeders (M). Their matrix, from field data, is</p>
+<div class="wide-matrix very-wide">
+<p><span class="math display">\[
+\M{A} = \left(\begin{array}{ccccccc}
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 127 &amp; 4 &amp; 80 \\
+0.6747 &amp; 0.7370 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0.0486 &amp; 0.6610 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0.0147 &amp; 0.6907 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0.0518 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0.8091 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0.8091 &amp; 0.8089
+\end{array}\right).
+\]</span></p>
+</div>
+<p>For example, a small juvenile has a 73.7% chance of surviving and staying a small juvenile next year, and a 4.86% chance of surviving and growing into a large juvenile; a mature breeder produces 80 eggs a year, on average. What does the model predict?</p>
+<p><strong>Solution.</strong> The dominant eigenvalue, from the code below, is <span class="math inline">\(\lambda = 0.945\)</span>: the population shrinks by about 5.5% a year, halving in about 12 years. The stable stage distribution is about 21% eggs and hatchlings, 67% small juveniles, 11% large juveniles, and under 1% in each later stage: only about 2 in 1000 turtles is a mature breeder, because so few survive the long juvenile stages.</p>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 3: eggs or juveniles?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Compare two strategies for the turtles: (a) protecting nests and hatchlings so well that <em>every</em> egg survives its first year; (b) using turtle excluder devices to raise the annual survival of large juveniles from 0.676 to 0.776.</p>
+<p><strong>Solution.</strong> (a) Changing the entry <span class="math inline">\(0.6747\)</span> to 1 raises <span class="math inline">\(\lambda\)</span> from 0.945 to only 0.965: even perfect protection of eggs and hatchlings can’t stop the decline. (b) Raising the large juveniles’ annual survival by 0.1, and recomputing their <span class="math inline">\(P\)</span> and <span class="math inline">\(G\)</span> entries with the formulas above (they last about 8 years), raises <span class="math inline">\(\lambda\)</span> to 1.006: the population grows. The elasticities explain why. Summed over each stage, those for eggs and hatchlings come to about 0.05, while those for the three juvenile and subadult stages come to about 0.6. Large juveniles have a high reproductive value (they are worth about six newly hatched turtles each, for the population’s future), and they spend many years exposed to trawling. This kind of analysis, now routine in conservation biology, is a direct application of eigenvectors.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="explore" class="level2" data-number="36.3">
+<h2 data-number="36.3" class="anchored" data-anchor-id="explore"><span class="header-section-number">36.3</span> Explore</h2>
+<p>There is no app for this chapter. <a href="#fig-turtles" class="quarto-xref">Figure&nbsp;<span>36.1</span></a> shows how the growth rate <span class="math inline">\(\lambda\)</span> responds to improving the annual survival of each stage in turn, recomputing its <span class="math inline">\(P\)</span> and <span class="math inline">\(G\)</span> entries.</p>
+<div id="cell-fig-turtles" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Show the code for this figure</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">127</span>, <span class="dv">4</span>, <span class="dv">80</span>],</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>              [<span class="fl">0.6747</span>, <span class="fl">0.7370</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">0</span>, <span class="fl">0.0486</span>, <span class="fl">0.6610</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.0147</span>, <span class="fl">0.6907</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.0518</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.8091</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.8091</span>, <span class="fl">0.8089</span>]])</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="kw">lambda</span> M: <span class="bu">max</span>(np.linalg.eigvals(M).real)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> stage(s, D):</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Probabilities of staying (P) and growing (G) for annual survival s over D years."""</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> s<span class="op">**</span>(D <span class="op">-</span> <span class="dv">1</span>)) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> s<span class="op">**</span>D), s<span class="op">**</span>D <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> s) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> s<span class="op">**</span>D)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>increase <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="fl">0.2</span>, <span class="dv">41</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.6</span>))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> []</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dx <span class="kw">in</span> increase:</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    B <span class="op">=</span> A.copy()</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    B[<span class="dv">1</span>, <span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.6747</span> <span class="op">+</span> dx            <span class="co"># first-year survival of eggs and hatchlings</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    values.append(lam(B))</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>ax.plot(increase, values, label<span class="op">=</span><span class="st">"eggs and hatchlings"</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col, s0, D, name <span class="kw">in</span> [(<span class="dv">1</span>, <span class="fl">0.7857</span>, <span class="dv">7</span>, <span class="st">"small juveniles"</span>), (<span class="dv">2</span>, <span class="fl">0.6758</span>, <span class="dv">8</span>, <span class="st">"large juveniles"</span>),</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                         (<span class="dv">3</span>, <span class="fl">0.7425</span>, <span class="dv">6</span>, <span class="st">"subadults"</span>)]:</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    values <span class="op">=</span> []</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> dx <span class="kw">in</span> increase:</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        B <span class="op">=</span> A.copy()</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        B[col, col], B[col <span class="op">+</span> <span class="dv">1</span>, col] <span class="op">=</span> stage(s0 <span class="op">+</span> dx, D)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        values.append(lam(B))</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    ax.plot(increase, values, label<span class="op">=</span>name, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">1</span>, color<span class="op">=</span><span class="st">"0.4"</span>, ls<span class="op">=</span><span class="st">"--"</span>, lw<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"increase in annual survival"</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"growth rate λ"</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-turtles" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four straight lines showing the growth rate rising from 0.945 as the survival of one stage is increased by up to 0.2. Large juveniles give the steepest rise, crossing the dashed line at 1 after an increase of about 0.09; small juveniles and subadults cross later; eggs and hatchlings barely raise the rate.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-turtles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="36-population-models_files/figure-html/fig-turtles-output-1.png" alt="Four straight lines showing the growth rate rising from 0.945 as the survival of one stage is increased by up to 0.2. Large juveniles give the steepest rise, crossing the dashed line at 1 after an increase of about 0.09; small juveniles and subadults cross later; eggs and hatchlings barely raise the rate." width="566" height="336" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-turtles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;36.1: Long-run growth rate λ of the loggerhead model as the annual survival of one stage is raised from its current value, the others staying fixed. The population grows only above the dashed line, λ = 1. Raising the first-year survival of eggs and hatchlings barely helps (even 100% survival only gives λ = 0.965); modest improvements for large juveniles are enough.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Things to try, with the code:</p>
+<ul>
+<li>Find how much the annual survival of large juveniles must rise for <span class="math inline">\(\lambda\)</span> to reach exactly 1.</li>
+<li>Halve the fecundities of all breeders. How much does <span class="math inline">\(\lambda\)</span> fall? Compare with halving the survival of mature breeders.</li>
+<li>Start from 1000 eggs and project the population for 50 years. How long does it take to settle into the stable stage distribution?</li>
+</ul>
+</section>
+<section id="in-code" class="level2" data-number="36.4">
+<h2 data-number="36.4" class="anchored" data-anchor-id="in-code"><span class="header-section-number">36.4</span> In code</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div id="825b3c68" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">127</span>, <span class="dv">4</span>, <span class="dv">80</span>],</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>              [<span class="fl">0.6747</span>, <span class="fl">0.7370</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">0</span>, <span class="fl">0.0486</span>, <span class="fl">0.6610</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.0147</span>, <span class="fl">0.6907</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.0518</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.8091</span>, <span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.8091</span>, <span class="fl">0.8089</span>]])</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>values, vectors <span class="op">=</span> np.linalg.eig(A)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> np.argmax(values.real)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> values[k].real</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> vectors[:, k].real</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> w <span class="op">/</span> w.<span class="bu">sum</span>()                      <span class="co"># stable stage distribution</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"lambda = </span><span class="sc">{</span>lam<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(<span class="dv">100</span> <span class="op">*</span> w, <span class="dv">2</span>).tolist())  <span class="co"># percentages</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Left eigenvector (reproductive values), sensitivities and elasticities</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>lvals, lvecs <span class="op">=</span> np.linalg.eig(A.T)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> lvecs[:, np.argmax(lvals.real)].real</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> v <span class="op">/</span> v[<span class="dv">0</span>]</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>sens <span class="op">=</span> np.outer(v, w) <span class="op">/</span> (v <span class="op">@</span> w)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>elas <span class="op">=</span> A <span class="op">*</span> sens <span class="op">/</span> lam</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(elas.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">0</span>), <span class="dv">3</span>))  <span class="co"># elasticity summed over each stage's column</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> A.copy()</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>B[<span class="dv">1</span>, <span class="dv">0</span>] <span class="op">=</span> <span class="fl">1.0</span>                        <span class="co"># every egg survives its first year</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"with perfect egg survival: lambda = </span><span class="sc">{</span><span class="bu">max</span>(np.linalg.eigvals(B).real)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lambda = 0.9450
+[20.65, 66.98, 11.46, 0.66, 0.04, 0.03, 0.18]
+[0.051 0.232 0.17  0.19  0.051 0.039 0.268]
+with perfect egg survival: lambda = 0.9650</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">127</span> <span class="fl">4</span> <span class="fl">80</span><span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>     <span class="fl">0.6747</span> <span class="fl">0.7370</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>     <span class="fl">0</span> <span class="fl">0.0486</span> <span class="fl">0.6610</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>     <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0.0147</span> <span class="fl">0.6907</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>     <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0.0518</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>     <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0.8091</span> <span class="fl">0</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>     <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0.8091</span> <span class="fl">0.8089</span>]<span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>[<span class="va">V</span><span class="op">,</span> <span class="va">D</span>] <span class="op">=</span> <span class="va">eig</span>(<span class="va">A</span>)<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>[<span class="va">lambda</span><span class="op">,</span> <span class="va">k</span>] <span class="op">=</span> <span class="va">max</span>(<span class="va">real</span>(<span class="va">diag</span>(<span class="va">D</span>)))<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="va">lambda</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="va">w</span> <span class="op">=</span> <span class="va">real</span>(<span class="va">V</span>(<span class="op">:,</span> <span class="va">k</span>))<span class="op">;</span> <span class="va">w</span> <span class="op">=</span> <span class="va">w</span> <span class="op">/</span> <span class="va">sum</span>(<span class="va">w</span>)<span class="op">;</span>   <span class="co">% stable stage distribution</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="va">stable_percent</span> <span class="op">=</span> <span class="va">round</span>(<span class="fl">1000</span> <span class="op">*</span> <span class="va">w</span><span class="op">'</span>) <span class="op">/</span> <span class="fl">10</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="va">B</span> <span class="op">=</span> <span class="va">A</span><span class="op">;</span> <span class="va">B</span>(<span class="fl">2</span><span class="op">,</span> <span class="fl">1</span>) <span class="op">=</span> <span class="fl">1</span><span class="op">;</span>                  <span class="co">% every egg survives its first year</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="va">max</span>(<span class="va">real</span>(<span class="va">eig</span>(<span class="va">B</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>lambda =
+
+    0.9450
+
+stable_percent =
+
+   20.7000   67.0000   11.5000    0.7000         0         0    0.2000
+
+ans =
+
+    0.9650</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="check-your-understanding" class="level2" data-number="36.5">
+<h2 data-number="36.5" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">36.5</span> Check your understanding</h2>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What goes in the first row and the subdiagonal of a Leslie matrix, and why is everything else zero?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The first row holds the fecundities, the births from each age class, and the subdiagonal the survival rates from each class into the next. Nothing else can happen in a year: no one gets younger, stays the same age or skips a class.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A population matrix has dominant eigenvalue 0.97. What happens to the population in the long run?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>It shrinks by about 3% a year, whatever the starting numbers, so it halves roughly every 23 years (<span class="math inline">\(0.97^{23} \approx 0.5\)</span>), settling into the stable stage distribution as it does.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Why do ecologists compare elasticities rather than sensitivities?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Fecundities can be large numbers, like 127 eggs, while survival rates are at most 1, so a change of 0.01 means very different things for each. Elasticities measure proportional changes, so they can be compared directly, and they add up to 1.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="key-ideas" class="level2" data-number="36.6">
+<h2 data-number="36.6" class="anchored" data-anchor-id="key-ideas"><span class="header-section-number">36.6</span> Key ideas</h2>
+<ul>
+<li>A Leslie matrix has birth rates in its first row and survival rates on its subdiagonal; stage-based models also let individuals stay in a class.</li>
+<li>The dominant eigenvalue <span class="math inline">\(\lambda\)</span> is the long-run growth factor per time step: the population grows if <span class="math inline">\(\lambda &gt; 1\)</span> and declines if <span class="math inline">\(\lambda &lt; 1\)</span>.</li>
+<li>Its eigenvector is the stable age (or stage) distribution that every population settles into.</li>
+<li>Sensitivities and elasticities show which rates matter most, which guides conservation.</li>
+</ul>
+</section>
+<section id="sec-population-models-exercises" class="level2" data-number="36.7">
+<h2 data-number="36.7" class="anchored" data-anchor-id="sec-population-models-exercises"><span class="header-section-number">36.7</span> Exercises</h2>
+<ol type="1">
+<li><p><span id="exercise-population-models-1"></span>A species has two age classes. First-year females have 1 daughter on average and second-years have 1.5, and half of the first-years survive to their second year. Find the Leslie matrix, the long-run growth rate and the stable age distribution.</p>
+<p><a href="../appendices/solutions-6.html#solution-population-models-1" class="sol-link">Solution to exercise 1</a></p></li>
+<li><p><span id="exercise-population-models-2"></span>For the two-class Leslie matrix <span class="math inline">\(\mat{f_1 &amp; f_2 \\ s &amp; 0}\)</span>, show that the population grows in the long run (<span class="math inline">\(\lambda &gt; 1\)</span>) exactly when <span class="math inline">\(f_1 + sf_2 &gt; 1\)</span>. Interpret <span class="math inline">\(f_1 + sf_2\)</span>.</p>
+<p><a href="../appendices/solutions-6.html#solution-population-models-2" class="sol-link">Solution to exercise 2</a></p></li>
+<li><p><span id="exercise-population-models-3"></span>A fishery removes a fraction <span class="math inline">\(h\)</span> of every age class each year, after breeding. Explain why the new matrix is <span class="math inline">\((1 - h)\M{L}\)</span>, and find the harvest rate <span class="math inline">\(h\)</span> that holds the population of Example 1 steady.</p>
+<p><a href="../appendices/solutions-6.html#solution-population-models-3" class="sol-link">Solution to exercise 3</a></p></li>
+<li><p><span id="exercise-population-models-4"></span>Check the <span class="math inline">\(P\)</span> and <span class="math inline">\(G\)</span> formulas for large juveniles in Example 2, which have annual survival <span class="math inline">\(s = 0.6758\)</span> and last <span class="math inline">\(D = 8\)</span> years. Explain why <span class="math inline">\(P + G = s\)</span>.</p>
+<p><a href="../appendices/solutions-6.html#solution-population-models-4" class="sol-link">Solution to exercise 4</a></p></li>
+<li><p><span id="exercise-population-models-5"></span>Use Example 1 to explain why a population with a second eigenvalue close in size to the first can take many years to settle into its stable age distribution, and why it oscillates as it does so.</p>
+<p><a href="../appendices/solutions-6.html#solution-population-models-5" class="sol-link">Solution to exercise 5</a></p></li>
+<li><p><span id="exercise-population-models-6"></span><strong>Code.</strong> For the loggerhead model, project the population for 100 years from 1000 eggs and hatchlings and nothing else. Plot the total population on a logarithmic scale. After the first few decades, what is its slope, and how does it relate to <span class="math inline">\(\lambda\)</span>? How many years does it take for the proportion in each stage to come within 1% of the stable distribution?</p>
+<p><a href="../appendices/solutions-6.html#solution-population-models-6" class="sol-link">Solution to exercise 6</a></p></li>
+</ol>
+<p>Solutions are in <a href="../appendices/solutions-6.html#sec-solutions-population-models" class="quarto-xref"><span>Section J.6</span></a>.</p>
+</section>
+<section id="going-further" class="level2" data-number="36.8">
+<h2 data-number="36.8" class="anchored" data-anchor-id="going-further"><span class="header-section-number">36.8</span> Going further</h2>
+<ul>
+<li>Crouse, Crowder and Caswell’s paper, “A stage-based population model for loggerhead sea turtles and implications for conservation” (<em>Ecology</em>, 1987), is short and readable. Caswell’s <em>Matrix Population Models</em> is the standard text on the whole subject.</li>
+<li>Real populations fluctuate. Models with random variation in the matrix from year to year, or with matrices that depend on population density, capture this; their long-run behaviour is no longer a single eigenvalue, but eigenvalues remain the starting point.</li>
+<li>The same mathematics describes the ageing of a workforce, the turnover of equipment, and the spread of an infection through age groups, where the dominant eigenvalue of the <strong>next-generation matrix</strong> is the famous reproduction number <span class="math inline">\(R_0\)</span>.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../part-6/35-markov-pagerank.html" class="pagination-link" aria-label="Markov chains and PageRank">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Markov chains and PageRank</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../part-6/37-data-science.html" class="pagination-link" aria-label="Data: regression and dimensionality reduction">
+        <span class="nav-page-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Data: regression and dimensionality reduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2026 Tom Goodale. Text and figures licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; code licensed under the <a href="https://trgoodale.github.io/matrix-book/LICENSE.md">MIT licence</a>.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/part-6/36-population-models.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

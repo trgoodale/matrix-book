@@ -1,0 +1,309 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hill Cipher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: the key and the message first, then the blocks worked through one by one */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.mat { position: relative; display: inline-grid; grid-template-columns: 4.2rem 4.2rem; gap: 6px; padding: 6px 14px; }
+.mat::before, .mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.mat::before { left: 0; border-right: 0; } .mat::after { right: 0; border-left: 0; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.mat input { -moz-appearance: textfield; appearance: textfield; }
+.mat input::-webkit-outer-spin-button, .mat input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.matrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.matrow .nm { font: 600 1.05rem var(--font-num); }
+.status b { font-weight: 600; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.sw.c { border-color: var(--tgt); }
+
+.layout.hc { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); }
+@media (max-width: 860px) { .layout.hc { grid-template-columns: minmax(0, 1fr); } }
+.mat input { font-size: 1rem; }
+textarea { width: 100%; min-height: 4.2rem; resize: vertical; font: 600 1rem var(--font-num); color: var(--ink); background: var(--paper); border: 1.5px solid var(--line); border-radius: 6px; padding: 6px 8px; text-transform: uppercase; }
+textarea:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.out { font: 600 1.15rem var(--font-num); letter-spacing: 0.12em; overflow-wrap: anywhere; color: var(--res); min-height: 1.6rem; }
+.blocks { display: grid; gap: 8px; }
+.blk { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 0.9rem var(--font-num); padding: 6px 0; border-bottom: 1px solid var(--line); }
+.blk:last-child { border-bottom: 0; }
+.blk .pair { font-weight: 600; min-width: 2.4rem; }
+.blk .arr { color: var(--muted); }
+.cv2 { position: relative; display: inline-grid; padding: 2px 8px; text-align: right; }
+.cv2::before, .cv2::after { content: ""; position: absolute; top: 0; bottom: 0; width: 5px; border: 1.5px solid var(--ink); }
+.cv2::before { left: 0; border-right: 0; } .cv2::after { right: 0; border-left: 0; }
+html.br-round .cv2::before { border-top: 0; border-bottom: 0; width: 6px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .cv2::after { border-top: 0; border-bottom: 0; width: 6px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.cv2.m22 { grid-template-columns: auto auto; column-gap: 8px; }
+.res { color: var(--res); font-weight: 600; }
+.more { color: var(--muted); font-size: 0.88rem; }
+.status.bad { border-color: var(--col); }
+.nums { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 14px; font-size: 0.9rem; }
+.nums b { font: 600 0.9rem var(--font-num); overflow-wrap: anywhere; }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Multiply the message, <em>hide the meaning</em></h1>
+    <p>The Hill cipher turns letters into numbers (A = 0, B = 1, …, Z = 25), cuts the message into pairs, multiplies each pair by a key matrix, and reduces modulo 26. To decrypt, multiply by the key’s inverse modulo 26, if it has one.</p>
+  </header>
+
+  <div class="layout hc">
+    <div class="side">
+      <section class="panel card wide" aria-label="Key">
+        <span class="label">Key matrix K</span>
+        <div class="matrow">
+          <span class="nm">K =</span>
+          <div class="mat">
+            <input type="number" id="m00" step="0.1" aria-label="Row 1, column 1">
+            <input type="number" id="m01" step="0.1" aria-label="Row 1, column 2">
+            <input type="number" id="m10" step="0.1" aria-label="Row 2, column 1">
+            <input type="number" id="m11" step="0.1" aria-label="Row 2, column 2">
+          </div>
+        </div>
+        <div class="row" id="presets"></div>
+        <div class="nums" id="keyinfo"></div>
+        <div class="status" id="status" role="status"></div>
+      </section>
+      <section class="panel card wide" aria-label="Message">
+        <span class="label">Message</span>
+        <div class="row" id="modes"></div>
+        <textarea id="msg" aria-label="Message" spellcheck="false">HELP</textarea>
+        <span class="label" id="outlab">Ciphertext</span>
+        <div class="out" id="out" aria-live="polite"></div>
+        <div class="row"><button id="swap">Use the output as the new message</button></div>
+      </section>
+    </div>
+    <section class="panel card" aria-label="Blocks">
+      <span class="label">Block by block</span>
+      <div class="blocks" id="blocks"></div>
+    </section>
+  </div>
+</main>
+
+<script>
+(() => {
+
+  const $ = id => document.getElementById(id);
+  const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), b: v('--col'), t: v('--tgt'), w: v('--res'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), line: v('--line'), num: v('--font-num') }; };
+  // Eigenvalues and (real) eigenvectors of a 2x2 matrix
+  function eig2(A) {
+    const [[a, b], [c, d]] = A, tr = a + d, det = a * d - b * c, disc = tr * tr / 4 - det;
+    if (disc < -1e-12) { const re = tr / 2, im = Math.sqrt(-disc); return { complex: true, re, im, tr, det }; }
+    const s = Math.sqrt(Math.max(0, disc)), l1 = tr / 2 + s, l2 = tr / 2 - s;
+    const vec = l => { const v = Math.abs(b) > 1e-12 || Math.abs(a - l) > 1e-12 ? [b, l - a] : [l - d, c]; const n = Math.hypot(...v); return n < 1e-12 ? null : [v[0] / n, v[1] / n]; };
+    let v1 = vec(l1), v2 = vec(l2);
+    if (Math.abs(b) < 1e-12 && Math.abs(c) < 1e-12) { v1 = a >= d ? [1, 0] : [0, 1]; v2 = a >= d ? [0, 1] : [1, 0]; if (Math.abs(a - d) < 1e-12) v2 = null; }
+    else if (Math.abs(l1 - l2) < 1e-9) v2 = null;
+    return { complex: false, l1, l2, v1, v2, tr, det };
+  }
+  function wireMatrix(S, onChange) {
+    const ids = [['m00', 0, 0], ['m01', 0, 1], ['m10', 1, 0], ['m11', 1, 1]];
+    const sync = () => { for (const [id, i, j] of ids) $(id).value = String(S.A[i][j]); };
+    for (const [id, i, j] of ids) $(id).addEventListener('change', e => {
+      const x = parseFloat(e.target.value); if (!isNaN(x)) S.A[i][j] = Math.max(-9, Math.min(9, Math.round(x * 1000) / 1000));
+      e.target.value = String(S.A[i][j]); onChange();
+    });
+    return sync;
+  }
+  function makePresets(box, list, isOn, apply) {
+    box.innerHTML = '';
+    list.forEach(p => { const b = document.createElement('button'); b.textContent = p[0]; b.addEventListener('click', () => apply(p)); box.appendChild(b); });
+    return () => box.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-pressed', String(isOn(list[k]))));
+  }
+  function arrowPx(ctx, s, e, color, w, alpha = 1, dash) {
+    const len = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (len < 2) { ctx.globalAlpha = 1; return; }
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(12, len * 0.4);
+    if (dash) ctx.setLineDash(dash);
+    ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.lineTo(e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42));
+    ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+  }
+  function watchTheme(draw) {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    if (document.fonts) document.fonts.ready.then(draw);
+  }
+
+  const PRESETS = [['Valid key', [[3, 3], [2, 5]]], ['Another valid key', [[5, 8], [17, 3]]], ['Not invertible', [[2, 4], [1, 3]]]];
+  const MODES = [['Encrypt', 'enc'], ['Decrypt', 'dec']];
+  const S = { A: [[3, 3], [2, 5]], mode: 'enc' };
+  const mod = (a, m = 26) => ((a % m) + m) % m;
+  const gcd = (a, b) => b ? gcd(b, a % b) : Math.abs(a);
+  const invMod = a => { for (let x = 1; x < 26; x++) if (mod(a * x) === 1) return x; return null; };
+  const L = n => String.fromCharCode(65 + n);
+  function keyInverse(K) {
+    const det = mod(K[0][0] * K[1][1] - K[0][1] * K[1][0]), di = invMod(det);
+    if (di === null) return { det, di: null };
+    return { det, di, inv: [[mod(di * K[1][1]), mod(-di * K[0][1])], [mod(-di * K[1][0]), mod(di * K[0][0])]] };
+  }
+  const col = v => `<span class="cv2">${v.map(x => `<span>${x}</span>`).join('')}</span>`;
+  const m22 = M => `<span class="cv2 m22">${M.flat().map(x => `<span>${x}</span>`).join('')}</span>`;
+  function render() {
+    S.A = S.A.map(r => r.map(v => mod(Math.round(v))));
+    sync(); mark(); markM();
+    const ki = keyInverse(S.A), st = $('status');
+    const rawDet = S.A[0][0] * S.A[1][1] - S.A[0][1] * S.A[1][0];
+    $('keyinfo').innerHTML = `<span>det K</span><b>${String(rawDet).replace("-", "−")}${rawDet !== ki.det ? ` ≡ ${ki.det}` : ''} (mod 26)</b>` +
+      (ki.di !== null ? `<span>Inverse of det</span><b>${ki.di}, since ${ki.det} × ${ki.di} = ${ki.det * ki.di} ≡ 1</b><span>K⁻¹ (mod 26)</span><b>${m22(ki.inv)}</b>` : '');
+    if (ki.di === null) { st.className = 'status bad'; st.innerHTML = `<b>This key cannot be used.</b> Its determinant, ${ki.det}, shares the factor ${gcd(ki.det, 26)} with 26, so it has no inverse modulo 26 and the cipher could not be undone. Different messages would encrypt to the same ciphertext.`; }
+    else { st.className = 'status hit'; st.innerHTML = `A valid key: gcd(${ki.det}, 26) = 1, so K has an inverse modulo 26 and every ciphertext can be decrypted.`; }
+    const key = S.mode === 'enc' ? S.A : ki.inv;
+    $('outlab').textContent = S.mode === 'enc' ? 'Ciphertext' : 'Plaintext';
+    let text = $('msg').value.toUpperCase().replace(/[^A-Z]/g, '');
+    const padded = text.length % 2 ? text + 'X' : text;
+    if (!key) { $('out').textContent = '—'; $('blocks').innerHTML = '<p class="more">Choose a valid key to decrypt.</p>'; return; }
+    let out = '', html = '';
+    for (let k = 0; k < padded.length; k += 2) {
+      const p = [padded.charCodeAt(k) - 65, padded.charCodeAt(k + 1) - 65];
+      const raw = [key[0][0] * p[0] + key[0][1] * p[1], key[1][0] * p[0] + key[1][1] * p[1]], c = raw.map(v => mod(v));
+      out += L(c[0]) + L(c[1]);
+      if (k < 16) html += `<div class="blk"><span class="pair">${padded[k]}${padded[k + 1]}</span><span class="arr">→</span>${m22(key)}${col(p)}<span class="arr">=</span>${col(raw)}<span class="arr">≡</span>${col(c).replace('cv2', 'cv2 res')}<span class="arr">→</span><span class="pair res">${L(c[0])}${L(c[1])}</span></div>`;
+    }
+    if (padded.length > 16) html += `<p class="more">…and ${(padded.length - 16) / 2} more blocks in the same way.</p>`;
+    if (text.length % 2) html += `<p class="more">The message has an odd number of letters, so an X was added to complete the last pair.</p>`;
+    if (!padded.length) html = '<p class="more">Type a message: letters only; spaces and punctuation are dropped.</p>';
+    $('out').textContent = out.replace(/(.{4})/g, '$1 ').trim() || '—';
+    $('blocks').innerHTML = html;
+  }
+  const sync = wireMatrix(S, () => render());
+  // allow whole numbers 0–25 only in the key
+  ['m00', 'm01', 'm10', 'm11'].forEach(id => { $(id).step = '1'; $(id).min = '0'; $(id).max = '25'; });
+  const mark = makePresets($('presets'), PRESETS, p => JSON.stringify(p[1]) === JSON.stringify(S.A), p => { S.A = p[1].map(r => r.slice()); render(); });
+  const markM = makePresets($('modes'), MODES, m => m[1] === S.mode, m => { S.mode = m[1]; render(); });
+  $('msg').addEventListener('input', render);
+  $('swap').addEventListener('click', () => { $('msg').value = $('out').textContent.replace(/\s/g, '').replace('—', ''); S.mode = S.mode === 'enc' ? 'dec' : 'enc'; render(); });
+  // wireMatrix clamps to ±9; replace its handler with one for 0–25
+  ['m00', 'm01', 'm10', 'm11'].forEach((id, q) => { const el = $(id), fresh = el.cloneNode(true); el.replaceWith(fresh); fresh.addEventListener('change', e => { const v = parseInt(e.target.value, 10); if (!isNaN(v)) S.A[q >> 1][q & 1] = mod(v); render(); }); });
+
+  // Optional start-up settings: ?key=3,3,2,5&msg=HELP&mode=dec
+  const q = new URLSearchParams(location.search);
+  if (q.get('key')) { const x = q.get('key').split(',').map(Number); if (x.length === 4 && x.every(Number.isInteger)) S.A = [[x[0], x[1]], [x[2], x[3]]]; }
+  if (q.get('msg')) $('msg').value = q.get('msg').toUpperCase().replace(/[^A-Z ]/g, '');
+  if (q.get('mode') === 'dec') S.mode = 'dec';
+  render();
+})();
+</script>
+</body>
+</html>

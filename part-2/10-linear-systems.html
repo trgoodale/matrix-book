@@ -1,0 +1,2237 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; Systems of linear equations – Matrices in Practice</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../part-2/11-gaussian-elimination.html" rel="next">
+<link href="../part-1/review.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-a4502c8cbc339fc51dc0f3ab78f51ea6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-ae6c1fbcc07bf00db2a7efa1353188f4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+
+<script>
+
+/*
+
+  Notation settings for the book.
+
+  All mathematics is written with the macros below, never with hard-coded notation:
+
+    \vect{v}   a vector            \M{A}      a matrix
+
+    \ui \uj \uk  standard unit vectors in 2D/3D   \ue{n}  general basis vector e_n
+
+    \mat{..}   a matrix in brackets (rows split by \\, entries by &)
+
+    \amat{ccc|c}{..}  an augmented matrix   \T  transpose   \R  real numbers
+
+  The reader's choices are stored in localStorage under "mb-settings" and read
+
+  here, before MathJax loads, so every page is typeset in their notation.
+
+*/
+
+(function () {
+
+  var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python" };
+
+  var s = {};
+
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) { s = {}; }
+
+  for (var k in DEFAULTS) if (!(k in s)) s[k] = DEFAULTS[k];
+
+  window.mbSettings = s;
+
+  window.mbDefaults = DEFAULTS;
+
+
+
+  var vec = { bold: "\\mathbf{#1}", arrow: "\\vec{#1}", underline: "\\underline{#1}" }[s.vec] || "\\mathbf{#1}";
+
+  var unit = function (letter, dotless, idx) {
+
+    if (s.basis === "e") return vec.replace("#1", "e") + "_{" + idx + "}";
+
+    if (s.basis === "hat") return "\\hat{" + dotless + "}";
+
+    return vec.replace("#1", letter);
+
+  };
+
+  var open = s.br === "square" ? "[" : "(";
+
+  var close = s.br === "square" ? "]" : ")";
+
+  var env = s.br === "square" ? "bmatrix" : "pmatrix";
+
+
+
+  window.MathJax = {
+
+    tex: {
+
+      macros: {
+
+        vect: [vec, 1],
+
+        M: [s.mat === "italic" ? "#1" : "\\mathbf{#1}", 1],
+
+        ui: unit("i", "\\imath", 1),
+
+        uj: unit("j", "\\jmath", 2),
+
+        uk: unit("k", "k", 3),
+
+        ue: [vec.replace("#1", "e") + "_{#1}", 1],
+
+        mat: ["\\begin{" + env + "}#1\\end{" + env + "}", 1],
+
+        amat: ["\\left" + open + "\\begin{array}{#1}#2\\end{array}\\right" + close, 2],
+
+        T: s.tr === "top" ? "^{\\top}" : "^{\\mathsf{T}}",
+
+        R: "\\mathbb{R}",
+
+        zerovec: vec.replace("#1", "0")
+
+      }
+
+    },
+
+    // MathJax 4: break long equations across lines to fit narrow screens
+
+    output: { displayOverflow: "linebreak", linebreaks: { inline: true, width: "100%", lineleading: 0.6 } },
+
+    chtml: { scale: 1.0 }
+
+  };
+
+
+
+  // Default language for code tabs: Quarto reads this when the page is shown.
+
+  try {
+
+    var key = "quarto-persistent-tabsets-data";
+
+    var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+
+    if (!tabs.language) { tabs.language = s.code; localStorage.setItem(key, JSON.stringify(tabs)); }
+
+  } catch (e) {}
+
+
+
+  // ---------- settings panel ----------
+
+  var GROUPS = [
+
+    { key: "vec", label: "Vectors", opts: [["bold", "Bold", "\\mathbf{v}"], ["arrow", "Arrow", "\\vec{v}"], ["underline", "Underlined", "\\underline{v}"]] },
+
+    { key: "mat", label: "Matrices", opts: [["bold", "Bold", "\\mathbf{A}"], ["italic", "Italic", "A"]] },
+
+    { key: "basis", label: "Unit vectors", opts: [["ijk", "i, j, k", "\\mathbf{i},\\ \\mathbf{j},\\ \\mathbf{k}"], ["hat", "Hats", "\\hat{\\imath},\\ \\hat{\\jmath},\\ \\hat{k}"], ["e", "e₁, e₂, e₃", "\\mathbf{e}_1,\\ \\mathbf{e}_2,\\ \\mathbf{e}_3"]] },
+
+    { key: "br", label: "Brackets", opts: [["round", "Round", "\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}"], ["square", "Square", "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}"]] },
+
+    { key: "tr", label: "Transpose", opts: [["T", "Letter T", "\\mathbf{A}^{\\mathsf{T}}"], ["top", "Symbol ⊤", "\\mathbf{A}^{\\top}"]] },
+
+    { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] }
+
+  ];
+
+
+
+  function buildForm(prefix) {
+
+    var form = document.createElement("form");
+
+    form.className = "mb-settings-form";
+
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+
+    GROUPS.forEach(function (g) {
+
+      var fs = document.createElement("fieldset");
+
+      var lg = document.createElement("legend");
+
+      lg.textContent = g.label;
+
+      fs.appendChild(lg);
+
+      g.opts.forEach(function (o) {
+
+        var id = prefix + "-" + g.key + "-" + o[0];
+
+        var lab = document.createElement("label");
+
+        lab.className = "mb-opt";
+
+        lab.htmlFor = id;
+
+        var inp = document.createElement("input");
+
+        inp.type = "radio"; inp.name = prefix + "-" + g.key; inp.id = id; inp.value = o[0];
+
+        inp.checked = s[g.key] === o[0];
+
+        lab.appendChild(inp);
+
+        var txt = document.createElement("span");
+
+        txt.className = "mb-opt-name";
+
+        txt.textContent = o[1];
+
+        lab.appendChild(txt);
+
+        if (o[2]) {
+
+          var ex = document.createElement("span");
+
+          ex.className = "mb-opt-example";
+
+          ex.textContent = "\\(" + o[2] + "\\)";
+
+          lab.appendChild(ex);
+
+        }
+
+        fs.appendChild(lab);
+
+      });
+
+      form.appendChild(fs);
+
+    });
+
+    var row = document.createElement("div");
+
+    row.className = "mb-settings-actions";
+
+    var apply = document.createElement("button");
+
+    apply.type = "button"; apply.className = "btn btn-primary"; apply.textContent = "Apply";
+
+    var reset = document.createElement("button");
+
+    reset.type = "button"; reset.className = "btn btn-outline-secondary"; reset.textContent = "Restore defaults";
+
+    var note = document.createElement("span");
+
+    note.className = "mb-settings-note";
+
+    note.textContent = "Saved in this browser and used on every page.";
+
+    row.appendChild(apply); row.appendChild(reset); row.appendChild(note);
+
+    form.appendChild(row);
+
+
+
+    apply.addEventListener("click", function () {
+
+      var next = {};
+
+      GROUPS.forEach(function (g) {
+
+        var c = form.querySelector('input[name="' + prefix + "-" + g.key + '"]:checked');
+
+        next[g.key] = c ? c.value : DEFAULTS[g.key];
+
+      });
+
+      save(next);
+
+    });
+
+    reset.addEventListener("click", function () { save(Object.assign({}, DEFAULTS)); });
+
+    return form;
+
+  }
+
+
+
+  function save(next) {
+
+    try {
+
+      localStorage.setItem("mb-settings", JSON.stringify(next));
+
+      var key = "quarto-persistent-tabsets-data";
+
+      var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+
+      tabs.language = next.code;
+
+      localStorage.setItem(key, JSON.stringify(tabs));
+
+      sessionStorage.setItem("mb-scroll", String(window.scrollY));
+
+    } catch (e) {}
+
+    location.reload();
+
+  }
+
+
+
+  function typeset(el) {
+
+    var M = window.MathJax;
+
+    if (!M || !M.startup || !M.startup.promise) return;
+
+    M.startup.promise.then(function () { return M.typesetPromise([el]); }).catch(function () {});
+
+  }
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    try {
+
+      var y = sessionStorage.getItem("mb-scroll");
+
+      if (y !== null) { sessionStorage.removeItem("mb-scroll"); window.addEventListener("load", function () { window.scrollTo(0, +y); }); }
+
+    } catch (e) {}
+
+
+
+    // Inline panel (on the conventions page)
+
+    var inline = document.getElementById("mb-settings-inline");
+
+    if (inline) { inline.appendChild(buildForm("inline")); typeset(inline); }
+
+
+
+    // Floating button and dialog on every page
+
+    var btn = document.createElement("button");
+
+    btn.type = "button";
+
+    btn.className = "mb-settings-button";
+
+    btn.setAttribute("aria-haspopup", "dialog");
+
+    btn.innerHTML = '<span aria-hidden="true">⚙</span> Notation';
+
+    var dlg = document.createElement("dialog");
+
+    dlg.className = "mb-settings-dialog";
+
+    dlg.setAttribute("aria-labelledby", "mb-dlg-title");
+
+    dlg.innerHTML = '<div class="mb-dlg-head"><h2 id="mb-dlg-title">Notation and code</h2>' +
+
+      '<button type="button" class="btn-close" aria-label="Close"></button></div>' +
+
+      '<p class="mb-dlg-intro">Choose the notation you are used to. Every page of the book, and the apps, will use it. ' +
+
+      'See <a class="mb-conv-link">Notation and conventions</a> for what each option means.</p>';
+
+    dlg.appendChild(buildForm("dlg"));
+
+    document.body.appendChild(btn);
+
+    document.body.appendChild(dlg);
+
+    var conv = dlg.querySelector(".mb-conv-link");
+
+    var sideLink = document.querySelector('a[href$="conventions.html"]');
+
+    conv.href = sideLink ? sideLink.getAttribute("href") : "conventions.html";
+
+    btn.addEventListener("click", function () { dlg.showModal(); typeset(dlg); });
+
+    dlg.querySelector(".btn-close").addEventListener("click", function () { dlg.close(); });
+
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+
+
+    // Size embedded apps to their content (same origin)
+
+    document.querySelectorAll("iframe.app-frame").forEach(function (f) {
+
+      function fit() {
+
+        try { var d = f.contentDocument; if (d && d.documentElement) f.style.height = d.documentElement.scrollHeight + "px"; } catch (e) {}
+
+      }
+
+      f.addEventListener("load", function () {
+
+        fit();
+
+        try { new ResizeObserver(fit).observe(f.contentDocument.body); } catch (e) {}
+
+      });
+
+    });
+
+  });
+
+})();
+
+</script>
+
+<script>
+
+/* Accessibility fixes for markup that Quarto generates. */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // Collapsible callouts ("Check your understanding"): make the header a real,
+
+  // keyboard-operable button that announces whether the answer is shown.
+
+  document.querySelectorAll(".callout-header[data-bs-toggle='collapse']").forEach(function (h) {
+
+    var target = document.querySelector(h.getAttribute("data-bs-target"));
+
+    h.setAttribute("role", "button");
+
+    h.setAttribute("tabindex", "0");
+
+    if (target) {
+
+      if (!target.id) target.id = "mb-" + Math.random().toString(36).slice(2, 9);
+
+      h.setAttribute("aria-controls", target.id);
+
+    }
+
+    h.addEventListener("keydown", function (e) {
+
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); h.click(); }
+
+    });
+
+  });
+
+  // Sidebar: label the landmark, and stop section toggles posing as landmarks.
+
+  var side = document.getElementById("quarto-sidebar");
+
+  if (side) side.setAttribute("aria-label", "Book contents");
+
+  document.querySelectorAll("#quarto-sidebar [data-bs-toggle='collapse'][role='navigation']").forEach(function (a) {
+
+    a.setAttribute("role", "button");
+
+  });
+
+  var toc = document.querySelector("nav#TOC");
+
+  if (toc && !toc.getAttribute("aria-label")) toc.setAttribute("aria-label", "On this page");
+
+  // Code output that scrolls sideways must be reachable from the keyboard.
+
+  function markScrollers() {
+
+    var n = 0;
+
+    document.querySelectorAll(".cell-output pre, pre.code-output, div.code-output pre").forEach(function (p) {
+
+      if (p.scrollWidth > p.clientWidth + 1) {
+
+        n += 1;
+
+        p.setAttribute("tabindex", "0");
+
+        p.setAttribute("role", "region");
+
+        p.setAttribute("aria-label", "Code output " + n + " (scrolls sideways)");
+
+      } else if (p.getAttribute("role") === "region") {
+
+        p.removeAttribute("tabindex"); p.removeAttribute("role"); p.removeAttribute("aria-label");
+
+      }
+
+    });
+
+  }
+
+  markScrollers();
+
+  window.addEventListener("resize", markScrollers);
+
+  document.addEventListener("shown.bs.tab", markScrollers);
+
+});
+
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-2/10-linear-systems.html">Part II: Linear systems</a></li><li class="breadcrumb-item"><a href="../part-2/10-linear-systems.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Systems of linear equations</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Matrices in Practice</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/trgoodale/matrix-book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/how-to-use.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to use this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/conventions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notation and conventions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/refresher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Refresher</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Matrices and transformations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/01-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is a matrix?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/02-arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Adding and scaling matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/03-multiplication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix multiplication</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/04-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrices as transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/05-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Composing transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/06-determinants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Determinants</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/07-inverses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Inverse matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/08-transformations-3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Transformations in three dimensions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/09-invariant-lines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Invariant points and lines</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part I review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Linear systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/10-linear-systems.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Systems of linear equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/11-gaussian-elimination.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Gaussian elimination</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/12-gauss-jordan-rank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Gauss–Jordan elimination and rank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/13-lu-decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LU decomposition</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part II review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part III: Vector spaces</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/14-span-independence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Span and linear independence</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/15-basis-change.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Basis, dimension and change of basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/16-fundamental-subspaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Column space, null space and rank–nullity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/17-orthogonality-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Orthogonality and least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part IV: Eigenvalues and matrix calculus</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/18-eigenvalues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Eigenvalues and eigenvectors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/19-diagonalisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Diagonalisation and matrix powers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/20-symmetric-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Symmetric and positive definite matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/21-svd-pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">The singular value decomposition and PCA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/22-matrix-calculus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Derivatives with vectors and matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/23-linear-odes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear ODE systems and the matrix exponential</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part V: Numerical methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/24-floating-point-conditioning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Floating point and conditioning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/25-pivoting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Pivoting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/26-cost-sparse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Cost, banded and sparse systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/27-iterative-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Iterative methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/28-newton-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Newton’s method for nonlinear systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/29-eigenvalue-algorithms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Eigenvalue algorithms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/30-qr-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">QR factorisation and stable least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part V review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part VI: Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/31-trusses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Structures: pin-jointed trusses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/32-circuits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Electrical circuits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/33-finite-differences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Heat flow and finite differences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/34-graphics-robotics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Computer graphics and robotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/35-markov-pagerank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Markov chains and PageRank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/36-population-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Population models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/37-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Data: regression and dimensionality reduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/38-physics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Physics: rotations, inertia and quantum states</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/39-cryptography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Cryptography: the Hill cipher</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part VI review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/apps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Interactive apps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Reference: matrices and their rules</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/matrix-calculus-identities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Matrix calculus identities</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Solutions: Part I</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions: Part II</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Solutions: Part III</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Solutions: Part IV</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Solutions: Part V</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Solutions: Part VI</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#build-intuition" id="toc-build-intuition" class="nav-link active" data-scroll-target="#build-intuition"><span class="header-section-number">10.1</span> Build intuition</a></li>
+  <li><a href="#the-ideas" id="toc-the-ideas" class="nav-link" data-scroll-target="#the-ideas"><span class="header-section-number">10.2</span> The ideas</a>
+  <ul class="collapse">
+  <li><a href="#from-equations-to-matrices" id="toc-from-equations-to-matrices" class="nav-link" data-scroll-target="#from-equations-to-matrices">From equations to matrices</a></li>
+  <li><a href="#the-row-picture" id="toc-the-row-picture" class="nav-link" data-scroll-target="#the-row-picture">The row picture</a></li>
+  <li><a href="#the-column-picture" id="toc-the-column-picture" class="nav-link" data-scroll-target="#the-column-picture">The column picture</a></li>
+  <li><a href="#one-solution-none-or-infinitely-many" id="toc-one-solution-none-or-infinitely-many" class="nav-link" data-scroll-target="#one-solution-none-or-infinitely-many">One solution, none or infinitely many</a></li>
+  <li><a href="#homogeneous-systems" id="toc-homogeneous-systems" class="nav-link" data-scroll-target="#homogeneous-systems">Homogeneous systems</a></li>
+  <li><a href="#more-equations-than-unknowns-or-fewer" id="toc-more-equations-than-unknowns-or-fewer" class="nav-link" data-scroll-target="#more-equations-than-unknowns-or-fewer">More equations than unknowns, or fewer</a></li>
+  </ul></li>
+  <li><a href="#in-code" id="toc-in-code" class="nav-link" data-scroll-target="#in-code"><span class="header-section-number">10.3</span> In code</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">10.4</span> Check your understanding</a></li>
+  <li><a href="#key-ideas" id="toc-key-ideas" class="nav-link" data-scroll-target="#key-ideas"><span class="header-section-number">10.5</span> Key ideas</a></li>
+  <li><a href="#sec-linear-systems-exercises" id="toc-sec-linear-systems-exercises" class="nav-link" data-scroll-target="#sec-linear-systems-exercises"><span class="header-section-number">10.6</span> Exercises</a></li>
+  <li><a href="#in-practice" id="toc-in-practice" class="nav-link" data-scroll-target="#in-practice"><span class="header-section-number">10.7</span> In practice</a></li>
+  <li><a href="#going-further" id="toc-going-further" class="nav-link" data-scroll-target="#going-further"><span class="header-section-number">10.8</span> Going further</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/part-2/10-linear-systems.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-2/10-linear-systems.html">Part II: Linear systems</a></li><li class="breadcrumb-item"><a href="../part-2/10-linear-systems.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Systems of linear equations</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-linear-systems" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Systems of linear equations</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><span class="level-badge core">Core</span></p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>In this chapter you will
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>write a system of linear equations as <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span> and as an augmented matrix</li>
+<li>picture a system in two ways: as lines or planes that meet (the row picture), and as a combination of columns (the column picture)</li>
+<li>explain why a system has exactly one solution, no solution or infinitely many, and never anything in between</li>
+<li>recognise homogeneous systems, and how their solutions describe all the solutions of <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span></li>
+</ul>
+</div>
+</div>
+<p><strong>Builds on</strong> <a href="../part-1/03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a>, <a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a>, <a href="../part-1/07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a>.</p>
+<p>Part I treated a matrix as a table, and as a machine that moves points. Part II turns to the question that matrices are most often used to answer: <strong>given <span class="math inline">\(\M{A}\)</span> and <span class="math inline">\(\vect{b}\)</span>, find every <span class="math inline">\(\vect{x}\)</span> with <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span></strong>. Structures, circuits, chemical plants, data fits and computer simulations all come down to it, often with thousands or millions of unknowns.</p>
+<p>This chapter sets up the problem and asks what the answer can look like. <a href="11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a> gives the method for finding it.</p>
+<section id="build-intuition" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">10.1</span> Build intuition</h2>
+<p>The app draws each equation of a system as a line (with two unknowns) or a plane (with three). A solution is a point that lies on all of them at once. This is the <strong>row picture</strong>. The app also has a second view, the <strong>column picture</strong>; leave that for now, as it comes back later in the chapter, once it has been explained.</p>
+<div class="app-embed">
+<iframe class="app-frame" src="../apps/linear-systems.html?embed=1" title="Systems explorer" loading="lazy">
+</iframe>
+<p><a href="../apps/linear-systems.html" class="app-open" target="_blank">Open the systems explorer in its own tab</a></p>
+</div>
+<p>Things to try:</p>
+<ul>
+<li>With two unknowns, try the three presets. How do the lines sit when there is one solution, none and infinitely many?</li>
+<li>Change one number at a time in <strong>One solution</strong> until the lines become parallel. Which numbers did you change, and how is the new pair of equations related?</li>
+<li>Switch to three unknowns and try each preset, turning the picture to see how the planes sit. There are several different ways for three planes to have no common point.</li>
+</ul>
+</section>
+<section id="the-ideas" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="the-ideas"><span class="header-section-number">10.2</span> The ideas</h2>
+<section id="from-equations-to-matrices" class="level3">
+<h3 class="anchored" data-anchor-id="from-equations-to-matrices">From equations to matrices</h3>
+<p>A <strong>linear equation</strong> in the unknowns <span class="math inline">\(x_1, \dots, x_n\)</span> is one in which each unknown is only multiplied by a number, and the results are added: <span class="math inline">\(3x_1 - 2x_2 + x_3 = 4\)</span> is linear, but <span class="math inline">\(x_1x_2 = 4\)</span> and <span class="math inline">\(\sin x_1 = 0\)</span> are not. A <strong>system</strong> of linear equations is several of these that must all hold at once.</p>
+<p>Every system can be written as one matrix equation. For example, <span class="math display">\[
+\begin{aligned}
+2x + y - z &amp;= 8 \\
+-3x - y + 2z &amp;= -11 \\
+-2x + y + 2z &amp;= -3
+\end{aligned}
+\]</span> is <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span> with <span class="math display">\[
+\M{A} = \mat{2 &amp; 1 &amp; -1 \\ -3 &amp; -1 &amp; 2 \\ -2 &amp; 1 &amp; 2},
+\]</span> <span class="math display">\[
+\vect{x} = \mat{x \\ y \\ z},
+\]</span> <span class="math display">\[
+\vect{b} = \mat{8 \\ -11 \\ -3}.
+\]</span> Each row of <span class="math inline">\(\M{A}\)</span> holds the coefficients of one equation, each column belongs to one unknown, and <span class="math inline">\(\vect{b}\)</span> holds the right-hand sides. Multiplying out <span class="math inline">\(\M{A}\vect{x}\)</span> by the row-times-column rule (<a href="../part-1/03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a>) gives back the left-hand sides.</p>
+<p>Since the unknowns are only labels for the columns, the whole system can be stored as the <strong>augmented matrix</strong> <span class="math inline">\([\M{A} \mid \vect{b}]\)</span>: the coefficients with the right-hand sides attached as an extra column. <span class="math display">\[
+\amat{rrr|r}{2 &amp; 1 &amp; -1 &amp; 8 \\ -3 &amp; -1 &amp; 2 &amp; -11 \\ -2 &amp; 1 &amp; 2 &amp; -3}
+\]</span> The vertical line stands for the equals signs. This is the form that <a href="11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a> works with.</p>
+<p>A <strong>solution</strong> is a vector <span class="math inline">\(\vect{x}\)</span> that makes every equation true. Solving the system means finding all of them. This one has exactly one, <span class="math inline">\(\vect{x} = (2, 3, -1)\T\)</span>, which you can check by substituting.</p>
+<div id="ex-linear-systems-1" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 1: setting up a system
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A workshop melts down three scrap alloys to make a new one. By mass, alloy 1 is 60% copper, 30% zinc and 10% tin; alloy 2 is 80% copper, 10% zinc and 10% tin; and alloy 3 is 50% copper, 20% zinc and 30% tin. How much of each is needed to make 100 kg containing 60 kg of copper, 22 kg of zinc and 18 kg of tin? Write the problem as a matrix equation, in the row picture and the column picture.</p>
+<p><strong>Solution.</strong> Let <span class="math inline">\(x_1\)</span>, <span class="math inline">\(x_2\)</span> and <span class="math inline">\(x_3\)</span> be the masses of the three alloys in kilograms. Counting each metal gives one equation, for copper, zinc and tin in turn: <span class="math display">\[
+\begin{aligned}
+0.6x_1 + 0.8x_2 + 0.5x_3 &amp;= 60 \\
+0.3x_1 + 0.1x_2 + 0.2x_3 &amp;= 22 \\
+0.1x_1 + 0.1x_2 + 0.3x_3 &amp;= 18
+\end{aligned}
+\]</span> So <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span> with <span class="math display">\[
+\M{A} = \mat{0.6 &amp; 0.8 &amp; 0.5 \\ 0.3 &amp; 0.1 &amp; 0.2 \\ 0.1 &amp; 0.1 &amp; 0.3},
+\]</span> <span class="math display">\[
+\vect{b} = \mat{60 \\ 22 \\ 18}.
+\]</span> In the row picture, each metal gives a plane, and the answer is the point where the three planes meet. In the column picture, each column of <span class="math inline">\(\M{A}\)</span> is the make-up of one alloy, and the question is how much of each alloy to mix to get the make-up <span class="math inline">\(\vect{b}\)</span>: <span class="math display">\[
+x_1\mat{0.6 \\ 0.3 \\ 0.1} + x_2\mat{0.8 \\ 0.1 \\ 0.1} + x_3\mat{0.5 \\ 0.2 \\ 0.3} = \mat{60 \\ 22 \\ 18}.
+\]</span> The solution, found by the methods of the next chapter or in code below, is <span class="math inline">\(x_1 = 40\)</span>, <span class="math inline">\(x_2 = 20\)</span>, <span class="math inline">\(x_3 = 40\)</span>. Check the copper: <span class="math inline">\(0.6 \times 40 + 0.8 \times 20 + 0.5 \times 40 = 60\)</span> ✓. (There was no need for a fourth equation saying the total is 100 kg: each column adds up to 1, so the three metals automatically total <span class="math inline">\(x_1 + x_2 + x_3\)</span>.)</p>
+</div>
+</div>
+</section>
+<section id="the-row-picture" class="level3">
+<h3 class="anchored" data-anchor-id="the-row-picture">The row picture</h3>
+<p>Read the system one equation, that is one row, at a time.</p>
+<ul>
+<li><strong>Two unknowns.</strong> Each equation <span class="math inline">\(ax + by = c\)</span> is a straight line in the plane. A solution is a point on every line: where the lines cross.</li>
+<li><strong>Three unknowns.</strong> Each equation <span class="math inline">\(ax + by + cz = d\)</span> is a flat <strong>plane</strong> in space. A solution is a point on every plane.</li>
+</ul>
+<p>Two lines in a plane normally cross at one point, but they may be parallel, or be the same line. Three planes in space normally meet at one point, but there are more ways for this to fail, as the app shows. Two of the planes may be parallel. Or each pair may meet in a line with the three lines parallel, forming a long triangular tube with nothing inside it common to all three.</p>
+</section>
+<section id="the-column-picture" class="level3">
+<h3 class="anchored" data-anchor-id="the-column-picture">The column picture</h3>
+<p>Now read the system one column at a time. Start with the two equations of the app’s first example, <span class="math display">\[
+\begin{aligned}
+3x + 2y &amp;= 7 \\
+4x - 5y &amp;= -6.
+\end{aligned}
+\]</span> Two vectors are equal exactly when their entries are equal, one by one. So the pair of equations says the same thing as a single equation between vectors, with the first equation in the top entries and the second in the bottom ones: <span class="math display">\[
+\mat{3x + 2y \\ 4x - 5y} = \mat{7 \\ -6}.
+\]</span> Split the left-hand side into the part with <span class="math inline">\(x\)</span> and the part with <span class="math inline">\(y\)</span>, and take each unknown outside its vector: <span class="math display">\[
+\mat{3x \\ 4x} + \mat{2y \\ -5y} = \mat{7 \\ -6},
+\qquad\text{so}\qquad
+x\mat{3 \\ 4} + y\mat{2 \\ -5} = \mat{7 \\ -6}.
+\]</span> Nothing has been added or lost; the same six numbers have only been rearranged.</p>
+<ul>
+<li><strong>Reading down</strong> gives the columns of <span class="math inline">\(\M{A}\)</span>. The first vector, <span class="math inline">\(\vect{a}_1 = (3, 4)\T\)</span>, holds the coefficients of <span class="math inline">\(x\)</span>: 3 from the first equation and 4 from the second. The second, <span class="math inline">\(\vect{a}_2 = (2, -5)\T\)</span>, holds the coefficients of <span class="math inline">\(y\)</span>. The right-hand side <span class="math inline">\(\vect{b} = (7, -6)\T\)</span> holds the right-hand sides.</li>
+<li><strong>Reading across</strong> gives the equations back. The top entries say <span class="math inline">\(3x + 2y = 7\)</span>, and the bottom entries say <span class="math inline">\(4x - 5y = -6\)</span>.</li>
+</ul>
+<p>The question has changed its form. Instead of “which point lies on both lines?”, it asks <strong>how much of <span class="math inline">\(\vect{a}_1\)</span> and how much of <span class="math inline">\(\vect{a}_2\)</span> make <span class="math inline">\(\vect{b}\)</span>?</strong> The answer is <span class="math inline">\(x = 1\)</span> and <span class="math inline">\(y = 2\)</span>: one of the first column and two of the second, <span class="math display">\[
+1\mat{3 \\ 4} + 2\mat{2 \\ -5} = \mat{3 \\ 4} + \mat{4 \\ -10} = \mat{7 \\ -6}.
+\]</span> <a href="#fig-two-pictures" class="quarto-xref">Figure&nbsp;<span>10.1</span></a> shows both pictures of this system. In the row picture, the solution is the point <span class="math inline">\((1, 2)\)</span> where the lines cross. In the column picture, it is the recipe for reaching <span class="math inline">\(\vect{b}\)</span>: go along <span class="math inline">\(\vect{a}_1\)</span> once, then along <span class="math inline">\(\vect{a}_2\)</span> twice.</p>
+<div id="cell-fig-two-pictures" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Show the code for this figure</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>blue, orange, green <span class="op">=</span> <span class="st">"#2153b8"</span>, <span class="st">"#9c5208"</span>, <span class="st">"#0a7050"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>a1, a2, b <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">4</span>]), np.array([<span class="dv">2</span>, <span class="op">-</span><span class="dv">5</span>]), np.array([<span class="dv">7</span>, <span class="op">-</span><span class="dv">6</span>])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> <span class="dv">1</span>, <span class="dv">2</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>fig, (L, R) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="fl">4.6</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Row picture: one line per equation</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">2</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># grey lines, so that blue and orange can mean "x" and "y" in the column picture</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>L.plot(t, (<span class="dv">7</span> <span class="op">-</span> <span class="dv">3</span> <span class="op">*</span> t) <span class="op">/</span> <span class="dv">2</span>, color<span class="op">=</span><span class="st">"0.25"</span>, lw<span class="op">=</span><span class="fl">2.2</span>, label<span class="op">=</span><span class="st">"3x + 2y = 7"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>L.plot(t, (<span class="dv">4</span> <span class="op">*</span> t <span class="op">+</span> <span class="dv">6</span>) <span class="op">/</span> <span class="dv">5</span>, color<span class="op">=</span><span class="st">"0.45"</span>, lw<span class="op">=</span><span class="fl">2.2</span>, ls<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="st">"4x − 5y = −6"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>L.plot(x, y, <span class="st">"o"</span>, color<span class="op">=</span>green, ms<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>L.annotate(<span class="st">"(1, 2)"</span>, (x, y), xytext<span class="op">=</span>(<span class="dv">10</span>, <span class="op">-</span><span class="dv">14</span>), textcoords<span class="op">=</span><span class="st">"offset points"</span>, color<span class="op">=</span>green, fontweight<span class="op">=</span><span class="st">"bold"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>L.set_xlim(<span class="op">-</span><span class="dv">2</span>, <span class="dv">4</span>)<span class="op">;</span> L.set_ylim(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>L.set_title(<span class="st">"Row picture: where do the lines cross?"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>L.legend(loc<span class="op">=</span><span class="st">"upper right"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Column picture: one arrow per column, then the path to b</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> arrow(ax, p, q, colour, lw<span class="op">=</span><span class="fl">2.2</span>, alpha<span class="op">=</span><span class="fl">1.0</span>):</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    ax.annotate(<span class="st">""</span>, xy<span class="op">=</span>q, xytext<span class="op">=</span>p, arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"-|&gt;"</span>, color<span class="op">=</span>colour, lw<span class="op">=</span>lw,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                                                     alpha<span class="op">=</span>alpha, mutation_scale<span class="op">=</span><span class="dv">14</span>, shrinkA<span class="op">=</span><span class="dv">0</span>, shrinkB<span class="op">=</span><span class="dv">0</span>))</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>O <span class="op">=</span> np.zeros(<span class="dv">2</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>arrow(R, O, a2, orange, alpha<span class="op">=</span><span class="fl">0.45</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>R.annotate(<span class="st">"a₂ = (2, −5)"</span>, a2, xytext<span class="op">=</span>(<span class="dv">8</span>, <span class="op">-</span><span class="dv">8</span>), textcoords<span class="op">=</span><span class="st">"offset points"</span>, color<span class="op">=</span>orange)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>arrow(R, O, x <span class="op">*</span> a1, blue, lw<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>R.annotate(<span class="st">"a₁ = (3, 4)"</span>, a1, xytext<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>), textcoords<span class="op">=</span><span class="st">"offset points"</span>, color<span class="op">=</span>blue)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>arrow(R, x <span class="op">*</span> a1, x <span class="op">*</span> a1 <span class="op">+</span> y <span class="op">*</span> a2, orange, lw<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>R.annotate(<span class="st">"2a₂"</span>, x <span class="op">*</span> a1 <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> y <span class="op">*</span> a2, xytext<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">0</span>), textcoords<span class="op">=</span><span class="st">"offset points"</span>, color<span class="op">=</span>orange)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>R.plot(<span class="op">*</span>b, <span class="st">"o"</span>, color<span class="op">=</span>green, ms<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>R.annotate(<span class="st">"b = (7, −6)"</span>, b, xytext<span class="op">=</span>(<span class="op">-</span><span class="dv">40</span>, <span class="op">-</span><span class="dv">20</span>), textcoords<span class="op">=</span><span class="st">"offset points"</span>, color<span class="op">=</span>green, fontweight<span class="op">=</span><span class="st">"bold"</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>R.set_xlim(<span class="op">-</span><span class="dv">2</span>, <span class="dv">9</span>)<span class="op">;</span> R.set_ylim(<span class="op">-</span><span class="dv">8</span>, <span class="dv">6</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>R.set_title(<span class="st">"Column picture: 1 a₁ + 2 a₂ = b"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> (L, R):</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"black"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)<span class="op">;</span> ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"black"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(<span class="st">"equal"</span>)<span class="op">;</span> ax.grid(alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-two-pictures" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels. Left, the row picture: the lines 3x + 2y = 7 and 4x − 5y = −6 cross at the point (1, 2). Right, the column picture: arrows a1 = (3, 4) and a2 = (2, −5) from the origin, and a path that goes along a1 once to (3, 4) and then along a2 twice to b = (7, −6).">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-two-pictures-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-linear-systems_files/figure-html/fig-two-pictures-output-1.png" alt="Two panels. Left, the row picture: the lines 3x + 2y = 7 and 4x − 5y = −6 cross at the point (1, 2). Right, the column picture: arrows a1 = (3, 4) and a2 = (2, −5) from the origin, and a path that goes along a1 once to (3, 4) and then along a2 twice to b = (7, −6)." width="763" height="432" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two-pictures-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.1: The same system in two pictures. Left: each equation is a line, and the solution is where they cross. Right: each column is an arrow, made from the coefficients of one unknown, and the solution says how much of each arrow to take to reach b: one of a₁ (blue, the coefficients of x), then two of a₂ (orange, the coefficients of y).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The same rearrangement works for any system. By the column view of multiplication (<a href="../part-1/03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a>), <span class="math inline">\(\M{A}\vect{x}\)</span> is a linear combination of the columns of <span class="math inline">\(\M{A}\)</span>, so the three equations at the start of this section say <span class="math display">\[
+x\mat{2 \\ -3 \\ -2} + y\mat{1 \\ -1 \\ 1} + z\mat{-1 \\ 2 \\ 2} = \mat{8 \\ -11 \\ -3}.
+\]</span> Again, reading down each vector gives the coefficients of one unknown, and reading across the top entries gives back the first equation, <span class="math inline">\(2x + y - z = 8\)</span>. Solving the system means finding <strong>how much of each column to take</strong> to make <span class="math inline">\(\vect{b}\)</span>.</p>
+<p>Here is the systems explorer again, now opened in the column picture. The coefficient boxes are coloured by column, and under the picture the vector equation is read across, row by row, to give back the equations.</p>
+<div class="app-embed">
+<iframe class="app-frame" src="../apps/linear-systems.html?embed=1&amp;view=col" title="Systems explorer, column picture" loading="lazy">
+</iframe>
+<p><a href="../apps/linear-systems.html?view=col" class="app-open" target="_blank">Open the column picture in its own tab</a></p>
+</div>
+<p>Things to try:</p>
+<ul>
+<li>In <strong>One solution</strong>, find each of the six numbers of the equations in the picture. Which arrow is made from the coefficients of <span class="math inline">\(x\)</span>, and which from those of <span class="math inline">\(y\)</span>?</li>
+<li>Change the right-hand sides to <span class="math inline">\(5\)</span> and <span class="math inline">\(-1\)</span>, leaving the coefficients alone. The arrows <span class="math inline">\(\vect{a}_1\)</span> and <span class="math inline">\(\vect{a}_2\)</span> don’t move; only <span class="math inline">\(\vect{b}\)</span> does. How much of each arrow do you need now?</li>
+<li>Try <strong>No solution</strong> and <strong>Infinitely many</strong>. The two arrows lie along the same line. Which right-hand sides can they reach? Switch to the row picture to see the same thing as parallel lines.</li>
+<li>With three unknowns, turn the picture and follow the path along each column in turn to <span class="math inline">\(\vect{b}\)</span>. This is exactly the question asked by the linear combination explorer in <a href="../part-1/02-arithmetic.html" class="quarto-xref"><span>Chapter 2</span></a>, and the bakery’s shopping list there was a column picture: the columns were recipes, the amounts were numbers of batches, and <span class="math inline">\(\vect{b}\)</span> was the total of each ingredient.</li>
+</ul>
+<p>The two pictures describe the same system and always give the same answer. The row picture is easier to draw. The column picture is often easier to <em>reason</em> with, and it is the one that Parts III and IV build on.</p>
+</section>
+<section id="one-solution-none-or-infinitely-many" class="level3">
+<h3 class="anchored" data-anchor-id="one-solution-none-or-infinitely-many">One solution, none or infinitely many</h3>
+<p>Every system of linear equations has <strong>exactly one solution</strong>, <strong>no solution</strong> or <strong>infinitely many solutions</strong>. It can never have exactly two, or exactly five.</p>
+<p>The reason is linearity. Suppose <span class="math inline">\(\vect{p}\)</span> and <span class="math inline">\(\vect{q}\)</span> are two different solutions, so <span class="math inline">\(\M{A}\vect{p} = \vect{b}\)</span> and <span class="math inline">\(\M{A}\vect{q} = \vect{b}\)</span>. Then for any number <span class="math inline">\(t\)</span>, <span class="math display">\[
+\M{A}\big(\vect{p} + t(\vect{q} - \vect{p})\big) = \M{A}\vect{p} + t(\M{A}\vect{q} - \M{A}\vect{p}) = \vect{b} + t(\vect{b} - \vect{b}) = \vect{b}.
+\]</span> So every point on the line through <span class="math inline">\(\vect{p}\)</span> and <span class="math inline">\(\vect{q}\)</span> is a solution too. Once there are two solutions, there are infinitely many.</p>
+<p>A system with no solution is called <strong>inconsistent</strong>; one with at least one solution is <strong>consistent</strong>.</p>
+<p>For a <strong>square</strong> system, with as many equations as unknowns, Part I has already given the test (<a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a>, <a href="../part-1/07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a>):</p>
+<ul>
+<li>if <span class="math inline">\(\det\M{A} \neq 0\)</span>, there is exactly one solution for every <span class="math inline">\(\vect{b}\)</span>, namely <span class="math inline">\(\vect{x} = \M{A}^{-1}\vect{b}\)</span>;</li>
+<li>if <span class="math inline">\(\det\M{A} = 0\)</span>, there is either no solution or infinitely many, depending on <span class="math inline">\(\vect{b}\)</span>.</li>
+</ul>
+<p>In the row picture, <span class="math inline">\(\det\M{A} = 0\)</span> means the lines are parallel, or the planes fail to meet at a single point. In the column picture, it means the columns all lie along one line (in two dimensions) or in one plane (in three), so they can only make vectors <span class="math inline">\(\vect{b}\)</span> that lie there too. If <span class="math inline">\(\vect{b}\)</span> is on that line or plane, it can be made in infinitely many ways; if it is not, it cannot be made at all.</p>
+<div id="ex-linear-systems-2" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 2: three planes with no common point
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Show that this system has no solution, and describe the planes. <span class="math display">\[
+\begin{aligned}
+x + y + z &amp;= 3 \\
+x - y + z &amp;= 1 \\
+2x + 2z &amp;= 5
+\end{aligned}
+\]</span></p>
+<p><strong>Solution.</strong> Adding the first two equations gives <span class="math inline">\(2x + 2z = 4\)</span>. But the third equation says <span class="math inline">\(2x + 2z = 5\)</span>. Both cannot hold, so there is no solution: the system is inconsistent.</p>
+<p>No two of the planes are parallel (no equation’s coefficients are a multiple of another’s), so each pair of planes meets in a line. But the three lines never meet: they are parallel, and the planes form a triangular tube. This is the <strong>Triangular tube</strong> preset in the app.</p>
+</div>
+</div>
+<div id="ex-linear-systems-3" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 3: three planes through a line
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Change the last right-hand side of Example 2 from 5 to 4. Find all the solutions.</p>
+<p><strong>Solution.</strong> Now adding the first two equations gives <span class="math inline">\(2x + 2z = 4\)</span>, which <em>is</em> the third equation. So the third equation adds no new information, and the system is really the first two equations. Subtracting the second from the first gives <span class="math inline">\(2y = 2\)</span>, so <span class="math inline">\(y = 1\)</span>, and then the first equation says <span class="math inline">\(x + z = 2\)</span>.</p>
+<p>Any value of <span class="math inline">\(z\)</span> works, with <span class="math inline">\(x = 2 - z\)</span>. Writing <span class="math inline">\(z = t\)</span>, the solutions are <span class="math display">\[
+\vect{x} = \mat{2 - t \\ 1 \\ t} = \mat{2 \\ 1 \\ 0} + t\mat{-1 \\ 0 \\ 1}
+\]</span> for every number <span class="math inline">\(t\)</span>: a line of solutions, along which all three planes meet, like the pages of an open book. This matches <a href="#eq-general-solution" class="quarto-xref">Equation&nbsp;<span>10.1</span></a>. The vector <span class="math inline">\((2, 1, 0)\T\)</span> is a particular solution, and <span class="math inline">\(t(-1, 0, 1)\T\)</span> runs through every solution of the homogeneous system.</p>
+</div>
+</div>
+</section>
+<section id="homogeneous-systems" class="level3">
+<h3 class="anchored" data-anchor-id="homogeneous-systems">Homogeneous systems</h3>
+<p>A system is <strong>homogeneous</strong> if every right-hand side is zero: <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>. It always has at least one solution, <span class="math inline">\(\vect{x} = \zerovec\)</span>, called the <strong>trivial solution</strong>, so it can never be inconsistent. The only question is whether it has others. For a square matrix, it has non-trivial solutions exactly when <span class="math inline">\(\det\M{A} = 0\)</span>. You have met this already: the invariant points of a transformation solve the homogeneous system <span class="math inline">\((\M{A} - \M{I})\vect{x} = \zerovec\)</span> (<a href="../part-1/09-invariant-lines.html" class="quarto-xref"><span>Chapter 9</span></a>).</p>
+<p>Homogeneous systems describe the structure of every other system. If <span class="math inline">\(\vect{p}\)</span> is one solution of <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span> (a <strong>particular solution</strong>), then <span id="eq-general-solution"><span class="math display">\[
+\text{every solution of } \M{A}\vect{x} = \vect{b} \text{ is } \vect{p} + \vect{h}, \text{ where } \M{A}\vect{h} = \zerovec.
+\tag{10.1}\]</span></span> In words: the solutions of <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span> are the solutions of <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>, shifted by <span class="math inline">\(\vect{p}\)</span>. In the row picture, the solution set of <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span> is a point, line or plane, parallel to the one for <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span> through the origin. Exercise 5 asks you to prove it; <a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a> uses it to write down every solution.</p>
+<div id="ex-linear-systems-4" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 4: balancing a chemical equation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When methane (natural gas, <span class="math inline">\(\mathrm{CH_4}\)</span>) burns in oxygen (<span class="math inline">\(\mathrm{O_2}\)</span>), it produces carbon dioxide (<span class="math inline">\(\mathrm{CO_2}\)</span>) and water (<span class="math inline">\(\mathrm{H_2O}\)</span>). Find whole numbers <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span>, <span class="math inline">\(d\)</span> to balance <span class="math display">\[
+a\,\mathrm{CH_4} + b\,\mathrm{O_2} \longrightarrow c\,\mathrm{CO_2} + d\,\mathrm{H_2O}.
+\]</span></p>
+<p><strong>Solution.</strong> A chemical reaction rearranges atoms but never creates or destroys them, so each element must appear equally often on both sides. Counting atoms of carbon, hydrogen and oxygen: <span class="math display">\[
+\begin{aligned}
+a &amp;= c \quad\text{(carbon)} \\
+4a &amp;= 2d \quad\text{(hydrogen)} \\
+2b &amp;= 2c + d \quad\text{(oxygen)}
+\end{aligned}
+\]</span> Moving everything to the left gives a homogeneous system of three equations in four unknowns: <span class="math display">\[
+\amat{rrrr|r}{1 &amp; 0 &amp; -1 &amp; 0 &amp; 0 \\ 4 &amp; 0 &amp; 0 &amp; -2 &amp; 0 \\ 0 &amp; 2 &amp; -2 &amp; -1 &amp; 0}.
+\]</span> It has fewer equations than unknowns, so it has infinitely many solutions. That makes sense: if a set of numbers balances the equation, so does twice that set. Choose <span class="math inline">\(a = 1\)</span>; then <span class="math inline">\(c = 1\)</span>, <span class="math inline">\(d = 2\)</span>, and <span class="math inline">\(2b = 2 + 2\)</span>, so <span class="math inline">\(b = 2\)</span>: <span class="math display">\[
+\mathrm{CH_4} + 2\,\mathrm{O_2} \longrightarrow \mathrm{CO_2} + 2\,\mathrm{H_2O}.
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="more-equations-than-unknowns-or-fewer" class="level3">
+<h3 class="anchored" data-anchor-id="more-equations-than-unknowns-or-fewer">More equations than unknowns, or fewer</h3>
+<p>Systems do not have to be square.</p>
+<ul>
+<li><strong>More equations than unknowns</strong> (an <strong>overdetermined</strong> system), such as three lines in a plane: usually there is no solution, because three lines rarely pass through one point. This is the normal situation when fitting a model to measured data, and the fix is to look for the <em>best</em> approximate solution instead (<a href="../part-3/17-orthogonality-least-squares.html" class="quarto-xref"><span>Chapter 17</span></a>).</li>
+<li><strong>Fewer equations than unknowns</strong> (an <strong>underdetermined</strong> system), such as two planes in space: usually there are infinitely many solutions, because two planes that are not parallel meet in a whole line. There can still be none, if the planes are parallel.</li>
+</ul>
+</section>
+</section>
+<section id="in-code" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="in-code"><span class="header-section-number">10.3</span> In code</h2>
+<p>Both languages solve square systems with one command, which uses the elimination method of <a href="11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a>. Always check the answer by multiplying back: the <strong>residual</strong> <span class="math inline">\(\M{A}\vect{x} - \vect{b}\)</span> should be zero, apart from tiny rounding errors.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div id="0b7e61b2" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">0.6</span>, <span class="fl">0.8</span>, <span class="fl">0.5</span>],</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>              [<span class="fl">0.3</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>],</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>              [<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span>]])</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([<span class="dv">60</span>, <span class="dv">22</span>, <span class="dv">18</span>])</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linalg.solve(A, b)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A <span class="op">@</span> x <span class="op">-</span> b)          <span class="co"># the residual: zero, up to rounding</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[40. 20. 40.]
+[0.00000000e+00 3.55271368e-15 3.55271368e-15]</code></pre>
+</div>
+</div>
+<p>When <span class="math inline">\(\det\M{A} = 0\)</span>, <code>np.linalg.solve</code> stops with an error rather than guess:</p>
+<div id="c1c9a612" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A2 <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>]])</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>b2 <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>])</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    np.linalg.solve(A2, b2)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> np.linalg.LinAlgError <span class="im">as</span> err:</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Error:"</span>, err)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Error: Singular matrix</code></pre>
+</div>
+</div>
+<p>To tell “no solution” from “infinitely many”, compare the <strong>rank</strong> of <span class="math inline">\(\M{A}\)</span> with the rank of the augmented matrix. The rank counts the genuinely independent equations (<a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a> explains it fully). If adding <span class="math inline">\(\vect{b}\)</span> increases the rank, <span class="math inline">\(\vect{b}\)</span> brings in an equation that contradicts the others, and there is no solution:</p>
+<div id="3eef5fc8" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Ab2 <span class="op">=</span> np.column_stack([A2, b2])          <span class="co"># the augmented matrix [A | b]</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.matrix_rank(A2), np.linalg.matrix_rank(Ab2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2 3</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> [<span class="fl">0.6</span> <span class="fl">0.8</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>     <span class="fl">0.3</span> <span class="fl">0.1</span> <span class="fl">0.2</span><span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>     <span class="fl">0.1</span> <span class="fl">0.1</span> <span class="fl">0.3</span>]<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="va">b</span> <span class="op">=</span> [<span class="fl">60</span><span class="op">;</span> <span class="fl">22</span><span class="op">;</span> <span class="fl">18</span>]<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">A</span> <span class="op">\</span> <span class="va">b</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="va">A</span><span class="op">*</span><span class="va">x</span> <span class="op">-</span> <span class="va">b</span>              <span class="co">% the residual: zero, up to rounding</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>x =
+
+    40
+    20
+    40
+
+ans =
+
+     0
+     0
+     0</code></pre>
+<p>Here the residual happens to be exactly zero. On another computer it might be something like <code>1.0e-14</code>: tiny, which is all that matters. When <span class="math inline">\(\det\M{A} = 0\)</span>, MATLAB still returns an answer but warns that the matrix is singular, and the answer is meaningless (often <code>Inf</code> or <code>NaN</code>, “not a number”). Never ignore that warning.</p>
+<p>To tell “no solution” from “infinitely many”, compare the <strong>rank</strong> of <span class="math inline">\(\M{A}\)</span> with the rank of the augmented matrix. The rank counts the genuinely independent equations (<a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a> explains it fully). If adding <span class="math inline">\(\vect{b}\)</span> increases the rank, <span class="math inline">\(\vect{b}\)</span> brings in an equation that contradicts the others, and there is no solution:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">A2</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">1</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">1</span> <span class="op">-</span><span class="fl">1</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">2</span> <span class="fl">0</span> <span class="fl">2</span>]<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="va">b2</span> <span class="op">=</span> [<span class="fl">3</span><span class="op">;</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">5</span>]<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>[<span class="va">rank</span>(<span class="va">A2</span>)<span class="op">,</span> <span class="va">rank</span>([<span class="va">A2</span> <span class="va">b2</span>])]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>ans =
+
+     2     3</code></pre>
+</div>
+</div>
+</div>
+<p>The ranks are 2 and 3, so the system of Example 2 has no solution. With <span class="math inline">\(b_3 = 4\)</span> instead, as in Example 3, both ranks would be 2, and there would be infinitely many solutions.</p>
+</section>
+<section id="check-your-understanding" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">10.4</span> Check your understanding</h2>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A system of linear equations has the solutions <span class="math inline">\((1, 2)\)</span> and <span class="math inline">\((3, 0)\)</span>. What else can you say?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>It has infinitely many solutions: every point on the line through <span class="math inline">\((1, 2)\)</span> and <span class="math inline">\((3, 0)\)</span>, which is <span class="math inline">\(x + y = 3\)</span>, is a solution.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Can a homogeneous system be inconsistent?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>No.&nbsp;<span class="math inline">\(\vect{x} = \zerovec\)</span> always solves <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>In the column picture, why does <span class="math inline">\(\det\M{A} = 0\)</span> for a <span class="math inline">\(2 \times 2\)</span> matrix mean that most right-hand sides can’t be reached?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\det\M{A} = 0\)</span> means the two columns lie along the same line through the origin, so every combination of them lies on that line too. Only vectors <span class="math inline">\(\vect{b}\)</span> on that line can be made.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="key-ideas" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="key-ideas"><span class="header-section-number">10.5</span> Key ideas</h2>
+<ul>
+<li>A system of linear equations can be written as <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span>, or as an augmented matrix <span class="math inline">\([\M{A} \mid \vect{b}]\)</span>.</li>
+<li>In the row picture, each equation is a line or plane, and a solution is a point on all of them.</li>
+<li>In the column picture, the system asks how much of each column of <span class="math inline">\(\M{A}\)</span> to take to make <span class="math inline">\(\vect{b}\)</span>. Reading down gives the columns; reading across gives the equations back.</li>
+<li>Every system has exactly one solution, none or infinitely many: two solutions always give a whole line of them.</li>
+<li>A square system has exactly one solution for every <span class="math inline">\(\vect{b}\)</span> when <span class="math inline">\(\det\M{A} \neq 0\)</span>.</li>
+<li>Every solution of <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span> is one particular solution plus a solution of the homogeneous system <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>.</li>
+</ul>
+</section>
+<section id="sec-linear-systems-exercises" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="sec-linear-systems-exercises"><span class="header-section-number">10.6</span> Exercises</h2>
+<ol type="1">
+<li><p><span id="exercise-linear-systems-1"></span>Write this system as <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span> and as an augmented matrix: <span class="math display">\[
+\begin{aligned}
+3x_1 - 2x_3 &amp;= 4 \\
+x_1 + x_2 + x_3 &amp;= 0 \\
+2x_2 - x_3 &amp;= 5
+\end{aligned}
+\]</span></p>
+<p><a href="../appendices/solutions-2.html#solution-linear-systems-1" class="sol-link">Solution to exercise 1</a></p></li>
+<li><p><span id="exercise-linear-systems-2"></span>Sketch the row picture of each system, and say whether it has one solution, none or infinitely many. Find the solution where there is exactly one.</p>
+<ol type="a">
+<li><span class="math inline">\(x + 2y = 4\)</span> and <span class="math inline">\(3x - y = 5\)</span></li>
+<li><span class="math inline">\(2x - 4y = 6\)</span> and <span class="math inline">\(-x + 2y = -3\)</span></li>
+<li><span class="math inline">\(x - y = 1\)</span> and <span class="math inline">\(2x - 2y = 5\)</span></li>
+</ol>
+<p><a href="../appendices/solutions-2.html#solution-linear-systems-2" class="sol-link">Solution to exercise 2</a></p></li>
+<li><p><span id="exercise-linear-systems-3"></span>Write the system in Exercise 2(a) in the column picture, and check your solution by combining the columns.</p>
+<p><a href="../appendices/solutions-2.html#solution-linear-systems-3" class="sol-link">Solution to exercise 3</a></p></li>
+<li><p><span id="exercise-linear-systems-4"></span>For which values of <span class="math inline">\(k\)</span> and <span class="math inline">\(c\)</span> does the system <span class="math inline">\(x + ky = 2\)</span>, <span class="math inline">\(3x + 6y = c\)</span> have (a) exactly one solution, (b) no solution, (c) infinitely many solutions?</p>
+<p><a href="../appendices/solutions-2.html#solution-linear-systems-4" class="sol-link">Solution to exercise 4</a></p></li>
+<li><p><span id="exercise-linear-systems-5"></span>(a) Show that if <span class="math inline">\(\vect{h}_1\)</span> and <span class="math inline">\(\vect{h}_2\)</span> both solve <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>, then so does <span class="math inline">\(s\vect{h}_1 + t\vect{h}_2\)</span> for any numbers <span class="math inline">\(s\)</span> and <span class="math inline">\(t\)</span>.</p>
+<ol start="2" type="a">
+<li>Show that if <span class="math inline">\(\M{A}\vect{p} = \vect{b}\)</span> and <span class="math inline">\(\M{A}\vect{h} = \zerovec\)</span>, then <span class="math inline">\(\M{A}(\vect{p} + \vect{h}) = \vect{b}\)</span>.</li>
+<li>Show that if <span class="math inline">\(\M{A}\vect{p} = \vect{b}\)</span> and <span class="math inline">\(\M{A}\vect{q} = \vect{b}\)</span>, then <span class="math inline">\(\vect{q} - \vect{p}\)</span> solves <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>. Explain why (b) and (c) together prove <a href="#eq-general-solution" class="quarto-xref">Equation&nbsp;<span>10.1</span></a>.</li>
+</ol>
+<p><a href="../appendices/solutions-2.html#solution-linear-systems-5" class="sol-link">Solution to exercise 5</a></p></li>
+<li><p><span id="exercise-linear-systems-6"></span>Propane (<span class="math inline">\(\mathrm{C_3H_8}\)</span>), the gas in camping stoves, burns to give carbon dioxide and water. Balance <span class="math inline">\(a\,\mathrm{C_3H_8} + b\,\mathrm{O_2} \to c\,\mathrm{CO_2} + d\,\mathrm{H_2O}\)</span> with the smallest whole numbers.</p>
+<p><a href="../appendices/solutions-2.html#solution-linear-systems-6" class="sol-link">Solution to exercise 6</a></p></li>
+<li><p><span id="exercise-linear-systems-7"></span>Describe in words, or with a sketch, how three planes can be arranged so that the system has (a) exactly one solution, (b) infinitely many solutions forming a line, (c) infinitely many solutions forming a plane, (d) no solution, in as many different ways as you can.</p>
+<p><a href="../appendices/solutions-2.html#solution-linear-systems-7" class="sol-link">Solution to exercise 7</a></p></li>
+<li><p><span id="exercise-linear-systems-8"></span><strong>Code.</strong> In Example 1, find the mixture for a new alloy of 100 kg containing 65 kg of copper, 20 kg of zinc and 15 kg of tin. Then try 55 kg of copper, 30 kg of zinc and 15 kg of tin. What goes wrong, and what does it mean for the workshop?</p>
+<p><a href="../appendices/solutions-2.html#solution-linear-systems-8" class="sol-link">Solution to exercise 8</a></p></li>
+</ol>
+<p>Solutions are in <a href="../appendices/solutions-2.html#sec-solutions-linear-systems" class="quarto-xref"><span>Section F.1</span></a>.</p>
+</section>
+<section id="in-practice" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="in-practice"><span class="header-section-number">10.7</span> In practice</h2>
+<ul>
+<li><strong>Mass balances</strong>: chemical engineers track each substance through a plant, with one equation per substance per unit: what goes in equals what comes out, plus what is made, minus what is used. A large plant gives thousands of equations.</li>
+<li><strong>Electrical circuits</strong>: Kirchhoff’s laws, that the currents into any junction add up to zero and the voltages around any closed loop add up to zero, give one linear equation per junction or loop. Circuit simulators solve them for every component (<a href="../part-6/32-circuits.html" class="quarto-xref"><span>Chapter 32</span></a>).</li>
+<li><strong>Structures</strong>: in a bridge or roof truss, the forces at every joint must balance, giving one equation per joint and direction (<a href="../part-6/31-trusses.html" class="quarto-xref"><span>Chapter 31</span></a>).</li>
+<li><strong>Balancing chemical equations</strong>, as in Example 4, and finding which reactions are possible in a network of them.</li>
+<li><strong>Data fitting</strong>: fitting a straight line to many measured points gives far more equations than unknowns, solved in the least-squares sense (<a href="../part-3/17-orthogonality-least-squares.html" class="quarto-xref"><span>Chapter 17</span></a>).</li>
+</ul>
+</section>
+<section id="going-further" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="going-further"><span class="header-section-number">10.8</span> Going further</h2>
+<ul>
+<li>A system is called <strong>ill-conditioned</strong> when its lines or planes are <em>nearly</em> parallel. Then the crossing point moves a long way when the numbers change a little, and small measurement or rounding errors can ruin the answer. <a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a> shows how to measure this.</li>
+<li>The idea that solutions are “a particular solution plus anything that solves the homogeneous system” reappears for differential equations, where it is called the complementary function plus particular integral (<a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>).</li>
+<li>The set of right-hand sides <span class="math inline">\(\vect{b}\)</span> that can be reached, and the set of solutions of <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>, are called the <strong>column space</strong> and the <strong>null space</strong> of <span class="math inline">\(\M{A}\)</span>. They are the subject of <a href="../part-3/16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a>.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../part-1/review.html" class="pagination-link" aria-label="Part I review">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Part I review</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../part-2/11-gaussian-elimination.html" class="pagination-link" aria-label="Gaussian elimination">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Gaussian elimination</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2026 Tom Goodale. Text and figures licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; code licensed under the <a href="https://trgoodale.github.io/matrix-book/LICENSE.md">MIT licence</a>.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/part-2/10-linear-systems.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

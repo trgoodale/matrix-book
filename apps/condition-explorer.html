@@ -1,0 +1,361 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Condition Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: graph-paper worksheet; the two lines first, then the system, the nudge size and the numbers */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.mat { position: relative; display: inline-grid; grid-template-columns: 4.2rem 4.2rem; gap: 6px; padding: 6px 14px; }
+.mat::before, .mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.mat::before { left: 0; border-right: 0; } .mat::after { right: 0; border-left: 0; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.mat input { -moz-appearance: textfield; appearance: textfield; }
+.mat input::-webkit-outer-spin-button, .mat input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.matrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.matrow .nm { font: 600 1.05rem var(--font-num); }
+.status b { font-weight: 600; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.sw.c { border-color: var(--tgt); }
+
+.bvec { position: relative; display: inline-grid; grid-template-columns: 4.2rem; gap: 6px; padding: 6px 14px; }
+.bvec::before, .bvec::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.bvec::before { left: 0; border-right: 0; } .bvec::after { right: 0; border-left: 0; }
+html.br-round .bvec::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .bvec::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.bvec input { -moz-appearance: textfield; appearance: textfield; }
+.slide { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.4rem; gap: 10px; align-items: center; font-size: 0.9rem; }
+.slide output { font: 600 0.9rem var(--font-num); text-align: right; }
+.nums { display: grid; grid-template-columns: auto auto; gap: 2px 14px; font-size: 0.9rem; justify-content: start; }
+.nums b { font: 600 0.92rem var(--font-num); }
+@media (max-width: 480px) { .mat { grid-template-columns: 3.5rem 3.5rem; padding: 6px 12px; } .bvec { grid-template-columns: 4.1rem; padding: 6px 12px; } .matrow { gap: 6px; flex-wrap: nowrap; } .matrow .nm { font-size: 0.95rem; } .mat input, .bvec input { padding: 4px 1px; } .bvec, .mat { flex-shrink: 0; } }
+.sw.cl { border-top: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--col); }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Nudge the data, <em>watch the answer move</em></h1>
+    <p>The solution of two equations is where their lines cross. Nudge the right-hand side by a small amount in random directions, and see how far the crossing point moves. When the lines are nearly parallel, a tiny nudge moves it a long way.</p>
+  </header>
+
+  <div class="layout">
+    <section class="panel plane-box" aria-label="Plane">
+      <div class="holder"><canvas id="cv" role="img"></canvas></div>
+      <div class="legend">
+        <span><span class="sw a"></span>first equation</span>
+        <span><span class="sw w"></span>second equation</span>
+        <span><span class="sw cl"></span>solutions after a nudge</span>
+        <span><span class="sw t"></span>every possible nudge of this size</span>
+      </div>
+      <p class="hint">The view zooms to fit the solutions; its width is shown at the top left. Each dot is the solution after one random nudge of <b>b</b>.</p>
+    </section>
+
+    <div class="side">
+      <section class="panel card wide" aria-label="The system">
+        <span class="label">The system A x = b</span>
+        <div class="matrow">
+          
+          <span class="nm">A =</span>
+          <div class="mat">
+            <input type="number" id="m00" step="0.1" aria-label="Row 1, column 1">
+            <input type="number" id="m01" step="0.1" aria-label="Row 1, column 2">
+            <input type="number" id="m10" step="0.1" aria-label="Row 2, column 1">
+            <input type="number" id="m11" step="0.1" aria-label="Row 2, column 2">
+          </div>
+        
+          <span class="nm">b =</span>
+          <div class="bvec">
+            <input type="number" id="b0" step="0.1" aria-label="b, entry 1">
+            <input type="number" id="b1" step="0.1" aria-label="b, entry 2">
+          </div>
+        </div>
+        <div class="row" id="presets"></div>
+      </section>
+      <section class="panel card wide" aria-label="Nudges">
+        <span class="label">Nudge b</span>
+        <div class="slide"><label for="eps">Size of nudge</label><input type="range" id="eps" min="-3" max="-1" step="0.01" value="-2"><output id="epsv">1%</output></div>
+        <div class="row"><button id="again">Nudge again</button></div>
+        <div class="nums" id="nums"></div>
+        <div class="status" id="status" role="status"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+
+  const $ = id => document.getElementById(id);
+  const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), b: v('--col'), t: v('--tgt'), w: v('--res'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), line: v('--line'), num: v('--font-num') }; };
+  // Eigenvalues and (real) eigenvectors of a 2x2 matrix
+  function eig2(A) {
+    const [[a, b], [c, d]] = A, tr = a + d, det = a * d - b * c, disc = tr * tr / 4 - det;
+    if (disc < -1e-12) { const re = tr / 2, im = Math.sqrt(-disc); return { complex: true, re, im, tr, det }; }
+    const s = Math.sqrt(Math.max(0, disc)), l1 = tr / 2 + s, l2 = tr / 2 - s;
+    const vec = l => { const v = Math.abs(b) > 1e-12 || Math.abs(a - l) > 1e-12 ? [b, l - a] : [l - d, c]; const n = Math.hypot(...v); return n < 1e-12 ? null : [v[0] / n, v[1] / n]; };
+    let v1 = vec(l1), v2 = vec(l2);
+    if (Math.abs(b) < 1e-12 && Math.abs(c) < 1e-12) { v1 = a >= d ? [1, 0] : [0, 1]; v2 = a >= d ? [0, 1] : [1, 0]; if (Math.abs(a - d) < 1e-12) v2 = null; }
+    else if (Math.abs(l1 - l2) < 1e-9) v2 = null;
+    return { complex: false, l1, l2, v1, v2, tr, det };
+  }
+  function wireMatrix(S, onChange) {
+    const ids = [['m00', 0, 0], ['m01', 0, 1], ['m10', 1, 0], ['m11', 1, 1]];
+    const sync = () => { for (const [id, i, j] of ids) $(id).value = String(S.A[i][j]); };
+    for (const [id, i, j] of ids) $(id).addEventListener('change', e => {
+      const x = parseFloat(e.target.value); if (!isNaN(x)) S.A[i][j] = Math.max(-9, Math.min(9, Math.round(x * 1000) / 1000));
+      e.target.value = String(S.A[i][j]); onChange();
+    });
+    return sync;
+  }
+  function makePresets(box, list, isOn, apply) {
+    box.innerHTML = '';
+    list.forEach(p => { const b = document.createElement('button'); b.textContent = p[0]; b.addEventListener('click', () => apply(p)); box.appendChild(b); });
+    return () => box.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-pressed', String(isOn(list[k]))));
+  }
+  function arrowPx(ctx, s, e, color, w, alpha = 1, dash) {
+    const len = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (len < 2) { ctx.globalAlpha = 1; return; }
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(12, len * 0.4);
+    if (dash) ctx.setLineDash(dash);
+    ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.lineTo(e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42));
+    ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+  }
+  function watchTheme(draw) {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    if (document.fonts) document.fonts.ready.then(draw);
+  }
+
+  const PRESETS = [
+    ['Well conditioned', [[2, 1], [1, 3]], [3, 4]],
+    ['Nearly parallel', [[1, 1], [1, 1.05]], [2, 2.05]],
+    ['Very nearly parallel', [[1, 1], [1, 1.001]], [2, 2.001]],
+    ['Perpendicular', [[1, 0], [0, 1]], [1, 1]],
+    ['Badly scaled', [[1, 0], [0, 0.01]], [1, 0.01]]
+  ];
+  const S = { A: null, b: null, eps: 0.01, cloud: [] };
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  let W = 500, dpr = 1, R = 4, cx = 0, cy = 0;
+  const solve = (A, b) => { const d = A[0][0] * A[1][1] - A[0][1] * A[1][0]; if (Math.abs(d) < 1e-14) return null; return [(b[0] * A[1][1] - A[0][1] * b[1]) / d, (A[0][0] * b[1] - A[1][0] * b[0]) / d]; };
+  function svals(A) {
+    const [[a, b], [c, d]] = A, p = a * a + c * c, q = a * b + c * d, r = b * b + d * d;
+    const m = (p + r) / 2, s = Math.sqrt(Math.max(0, (p - r) * (p - r) / 4 + q * q));
+    return [Math.sqrt(m + s), Math.sqrt(Math.max(0, m - s))];
+  }
+  const P = p => [W / 2 + (p[0] - cx) * W / (2 * R), W / 2 - (p[1] - cy) * W / (2 * R)];
+  function resize() {
+    W = Math.min(cv.parentElement.clientWidth, 560); dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr); cv.style.width = W + 'px'; cv.style.height = W + 'px'; draw();
+  }
+  function nudge() {
+    S.cloud = [];
+    const nb = Math.hypot(...S.b) || 1;
+    for (let k = 0; k < 160; k++) {
+      const t = Math.random() * 2 * Math.PI, db = [S.eps * nb * Math.cos(t), S.eps * nb * Math.sin(t)];
+      const x = solve(S.A, [S.b[0] + db[0], S.b[1] + db[1]]); if (x) S.cloud.push(x);
+    }
+  }
+  function ellipse() {
+    const nb = Math.hypot(...S.b) || 1, pts = [];
+    for (let k = 0; k <= 120; k++) { const t = k / 120 * 2 * Math.PI; const x = solve(S.A, [S.b[0] + S.eps * nb * Math.cos(t), S.b[1] + S.eps * nb * Math.sin(t)]); if (x) pts.push(x); }
+    return pts;
+  }
+  function fit(x, ell) {
+    const xs = ell.concat([x]);
+    const minx = Math.min(...xs.map(p => p[0])), maxx = Math.max(...xs.map(p => p[0])), miny = Math.min(...xs.map(p => p[1])), maxy = Math.max(...xs.map(p => p[1]));
+    cx = (minx + maxx) / 2; cy = (miny + maxy) / 2;
+    const span = Math.max(maxx - minx, maxy - miny) / 2;
+    // keep the origin in view when it is close, so the picture stays readable
+    const withO = Math.max(Math.abs(cx), Math.abs(cy)) + span;
+    if (withO < 3 * Math.max(span, 0.5)) { cx = 0; cy = 0; R = Math.max(1.2, withO * 1.25); }
+    else R = Math.max(span * 1.4, 1e-6);
+    const nice = [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10];
+    const e = Math.pow(10, Math.floor(Math.log10(R))); R = (nice.find(n => n * e >= R) || 10) * e;
+  }
+  function line(a, b) { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); }
+  function eqLine(r, c) {
+    // the line r[0] x + r[1] y = c, clipped generously to the view
+    const big = R * 4;
+    if (Math.abs(r[1]) >= Math.abs(r[0])) return [[cx - big, (c - r[0] * (cx - big)) / r[1]], [cx + big, (c - r[0] * (cx + big)) / r[1]]];
+    return [[(c - r[1] * (cy - big)) / r[0], cy - big], [(c - r[1] * (cy + big)) / r[0], cy + big]];
+  }
+  function draw() {
+    const C = css(), x = solve(S.A, S.b);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, W);
+    if (!x) { ctx.fillStyle = C.muted; ctx.font = `500 14px ${C.num}`; ctx.textAlign = 'center'; ctx.fillText('A is singular: no single crossing point', W / 2, W / 2); return; }
+    const ell = ellipse(); fit(x, ell);
+    const step = Math.pow(10, Math.floor(Math.log10(R / 2)));
+    ctx.lineWidth = 1; ctx.strokeStyle = C.pgrid;
+    for (let k = Math.floor((cx - R) / step) * step; k <= cx + R; k += step) line(P([k, cy - R]), P([k, cy + R]));
+    for (let k = Math.floor((cy - R) / step) * step; k <= cy + R; k += step) line(P([cx - R, k]), P([cx + R, k]));
+    ctx.strokeStyle = C.muted; ctx.globalAlpha = 0.6; ctx.lineWidth = 1.2; line(P([cx - R, 0]), P([cx + R, 0])); line(P([0, cy - R]), P([0, cy + R])); ctx.globalAlpha = 1;
+    ctx.fillStyle = C.muted; ctx.font = `500 11px ${C.num}`; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    const wv = 2 * R; ctx.fillText('width of view: ' + (wv >= 1 && wv < 1e5 ? String(+wv.toPrecision(3)) : wv.toExponential(1)), 6, 6);
+    [[0, C.a], [1, C.w]].forEach(([i, col]) => { const [p, q] = eqLine(S.A[i], S.b[i]); ctx.strokeStyle = col; ctx.lineWidth = 2.2; line(P(p), P(q)); });
+    ctx.strokeStyle = C.t; ctx.lineWidth = 1.5; ctx.setLineDash([3, 4]); ctx.beginPath(); ell.forEach((p, k) => { const s = P(p); k ? ctx.lineTo(s[0], s[1]) : ctx.moveTo(s[0], s[1]); }); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = C.b; ctx.globalAlpha = 0.75; S.cloud.forEach(p => { const s = P(p); ctx.beginPath(); ctx.arc(s[0], s[1], 2.6, 0, 2 * Math.PI); ctx.fill(); }); ctx.globalAlpha = 1;
+    const s = P(x); ctx.beginPath(); ctx.arc(s[0], s[1], 5.5, 0, 2 * Math.PI); ctx.fillStyle = C.ink; ctx.fill();
+  }
+  const pc = (v) => { const p = v * 100; return (p >= 10 ? p.toFixed(0) : p >= 1 ? p.toFixed(1) : p.toPrecision(2)) + '%'; };
+  function readout() {
+    const x = solve(S.A, S.b), [s1, s2] = svals(S.A), st = $('status');
+    $('epsv').textContent = pc(S.eps);
+    if (!x || s2 < 1e-12) { $('nums').innerHTML = ''; st.textContent = 'The matrix is singular, so the condition number is infinite.'; cv.setAttribute('aria-label', st.textContent); return; }
+    const kappa = s1 / s2, nb = Math.hypot(...S.b), nx = Math.hypot(...x);
+    const worstHere = S.eps * nb / s2 / nx;
+    const seen = Math.max(0, ...S.cloud.map(p => Math.hypot(p[0] - x[0], p[1] - x[1]))) / nx;
+    const ang = Math.acos(Math.min(1, Math.abs(S.A[0][0] * S.A[1][0] + S.A[0][1] * S.A[1][1]) / (Math.hypot(...S.A[0]) * Math.hypot(...S.A[1])))) * 180 / Math.PI;
+    $('nums').innerHTML = `<span>Solution x</span><b>(${fmt(x[0], 3)}, ${fmt(x[1], 3)})</b>` +
+      `<span>Angle between the lines</span><b>${ang < 1 ? ang.toPrecision(2) : fmt(ang, 1)}°</b>` +
+      `<span>Condition number κ(A)</span><b>${kappa < 100 ? fmt(kappa, 2) : Math.round(kappa).toLocaleString('en-GB')}</b>` +
+      `<span>Change in b</span><b>${pc(S.eps)}</b>` +
+      `<span>Largest change in x seen</span><b>${pc(seen).replace(/^(\d{4,})/, m => (+m).toLocaleString('en-GB'))}</b>`;
+    const amp = seen / S.eps;
+    st.innerHTML = `A ${pc(S.eps)} change in <b>b</b> moved the solution by up to ${pc(seen).replace(/^(\d{4,})/, m => (+m).toLocaleString('en-GB'))}: ${amp < 1.05 ? 'about the same amount' : 'about ' + (amp < 10 ? fmt(amp, 1) : Math.round(amp).toLocaleString('en-GB')) + ' times as much'}. ` +
+      (kappa < 5 ? 'The problem is <b>well conditioned</b>: errors in the data are not magnified much.' :
+       `The condition number says it could be as much as ${kappa < 100 ? fmt(kappa, 1) : Math.round(kappa).toLocaleString('en-GB')} times, for the worst right-hand side.` + (ang > 45 ? ' The lines are far from parallel, so here the trouble is the very different scales of the two equations.' : ''));
+    cv.setAttribute('aria-label', `Two lines crossing at (${fmt(x[0], 3)}, ${fmt(x[1], 3)}) at an angle of ${fmt(ang, 1)} degrees. ` + st.textContent);
+  }
+  function update() { nudge(); draw(); readout(); }
+  const sync = wireMatrix(S, () => { mark(); update(); });
+  const syncB = () => { $('b0').value = String(S.b[0]); $('b1').value = String(S.b[1]); };
+  ['b0', 'b1'].forEach((id, i) => $(id).addEventListener('change', e => { const v = parseFloat(e.target.value); if (!isNaN(v)) S.b[i] = Math.max(-99, Math.min(99, v)); syncB(); mark(); update(); }));
+  const mark = makePresets($('presets'), PRESETS, p => JSON.stringify(p[1]) === JSON.stringify(S.A) && JSON.stringify(p[2]) === JSON.stringify(S.b),
+    p => { S.A = p[1].map(r => r.slice()); S.b = p[2].slice(); sync(); syncB(); mark(); update(); });
+  $('eps').addEventListener('input', e => { S.eps = Math.pow(10, +e.target.value); update(); });
+  $('again').addEventListener('click', update);
+
+  // Optional start-up settings: ?preset=Nearly%20parallel, or ?m=1,1,1,1.05&b=2,2.05
+  const q = new URLSearchParams(location.search);
+  const start = PRESETS.find(p => p[0] === q.get('preset')) || PRESETS[0];
+  S.A = start[1].map(r => r.slice()); S.b = start[2].slice();
+  if (q.get('m')) { const x = q.get('m').split(',').map(Number); if (x.length === 4 && x.every(isFinite)) S.A = [[x[0], x[1]], [x[2], x[3]]]; }
+  if (q.get('b')) { const x = q.get('b').split(',').map(Number); if (x.length === 2 && x.every(isFinite)) S.b = x; }
+  sync(); syncB(); mark();
+  new ResizeObserver(resize).observe(cv.parentElement); watchTheme(draw);
+  nudge(); readout(); resize();
+})();
+</script>
+</body>
+</html>

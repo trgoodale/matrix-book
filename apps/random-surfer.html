@@ -1,0 +1,333 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Random Surfer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: the web of pages first, then the damping factor, the surfer controls and the ranking table */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.mat { position: relative; display: inline-grid; grid-template-columns: 4.2rem 4.2rem; gap: 6px; padding: 6px 14px; }
+.mat::before, .mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.mat::before { left: 0; border-right: 0; } .mat::after { right: 0; border-left: 0; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.mat input { -moz-appearance: textfield; appearance: textfield; }
+.mat input::-webkit-outer-spin-button, .mat input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.matrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.matrow .nm { font: 600 1.05rem var(--font-num); }
+.status b { font-weight: 600; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.sw.c { border-color: var(--tgt); }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.slide { display: grid; grid-template-columns: auto minmax(0, 1fr) 3.6rem; gap: 10px; align-items: center; font-size: 0.9rem; }
+.slide output { font: 600 0.9rem var(--font-num); text-align: right; }
+.tbl { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+.tbl th { text-align: left; font-weight: 500; color: var(--muted); font-size: 0.78rem; padding: 2px 6px; }
+.tbl td { padding: 3px 6px; border-top: 1px solid var(--line); font-family: var(--font-num); white-space: nowrap; }
+.tbl td.bar { width: 40%; }
+.tbl .b1, .tbl .b2 { height: 7px; border-radius: 3px; margin: 2px 0; }
+.tbl .b1 { background: var(--res); } .tbl .b2 { background: var(--col); opacity: 0.8; }
+.sw.pr { border-color: var(--res); } .sw.vi { border-color: var(--col); }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Follow the links, <em>rank the pages</em></h1>
+    <p>A random surfer clicks a random link on each page, and now and then jumps to a random page instead. The fraction of time spent on each page is its PageRank: the steady state of a Markov chain, found by the power method.</p>
+  </header>
+
+  <div class="layout">
+    <section class="panel plane-box" aria-label="Web graph">
+      <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
+      <div class="legend">
+        <span>Bigger circle: higher PageRank</span>
+        <span><span class="sw t"></span>the surfer’s last move</span>
+      </div>
+      <p class="hint">Click one page and then another to add or remove a link between them. Click the same page twice to cancel.</p>
+    </section>
+
+    <div class="side">
+      <section class="panel card wide" aria-label="Web and damping">
+        <span class="label">Web</span>
+        <div class="row" id="presets"></div>
+        <div class="slide"><label for="d">Damping d</label><input type="range" id="d" min="0.5" max="1" step="0.01" value="0.85"><output id="dv">0.85</output></div>
+        <p class="hint">With probability d the surfer follows a link; otherwise they jump to a page chosen at random.</p>
+      </section>
+      <section class="panel card wide" aria-label="Surfer and ranks">
+        <span class="label">Surfer</span>
+        <div class="row"><button id="one">One click</button><button id="many">1000 clicks</button><button id="play">Play</button><button id="reset">Reset counts</button></div>
+        <table class="tbl" id="tbl"></table>
+        <div class="legend"><span><span class="sw pr"></span>PageRank</span><span><span class="sw vi"></span>fraction of visits so far</span></div>
+        <div class="status" id="status" role="status"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+
+  const $ = id => document.getElementById(id);
+  const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), b: v('--col'), t: v('--tgt'), w: v('--res'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), line: v('--line'), num: v('--font-num') }; };
+  // Eigenvalues and (real) eigenvectors of a 2x2 matrix
+  function eig2(A) {
+    const [[a, b], [c, d]] = A, tr = a + d, det = a * d - b * c, disc = tr * tr / 4 - det;
+    if (disc < -1e-12) { const re = tr / 2, im = Math.sqrt(-disc); return { complex: true, re, im, tr, det }; }
+    const s = Math.sqrt(Math.max(0, disc)), l1 = tr / 2 + s, l2 = tr / 2 - s;
+    const vec = l => { const v = Math.abs(b) > 1e-12 || Math.abs(a - l) > 1e-12 ? [b, l - a] : [l - d, c]; const n = Math.hypot(...v); return n < 1e-12 ? null : [v[0] / n, v[1] / n]; };
+    let v1 = vec(l1), v2 = vec(l2);
+    if (Math.abs(b) < 1e-12 && Math.abs(c) < 1e-12) { v1 = a >= d ? [1, 0] : [0, 1]; v2 = a >= d ? [0, 1] : [1, 0]; if (Math.abs(a - d) < 1e-12) v2 = null; }
+    else if (Math.abs(l1 - l2) < 1e-9) v2 = null;
+    return { complex: false, l1, l2, v1, v2, tr, det };
+  }
+  function wireMatrix(S, onChange) {
+    const ids = [['m00', 0, 0], ['m01', 0, 1], ['m10', 1, 0], ['m11', 1, 1]];
+    const sync = () => { for (const [id, i, j] of ids) $(id).value = String(S.A[i][j]); };
+    for (const [id, i, j] of ids) $(id).addEventListener('change', e => {
+      const x = parseFloat(e.target.value); if (!isNaN(x)) S.A[i][j] = Math.max(-9, Math.min(9, Math.round(x * 1000) / 1000));
+      e.target.value = String(S.A[i][j]); onChange();
+    });
+    return sync;
+  }
+  function makePresets(box, list, isOn, apply) {
+    box.innerHTML = '';
+    list.forEach(p => { const b = document.createElement('button'); b.textContent = p[0]; b.addEventListener('click', () => apply(p)); box.appendChild(b); });
+    return () => box.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-pressed', String(isOn(list[k]))));
+  }
+  function arrowPx(ctx, s, e, color, w, alpha = 1, dash) {
+    const len = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (len < 2) { ctx.globalAlpha = 1; return; }
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(12, len * 0.4);
+    if (dash) ctx.setLineDash(dash);
+    ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.lineTo(e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42));
+    ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+  }
+  function watchTheme(draw) {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    if (document.fonts) document.fonts.ready.then(draw);
+  }
+
+  const NAMES = 'ABCDEF';
+  const PRESETS = [
+    ['Small web', [[1, 2], [2], [0], [0, 2], [3, 5], [3, 4]]],
+    ['Dead end', [[1, 2], [2], [], [0, 2], [3, 5], [3, 4]]],
+    ['Trap', [[1, 2], [2], [0], [0, 2], [5], [4]]],
+    ['Hub', [[3], [3], [3], [0, 1, 2, 4, 5], [3], [3]]]
+  ];
+  const S = { links: null, d: 0.85, visits: new Array(6).fill(0), at: 0, prev: -1, sel: -1, playing: 0, total: 0 };
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  let W = 500, dpr = 1, rank = null, iters = 0;
+  const pos = k => { const a = -Math.PI / 2 + k * 2 * Math.PI / 6; return [W / 2 + 0.36 * W * Math.cos(a), W / 2 + 0.36 * W * Math.sin(a)]; };
+  function pagerank() {
+    const n = 6, d = S.d; let x = new Array(n).fill(1 / n);
+    for (iters = 1; iters <= 1000; iters++) {
+      const y = new Array(n).fill((1 - d) / n);
+      for (let j = 0; j < n; j++) { const out = S.links[j]; if (out.length) out.forEach(i => y[i] += d * x[j] / out.length); else for (let i = 0; i < n; i++) y[i] += d * x[j] / n; }
+      const diff = y.reduce((s, v, i) => s + Math.abs(v - x[i]), 0); x = y; if (diff < 1e-10) break;
+    }
+    return x;
+  }
+  function resize() {
+    W = Math.min(cv.parentElement.clientWidth, 560); dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr); cv.style.width = W + 'px'; cv.style.height = W + 'px'; draw();
+  }
+  const rad = k => Math.max(20, (14 + 52 * Math.sqrt(rank[k])) * W / 560 * 1.1);
+  function edge(C, i, j, col, w, alpha) {
+    const a = pos(i), b = pos(j), two = S.links[j].includes(i);
+    let dx = b[0] - a[0], dy = b[1] - a[1]; const L = Math.hypot(dx, dy); dx /= L; dy /= L;
+    const off = two ? 7 : 0, nx = -dy * off, ny = dx * off;
+    const s = [a[0] + dx * rad(i) + nx, a[1] + dy * rad(i) + ny], e = [b[0] - dx * (rad(j) + 3) + nx, b[1] - dy * (rad(j) + 3) + ny];
+    arrowPx(ctx, s, e, col, w, alpha);
+  }
+  function draw() {
+    const C = css(); rank = pagerank();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, W);
+    S.links.forEach((out, j) => out.forEach(i => edge(C, j, i, C.muted, 1.8, 0.7)));
+    if (S.prev >= 0 && S.prev !== S.at && S.links[S.prev].includes(S.at)) edge(C, S.prev, S.at, C.t, 3.5, 1);
+    for (let k = 0; k < 6; k++) {
+      const p = pos(k), r = rad(k);
+      ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, 2 * Math.PI); ctx.fillStyle = C.surface; ctx.fill();
+      ctx.globalAlpha = 0.15 + 0.4 * rank[k] / Math.max(...rank); ctx.fillStyle = C.w; ctx.fill(); ctx.globalAlpha = 1;
+      ctx.lineWidth = S.sel === k ? 4 : 2; ctx.strokeStyle = S.sel === k ? C.t : C.ink; ctx.stroke();
+      ctx.fillStyle = C.ink; ctx.font = `600 ${Math.round(14 + r / 6)}px ${C.num}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(NAMES[k], p[0], p[1] - 6);
+      ctx.font = `500 11px ${C.num}`; ctx.fillText(rank[k].toFixed(3), p[0], p[1] + 10);
+    }
+    if (S.total) { const p = pos(S.at); ctx.beginPath(); ctx.arc(p[0] + rad(S.at) * 0.7, p[1] - rad(S.at) * 0.7, 7, 0, 2 * Math.PI); ctx.fillStyle = C.t; ctx.fill(); ctx.strokeStyle = C.surface; ctx.lineWidth = 2; ctx.stroke(); }
+    readout();
+  }
+  function readout() {
+    $('dv').textContent = S.d.toFixed(2); $('d').value = String(S.d);
+    const mx = Math.max(...rank, ...S.visits.map(v => S.total ? v / S.total : 0));
+    let h = '<tr><th>Page</th><th>Links to</th><th>PageRank</th><th>Visits</th><th class="bar"><span class="sr-only">Bar chart</span></th></tr>';
+    for (let k = 0; k < 6; k++) {
+      const f = S.total ? S.visits[k] / S.total : 0;
+      h += `<tr><td>${NAMES[k]}</td><td>${S.links[k].map(i => NAMES[i]).join(' ') || '—'}</td><td>${rank[k].toFixed(3)}</td><td>${S.total ? f.toFixed(3) : '—'}</td><td class="bar"><div class="b1" style="width:${100 * rank[k] / mx}%"></div><div class="b2" style="width:${100 * f / mx}%"></div></td></tr>`;
+    }
+    $('tbl').innerHTML = h;
+    const order = [...rank.keys()].sort((a, b) => rank[b] - rank[a]), dead = S.links.map((o, k) => o.length ? -1 : k).filter(k => k >= 0);
+    const top = order[0];
+    let msg = `Page <b>${NAMES[top]}</b> ranks highest. The power method converged in ${iters} steps; each step multiplies the error by about d = ${S.d.toFixed(2)}. `;
+    if (S.total) msg += `After ${S.total.toLocaleString('en-GB')} clicks the visit fractions ${S.total >= 1000 ? 'are close to' : 'are starting to approach'} the PageRanks. `;
+    if (dead.length) msg += `Page ${dead.map(k => NAMES[k]).join(', ')} has no links out (a dead end), so the surfer jumps from there to a random page. `;
+    if (S.d > 0.99) msg += 'With d = 1 there are no random jumps: the surfer can be trapped, and the ranks may not be unique.';
+    $('status').innerHTML = msg;
+    cv.setAttribute('aria-label', 'Web of six pages. ' + order.map(k => `${NAMES[k]} ${rank[k].toFixed(3)}`).join(', ') + '.');
+  }
+  function click() {
+    const out = S.links[S.at]; S.prev = S.at;
+    if (Math.random() < S.d && out.length) S.at = out[Math.floor(Math.random() * out.length)];
+    else S.at = Math.floor(Math.random() * 6);
+    S.visits[S.at]++; S.total++;
+  }
+  function stop() { if (S.playing) clearInterval(S.playing); S.playing = 0; $('play').textContent = 'Play'; }
+  function resetCounts() { S.visits = new Array(6).fill(0); S.total = 0; S.prev = -1; S.at = 0; }
+  $('one').addEventListener('click', () => { stop(); click(); draw(); });
+  $('many').addEventListener('click', () => { stop(); for (let k = 0; k < 1000; k++) click(); S.prev = -1; draw(); });
+  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; } $('play').textContent = 'Pause'; S.playing = setInterval(() => { click(); draw(); }, 500); });
+  $('reset').addEventListener('click', () => { stop(); resetCounts(); draw(); });
+  $('d').addEventListener('input', e => { S.d = +e.target.value; draw(); });
+  const mark = makePresets($('presets'), PRESETS, p => JSON.stringify(p[1]) === JSON.stringify(S.links), p => { S.links = p[1].map(o => o.slice()); stop(); resetCounts(); S.sel = -1; mark(); draw(); });
+  cv.addEventListener('pointerdown', e => {
+    const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    const k = [0, 1, 2, 3, 4, 5].find(k => { const p = pos(k); return Math.hypot(p[0] - x, p[1] - y) < rad(k) + 6; });
+    if (k === undefined) { S.sel = -1; draw(); return; }
+    if (S.sel < 0) S.sel = k;
+    else { if (S.sel !== k) { const out = S.links[S.sel], i = out.indexOf(k); i >= 0 ? out.splice(i, 1) : (out.push(k), out.sort()); resetCounts(); mark(); } S.sel = -1; }
+    draw();
+  });
+  cv.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); stop(); click(); draw(); } });
+
+  // Optional start-up settings: ?preset=Dead%20end&d=0.85, or ?links=BC,C,A,AC,DF,DE (the pages each page links to)
+  const q = new URLSearchParams(location.search);
+  S.links = (PRESETS.find(p => p[0] === q.get('preset')) || PRESETS[0])[1].map(o => o.slice());
+  if (q.get('links')) { const L = q.get('links').split(','); if (L.length === 6) S.links = L.map((s, j) => [...new Set(s.toUpperCase().split('').map(c => NAMES.indexOf(c)).filter(i => i >= 0 && i !== j))].sort()); }
+  if (isFinite(parseFloat(q.get('d')))) S.d = Math.max(0.5, Math.min(1, parseFloat(q.get('d'))));
+  mark();
+  new ResizeObserver(resize).observe(cv.parentElement); watchTheme(draw);
+  resize();
+})();
+</script>
+</body>
+</html>

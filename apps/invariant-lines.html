@@ -1,0 +1,464 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invariant Line Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: graph-paper worksheet; the plane first, then the matrix, the direction control and the result */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.mat { position: relative; display: inline-grid; grid-template-columns: 4.2rem 4.2rem; gap: 6px; padding: 6px 14px; }
+.mat::before, .mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.mat::before { left: 0; border-right: 0; } .mat::after { right: 0; border-left: 0; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.mat input { -moz-appearance: textfield; appearance: textfield; }
+.mat input::-webkit-outer-spin-button, .mat input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.matrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.matrow .nm { font: 600 1.05rem var(--font-num); }
+.ang { display: grid; grid-template-columns: minmax(0, 1fr) 3.6rem; align-items: center; gap: 10px; }
+.ang output { font: 600 0.95rem var(--font-num); text-align: right; }
+.found { margin: 0; padding-left: 1.1rem; font-size: 0.92rem; }
+.found li { margin: 2px 0; }
+.found .ln { font: 600 0.92rem var(--font-num); color: var(--res); }
+.status.hit { border-color: var(--res); color: var(--ink); font-weight: 400; background: color-mix(in srgb, var(--res) 10%, transparent); }
+.status.hit b { color: var(--res); }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Hunting for <em>invariant lines</em></h1>
+    <p>Turn the blue vector <b>v</b> and watch where the matrix sends it. When <b>Av</b> lies along the same line as <b>v</b>, that line is invariant: the matrix only stretches it.</p>
+  </header>
+
+  <div class="layout">
+    <section class="panel plane-box" aria-label="Plane">
+      <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
+      <div class="legend">
+        <span><span class="sw a"></span><b>v</b> (drag its tip)</span>
+        <span><span class="sw w"></span>its image, <b>Av</b></span>
+        <span><span class="sw t"></span>the line through <b>v</b></span>
+      </div>
+    </section>
+
+    <div class="side">
+      <section class="panel card" aria-label="The matrix">
+        <span class="label">The matrix</span>
+        <div class="matrow">
+          <span class="nm">A =</span>
+          <div class="mat">
+            <input type="number" id="m00" step="0.5" aria-label="Row 1, column 1">
+            <input type="number" id="m01" step="0.5" aria-label="Row 1, column 2">
+            <input type="number" id="m10" step="0.5" aria-label="Row 2, column 1">
+            <input type="number" id="m11" step="0.5" aria-label="Row 2, column 2">
+          </div>
+        </div>
+        <div class="row" id="presets"></div>
+      </section>
+
+      <section class="panel card" aria-label="Direction of v">
+        <span class="label">Direction of v</span>
+        <div class="ang">
+          <input type="range" id="ang" min="0" max="359" step="1" value="30" aria-label="Angle of v from the positive x-axis, in degrees">
+          <output id="angOut" for="ang">30°</output>
+        </div>
+        <div class="row">
+          <button id="sweep">Sweep round</button>
+          <button id="reveal">Show all invariant lines</button>
+          <button id="clear">Start again</button>
+        </div>
+        <p class="hint">Drag the tip of <b>v</b>, use the slider, or focus the picture and press the arrow keys. Near an invariant line, <b>v</b> clicks onto it.</p>
+      </section>
+
+      <section class="panel card wide" aria-label="What happens to this line">
+        <span class="label">What happens to this line</span>
+        <div class="eq" id="eq"></div>
+        <div class="status" id="status" role="status"></div>
+        <span class="label">Invariant lines found</span>
+        <ul class="found" id="found"></ul>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const PRESETS = [
+    ['Example', [[3, 1], [2, 2]]],
+    ['Reflect in y = x', [[0, 1], [1, 0]]],
+    ['Shear', [[1, 1], [0, 1]]],
+    ['Stretch', [[2, 0], [0, 3]]],
+    ['Rotate 90°', [[0, -1], [1, 0]]],
+    ['Project onto x-axis', [[1, 0], [0, 0]]]
+  ];
+  const S = { A: [[3, 1], [2, 2]], th: 30, found: new Set(), sweeping: false };
+  const R = 7, VLEN = 1.5, SNAP = 2.5;
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  let W = 500, dpr = 1, drag = false, hover = false, raf = 0;
+
+  const fmt = (x, dp = 2) => {
+    const r = Math.round(x * 10 ** dp) / 10 ** dp;
+    return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−');
+  };
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), w: v('--res'), t: v('--tgt'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), num: v('--font-num') }; };
+  const u = () => W / (2 * R);
+  const P = p => [W / 2 + p[0] * u(), W / 2 - p[1] * u()];
+  const rad = d => d * Math.PI / 180;
+  const dirOf = th => [Math.cos(rad(th)), Math.sin(rad(th))];
+  const apply = v => [S.A[0][0] * v[0] + S.A[0][1] * v[1], S.A[1][0] * v[0] + S.A[1][1] * v[1]];
+  const mod = (x, m) => ((x % m) + m) % m;
+
+  // Directions (degrees in [0, 180)) of the invariant lines through the origin.
+  // v = (cos t, sin t) is invariant when v x Av = 0, i.e. p + q cos 2t + r sin 2t = 0.
+  function invariant() {
+    const [[a, b], [c, d]] = S.A, p = (c - b) / 2, q = (c + b) / 2, r = (d - a) / 2, rho = Math.hypot(q, r);
+    if (rho < 1e-9) return Math.abs(p) < 1e-9 ? 'all' : [];
+    const k = -p / rho;
+    if (k > 1 + 1e-9 || k < -1 - 1e-9) return [];
+    const phi = Math.atan2(r, q), al = Math.acos(Math.max(-1, Math.min(1, k)));
+    const out = [];
+    for (const t of [(phi + al) / 2, (phi - al) / 2]) {
+      const deg = mod(t * 180 / Math.PI, 180), dd = Math.round(deg * 1e6) / 1e6 % 180;
+      if (!out.some(o => Math.abs(o - dd) < 1e-4 || Math.abs(Math.abs(o - dd) - 180) < 1e-4)) out.push(dd);
+    }
+    return out.sort((x, y) => x - y);
+  }
+  function lambdaAt(th) { const v = dirOf(th), w = apply(v); return v[0] * w[0] + v[1] * w[1]; }
+  function nearest(th, tol = SNAP) {
+    const inv = invariant(); if (inv === 'all') return { deg: th, all: true };
+    let best = null;
+    for (const d of inv) { const diff = Math.abs(mod(th - d + 90, 180) - 90); if (diff < tol && (!best || diff < best.diff)) best = { deg: d, diff }; }
+    return best;
+  }
+  function lineName(deg) {
+    const d = mod(deg, 180);
+    if (Math.abs(d - 90) < 1e-6) return 'x = 0 (the y-axis)';
+    const m = Math.tan(rad(d));
+    if (Math.abs(m) < 1e-9) return 'y = 0 (the x-axis)';
+    const r = Math.round(m * 100) / 100;
+    if (r === 1) return 'y = x'; if (r === -1) return 'y = −x';
+    return `y = ${fmt(m)}x`;
+  }
+  function lamText(l) {
+    if (Math.abs(l - 1) < 1e-6) return 'λ = 1: every point stays put, a line of invariant points';
+    if (Math.abs(l) < 1e-6) return 'λ = 0: the whole line is squashed to the origin';
+    if (l < 0) return `λ = ${fmt(l)}: points flip to the other side of the origin`;
+    return `λ = ${fmt(l)}: points move ${l > 1 ? 'away from' : 'towards'} the origin`;
+  }
+
+  function lamSentence(l) {
+    if (Math.abs(l - 1) < 1e-6) return 'Every point on it stays where it is: a line of invariant points.';
+    if (Math.abs(l) < 1e-6) return 'The whole line is squashed to the origin.';
+    if (l < 0) return 'Points flip to the other side of the origin.';
+    return `Points move ${l > 1 ? 'away from' : 'towards'} the origin.`;
+  }
+  function resize() {
+    W = Math.min(cv.parentElement.clientWidth, 560); dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr);
+    cv.style.width = W + 'px'; cv.style.height = W + 'px';
+    draw();
+  }
+  function seg(p, q) { ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]); ctx.stroke(); }
+  function arrow(from, to, color, w) {
+    const s = P(from), e = P(to), len = Math.hypot(e[0] - s[0], e[1] - s[1]);
+    ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w; ctx.lineCap = 'round';
+    if (len < 2) { ctx.beginPath(); ctx.arc(s[0], s[1], 4, 0, 2 * Math.PI); ctx.fill(); return; }
+    const ang = Math.atan2(e[1] - s[1], e[0] - s[0]), h = Math.min(13, len * 0.4);
+    seg(s, [e[0] - Math.cos(ang) * h * 0.7, e[1] - Math.sin(ang) * h * 0.7]);
+    ctx.beginPath(); ctx.moveTo(e[0], e[1]);
+    ctx.lineTo(e[0] - h * Math.cos(ang - 0.42), e[1] - h * Math.sin(ang - 0.42));
+    ctx.lineTo(e[0] - h * Math.cos(ang + 0.42), e[1] - h * Math.sin(ang + 0.42));
+    ctx.closePath(); ctx.fill();
+  }
+  // Label near the tip of p: off pixels along it and side pixels to its left
+  function label(text, p, color, off, side = 0) {
+    const s = P(p), n = Math.hypot(p[0], p[1]) || 1, ex = p[0] / n, ey = p[1] / n;
+    ctx.fillStyle = color; ctx.font = `600 15px ${css().num}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(text, s[0] + ex * off - ey * side, s[1] - ey * off - ex * side);
+  }
+  function fullLine(deg) { const e = dirOf(deg); return [P([-e[0] * 3 * R, -e[1] * 3 * R]), P([e[0] * 3 * R, e[1] * 3 * R])]; }
+
+  function draw() {
+    const C = css();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, W);
+    ctx.lineWidth = 1; ctx.strokeStyle = C.pgrid;
+    for (let k = -R; k <= R; k++) { seg(P([k, -R]), P([k, R])); seg(P([-R, k]), P([R, k])); }
+    ctx.strokeStyle = C.muted; ctx.globalAlpha = 0.6; ctx.lineWidth = 1.2;
+    seg(P([-R, 0]), P([R, 0])); seg(P([0, -R]), P([0, R])); ctx.globalAlpha = 1;
+    ctx.fillStyle = C.muted; ctx.font = `500 11px ${C.num}`; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    for (let k = -R + 1; k < R; k++) if (k && k % 2 === 0) { const s = P([k, 0]); ctx.fillText(String(k).replace('-', '−'), s[0], s[1] + 4); }
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    for (let k = -R + 1; k < R; k++) if (k && k % 2 === 0) { const s = P([0, k]); ctx.fillText(String(k).replace('-', '−'), s[0] - 5, s[1]); }
+
+    // Invariant lines found so far
+    const inv = invariant();
+    ctx.strokeStyle = C.w; ctx.lineWidth = 9; ctx.globalAlpha = 0.2; ctx.lineCap = 'butt';
+    if (inv === 'all' && S.found.size) { ctx.fillStyle = C.w; ctx.globalAlpha = 0.08; ctx.fillRect(0, 0, W, W); }
+    else if (inv !== 'all') for (const d of inv) if (S.found.has(d)) { const [p, q] = fullLine(d); seg(p, q); }
+    ctx.globalAlpha = 1;
+
+    // Track circle for v, the line through v
+    const o = P([0, 0]);
+    ctx.strokeStyle = C.a; ctx.globalAlpha = 0.25; ctx.lineWidth = 1.2; ctx.setLineDash([2, 4]);
+    ctx.beginPath(); ctx.arc(o[0], o[1], VLEN * u(), 0, 2 * Math.PI); ctx.stroke();
+    ctx.globalAlpha = 1; ctx.setLineDash([7, 5]); ctx.strokeStyle = C.t; ctx.lineWidth = 1.6;
+    { const [p, q] = fullLine(S.th); seg(p, q); }
+    ctx.setLineDash([]);
+
+    const v = dirOf(S.th).map(x => x * VLEN), w = apply(v);
+    arrow([0, 0], w, C.w, 3.4);
+    arrow([0, 0], v, C.a, 2.8);
+    const sv = P(v); ctx.beginPath(); ctx.arc(sv[0], sv[1], hover || drag ? 10 : 7.5, 0, 2 * Math.PI);
+    ctx.fillStyle = C.surface; ctx.fill(); ctx.strokeStyle = C.a; ctx.lineWidth = 2.5; ctx.stroke();
+    label('v', v, C.a, -4, 20);
+    if (Math.hypot(...w) > 0.15) label('Av', w, C.w, 8, -18);
+  }
+
+  function colv(v, cls) { return `<span class="colv ${cls}"><span>${fmt(v[0])}</span><span>${fmt(v[1])}</span></span>`; }
+  function readout() {
+    const v = dirOf(S.th).map(x => x * VLEN), w = apply(v), n = nearest(S.th, 1e-6), inv = invariant();
+    $('eq').innerHTML = `<span class="k">A</span>${colv(v, 'a')}<span class="op">=</span>${colv(w, 'w')}`;
+    const st = $('status');
+    if (n) {
+      const l = lambdaAt(S.th);
+      if (inv === 'all') S.found.add('all'); else S.found.add(n.deg);
+      st.className = 'status hit';
+      st.innerHTML = inv === 'all'
+        ? `<b>Every line is invariant.</b> This matrix multiplies every vector by ${fmt(l)}, so A<b>v</b> = ${fmt(l)}<b>v</b> whichever way <b>v</b> points.`
+        : `<b>Invariant line: ${lineName(n.deg)}.</b> A<b>v</b> = ${fmt(l)}<b>v</b>, so the line maps onto itself. ${lamSentence(l)}`;
+    } else {
+      st.className = 'status';
+      st.textContent = inv.length === 0 && S.found.size === 0 && S.revealed
+        ? 'This matrix turns every line off itself: it has no invariant lines.'
+        : 'Av points off the dashed line, so this line is moved somewhere else. Turn v until Av lies along the same line.';
+    }
+    // List
+    const ul = $('found'); ul.innerHTML = '';
+    if (inv === 'all') {
+      if (S.found.has('all')) ul.innerHTML = '<li>Every line through the origin.</li>';
+    } else for (const d of inv) if (S.found.has(d)) {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="ln">${lineName(d)}</span>, ${lamText(lambdaAt(d))}`;
+      ul.appendChild(li);
+    }
+    if (!ul.children.length) ul.innerHTML = `<li>${S.revealed && inv !== 'all' && inv.length === 0 ? 'None: no line through the origin is invariant.' : 'None yet. Keep turning.'}</li>`;
+    cv.setAttribute('aria-label', `v points at ${S.th} degrees: v = (${fmt(v[0])}, ${fmt(v[1])}), A v = (${fmt(w[0])}, ${fmt(w[1])}). ` + st.textContent);
+    $('ang').value = Math.round(S.th); $('angOut').textContent = fmt(S.th, 1) + '°';
+  }
+  function update() { draw(); readout(); }
+  function setAngle(th, snap = true) {
+    th = mod(th, 360);
+    if (snap) { const n = nearest(th); if (n && !n.all) { const c = [n.deg, n.deg + 180].reduce((b, x) => Math.abs(mod(th - x + 180, 360) - 180) < Math.abs(mod(th - b + 180, 360) - 180) ? x : b); th = c; } }
+    S.th = Math.round(th * 1e6) / 1e6; update();
+  }
+
+  // Step from the current angle to th, stopping on any invariant line crossed on the way
+  function stepTo(th) {
+    const from = S.th, inv = invariant();
+    if (inv !== 'all') {
+      const lo = Math.min(from, th), hi = Math.max(from, th);
+      let best = null;
+      for (const d of inv) for (let k = -4; k <= 4; k++) {
+        const x = d + 180 * k;
+        if (x > lo + 1e-9 && x < hi - 1e-9 && (best === null || Math.abs(x - from) < Math.abs(best - from))) best = x;
+      }
+      if (best !== null) th = best;
+    }
+    setAngle(th, false);
+  }
+
+  // Matrix
+  const ids = [['m00', 0, 0], ['m01', 0, 1], ['m10', 1, 0], ['m11', 1, 1]];
+  function syncM() { for (const [id, i, j] of ids) $(id).value = String(S.A[i][j]); }
+  for (const [id, i, j] of ids) $(id).addEventListener('change', e => {
+    const x = parseFloat(e.target.value); if (!isNaN(x)) S.A[i][j] = Math.max(-9, Math.min(9, Math.round(x * 100) / 100));
+    newMatrix(); });
+  function newMatrix() { S.found.clear(); S.revealed = false; stopSweep(); syncM(); markPreset(); setAngle(S.th, false); }
+  function markPreset() {
+    $('presets').querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-pressed', String(JSON.stringify(PRESETS[k][1]) === JSON.stringify(S.A))));
+  }
+  PRESETS.forEach(([name, m]) => {
+    const b = document.createElement('button'); b.textContent = name; b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => { S.A = m.map(r => r.slice()); S.th = 30; newMatrix(); });
+    $('presets').appendChild(b);
+  });
+
+  // Angle controls
+  $('ang').addEventListener('input', e => { stopSweep(); stepTo(+e.target.value); });
+  cv.addEventListener('keydown', e => {
+    const step = e.shiftKey ? 10 : 1;
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { stopSweep(); stepTo(S.th - step); e.preventDefault(); }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { stopSweep(); stepTo(S.th + step); e.preventDefault(); }
+  });
+
+  // Sweep: turn v through half a turn, collecting the invariant lines on the way
+  function stopSweep() { if (raf) cancelAnimationFrame(raf); raf = 0; S.sweeping = false; $('sweep').textContent = 'Sweep round'; }
+  $('sweep').addEventListener('click', () => {
+    if (S.sweeping) { stopSweep(); return; }
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const inv = invariant(), start = S.th, t0 = performance.now(), dur = reduce ? 0 : 6000;
+    S.sweeping = true; $('sweep').textContent = 'Stop';
+    const stops = inv === 'all' ? [] : inv.flatMap(d => [d, d + 180]);
+    let last = start;
+    const step = now => {
+      const f = dur ? Math.min(1, (now - t0) / dur) : 1, th = start + 360 * f;
+      for (const d of stops) { for (let k = -1; k <= 1; k++) { const x = d + 360 * k + Math.floor(start / 360) * 360; if (x > last && x <= th) S.found.add(mod(d, 180)); } }
+      if (inv === 'all') S.found.add('all');
+      last = th; S.th = mod(th, 360); update();
+      if (f < 1 && S.sweeping) raf = requestAnimationFrame(step); else { S.revealed = true; stopSweep(); setAngle(S.th); }
+    };
+    raf = requestAnimationFrame(step);
+  });
+  $('reveal').addEventListener('click', () => {
+    stopSweep(); const inv = invariant(); S.revealed = true;
+    if (inv === 'all') S.found.add('all'); else inv.forEach(d => S.found.add(d));
+    update();
+  });
+  $('clear').addEventListener('click', () => { stopSweep(); S.found.clear(); S.revealed = false; S.th = 30; update(); });
+
+  // Dragging the tip of v
+  function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+  function onTip(sx, sy) { const s = P(dirOf(S.th).map(x => x * VLEN)); return Math.hypot(s[0] - sx, s[1] - sy) < 22; }
+  function angleAt(sx, sy) { return Math.atan2(W / 2 - sy, sx - W / 2) * 180 / Math.PI; }
+  cv.addEventListener('pointerdown', e => {
+    const [sx, sy] = pos(e);
+    if (!onTip(sx, sy) && Math.hypot(sx - W / 2, sy - W / 2) < 8) return;
+    stopSweep(); drag = true; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault();
+    setAngle(angleAt(sx, sy));
+  });
+  cv.addEventListener('pointermove', e => {
+    const [sx, sy] = pos(e);
+    if (!drag) { const h = onTip(sx, sy); if (h !== hover) { hover = h; cv.className = h ? 'grab' : ''; draw(); } return; }
+    setAngle(angleAt(sx, sy));
+  });
+  const end = () => { if (drag) { drag = false; cv.className = hover ? 'grab' : ''; draw(); } };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  cv.addEventListener('pointerleave', () => { if (!drag && hover) { hover = false; cv.className = ''; draw(); } });
+
+  // Optional start-up matrix from the page address: ?m=3,1,2,2 (row by row)
+  const qm = new URLSearchParams(location.search).get('m');
+  if (qm) { const x = qm.split(',').map(Number); if (x.length === 4 && x.every(isFinite)) S.A = [[x[0], x[1]], [x[2], x[3]]]; }
+
+  new ResizeObserver(resize).observe(cv.parentElement);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (document.fonts) document.fonts.ready.then(draw);
+  syncM(); markPreset(); resize(); readout();
+})();
+</script>
+</body>
+</html>

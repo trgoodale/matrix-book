@@ -1,0 +1,2447 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Appendix E — Solutions: Part I – Matrices in Practice</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../appendices/solutions-2.html" rel="next">
+<link href="../appendices/matrix-calculus-identities.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-a4502c8cbc339fc51dc0f3ab78f51ea6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-ae6c1fbcc07bf00db2a7efa1353188f4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+
+<script>
+
+/*
+
+  Notation settings for the book.
+
+  All mathematics is written with the macros below, never with hard-coded notation:
+
+    \vect{v}   a vector            \M{A}      a matrix
+
+    \ui \uj \uk  standard unit vectors in 2D/3D   \ue{n}  general basis vector e_n
+
+    \mat{..}   a matrix in brackets (rows split by \\, entries by &)
+
+    \amat{ccc|c}{..}  an augmented matrix   \T  transpose   \R  real numbers
+
+  The reader's choices are stored in localStorage under "mb-settings" and read
+
+  here, before MathJax loads, so every page is typeset in their notation.
+
+*/
+
+(function () {
+
+  var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python" };
+
+  var s = {};
+
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) { s = {}; }
+
+  for (var k in DEFAULTS) if (!(k in s)) s[k] = DEFAULTS[k];
+
+  window.mbSettings = s;
+
+  window.mbDefaults = DEFAULTS;
+
+
+
+  var vec = { bold: "\\mathbf{#1}", arrow: "\\vec{#1}", underline: "\\underline{#1}" }[s.vec] || "\\mathbf{#1}";
+
+  var unit = function (letter, dotless, idx) {
+
+    if (s.basis === "e") return vec.replace("#1", "e") + "_{" + idx + "}";
+
+    if (s.basis === "hat") return "\\hat{" + dotless + "}";
+
+    return vec.replace("#1", letter);
+
+  };
+
+  var open = s.br === "square" ? "[" : "(";
+
+  var close = s.br === "square" ? "]" : ")";
+
+  var env = s.br === "square" ? "bmatrix" : "pmatrix";
+
+
+
+  window.MathJax = {
+
+    tex: {
+
+      macros: {
+
+        vect: [vec, 1],
+
+        M: [s.mat === "italic" ? "#1" : "\\mathbf{#1}", 1],
+
+        ui: unit("i", "\\imath", 1),
+
+        uj: unit("j", "\\jmath", 2),
+
+        uk: unit("k", "k", 3),
+
+        ue: [vec.replace("#1", "e") + "_{#1}", 1],
+
+        mat: ["\\begin{" + env + "}#1\\end{" + env + "}", 1],
+
+        amat: ["\\left" + open + "\\begin{array}{#1}#2\\end{array}\\right" + close, 2],
+
+        T: s.tr === "top" ? "^{\\top}" : "^{\\mathsf{T}}",
+
+        R: "\\mathbb{R}",
+
+        zerovec: vec.replace("#1", "0")
+
+      }
+
+    },
+
+    // MathJax 4: break long equations across lines to fit narrow screens
+
+    output: { displayOverflow: "linebreak", linebreaks: { inline: true, width: "100%", lineleading: 0.6 } },
+
+    chtml: { scale: 1.0 }
+
+  };
+
+
+
+  // Default language for code tabs: Quarto reads this when the page is shown.
+
+  try {
+
+    var key = "quarto-persistent-tabsets-data";
+
+    var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+
+    if (!tabs.language) { tabs.language = s.code; localStorage.setItem(key, JSON.stringify(tabs)); }
+
+  } catch (e) {}
+
+
+
+  // ---------- settings panel ----------
+
+  var GROUPS = [
+
+    { key: "vec", label: "Vectors", opts: [["bold", "Bold", "\\mathbf{v}"], ["arrow", "Arrow", "\\vec{v}"], ["underline", "Underlined", "\\underline{v}"]] },
+
+    { key: "mat", label: "Matrices", opts: [["bold", "Bold", "\\mathbf{A}"], ["italic", "Italic", "A"]] },
+
+    { key: "basis", label: "Unit vectors", opts: [["ijk", "i, j, k", "\\mathbf{i},\\ \\mathbf{j},\\ \\mathbf{k}"], ["hat", "Hats", "\\hat{\\imath},\\ \\hat{\\jmath},\\ \\hat{k}"], ["e", "e₁, e₂, e₃", "\\mathbf{e}_1,\\ \\mathbf{e}_2,\\ \\mathbf{e}_3"]] },
+
+    { key: "br", label: "Brackets", opts: [["round", "Round", "\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}"], ["square", "Square", "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}"]] },
+
+    { key: "tr", label: "Transpose", opts: [["T", "Letter T", "\\mathbf{A}^{\\mathsf{T}}"], ["top", "Symbol ⊤", "\\mathbf{A}^{\\top}"]] },
+
+    { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] }
+
+  ];
+
+
+
+  function buildForm(prefix) {
+
+    var form = document.createElement("form");
+
+    form.className = "mb-settings-form";
+
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+
+    GROUPS.forEach(function (g) {
+
+      var fs = document.createElement("fieldset");
+
+      var lg = document.createElement("legend");
+
+      lg.textContent = g.label;
+
+      fs.appendChild(lg);
+
+      g.opts.forEach(function (o) {
+
+        var id = prefix + "-" + g.key + "-" + o[0];
+
+        var lab = document.createElement("label");
+
+        lab.className = "mb-opt";
+
+        lab.htmlFor = id;
+
+        var inp = document.createElement("input");
+
+        inp.type = "radio"; inp.name = prefix + "-" + g.key; inp.id = id; inp.value = o[0];
+
+        inp.checked = s[g.key] === o[0];
+
+        lab.appendChild(inp);
+
+        var txt = document.createElement("span");
+
+        txt.className = "mb-opt-name";
+
+        txt.textContent = o[1];
+
+        lab.appendChild(txt);
+
+        if (o[2]) {
+
+          var ex = document.createElement("span");
+
+          ex.className = "mb-opt-example";
+
+          ex.textContent = "\\(" + o[2] + "\\)";
+
+          lab.appendChild(ex);
+
+        }
+
+        fs.appendChild(lab);
+
+      });
+
+      form.appendChild(fs);
+
+    });
+
+    var row = document.createElement("div");
+
+    row.className = "mb-settings-actions";
+
+    var apply = document.createElement("button");
+
+    apply.type = "button"; apply.className = "btn btn-primary"; apply.textContent = "Apply";
+
+    var reset = document.createElement("button");
+
+    reset.type = "button"; reset.className = "btn btn-outline-secondary"; reset.textContent = "Restore defaults";
+
+    var note = document.createElement("span");
+
+    note.className = "mb-settings-note";
+
+    note.textContent = "Saved in this browser and used on every page.";
+
+    row.appendChild(apply); row.appendChild(reset); row.appendChild(note);
+
+    form.appendChild(row);
+
+
+
+    apply.addEventListener("click", function () {
+
+      var next = {};
+
+      GROUPS.forEach(function (g) {
+
+        var c = form.querySelector('input[name="' + prefix + "-" + g.key + '"]:checked');
+
+        next[g.key] = c ? c.value : DEFAULTS[g.key];
+
+      });
+
+      save(next);
+
+    });
+
+    reset.addEventListener("click", function () { save(Object.assign({}, DEFAULTS)); });
+
+    return form;
+
+  }
+
+
+
+  function save(next) {
+
+    try {
+
+      localStorage.setItem("mb-settings", JSON.stringify(next));
+
+      var key = "quarto-persistent-tabsets-data";
+
+      var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+
+      tabs.language = next.code;
+
+      localStorage.setItem(key, JSON.stringify(tabs));
+
+      sessionStorage.setItem("mb-scroll", String(window.scrollY));
+
+    } catch (e) {}
+
+    location.reload();
+
+  }
+
+
+
+  function typeset(el) {
+
+    var M = window.MathJax;
+
+    if (!M || !M.startup || !M.startup.promise) return;
+
+    M.startup.promise.then(function () { return M.typesetPromise([el]); }).catch(function () {});
+
+  }
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    try {
+
+      var y = sessionStorage.getItem("mb-scroll");
+
+      if (y !== null) { sessionStorage.removeItem("mb-scroll"); window.addEventListener("load", function () { window.scrollTo(0, +y); }); }
+
+    } catch (e) {}
+
+
+
+    // Inline panel (on the conventions page)
+
+    var inline = document.getElementById("mb-settings-inline");
+
+    if (inline) { inline.appendChild(buildForm("inline")); typeset(inline); }
+
+
+
+    // Floating button and dialog on every page
+
+    var btn = document.createElement("button");
+
+    btn.type = "button";
+
+    btn.className = "mb-settings-button";
+
+    btn.setAttribute("aria-haspopup", "dialog");
+
+    btn.innerHTML = '<span aria-hidden="true">⚙</span> Notation';
+
+    var dlg = document.createElement("dialog");
+
+    dlg.className = "mb-settings-dialog";
+
+    dlg.setAttribute("aria-labelledby", "mb-dlg-title");
+
+    dlg.innerHTML = '<div class="mb-dlg-head"><h2 id="mb-dlg-title">Notation and code</h2>' +
+
+      '<button type="button" class="btn-close" aria-label="Close"></button></div>' +
+
+      '<p class="mb-dlg-intro">Choose the notation you are used to. Every page of the book, and the apps, will use it. ' +
+
+      'See <a class="mb-conv-link">Notation and conventions</a> for what each option means.</p>';
+
+    dlg.appendChild(buildForm("dlg"));
+
+    document.body.appendChild(btn);
+
+    document.body.appendChild(dlg);
+
+    var conv = dlg.querySelector(".mb-conv-link");
+
+    var sideLink = document.querySelector('a[href$="conventions.html"]');
+
+    conv.href = sideLink ? sideLink.getAttribute("href") : "conventions.html";
+
+    btn.addEventListener("click", function () { dlg.showModal(); typeset(dlg); });
+
+    dlg.querySelector(".btn-close").addEventListener("click", function () { dlg.close(); });
+
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+
+
+    // Size embedded apps to their content (same origin)
+
+    document.querySelectorAll("iframe.app-frame").forEach(function (f) {
+
+      function fit() {
+
+        try { var d = f.contentDocument; if (d && d.documentElement) f.style.height = d.documentElement.scrollHeight + "px"; } catch (e) {}
+
+      }
+
+      f.addEventListener("load", function () {
+
+        fit();
+
+        try { new ResizeObserver(fit).observe(f.contentDocument.body); } catch (e) {}
+
+      });
+
+    });
+
+  });
+
+})();
+
+</script>
+
+<script>
+
+/* Accessibility fixes for markup that Quarto generates. */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // Collapsible callouts ("Check your understanding"): make the header a real,
+
+  // keyboard-operable button that announces whether the answer is shown.
+
+  document.querySelectorAll(".callout-header[data-bs-toggle='collapse']").forEach(function (h) {
+
+    var target = document.querySelector(h.getAttribute("data-bs-target"));
+
+    h.setAttribute("role", "button");
+
+    h.setAttribute("tabindex", "0");
+
+    if (target) {
+
+      if (!target.id) target.id = "mb-" + Math.random().toString(36).slice(2, 9);
+
+      h.setAttribute("aria-controls", target.id);
+
+    }
+
+    h.addEventListener("keydown", function (e) {
+
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); h.click(); }
+
+    });
+
+  });
+
+  // Sidebar: label the landmark, and stop section toggles posing as landmarks.
+
+  var side = document.getElementById("quarto-sidebar");
+
+  if (side) side.setAttribute("aria-label", "Book contents");
+
+  document.querySelectorAll("#quarto-sidebar [data-bs-toggle='collapse'][role='navigation']").forEach(function (a) {
+
+    a.setAttribute("role", "button");
+
+  });
+
+  var toc = document.querySelector("nav#TOC");
+
+  if (toc && !toc.getAttribute("aria-label")) toc.setAttribute("aria-label", "On this page");
+
+  // Code output that scrolls sideways must be reachable from the keyboard.
+
+  function markScrollers() {
+
+    var n = 0;
+
+    document.querySelectorAll(".cell-output pre, pre.code-output, div.code-output pre").forEach(function (p) {
+
+      if (p.scrollWidth > p.clientWidth + 1) {
+
+        n += 1;
+
+        p.setAttribute("tabindex", "0");
+
+        p.setAttribute("role", "region");
+
+        p.setAttribute("aria-label", "Code output " + n + " (scrolls sideways)");
+
+      } else if (p.getAttribute("role") === "region") {
+
+        p.removeAttribute("tabindex"); p.removeAttribute("role"); p.removeAttribute("aria-label");
+
+      }
+
+    });
+
+  }
+
+  markScrollers();
+
+  window.addEventListener("resize", markScrollers);
+
+  document.addEventListener("shown.bs.tab", markScrollers);
+
+});
+
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/apps.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/solutions-1.html"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Solutions: Part I</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Matrices in Practice</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/trgoodale/matrix-book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/how-to-use.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to use this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/conventions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notation and conventions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/refresher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Refresher</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Matrices and transformations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/01-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is a matrix?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/02-arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Adding and scaling matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/03-multiplication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix multiplication</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/04-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrices as transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/05-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Composing transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/06-determinants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Determinants</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/07-inverses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Inverse matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/08-transformations-3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Transformations in three dimensions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/09-invariant-lines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Invariant points and lines</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part I review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Linear systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/10-linear-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Systems of linear equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/11-gaussian-elimination.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Gaussian elimination</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/12-gauss-jordan-rank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Gauss–Jordan elimination and rank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/13-lu-decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LU decomposition</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part II review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part III: Vector spaces</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/14-span-independence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Span and linear independence</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/15-basis-change.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Basis, dimension and change of basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/16-fundamental-subspaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Column space, null space and rank–nullity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/17-orthogonality-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Orthogonality and least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part IV: Eigenvalues and matrix calculus</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/18-eigenvalues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Eigenvalues and eigenvectors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/19-diagonalisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Diagonalisation and matrix powers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/20-symmetric-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Symmetric and positive definite matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/21-svd-pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">The singular value decomposition and PCA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/22-matrix-calculus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Derivatives with vectors and matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/23-linear-odes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear ODE systems and the matrix exponential</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part V: Numerical methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/24-floating-point-conditioning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Floating point and conditioning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/25-pivoting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Pivoting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/26-cost-sparse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Cost, banded and sparse systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/27-iterative-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Iterative methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/28-newton-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Newton’s method for nonlinear systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/29-eigenvalue-algorithms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Eigenvalue algorithms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/30-qr-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">QR factorisation and stable least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part V review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part VI: Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/31-trusses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Structures: pin-jointed trusses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/32-circuits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Electrical circuits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/33-finite-differences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Heat flow and finite differences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/34-graphics-robotics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Computer graphics and robotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/35-markov-pagerank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Markov chains and PageRank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/36-population-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Population models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/37-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Data: regression and dimensionality reduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/38-physics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Physics: rotations, inertia and quantum states</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/39-cryptography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Cryptography: the Hill cipher</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part VI review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/apps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Interactive apps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Reference: matrices and their rules</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/matrix-calculus-identities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Matrix calculus identities</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Solutions: Part I</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions: Part II</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Solutions: Part III</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Solutions: Part IV</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Solutions: Part V</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Solutions: Part VI</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-solutions-matrices" id="toc-sec-solutions-matrices" class="nav-link active" data-scroll-target="#sec-solutions-matrices"><span class="header-section-number">E.1</span> What is a matrix?</a></li>
+  <li><a href="#sec-solutions-arithmetic" id="toc-sec-solutions-arithmetic" class="nav-link" data-scroll-target="#sec-solutions-arithmetic"><span class="header-section-number">E.2</span> Adding and scaling matrices</a></li>
+  <li><a href="#sec-solutions-multiplication" id="toc-sec-solutions-multiplication" class="nav-link" data-scroll-target="#sec-solutions-multiplication"><span class="header-section-number">E.3</span> Matrix multiplication</a></li>
+  <li><a href="#sec-solutions-transformations" id="toc-sec-solutions-transformations" class="nav-link" data-scroll-target="#sec-solutions-transformations"><span class="header-section-number">E.4</span> Matrices as transformations</a></li>
+  <li><a href="#sec-solutions-composition" id="toc-sec-solutions-composition" class="nav-link" data-scroll-target="#sec-solutions-composition"><span class="header-section-number">E.5</span> Composing transformations</a></li>
+  <li><a href="#sec-solutions-determinants" id="toc-sec-solutions-determinants" class="nav-link" data-scroll-target="#sec-solutions-determinants"><span class="header-section-number">E.6</span> Determinants</a></li>
+  <li><a href="#sec-solutions-inverses" id="toc-sec-solutions-inverses" class="nav-link" data-scroll-target="#sec-solutions-inverses"><span class="header-section-number">E.7</span> Inverse matrices</a></li>
+  <li><a href="#sec-solutions-transformations-3d" id="toc-sec-solutions-transformations-3d" class="nav-link" data-scroll-target="#sec-solutions-transformations-3d"><span class="header-section-number">E.8</span> Transformations in three dimensions</a></li>
+  <li><a href="#sec-solutions-invariant-lines" id="toc-sec-solutions-invariant-lines" class="nav-link" data-scroll-target="#sec-solutions-invariant-lines"><span class="header-section-number">E.9</span> Invariant points and lines</a></li>
+  <li><a href="#sec-solutions-review-1" id="toc-sec-solutions-review-1" class="nav-link" data-scroll-target="#sec-solutions-review-1"><span class="header-section-number">E.10</span> Part I review</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/appendices/solutions-1.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/apps.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/solutions-1.html"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Solutions: Part I</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-solutions-part-1" class="quarto-section-identifier">Appendix E — Solutions: Part I</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Solutions to the exercises in Part I, grouped by chapter, followed by the solutions to the Part I review. Try each exercise before reading its solution. The link after each solution takes you back to its exercise.</p>
+<section id="sec-solutions-matrices" class="level2" data-number="E.1">
+<h2 data-number="E.1" class="anchored" data-anchor-id="sec-solutions-matrices"><span class="header-section-number">E.1</span> What is a matrix?</h2>
+<p>Exercises from <a href="../part-1/01-matrices.html" class="quarto-xref"><span>Chapter 1</span></a>.</p>
+<p><span id="solution-matrices-1"><strong>1.</strong></span> Row <span class="math inline">\(i\)</span> has entries <span class="math inline">\(2i + 1, 2i + 2, 2i + 3, 2i + 4\)</span>: <span class="math display">\[\mat{3 &amp; 4 &amp; 5 &amp; 6 \\ 5 &amp; 6 &amp; 7 &amp; 8}.\]</span></p>
+<p><a href="../part-1/01-matrices.html#exercise-matrices-1" class="sol-link">Back to exercise 1</a></p>
+<p><span id="solution-matrices-2"><strong>2.</strong></span> <span class="math inline">\(\M{P}\)</span> is <span class="math inline">\(3 \times 4\)</span>, with <span class="math inline">\(p_{23} = -2\)</span> and <span class="math inline">\(p_{32} = 6\)</span>, and <span class="math display">\[\M{P}\T = \mat{4 &amp; 3 &amp; 0 \\ -1 &amp; 5 &amp; 6 \\ 0 &amp; -2 &amp; 8 \\ 2 &amp; 1 &amp; -3}.\]</span></p>
+<p><a href="../part-1/01-matrices.html#exercise-matrices-2" class="sol-link">Back to exercise 2</a></p>
+<p><span id="solution-matrices-3"><strong>3.</strong></span> <span class="math inline">\(\M{A}\)</span> and <span class="math inline">\(\M{C}\)</span> are symmetric. <span class="math inline">\(\M{B}\)</span> is not: <span class="math inline">\(b_{12} = 3\)</span> but <span class="math inline">\(b_{21} = -3\)</span>. (Each entry is the <em>negative</em> of its mirror image; such matrices are called skew-symmetric.) <span class="math inline">\(\M{D}\)</span> is not square, so it can’t be symmetric.</p>
+<p><a href="../part-1/01-matrices.html#exercise-matrices-3" class="sol-link">Back to exercise 3</a></p>
+<p><span id="solution-matrices-4"><strong>4.</strong></span> <span class="math display">\[
+\M{D} = \mat{0 &amp; 118 &amp; 69 &amp; 56 \\ 118 &amp; 0 &amp; 56 &amp; 125 \\ 69 &amp; 56 &amp; 0 &amp; 61 \\ 56 &amp; 125 &amp; 61 &amp; 0}.
+\]</span> It is symmetric because the distance from city <span class="math inline">\(i\)</span> to city <span class="math inline">\(j\)</span> is the same as from <span class="math inline">\(j\)</span> to <span class="math inline">\(i\)</span>. The main diagonal holds the distance from each city to itself, which is zero.</p>
+<p><a href="../part-1/01-matrices.html#exercise-matrices-4" class="sol-link">Back to exercise 4</a></p>
+<p><span id="solution-matrices-5"><strong>5.</strong></span> Ordering the people A to E, <span class="math display">\[\M{F} = \mat{0 &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\ 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0}.\]</span> It is not symmetric: A follows B (<span class="math inline">\(f_{12} = 1\)</span>), but B does not follow A (<span class="math inline">\(f_{21} = 0\)</span>). The sum of column <span class="math inline">\(j\)</span> counts the people who follow person <span class="math inline">\(j\)</span>: A and B have 2 followers each, C has 3, and D and E have none.</p>
+<p><a href="../part-1/01-matrices.html#exercise-matrices-5" class="sol-link">Back to exercise 5</a></p>
+<p><span id="solution-matrices-6"><strong>6.</strong></span></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div id="b611f805" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Python counts from 0, so entry [i, j] corresponds to row i+1, column j+1</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> np.fromfunction(<span class="kw">lambda</span> i, j: <span class="dv">1</span> <span class="op">/</span> (i <span class="op">+</span> j <span class="op">+</span> <span class="dv">1</span>), (<span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(H, <span class="dv">4</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.array_equal(H, H.T))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1.     0.5    0.3333 0.25   0.2    0.1667]
+ [0.5    0.3333 0.25   0.2    0.1667 0.1429]
+ [0.3333 0.25   0.2    0.1667 0.1429 0.125 ]
+ [0.25   0.2    0.1667 0.1429 0.125  0.1111]
+ [0.2    0.1667 0.1429 0.125  0.1111 0.1   ]
+ [0.1667 0.1429 0.125  0.1111 0.1    0.0909]]
+True</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">J</span><span class="op">,</span> <span class="va">I</span>] <span class="op">=</span> <span class="va">meshgrid</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">6</span>)<span class="op">;</span>       <span class="co">% I(i,j) = i and J(i,j) = j</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">H</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">./</span> (<span class="va">I</span> <span class="op">+</span> <span class="va">J</span> <span class="op">-</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">isequal</span>(<span class="va">H</span><span class="op">,</span> <span class="va">H</span><span class="op">'</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="va">isequal</span>(<span class="va">H</span><span class="op">,</span> <span class="va">hilb</span>(<span class="fl">6</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>ans =
+
+  logical
+
+   1
+
+ans =
+
+  logical
+
+   1</code></pre>
+</div>
+</div>
+</div>
+<p><a href="../part-1/01-matrices.html#exercise-matrices-6" class="sol-link">Back to exercise 6</a></p>
+</section>
+<section id="sec-solutions-arithmetic" class="level2" data-number="E.2">
+<h2 data-number="E.2" class="anchored" data-anchor-id="sec-solutions-arithmetic"><span class="header-section-number">E.2</span> Adding and scaling matrices</h2>
+<p>Exercises from <a href="../part-1/02-arithmetic.html" class="quarto-xref"><span>Chapter 2</span></a>.</p>
+<p><span id="solution-arithmetic-1"><strong>1.</strong></span> <span class="math display">\[
+\M{A} + \M{B} = \mat{1 &amp; 4 &amp; 2 \\ 1 &amp; 1 &amp; 7},
+\]</span> <span class="math display">\[
+2\M{A} - 3\M{B} = \mat{12 &amp; -17 &amp; 4 \\ -3 &amp; 17 &amp; -16},
+\]</span> <span class="math display">\[
+(\M{A} - \M{B})\T = \mat{5 &amp; -1 \\ -6 &amp; 7 \\ 2 &amp; -5}.
+\]</span></p>
+<p><a href="../part-1/02-arithmetic.html#exercise-arithmetic-1" class="sol-link">Back to exercise 1</a></p>
+<p><span id="solution-arithmetic-2"><strong>2.</strong></span> Collect the <span class="math inline">\(\M{X}\)</span> terms on one side: <span class="math display">\[2\M{X} = \mat{1 &amp; 2 \\ 0 &amp; -1} + \mat{5 &amp; 0 \\ 4 &amp; 3} = \mat{6 &amp; 2 \\ 4 &amp; 2},\]</span> so <span class="math inline">\(\M{X} = \mat{3 &amp; 1 \\ 2 &amp; 1}\)</span>.</p>
+<p><a href="../part-1/02-arithmetic.html#exercise-arithmetic-2" class="sol-link">Back to exercise 2</a></p>
+<p><span id="solution-arithmetic-3"><strong>3.</strong></span> The left side is <span class="math inline">\(\mat{a &amp; b + c \\ b - c &amp; a}\)</span>. Comparing entries, <span class="math inline">\(a = 3\)</span>, <span class="math inline">\(b + c = 5\)</span> and <span class="math inline">\(b - c = 1\)</span>, so <span class="math inline">\(b = 3\)</span> and <span class="math inline">\(c = 2\)</span>.</p>
+<p><a href="../part-1/02-arithmetic.html#exercise-arithmetic-3" class="sol-link">Back to exercise 3</a></p>
+<p><span id="solution-arithmetic-4"><strong>4.</strong></span> Suppose the baker makes <span class="math inline">\(s\)</span> batches of cake and <span class="math inline">\(t\)</span> of biscuits. The flour and sugar give <span class="math display">\[
+0.2s + 0.3t = 1.3,
+\]</span> <span class="math display">\[
+0.15s + 0.1t = 0.6.
+\]</span> Multiplying the second equation by 3 gives <span class="math inline">\(0.45s + 0.3t = 1.8\)</span>; subtracting the first leaves <span class="math inline">\(0.25s = 0.5\)</span>, so <span class="math inline">\(s = 2\)</span> and then <span class="math inline">\(t = 3\)</span>. The butter needed is <span class="math inline">\(2 \times 0.15 + 3 \times 0.2 = 0.9\)</span> kg. In vector form, <span class="math inline">\(2\vect{c} + 3\vect{b} = (1.3, 0.6, 0.9)\T\)</span>.</p>
+<p><a href="../part-1/02-arithmetic.html#exercise-arithmetic-4" class="sol-link">Back to exercise 4</a></p>
+<p><span id="solution-arithmetic-5"><strong>5.</strong></span> We need <span class="math inline">\(s + 3t = 7\)</span> and <span class="math inline">\(2s - t = 0\)</span>. The second gives <span class="math inline">\(t = 2s\)</span>, so <span class="math inline">\(7s = 7\)</span>: <span class="math inline">\(s = 1\)</span> and <span class="math inline">\(t = 2\)</span>. Check: <span class="math inline">\((1, 2)\T + 2(3, -1)\T = (7, 0)\T\)</span>. ✓</p>
+<p>Every combination <span class="math inline">\(s(2, 4)\T + t(-1, -2)\T = (2s - t)(1, 2)\T\)</span> is a multiple of <span class="math inline">\((1, 2)\T\)</span>, so it lies on the line <span class="math inline">\(y = 2x\)</span>. The point <span class="math inline">\((1, 3)\)</span> is not on that line, so it can’t be reached. The two given vectors point along the same line, so combining them never leaves it.</p>
+<p><a href="../part-1/02-arithmetic.html#exercise-arithmetic-5" class="sol-link">Back to exercise 5</a></p>
+<p><span id="solution-arithmetic-6"><strong>6.</strong></span></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div id="e89bff61" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> np.array([[<span class="fl">18.2</span>, <span class="fl">19.1</span>, <span class="fl">17.6</span>],</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>              [<span class="fl">19.5</span>, <span class="fl">20.3</span>, <span class="fl">18.4</span>],</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>              [<span class="fl">21.0</span>, <span class="fl">21.8</span>, <span class="fl">19.9</span>],</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>              [<span class="fl">22.4</span>, <span class="fl">23.0</span>, <span class="fl">21.2</span>]])</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> T <span class="op">-</span> T.mean(axis<span class="op">=</span><span class="dv">0</span>)       <span class="co"># the 1 x 3 row of means is broadcast down the rows</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(D)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(D.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">0</span>))         <span class="co"># zero, up to rounding</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[-2.075 -1.95  -1.675]
+ [-0.775 -0.75  -0.875]
+ [ 0.725  0.75   0.625]
+ [ 2.125  1.95   1.925]]
+[3.55271368e-15 0.00000000e+00 3.55271368e-15]</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">T</span> <span class="op">=</span> [<span class="fl">18.2</span> <span class="fl">19.1</span> <span class="fl">17.6</span><span class="op">;</span> <span class="fl">19.5</span> <span class="fl">20.3</span> <span class="fl">18.4</span><span class="op">;</span> <span class="fl">21.0</span> <span class="fl">21.8</span> <span class="fl">19.9</span><span class="op">;</span> <span class="fl">22.4</span> <span class="fl">23.0</span> <span class="fl">21.2</span>]<span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">D</span> <span class="op">=</span> <span class="va">T</span> <span class="op">-</span> <span class="va">mean</span>(<span class="va">T</span>)              <span class="co">% the 1 x 3 row of means is expanded down the rows</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="va">sum</span>(<span class="va">D</span>)                       <span class="co">% zero, up to rounding</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>D =
+
+   -2.0750   -1.9500   -1.6750
+   -0.7750   -0.7500   -0.8750
+    0.7250    0.7500    0.6250
+    2.1250    1.9500    1.9250
+
+ans =
+
+   1.0e-14 *
+
+    0.3553         0    0.3553</code></pre>
+<p>The column sums are zero, or tiny values such as <span class="math inline">\(10^{-15}\)</span> caused by rounding.</p>
+</div>
+</div>
+</div>
+<p><a href="../part-1/02-arithmetic.html#exercise-arithmetic-6" class="sol-link">Back to exercise 6</a></p>
+</section>
+<section id="sec-solutions-multiplication" class="level2" data-number="E.3">
+<h2 data-number="E.3" class="anchored" data-anchor-id="sec-solutions-multiplication"><span class="header-section-number">E.3</span> Matrix multiplication</h2>
+<p>Exercises from <a href="../part-1/03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a>.</p>
+<p><span id="solution-multiplication-1"><strong>1.</strong></span></p>
+<ol type="a">
+<li><p><span class="math inline">\(\mat{-3 &amp; 10 \\ 15 &amp; -6}\)</span>.</p></li>
+<li><p><span class="math inline">\(1 \cdot 3 + 0 \cdot (-1) + 2 \cdot 4 = 11\)</span> (a <span class="math inline">\(1 \times 1\)</span> matrix).</p></li>
+<li><p>Not defined: <span class="math inline">\((3 \times 2)(3 \times 2)\)</span> has inner sizes 2 and 3.</p></li>
+<li><p><span class="math inline">\(\mat{3 &amp; 0 &amp; 6 \\ -1 &amp; 0 &amp; -2 \\ 4 &amp; 0 &amp; 8}\)</span>.</p></li>
+</ol>
+<p><a href="../part-1/03-multiplication.html#exercise-multiplication-1" class="sol-link">Back to exercise 1</a></p>
+<p><span id="solution-multiplication-2"><strong>2.</strong></span> <span class="math display">\[
+2\mat{1 \\ -1} + 1\mat{2 \\ 3} - 3\mat{0 \\ 1} = \mat{4 \\ -2}.
+\]</span></p>
+<p><a href="../part-1/03-multiplication.html#exercise-multiplication-2" class="sol-link">Back to exercise 2</a></p>
+<p><span id="solution-multiplication-3"><strong>3.</strong></span> <span class="math inline">\(\M{A}^2 = \mat{1 &amp; 2 \\ 0 &amp; 1}\)</span>, <span class="math inline">\(\M{A}^3 = \mat{1 &amp; 3 \\ 0 &amp; 1}\)</span>, <span class="math inline">\(\M{A}^4 = \mat{1 &amp; 4 \\ 0 &amp; 1}\)</span>, suggesting <span class="math inline">\(\M{A}^n = \mat{1 &amp; n \\ 0 &amp; 1}\)</span>. If this holds for <span class="math inline">\(n\)</span>, then <span class="math display">\[
+\M{A}^{n+1} = \M{A}^n\M{A} = \mat{1 &amp; n \\ 0 &amp; 1}\mat{1 &amp; 1 \\ 0 &amp; 1} = \mat{1 &amp; n + 1 \\ 0 &amp; 1},
+\]</span> so it holds for <span class="math inline">\(n + 1\)</span> too. Since it holds for <span class="math inline">\(n = 1\)</span>, it holds for every <span class="math inline">\(n\)</span> (by induction). Geometrically, <span class="math inline">\(\M{A}\)</span> is a shear, and <span class="math inline">\(n\)</span> shears by 1 make a shear by <span class="math inline">\(n\)</span>.</p>
+<p><a href="../part-1/03-multiplication.html#exercise-multiplication-3" class="sol-link">Back to exercise 3</a></p>
+<p><span id="solution-multiplication-4"><strong>4.</strong></span> <span class="math display">\[
+\M{A}\M{B} = \mat{a + c &amp; b + d \\ c &amp; d},
+\]</span> <span class="math display">\[
+\M{B}\M{A} = \mat{a &amp; a + b \\ c &amp; c + d}.
+\]</span> Comparing the <span class="math inline">\((1, 1)\)</span> entries gives <span class="math inline">\(c = 0\)</span>, and then the <span class="math inline">\((1, 2)\)</span> entries give <span class="math inline">\(d = a\)</span>. So the matrices that commute with <span class="math inline">\(\M{A}\)</span> are <span class="math inline">\(\M{B} = \mat{a &amp; b \\ 0 &amp; a}\)</span> for any <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</p>
+<p><a href="../part-1/03-multiplication.html#exercise-multiplication-4" class="sol-link">Back to exercise 4</a></p>
+<p><span id="solution-multiplication-5"><strong>5.</strong></span> If <span class="math inline">\(\M{A}\)</span> is <span class="math inline">\(m \times n\)</span>, then <span class="math inline">\(\M{A}\T\M{A}\)</span> is <span class="math inline">\((n \times m)(m \times n)\)</span> and <span class="math inline">\(\M{A}\M{A}\T\)</span> is <span class="math inline">\((m \times n)(n \times m)\)</span>, both defined. By the transpose rule, <span class="math display">\[
+(\M{A}\T\M{A})\T = \M{A}\T(\M{A}\T)\T = \M{A}\T\M{A},
+\]</span> so <span class="math inline">\(\M{A}\T\M{A}\)</span> is symmetric, and the same argument works for <span class="math inline">\(\M{A}\M{A}\T\)</span>.</p>
+<p><a href="../part-1/03-multiplication.html#exercise-multiplication-5" class="sol-link">Back to exercise 5</a></p>
+<p><span id="solution-multiplication-6"><strong>6.</strong></span> For example <span class="math inline">\(\M{A} = \mat{0 &amp; 1 \\ 0 &amp; 0}\)</span>: then <span class="math inline">\(\M{A}^2 = \M{0}\)</span>. Geometrically, <span class="math inline">\(\M{A}\)</span> sends <span class="math inline">\(\uj\)</span> to <span class="math inline">\(\ui\)</span> and <span class="math inline">\(\ui\)</span> to <span class="math inline">\(\zerovec\)</span>, so applying it twice sends everything to <span class="math inline">\(\zerovec\)</span>.</p>
+<p><a href="../part-1/03-multiplication.html#exercise-multiplication-6" class="sol-link">Back to exercise 6</a></p>
+<p><span id="solution-multiplication-7"><strong>7.</strong></span></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div id="799628b4" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>]])</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.matrix_power(N, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[2 3 4 1]
+ [3 2 4 1]
+ [4 4 2 3]
+ [1 1 3 0]]</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">N</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span><span class="op">;</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">0</span><span class="op">;</span> <span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">0</span>]<span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="va">N</span><span class="op">^</span><span class="fl">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>ans =
+
+     2     3     4     1
+     3     2     4     1
+     4     4     2     3
+     1     1     3     0</code></pre>
+</div>
+</div>
+</div>
+<p>The <span class="math inline">\((1, 1)\)</span> entry is 2: the routes are 1 → 2 → 3 → 1 and 1 → 3 → 2 → 1, round the triangle in each direction. A three-step route that returns to its start must go round a triangle of roads. Town 4 has only one road, to town 3, so it is not on any triangle, and the <span class="math inline">\((4, 4)\)</span> entry is 0.</p>
+<p><a href="../part-1/03-multiplication.html#exercise-multiplication-7" class="sol-link">Back to exercise 7</a></p>
+</section>
+<section id="sec-solutions-transformations" class="level2" data-number="E.4">
+<h2 data-number="E.4" class="anchored" data-anchor-id="sec-solutions-transformations"><span class="header-section-number">E.4</span> Matrices as transformations</h2>
+<p>Exercises from <a href="../part-1/04-transformations.html" class="quarto-xref"><span>Chapter 4</span></a>.</p>
+<p><span id="solution-transformations-1"><strong>1.</strong></span></p>
+<ol type="a">
+<li><p><span class="math inline">\(\mat{-1 &amp; 0 \\ 0 &amp; 1}\)</span>;</p></li>
+<li><p><span class="math inline">\(\mat{\tfrac{1}{2} &amp; -\tfrac{\sqrt{3}}{2} \\ \tfrac{\sqrt{3}}{2} &amp; \tfrac{1}{2}}\)</span>;</p></li>
+<li><p><span class="math inline">\(\mat{1 &amp; 0 \\ 0 &amp; 3}\)</span>;</p></li>
+<li><p><span class="math inline">\(\mat{1 &amp; 2 \\ 0 &amp; 1}\)</span>;</p></li>
+<li><p>the line <span class="math inline">\(y = \sqrt{3}\,x\)</span> is at <span class="math inline">\(\theta = 60°\)</span>, so <span class="math inline">\(2\theta = 120°\)</span> and the matrix is <span class="math inline">\(\mat{-\tfrac{1}{2} &amp; \tfrac{\sqrt{3}}{2} \\ \tfrac{\sqrt{3}}{2} &amp; \tfrac{1}{2}}\)</span>.</p></li>
+</ol>
+<p><a href="../part-1/04-transformations.html#exercise-transformations-1" class="sol-link">Back to exercise 1</a></p>
+<p><span id="solution-transformations-2"><strong>2.</strong></span></p>
+<ol type="a">
+<li><p><span class="math inline">\(\ui \to (0, -1)\T\)</span> and <span class="math inline">\(\uj \to (1, 0)\T\)</span>: a rotation by <span class="math inline">\(90°\)</span> clockwise.</p></li>
+<li><p>An enlargement with scale factor 3, centred at the origin.</p></li>
+<li><p>A reflection, with <span class="math inline">\(\cos 2\theta = 0.6\)</span> and <span class="math inline">\(\sin 2\theta = 0.8\)</span>. Then <span class="math inline">\(\tan\theta = \dfrac{\sin 2\theta}{1 + \cos 2\theta} = 0.5\)</span>, so the mirror line is <span class="math inline">\(y = \tfrac{1}{2}x\)</span>.</p></li>
+<li><p>Projection onto the <span class="math inline">\(y\)</span>-axis.</p></li>
+</ol>
+<p><a href="../part-1/04-transformations.html#exercise-transformations-2" class="sol-link">Back to exercise 2</a></p>
+<p><span id="solution-transformations-3"><strong>3.</strong></span> The corners go to <span class="math inline">\((0, 0)\)</span>, <span class="math inline">\((3, 1)\)</span>, <span class="math inline">\((4, 3)\)</span> and <span class="math inline">\((1, 2)\)</span>: a parallelogram with sides <span class="math inline">\((3, 1)\T\)</span> and <span class="math inline">\((1, 2)\T\)</span>. Its area is <span class="math inline">\(3 \times 2 - 1 \times 1 = 5\)</span>.</p>
+<p><a href="../part-1/04-transformations.html#exercise-transformations-3" class="sol-link">Back to exercise 3</a></p>
+<p><span id="solution-transformations-4"><strong>4.</strong></span> Since <span class="math inline">\(\ui = (2, 1)\T - (1, 1)\T\)</span>, linearity gives <span class="math inline">\(\M{A}\ui = (4, 5)\T - (1, 3)\T = (3, 2)\T\)</span>. Since <span class="math inline">\(\uj = 2(1, 1)\T - (2, 1)\T\)</span>, we get <span class="math inline">\(\M{A}\uj = 2(1, 3)\T - (4, 5)\T = (-2, 1)\T\)</span>. So <span class="math display">\[\M{A} = \mat{3 &amp; -2 \\ 2 &amp; 1}.\]</span> Check: <span class="math inline">\(\M{A}(2, 1)\T = (4, 5)\T\)</span> ✓ and <span class="math inline">\(\M{A}(1, 1)\T = (1, 3)\T\)</span> ✓.</p>
+<p><a href="../part-1/04-transformations.html#exercise-transformations-4" class="sol-link">Back to exercise 4</a></p>
+<p><span id="solution-transformations-5"><strong>5.</strong></span> Using the angle subtraction formulas, <span class="math display">\[
+\mat{\cos 2\theta &amp; \sin 2\theta \\ \sin 2\theta &amp; -\cos 2\theta}\mat{\cos\theta \\ \sin\theta}
+= \mat{\cos 2\theta\cos\theta + \sin 2\theta\sin\theta \\ \sin 2\theta\cos\theta - \cos 2\theta\sin\theta}
+= \mat{\cos\theta \\ \sin\theta},
+\]</span> <span class="math display">\[
+\mat{\cos 2\theta &amp; \sin 2\theta \\ \sin 2\theta &amp; -\cos 2\theta}\mat{-\sin\theta \\ \cos\theta}
+= \mat{\sin 2\theta\cos\theta - \cos 2\theta\sin\theta \\ -\sin 2\theta\sin\theta - \cos 2\theta\cos\theta}
+= \mat{\sin\theta \\ -\cos\theta}.
+\]</span> So the matrix fixes the direction along the line at angle <span class="math inline">\(\theta\)</span> and reverses the perpendicular direction. The reflection in that line does exactly the same to these two vectors. A linear transformation is fixed by what it does to two non-parallel vectors (as in Exercise 4), so the matrix is that reflection.</p>
+<p><a href="../part-1/04-transformations.html#exercise-transformations-5" class="sol-link">Back to exercise 5</a></p>
+<p><span id="solution-transformations-6"><strong>6.</strong></span> The midpoint of the segment from <span class="math inline">\(\vect{p}\)</span> to <span class="math inline">\(\vect{q}\)</span> is <span class="math inline">\(\tfrac{1}{2}(\vect{p} + \vect{q})\)</span>. By linearity, <span class="math inline">\(\M{A}\left(\tfrac{1}{2}(\vect{p} + \vect{q})\right) = \tfrac{1}{2}(\M{A}\vect{p} + \M{A}\vect{q})\)</span>, the midpoint of the image segment.</p>
+<p><a href="../part-1/04-transformations.html#exercise-transformations-6" class="sol-link">Back to exercise 6</a></p>
+<p><span id="solution-transformations-7"><strong>7.</strong></span></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div id="39f8596d" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">0</span>], [<span class="fl">0.5</span>, <span class="dv">0</span>], [<span class="fl">0.5</span>, <span class="fl">0.85</span>], [<span class="fl">1.1</span>, <span class="fl">0.85</span>], [<span class="fl">1.1</span>, <span class="fl">1.3</span>], [<span class="fl">0.5</span>, <span class="fl">1.3</span>],</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>              [<span class="fl">0.5</span>, <span class="fl">1.75</span>], [<span class="fl">1.3</span>, <span class="fl">1.75</span>], [<span class="fl">1.3</span>, <span class="fl">2.2</span>], [<span class="dv">0</span>, <span class="fl">2.2</span>]]).T</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">8</span>):</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> np.radians(<span class="dv">45</span> <span class="op">*</span> k)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    R <span class="op">=</span> np.array([[np.cos(t), <span class="op">-</span>np.sin(t)], [np.sin(t), np.cos(t)]])</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    ax.fill(<span class="op">*</span>(R <span class="op">@</span> F), alpha<span class="op">=</span><span class="fl">0.25</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">"equal"</span>)<span class="op">;</span> ax.grid(alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="solutions-1_files/figure-html/cell-5-output-1.png" alt="Eight copies of the letter F, each rotated by a further 45 degrees about the origin, drawn as overlapping translucent shapes that form a pinwheel." width="415" height="414" class="figure-img"></p>
+<figcaption>The F shape rotated by multiples of 45°.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">F</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0.5</span> <span class="fl">0.5</span>  <span class="fl">1.1</span>  <span class="fl">1.1</span> <span class="fl">0.5</span> <span class="fl">0.5</span>  <span class="fl">1.3</span>  <span class="fl">1.3</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>     <span class="fl">0</span> <span class="fl">0</span>   <span class="fl">0.85</span> <span class="fl">0.85</span> <span class="fl">1.3</span> <span class="fl">1.3</span> <span class="fl">1.75</span> <span class="fl">1.75</span> <span class="fl">2.2</span> <span class="fl">2.2</span>]<span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span><span class="op">;</span> <span class="va">hold</span> <span class="va">on</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">7</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">R</span> <span class="op">=</span> [<span class="va">cosd</span>(<span class="fl">45</span><span class="op">*</span><span class="va">k</span>) <span class="op">-</span><span class="va">sind</span>(<span class="fl">45</span><span class="op">*</span><span class="va">k</span>)<span class="op">;</span> <span class="va">sind</span>(<span class="fl">45</span><span class="op">*</span><span class="va">k</span>) <span class="va">cosd</span>(<span class="fl">45</span><span class="op">*</span><span class="va">k</span>)]<span class="op">;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">G</span> <span class="op">=</span> <span class="va">R</span> <span class="op">*</span> <span class="va">F</span><span class="op">;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">fill</span>(<span class="va">G</span>(<span class="fl">1</span><span class="op">,:</span>)<span class="op">,</span> <span class="va">G</span>(<span class="fl">2</span><span class="op">,:</span>)<span class="op">,</span> <span class="va">rand</span>(<span class="fl">1</span><span class="op">,</span><span class="fl">3</span>)<span class="op">,</span> <span class="ss">'FaceAlpha'</span><span class="op">,</span> <span class="fl">0.25</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="va">axis</span> <span class="va">equal</span><span class="op">;</span> <span class="va">grid</span> <span class="va">on</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p><a href="../part-1/04-transformations.html#exercise-transformations-7" class="sol-link">Back to exercise 7</a></p>
+</section>
+<section id="sec-solutions-composition" class="level2" data-number="E.5">
+<h2 data-number="E.5" class="anchored" data-anchor-id="sec-solutions-composition"><span class="header-section-number">E.5</span> Composing transformations</h2>
+<p>Exercises from <a href="../part-1/05-composition.html" class="quarto-xref"><span>Chapter 5</span></a>.</p>
+<p><span id="solution-composition-1"><strong>1.</strong></span></p>
+<ol type="a">
+<li><p>A rotation by <span class="math inline">\(180°\)</span>: <span class="math display">\[\mat{-1 &amp; 0 \\ 0 &amp; 1}\mat{1 &amp; 0 \\ 0 &amp; -1} = \mat{-1 &amp; 0 \\ 0 &amp; -1}.\]</span></p></li>
+<li><p>A rotation by <span class="math inline">\(90°\)</span> combined with an enlargement by factor 3: <span class="math display">\[3\mat{0 &amp; -1 \\ 1 &amp; 0} = \mat{0 &amp; -3 \\ 3 &amp; 0}.\]</span></p></li>
+<li><p>A reflection in the <span class="math inline">\(y\)</span>-axis: <span class="math display">\[\mat{0 &amp; -1 \\ 1 &amp; 0}\mat{0 &amp; 1 \\ 1 &amp; 0} = \mat{-1 &amp; 0 \\ 0 &amp; 1}.\]</span></p></li>
+</ol>
+<p><a href="../part-1/05-composition.html#exercise-composition-1" class="sol-link">Back to exercise 1</a></p>
+<p><span id="solution-composition-2"><strong>2.</strong></span> <span class="math display">\[
+\M{A}\M{B} = \mat{5 &amp; 2 \\ 2 &amp; 1},
+\]</span> <span class="math display">\[
+\M{B}\M{A} = \mat{1 &amp; 2 \\ 2 &amp; 5}.
+\]</span> Under <span class="math inline">\(\M{A}\M{B}\)</span> the unit square goes to the parallelogram with corners <span class="math inline">\((0, 0)\)</span>, <span class="math inline">\((5, 2)\)</span>, <span class="math inline">\((7, 3)\)</span>, <span class="math inline">\((2, 1)\)</span>; under <span class="math inline">\(\M{B}\M{A}\)</span> to the one with corners <span class="math inline">\((0, 0)\)</span>, <span class="math inline">\((1, 2)\)</span>, <span class="math inline">\((3, 7)\)</span>, <span class="math inline">\((2, 5)\)</span>. These are mirror images of each other in the line <span class="math inline">\(y = x\)</span>, and both have area 1, since both shears have determinant 1.</p>
+<p><a href="../part-1/05-composition.html#exercise-composition-2" class="sol-link">Back to exercise 2</a></p>
+<p><span id="solution-composition-3"><strong>3.</strong></span> The first column of <span class="math inline">\(\M{R}(\theta)^2\)</span> is <span class="math display">\[(\cos^2\theta - \sin^2\theta,\; 2\sin\theta\cos\theta)\T,\]</span> and that of <span class="math inline">\(\M{R}(2\theta)\)</span> is <span class="math inline">\((\cos 2\theta, \sin 2\theta)\T\)</span>. So <span class="math display">\[
+\cos 2\theta = \cos^2\theta - \sin^2\theta,
+\]</span> <span class="math display">\[
+\sin 2\theta = 2\sin\theta\cos\theta.
+\]</span></p>
+<p><a href="../part-1/05-composition.html#exercise-composition-3" class="sol-link">Back to exercise 3</a></p>
+<p><span id="solution-composition-4"><strong>4.</strong></span> Writing <span class="math inline">\(c_\theta = \cos 2\theta\)</span>, <span class="math inline">\(s_\theta = \sin 2\theta\)</span> and similarly for <span class="math inline">\(\varphi\)</span>, the reflection in the <span class="math inline">\(\varphi\)</span> line comes first, so it goes on the right: <span class="math display">\[
+\mat{c_\theta &amp; s_\theta \\ s_\theta &amp; -c_\theta}\mat{c_\varphi &amp; s_\varphi \\ s_\varphi &amp; -c_\varphi}
+= \mat{c_\theta c_\varphi + s_\theta s_\varphi &amp; c_\theta s_\varphi - s_\theta c_\varphi \\ s_\theta c_\varphi - c_\theta s_\varphi &amp; s_\theta s_\varphi + c_\theta c_\varphi}
+= \mat{\cos 2(\theta - \varphi) &amp; -\sin 2(\theta - \varphi) \\ \sin 2(\theta - \varphi) &amp; \cos 2(\theta - \varphi)},
+\]</span> which is <span class="math inline">\(\M{R}(2(\theta - \varphi))\)</span>. When <span class="math inline">\(\theta = \varphi\)</span> it is <span class="math inline">\(\M{R}(0) = \M{I}\)</span>: reflecting twice in the same line changes nothing.</p>
+<p><a href="../part-1/05-composition.html#exercise-composition-4" class="sol-link">Back to exercise 4</a></p>
+<p><span id="solution-composition-5"><strong>5.</strong></span> <span class="math display">\[
+\mat{a &amp; -b \\ b &amp; a}\mat{c &amp; -d \\ d &amp; c} = \mat{ac - bd &amp; -(ad + bc) \\ ad + bc &amp; ac - bd}.
+\]</span> Swapping <span class="math inline">\((a, b)\)</span> with <span class="math inline">\((c, d)\)</span> gives the same result, so the matrices commute. Each is a rotation combined with an enlargement about the origin. Rotations about the same point commute, and enlargements commute with everything, so the combinations commute too. (This is the same calculation as multiplying the complex numbers <span class="math inline">\(a + bi\)</span> and <span class="math inline">\(c + di\)</span>.)</p>
+<p><a href="../part-1/05-composition.html#exercise-composition-5" class="sol-link">Back to exercise 5</a></p>
+<p><span id="solution-composition-6"><strong>6.</strong></span> <span class="math inline">\(\mat{0 &amp; -2 \\ 2 &amp; 0} = 2\M{R}(90°)\)</span>: a rotation by <span class="math inline">\(90°\)</span>, then an enlargement by 2. Since <span class="math inline">\(\sqrt{3^2 + (3\sqrt{3})^2} = 6\)</span>, the second matrix is <span class="math inline">\(6\mat{1/2 &amp; -\sqrt{3}/2 \\ \sqrt{3}/2 &amp; 1/2} = 6\M{R}(60°)\)</span>: a rotation by <span class="math inline">\(60°\)</span>, then an enlargement by 6.</p>
+<p><a href="../part-1/05-composition.html#exercise-composition-6" class="sol-link">Back to exercise 6</a></p>
+<p><span id="solution-composition-7"><strong>7.</strong></span></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<div id="42482157" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">3</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>A, B <span class="op">=</span> rng.standard_normal((<span class="dv">2</span>, <span class="dv">2</span>)), rng.standard_normal((<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.allclose((A <span class="op">@</span> B).T, B.T <span class="op">@</span> A.T))     <span class="co"># True</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.allclose(A <span class="op">@</span> B, B <span class="op">@</span> A))             <span class="co"># False (almost always)</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">2</span>]])</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">2</span>, <span class="dv">1</span>]])               <span class="co"># a candidate</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.allclose(S <span class="op">@</span> M, M <span class="op">@</span> S))             <span class="co"># True</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>True
+False
+True</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">randn</span>(<span class="fl">2</span>)<span class="op">;</span> <span class="va">B</span> <span class="op">=</span> <span class="va">randn</span>(<span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="va">norm</span>((<span class="va">A</span><span class="op">*</span><span class="va">B</span>)<span class="op">'</span> <span class="op">-</span> <span class="va">B</span><span class="op">'*</span><span class="va">A</span><span class="op">'</span>) <span class="op">&lt;</span> <span class="fl">1e-12</span>      <span class="co">% true</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="va">norm</span>(<span class="va">A</span><span class="op">*</span><span class="va">B</span> <span class="op">-</span> <span class="va">B</span><span class="op">*</span><span class="va">A</span>) <span class="op">&lt;</span> <span class="fl">1e-12</span>           <span class="co">% false (almost always)</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="va">S</span> <span class="op">=</span> [<span class="fl">2</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">1</span> <span class="fl">2</span>]<span class="op">;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="va">M</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span><span class="op">;</span> <span class="fl">2</span> <span class="fl">1</span>]<span class="op">;</span>                   <span class="co">% a candidate</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="va">isequal</span>(<span class="va">S</span><span class="op">*</span><span class="va">M</span><span class="op">,</span> <span class="va">M</span><span class="op">*</span><span class="va">S</span>)                 <span class="co">% true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p>Any matrix of the form <span class="math inline">\(\mat{a &amp; b \\ b &amp; a}\)</span> commutes with <span class="math inline">\(\mat{2 &amp; 1 \\ 1 &amp; 2}\)</span>. (These matrices all have the same invariant lines, <span class="math inline">\(y = x\)</span> and <span class="math inline">\(y = -x\)</span>, which <a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a> explains.)</p>
+<p><a href="../part-1/05-composition.html#exercise-composition-7" class="sol-link">Back to exercise 7</a></p>
+</section>
+<section id="sec-solutions-determinants" class="level2" data-number="E.6">
+<h2 data-number="E.6" class="anchored" data-anchor-id="sec-solutions-determinants"><span class="header-section-number">E.6</span> Determinants</h2>
+<p>Exercises from <a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a>.</p>
+<p><span id="solution-determinants-1"><strong>1.</strong></span></p>
+<ol type="a">
+<li><p><span class="math inline">\(5 \cdot 4 - 2 \cdot (-3) = 26\)</span>.</p></li>
+<li><p><span class="math inline">\(\cos^2\theta + \sin^2\theta = 1\)</span>: rotations preserve area.</p></li>
+<li><p>Along the first row: <span class="math inline">\(1(-2 - 4) - 0 + 2(12 - 0) = 18\)</span>.</p></li>
+<li><p>The matrix is lower triangular, so the determinant is <span class="math inline">\(2 \cdot (-1) \cdot 4 \cdot 3 = -24\)</span>.</p></li>
+</ol>
+<p><a href="../part-1/06-determinants.html#exercise-determinants-1" class="sol-link">Back to exercise 1</a></p>
+<p><span id="solution-determinants-2"><strong>2.</strong></span> The determinants are <span class="math inline">\(4 \cdot 3 - 1 \cdot 2 = 10\)</span> and <span class="math inline">\(0 \cdot 2 - 1 \cdot (-1) = 1\)</span>, so the area is <span class="math inline">\(10 \times 1 = 10\)</span>. Alternatively, the combined matrix is <span class="math inline">\(\mat{0 &amp; 1 \\ -1 &amp; 2}\mat{4 &amp; 1 \\ 2 &amp; 3} = \mat{2 &amp; 3 \\ 0 &amp; 5}\)</span>, with determinant 10.</p>
+<p><a href="../part-1/06-determinants.html#exercise-determinants-2" class="sol-link">Back to exercise 2</a></p>
+<p><span id="solution-determinants-3"><strong>3.</strong></span> <span class="math display">\[\det\mat{4 - \lambda &amp; 1 \\ 2 &amp; 3 - \lambda} = (4 - \lambda)(3 - \lambda) - 2 = \lambda^2 - 7\lambda + 10 = (\lambda - 2)(\lambda - 5),\]</span> so <span class="math inline">\(\lambda = 2\)</span> or <span class="math inline">\(\lambda = 5\)</span>.</p>
+<p><a href="../part-1/06-determinants.html#exercise-determinants-3" class="sol-link">Back to exercise 3</a></p>
+<p><span id="solution-determinants-4"><strong>4.</strong></span> Take out the factor 2 from row 1, then clear column 1 and reduce to triangular form: <span class="math display">\[
+2\begin{vmatrix} 1 &amp; 2 &amp; 3 \\ 1 &amp; 3 &amp; 5 \\ 3 &amp; 7 &amp; 12 \end{vmatrix}
+= 2\begin{vmatrix} 1 &amp; 2 &amp; 3 \\ 0 &amp; 1 &amp; 2 \\ 0 &amp; 1 &amp; 3 \end{vmatrix}
+= 2\begin{vmatrix} 1 &amp; 2 &amp; 3 \\ 0 &amp; 1 &amp; 2 \\ 0 &amp; 0 &amp; 1 \end{vmatrix} = 2.
+\]</span></p>
+<p><a href="../part-1/06-determinants.html#exercise-determinants-4" class="sol-link">Back to exercise 4</a></p>
+<p><span id="solution-determinants-5"><strong>5.</strong></span> Subtracting column 1 from columns 2 and 3 doesn’t change the determinant: <span class="math display">\[
+\begin{vmatrix} 1 &amp; 0 &amp; 0 \\ x &amp; y - x &amp; z - x \\ x^2 &amp; y^2 - x^2 &amp; z^2 - x^2 \end{vmatrix}
+= (y - x)(z^2 - x^2) - (z - x)(y^2 - x^2).
+\]</span> Taking out the common factor <span class="math inline">\((y - x)(z - x)\)</span> leaves <span class="math inline">\((z + x) - (y + x) = z - y\)</span>. The matrix is singular exactly when two of <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span> are equal.</p>
+<p><a href="../part-1/06-determinants.html#exercise-determinants-5" class="sol-link">Back to exercise 5</a></p>
+<p><span id="solution-determinants-6"><strong>6.</strong></span> <span class="math display">\[\det(\M{Q}\T\M{Q}) = \det(\M{Q}\T)\det\M{Q} = (\det\M{Q})^2,\]</span> and <span class="math inline">\(\det\M{I} = 1\)</span>, so <span class="math inline">\(\det\M{Q} = \pm 1\)</span>. The transformation preserves areas (or volumes): it is a rotation if <span class="math inline">\(\det\M{Q} = 1\)</span>, or includes a reflection if <span class="math inline">\(\det\M{Q} = -1\)</span>.</p>
+<p><a href="../part-1/06-determinants.html#exercise-determinants-6" class="sol-link">Back to exercise 6</a></p>
+<p><span id="solution-determinants-7"><strong>7.</strong></span> Place the parallelogram with corners <span class="math inline">\(\zerovec\)</span>, <span class="math inline">\((a, c)\)</span>, <span class="math inline">\((a + b, c + d)\)</span> and <span class="math inline">\((b, d)\)</span> inside the rectangle <span class="math inline">\([0, a + b] \times [0, c + d]\)</span>. The region outside the parallelogram is two triangles with legs <span class="math inline">\(a\)</span> and <span class="math inline">\(c\)</span> (total area <span class="math inline">\(ac\)</span>), two triangles with legs <span class="math inline">\(b\)</span> and <span class="math inline">\(d\)</span> (total area <span class="math inline">\(bd\)</span>), and two rectangles of size <span class="math inline">\(b \times c\)</span> (total <span class="math inline">\(2bc\)</span>). So the area is <span class="math display">\[
+(a + b)(c + d) - ac - bd - 2bc = ad - bc.
+\]</span></p>
+<p><a href="../part-1/06-determinants.html#exercise-determinants-7" class="sol-link">Back to exercise 7</a></p>
+<p><span id="solution-determinants-8"><strong>8.</strong></span></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<div id="b9697b83" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">50</span>]:</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    dets <span class="op">=</span> [<span class="bu">abs</span>(np.linalg.det(rng.uniform(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, (n, n)))) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">200</span>)]</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"n = </span><span class="sc">{</span>n<span class="sc">:2d}</span><span class="ss">: median |det| = </span><span class="sc">{</span>np<span class="sc">.</span>median(dets)<span class="sc">:.3g}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>n =  2: median |det| = 0.288
+n =  5: median |det| = 0.304
+n = 10: median |det| = 2.12
+n = 20: median |det| = 5.69e+03
+n = 50: median |det| = 2.73e+19</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">n</span> <span class="op">=</span> [<span class="fl">2</span> <span class="fl">5</span> <span class="fl">10</span> <span class="fl">20</span> <span class="fl">50</span>]</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">d</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="fl">200</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">200</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">d</span>(<span class="va">k</span>) <span class="op">=</span> <span class="va">abs</span>(<span class="va">det</span>(<span class="fl">2</span><span class="op">*</span><span class="va">rand</span>(<span class="va">n</span>) <span class="op">-</span> <span class="fl">1</span>))<span class="op">;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'n = %2d: median |det| = %.3g\n'</span><span class="op">,</span> <span class="va">n</span><span class="op">,</span> <span class="va">median</span>(<span class="va">d</span>))<span class="op">;</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p>The typical size grows enormously with <span class="math inline">\(n\)</span>, from about 0.3 to about <span class="math inline">\(10^{19}\)</span>, although the matrices are no closer to or further from being singular. A determinant multiplies together <span class="math inline">\(n\)</span> scale factors, so it depends on the size of the entries and on <span class="math inline">\(n\)</span>, not just on how close the matrix is to singular. The condition number (<a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>) measures nearness to singularity properly.</p>
+<p><a href="../part-1/06-determinants.html#exercise-determinants-8" class="sol-link">Back to exercise 8</a></p>
+</section>
+<section id="sec-solutions-inverses" class="level2" data-number="E.7">
+<h2 data-number="E.7" class="anchored" data-anchor-id="sec-solutions-inverses"><span class="header-section-number">E.7</span> Inverse matrices</h2>
+<p>Exercises from <a href="../part-1/07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a>.</p>
+<p><span id="solution-inverses-1"><strong>1.</strong></span></p>
+<ol type="a">
+<li><p><span class="math inline">\(\det = 1\)</span>, so the inverse is <span class="math inline">\(\mat{2 &amp; -5 \\ -1 &amp; 3}\)</span>.</p></li>
+<li><p><span class="math inline">\(\det = 4 - 4 = 0\)</span>: no inverse.</p></li>
+<li><p><span class="math inline">\(\det = -1\)</span>, and the inverse is <span class="math inline">\(\mat{0 &amp; 1 \\ 1 &amp; 0}\)</span> itself. This is the reflection in <span class="math inline">\(y = x\)</span>, which undoes itself.</p></li>
+<li><p><span class="math inline">\(\det = 1\)</span>, and the inverse is <span class="math inline">\(\mat{1 &amp; -k \\ 0 &amp; 1}\)</span>. This is a shear with factor <span class="math inline">\(k\)</span>, undone by the shear with factor <span class="math inline">\(-k\)</span>.</p></li>
+</ol>
+<p><a href="../part-1/07-inverses.html#exercise-inverses-1" class="sol-link">Back to exercise 1</a></p>
+<p><span id="solution-inverses-2"><strong>2.</strong></span> <span class="math inline">\(\vect{x} = \mat{2 &amp; -5 \\ -1 &amp; 3}\mat{4 \\ 1} = \mat{3 \\ -1}\)</span>, so <span class="math inline">\(x = 3\)</span> and <span class="math inline">\(y = -1\)</span>.</p>
+<p><a href="../part-1/07-inverses.html#exercise-inverses-2" class="sol-link">Back to exercise 2</a></p>
+<p><span id="solution-inverses-3"><strong>3.</strong></span> Expanding along the first row, <span class="math display">\[\det\M{A} = 2(1 - 0) - 0 + 1(3 - 0) = 5.\]</span> The cofactor matrix and its transpose, the adjugate, are <span class="math display">\[
+\mat{1 &amp; -1 &amp; 3 \\ 3 &amp; 2 &amp; -6 \\ -1 &amp; 1 &amp; 2}, \qquad
+\operatorname{adj}\M{A} = \mat{1 &amp; 3 &amp; -1 \\ -1 &amp; 2 &amp; 1 \\ 3 &amp; -6 &amp; 2},
+\]</span> so <span class="math inline">\(\M{A}^{-1} = \frac{1}{5}\mat{1 &amp; 3 &amp; -1 \\ -1 &amp; 2 &amp; 1 \\ 3 &amp; -6 &amp; 2}\)</span>. Check: row 1 of <span class="math inline">\(\M{A}\)</span> times column 1 of the adjugate is <span class="math inline">\(2 + 0 + 3 = 5\)</span>, and row 1 times column 2 is <span class="math inline">\(6 + 0 - 6 = 0\)</span>. ✓</p>
+<p><a href="../part-1/07-inverses.html#exercise-inverses-3" class="sol-link">Back to exercise 3</a></p>
+<p><span id="solution-inverses-4"><strong>4.</strong></span> <span class="math display">\[(\M{A}\M{B})(\M{B}^{-1}\M{A}^{-1}) = \M{A}(\M{B}\M{B}^{-1})\M{A}^{-1} = \M{A}\M{A}^{-1} = \M{I},\]</span> and for square matrices that is enough. Applying the rule twice, <span class="math inline">\((\M{A}\M{B}\M{C})^{-1} = \M{C}^{-1}\M{B}^{-1}\M{A}^{-1}\)</span>.</p>
+<p><a href="../part-1/07-inverses.html#exercise-inverses-4" class="sol-link">Back to exercise 4</a></p>
+<p><span id="solution-inverses-5"><strong>5.</strong></span> Rearranging, <span class="math inline">\(\M{A}(3\M{I} - \M{A}) = 3\M{A} - \M{A}^2 = 2\M{I}\)</span>, so <span class="math inline">\(\M{A} \cdot \tfrac{1}{2}(3\M{I} - \M{A}) = \M{I}\)</span>. Hence <span class="math inline">\(\M{A}\)</span> is invertible with <span class="math inline">\(\M{A}^{-1} = \tfrac{1}{2}(3\M{I} - \M{A})\)</span>.</p>
+<p><a href="../part-1/07-inverses.html#exercise-inverses-5" class="sol-link">Back to exercise 5</a></p>
+<p><span id="solution-inverses-6"><strong>6.</strong></span></p>
+<ol type="a">
+<li><p>Multiply on the right by <span class="math inline">\(\M{A}^{-1}\)</span>: <span class="math inline">\(\M{X} = \M{B}\M{A}^{-1}\)</span>.</p></li>
+<li><p><span class="math inline">\(\M{A}\M{X} = \M{C} - \M{B}\)</span>, so <span class="math inline">\(\M{X} = \M{A}^{-1}(\M{C} - \M{B})\)</span>.</p></li>
+<li><p>Multiply on the left by <span class="math inline">\(\M{A}^{-1}\)</span> and on the right by <span class="math inline">\(\M{A}\)</span>: <span class="math inline">\(\M{X} = \M{A}^{-1}\M{D}\M{A}\)</span>.</p></li>
+</ol>
+<p><a href="../part-1/07-inverses.html#exercise-inverses-6" class="sol-link">Back to exercise 6</a></p>
+<p><span id="solution-inverses-7"><strong>7.</strong></span></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<div id="fa3995b5" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> np.array([[<span class="dv">3</span>, <span class="dv">3</span>], [<span class="dv">2</span>, <span class="dv">5</span>]])</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>Kinv <span class="op">=</span> np.array([[<span class="dv">15</span>, <span class="dv">17</span>], [<span class="dv">20</span>, <span class="dv">9</span>]])</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>P <span class="op">=</span> np.array([[<span class="dv">7</span>, <span class="dv">11</span>], [<span class="dv">4</span>, <span class="dv">15</span>]])          <span class="co"># HELP: one pair per column</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> (K <span class="op">@</span> P) <span class="op">%</span> <span class="dv">26</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(C)                                  <span class="co"># (7, 8), (0, 19): HIAT</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>((K <span class="op">@</span> Kinv) <span class="op">%</span> <span class="dv">26</span>)                    <span class="co"># the identity, modulo 26</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>((Kinv <span class="op">@</span> C) <span class="op">%</span> <span class="dv">26</span>)                    <span class="co"># back to HELP</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[ 7  0]
+ [ 8 19]]
+[[1 0]
+ [0 1]]
+[[ 7 11]
+ [ 4 15]]</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="va">K</span> <span class="op">=</span> [<span class="fl">3</span> <span class="fl">3</span><span class="op">;</span> <span class="fl">2</span> <span class="fl">5</span>]<span class="op">;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="va">Kinv</span> <span class="op">=</span> [<span class="fl">15</span> <span class="fl">17</span><span class="op">;</span> <span class="fl">20</span> <span class="fl">9</span>]<span class="op">;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="va">P</span> <span class="op">=</span> [<span class="fl">7</span> <span class="fl">11</span><span class="op">;</span> <span class="fl">4</span> <span class="fl">15</span>]<span class="op">;</span>          <span class="co">% HELP: one pair per column</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="va">C</span> <span class="op">=</span> <span class="va">mod</span>(<span class="va">K</span> <span class="op">*</span> <span class="va">P</span><span class="op">,</span> <span class="fl">26</span>)         <span class="co">% (7, 8), (0, 19): HIAT</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="va">mod</span>(<span class="va">K</span> <span class="op">*</span> <span class="va">Kinv</span><span class="op">,</span> <span class="fl">26</span>)          <span class="co">% the identity, modulo 26</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="va">mod</span>(<span class="va">Kinv</span> <span class="op">*</span> <span class="va">C</span><span class="op">,</span> <span class="fl">26</span>)          <span class="co">% back to HELP</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>C =
+
+     7     0
+     8    19
+
+ans =
+
+     1     0
+     0     1
+
+ans =
+
+     7    11
+     4    15</code></pre>
+</div>
+</div>
+</div>
+<p>The ciphertext is HIAT.</p>
+<p><a href="../part-1/07-inverses.html#exercise-inverses-7" class="sol-link">Back to exercise 7</a></p>
+</section>
+<section id="sec-solutions-transformations-3d" class="level2" data-number="E.8">
+<h2 data-number="E.8" class="anchored" data-anchor-id="sec-solutions-transformations-3d"><span class="header-section-number">E.8</span> Transformations in three dimensions</h2>
+<p>Exercises from <a href="../part-1/08-transformations-3d.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
+<p><span id="solution-transformations-3d-1"><strong>1.</strong></span></p>
+<ol type="a">
+<li><p><span class="math inline">\(\M{R}_y(180°) = \mat{-1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; -1}\)</span>, determinant 1: a rotation, which preserves volume and orientation.</p></li>
+<li><p><span class="math inline">\(\mat{-1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1}\)</span>, determinant <span class="math inline">\(-1\)</span>: a reflection, which preserves volume but reverses orientation.</p></li>
+<li><p><span class="math inline">\(\mat{2 &amp; 0 &amp; 0 \\ 0 &amp; \tfrac{1}{2} &amp; 0 \\ 0 &amp; 0 &amp; 1}\)</span>, determinant 1: volumes are unchanged, although lengths and shapes change.</p></li>
+</ol>
+<p><a href="../part-1/08-transformations-3d.html#exercise-transformations-3d-1" class="sol-link">Back to exercise 1</a></p>
+<p><span id="solution-transformations-3d-2"><strong>2.</strong></span> <span class="math inline">\(\M{R}_x(90°)(2, -1, 4)\T = (2, -4, -1)\T\)</span> and <span class="math inline">\(\M{R}_y(90°)(2, -1, 4)\T = (4, -1, -2)\T\)</span>.</p>
+<p><a href="../part-1/08-transformations-3d.html#exercise-transformations-3d-2" class="sol-link">Back to exercise 2</a></p>
+<p><span id="solution-transformations-3d-3"><strong>3.</strong></span> Reflection in <span class="math inline">\(y = z\)</span> swaps the <span class="math inline">\(y\)</span>- and <span class="math inline">\(z\)</span>-coordinates: <span class="math inline">\(\mat{1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 0}\)</span>. Expanding along the first row, its determinant is <span class="math inline">\(1 \cdot (0 - 1) = -1\)</span>, and swapping twice gives back the original, so its square is <span class="math inline">\(\M{I}\)</span>.</p>
+<p><a href="../part-1/08-transformations-3d.html#exercise-transformations-3d-3" class="sol-link">Back to exercise 3</a></p>
+<p><span id="solution-transformations-3d-4"><strong>4.</strong></span> <span class="math inline">\(\M{P} = \mat{1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1}\)</span> and <span class="math inline">\(\M{R}_y(90°) = \mat{0 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 0 \\ -1 &amp; 0 &amp; 0}\)</span>. Both products are <span class="math display">\[
+\mat{0 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 0 \\ -1 &amp; 0 &amp; 0}.
+\]</span> A rotation about the <span class="math inline">\(y\)</span>-axis keeps the <span class="math inline">\(xz\)</span>-plane in place (it turns the plane within itself), and it does not change <span class="math inline">\(y\)</span>-coordinates. So it makes no difference whether you flatten onto the <span class="math inline">\(xz\)</span>-plane first and then turn the plane, or turn first and then flatten.</p>
+<p><a href="../part-1/08-transformations-3d.html#exercise-transformations-3d-4" class="sol-link">Back to exercise 4</a></p>
+<p><span id="solution-transformations-3d-5"><strong>5.</strong></span> Expanding along the bottom row, the determinant is <span class="math inline">\(1 \times \det\mat{1 &amp; 0 \\ 0 &amp; 1} = 1\)</span>. The shear adds <span class="math inline">\(k\)</span> times the height <span class="math inline">\(z\)</span> to <span class="math inline">\(x\)</span>, and leaves the height alone, so to undo it, subtract <span class="math inline">\(k\)</span> times the height: the inverse is <span class="math inline">\(\mat{1 &amp; 0 &amp; -k \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1}\)</span>. Multiplying the two gives <span class="math inline">\(\M{I}\)</span>.</p>
+<p><a href="../part-1/08-transformations-3d.html#exercise-transformations-3d-5" class="sol-link">Back to exercise 5</a></p>
+<p><span id="solution-transformations-3d-6"><strong>6.</strong></span></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<div id="327ec83c" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Rx(t):</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    c, s <span class="op">=</span> np.cos(t), np.sin(t)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array([[<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>], [<span class="dv">0</span>, c, <span class="op">-</span>s], [<span class="dv">0</span>, s, c]])</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Ry(t):</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    c, s <span class="op">=</span> np.cos(t), np.sin(t)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array([[c, <span class="dv">0</span>, s], [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>], [<span class="op">-</span>s, <span class="dv">0</span>, c]])</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Rz(t):</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    c, s <span class="op">=</span> np.cos(t), np.sin(t)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array([[c, <span class="op">-</span>s, <span class="dv">0</span>], [s, c, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>]])</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>psi, theta, phi <span class="op">=</span> np.radians([<span class="dv">30</span>, <span class="dv">10</span>, <span class="dv">5</span>])</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>R1 <span class="op">=</span> Rz(psi) <span class="op">@</span> Ry(theta) <span class="op">@</span> Rx(phi)</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>R2 <span class="op">=</span> Rx(phi) <span class="op">@</span> Ry(theta) <span class="op">@</span> Rz(psi)</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> R1.T <span class="op">@</span> R2</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>angle <span class="op">=</span> np.degrees(np.arccos((np.trace(M) <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> <span class="dv">2</span>))</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"The two orientations differ by </span><span class="sc">{</span>angle<span class="sc">:.2f}</span><span class="ss"> degrees"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The two orientations differ by 5.84 degrees</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="va">Rx</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">t</span>) [<span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span><span class="op">;</span> <span class="fl">0</span> <span class="va">cosd</span>(<span class="va">t</span>) <span class="op">-</span><span class="va">sind</span>(<span class="va">t</span>)<span class="op">;</span> <span class="fl">0</span> <span class="va">sind</span>(<span class="va">t</span>) <span class="va">cosd</span>(<span class="va">t</span>)]<span class="op">;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="va">Ry</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">t</span>) [<span class="va">cosd</span>(<span class="va">t</span>) <span class="fl">0</span> <span class="va">sind</span>(<span class="va">t</span>)<span class="op">;</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">0</span><span class="op">;</span> <span class="op">-</span><span class="va">sind</span>(<span class="va">t</span>) <span class="fl">0</span> <span class="va">cosd</span>(<span class="va">t</span>)]<span class="op">;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="va">Rz</span> <span class="op">=</span> <span class="op">@</span>(<span class="va">t</span>) [<span class="va">cosd</span>(<span class="va">t</span>) <span class="op">-</span><span class="va">sind</span>(<span class="va">t</span>) <span class="fl">0</span><span class="op">;</span> <span class="va">sind</span>(<span class="va">t</span>) <span class="va">cosd</span>(<span class="va">t</span>) <span class="fl">0</span><span class="op">;</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span>]<span class="op">;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="va">R1</span> <span class="op">=</span> <span class="va">Rz</span>(<span class="fl">30</span>) <span class="op">*</span> <span class="va">Ry</span>(<span class="fl">10</span>) <span class="op">*</span> <span class="va">Rx</span>(<span class="fl">5</span>)<span class="op">;</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="va">R2</span> <span class="op">=</span> <span class="va">Rx</span>(<span class="fl">5</span>) <span class="op">*</span> <span class="va">Ry</span>(<span class="fl">10</span>) <span class="op">*</span> <span class="va">Rz</span>(<span class="fl">30</span>)<span class="op">;</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="va">M</span> <span class="op">=</span> <span class="va">R1</span><span class="op">'</span> <span class="op">*</span> <span class="va">R2</span><span class="op">;</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'The two orientations differ by %.2f degrees\n'</span><span class="op">,</span> <span class="va">acosd</span>((<span class="va">trace</span>(<span class="va">M</span>) <span class="op">-</span> <span class="fl">1</span>) <span class="op">/</span> <span class="fl">2</span>))<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>The two orientations differ by 5.84 degrees</code></pre>
+</div>
+</div>
+</div>
+<p>A difference of almost <span class="math inline">\(6°\)</span>, from angles of only <span class="math inline">\(5°\)</span> to <span class="math inline">\(30°\)</span>, is easily enough to matter in navigation.</p>
+<p><a href="../part-1/08-transformations-3d.html#exercise-transformations-3d-6" class="sol-link">Back to exercise 6</a></p>
+</section>
+<section id="sec-solutions-invariant-lines" class="level2" data-number="E.9">
+<h2 data-number="E.9" class="anchored" data-anchor-id="sec-solutions-invariant-lines"><span class="header-section-number">E.9</span> Invariant points and lines</h2>
+<p>Exercises from <a href="../part-1/09-invariant-lines.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
+<p><span id="solution-invariant-lines-1"><strong>1.</strong></span></p>
+<ol type="a">
+<li><p><span class="math inline">\(b = 1\)</span>, <span class="math inline">\(a - d = 0\)</span>, <span class="math inline">\(c = 1\)</span>, so <span class="math inline">\(m^2 - 1 = 0\)</span> and <span class="math inline">\(m = \pm 1\)</span>. The line <span class="math inline">\(y = x\)</span> is invariant with <span class="math inline">\(\lambda = a + bm = 3\)</span>, since <span class="math inline">\((1, 1)\T \to (3, 3)\T\)</span>. The line <span class="math inline">\(y = -x\)</span> has <span class="math inline">\(\lambda = 2 - 1 = 1\)</span>: it is a line of invariant points, since <span class="math inline">\((1, -1)\T \to (1, -1)\T\)</span>. The <span class="math inline">\(y\)</span>-axis is not invariant, since <span class="math inline">\(b \neq 0\)</span>.</p></li>
+<li><p><span class="math inline">\(b = 0\)</span>, <span class="math inline">\(a - d = 0\)</span>, <span class="math inline">\(c = 3\)</span>, so <a href="../part-1/09-invariant-lines.html#eq-invariant-lines" class="quarto-xref">Equation&nbsp;<span>9.3</span></a> becomes <span class="math inline">\(-3 = 0\)</span>, which has no solutions: no line <span class="math inline">\(y = mx\)</span> is invariant. But <span class="math inline">\(b = 0\)</span>, so the <span class="math inline">\(y\)</span>-axis is invariant, with <span class="math inline">\(\lambda = d = 1\)</span>: <span class="math inline">\((0, 1)\T \to (0, 1)\T\)</span>, so it is a line of invariant points. This matrix is a shear parallel to the <span class="math inline">\(y\)</span>-axis, with <span class="math inline">\(y\)</span> increasing by <span class="math inline">\(3x\)</span>.</p></li>
+<li><p><span class="math inline">\(b = -1\)</span>, <span class="math inline">\(a - d = 0\)</span>, <span class="math inline">\(c = 1\)</span>, so <span class="math inline">\(-m^2 - 1 = 0\)</span>, which has no real solutions, and since <span class="math inline">\(b \neq 0\)</span> the <span class="math inline">\(y\)</span>-axis is not invariant either. There are no invariant lines: this is a rotation by <span class="math inline">\(90°\)</span>, which turns every line through the origin.</p></li>
+</ol>
+<p><a href="../part-1/09-invariant-lines.html#exercise-invariant-lines-1" class="sol-link">Back to exercise 1</a></p>
+<p><span id="solution-invariant-lines-2"><strong>2.</strong></span> <em>Invariant points.</em> <span class="math inline">\(\M{B} - \M{I} = \mat{2 &amp; -2 \\ 1 &amp; -1}\)</span>, so <span class="math inline">\((\M{B} - \M{I})\vect{x} = \zerovec\)</span> gives <span class="math inline">\(2x - 2y = 0\)</span> and <span class="math inline">\(x - y = 0\)</span>, both saying <span class="math inline">\(y = x\)</span>. The line <span class="math inline">\(y = x\)</span> is a line of invariant points.</p>
+<p><em>Invariant lines.</em> <span class="math inline">\(b = -2\)</span>, <span class="math inline">\(a - d = 3\)</span>, <span class="math inline">\(c = 1\)</span>, so <a href="../part-1/09-invariant-lines.html#eq-invariant-lines" class="quarto-xref">Equation&nbsp;<span>9.3</span></a> is <span class="math display">\[
+-2m^2 + 3m - 1 = 0 \quad\Longrightarrow\quad (2m - 1)(m - 1) = 0.
+\]</span> For <span class="math inline">\(m = 1\)</span>, <span class="math inline">\(\lambda = 3 - 2 = 1\)</span>: the line of invariant points found above. For <span class="math inline">\(m = \tfrac{1}{2}\)</span>, <span class="math inline">\(\lambda = 3 - 1 = 2\)</span>: the line <span class="math inline">\(y = \tfrac{1}{2}x\)</span> is invariant, with every point moved twice as far from the origin. Check: <span class="math inline">\(\M{B}(2, 1)\T = (4, 2)\T = 2(2, 1)\T\)</span>. The <span class="math inline">\(y\)</span>-axis is not invariant, since <span class="math inline">\(b \neq 0\)</span>.</p>
+<p><a href="../part-1/09-invariant-lines.html#exercise-invariant-lines-2" class="sol-link">Back to exercise 2</a></p>
+<p><span id="solution-invariant-lines-3"><strong>3.</strong></span> <span class="math inline">\((1, 0)\T \to (2, 0)\T\)</span> and <span class="math inline">\((0, 1)\T \to (0, 3)\T\)</span>, so the <span class="math inline">\(x\)</span>-axis is invariant with <span class="math inline">\(\lambda = 2\)</span> and the <span class="math inline">\(y\)</span>-axis with <span class="math inline">\(\lambda = 3\)</span>. (With <a href="../part-1/09-invariant-lines.html#eq-invariant-lines" class="quarto-xref">Equation&nbsp;<span>9.3</span></a>: <span class="math inline">\(b = 0\)</span>, so the equation is <span class="math inline">\(-m = 0\)</span>, giving <span class="math inline">\(m = 0\)</span>; and <span class="math inline">\(b = 0\)</span> makes the <span class="math inline">\(y\)</span>-axis invariant.) For invariant points, <span class="math inline">\(\mat{2 &amp; 0 \\ 0 &amp; 3} - \M{I} = \mat{1 &amp; 0 \\ 0 &amp; 2}\)</span> has determinant <span class="math inline">\(2 \neq 0\)</span>, so the only solution of <span class="math inline">\((\M{A} - \M{I})\vect{x} = \zerovec\)</span> is the origin.</p>
+<p><a href="../part-1/09-invariant-lines.html#exercise-invariant-lines-3" class="sol-link">Back to exercise 3</a></p>
+<p><span id="solution-invariant-lines-4"><strong>4.</strong></span> Here <span class="math inline">\(a = d = \cos\theta\)</span>, <span class="math inline">\(b = -\sin\theta\)</span> and <span class="math inline">\(c = \sin\theta\)</span>, so <a href="../part-1/09-invariant-lines.html#eq-invariant-lines" class="quarto-xref">Equation&nbsp;<span>9.3</span></a> is <span class="math display">\[
+-\sin\theta\, m^2 - \sin\theta = 0, \quad\text{that is}\quad \sin\theta\,(m^2 + 1) = 0.
+\]</span> Since <span class="math inline">\(m^2 + 1\)</span> is never 0, this needs <span class="math inline">\(\sin\theta = 0\)</span>. The <span class="math inline">\(y\)</span>-axis is invariant only when <span class="math inline">\(b = -\sin\theta = 0\)</span> too. So there are no invariant lines unless <span class="math inline">\(\sin\theta = 0\)</span>, that is, <span class="math inline">\(\theta = 0°\)</span> or <span class="math inline">\(180°\)</span>.</p>
+<p>For <span class="math inline">\(\theta = 0°\)</span> the matrix is <span class="math inline">\(\M{I}\)</span>: nothing moves, and every line is a line of invariant points. For <span class="math inline">\(\theta = 180°\)</span> the matrix is <span class="math inline">\(-\M{I}\)</span>: every line through the origin is invariant with <span class="math inline">\(\lambda = -1\)</span>, each point flipping to the opposite side of the origin, and only the origin itself is fixed.</p>
+<p><a href="../part-1/09-invariant-lines.html#exercise-invariant-lines-4" class="sol-link">Back to exercise 4</a></p>
+<p><span id="solution-invariant-lines-5"><strong>5.</strong></span> The image of <span class="math inline">\((x, y, z)\)</span> is <span class="math inline">\((x + kz, y, z)\)</span>. This equals <span class="math inline">\((x, y, z)\)</span> when <span class="math inline">\(kz = 0\)</span>, that is <span class="math inline">\(z = 0\)</span>. The <span class="math inline">\(xy\)</span>-plane is a plane of invariant points.</p>
+<p><a href="../part-1/09-invariant-lines.html#exercise-invariant-lines-5" class="sol-link">Back to exercise 5</a></p>
+<p><span id="solution-invariant-lines-6"><strong>6.</strong></span> Multiplying out gives <span class="math inline">\(\M{Q}\T\M{Q} = \tfrac{1}{9}\mat{9 &amp; 0 &amp; 0 \\ 0 &amp; 9 &amp; 0 \\ 0 &amp; 0 &amp; 9} = \M{I}\)</span>, and <span class="math inline">\(\det\M{Q} = 1\)</span>. The axis satisfies <span class="math inline">\((\M{Q} - \M{I})\vect{x} = \zerovec\)</span>, that is <span class="math display">\[
+-x - y + 2z = 0,
+\]</span> <span class="math display">\[
+2x - y - z = 0,
+\]</span> <span class="math display">\[
+-x + 2y - z = 0,
+\]</span> which give <span class="math inline">\(x = y = z\)</span>. The axis is the line through <span class="math inline">\((1, 1, 1)\)</span>. (The trace is <span class="math inline">\(2 = 1 + 2\cos\alpha\)</span>, so the rotation angle is <span class="math inline">\(60°\)</span>.)</p>
+<p><a href="../part-1/09-invariant-lines.html#exercise-invariant-lines-6" class="sol-link">Back to exercise 6</a></p>
+<p><span id="solution-invariant-lines-7"><strong>7.</strong></span></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
+<div id="056dce52" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">2</span>]])</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>values, vectors <span class="op">=</span> np.linalg.eig(A)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>values, vectors <span class="op">=</span> values.real, vectors.real</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> lam, v <span class="kw">in</span> <span class="bu">zip</span>(values, vectors.T):</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"lambda = </span><span class="sc">{</span>lam<span class="sc">:.4g}</span><span class="ss">, slope </span><span class="sc">{</span>v[<span class="dv">1</span>] <span class="op">/</span> v[<span class="dv">0</span>]<span class="sc">:.4g}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lambda = -1, slope -1
+lambda = 4, slope 1.5</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span><span class="op">;</span> <span class="fl">3</span> <span class="fl">2</span>]<span class="op">;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">V</span><span class="op">,</span> <span class="va">D</span>] <span class="op">=</span> <span class="va">eig</span>(<span class="va">A</span>)<span class="op">;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="va">lambda</span> <span class="op">=</span> <span class="va">diag</span>(<span class="va">D</span>)<span class="op">'</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="va">slopes</span> <span class="op">=</span> <span class="va">V</span>(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>) <span class="op">./</span> <span class="va">V</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>lambda =
+
+  -1   4
+
+slopes =
+
+  -1.0000   1.5000</code></pre>
+</div>
+</div>
+</div>
+<p>The invariant lines are <span class="math inline">\(y = -x\)</span> with <span class="math inline">\(\lambda = -1\)</span> and <span class="math inline">\(y = \tfrac{3}{2}x\)</span> with <span class="math inline">\(\lambda = 4\)</span>. By hand, <span class="math inline">\(b = 2\)</span>, <span class="math inline">\(a - d = -1\)</span>, <span class="math inline">\(c = 3\)</span>, so <a href="../part-1/09-invariant-lines.html#eq-invariant-lines" class="quarto-xref">Equation&nbsp;<span>9.3</span></a> is <span class="math inline">\(2m^2 - m - 3 = 0\)</span>, that is <span class="math inline">\((2m - 3)(m + 1) = 0\)</span>, giving the same slopes. The stretch factors are <span class="math inline">\(a + bm = 1 + 2 \times (-1) = -1\)</span> and <span class="math inline">\(1 + 2 \times \tfrac{3}{2} = 4\)</span>.</p>
+<p>On <span class="math inline">\(y = -x\)</span>, the stretch factor <span class="math inline">\(-1\)</span> means each point flips to the opposite side of the origin, at the same distance: <span class="math inline">\((1, -1)\T \to (-1, 1)\T\)</span>. The line lands on itself, but only the origin stays put.</p>
+<p><a href="../part-1/09-invariant-lines.html#exercise-invariant-lines-7" class="sol-link">Back to exercise 7</a></p>
+</section>
+<section id="sec-solutions-review-1" class="level2" data-number="E.10">
+<h2 data-number="E.10" class="anchored" data-anchor-id="sec-solutions-review-1"><span class="header-section-number">E.10</span> Part I review</h2>
+<p>Exercises from the <a href="../part-1/review.html">Part I review</a>.</p>
+<p><span id="solution-review-1-1"><strong>1.</strong></span> <em>Uses <a href="../part-1/03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a>, <a href="../part-1/04-transformations.html" class="quarto-xref"><span>Chapter 4</span></a> and <a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a>.</em></p>
+<ol type="a">
+<li><span class="math inline">\(\M{B}\)</span> sends <span class="math inline">\(\ui\)</span> to <span class="math inline">\((0, -1)\)</span> and <span class="math inline">\(\uj\)</span> to <span class="math inline">\((1, 0)\)</span>: it is a rotation through <span class="math inline">\(90^\circ\)</span> clockwise about the origin.</li>
+<li><span class="math display">\[\M{A}\M{B} = \mat{-1 &amp; 2 \\ -3 &amp; 1}, \qquad \M{B}\M{A} = \mat{1 &amp; 3 \\ -2 &amp; -1}.\]</span> They are not equal: rotating then applying <span class="math inline">\(\M{A}\)</span> is different from applying <span class="math inline">\(\M{A}\)</span> then rotating.</li>
+<li><span class="math inline">\(\det\M{A} = 6 - 1 = 5\)</span> and <span class="math inline">\(\det\M{B} = 0 + 1 = 1\)</span>, while <span class="math inline">\(\det(\M{A}\M{B}) = -1 + 6 = 5 = 5 \times 1\)</span>. (<span class="math inline">\(\det(\M{B}\M{A})\)</span> is also 5, even though <span class="math inline">\(\M{B}\M{A} \neq \M{A}\M{B}\)</span>.)</li>
+</ol>
+<p><a href="../part-1/review.html#exercise-review-1-1" class="sol-link">Back to exercise 1</a></p>
+<p><span id="solution-review-1-2"><strong>2.</strong></span> <em>Uses <a href="../part-1/04-transformations.html" class="quarto-xref"><span>Chapter 4</span></a> and <a href="../part-1/05-composition.html" class="quarto-xref"><span>Chapter 5</span></a>.</em> The reflection is <span class="math inline">\(\M{Y} = \mat{-1 &amp; 0 \\ 0 &amp; 1}\)</span> and the rotation is <span class="math inline">\(\M{R} = \mat{0 &amp; -1 \\ 1 &amp; 0}\)</span>. The reflection happens first, so it goes on the right: <span class="math display">\[\M{R}\M{Y} = \mat{0 &amp; -1 \\ -1 &amp; 0}.\]</span> This sends <span class="math inline">\(\ui\)</span> to <span class="math inline">\(-\uj\)</span> and <span class="math inline">\(\uj\)</span> to <span class="math inline">\(-\ui\)</span>, and leaves <span class="math inline">\((1, -1)\)</span> where it is: it is a reflection in the line <span class="math inline">\(y = -x\)</span>. In the other order, <span class="math display">\[\M{Y}\M{R} = \mat{0 &amp; 1 \\ 1 &amp; 0},\]</span> which is a reflection in <span class="math inline">\(y = x\)</span>.</p>
+<p><a href="../part-1/review.html#exercise-review-1-2" class="sol-link">Back to exercise 2</a></p>
+<p><span id="solution-review-1-3"><strong>3.</strong></span> <em>Uses <a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a>.</em> The parallelogram is spanned by <span class="math inline">\(\vect{OP} = (3, 1)\)</span> and <span class="math inline">\(\vect{OR} = (1, 2)\)</span>, so its area is <span class="math display">\[\left|\det\mat{3 &amp; 1 \\ 1 &amp; 2}\right| = 6 - 1 = 5.\]</span> <span class="math inline">\(\det\M{M} = 2 + 1 = 3\)</span>, so the image has area <span class="math inline">\(3 \times 5 = 15\)</span>. The determinant is positive, so the orientation is kept: going round <span class="math inline">\(O, P, Q, R\)</span> and round their images is in the same direction.</p>
+<p><a href="../part-1/review.html#exercise-review-1-3" class="sol-link">Back to exercise 3</a></p>
+<p><span id="solution-review-1-4"><strong>4.</strong></span> <em>Uses <a href="../part-1/02-arithmetic.html" class="quarto-xref"><span>Chapter 2</span></a>, <a href="../part-1/03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a> and <a href="../part-1/07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a>.</em> Subtract <span class="math inline">\(\M{I}\)</span> from both sides: <span class="math inline">\(\M{A}\M{X} = \M{C} - \M{I} = \mat{3 &amp; 1 \\ 8 &amp; 3}\)</span>. <span class="math inline">\(\det\M{A} = 6 - 5 = 1\)</span>, so <span class="math inline">\(\M{A}^{-1} = \mat{3 &amp; -1 \\ -5 &amp; 2}\)</span>. Multiply both sides <em>on the left</em> by <span class="math inline">\(\M{A}^{-1}\)</span>: <span class="math display">\[\M{X} = \M{A}^{-1}(\M{C} - \M{I}) = \mat{3 &amp; -1 \\ -5 &amp; 2}\mat{3 &amp; 1 \\ 8 &amp; 3} = \mat{1 &amp; 0 \\ 1 &amp; 1}.\]</span> Check: <span class="math inline">\(\M{A}\M{X} = \mat{3 &amp; 1 \\ 8 &amp; 3}\)</span>. In <span class="math inline">\(\M{A}\M{X}\)</span>, <span class="math inline">\(\M{A}\)</span> is on the left of <span class="math inline">\(\M{X}\)</span>, so <span class="math inline">\(\M{A}^{-1}\)</span> has to go on the left to cancel it. Matrix multiplication is not commutative, and <span class="math inline">\((\M{C} - \M{I})\M{A}^{-1} = \mat{4 &amp; -1 \\ 9 &amp; -2}\)</span> is a different matrix.</p>
+<p><a href="../part-1/review.html#exercise-review-1-4" class="sol-link">Back to exercise 4</a></p>
+<p><span id="solution-review-1-5"><strong>5.</strong></span> <em>Uses <a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a> and <a href="../part-1/08-transformations-3d.html" class="quarto-xref"><span>Chapter 8</span></a>.</em> Expanding along the first row, <span class="math display">\[\det\M{M} = 1(0 - k) - 2(0 - 2) + k(0 - 2) = 4 - 3k,\]</span> so <span class="math inline">\(\M{M}\)</span> is singular when <span class="math inline">\(k = 4/3\)</span>. Then the volume scale factor is 0: the unit cube is flattened onto a plane through the origin (here a plane, because the first two rows, and so two of the columns, are not parallel). Different points end up in the same place, so the transformation cannot be undone.</p>
+<p><a href="../part-1/review.html#exercise-review-1-5" class="sol-link">Back to exercise 5</a></p>
+<p><span id="solution-review-1-6"><strong>6.</strong></span> <em>Uses <a href="../part-1/09-invariant-lines.html" class="quarto-xref"><span>Chapter 9</span></a>.</em> For the line <span class="math inline">\(y = mx\)</span>, the point <span class="math inline">\((x, mx)\)</span> goes to <span class="math inline">\((3x + mx, 2mx)\)</span>. This is on <span class="math inline">\(y = mx\)</span> when <span class="math inline">\(2mx = m(3 + m)x\)</span>, that is <span class="math inline">\(m^2 + m = 0\)</span>, so <span class="math inline">\(m = 0\)</span> or <span class="math inline">\(m = -1\)</span>. The <span class="math inline">\(y\)</span>-axis is not invariant, since <span class="math inline">\((0, 1)\)</span> goes to <span class="math inline">\((1, 2)\)</span>. So the invariant lines through the origin are <span class="math inline">\(y = 0\)</span> and <span class="math inline">\(y = -x\)</span>.</p>
+<p>Points on <span class="math inline">\(y = 0\)</span> are moved to three times as far from the origin, since <span class="math inline">\((x, 0) \mapsto (3x, 0)\)</span>, and points on <span class="math inline">\(y = -x\)</span> twice as far, since <span class="math inline">\((x, -x) \mapsto (2x, -2x)\)</span>. So neither is a line of invariant points: only the origin stays put.</p>
+<p><a href="../part-1/review.html#exercise-review-1-6" class="sol-link">Back to exercise 6</a></p>
+<p><span id="solution-review-1-7"><strong>7.</strong></span> <em>Uses <a href="../part-1/08-transformations-3d.html" class="quarto-xref"><span>Chapter 8</span></a> and <a href="../part-1/05-composition.html" class="quarto-xref"><span>Chapter 5</span></a>.</em> The rotation about <span class="math inline">\(z\)</span> comes first, so it goes on the right: <span class="math display">\[
+\M{R} = \M{R}_x\M{R}_z = \mat{1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; -1 \\ 0 &amp; 1 &amp; 0}\mat{0 &amp; -1 &amp; 0 \\ 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1} = \mat{0 &amp; -1 &amp; 0 \\ 0 &amp; 0 &amp; -1 \\ 1 &amp; 0 &amp; 0}.
+\]</span> Then <span class="math inline">\(\M{R}(1, -1, 1)\T = (1, -1, 1)\T\)</span>, so every point on the line through the origin and <span class="math inline">\((1, -1, 1)\)</span> stays put, and that line is the axis. The trace is <span class="math inline">\(0 + 0 + 0 = 0 = 1 + 2\cos\alpha\)</span>, so <span class="math inline">\(\cos\alpha = -\tfrac{1}{2}\)</span> and the angle is <span class="math inline">\(120^\circ\)</span>. Two quarter turns about different axes make a third of a turn about a new axis.</p>
+<p><a href="../part-1/review.html#exercise-review-1-7" class="sol-link">Back to exercise 7</a></p>
+<p><span id="solution-review-1-8"><strong>8.</strong></span> <em>Uses <a href="../part-1/01-matrices.html" class="quarto-xref"><span>Chapter 1</span></a> and <a href="../part-1/03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a>.</em> <span class="math display">\[
+\M{A}\T\M{A} = \mat{2 &amp; 2 \\ 2 &amp; 5}, \qquad
+\M{A}\M{A}\T = \mat{5 &amp; 2 &amp; 1 \\ 2 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 1}.
+\]</span> <span class="math inline">\(\M{A}\T\M{A}\)</span> is <span class="math inline">\(2 \times 2\)</span> and <span class="math inline">\(\M{A}\M{A}\T\)</span> is <span class="math inline">\(3 \times 3\)</span>. For any <span class="math inline">\(\M{A}\)</span>, <span class="math inline">\((\M{A}\T\M{A})\T = \M{A}\T(\M{A}\T)\T = \M{A}\T\M{A}\)</span>, using <span class="math inline">\((\M{P}\M{Q})\T = \M{Q}\T\M{P}\T\)</span>, so <span class="math inline">\(\M{A}\T\M{A}\)</span> equals its own transpose. The same argument works for <span class="math inline">\(\M{A}\M{A}\T\)</span>.</p>
+<p><a href="../part-1/review.html#exercise-review-1-8" class="sol-link">Back to exercise 8</a></p>
+<p><span id="solution-review-1-9"><strong>9.</strong></span> <em>Uses <a href="../part-1/07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a> and <a href="../part-1/05-composition.html" class="quarto-xref"><span>Chapter 5</span></a>.</em></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-10-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-1" role="tab" aria-controls="tabset-10-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-10-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-2" role="tab" aria-controls="tabset-10-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
+<div id="f276650f" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">1</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> rng.standard_normal((<span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> rng.standard_normal((<span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>inv <span class="op">=</span> np.linalg.inv</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"(AB)^-1 = B^-1 A^-1:"</span>, np.allclose(inv(A <span class="op">@</span> B), inv(B) <span class="op">@</span> inv(A)))</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"(AB)^-1 = A^-1 B^-1:"</span>, np.allclose(inv(A <span class="op">@</span> B), inv(A) <span class="op">@</span> inv(B)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(AB)^-1 = B^-1 A^-1: True
+(AB)^-1 = A^-1 B^-1: False</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-10-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-10-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="va">rng</span>(<span class="fl">1</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> <span class="va">randn</span>(<span class="fl">4</span>)<span class="op">;</span>  <span class="va">B</span> <span class="op">=</span> <span class="va">randn</span>(<span class="fl">4</span>)<span class="op">;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'(AB)^-1 = B^-1 A^-1: %d\n'</span><span class="op">,</span> <span class="va">norm</span>(<span class="va">inv</span>(<span class="va">A</span><span class="op">*</span><span class="va">B</span>) <span class="op">-</span> <span class="va">inv</span>(<span class="va">B</span>)<span class="op">*</span><span class="va">inv</span>(<span class="va">A</span>)) <span class="op">&lt;</span> <span class="fl">1e-10</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'(AB)^-1 = A^-1 B^-1: %d\n'</span><span class="op">,</span> <span class="va">norm</span>(<span class="va">inv</span>(<span class="va">A</span><span class="op">*</span><span class="va">B</span>) <span class="op">-</span> <span class="va">inv</span>(<span class="va">A</span>)<span class="op">*</span><span class="va">inv</span>(<span class="va">B</span>)) <span class="op">&lt;</span> <span class="fl">1e-10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>(AB)^-1 = B^-1 A^-1: 1
+(AB)^-1 = A^-1 B^-1: 0</code></pre>
+</div>
+</div>
+</div>
+<p><span class="math inline">\(\M{A}\M{B}\)</span> applies <span class="math inline">\(\M{B}\)</span> first and then <span class="math inline">\(\M{A}\)</span>. To undo this, undo the last step first: apply <span class="math inline">\(\M{A}^{-1}\)</span>, then <span class="math inline">\(\M{B}^{-1}\)</span>, which is the matrix <span class="math inline">\(\M{B}^{-1}\M{A}^{-1}\)</span>. It’s like taking off shoes and socks: the shoes, which went on last, come off first.</p>
+<p><a href="../part-1/review.html#exercise-review-1-9" class="sol-link">Back to exercise 9</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../appendices/matrix-calculus-identities.html" class="pagination-link" aria-label="Matrix calculus identities">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Matrix calculus identities</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../appendices/solutions-2.html" class="pagination-link" aria-label="Solutions: Part II">
+        <span class="nav-page-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions: Part II</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2026 Tom Goodale. Text and figures licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; code licensed under the <a href="https://trgoodale.github.io/matrix-book/LICENSE.md">MIT licence</a>.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/appendices/solutions-1.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
