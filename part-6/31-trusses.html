@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1134,7 +1134,7 @@ Figure&nbsp;31.1: Left: a member from joint <span class="math inline">\(i\)</spa
 <p>At each joint, the sum of the member forces, the reactions and the applied load <span class="math inline">\(\vect{p}\)</span> is zero. Collecting all the unknown member forces and reactions into one vector <span class="math inline">\(\vect{f}\)</span>, the <span class="math inline">\(2j\)</span> equations for <span class="math inline">\(j\)</span> joints form a linear system <span class="math display">\[
 \M{A}\vect{f} = -\vect{p},
 \]</span> where <span class="math inline">\(\vect{p}\)</span> lists the applied loads, joint by joint. Column <span class="math inline">\(k\)</span> of the <strong>equilibrium matrix</strong> <span class="math inline">\(\M{A}\)</span> shows where unknown <span class="math inline">\(k\)</span> pushes or pulls: a member’s column holds <span class="math inline">\(\vect{e}\)</span> in the rows of joint <span class="math inline">\(i\)</span> and <span class="math inline">\(-\vect{e}\)</span> in the rows of joint <span class="math inline">\(j\)</span>, and a reaction’s column holds a single 1.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-trusses-1" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1161,6 +1161,7 @@ Figure&nbsp;31.2: The triangular truss of Example 1: members <span class="math i
 =
 \mat{0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 10}.
 \]</span> The last two rows (joint 3) give <span class="math inline">\(N_b = N_c\)</span> and <span class="math inline">\(N_b + N_c = -10\sqrt{2}\)</span>, so <span class="math inline">\(N_b = N_c = -5\sqrt{2} \approx -7.07\)</span> kN: both sloping members are in compression. Row 3 then gives <span class="math inline">\(N_a = -N_c/\sqrt{2} = 5\)</span> kN, in tension: the bottom member ties the feet together. Finally <span class="math inline">\(R_{1x} = 0\)</span>, <span class="math inline">\(R_{1y} = 5\)</span> and <span class="math inline">\(R_{2y} = 5\)</span> kN: each support carries half the load, as symmetry demands. Here <span class="math inline">\(m + r = 3 + 3 = 6 = 2j\)</span>, and the matrix is invertible, so these are the only forces that balance the load: the next section calls such a truss determinate.</p>
+<p><a href="../apps/truss-solver.html?preset=Triangle&amp;kN=10" target="_blank" aria-label="Open this truss in the truss solver (opens in a new tab)">Open this truss in the truss solver</a> to check the member forces and reactions.</p>
 </div>
 </div>
 </section>
@@ -1173,7 +1174,7 @@ Figure&nbsp;31.2: The triangular truss of Example 1: members <span class="math i
 <li>If <span class="math inline">\(\M{A}\)</span> has rank <span class="math inline">\(2j\)</span> but <span class="math inline">\(m + r &gt; 2j\)</span>, every load can be balanced, but in infinitely many ways: the null space of <span class="math inline">\(\M{A}\)</span> contains sets of member forces that balance each other with no load at all (<strong>self-stress</strong>). The truss is <strong>statically indeterminate</strong>, with <span class="math inline">\(m + r - 2j\)</span> <strong>redundant</strong> members. To find which forces actually occur, we need to know how the members stretch.</li>
 </ul>
 <p>The simplest stable shape is the triangle. Adding a joint connected by two new members to a triangle keeps the count <span class="math inline">\(m + r = 2j\)</span>, which is why trusses are built from triangles.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-trusses-2" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1211,7 +1212,7 @@ Figure&nbsp;31.3: Example 2. Left: the square can lean over (dashed) without any
 <p>Each member contributes a <span class="math inline">\(4 \times 4\)</span> block, <span class="math display">\[
 \frac{EA}{L}\mat{\vect{e}\vect{e}\T &amp; -\vect{e}\vect{e}\T \\ -\vect{e}\vect{e}\T &amp; \vect{e}\vect{e}\T},
 \]</span> to the rows and columns of its two joints, so <span class="math inline">\(\M{K}\)</span> can be assembled member by member.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-trusses-3" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1266,7 +1267,7 @@ N_A = N_C = \frac{EA}{\sqrt{2}} \cdot \frac{10}{1.707\,EA} \cdot \frac{1}{\sqrt{
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="9f8db1c7" class="cell" data-execution_count="1">
+<div id="019d2707" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> truss(P, members, supports, loads):</span>
@@ -1427,6 +1428,7 @@ member 7-2:   14.14 kN</code></pre>
 </section>
 <section id="sec-trusses-exercises" class="level2" data-number="31.7">
 <h2 data-number="31.7" class="anchored" data-anchor-id="sec-trusses-exercises"><span class="header-section-number">31.7</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-trusses-1"></span>A joint at the origin hangs from pins at <span class="math inline">\((-3, 4)\)</span> and <span class="math inline">\((3, 4)\)</span> by two members, and carries a load of 12 kN downwards. Find the member forces, first by resolving forces by hand and then by setting up and solving <span class="math inline">\(\M{A}\vect{f} = -\vect{p}\)</span>.</p>
 <p><a href="../appendices/solutions-6.html#solution-trusses-1" class="sol-link">Solution to exercise 1</a></p></li>
@@ -1436,7 +1438,7 @@ member 7-2:   14.14 kN</code></pre>
 <p><a href="../appendices/solutions-6.html#solution-trusses-3" class="sol-link">Solution to exercise 3</a></p></li>
 <li><p><span id="exercise-trusses-4"></span>In the Pratt bridge with the load at the middle of the bottom chord, the three verticals carry no force. Explain why, by looking at the vertical equilibrium of a suitable joint at one end of each vertical.</p>
 <p><a href="../appendices/solutions-6.html#solution-trusses-4" class="sol-link">Solution to exercise 4</a></p></li>
-<li><p><span id="exercise-trusses-5"></span>Show that the equilibrium equations at the free joints are <span class="math inline">\(\M{B}\T\vect{N} = \vect{p}\)</span>, where <span class="math inline">\(\M{B}\)</span> is the matrix that gives member extensions from joint displacements. (<em>Hint</em>: write down row <span class="math inline">\(k\)</span> of <span class="math inline">\(\M{B}\)</span>, and compare it with column <span class="math inline">\(k\)</span> of the equilibrium matrix.)</p>
+<li><p><span id="exercise-trusses-5"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Show that the equilibrium equations at the free joints are <span class="math inline">\(\M{B}\T\vect{N} = \vect{p}\)</span>, where <span class="math inline">\(\M{B}\)</span> is the matrix that gives member extensions from joint displacements. (<em>Hint</em>: write down row <span class="math inline">\(k\)</span> of <span class="math inline">\(\M{B}\)</span>, and compare it with column <span class="math inline">\(k\)</span> of the equilibrium matrix.)</p>
 <p><a href="../appendices/solutions-6.html#solution-trusses-5" class="sol-link">Solution to exercise 5</a></p></li>
 <li><p><span id="exercise-trusses-6"></span>In Example 3, the middle bar is replaced by one twice as stiff (twice <span class="math inline">\(EA\)</span>). Find the new bar forces, and check equilibrium.</p>
 <p><a href="../appendices/solutions-6.html#solution-trusses-6" class="sol-link">Solution to exercise 6</a></p></li>

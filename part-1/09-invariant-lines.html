@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1373,7 +1373,7 @@ m^2 + m - 2 = 0 \quad\Longrightarrow\quad (m - 1)(m + 2) = 0,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="906eaf14" class="cell" data-execution_count="3">
+<div id="1404a5ee" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">3</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">2</span>]])</span>
@@ -1508,6 +1508,7 @@ ans =
 </section>
 <section id="sec-invariant-lines-exercises" class="level2" data-number="9.6">
 <h2 data-number="9.6" class="anchored" data-anchor-id="sec-invariant-lines-exercises"><span class="header-section-number">9.6</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-invariant-lines-1"></span>Find the invariant lines through the origin, the stretch factor along each, and any lines of invariant points, for</p>
 <ol type="a">
@@ -1521,11 +1522,11 @@ ans =
 <p><a href="../appendices/solutions-1.html#solution-invariant-lines-2" class="sol-link">Solution to exercise 2</a></p></li>
 <li><p><span id="exercise-invariant-lines-3"></span>Show that the stretch <span class="math inline">\(\mat{2 &amp; 0 \\ 0 &amp; 3}\)</span> has the two axes as invariant lines, and that its only invariant point is the origin.</p>
 <p><a href="../appendices/solutions-1.html#solution-invariant-lines-3" class="sol-link">Solution to exercise 3</a></p></li>
-<li><p><span id="exercise-invariant-lines-4"></span>Show that the rotation by <span class="math inline">\(\theta\)</span> about the origin, <span class="math inline">\(\mat{\cos\theta &amp; -\sin\theta \\ \sin\theta &amp; \cos\theta}\)</span>, has no invariant lines unless <span class="math inline">\(\theta = 0°\)</span> or <span class="math inline">\(180°\)</span>. What happens in those two cases? (<em>Hint</em>: a line through the origin along <span class="math inline">\(\vect{v}\)</span> is invariant only if <span class="math inline">\(\M{A}\vect{v}\)</span> points along the same line as <span class="math inline">\(\vect{v}\)</span>. A rotation turns every vector through <span class="math inline">\(\theta\)</span>; when does that leave it on the same line?)</p>
+<li><p><span id="exercise-invariant-lines-4"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Show that the rotation by <span class="math inline">\(\theta\)</span> about the origin, <span class="math inline">\(\mat{\cos\theta &amp; -\sin\theta \\ \sin\theta &amp; \cos\theta}\)</span>, has no invariant lines unless <span class="math inline">\(\theta = 0°\)</span> or <span class="math inline">\(180°\)</span>. What happens in those two cases? (<em>Hint</em>: a line through the origin along <span class="math inline">\(\vect{v}\)</span> is invariant only if <span class="math inline">\(\M{A}\vect{v}\)</span> points along the same line as <span class="math inline">\(\vect{v}\)</span>. A rotation turns every vector through <span class="math inline">\(\theta\)</span>; when does that leave it on the same line?)</p>
 <p><a href="../appendices/solutions-1.html#solution-invariant-lines-4" class="sol-link">Solution to exercise 4</a></p></li>
 <li><p><span id="exercise-invariant-lines-5"></span>Show that the shear <span class="math inline">\(\mat{1 &amp; 0 &amp; k \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1}\)</span> with <span class="math inline">\(k \neq 0\)</span> has a plane of invariant points, and find it. (<em>Hint</em>: an invariant point satisfies <span class="math inline">\(\M{A}\vect{x} = \vect{x}\)</span>, that is <span class="math inline">\((\M{A} - \M{I})\vect{x} = \zerovec\)</span>.)</p>
 <p><a href="../appendices/solutions-1.html#solution-invariant-lines-5" class="sol-link">Solution to exercise 5</a></p></li>
-<li><p><span id="exercise-invariant-lines-6"></span>The matrix <span class="math inline">\(\M{Q} = \frac{1}{3}\mat{2 &amp; -1 &amp; 2 \\ 2 &amp; 2 &amp; -1 \\ -1 &amp; 2 &amp; 2}\)</span> is a rotation. Check that <span class="math inline">\(\M{Q}\T\M{Q} = \M{I}\)</span> and <span class="math inline">\(\det\M{Q} = 1\)</span>, and find its axis.</p>
+<li><p><span id="exercise-invariant-lines-6"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> The matrix <span class="math inline">\(\M{Q} = \frac{1}{3}\mat{2 &amp; -1 &amp; 2 \\ 2 &amp; 2 &amp; -1 \\ -1 &amp; 2 &amp; 2}\)</span> is a rotation. Check that <span class="math inline">\(\M{Q}\T\M{Q} = \M{I}\)</span> and <span class="math inline">\(\det\M{Q} = 1\)</span>, and find its axis.</p>
 <p><a href="../appendices/solutions-1.html#solution-invariant-lines-6" class="sol-link">Solution to exercise 6</a></p></li>
 <li><p><span id="exercise-invariant-lines-7"></span><strong>Code.</strong> Use eigenvalues and eigenvectors to find the invariant lines of <span class="math inline">\(\mat{1 &amp; 2 \\ 3 &amp; 2}\)</span>, and the stretch factor along each. Check your answer with <a href="#eq-invariant-lines" class="quarto-xref">Equation&nbsp;<span>9.3</span></a>, and then with the app. What does the negative stretch factor mean for the points on that line?</p>
 <p><a href="../appendices/solutions-1.html#solution-invariant-lines-7" class="sol-link">Solution to exercise 7</a></p></li>

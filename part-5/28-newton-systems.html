@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1300,7 +1300,7 @@ Figure&nbsp;28.2: The two solutions of Example 2. Newton’s method from <span c
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="12f7ce44" class="cell" data-execution_count="1">
+<div id="b75d8822" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> fsolve</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1416,6 +1416,7 @@ x =
 </section>
 <section id="sec-newton-systems-exercises" class="level2" data-number="28.6">
 <h2 data-number="28.6" class="anchored" data-anchor-id="sec-newton-systems-exercises"><span class="header-section-number">28.6</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-newton-systems-1"></span>Take two steps of Newton’s method for <span class="math inline">\(x^2 + y^2 = 1\)</span>, <span class="math inline">\(y = x^2\)</span>, starting from <span class="math inline">\((1, 1)\)</span>.</p>
 <p><a href="../appendices/solutions-5.html#solution-newton-systems-1" class="sol-link">Solution to exercise 1</a></p></li>
@@ -1427,7 +1428,7 @@ x =
 <p><a href="../appendices/solutions-5.html#solution-newton-systems-4" class="sol-link">Solution to exercise 4</a></p></li>
 <li><p><span id="exercise-newton-systems-5"></span>Newton’s method is applied to <span class="math inline">\(f(x) = x^2\)</span>, whose root 0 is a double root. Show that each step halves the error, so convergence is only linear.</p>
 <p><a href="../appendices/solutions-5.html#solution-newton-systems-5" class="sol-link">Solution to exercise 5</a></p></li>
-<li><p><span id="exercise-newton-systems-6"></span>To minimise a smooth function <span class="math inline">\(g(\vect{x})\)</span>, we can solve <span class="math inline">\(\nabla g = \zerovec\)</span> by Newton’s method. Show that the Jacobian of <span class="math inline">\(\nabla g\)</span> is the Hessian <span class="math inline">\(\M{H}\)</span> (<a href="../part-4/22-matrix-calculus.html" class="quarto-xref"><span>Chapter 22</span></a>), and write down the step. What happens when <span class="math inline">\(g\)</span> is a quadratic <span class="math inline">\(\tfrac{1}{2}\vect{x}\T\M{A}\vect{x} - \vect{b}\T\vect{x}\)</span>?</p>
+<li><p><span id="exercise-newton-systems-6"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> To minimise a smooth function <span class="math inline">\(g(\vect{x})\)</span>, we can solve <span class="math inline">\(\nabla g = \zerovec\)</span> by Newton’s method. Show that the Jacobian of <span class="math inline">\(\nabla g\)</span> is the Hessian <span class="math inline">\(\M{H}\)</span> (<a href="../part-4/22-matrix-calculus.html" class="quarto-xref"><span>Chapter 22</span></a>), and write down the step. What happens when <span class="math inline">\(g\)</span> is a quadratic <span class="math inline">\(\tfrac{1}{2}\vect{x}\T\M{A}\vect{x} - \vect{b}\T\vect{x}\)</span>?</p>
 <p><a href="../appendices/solutions-5.html#solution-newton-systems-6" class="sol-link">Solution to exercise 6</a></p></li>
 <li><p><span id="exercise-newton-systems-7"></span><strong>Code.</strong> Write a Newton solver that approximates the Jacobian by finite differences, and use it to find all the intersections of <span class="math inline">\(x^2 + 4y^2 = 4\)</span> and <span class="math inline">\(y = \sin(2x)\)</span>. Try several starting points, and compare the number of steps needed with the exact-Jacobian version.</p>
 <p><a href="../appendices/solutions-5.html#solution-newton-systems-7" class="sol-link">Solution to exercise 7</a></p></li>

@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1287,7 +1287,7 @@ Figure&nbsp;21.1: The unit circle under <span class="math inline">\(\M{A} = \M{U
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="9c8e1039" class="cell" data-execution_count="1">
+<div id="3238e163" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">3</span>, <span class="dv">0</span>], [<span class="dv">4</span>, <span class="dv">5</span>]])</span>
@@ -1455,6 +1455,7 @@ explained =
 </section>
 <section id="sec-svd-pca-exercises" class="level2" data-number="21.6">
 <h2 data-number="21.6" class="anchored" data-anchor-id="sec-svd-pca-exercises"><span class="header-section-number">21.6</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-svd-pca-1"></span>Find the singular values of <span class="math inline">\(\mat{1 &amp; 1 \\ 0 &amp; 0}\)</span>, and describe what the matrix does to the unit circle.</p>
 <p><a href="../appendices/solutions-4.html#solution-svd-pca-1" class="sol-link">Solution to exercise 1</a></p></li>
@@ -1466,7 +1467,7 @@ explained =
 <p><a href="../appendices/solutions-4.html#solution-svd-pca-4" class="sol-link">Solution to exercise 4</a></p></li>
 <li><p><span id="exercise-svd-pca-5"></span>Explain why, for a square matrix, <span class="math inline">\(\lvert\det\M{A}\rvert = \sigma_1\sigma_2\cdots\sigma_n\)</span>.</p>
 <p><a href="../appendices/solutions-4.html#solution-svd-pca-5" class="sol-link">Solution to exercise 5</a></p></li>
-<li><p><span id="exercise-svd-pca-6"></span>Find the pseudoinverse of <span class="math inline">\(\M{A} = \mat{1 &amp; 1 \\ 1 &amp; 1}\)</span>, and use it to find the shortest least-squares solution of <span class="math inline">\(\M{A}\vect{x} = (1, 3)\T\)</span>.</p>
+<li><p><span id="exercise-svd-pca-6"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Find the pseudoinverse of <span class="math inline">\(\M{A} = \mat{1 &amp; 1 \\ 1 &amp; 1}\)</span>, and use it to find the shortest least-squares solution of <span class="math inline">\(\M{A}\vect{x} = (1, 3)\T\)</span>.</p>
 <p><a href="../appendices/solutions-4.html#solution-svd-pca-6" class="sol-link">Solution to exercise 6</a></p></li>
 <li><p><span id="exercise-svd-pca-7"></span><strong>Code.</strong> Generate data for 200 people with two closely related measurements, for example with <code>rng = np.random.default_rng(1)</code>, <code>h = rng.normal(170, 10, 200)</code> (heights in cm) and <code>s = h + rng.normal(0, 4, 200)</code> (arm spans in cm). Find the principal components and the fraction of the variance explained by each, and interpret the first component.</p>
 <p><a href="../appendices/solutions-4.html#solution-svd-pca-7" class="sol-link">Solution to exercise 7</a></p></li>

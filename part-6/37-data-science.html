@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1135,7 +1135,7 @@ y \approx \beta_0 + \beta_1x_1 + \beta_2x_2 + \dots + \beta_px_p.
 \]</span> (<a href="../part-3/17-orthogonality-least-squares.html" class="quarto-xref"><span>Chapter 17</span></a>), or more accurately by QR (<a href="../part-5/30-qr-least-squares.html" class="quarto-xref"><span>Chapter 30</span></a>), which is what statistical software does. The fitted values are <span class="math inline">\(\hat{\vect{y}} = \M{X}\hat{\vect{\beta}}\)</span>, the projection of <span class="math inline">\(\vect{y}\)</span> onto the column space of <span class="math inline">\(\M{X}\)</span>. How well the model fits is summarised by the <strong>coefficient of determination</strong> <span class="math display">\[
 R^2 = 1 - \frac{\lVert\vect{y} - \hat{\vect{y}}\rVert^2}{\lVert\vect{y} - \bar{y}\vect{1}\rVert^2},
 \]</span> the fraction of the variation in <span class="math inline">\(y\)</span> that the model explains. Statistical theory adds a measure of the uncertainty in each coefficient, its <strong>standard error</strong>, which is proportional to the square root of the corresponding diagonal entry of <span class="math inline">\((\M{X}\T\M{X})^{-1}\)</span>.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-data-science-1" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1193,7 +1193,7 @@ R^2 = 1 - \frac{\lVert\vect{y} - \hat{\vect{y}}\rVert^2}{\lVert\vect{y} - \bar{y
 <li>a large condition number of <span class="math inline">\(\M{X}\)</span> (after scaling its columns to comparable sizes).</li>
 </ul>
 <p>This is <strong>collinearity</strong> (or multicollinearity). The fitted values <span class="math inline">\(\hat{\vect{y}}\)</span> are still fine, since the column space is still well defined; it is the individual coefficients that become unreliable, and with them any story about which variable “matters”. The remedies are to drop or combine variables, to collect data that separate them, or to use <strong>ridge regression</strong> (<a href="../part-4/22-matrix-calculus.html" class="quarto-xref"><span>Chapter 22</span></a>, exercise 6), which adds <span class="math inline">\(\mu\M{I}\)</span> to <span class="math inline">\(\M{X}\T\M{X}\)</span>.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-data-science-2" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1254,7 +1254,7 @@ R^2 = 1 - \frac{\lVert\vect{y} - \hat{\vect{y}}\rVert^2}{\lVert\vect{y} - \bar{y
 <li><strong>Choose how many components to keep</strong>, typically enough to explain 80–95% of the variance, or where a plot of the explained variance against the component number (a <strong>scree plot</strong>) levels off.</li>
 </ul>
 <p>Then interpret the <strong>loadings</strong>, the entries of each principal component vector, which say how much each original variable contributes; and plot the <strong>scores</strong>, each item’s coordinates along the first two components.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-data-science-3" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1328,7 +1328,7 @@ Figure&nbsp;37.1: The 150 iris flowers plotted by their scores on the first two 
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="b3d2c31c" class="cell" data-execution_count="2">
+<div id="bbc10d4b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.genfromtxt(<span class="st">"../data/iris.csv"</span>, delimiter<span class="op">=</span><span class="st">","</span>, skip_header<span class="op">=</span><span class="dv">1</span>, usecols<span class="op">=</span><span class="bu">range</span>(<span class="dv">4</span>))</span>
@@ -1468,12 +1468,13 @@ ans =
 </section>
 <section id="sec-data-science-exercises" class="level2" data-number="37.7">
 <h2 data-number="37.7" class="anchored" data-anchor-id="sec-data-science-exercises"><span class="header-section-number">37.7</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-data-science-1"></span>Fit a straight line <span class="math inline">\(y \approx \beta_0 + \beta_1x\)</span> to the points <span class="math inline">\((1, 1)\)</span>, <span class="math inline">\((2, 3)\)</span>, <span class="math inline">\((3, 4)\)</span> and <span class="math inline">\((4, 4)\)</span> by forming and solving the normal equations, and find <span class="math inline">\(R^2\)</span>.</p>
 <p><a href="../appendices/solutions-6.html#solution-data-science-1" class="sol-link">Solution to exercise 1</a></p></li>
 <li><p><span id="exercise-data-science-2"></span>In Example 1, a third variable <span class="math inline">\(x_3 = x_1 + x_2\)</span> is added to the model. What happens to <span class="math inline">\(\M{X}\T\M{X}\)</span>, and why can’t the coefficients be found any more? What would happen if <span class="math inline">\(x_3\)</span> were <span class="math inline">\(x_1 + x_2\)</span> plus a little measurement noise?</p>
 <p><a href="../appendices/solutions-6.html#solution-data-science-2" class="sol-link">Solution to exercise 2</a></p></li>
-<li><p><span id="exercise-data-science-3"></span>Show that if the columns of the design matrix are orthogonal, the least-squares coefficient of each variable is <span class="math inline">\(\hat\beta_j = (\vect{x}_j \cdot \vect{y})/(\vect{x}_j \cdot \vect{x}_j)\)</span>, the same whether or not the other variables are included.</p>
+<li><p><span id="exercise-data-science-3"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Show that if the columns of the design matrix are orthogonal, the least-squares coefficient of each variable is <span class="math inline">\(\hat\beta_j = (\vect{x}_j \cdot \vect{y})/(\vect{x}_j \cdot \vect{x}_j)\)</span>, the same whether or not the other variables are included.</p>
 <p><a href="../appendices/solutions-6.html#solution-data-science-3" class="sol-link">Solution to exercise 3</a></p></li>
 <li><p><span id="exercise-data-science-4"></span>Show that the residuals <span class="math inline">\(\vect{y} - \M{X}\hat{\vect{\beta}}\)</span> of a model with an intercept add up to zero.</p>
 <p><a href="../appendices/solutions-6.html#solution-data-science-4" class="sol-link">Solution to exercise 4</a></p></li>

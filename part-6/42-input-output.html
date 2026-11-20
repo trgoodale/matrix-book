@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1336,7 +1336,7 @@ Figure&nbsp;42.2: The extra output, by sector, in each round of knock-on demand 
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="b0fe88f3" class="cell" data-execution_count="2">
+<div id="41a2c64c" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">0.10</span>, <span class="fl">0.05</span>, <span class="fl">0.02</span>], [<span class="fl">0.20</span>, <span class="fl">0.35</span>, <span class="fl">0.10</span>], [<span class="fl">0.10</span>, <span class="fl">0.20</span>, <span class="fl">0.25</span>]])</span>
@@ -1460,6 +1460,7 @@ total =
 </section>
 <section id="sec-input-output-exercises" class="level2" data-number="42.7">
 <h2 data-number="42.7" class="anchored" data-anchor-id="sec-input-output-exercises"><span class="header-section-number">42.7</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-input-output-1"></span>In Example 1, final demand for manufactured goods rises by £10 billion, with no change for agriculture. By how much must each sector’s output rise?</p>
 <p><a href="../appendices/solutions-6.html#solution-input-output-1" class="sol-link">Solution to exercise 1</a></p></li>
@@ -1467,13 +1468,13 @@ total =
 <p><a href="../appendices/solutions-6.html#solution-input-output-2" class="sol-link">Solution to exercise 2</a></p></li>
 <li><p><span id="exercise-input-output-3"></span>A two-sector economy has <span class="math inline">\(\M{A} = \mat{0.5 &amp; 0.7 \\ 0.6 &amp; 0.4}\)</span>. Find the output needed to meet final demand <span class="math inline">\(\vect{d} = (10, 10)\)</span>. What is wrong with the answer, and what do the column sums of <span class="math inline">\(\M{A}\)</span> show?</p>
 <p><a href="../appendices/solutions-6.html#solution-input-output-3" class="sol-link">Solution to exercise 3</a></p></li>
-<li><p><span id="exercise-input-output-4"></span><strong>Prices.</strong> Let <span class="math inline">\(p_j\)</span> be the price of sector <span class="math inline">\(j\)</span>’s product per unit, and <span class="math inline">\(v_j\)</span> the value added (wages and profits) per unit of output. A sector’s price must cover the inputs it buys and its value added: <span class="math inline">\(p_j = \sum_i a_{ij}p_i + v_j\)</span>, that is <span class="math inline">\(\vect{p} = \M{A}\T\vect{p} + \vect{v}\)</span>.</p>
+<li><p><span id="exercise-input-output-4"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> <strong>Prices.</strong> Let <span class="math inline">\(p_j\)</span> be the price of sector <span class="math inline">\(j\)</span>’s product per unit, and <span class="math inline">\(v_j\)</span> the value added (wages and profits) per unit of output. A sector’s price must cover the inputs it buys and its value added: <span class="math inline">\(p_j = \sum_i a_{ij}p_i + v_j\)</span>, that is <span class="math inline">\(\vect{p} = \M{A}\T\vect{p} + \vect{v}\)</span>.</p>
 <ol type="a">
 <li>In Example 1, with <span class="math inline">\(v_j = 1 - \sum_i a_{ij}\)</span>, show that <span class="math inline">\(\vect{p} = (1, 1)\)</span>.</li>
 <li>Wages in agriculture rise, so that <span class="math inline">\(v_1\)</span> rises by 0.1. Find the change in both prices, using <span class="math inline">\((\M{I} - \M{A}\T)^{-1} = \M{L}\T\)</span>.</li>
 </ol>
 <p><a href="../appendices/solutions-6.html#solution-input-output-4" class="sol-link">Solution to exercise 4</a></p></li>
-<li><p><span id="exercise-input-output-5"></span>Show that <span class="math inline">\((\M{I} - \M{A})(\M{I} + \M{A} + \M{A}^2 + \dots + \M{A}^k) = \M{I} - \M{A}^{k+1}\)</span>. Explain why, if <span class="math inline">\(\M{A}^{k} \to \M{0}\)</span> as <span class="math inline">\(k \to \infty\)</span>, the series <span class="math inline">\(\M{I} + \M{A} + \M{A}^2 + \cdots\)</span> converges to <span class="math inline">\((\M{I} - \M{A})^{-1}\)</span>. (<em>Hint</em>: multiply out the left-hand side: almost every term cancels with its neighbour.)</p>
+<li><p><span id="exercise-input-output-5"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Show that <span class="math inline">\((\M{I} - \M{A})(\M{I} + \M{A} + \M{A}^2 + \dots + \M{A}^k) = \M{I} - \M{A}^{k+1}\)</span>. Explain why, if <span class="math inline">\(\M{A}^{k} \to \M{0}\)</span> as <span class="math inline">\(k \to \infty\)</span>, the series <span class="math inline">\(\M{I} + \M{A} + \M{A}^2 + \cdots\)</span> converges to <span class="math inline">\((\M{I} - \M{A})^{-1}\)</span>. (<em>Hint</em>: multiply out the left-hand side: almost every term cancels with its neighbour.)</p>
 <p><a href="../appendices/solutions-6.html#solution-input-output-5" class="sol-link">Solution to exercise 5</a></p></li>
 <li><p><span id="exercise-input-output-6"></span>In Example 2, each £1 million of output supports 10 jobs in agriculture, 5 in manufacturing and 15 in services. How many jobs, in total, does £1 million of extra final demand for each product support? Which product supports the most?</p>
 <p><a href="../appendices/solutions-6.html#solution-input-output-6" class="sol-link">Solution to exercise 6</a></p></li>

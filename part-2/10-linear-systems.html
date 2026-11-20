@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1393,7 +1393,7 @@ a &amp;= c \quad\text{(carbon)} \\
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="b5f71ab3" class="cell" data-execution_count="2">
+<div id="865e85b9" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">0.6</span>, <span class="fl">0.8</span>, <span class="fl">0.5</span>],</span>
@@ -1410,7 +1410,7 @@ a &amp;= c \quad\text{(carbon)} \\
 </div>
 </div>
 <p>When <span class="math inline">\(\det\M{A} = 0\)</span>, <code>np.linalg.solve</code> stops with an error rather than guess:</p>
-<div id="893fd877" class="cell" data-execution_count="3">
+<div id="069f51c7" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A2 <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>b2 <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -1422,7 +1422,7 @@ a &amp;= c \quad\text{(carbon)} \\
 </div>
 </div>
 <p>To tell “no solution” from “infinitely many”, compare the <strong>rank</strong> of <span class="math inline">\(\M{A}\)</span> with the rank of the augmented matrix. The rank counts the genuinely independent equations (<a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a> explains it fully). If adding <span class="math inline">\(\vect{b}\)</span> increases the rank, <span class="math inline">\(\vect{b}\)</span> brings in an equation that contradicts the others, and there is no solution:</p>
-<div id="ec57b12b" class="cell" data-execution_count="4">
+<div id="c614d11d" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Ab2 <span class="op">=</span> np.column_stack([A2, b2])          <span class="co"># the augmented matrix [A | b]</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.matrix_rank(A2), np.linalg.matrix_rank(Ab2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1526,6 +1526,7 @@ ans =
 </section>
 <section id="sec-linear-systems-exercises" class="level2" data-number="10.6">
 <h2 data-number="10.6" class="anchored" data-anchor-id="sec-linear-systems-exercises"><span class="header-section-number">10.6</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-linear-systems-1"></span>Write this system as <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span> and as an augmented matrix: <span class="math display">\[
 \begin{aligned}
@@ -1554,7 +1555,7 @@ x_1 + x_2 + x_3 &amp;= 0 \\
 <p><a href="../appendices/solutions-2.html#solution-linear-systems-5" class="sol-link">Solution to exercise 5</a></p></li>
 <li><p><span id="exercise-linear-systems-6"></span>Propane (<span class="math inline">\(\mathrm{C_3H_8}\)</span>), the gas in camping stoves, burns to give carbon dioxide and water. Balance <span class="math inline">\(a\,\mathrm{C_3H_8} + b\,\mathrm{O_2} \to c\,\mathrm{CO_2} + d\,\mathrm{H_2O}\)</span> with the smallest whole numbers.</p>
 <p><a href="../appendices/solutions-2.html#solution-linear-systems-6" class="sol-link">Solution to exercise 6</a></p></li>
-<li><p><span id="exercise-linear-systems-7"></span>Describe in words, or with a sketch, how three planes can be arranged so that the system has (a) exactly one solution, (b) infinitely many solutions forming a line, (c) infinitely many solutions forming a plane, (d) no solution, in as many different ways as you can.</p>
+<li><p><span id="exercise-linear-systems-7"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Describe in words, or with a sketch, how three planes can be arranged so that the system has (a) exactly one solution, (b) infinitely many solutions forming a line, (c) infinitely many solutions forming a plane, (d) no solution, in as many different ways as you can.</p>
 <p><a href="../appendices/solutions-2.html#solution-linear-systems-7" class="sol-link">Solution to exercise 7</a></p></li>
 <li><p><span id="exercise-linear-systems-8"></span><strong>Code.</strong> In Example 1, find the mixture for a new alloy of 100 kg containing 65 kg of copper, 20 kg of zinc and 15 kg of tin. Then try 55 kg of copper, 30 kg of zinc and 15 kg of tin. What goes wrong, and what does it mean for the workshop?</p>
 <p><a href="../appendices/solutions-2.html#solution-linear-systems-8" class="sol-link">Solution to exercise 8</a></p></li>

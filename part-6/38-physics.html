@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1119,7 +1119,7 @@ window.Quarto = {
 \M{I} = \sum_k m_k\left(\lVert\vect{r}_k\rVert^2\M{I}_3 - \vect{r}_k\vect{r}_k\T\right),
 \]</span> where <span class="math inline">\(\M{I}_3\)</span> is the <span class="math inline">\(3 \times 3\)</span> identity. The <strong>inertia tensor</strong> <span class="math inline">\(\M{I}\)</span> is symmetric and positive semidefinite. Its diagonal entries are the familiar <strong>moments of inertia</strong> about the axes, such as <span class="math inline">\(I_{xx} = \sum m(y^2 + z^2)\)</span>; its off-diagonal entries, the <strong>products of inertia</strong> such as <span class="math inline">\(I_{xy} = -\sum mxy\)</span>, measure how unbalanced the body is.</p>
 <p>Because <span class="math inline">\(\M{I}\)</span> is symmetric, the spectral theorem (<a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>) says that it has three perpendicular eigenvectors: the <strong>principal axes</strong>. About a principal axis, <span class="math inline">\(\vect{L} = \lambda\vect{\omega}\)</span> is parallel to <span class="math inline">\(\vect{\omega}\)</span>, and the body spins smoothly; the eigenvalues are the <strong>principal moments of inertia</strong>. About any other axis, <span class="math inline">\(\vect{L}\)</span> and <span class="math inline">\(\vect{\omega}\)</span> point different ways, and keeping the body spinning about that axis needs a constantly changing torque, felt as vibration. Balancing a car wheel means adding small weights to make its axle a principal axis.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-physics-1" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1156,7 +1156,7 @@ Figure&nbsp;38.1: The dumbbell of Example 1, spinning about the <span class="mat
 \qquad
 \M{\Omega}\vect{r} = \vect{\omega} \times \vect{r}.
 \]</span> So the angular velocity vector is hidden in the three independent entries of a skew-symmetric matrix, and <span class="math inline">\(\dot{\M{R}} = \M{\Omega}\M{R}\)</span>. For a constant <span class="math inline">\(\vect{\omega}\)</span>, this is a linear differential equation with solution <span class="math inline">\(\M{R}(t) = e^{\M{\Omega}t}\M{R}(0)\)</span> (<a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>): <strong>the exponential of a skew-symmetric matrix is a rotation</strong>. Gyroscopes in phones and aircraft measure <span class="math inline">\(\vect{\omega}\)</span>, and navigation software integrates this equation to track orientation.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-physics-2" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1193,7 +1193,7 @@ Figure&nbsp;38.1: The dumbbell of Example 1, spinning about the <span class="mat
 \qquad
 \M{\sigma}_z = \mat{1 &amp; 0 \\ 0 &amp; -1},
 \]</span> each with eigenvalues <span class="math inline">\(+1\)</span> and <span class="math inline">\(-1\)</span>: a measurement of spin along any axis gives only “up” or “down”, never anything in between. The three matrices don’t commute, and so they have no common eigenvectors: a state can’t have a definite spin along <span class="math inline">\(x\)</span> and along <span class="math inline">\(z\)</span> at once. That is the uncertainty principle, in its simplest form, and it is a statement about matrices.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-physics-3" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1267,7 +1267,7 @@ Figure&nbsp;38.2: Rabi oscillation: the probability of finding the spin up along
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="c3aa2985" class="cell" data-execution_count="2">
+<div id="16c6e626" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1403,10 +1403,11 @@ ans =
 </section>
 <section id="sec-physics-exercises" class="level2" data-number="38.7">
 <h2 data-number="38.7" class="anchored" data-anchor-id="sec-physics-exercises"><span class="header-section-number">38.7</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-physics-1"></span>Find the inertia tensor of four 1 kg masses at <span class="math inline">\((\pm 1, \pm 2, 0)\)</span>, all four sign combinations. Why are its products of inertia zero?</p>
 <p><a href="../appendices/solutions-6.html#solution-physics-1" class="sol-link">Solution to exercise 1</a></p></li>
-<li><p><span id="exercise-physics-2"></span>Show that for any rigid body the angle between <span class="math inline">\(\vect{\omega}\)</span> and <span class="math inline">\(\vect{L} = \M{I}\vect{\omega}\)</span> is never more than <span class="math inline">\(90°\)</span>. For the dumbbell of Example 1, can it ever be exactly <span class="math inline">\(90°\)</span>? (<em>Hint</em>: consider <span class="math inline">\(\vect{\omega}\T\M{I}\vect{\omega}\)</span>.)</p>
+<li><p><span id="exercise-physics-2"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Show that for any rigid body the angle between <span class="math inline">\(\vect{\omega}\)</span> and <span class="math inline">\(\vect{L} = \M{I}\vect{\omega}\)</span> is never more than <span class="math inline">\(90°\)</span>. For the dumbbell of Example 1, can it ever be exactly <span class="math inline">\(90°\)</span>? (<em>Hint</em>: consider <span class="math inline">\(\vect{\omega}\T\M{I}\vect{\omega}\)</span>.)</p>
 <p><a href="../appendices/solutions-6.html#solution-physics-2" class="sol-link">Solution to exercise 2</a></p></li>
 <li><p><span id="exercise-physics-3"></span>Show that <span class="math inline">\(\vect{\omega} \times \vect{r} = \M{\Omega}\vect{r}\)</span> for the skew-symmetric matrix <span class="math inline">\(\M{\Omega}\)</span> given in the text, and that <span class="math inline">\(\M{\Omega}\vect{\omega} = \zerovec\)</span>. What is the geometric meaning of the second fact?</p>
 <p><a href="../appendices/solutions-6.html#solution-physics-3" class="sol-link">Solution to exercise 3</a></p></li>

@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1207,6 +1207,7 @@ Figure&nbsp;41.1: The friendships of Example 1. The shaded triangle 1–2–3 is
 <p><strong>Solution.</strong> The degrees are <span class="math inline">\((1, 2, 1, 1, 1)\)</span>, so <span class="math display">\[
 \M{L} = \mat{1 &amp; -1 &amp; 0 &amp; 0 &amp; 0 \\ -1 &amp; 2 &amp; -1 &amp; 0 &amp; 0 \\ 0 &amp; -1 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; -1 \\ 0 &amp; 0 &amp; 0 &amp; -1 &amp; 1}.
 \]</span> <span class="math inline">\(\M{L}\vect{x} = \zerovec\)</span> says <span class="math inline">\(x_1 = x_2\)</span> (row 1), then <span class="math inline">\(x_2 = x_3\)</span> (row 3), and <span class="math inline">\(x_4 = x_5\)</span> (row 4). So the null space has the basis <span class="math inline">\((1, 1, 1, 0, 0)\T\)</span> and <span class="math inline">\((0, 0, 0, 1, 1)\T\)</span>: dimension 2, one vector for each piece. The eigenvalues are <span class="math inline">\(0, 0, 1, 2, 3\)</span>: two zeros, two components. The matrix is <strong>block diagonal</strong>, one block for each component, which happens whenever the nodes of each piece are numbered together.</p>
+<p><a href="../apps/network-split.html?preset=Two pieces" target="_blank" aria-label="Open the two pieces in the network app (opens in a new tab)">Open the two pieces in the network app</a> to see the two zero eigenvalues.</p>
 </div>
 </div>
 </section>
@@ -1264,6 +1265,7 @@ Figure&nbsp;41.2: The network of Example 3, with each node’s entry in the Fied
 </figcaption>
 </figure>
 </div>
+<p><a href="../apps/network-split.html?preset=Two triangles" target="_blank" aria-label="Open the two triangles in the network app (opens in a new tab)">Open the two triangles in the network app</a> to see <span class="math inline">\(\lambda_2\)</span> and the Fiedler vector.</p>
 </div>
 </div>
 </section>
@@ -1298,6 +1300,7 @@ Figure&nbsp;41.3: The network of Example 4, with each node’s eigenvector centr
 </figcaption>
 </figure>
 </div>
+<p><a href="../apps/network-split.html?preset=Hub&amp;show=centrality" target="_blank" aria-label="Open the hub in the network app, coloured by centrality (opens in a new tab)">Open the hub in the network app, coloured by centrality</a> to compare the centralities with the degrees.</p>
 </div>
 </div>
 </section>
@@ -1324,7 +1327,7 @@ Figure&nbsp;41.3: The network of Example 4, with each node’s eigenvector centr
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="e97151d7" class="cell" data-execution_count="1">
+<div id="55ce2a65" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> adjacency(n, edges):</span>
@@ -1478,18 +1481,19 @@ groupB =
 </section>
 <section id="sec-networks-exercises" class="level2" data-number="41.7">
 <h2 data-number="41.7" class="anchored" data-anchor-id="sec-networks-exercises"><span class="header-section-number">41.7</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-networks-1"></span>A <strong>star</strong> has a centre, node 1, joined to three leaves, nodes 2, 3 and 4, and no other edges. Find <span class="math inline">\(\M{A}^2\)</span> and <span class="math inline">\(\M{A}^3\)</span>, and explain what their entries count. Why is <span class="math inline">\(\operatorname{trace}(\M{A}^3) = 0\)</span>?</p>
 <p><a href="../appendices/solutions-6.html#solution-networks-1" class="sol-link">Solution to exercise 1</a></p></li>
 <li><p><span id="exercise-networks-2"></span>Show that <span class="math inline">\(\vect{x}\T\M{L}\vect{x} = \sum_{\text{edges } ij}(x_i - x_j)^2\)</span> directly from <span class="math inline">\(\M{L} = \M{D} - \M{A}\)</span>, by writing out <span class="math inline">\(\vect{x}\T\M{D}\vect{x}\)</span> and <span class="math inline">\(\vect{x}\T\M{A}\vect{x}\)</span> as sums. (<em>Hint</em>: <span class="math inline">\(\vect{x}\T\M{D}\vect{x} = \sum_i d_i x_i^2\)</span> and <span class="math inline">\(\vect{x}\T\M{A}\vect{x} = \sum_{\text{edges } ij} 2x_ix_j\)</span>. Share each <span class="math inline">\(d_ix_i^2\)</span> out as one <span class="math inline">\(x_i^2\)</span> for each edge at node <span class="math inline">\(i\)</span>.)</p>
 <p><a href="../appendices/solutions-6.html#solution-networks-2" class="sol-link">Solution to exercise 2</a></p></li>
-<li><p><span id="exercise-networks-3"></span>Find the Laplacian eigenvalues of (a) the complete graph on 4 nodes, in which every pair is joined, and (b) the path 1–2–3–4. Which has the larger algebraic connectivity <span class="math inline">\(\lambda_2\)</span>, and why does that make sense? (For (a), try the vectors <span class="math inline">\(\vect{1}\)</span> and <span class="math inline">\((1, -1, 0, 0)\T\)</span>.)</p>
+<li><p><span id="exercise-networks-3"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Find the Laplacian eigenvalues of (a) the complete graph on 4 nodes, in which every pair is joined, and (b) the path 1–2–3–4. Which has the larger algebraic connectivity <span class="math inline">\(\lambda_2\)</span>, and why does that make sense? (For (a), try the vectors <span class="math inline">\(\vect{1}\)</span> and <span class="math inline">\((1, -1, 0, 0)\T\)</span>.)</p>
 <p><a href="../appendices/solutions-6.html#solution-networks-3" class="sol-link">Solution to exercise 3</a></p></li>
 <li><p><span id="exercise-networks-4"></span>A square, the cycle 1–2–3–4–1, has no triangles. Check that <span class="math inline">\(\operatorname{trace}(\M{A}^3) = 0\)</span>. Then add the diagonal 1–3, and find the number of triangles from <span class="math inline">\(\operatorname{trace}(\M{A}^3)\)</span>.</p>
 <p><a href="../appendices/solutions-6.html#solution-networks-4" class="sol-link">Solution to exercise 4</a></p></li>
 <li><p><span id="exercise-networks-5"></span>In Example 3, add an edge between nodes 2 and 5. Show that <span class="math inline">\(\vect{x} = (2, 1, 1, -1, -1, -2)\T\)</span> is now an eigenvector of <span class="math inline">\(\M{L}\)</span> with eigenvalue 1, and (using the computer, or the app) that this is <span class="math inline">\(\lambda_2\)</span>. Where does its sign split the network, and what does the increase in <span class="math inline">\(\lambda_2\)</span> from 0.438 to 1 tell you?</p>
 <p><a href="../appendices/solutions-6.html#solution-networks-5" class="sol-link">Solution to exercise 5</a></p></li>
-<li><p><span id="exercise-networks-6"></span>Explain why, if the nodes of a network are numbered so that each connected component’s nodes come together, <span class="math inline">\(\M{L}\)</span> is block diagonal. Use this to show that the number of zero eigenvalues is at least the number of components. (<em>Hint</em>: each block is the Laplacian of one component, and every Laplacian has eigenvalue 0 with eigenvector <span class="math inline">\(\vect{1}\)</span>. Pad that vector with zeros outside the block.)</p>
+<li><p><span id="exercise-networks-6"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Explain why, if the nodes of a network are numbered so that each connected component’s nodes come together, <span class="math inline">\(\M{L}\)</span> is block diagonal. Use this to show that the number of zero eigenvalues is at least the number of components. (<em>Hint</em>: each block is the Laplacian of one component, and every Laplacian has eigenvalue 0 with eigenvector <span class="math inline">\(\vect{1}\)</span>. Pad that vector with zeros outside the block.)</p>
 <p><a href="../appendices/solutions-6.html#solution-networks-6" class="sol-link">Solution to exercise 6</a></p></li>
 <li><p><span id="exercise-networks-7"></span><strong>Code.</strong> Make a random network with two hidden communities of 50 nodes each: join each pair of nodes in the same community with probability 0.3, and each pair in different communities with probability 0.05. Find the Fiedler vector, split the nodes by its signs, and count how many nodes end up in the right group. Repeat with a between-community probability of 0.15. What happens, and why?</p>
 <p><a href="../appendices/solutions-6.html#solution-networks-7" class="sol-link">Solution to exercise 7</a></p></li>

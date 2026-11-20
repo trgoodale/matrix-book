@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1197,6 +1197,7 @@ Figure&nbsp;40.2: The two mode shapes of Example 1. In mode 1 the masses move to
 </figcaption>
 </figure>
 </div>
+<p><a href="../apps/normal-modes.html?preset=Two masses" target="_blank" aria-label="Open the two masses in the normal modes app (opens in a new tab)">Open the two masses in the normal modes app</a> to watch each mode on its own.</p>
 </div>
 </div>
 </section>
@@ -1264,6 +1265,7 @@ Figure&nbsp;40.3: The two-storey building of Example 3 and its two mode shapes. 
 </figcaption>
 </figure>
 </div>
+<p><a href="../apps/normal-modes.html?preset=Building" target="_blank" aria-label="Open the building in the normal modes app (opens in a new tab)">Open the building in the normal modes app</a> to watch its two modes.</p>
 </div>
 </div>
 </section>
@@ -1295,6 +1297,7 @@ X_1 = \frac{(200 - \Omega^2)F}{(100 - \Omega^2)(300 - \Omega^2)},
 X_2 = \frac{100F}{(100 - \Omega^2)(300 - \Omega^2)}.
 \]</span> Both blow up at <span class="math inline">\(\Omega = 10\)</span> and <span class="math inline">\(\Omega = \sqrt{300} \approx 17.3\)</span> rad/s: the natural frequencies. But at <span class="math inline">\(\Omega = \sqrt{200} \approx 14.1\)</span> rad/s, <span class="math inline">\(X_1 = 0\)</span>: mass 1 stands still, even though it is the one being pushed, while mass 2 moves with amplitude <span class="math inline">\(X_2 = -F/100\)</span>. Mass 2 pulls on mass 1, through the middle spring, with a force that exactly cancels the push.</p>
 <p>This is the principle of the <strong>tuned mass damper</strong>. A large mass attached to a vibrating structure by a spring, tuned to the troublesome frequency, absorbs the vibration. The 101-storey Taipei 101 tower has a 660-tonne steel ball hanging near its top for this reason.</p>
+<p><a href="../apps/normal-modes.html?preset=Two masses&amp;drive=1&amp;omega=14.14" target="_blank" aria-label="Open the normal modes app shaking mass 1 at 14.14 rad/s (opens in a new tab)">Open the normal modes app shaking mass 1 at 14.14 rad/s</a> to see mass 1 stand almost still, then move the slider towards 10 or 17.3.</p>
 </div>
 </div>
 </section>
@@ -1322,7 +1325,7 @@ X_2 = \frac{100F}{(100 - \Omega^2)(300 - \Omega^2)}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="69a064fb" class="cell" data-execution_count="1">
+<div id="9b080908" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1442,18 +1445,19 @@ omega = 28.2843 rad/s, f = 4.5016 Hz, mode (1, -1.0000)
 </section>
 <section id="sec-vibrations-exercises" class="level2" data-number="40.7">
 <h2 data-number="40.7" class="anchored" data-anchor-id="sec-vibrations-exercises"><span class="header-section-number">40.7</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-vibrations-1"></span>Two masses <span class="math inline">\(m\)</span> hang one below the other from a fixed support: a spring <span class="math inline">\(k\)</span> joins the support to mass 1, and another spring <span class="math inline">\(k\)</span> joins mass 1 to mass 2. Find the natural frequencies, as multiples of <span class="math inline">\(\sqrt{k/m}\)</span>, and the mode shapes.</p>
 <p><a href="../appendices/solutions-6.html#solution-vibrations-1" class="sol-link">Solution to exercise 1</a></p></li>
 <li><p><span id="exercise-vibrations-2"></span>Suppose <span class="math inline">\(\M{K}\vect{v} = \lambda\M{M}\vect{v}\)</span> and <span class="math inline">\(\M{K}\vect{w} = \mu\M{M}\vect{w}\)</span>, with <span class="math inline">\(\M{K}\)</span> and <span class="math inline">\(\M{M}\)</span> symmetric and <span class="math inline">\(\lambda \neq \mu\)</span>. Show that <span class="math inline">\(\vect{v}\T\M{M}\vect{w} = 0\)</span> and <span class="math inline">\(\vect{v}\T\M{K}\vect{w} = 0\)</span>. (Hint: compute <span class="math inline">\(\vect{v}\T\M{K}\vect{w}\)</span> in two ways.)</p>
 <p><a href="../appendices/solutions-6.html#solution-vibrations-2" class="sol-link">Solution to exercise 2</a></p></li>
-<li><p><span id="exercise-vibrations-3"></span>A diatomic molecule is two atoms of masses <span class="math inline">\(m_1\)</span> and <span class="math inline">\(m_2\)</span> joined by a bond that acts like a spring of stiffness <span class="math inline">\(k\)</span>, with no walls. Write down <span class="math inline">\(\M{K}\)</span> and <span class="math inline">\(\M{M}\)</span>, and show that one natural frequency is 0 and the other is <span class="math inline">\(\omega = \sqrt{k(1/m_1 + 1/m_2)}\)</span>. Describe both modes. For carbon monoxide, <span class="math inline">\(k \approx 1900\)</span> N/m, the atoms have masses 12 and 16 atomic mass units, and <span class="math inline">\(1 \text{ u} = 1.661 \times 10^{-27}\)</span> kg. Find the vibration frequency in hertz. (<em>Hint</em>: with no walls, <span class="math inline">\(\M{K} = k\mat{1 &amp; -1 \\ -1 &amp; 1}\)</span>. Set <span class="math inline">\(\det(\M{K} - \omega^2\M{M}) = 0\)</span> and take out the factor <span class="math inline">\(\omega^2\)</span>.)</p>
+<li><p><span id="exercise-vibrations-3"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> A diatomic molecule is two atoms of masses <span class="math inline">\(m_1\)</span> and <span class="math inline">\(m_2\)</span> joined by a bond that acts like a spring of stiffness <span class="math inline">\(k\)</span>, with no walls. Write down <span class="math inline">\(\M{K}\)</span> and <span class="math inline">\(\M{M}\)</span>, and show that one natural frequency is 0 and the other is <span class="math inline">\(\omega = \sqrt{k(1/m_1 + 1/m_2)}\)</span>. Describe both modes. For carbon monoxide, <span class="math inline">\(k \approx 1900\)</span> N/m, the atoms have masses 12 and 16 atomic mass units, and <span class="math inline">\(1 \text{ u} = 1.661 \times 10^{-27}\)</span> kg. Find the vibration frequency in hertz. (<em>Hint</em>: with no walls, <span class="math inline">\(\M{K} = k\mat{1 &amp; -1 \\ -1 &amp; 1}\)</span>. Set <span class="math inline">\(\det(\M{K} - \omega^2\M{M}) = 0\)</span> and take out the factor <span class="math inline">\(\omega^2\)</span>.)</p>
 <p><a href="../appendices/solutions-6.html#solution-vibrations-3" class="sol-link">Solution to exercise 3</a></p></li>
 <li><p><span id="exercise-vibrations-4"></span>In Example 1, both masses start at rest in their resting positions, and mass 1 is struck so that it starts with velocity 0.5 m/s. Find <span class="math inline">\(\vect{x}(t)\)</span>.</p>
 <p><a href="../appendices/solutions-6.html#solution-vibrations-4" class="sol-link">Solution to exercise 4</a></p></li>
 <li><p><span id="exercise-vibrations-5"></span>The lower storey of the building in Example 3 is stiffened to <span class="math inline">\(k_1 = 16\)</span> MN/m. Find the new natural frequencies and mode shapes. Which way did the frequencies move, and how did the first mode shape change?</p>
 <p><a href="../appendices/solutions-6.html#solution-vibrations-5" class="sol-link">Solution to exercise 5</a></p></li>
-<li><p><span id="exercise-vibrations-6"></span>A machine of mass <span class="math inline">\(m_1\)</span> sits on a mounting of stiffness <span class="math inline">\(k_1\)</span>, and an unbalanced motor shakes it with force <span class="math inline">\(F\cos(\Omega t)\)</span>. A small mass <span class="math inline">\(m_2\)</span> is attached to it by a spring <span class="math inline">\(k_2\)</span>. Show that the machine doesn’t move at all when <span class="math inline">\(\Omega^2 = k_2/m_2\)</span>, whatever <span class="math inline">\(m_1\)</span> and <span class="math inline">\(k_1\)</span> are. If the motor runs at 50 Hz and <span class="math inline">\(m_2 = 2\)</span> kg, what should <span class="math inline">\(k_2\)</span> be? (<em>Hint</em>: write the amplitude equations <span class="math inline">\((\M{K} - \Omega^2\M{M})\vect{X} = (F, 0)\T\)</span> and eliminate <span class="math inline">\(X_2\)</span>: the answer for <span class="math inline">\(X_1\)</span> has a factor <span class="math inline">\(k_2 - \Omega^2 m_2\)</span>.)</p>
+<li><p><span id="exercise-vibrations-6"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> A machine of mass <span class="math inline">\(m_1\)</span> sits on a mounting of stiffness <span class="math inline">\(k_1\)</span>, and an unbalanced motor shakes it with force <span class="math inline">\(F\cos(\Omega t)\)</span>. A small mass <span class="math inline">\(m_2\)</span> is attached to it by a spring <span class="math inline">\(k_2\)</span>. Show that the machine doesn’t move at all when <span class="math inline">\(\Omega^2 = k_2/m_2\)</span>, whatever <span class="math inline">\(m_1\)</span> and <span class="math inline">\(k_1\)</span> are. If the motor runs at 50 Hz and <span class="math inline">\(m_2 = 2\)</span> kg, what should <span class="math inline">\(k_2\)</span> be? (<em>Hint</em>: write the amplitude equations <span class="math inline">\((\M{K} - \Omega^2\M{M})\vect{X} = (F, 0)\T\)</span> and eliminate <span class="math inline">\(X_2\)</span>: the answer for <span class="math inline">\(X_1\)</span> has a factor <span class="math inline">\(k_2 - \Omega^2 m_2\)</span>.)</p>
 <p><a href="../appendices/solutions-6.html#solution-vibrations-6" class="sol-link">Solution to exercise 6</a></p></li>
 <li><p><span id="exercise-vibrations-7"></span><strong>Code.</strong> For <span class="math inline">\(n\)</span> equal masses <span class="math inline">\(m\)</span> joined by <span class="math inline">\(n + 1\)</span> equal springs <span class="math inline">\(k\)</span> between two walls, the natural frequencies are <span class="math display">\[
 \omega_j = 2\sqrt{k/m}\,\sin\frac{j\pi}{2(n + 1)},

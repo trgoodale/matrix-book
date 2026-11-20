@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1144,7 +1144,7 @@ x_i \ge 0.
 <li>from any starting distribution, <span class="math inline">\(\vect{x}_k\)</span> approaches the steady state, with the error shrinking like <span class="math inline">\(\lvert\lambda_2\rvert^k\)</span>, where <span class="math inline">\(\lambda_2\)</span> is the next largest eigenvalue in size (<a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>).</li>
 </ul>
 <p>To find the steady state, solve <span class="math inline">\((\M{M} - \M{I})\vect{x} = \zerovec\)</span> together with <span class="math inline">\(\sum x_i = 1\)</span>, or use the <strong>power method</strong> (<a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a>): start from any probability vector and multiply by <span class="math inline">\(\M{M}\)</span> again and again until it stops changing. For a Markov chain this is just simulating the probabilities forward.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-markov-pagerank-1" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1191,7 +1191,7 @@ Figure&nbsp;35.1: The weather chain of Example 1. Each arrow is labelled with th
 <p>For the real web, <span class="math inline">\(n\)</span> is in the billions, but <span class="math inline">\(\M{M}\)</span> is extremely sparse, and the second term never needs to be stored: <span class="math inline">\(\M{G}\vect{x} = d\M{M}\vect{x} + \tfrac{1 - d}{n}\vect{1}\)</span> for any probability vector <span class="math inline">\(\vect{x}\)</span>. The power method needs only sparse matrix–vector products, and every eigenvalue of <span class="math inline">\(\M{G}\)</span> other than 1 has size at most <span class="math inline">\(d\)</span>, so the error shrinks by a factor of at least 0.85 at each step: about 43 steps for every three more correct digits, whatever the size of the web. Equivalently, PageRank solves the sparse linear system <span class="math display">\[
 (\M{I} - d\M{M})\vect{x} = \frac{1 - d}{n}\vect{1}.
 \]</span></p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-markov-pagerank-2" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1237,7 +1237,7 @@ x_A = 0.0375 + 0.85x_C,
 <li>the probability of ending in absorbing state <span class="math inline">\(i\)</span>, starting from transient state <span class="math inline">\(j\)</span>, is entry <span class="math inline">\((i, j)\)</span> of <span class="math inline">\(\M{R}\M{N}\)</span>.</li>
 </ul>
 <p>For one starting state, there is no need to form the inverse: solve <span class="math inline">\((\M{I} - \M{Q})\vect{n} = \vect{e}_j\)</span> for column <span class="math inline">\(j\)</span> of <span class="math inline">\(\M{N}\)</span> (<a href="../part-2/10-linear-systems.html" class="quarto-xref"><span>Chapter 10</span></a>).</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-markov-pagerank-3" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1293,7 +1293,7 @@ n_1 + n_2 + n_3 \approx 3.03 \text{ years}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="c81194fb" class="cell" data-execution_count="1">
+<div id="5a8008ea" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: the steady state of the weather</span></span>
@@ -1443,6 +1443,7 @@ outcome =
 </section>
 <section id="sec-markov-pagerank-exercises" class="level2" data-number="35.7">
 <h2 data-number="35.7" class="anchored" data-anchor-id="sec-markov-pagerank-exercises"><span class="header-section-number">35.7</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-markov-pagerank-1"></span>A machine is either working (W) or broken (B). A working machine breaks down by the next day with probability 0.1; a broken one is repaired by the next day with probability 0.6. Write down the transition matrix, and find the long-run fraction of days the machine works.</p>
 <p><a href="../appendices/solutions-6.html#solution-markov-pagerank-1" class="sol-link">Solution to exercise 1</a></p></li>
@@ -1452,7 +1453,7 @@ outcome =
 <p><a href="../appendices/solutions-6.html#solution-markov-pagerank-3" class="sol-link">Solution to exercise 3</a></p></li>
 <li><p><span id="exercise-markov-pagerank-4"></span>Show that <span class="math inline">\(\mat{0 &amp; 1 \\ 1 &amp; 0}\)</span> is a transition matrix with a steady state, but that <span class="math inline">\(\M{M}^k\vect{x}_0\)</span> doesn’t approach it from <span class="math inline">\(\vect{x}_0 = (1, 0)\T\)</span>. Which condition of the Perron–Frobenius theorem fails?</p>
 <p><a href="../appendices/solutions-6.html#solution-markov-pagerank-4" class="sol-link">Solution to exercise 4</a></p></li>
-<li><p><span id="exercise-markov-pagerank-5"></span>Three pages link as follows: A links to B, B links to A and C, and C links to A. Find the PageRank with <span class="math inline">\(d = 0.85\)</span> by solving the linear system.</p>
+<li><p><span id="exercise-markov-pagerank-5"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Three pages link as follows: A links to B, B links to A and C, and C links to A. Find the PageRank with <span class="math inline">\(d = 0.85\)</span> by solving the linear system.</p>
 <p><a href="../appendices/solutions-6.html#solution-markov-pagerank-5" class="sol-link">Solution to exercise 5</a></p></li>
 <li><p><span id="exercise-markov-pagerank-6"></span><strong>Code.</strong> Write a PageRank function that handles dead ends, by treating a page with no links as linking to every page. Apply it to the <a href="../apps/random-surfer.html?preset=Dead end" target="_blank" aria-label="Dead end preset in the random surfer (opens in a new tab)"><strong>Dead end</strong></a> web of the app (A links to B and C; B to C; C to nothing; D to A and C; E to D and F; F to D and E), and check your results against the app.</p>
 <p><a href="../appendices/solutions-6.html#solution-markov-pagerank-6" class="sol-link">Solution to exercise 6</a></p></li>

@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1322,7 +1322,7 @@ Figure&nbsp;26.2: A <span class="math inline">\(4 \times 4\)</span> version of E
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="182659c8" class="cell" data-execution_count="2">
+<div id="2f399589" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.sparse <span class="im">as</span> sp</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse.linalg <span class="im">import</span> spsolve</span>
@@ -1356,7 +1356,7 @@ Figure&nbsp;26.2: A <span class="math inline">\(4 \times 4\)</span> version of E
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">max</span>(np.<span class="bu">abs</span>(u <span class="op">-</span> t <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> t) <span class="op">/</span> <span class="dv">2</span>)))     <span class="co"># error</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1. 1. 1. 1.]
-sparse solve: 0.101 s, 299998 non-zeros
+sparse solve: 0.103 s, 299998 non-zeros
 5.254774393392836e-11</code></pre>
 </div>
 </div>
@@ -1446,6 +1446,7 @@ ans =
 </section>
 <section id="sec-cost-sparse-exercises" class="level2" data-number="26.6">
 <h2 data-number="26.6" class="anchored" data-anchor-id="sec-cost-sparse-exercises"><span class="header-section-number">26.6</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-cost-sparse-1"></span>Count exactly the multiplications and additions in (a) the dot product of two vectors of length <span class="math inline">\(n\)</span>, (b) the product <span class="math inline">\(\M{A}\vect{x}\)</span> of an <span class="math inline">\(n \times n\)</span> matrix and a vector, (c) the product of two <span class="math inline">\(n \times n\)</span> matrices.</p>
 <p><a href="../appendices/solutions-5.html#solution-cost-sparse-1" class="sol-link">Solution to exercise 1</a></p></li>
@@ -1457,9 +1458,9 @@ ans =
 \mat{0 &amp; 2 &amp; 0 \\ 1 &amp; 0 &amp; 3 \\ 0 &amp; 0 &amp; 4}.
 \]</span></p>
 <p><a href="../appendices/solutions-5.html#solution-cost-sparse-4" class="sol-link">Solution to exercise 4</a></p></li>
-<li><p><span id="exercise-cost-sparse-5"></span>Show that when a tridiagonal matrix is factorised as <span class="math inline">\(\M{L}\M{U}\)</span> without row swaps, <span class="math inline">\(\M{L}\)</span> has non-zeros only on its diagonal and just below it, and <span class="math inline">\(\M{U}\)</span> only on its diagonal and just above it. So there is no fill-in.</p>
+<li><p><span id="exercise-cost-sparse-5"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Show that when a tridiagonal matrix is factorised as <span class="math inline">\(\M{L}\M{U}\)</span> without row swaps, <span class="math inline">\(\M{L}\)</span> has non-zeros only on its diagonal and just below it, and <span class="math inline">\(\M{U}\)</span> only on its diagonal and just above it. So there is no fill-in.</p>
 <p><a href="../appendices/solutions-5.html#solution-cost-sparse-5" class="sol-link">Solution to exercise 5</a></p></li>
-<li><p><span id="exercise-cost-sparse-6"></span>A matrix has non-zeros on its diagonal and in its last row and last column. How many non-zeros do its LU factors have? What changes if the full row and column are moved to the top?</p>
+<li><p><span id="exercise-cost-sparse-6"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> A matrix has non-zeros on its diagonal and in its last row and last column. How many non-zeros do its LU factors have? What changes if the full row and column are moved to the top?</p>
 <p><a href="../appendices/solutions-5.html#solution-cost-sparse-6" class="sol-link">Solution to exercise 6</a></p></li>
 <li><p><span id="exercise-cost-sparse-7"></span><strong>Code.</strong> Time the solution of the tridiagonal system in the code above for <span class="math inline">\(n = 500\)</span>, <span class="math inline">\(1000\)</span>, <span class="math inline">\(2000\)</span> and <span class="math inline">\(4000\)</span>, using (a) a dense matrix and <code>np.linalg.solve</code> or backslash on a full matrix, (b) the sparse solver. On a log–log plot, estimate the power of <span class="math inline">\(n\)</span> that each time grows like.</p>
 <p><a href="../appendices/solutions-5.html#solution-cost-sparse-7" class="sol-link">Solution to exercise 7</a></p></li>

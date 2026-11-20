@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1138,7 +1138,7 @@ Figure&nbsp;34.1: Rotating <span class="math inline">\((3, 1)\)</span> by <span 
 </figcaption>
 </figure>
 </div>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-graphics-robotics-1" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1178,7 +1178,7 @@ Figure&nbsp;34.2: Perspective, seen from the side, for the two points of Example
 </figcaption>
 </figure>
 </div>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-graphics-robotics-2" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1192,7 +1192,7 @@ Figure&nbsp;34.2: Perspective, seen from the side, for the two points of Example
 <p><strong>Solution.</strong> <span class="math inline">\(\M{P}(2, 1, -4, 1)\T = (2, 1, -4, 4)\T\)</span>, which stands for <span class="math inline">\((0.5, 0.25, -1)\)</span>, so the point appears at <span class="math inline">\((0.5, 0.25)\)</span>. The second point gives <span class="math inline">\((2, 1, -8, 8)\T\)</span>, appearing at <span class="math inline">\((0.25, 0.125)\)</span>: twice as far away, so half the size on the screen. All the points along the line from the camera through <span class="math inline">\((2, 1, -4)\)</span> project to the same place, which is why a single photograph can’t tell you how far away something is.</p>
 </div>
 </div>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-graphics-robotics-3" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1236,7 +1236,7 @@ Figure&nbsp;34.3: The two-link arm of Example 4. <span class="math inline">\(\th
 </figure>
 </div>
 <p>The reverse problem, <strong>inverse kinematics</strong>, finds joint angles that put the hand at a chosen point. It is a system of nonlinear equations, usually solved by Newton’s method with the Jacobian of the forward kinematics (<a href="../part-5/28-newton-systems.html" class="quarto-xref"><span>Chapter 28</span></a>, Example 2). Where the Jacobian is singular, as when the arm is fully stretched out, the hand can’t move in some direction at all: a <strong>singularity</strong>, which robot controllers must steer around.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-graphics-robotics-4" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1250,6 +1250,7 @@ Figure&nbsp;34.3: The two-link arm of Example 4. <span class="math inline">\(\th
 <p><strong>Solution.</strong> <span class="math display">\[
 \M{T}_1\M{T}_2 = \mat{0.866 &amp; -0.5 &amp; 1.299 \\ 0.5 &amp; 0.866 &amp; 0.75 \\ 0 &amp; 0 &amp; 1}\mat{0.5 &amp; -0.866 &amp; 0.5 \\ 0.866 &amp; 0.5 &amp; 0.866 \\ 0 &amp; 0 &amp; 1} = \mat{0 &amp; -1 &amp; 1.299 \\ 1 &amp; 0 &amp; 1.75 \\ 0 &amp; 0 &amp; 1}.
 \]</span> The elbow is at <span class="math inline">\((1.299, 0.75)\)</span>, the last column of <span class="math inline">\(\M{T}_1\)</span>, and the hand at <span class="math inline">\((1.299, 1.75)\)</span>. The rotation block is a rotation by <span class="math inline">\(90° = \theta_1 + \theta_2\)</span>, so the second link points straight up. This is the starting position of the app below.</p>
+<p><a href="../apps/robot-arm.html?angles=30,60&amp;lengths=1.5,1" target="_blank" aria-label="Open this arm in the robot arm app (opens in a new tab)">Open this arm in the robot arm app</a> to see the same product <span class="math inline">\(\M{T}_1\M{T}_2\)</span> and the hand’s position.</p>
 </div>
 </div>
 </section>
@@ -1275,7 +1276,7 @@ Figure&nbsp;34.3: The two-link arm of Example 4. <span class="math inline">\(\th
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="43924dc9" class="cell" data-execution_count="1">
+<div id="68020bea" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1423,6 +1424,7 @@ hand =
 </section>
 <section id="sec-graphics-robotics-exercises" class="level2" data-number="34.7">
 <h2 data-number="34.7" class="anchored" data-anchor-id="sec-graphics-robotics-exercises"><span class="header-section-number">34.7</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-graphics-robotics-1"></span>Find <span class="math inline">\(\M{R}(90°)\M{T}(3, 1)\)</span> and <span class="math inline">\(\M{T}(3, 1)\M{R}(90°)\)</span>, and describe in words what each does to the origin.</p>
 <p><a href="../appendices/solutions-6.html#solution-graphics-robotics-1" class="sol-link">Solution to exercise 1</a></p></li>
@@ -1430,7 +1432,7 @@ hand =
 <p><a href="../appendices/solutions-6.html#solution-graphics-robotics-2" class="sol-link">Solution to exercise 2</a></p></li>
 <li><p><span id="exercise-graphics-robotics-3"></span>Find the matrix that reflects in the vertical line <span class="math inline">\(x = 3\)</span>. (<em>Hint</em>: translate, reflect in the <span class="math inline">\(y\)</span> axis, translate back.)</p>
 <p><a href="../appendices/solutions-6.html#solution-graphics-robotics-3" class="sol-link">Solution to exercise 3</a></p></li>
-<li><p><span id="exercise-graphics-robotics-4"></span>Show that the inverse of <span class="math inline">\(\mat{\M{R} &amp; \vect{t} \\ \zerovec\T &amp; 1}\)</span>, where <span class="math inline">\(\M{R}\)</span> is a rotation, is <span class="math inline">\(\mat{\M{R}\T &amp; -\M{R}\T\vect{t} \\ \zerovec\T &amp; 1}\)</span>. Why is this useful for building a view matrix from the camera’s position and orientation? (<em>Hint</em>: multiply the two block matrices together, block by block, using <span class="math inline">\(\M{R}\T\M{R} = \M{I}\)</span>.)</p>
+<li><p><span id="exercise-graphics-robotics-4"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Show that the inverse of <span class="math inline">\(\mat{\M{R} &amp; \vect{t} \\ \zerovec\T &amp; 1}\)</span>, where <span class="math inline">\(\M{R}\)</span> is a rotation, is <span class="math inline">\(\mat{\M{R}\T &amp; -\M{R}\T\vect{t} \\ \zerovec\T &amp; 1}\)</span>. Why is this useful for building a view matrix from the camera’s position and orientation? (<em>Hint</em>: multiply the two block matrices together, block by block, using <span class="math inline">\(\M{R}\T\M{R} = \M{I}\)</span>.)</p>
 <p><a href="../appendices/solutions-6.html#solution-graphics-robotics-4" class="sol-link">Solution to exercise 4</a></p></li>
 <li><p><span id="exercise-graphics-robotics-5"></span>A three-link planar arm has all links of length 1, and joint angles <span class="math inline">\(45°\)</span>, <span class="math inline">\(-90°\)</span> and <span class="math inline">\(45°\)</span>. Where is the hand, and which way does the last link point?</p>
 <p><a href="../appendices/solutions-6.html#solution-graphics-robotics-5" class="sol-link">Solution to exercise 5</a></p></li>

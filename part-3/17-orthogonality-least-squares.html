@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1271,7 +1271,7 @@ y = 0.9 + 1.4t.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="44c4672a" class="cell" data-execution_count="1">
+<div id="1d3cbe0f" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
@@ -1393,6 +1393,7 @@ Q =
 </section>
 <section id="sec-orthogonality-least-squares-exercises" class="level2" data-number="17.6">
 <h2 data-number="17.6" class="anchored" data-anchor-id="sec-orthogonality-least-squares-exercises"><span class="header-section-number">17.6</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-orthogonality-least-squares-1"></span>Find the angle between (a) <span class="math inline">\((1, 2, 2)\T\)</span> and <span class="math inline">\((2, 1, -2)\T\)</span>; (b) <span class="math inline">\((1, 1, 0)\T\)</span> and <span class="math inline">\((1, 0, 1)\T\)</span>.</p>
 <p><a href="../appendices/solutions-3.html#solution-orthogonality-least-squares-1" class="sol-link">Solution to exercise 1</a></p></li>
@@ -1404,7 +1405,7 @@ Q =
 <p><a href="../appendices/solutions-3.html#solution-orthogonality-least-squares-4" class="sol-link">Solution to exercise 4</a></p></li>
 <li><p><span id="exercise-orthogonality-least-squares-5"></span>Apply Gram–Schmidt to <span class="math inline">\(\vect{a}_1 = (1, 2, 2)\T\)</span> and <span class="math inline">\(\vect{a}_2 = (1, 0, 1)\T\)</span>.</p>
 <p><a href="../appendices/solutions-3.html#solution-orthogonality-least-squares-5" class="sol-link">Solution to exercise 5</a></p></li>
-<li><p><span id="exercise-orthogonality-least-squares-6"></span>Show that for a straight-line fit <span class="math inline">\(y = c + mt\)</span>, the least-squares errors always add up to zero. (<em>Hint</em>: look at the first of the normal equations, <span class="math inline">\(\M{A}\T\vect{e} = \zerovec\)</span>.)</p>
+<li><p><span id="exercise-orthogonality-least-squares-6"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Show that for a straight-line fit <span class="math inline">\(y = c + mt\)</span>, the least-squares errors always add up to zero. (<em>Hint</em>: look at the first of the normal equations, <span class="math inline">\(\M{A}\T\vect{e} = \zerovec\)</span>.)</p>
 <p><a href="../appendices/solutions-3.html#solution-orthogonality-least-squares-6" class="sol-link">Solution to exercise 6</a></p></li>
 <li><p><span id="exercise-orthogonality-least-squares-7"></span><strong>Code.</strong> A ball is thrown upwards, and its height <span class="math inline">\(h\)</span> in metres is measured at times <span class="math inline">\(t = 0, 0.5, 1, 1.5, 2, 2.5\)</span> seconds as <span class="math inline">\(2.1, 7.6, 11.3, 11.8, 10.5, 6.2\)</span>. Fit the model <span class="math inline">\(h = c_0 + c_1t + c_2t^2\)</span> by least squares. Since <span class="math inline">\(h = h_0 + ut - \tfrac{1}{2}gt^2\)</span> for a ball thrown up with speed <span class="math inline">\(u\)</span>, use your fit to estimate <span class="math inline">\(g\)</span>, the acceleration due to gravity.</p>
 <p><a href="../appendices/solutions-3.html#solution-orthogonality-least-squares-7" class="sol-link">Solution to exercise 7</a></p></li>

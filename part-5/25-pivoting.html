@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1267,7 +1267,7 @@ b_2 = 1.569 - 0.0008686 \times 1.018 = 1.568,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="31706d6f" class="cell" data-execution_count="1">
+<div id="92367dc0" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.linalg</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1440,6 +1440,7 @@ P =
 </section>
 <section id="sec-pivoting-exercises" class="level2" data-number="25.6">
 <h2 data-number="25.6" class="anchored" data-anchor-id="sec-pivoting-exercises"><span class="header-section-number">25.6</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-pivoting-1"></span>Solve <span class="math inline">\(0.0001x + y = 1\)</span>, <span class="math inline">\(x + y = 2\)</span> rounding every result to 3 significant digits, first without pivoting and then with partial pivoting. Compare both with the exact solution.</p>
 <p><a href="../appendices/solutions-5.html#solution-pivoting-1" class="sol-link">Solution to exercise 1</a></p></li>
@@ -1447,9 +1448,9 @@ P =
 <p><a href="../appendices/solutions-5.html#solution-pivoting-2" class="sol-link">Solution to exercise 2</a></p></li>
 <li><p><span id="exercise-pivoting-3"></span>Show that with partial pivoting, every entry of <span class="math inline">\(\M{L}\)</span> is at most 1 in size.</p>
 <p><a href="../appendices/solutions-5.html#solution-pivoting-3" class="sol-link">Solution to exercise 3</a></p></li>
-<li><p><span id="exercise-pivoting-4"></span>Wilkinson’s matrix of size 4 is <span class="math inline">\(\M{W} = \mat{1 &amp; 0 &amp; 0 &amp; 1 \\ -1 &amp; 1 &amp; 0 &amp; 1 \\ -1 &amp; -1 &amp; 1 &amp; 1 \\ -1 &amp; -1 &amp; -1 &amp; 1}\)</span>. Carry out elimination with partial pivoting (taking the first row when there is a tie). Find <span class="math inline">\(\M{U}\)</span> and the growth factor, and predict the growth factor for size <span class="math inline">\(n\)</span>.</p>
+<li><p><span id="exercise-pivoting-4"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Wilkinson’s matrix of size 4 is <span class="math inline">\(\M{W} = \mat{1 &amp; 0 &amp; 0 &amp; 1 \\ -1 &amp; 1 &amp; 0 &amp; 1 \\ -1 &amp; -1 &amp; 1 &amp; 1 \\ -1 &amp; -1 &amp; -1 &amp; 1}\)</span>. Carry out elimination with partial pivoting (taking the first row when there is a tie). Find <span class="math inline">\(\M{U}\)</span> and the growth factor, and predict the growth factor for size <span class="math inline">\(n\)</span>.</p>
 <p><a href="../appendices/solutions-5.html#solution-pivoting-4" class="sol-link">Solution to exercise 4</a></p></li>
-<li><p><span id="exercise-pivoting-5"></span>Show that if <span class="math inline">\(\M{A}\)</span> is <span class="math inline">\(2 \times 2\)</span> and diagonally dominant by columns, <span class="math inline">\(\lvert a_{11}\rvert &gt; \lvert a_{21}\rvert\)</span> and <span class="math inline">\(\lvert a_{22}\rvert &gt; \lvert a_{12}\rvert\)</span>, then partial pivoting makes no swaps, and the second pivot is not zero.</p>
+<li><p><span id="exercise-pivoting-5"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Show that if <span class="math inline">\(\M{A}\)</span> is <span class="math inline">\(2 \times 2\)</span> and diagonally dominant by columns, <span class="math inline">\(\lvert a_{11}\rvert &gt; \lvert a_{21}\rvert\)</span> and <span class="math inline">\(\lvert a_{22}\rvert &gt; \lvert a_{12}\rvert\)</span>, then partial pivoting makes no swaps, and the second pivot is not zero.</p>
 <p><a href="../appendices/solutions-5.html#solution-pivoting-5" class="sol-link">Solution to exercise 5</a></p></li>
 <li><p><span id="exercise-pivoting-6"></span>For the system in Example 3, divide each equation by the largest coefficient on its left-hand side, then apply partial pivoting. Which pivot does it choose? Explain why equilibrating the rows in this way has the same effect as scaled partial pivoting.</p>
 <p><a href="../appendices/solutions-5.html#solution-pivoting-6" class="sol-link">Solution to exercise 6</a></p></li>

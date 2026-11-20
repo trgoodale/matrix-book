@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1296,7 +1296,7 @@ e^{\M{A}t} = \M{P}\mat{e^{-t} &amp; 0 \\ 0 &amp; e^{-3t}}\M{P}\T = \frac{1}{2}\m
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="6df107ed" class="cell" data-execution_count="1">
+<div id="ee670a89" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
@@ -1415,6 +1415,7 @@ ans =
 </section>
 <section id="sec-linear-odes-exercises" class="level2" data-number="23.6">
 <h2 data-number="23.6" class="anchored" data-anchor-id="sec-linear-odes-exercises"><span class="header-section-number">23.6</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-linear-odes-1"></span>Write <span class="math inline">\(\ddot{x} + 3\dot{x} + 2x = 0\)</span> as a first-order system, find the eigenvalues, and classify the equilibrium.</p>
 <p><a href="../appendices/solutions-4.html#solution-linear-odes-1" class="sol-link">Solution to exercise 1</a></p></li>
@@ -1438,7 +1439,7 @@ ans =
 <p><a href="../appendices/solutions-4.html#solution-linear-odes-4" class="sol-link">Solution to exercise 4</a></p></li>
 <li><p><span id="exercise-linear-odes-5"></span>A mass on a spring obeys <span class="math inline">\(\ddot{x} + c\dot{x} + 4x = 0\)</span> with damping constant <span class="math inline">\(c \ge 0\)</span>. For which values of <span class="math inline">\(c\)</span> does the mass oscillate? What happens at the boundary value?</p>
 <p><a href="../appendices/solutions-4.html#solution-linear-odes-5" class="sol-link">Solution to exercise 5</a></p></li>
-<li><p><span id="exercise-linear-odes-6"></span>Show that if <span class="math inline">\(\M{A}\)</span> is symmetric and negative definite, every solution of <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x}\)</span> tends to <span class="math inline">\(\zerovec\)</span>, and that <span class="math inline">\(\lVert\vect{x}(t)\rVert\)</span> decreases all the time. (<em>Hint</em>: use orthonormal eigenvectors, <a href="20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>.)</p>
+<li><p><span id="exercise-linear-odes-6"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Show that if <span class="math inline">\(\M{A}\)</span> is symmetric and negative definite, every solution of <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x}\)</span> tends to <span class="math inline">\(\zerovec\)</span>, and that <span class="math inline">\(\lVert\vect{x}(t)\rVert\)</span> decreases all the time. (<em>Hint</em>: use orthonormal eigenvectors, <a href="20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>.)</p>
 <p><a href="../appendices/solutions-4.html#solution-linear-odes-6" class="sol-link">Solution to exercise 6</a></p></li>
 <li><p><span id="exercise-linear-odes-7"></span><strong>Code.</strong> A dose of 100 mg of a drug is swallowed. The amount <span class="math inline">\(x_1\)</span> in the gut and <span class="math inline">\(x_2\)</span> in the blood obey <span class="math display">\[
 \dot{x}_1 = -0.5x_1,

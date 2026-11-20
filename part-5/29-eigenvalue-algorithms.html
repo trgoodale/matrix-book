@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1250,7 +1250,7 @@ r = \tfrac{1}{5}(2, -1)\mat{3 \\ -1} = 1.4.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="8246b725" class="cell" data-execution_count="1">
+<div id="c713477f" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.linalg</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1399,6 +1399,7 @@ Ak =
 </section>
 <section id="sec-eigenvalue-algorithms-exercises" class="level2" data-number="29.6">
 <h2 data-number="29.6" class="anchored" data-anchor-id="sec-eigenvalue-algorithms-exercises"><span class="header-section-number">29.6</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-eigenvalue-algorithms-1"></span>Take three steps of the power method for <span class="math inline">\(\mat{4 &amp; 1 \\ 2 &amp; 3}\)</span> from <span class="math inline">\((1, 0)\T\)</span>, estimating the eigenvalue at each step with the Rayleigh quotient. Compare with the exact eigenvalues, 5 and 2 (<a href="../part-4/18-eigenvalues.html" class="quarto-xref"><span>Chapter 18</span></a>).</p>
 <p><a href="../appendices/solutions-5.html#solution-eigenvalue-algorithms-1" class="sol-link">Solution to exercise 1</a></p></li>
@@ -1406,7 +1407,7 @@ Ak =
 <p><a href="../appendices/solutions-5.html#solution-eigenvalue-algorithms-2" class="sol-link">Solution to exercise 2</a></p></li>
 <li><p><span id="exercise-eigenvalue-algorithms-3"></span>Show that if <span class="math inline">\(\vect{q}\)</span> is an eigenvector of length 1 with eigenvalue <span class="math inline">\(\lambda\)</span>, then the Rayleigh quotient <span class="math inline">\(\vect{q}\T\M{A}\vect{q} = \lambda\)</span>.</p>
 <p><a href="../appendices/solutions-5.html#solution-eigenvalue-algorithms-3" class="sol-link">Solution to exercise 3</a></p></li>
-<li><p><span id="exercise-eigenvalue-algorithms-4"></span>Explain what the power method does for <span class="math inline">\(\M{A} = \mat{0 &amp; 1 \\ 1 &amp; 0}\)</span>, starting from <span class="math inline">\((1, 0)\T\)</span>. Why doesn’t it converge, and how could a shift fix it?</p>
+<li><p><span id="exercise-eigenvalue-algorithms-4"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Explain what the power method does for <span class="math inline">\(\M{A} = \mat{0 &amp; 1 \\ 1 &amp; 0}\)</span>, starting from <span class="math inline">\((1, 0)\T\)</span>. Why doesn’t it converge, and how could a shift fix it?</p>
 <p><a href="../appendices/solutions-5.html#solution-eigenvalue-algorithms-4" class="sol-link">Solution to exercise 4</a></p></li>
 <li><p><span id="exercise-eigenvalue-algorithms-5"></span>Show that <span class="math inline">\(\M{A}_{k+1} = \M{Q}_k\T\M{A}_k\M{Q}_k\)</span> in the QR algorithm, and deduce that <span class="math inline">\(\M{A}_{k+1}\)</span> is symmetric if <span class="math inline">\(\M{A}_k\)</span> is.</p>
 <p><a href="../appendices/solutions-5.html#solution-eigenvalue-algorithms-5" class="sol-link">Solution to exercise 5</a></p></li>

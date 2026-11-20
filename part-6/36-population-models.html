@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1143,7 +1143,7 @@ G_i = \frac{s_i^{D_i}(1 - s_i)}{1 - s_i^{D_i}}.
 <li><span class="math inline">\(\vect{w}\)</span>, scaled so that its entries add up to 1, is the <strong>stable age distribution</strong> (or stable stage distribution): the proportions in each class that the population settles into, whatever it started with.</li>
 <li>The other eigenvalues decide how quickly it settles: the transient effects die away like <span class="math inline">\(\lvert\lambda_2/\lambda_1\rvert^k\)</span>.</li>
 </ul>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-population-models-1" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1172,7 +1172,7 @@ Figure&nbsp;36.1: The life cycle of Example 1. Straight arrows are survival into
 <p>The second eigenvalue, <span class="math inline">\(-1.309\)</span>, is not much smaller in size than 1.5, so the population takes a long time to settle, oscillating as it does (the ratio <span class="math inline">\(1.309/1.5 \approx 0.87\)</span> per year). Starting from 100 newborns, after 10 years the proportions are still <span class="math inline">\((0.81, 0.14, 0.05)\)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-population-models-2" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1206,7 +1206,7 @@ Figure&nbsp;36.1: The life cycle of Example 1. Straight arrows are survival into
 <p>A manager can afford to improve only some survival or birth rates. Which change raises <span class="math inline">\(\lambda\)</span> the most? The <strong>sensitivity</strong> of <span class="math inline">\(\lambda\)</span> to the entry <span class="math inline">\(a_{ij}\)</span> of the matrix is <span class="math display">\[
 \frac{\partial\lambda}{\partial a_{ij}} = \frac{v_iw_j}{\vect{v} \cdot \vect{w}},
 \]</span> where <span class="math inline">\(\vect{w}\)</span> is the right eigenvector (the stable distribution) and <span class="math inline">\(\vect{v}\)</span> is the <strong>left eigenvector</strong>, <span class="math inline">\(\vect{v}\T\M{L} = \lambda\vect{v}\T\)</span>, whose entries are the <strong>reproductive values</strong> of the stages: how much an individual in each stage will contribute to future generations. Because fecundities and survival rates are on very different scales, ecologists compare <strong>elasticities</strong>, <span class="math inline">\(e_{ij} = (a_{ij}/\lambda)\,\partial\lambda/\partial a_{ij}\)</span>: the proportional change in <span class="math inline">\(\lambda\)</span> for a 1% change in <span class="math inline">\(a_{ij}\)</span>. The elasticities add up to 1.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div id="ex-population-models-3" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1293,7 +1293,7 @@ Figure&nbsp;36.2: Long-run growth rate λ of the loggerhead model as the annual 
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="dc176d56" class="cell" data-execution_count="2">
+<div id="83d572ab" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">127</span>, <span class="dv">4</span>, <span class="dv">80</span>],</span>
@@ -1424,10 +1424,11 @@ ans =
 </section>
 <section id="sec-population-models-exercises" class="level2" data-number="36.7">
 <h2 data-number="36.7" class="anchored" data-anchor-id="sec-population-models-exercises"><span class="header-section-number">36.7</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-population-models-1"></span>A species has two age classes. First-year females have 1 daughter on average and second-years have 1.5, and half of the first-years survive to their second year. Find the Leslie matrix, the long-run growth rate and the stable age distribution.</p>
 <p><a href="../appendices/solutions-6.html#solution-population-models-1" class="sol-link">Solution to exercise 1</a></p></li>
-<li><p><span id="exercise-population-models-2"></span>For the two-class Leslie matrix <span class="math inline">\(\mat{f_1 &amp; f_2 \\ s &amp; 0}\)</span>, show that the population grows in the long run (<span class="math inline">\(\lambda &gt; 1\)</span>) exactly when <span class="math inline">\(f_1 + sf_2 &gt; 1\)</span>. Interpret <span class="math inline">\(f_1 + sf_2\)</span>. (<em>Hint</em>: the characteristic equation is <span class="math inline">\(p(\lambda) = \lambda^2 - f_1\lambda - sf_2 = 0\)</span>. Since <span class="math inline">\(p(0) &lt; 0\)</span>, there is exactly one positive root, and it is greater than 1 exactly when <span class="math inline">\(p(1) &lt; 0\)</span>.)</p>
+<li><p><span id="exercise-population-models-2"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> For the two-class Leslie matrix <span class="math inline">\(\mat{f_1 &amp; f_2 \\ s &amp; 0}\)</span>, show that the population grows in the long run (<span class="math inline">\(\lambda &gt; 1\)</span>) exactly when <span class="math inline">\(f_1 + sf_2 &gt; 1\)</span>. Interpret <span class="math inline">\(f_1 + sf_2\)</span>. (<em>Hint</em>: the characteristic equation is <span class="math inline">\(p(\lambda) = \lambda^2 - f_1\lambda - sf_2 = 0\)</span>. Since <span class="math inline">\(p(0) &lt; 0\)</span>, there is exactly one positive root, and it is greater than 1 exactly when <span class="math inline">\(p(1) &lt; 0\)</span>.)</p>
 <p><a href="../appendices/solutions-6.html#solution-population-models-2" class="sol-link">Solution to exercise 2</a></p></li>
 <li><p><span id="exercise-population-models-3"></span>A fishery removes a fraction <span class="math inline">\(h\)</span> of every age class each year, after breeding. Explain why the new matrix is <span class="math inline">\((1 - h)\M{L}\)</span>, and find the harvest rate <span class="math inline">\(h\)</span> that holds the population of Example 1 steady.</p>
 <p><a href="../appendices/solutions-6.html#solution-population-models-3" class="sol-link">Solution to exercise 3</a></p></li>

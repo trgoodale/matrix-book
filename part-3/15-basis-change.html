@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-093137b916c9b05988308eabaf325fa3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-b730c021d03303d227ba0d146ac2a7bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1271,7 +1271,7 @@ Figure&nbsp;15.1: The convenient basis for the reflection in <span class="math i
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="50deafc9" class="cell" data-execution_count="1">
+<div id="8d32bea4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>P <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>]])            <span class="co"># basis vectors as columns</span></span>
@@ -1373,6 +1373,7 @@ B =
 </section>
 <section id="sec-basis-change-exercises" class="level2" data-number="15.6">
 <h2 data-number="15.6" class="anchored" data-anchor-id="sec-basis-change-exercises"><span class="header-section-number">15.6</span> Exercises</h2>
+<p>Exercises marked † are harder: they take longer, or need an idea that the worked examples don’t show.</p>
 <ol type="1">
 <li><p><span id="exercise-basis-change-1"></span>Which of these are bases of <span class="math inline">\(\R^2\)</span> or <span class="math inline">\(\R^3\)</span>? Give a reason in each case.</p>
 <ol type="a">
@@ -1388,7 +1389,7 @@ B =
 <p><a href="../appendices/solutions-3.html#solution-basis-change-3" class="sol-link">Solution to exercise 3</a></p></li>
 <li><p><span id="exercise-basis-change-4"></span>Find a basis for the plane <span class="math inline">\(x + y + z = 0\)</span>. What is its dimension?</p>
 <p><a href="../appendices/solutions-3.html#solution-basis-change-4" class="sol-link">Solution to exercise 4</a></p></li>
-<li><p><span id="exercise-basis-change-5"></span>Use a convenient basis, as in Example 3, to find the matrix of the projection onto the line <span class="math inline">\(y = x\)</span>.</p>
+<li><p><span id="exercise-basis-change-5"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Use a convenient basis, as in Example 3, to find the matrix of the projection onto the line <span class="math inline">\(y = x\)</span>.</p>
 <p><a href="../appendices/solutions-3.html#solution-basis-change-5" class="sol-link">Solution to exercise 5</a></p></li>
 <li><p><span id="exercise-basis-change-6"></span>Show that if <span class="math inline">\(\M{B} = \M{P}^{-1}\M{A}\M{P}\)</span>, then <span class="math inline">\(\M{B}^2 = \M{P}^{-1}\M{A}^2\M{P}\)</span>. Explain what this means geometrically. (<em>Hint</em>: write <span class="math inline">\(\M{B}^2 = (\M{P}^{-1}\M{A}\M{P})(\M{P}^{-1}\M{A}\M{P})\)</span> and simplify the middle.)</p>
 <p><a href="../appendices/solutions-3.html#solution-basis-change-6" class="sol-link">Solution to exercise 6</a></p></li>
