@@ -290,7 +290,15 @@ $$
 $$
 so the inverse is $\mat{3 & -1 \\ -5 & 2}$. (This agrees with the $2 \times 2$ formula, since the determinant is 1.)
 
-For the $3 \times 3$ matrix, $R_2 \leftarrow R_2 - 2R_1$ gives row 2 as $(0, 1, -1)$ on the left, and then $R_3 \leftarrow R_3 - R_2$ makes the left part of row 3 all zeros. Column 3 has no pivot, so the left half can never become $\M{I}$, and the matrix has no inverse. (Its rank is 2, and its determinant is 0.)
+For the $3 \times 3$ matrix, the left half goes
+$$
+\mat{1 & 0 & 2 \\ 2 & 1 & 3 \\ 0 & 1 & -1}
+\xrightarrow{R_2 \,\leftarrow\, R_2 - 2R_1}
+\mat{1 & 0 & 2 \\ 0 & 1 & -1 \\ 0 & 1 & -1}
+\xrightarrow{R_3 \,\leftarrow\, R_3 - R_2}
+\mat{1 & 0 & 2 \\ 0 & 1 & -1 \\ 0 & 0 & 0},
+$$
+so the left part of row 3 is all zeros. Column 3 has no pivot, so the left half can never become $\M{I}$, and the matrix has no inverse. (Its rank is 2, and its determinant is 0.)
 
 [Back to exercise 4](../part-2/12-gauss-jordan-rank.qmd#exercise-gauss-jordan-rank-4){.sol-link}
 
@@ -514,12 +522,16 @@ Back substitution gives $z = 1$, $y = 2 - 1 = 1$ and $x = 4 - 2 - 1 = 1$. Adding
 
 [**2.**]{#solution-review-2-2} *Uses @sec-gaussian-elimination, @sec-gauss-jordan-rank and @sec-linear-systems.* Elimination gives
 $$
-\amat{rrr|r}{1 & 1 & 1 & 1 \\ 0 & 1 & 2 & 1 \\ 0 & 0 & a - 4 & b - 3}.
+\amat{rrr|c}{1 & 1 & 1 & 1 \\ 1 & 2 & 3 & 2 \\ 2 & 3 & a & b}
+\xrightarrow[R_3 \,\leftarrow\, R_3 - 2R_1]{R_2 \,\leftarrow\, R_2 - R_1}
+\amat{rrr|c}{1 & 1 & 1 & 1 \\ 0 & 1 & 2 & 1 \\ 0 & 1 & a - 2 & b - 2}
+\xrightarrow{R_3 \,\leftarrow\, R_3 - R_2}
+\amat{rrr|c}{1 & 1 & 1 & 1 \\ 0 & 1 & 2 & 1 \\ 0 & 0 & a - 4 & b - 3}.
 $$
 
 - (i) If $a \neq 4$, there are three pivots, and exactly one solution. The three planes meet at a single point.
 - (ii) If $a = 4$ and $b \neq 3$, the last row says $0 = b - 3 \neq 0$, so there is no solution. No two of the planes are parallel (their normals $(1, 1, 1)$, $(1, 2, 3)$ and $(2, 3, 4)$ are not multiples of each other), so they meet in pairs along three parallel lines, like the sides of a triangular tent.
-- (iii) If $a = 4$ and $b = 3$, the last row is all zeros, and
+- (iii) If $a = 4$ and $b = 3$, the last row is all zeros, and $R_1 \leftarrow R_1 - R_2$ gives the reduced form
   $$\amat{rrr|r}{1 & 0 & -1 & 0 \\ 0 & 1 & 2 & 1 \\ 0 & 0 & 0 & 0}.$$
   $z$ is free: $x = t$, $y = 1 - 2t$, $z = t$. The three planes share a common line.
 
@@ -529,6 +541,27 @@ $$
 $$
 \M{A}^{-1} = \frac{1}{3}\mat{1 & -2 & 2 \\ 1 & 1 & -1 \\ -1 & 2 & 1}.
 $$
+
+::: {.callout-note collapse="true" appearance="simple" icon=false}
+## Show the working: each row operation
+
+Start from
+$$
+\amat{rrr|rrr}{1 & 2 & 0 & 1 & 0 & 0 \\ 0 & 1 & 1 & 0 & 1 & 0 \\ 1 & 0 & 1 & 0 & 0 & 1}.
+$$
+Only row 3 changes in the first three steps:
+
+- $R_3 \leftarrow R_3 - R_1$: row 3 becomes $(0, -2, 1 \mid -1, 0, 1)$.
+- $R_3 \leftarrow R_3 + 2R_2$: row 3 becomes $(0, 0, 3 \mid -1, 2, 1)$.
+- $R_3 \leftarrow R_3 \div 3$: row 3 becomes $(0, 0, 1 \mid -\tfrac{1}{3}, \tfrac{2}{3}, \tfrac{1}{3})$.
+
+Then clear the entries above the pivots:
+
+- $R_2 \leftarrow R_2 - R_3$: row 2 becomes $(0, 1, 0 \mid \tfrac{1}{3}, \tfrac{1}{3}, -\tfrac{1}{3})$.
+- $R_1 \leftarrow R_1 - 2R_2$: row 1 becomes $(1, 0, 0 \mid \tfrac{1}{3}, -\tfrac{2}{3}, \tfrac{2}{3})$.
+
+The left half is now $\M{I}$, and the right half is $\M{A}^{-1}$.
+:::
 Expanding along the first row, $\det\M{A} = 1(1 - 0) - 2(0 - 1) + 0 = 3$, which matches the $\tfrac{1}{3}$ in front (the inverse is the adjugate divided by the determinant). Multiplying out, $\M{A}\M{A}^{-1} = \M{I}$. Then
 $$\vect{x} = \M{A}^{-1}\mat{1 \\ 1 \\ 1} = \frac{1}{3}\mat{1 \\ 1 \\ 2}.$$
 

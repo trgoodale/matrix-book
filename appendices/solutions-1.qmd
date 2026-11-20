@@ -78,13 +78,15 @@ ans =
 
 Exercises from @sec-arithmetic.
 
-[**1.**]{#solution-arithmetic-1}
+[**1.**]{#solution-arithmetic-1} Each entry of the answer comes from the entries in the same place. For example, the $(1, 2)$ entry of $\M{A} + \M{B}$ is $-1 + 5 = 4$.
 $$
 \M{A} + \M{B} = \mat{1 & 4 & 2 \\ 1 & 1 & 7},
 $$
+With $2\M{A} = \mat{6 & -2 & 4 \\ 0 & 8 & 2}$ and $3\M{B} = \mat{-6 & 15 & 0 \\ 3 & -9 & 18}$,
 $$
 2\M{A} - 3\M{B} = \mat{12 & -17 & 4 \\ -3 & 17 & -16},
 $$
+and with $\M{A} - \M{B} = \mat{5 & -6 & 2 \\ -1 & 7 & -5}$, turning rows into columns gives
 $$
 (\M{A} - \M{B})\T = \mat{5 & -1 \\ -6 & 7 \\ 2 & -5}.
 $$
@@ -169,13 +171,13 @@ Exercises from @sec-multiplication.
 
 [**1.**]{#solution-multiplication-1}
 
-(a) $\mat{-3 & 10 \\ 15 & -6}$.
+(a) Each entry is a row of the first matrix times a column of the second: $(2)(1) + (-1)(5) = -3$, $(2)(4) + (-1)(-2) = 10$, $(0)(1) + (3)(5) = 15$ and $(0)(4) + (3)(-2) = -6$, so the product is $\mat{-3 & 10 \\ 15 & -6}$.
 
 (b) $1 \cdot 3 + 0 \cdot (-1) + 2 \cdot 4 = 11$ (a $1 \times 1$ matrix).
 
 (c) Not defined: $(3 \times 2)(3 \times 2)$ has inner sizes 2 and 3.
 
-(d) $\mat{3 & 0 & 6 \\ -1 & 0 & -2 \\ 4 & 0 & 8}$.
+(d) A $3 \times 1$ column times a $1 \times 3$ row is $3 \times 3$, and each row-times-column has just one term: entry $(i, j)$ is (entry $i$ of the column) $\times$ (entry $j$ of the row). So the product is $\mat{3 & 0 & 6 \\ -1 & 0 & -2 \\ 4 & 0 & 8}$: each row is a multiple of $(1, 0, 2)$.
 
 [Back to exercise 1](../part-1/03-multiplication.qmd#exercise-multiplication-1){.sol-link}
 
@@ -358,8 +360,8 @@ Exercises from @sec-composition.
 (a) A rotation by $180°$:
 $$\mat{-1 & 0 \\ 0 & 1}\mat{1 & 0 \\ 0 & -1} = \mat{-1 & 0 \\ 0 & -1}.$$
 
-(b) A rotation by $90°$ combined with an enlargement by factor 3:
-$$3\mat{0 & -1 \\ 1 & 0} = \mat{0 & -3 \\ 3 & 0}.$$
+(b) A rotation by $90°$ combined with an enlargement by factor 3. The rotation comes first, so it goes on the right:
+$$\mat{3 & 0 \\ 0 & 3}\mat{0 & -1 \\ 1 & 0} = \mat{0 & -3 \\ 3 & 0}.$$
 
 (c) A reflection in the $y$-axis:
 $$\mat{0 & -1 \\ 1 & 0}\mat{0 & 1 \\ 1 & 0} = \mat{-1 & 0 \\ 0 & 1}.$$
@@ -486,7 +488,10 @@ $$
 \begin{vmatrix} 1 & 0 & 0 \\ x & y - x & z - x \\ x^2 & y^2 - x^2 & z^2 - x^2 \end{vmatrix}
 = (y - x)(z^2 - x^2) - (z - x)(y^2 - x^2).
 $$
-Taking out the common factor $(y - x)(z - x)$ leaves $(z + x) - (y + x) = z - y$. The matrix is singular exactly when two of $x$, $y$ and $z$ are equal.
+Factorising $z^2 - x^2 = (z - x)(z + x)$ and $y^2 - x^2 = (y - x)(y + x)$, this is
+$$
+(y - x)(z - x)(z + x) - (z - x)(y - x)(y + x) = (y - x)(z - x)\bigl[(z + x) - (y + x)\bigr] = (y - x)(z - x)(z - y).
+$$ The matrix is singular exactly when two of $x$, $y$ and $z$ are equal.
 
 [Back to exercise 5](../part-1/06-determinants.qmd#exercise-determinants-5){.sol-link}
 
@@ -560,6 +565,19 @@ $$
 \mat{1 & -1 & 3 \\ 3 & 2 & -6 \\ -1 & 1 & 2}, \qquad
 \operatorname{adj}\M{A} = \mat{1 & 3 & -1 \\ -1 & 2 & 1 \\ 3 & -6 & 2},
 $$
+
+::: {.callout-note collapse="true" appearance="simple" icon=false}
+## Show the working: the nine cofactors
+
+Each cofactor $C_{ij}$ is the determinant left after crossing out row $i$ and column $j$, with the sign $+$ or $-$ from the chessboard pattern $\mat{+ & - & + \\ - & + & - \\ + & - & +}$:
+
+- Row 1: $C_{11} = +\begin{vmatrix} 1 & 0 \\ 3 & 1 \end{vmatrix} = 1$, $C_{12} = -\begin{vmatrix} 1 & 0 \\ 0 & 1 \end{vmatrix} = -1$, $C_{13} = +\begin{vmatrix} 1 & 1 \\ 0 & 3 \end{vmatrix} = 3$.
+- Row 2: $C_{21} = -\begin{vmatrix} 0 & 1 \\ 3 & 1 \end{vmatrix} = 3$, $C_{22} = +\begin{vmatrix} 2 & 1 \\ 0 & 1 \end{vmatrix} = 2$, $C_{23} = -\begin{vmatrix} 2 & 0 \\ 0 & 3 \end{vmatrix} = -6$.
+- Row 3: $C_{31} = +\begin{vmatrix} 0 & 1 \\ 1 & 0 \end{vmatrix} = -1$, $C_{32} = -\begin{vmatrix} 2 & 1 \\ 1 & 0 \end{vmatrix} = 1$, $C_{33} = +\begin{vmatrix} 2 & 0 \\ 1 & 1 \end{vmatrix} = 2$.
+
+Transposing the matrix of cofactors gives the adjugate.
+:::
+
 so $\M{A}^{-1} = \frac{1}{5}\mat{1 & 3 & -1 \\ -1 & 2 & 1 \\ 3 & -6 & 2}$. Check: row 1 of $\M{A}$ times column 1 of the adjugate is $2 + 0 + 3 = 5$, and row 1 times column 2 is $6 + 0 - 6 = 0$. ✓
 
 [Back to exercise 3](../part-1/07-inverses.qmd#exercise-inverses-3){.sol-link}
@@ -650,7 +668,13 @@ Exercises from @sec-transformations-3d.
 
 [Back to exercise 1](../part-1/08-transformations-3d.qmd#exercise-transformations-3d-1){.sol-link}
 
-[**2.**]{#solution-transformations-3d-2} $\M{R}_x(90°)(2, -1, 4)\T = (2, -4, -1)\T$ and $\M{R}_y(90°)(2, -1, 4)\T = (4, -1, -2)\T$.
+[**2.**]{#solution-transformations-3d-2} With $\cos 90° = 0$ and $\sin 90° = 1$,
+$$
+\mat{1 & 0 & 0 \\ 0 & 0 & -1 \\ 0 & 1 & 0}\mat{2 \\ -1 \\ 4} = \mat{2 \\ -4 \\ -1},
+\qquad
+\mat{0 & 0 & 1 \\ 0 & 1 & 0 \\ -1 & 0 & 0}\mat{2 \\ -1 \\ 4} = \mat{4 \\ -1 \\ -2}.
+$$
+The rotation about the $x$-axis leaves the $x$-coordinate alone, and the rotation about the $y$-axis leaves the $y$-coordinate alone.
 
 [Back to exercise 2](../part-1/08-transformations-3d.qmd#exercise-transformations-3d-2){.sol-link}
 
@@ -658,7 +682,7 @@ Exercises from @sec-transformations-3d.
 
 [Back to exercise 3](../part-1/08-transformations-3d.qmd#exercise-transformations-3d-3){.sol-link}
 
-[**4.**]{#solution-transformations-3d-4} $\M{P} = \mat{1 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 1}$ and $\M{R}_y(90°) = \mat{0 & 0 & 1 \\ 0 & 1 & 0 \\ -1 & 0 & 0}$. Both products are
+[**4.**]{#solution-transformations-3d-4} $\M{P} = \mat{1 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 1}$ and $\M{R}_y(90°) = \mat{0 & 0 & 1 \\ 0 & 1 & 0 \\ -1 & 0 & 0}$. Multiplying by $\M{P}$ on the left sets row 2 to zero, and multiplying by $\M{P}$ on the right sets column 2 to zero. Row 2 and column 2 of $\M{R}_y(90°)$ are both $(0, 1, 0)$, so both ways give the same matrix:
 $$
 \mat{0 & 0 & 1 \\ 0 & 0 & 0 \\ -1 & 0 & 0}.
 $$
@@ -762,7 +786,7 @@ For $\theta = 0°$ the matrix is $\M{I}$: nothing moves, and every line is a lin
 
 [Back to exercise 5](../part-1/09-invariant-lines.qmd#exercise-invariant-lines-5){.sol-link}
 
-[**6.**]{#solution-invariant-lines-6} Multiplying out gives $\M{Q}\T\M{Q} = \tfrac{1}{9}\mat{9 & 0 & 0 \\ 0 & 9 & 0 \\ 0 & 0 & 9} = \M{I}$, and $\det\M{Q} = 1$. The axis satisfies $(\M{Q} - \M{I})\vect{x} = \zerovec$, that is
+[**6.**]{#solution-invariant-lines-6} The entries of $\M{Q}\T\M{Q}$ are the dot products of the columns of $\M{Q}$. Each column has length 1, for example $\tfrac{1}{9}(4 + 4 + 1) = 1$ for the first, and different columns are perpendicular, for example $\tfrac{1}{9}(-2 + 4 - 2) = 0$ for the first two. So $\M{Q}\T\M{Q} = \M{I}$, and expanding along the first row, $\det\M{Q} = \tfrac{1}{27}\bigl(2(4 + 2) + 1(4 - 1) + 2(4 + 2)\bigr) = 1$. The axis satisfies $(\M{Q} - \M{I})\vect{x} = \zerovec$, that is
 $$
 -x - y + 2z = 0,
 $$
@@ -772,7 +796,7 @@ $$
 $$
 -x + 2y - z = 0,
 $$
-which give $x = y = z$. The axis is the line through $(1, 1, 1)$. (The trace is $2 = 1 + 2\cos\alpha$, so the rotation angle is $60°$.)
+Subtracting the first equation from the second gives $3x - 3z = 0$, so $x = z$, and then the first gives $y = 2z - x = z$. So $x = y = z$ (the third equation agrees), and the axis is the line through $(1, 1, 1)$. (The trace is $2 = 1 + 2\cos\alpha$, so the rotation angle is $60°$.)
 
 [Back to exercise 6](../part-1/09-invariant-lines.qmd#exercise-invariant-lines-6){.sol-link}
 

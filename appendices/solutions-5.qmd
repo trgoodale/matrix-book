@@ -671,7 +671,7 @@ The eigenvalues of $\M{T}_J$ satisfy $\lambda^2 = \tfrac{1}{10}$, so $\rho_J = \
 $$
 \M{J} = \mat{2x & 2y \\ y & x} = \mat{4 & 1 \\ 0.5 & 2}, \qquad \vect{F}(2, 0.5) = \mat{0.25 \\ 0}
 $$
-at the starting point. Solving $\M{J}\vect{\delta} = -\vect{F}$ gives $\vect{\delta} = (-\tfrac{1}{15}, \tfrac{1}{60})$, so the new point is $(1.9333, 0.5167)$. The true solution is $x = (\sqrt{6} + \sqrt{2})/2 \approx 1.9319$, $y = (\sqrt{6} - \sqrt{2})/2 \approx 0.5176$ (from $(x + y)^2 = 6$ and $(x - y)^2 = 2$), so one step reduced the error from about 0.07 to about 0.0015.
+at the starting point. Solving $\M{J}\vect{\delta} = -\vect{F}$ means $4\delta_1 + \delta_2 = -0.25$ and $0.5\delta_1 + 2\delta_2 = 0$. The second gives $\delta_1 = -4\delta_2$, and then the first gives $-15\delta_2 = -0.25$, so $\vect{\delta} = (-\tfrac{1}{15}, \tfrac{1}{60})$, so the new point is $(1.9333, 0.5167)$. The true solution is $x = (\sqrt{6} + \sqrt{2})/2 \approx 1.9319$, $y = (\sqrt{6} - \sqrt{2})/2 \approx 0.5176$ (from $(x + y)^2 = 6$ and $(x - y)^2 = 2$), so one step reduced the error from about 0.07 to about 0.0015.
 
 [Back to exercise 5](../part-5/review.qmd#exercise-review-5-5){.sol-link}
 

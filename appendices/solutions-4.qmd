@@ -6,7 +6,7 @@ Solutions to the exercises in Part IV, grouped by chapter, followed by the solut
 
 Exercises from @sec-eigenvalues.
 
-[**1.**]{#solution-eigenvalues-1} The trace is 7 and the determinant is $10 - 4 = 6$, so $\lambda^2 - 7\lambda + 6 = 0$, giving $\lambda = 6$ or $1$. For $\lambda = 6$, $\M{A} - 6\M{I} = \mat{-1 & 2 \\ 2 & -4}$, so $\vect{v} = (2, 1)\T$. For $\lambda = 1$, $\M{A} - \M{I} = \mat{4 & 2 \\ 2 & 1}$, so $\vect{v} = (1, -2)\T$. Check: $6 + 1 = 7$ is the trace and $6 \times 1 = 6$ is the determinant. ✓
+[**1.**]{#solution-eigenvalues-1} The trace is 7 and the determinant is $10 - 4 = 6$, so $\lambda^2 - 7\lambda + 6 = 0$, giving $\lambda = 6$ or $1$. For $\lambda = 6$, $\M{A} - 6\M{I} = \mat{-1 & 2 \\ 2 & -4}$; its first row says $-x + 2y = 0$, so $x = 2y$ and $\vect{v} = (2, 1)\T$ (the second row says the same thing, as it must). For $\lambda = 1$, $\M{A} - \M{I} = \mat{4 & 2 \\ 2 & 1}$, whose second row says $2x + y = 0$, so $\vect{v} = (1, -2)\T$. Check: $6 + 1 = 7$ is the trace and $6 \times 1 = 6$ is the determinant. ✓
 
 [Back to exercise 1](../part-4/18-eigenvalues.qmd#exercise-eigenvalues-1){.sol-link}
 
@@ -95,9 +95,9 @@ $$
 \qquad
 \M{P}^{-1} = \frac{1}{2}\mat{1 & 1 \\ 1 & -1}.
 $$
-Then
+Then $\M{D}^{10} = \mat{3^{10} & 0 \\ 0 & (-1)^{10}} = \mat{59049 & 0 \\ 0 & 1}$, and $\M{P}\M{D}^{10} = \mat{3^{10} & 1 \\ 3^{10} & -1}$ (each column of $\M{P}$ scaled by its eigenvalue to the 10th power), so
 $$
-\M{A}^{10} = \M{P}\mat{3^{10} & 0 \\ 0 & 1}\M{P}^{-1} = \frac{1}{2}\mat{3^{10} + 1 & 3^{10} - 1 \\ 3^{10} - 1 & 3^{10} + 1} = \mat{29525 & 29524 \\ 29524 & 29525}.
+\M{A}^{10} = \M{P}\M{D}^{10}\M{P}^{-1} = \frac{1}{2}\mat{3^{10} + 1 & 3^{10} - 1 \\ 3^{10} - 1 & 3^{10} + 1} = \mat{29525 & 29524 \\ 29524 & 29525}.
 $$
 
 [Back to exercise 1](../part-4/19-diagonalisation.qmd#exercise-diagonalisation-1){.sol-link}
@@ -211,11 +211,13 @@ $$
 
 [**2.**]{#solution-symmetric-matrices-2}
 
-(a) The matrix is $\mat{2 & 1 \\ 1 & 2}$, with eigenvalues 3 and 1: positive definite.
+Split each cross term equally between the two off-diagonal entries. For a $2 \times 2$ matrix the eigenvalues solve $\lambda^2 - (\text{trace})\lambda + \det = 0$.
 
-(b) The matrix is $\mat{1 & 3 \\ 3 & 1}$, with eigenvalues 4 and $-2$: indefinite. For example, $(1, -1)$ gives $1 - 6 + 1 = -4$.
+(a) The matrix is $\mat{2 & 1 \\ 1 & 2}$, with trace 4 and determinant 3, so $\lambda^2 - 4\lambda + 3 = 0$ and the eigenvalues are 3 and 1: positive definite.
 
-(c) The matrix is $\mat{1 & -2 \\ -2 & 4}$, with eigenvalues 5 and 0: positive semidefinite. In fact $x^2 - 4xy + 4y^2 = (x - 2y)^2$, which is zero along the line $x = 2y$.
+(b) The matrix is $\mat{1 & 3 \\ 3 & 1}$, with trace 2 and determinant $-8$, so $\lambda^2 - 2\lambda - 8 = (\lambda - 4)(\lambda + 2) = 0$ and the eigenvalues are 4 and $-2$: indefinite. For example, $(1, -1)$ gives $1 - 6 + 1 = -4$.
+
+(c) The matrix is $\mat{1 & -2 \\ -2 & 4}$, with trace 5 and determinant 0, so the eigenvalues are 5 and 0: positive semidefinite. In fact $x^2 - 4xy + 4y^2 = (x - 2y)^2$, which is zero along the line $x = 2y$.
 
 [Back to exercise 2](../part-4/20-symmetric-matrices.qmd#exercise-symmetric-matrices-2){.sol-link}
 
@@ -370,7 +372,7 @@ Exercises from @sec-matrix-calculus.
 
 [Back to exercise 2](../part-4/22-matrix-calculus.qmd#exercise-matrix-calculus-2){.sol-link}
 
-[**3.**]{#solution-matrix-calculus-3}
+[**3.**]{#solution-matrix-calculus-3} Row $i$ of the Jacobian holds the partial derivatives of $f_i$. For $f_1 = x^2y$, $\partial f_1/\partial x = 2xy$ (treating $y$ as a constant) and $\partial f_1/\partial y = x^2$. For $f_2 = x + \sin y$, $\partial f_2/\partial x = 1$ and $\partial f_2/\partial y = \cos y$. So
 $$
 \M{J} = \mat{\partial f_1/\partial x & \partial f_1/\partial y \\ \partial f_2/\partial x & \partial f_2/\partial y} = \mat{2xy & x^2 \\ 1 & \cos y},
 \qquad
@@ -479,7 +481,7 @@ The second mode dies away and the first grows, so $\vect{x}(t)$ grows without li
 
 (c) $\tau = -6$, $\Delta = 8$, and $\tau^2 - 4\Delta = 4 > 0$: a stable node, with $\lambda = -2$ and $-4$.
 
-(d) $\Delta = -2 < 0$: a saddle, with $\lambda = 2$ and $-1$.
+(d) $\Delta = -2 < 0$: a saddle. The matrix is diagonal, so its eigenvalues are its diagonal entries, $\lambda = 2$ and $-1$.
 
 [Back to exercise 3](../part-4/23-linear-odes.qmd#exercise-linear-odes-3){.sol-link}
 
@@ -567,7 +569,7 @@ This is greatest when $\dot{x}_2 = 0$, that is $0.2e^{-0.2t} = 0.5e^{-0.5t}$, so
 
 Exercises from the [Part IV review](../part-4/review.qmd).
 
-[**1.**]{#solution-review-4-1} *Uses @sec-eigenvalues and @sec-diagonalisation.* $\det(\M{A} - \lambda\M{I}) = (2 - \lambda)^2 - 1 = 0$ gives $\lambda = 3$, with eigenvector $(1, 1)$, and $\lambda = 1$, with eigenvector $(1, -1)$. So $\M{A} = \M{V}\M{\Lambda}\M{V}^{-1}$ with $\M{V} = \mat{1 & 1 \\ 1 & -1}$, and
+[**1.**]{#solution-review-4-1} *Uses @sec-eigenvalues and @sec-diagonalisation.* $\det(\M{A} - \lambda\M{I}) = (2 - \lambda)^2 - 1 = 0$ gives $\lambda = 3$, with eigenvector $(1, 1)$, and $\lambda = 1$, with eigenvector $(1, -1)$. So $\M{A} = \M{V}\M{\Lambda}\M{V}^{-1}$ with $\M{V} = \mat{1 & 1 \\ 1 & -1}$ and $\M{V}^{-1} = \tfrac{1}{2}\mat{1 & 1 \\ 1 & -1}$. Then $\M{V}\M{\Lambda}^{10} = \mat{3^{10} & 1 \\ 3^{10} & -1}$, and
 $$
 \M{A}^{10} = \M{V}\mat{3^{10} & 0 \\ 0 & 1}\M{V}^{-1}
 = \frac{1}{2}\mat{3^{10} + 1 & 3^{10} - 1 \\ 3^{10} - 1 & 3^{10} + 1}
@@ -582,7 +584,7 @@ The trace is 1.7 and the determinant is 0.7, so the eigenvalues are 1 and 0.7. F
 
 [Back to exercise 2](../part-4/review.qmd#exercise-review-4-2){.sol-link}
 
-[**3.**]{#solution-review-4-3} *Uses @sec-symmetric-matrices.* The curve is $\vect{x}\T\M{A}\vect{x} = 6$ with $\M{A} = \mat{5 & 2 \\ 2 & 2}$. Its eigenvalues are 6, with unit eigenvector $(2, 1)/\sqrt{5}$, and 1, with unit eigenvector $(-1, 2)/\sqrt{5}$. In coordinates $u$, $v$ along these directions, the curve is $6u^2 + v^2 = 6$, or
+[**3.**]{#solution-review-4-3} *Uses @sec-symmetric-matrices.* The curve is $\vect{x}\T\M{A}\vect{x} = 6$ with $\M{A} = \mat{5 & 2 \\ 2 & 2}$. Its trace is 7 and its determinant 6, so $\lambda^2 - 7\lambda + 6 = (\lambda - 6)(\lambda - 1) = 0$. For $\lambda = 6$, $\M{A} - 6\M{I} = \mat{-1 & 2 \\ 2 & -4}$ gives $x = 2y$, so the eigenvalues are 6, with unit eigenvector $(2, 1)/\sqrt{5}$, and 1, with the perpendicular unit eigenvector $(-1, 2)/\sqrt{5}$. In coordinates $u$, $v$ along these directions, the curve is $6u^2 + v^2 = 6$, or
 $$u^2 + \frac{v^2}{6} = 1.$$
 Both eigenvalues are positive, so it is an ellipse: half-length 1 along $(2, 1)$, and $\sqrt{6} \approx 2.45$ along $(-1, 2)$. From the matrix alone: $\det\M{A} = 6 > 0$ and the trace is positive, so both eigenvalues are positive. A negative determinant would mean eigenvalues of opposite signs, and a hyperbola.
 
@@ -590,11 +592,11 @@ Both eigenvalues are positive, so it is an ellipse: half-length 1 along $(2, 1)$
 
 [**4.**]{#solution-review-4-4} *Uses @sec-svd-pca and @sec-floating-point-conditioning.*
 $$\M{A}\T\M{A} = \mat{25 & 20 \\ 20 & 25},$$
-with eigenvalues $45$ and $5$, so $\sigma_1 = \sqrt{45} = 3\sqrt{5} \approx 6.71$ and $\sigma_2 = \sqrt{5} \approx 2.24$. Their product is $\sqrt{225} = 15 = \lvert\det\M{A}\rvert$. The condition number is $\kappa_2 = \sigma_1/\sigma_2 = 3$. The nearest singular matrix is found by setting $\sigma_2$ to zero, so its distance from $\M{A}$ is $\sigma_2 = \sqrt{5}$.
+with trace 50 and determinant $625 - 400 = 225$, so its eigenvalues solve $\lambda^2 - 50\lambda + 225 = (\lambda - 45)(\lambda - 5) = 0$. They are $45$ and $5$, so $\sigma_1 = \sqrt{45} = 3\sqrt{5} \approx 6.71$ and $\sigma_2 = \sqrt{5} \approx 2.24$. Their product is $\sqrt{225} = 15 = \lvert\det\M{A}\rvert$. The condition number is $\kappa_2 = \sigma_1/\sigma_2 = 3$. The nearest singular matrix is found by setting $\sigma_2$ to zero, so its distance from $\M{A}$ is $\sigma_2 = \sqrt{5}$.
 
 [Back to exercise 4](../part-4/review.qmd#exercise-review-4-4){.sol-link}
 
-[**5.**]{#solution-review-4-5} *Uses @sec-linear-odes and @sec-eigenvalues.* The eigenvalues are $-1$, with eigenvector $(1, 1)$, and $-3$, with eigenvector $(1, -1)$. Writing $\vect{x}(0) = \tfrac{1}{2}(1, 1) + \tfrac{1}{2}(1, -1)$,
+[**5.**]{#solution-review-4-5} *Uses @sec-linear-odes and @sec-eigenvalues.* The trace is $-4$ and the determinant $4 - 1 = 3$, so $\lambda^2 + 4\lambda + 3 = (\lambda + 1)(\lambda + 3) = 0$. For $\lambda = -1$, $\M{A} + \M{I} = \mat{-1 & 1 \\ 1 & -1}$ gives $x_1 = x_2$; for $\lambda = -3$, $\M{A} + 3\M{I} = \mat{1 & 1 \\ 1 & 1}$ gives $x_1 = -x_2$. So the eigenvalues are $-1$, with eigenvector $(1, 1)$, and $-3$, with eigenvector $(1, -1)$. Writing $\vect{x}(0) = \tfrac{1}{2}(1, 1) + \tfrac{1}{2}(1, -1)$,
 $$
 \vect{x}(t) = \tfrac{1}{2}e^{-t}\mat{1 \\ 1} + \tfrac{1}{2}e^{-3t}\mat{1 \\ -1},
 $$
@@ -602,7 +604,7 @@ that is, $x_1 = \tfrac{1}{2}(e^{-t} + e^{-3t})$ and $x_2 = \tfrac{1}{2}(e^{-t} -
 
 [Back to exercise 5](../part-4/review.qmd#exercise-review-4-5){.sol-link}
 
-[**6.**]{#solution-review-4-6} *Uses @sec-matrix-calculus and @sec-symmetric-matrices.* For symmetric $\M{A}$, the gradient is $\nabla f = 2\M{A}\vect{x} - 2\vect{b}$. Setting it to zero gives $\M{A}\vect{x} = \vect{b}$, so $\vect{x} = (\tfrac{1}{3}, \tfrac{1}{3})$, and
+[**6.**]{#solution-review-4-6} *Uses @sec-matrix-calculus and @sec-symmetric-matrices.* For symmetric $\M{A}$, the gradient is $\nabla f = 2\M{A}\vect{x} - 2\vect{b}$. Setting it to zero gives $\M{A}\vect{x} = \vect{b}$, that is $2x_1 + x_2 = 1$ and $x_1 + 2x_2 = 1$. Subtracting, $x_1 = x_2$, and then $3x_1 = 1$, so $\vect{x} = (\tfrac{1}{3}, \tfrac{1}{3})$. There, $\vect{x}\T\M{A}\vect{x} = \vect{x}\T\vect{b} = \tfrac{2}{3}$ and $2\vect{b}\T\vect{x} = \tfrac{4}{3}$, so
 $$f = \tfrac{2}{3} - \tfrac{4}{3} = -\tfrac{2}{3}.$$
 The Hessian is $2\M{A}$, and $\M{A}$ has eigenvalues 3 and 1 (exercise 1), both positive. So $\M{A}$ is positive definite, $f$ is a bowl, and this point is its minimum.
 
