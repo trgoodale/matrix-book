@@ -11,7 +11,14 @@
 - measure how important each node is, using the leading eigenvector of the adjacency matrix
 :::
 
-**Builds on** @sec-multiplication, @sec-fundamental-subspaces, @sec-symmetric-matrices. The circuits of @sec-circuits and the PageRank of @sec-markov-pagerank use some of the same ideas.
+**Builds on** @sec-multiplication, @sec-fundamental-subspaces, @sec-eigenvalues. It also uses three results from @sec-symmetric-matrices, given in the box below, so you can read it without that chapter. The circuits of @sec-circuits and the PageRank of @sec-markov-pagerank use some of the same ideas.
+
+::: {.callout-tip appearance="simple"}
+## What you need from Chapter 20
+- A symmetric matrix has real eigenvalues and a full set of perpendicular eigenvectors.
+- If $\vect{x}\T\M{S}\vect{x} \ge 0$ for every $\vect{x}$ (the matrix is **positive semidefinite**), every eigenvalue of $\M{S}$ is at least 0.
+- Among unit vectors, $\vect{x}\T\M{S}\vect{x}$ is smallest at the eigenvector of the smallest eigenvalue, where it equals that eigenvalue. Among unit vectors perpendicular to that eigenvector, it is smallest at the eigenvector of the next eigenvalue. This is used only in an optional aside on splitting networks.
+:::
 
 ## The problem
 
@@ -99,9 +106,14 @@ Suppose we want to split a connected network into two groups, cutting as few edg
 $$
 \vect{x}\T\M{L}\vect{x} = 4 \times (\text{number of edges cut}).
 $$
-Requiring $\vect{x} \perp \vect{1}$ makes the two groups the same size. Finding the best $\pm 1$ vector is very hard for large networks, but if we allow any real numbers, with $\lVert\vect{x}\rVert = 1$ and $\vect{x} \perp \vect{1}$, the minimum of $\vect{x}\T\M{L}\vect{x}$ is $\lambda_2$, reached at its eigenvector $\vect{v}_2$. This is the Rayleigh quotient idea of @sec-symmetric-matrices: the smallest eigenvalue minimises $\vect{x}\T\M{L}\vect{x}$ over unit vectors, and the next one does so over unit vectors perpendicular to the first eigenvector, here $\vect{1}$.
+Finding the best split exactly is very hard for a large network, but an eigenvector of $\M{L}$ gives an excellent approximate one.
 
-So **spectral partitioning** splits the nodes by the signs of $\vect{v}_2$, which is called the **Fiedler vector**, after Miroslav Fiedler. Its eigenvalue $\lambda_2$, the **algebraic connectivity**, measures how well connected the network is: a small $\lambda_2$ means that some split cuts few edges, and a network with a bottleneck has a small $\lambda_2$.
+::: {.callout-note appearance="simple" collapse="true"}
+## Optional: why the eigenvector gives a good split
+Requiring $\vect{x} \perp \vect{1}$ makes the two groups the same size. Finding the best $\pm 1$ vector is very hard for large networks, but if we allow any real numbers, with $\lVert\vect{x}\rVert = 1$ and $\vect{x} \perp \vect{1}$, the minimum of $\vect{x}\T\M{L}\vect{x}$ is $\lambda_2$, reached at its eigenvector $\vect{v}_2$. This is the third fact in the box at the start of the chapter, the Rayleigh quotient idea of @sec-symmetric-matrices: the smallest eigenvalue minimises $\vect{x}\T\M{L}\vect{x}$ over unit vectors, and the next one does so over unit vectors perpendicular to the first eigenvector, here $\vect{1}$.
+:::
+
+**Spectral partitioning** splits the nodes by the signs of $\vect{v}_2$, the eigenvector of the second smallest eigenvalue $\lambda_2$. This eigenvector is called the **Fiedler vector**, after Miroslav Fiedler. Its eigenvalue $\lambda_2$, the **algebraic connectivity**, measures how well connected the network is: a small $\lambda_2$ means that some split cuts few edges, and a network with a bottleneck has a small $\lambda_2$.
 
 ::: {#ex-networks-3 .callout-note appearance="simple" icon=false}
 ### Example 3: two triangles and a bridge

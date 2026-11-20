@@ -11,7 +11,14 @@
 - explain resonance, and how a small added mass can stop a large one vibrating
 :::
 
-**Builds on** @sec-symmetric-matrices, @sec-linear-odes. The stiffness matrix of @sec-trusses helps, but this chapter explains what it needs.
+**Builds on** @sec-eigenvalues. It also uses three results from @sec-symmetric-matrices and @sec-linear-odes, given in the box below, so you can read it without those chapters. The stiffness matrix of @sec-trusses helps, but this chapter explains what it needs.
+
+::: {.callout-tip appearance="simple"}
+## What you need from Chapters 20 and 23
+- A symmetric matrix has real eigenvalues and a full set of perpendicular eigenvectors, even when an eigenvalue repeats.
+- If $\vect{x}\T\M{S}\vect{x} \ge 0$ for every $\vect{x}$ (the matrix is **positive semidefinite**), every eigenvalue of $\M{S}$ is at least 0.
+- A linear system of differential equations can be solved one eigenvector at a time: write the starting state as a combination of eigenvectors, and each part then changes on its own. This chapter does the same for equations with second derivatives, and explains it as it goes.
+:::
 
 ## The problem
 
