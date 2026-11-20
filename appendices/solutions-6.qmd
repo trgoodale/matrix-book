@@ -635,6 +635,343 @@ The known pairs AT and TA give $\M{P} = \mat{0 & 19 \\ 19 & 0}$, with determinan
 
 [Back to exercise 6](../part-6/39-cryptography.qmd#exercise-cryptography-6){.sol-link}
 
+## Vibrations and normal modes {#sec-solutions-vibrations}
+
+Exercises from @sec-vibrations.
+
+[**1.**]{#solution-vibrations-1} The upper spring connects to the support and the lower one joins the masses, so
+$$
+\M{K} = k\mat{2 & -1 \\ -1 & 1}, \qquad \M{M} = m\M{I}.
+$$
+Writing $\omega^2 = \lambda k/m$, the equation $\det(\M{K} - \omega^2\M{M}) = 0$ becomes
+$$
+(2 - \lambda)(1 - \lambda) - 1 = \lambda^2 - 3\lambda + 1 = 0,
+$$
+so
+$$
+\lambda = \frac{3 \mp \sqrt{5}}{2} \approx 0.382, \; 2.618.
+$$
+So $\omega_1 \approx 0.618\sqrt{k/m}$ and $\omega_2 \approx 1.618\sqrt{k/m}$ (these are the golden ratio and its reciprocal, since $\sqrt{0.382} = 0.618$ and $\sqrt{2.618} = 1.618$). The first row gives $v_2 = (2 - \lambda)v_1$. For $\lambda_1$, $\vect{v}_1 \approx (1, 1.618)$: both masses move the same way, the lower one further. For $\lambda_2$, $\vect{v}_2 \approx (1, -0.618)$: they move in opposite directions.
+
+[Back to exercise 1](../part-6/40-vibrations.qmd#exercise-vibrations-1){.sol-link}
+
+[**2.**]{#solution-vibrations-2} On the one hand, $\vect{v}\T\M{K}\vect{w} = \vect{v}\T(\mu\M{M}\vect{w}) = \mu\,\vect{v}\T\M{M}\vect{w}$. On the other, since $\M{K}$ and $\M{M}$ are symmetric,
+$$
+\vect{v}\T\M{K}\vect{w} = (\M{K}\vect{v})\T\vect{w} = (\lambda\M{M}\vect{v})\T\vect{w} = \lambda\,\vect{v}\T\M{M}\vect{w}.
+$$
+Subtracting, $(\lambda - \mu)\,\vect{v}\T\M{M}\vect{w} = 0$, and $\lambda \neq \mu$, so $\vect{v}\T\M{M}\vect{w} = 0$. Then $\vect{v}\T\M{K}\vect{w} = \mu \times 0 = 0$ too.
+
+[Back to exercise 2](../part-6/40-vibrations.qmd#exercise-vibrations-2){.sol-link}
+
+[**3.**]{#solution-vibrations-3} The bond pulls each atom towards the other, so
+$$
+\M{K} = k\mat{1 & -1 \\ -1 & 1}, \qquad \M{M} = \mat{m_1 & 0 \\ 0 & m_2},
+$$
+and
+$$
+\det(\M{K} - \omega^2\M{M}) = (k - \omega^2m_1)(k - \omega^2m_2) - k^2 = \omega^2\bigl(\omega^2m_1m_2 - k(m_1 + m_2)\bigr).
+$$
+So $\omega^2 = 0$ or $\omega^2 = k(m_1 + m_2)/(m_1m_2) = k(1/m_1 + 1/m_2)$. For $\omega = 0$, the mode is $(1, 1)$: the whole molecule drifts without stretching the bond. For the other, the first row gives $(k - \omega^2m_1)v_1 = kv_2$, and $k - \omega^2m_1 = -km_1/m_2$, so $\vect{v} = (m_2, -m_1)$: the atoms move in opposite directions, the lighter one further, and the centre of mass $m_1v_1 + m_2v_2 = 0$ stays still.
+
+For carbon monoxide, $1/m_1 + 1/m_2 = (1/12 + 1/16)/(1.661 \times 10^{-27}) = (7/48)/(1.661 \times 10^{-27})$ per kg, so
+$$
+\omega = \sqrt{1900 \times \frac{7/48}{1.661 \times 10^{-27}}} \approx 4.08 \times 10^{14} \text{ rad/s},
+\qquad
+f = \frac{\omega}{2\pi} \approx 6.5 \times 10^{13} \text{ Hz}.
+$$
+Light of this frequency has a wavelength of about $c/f \approx 4.6$ micrometres, in the infrared, where carbon monoxide does absorb strongly.
+
+[Back to exercise 3](../part-6/40-vibrations.qmd#exercise-vibrations-3){.sol-link}
+
+[**4.**]{#solution-vibrations-4} The start is at the resting position, so every $a_i = 0$. With $\M{M} = \M{I}$ and $\dot{\vect{x}}_0 = (0.5, 0)$,
+$$
+b_1 = \frac{\vect{v}_1\T\dot{\vect{x}}_0}{\omega_1\,\vect{v}_1\T\vect{v}_1} = \frac{0.5}{10 \times 2} = 0.025,
+\qquad
+b_2 = \frac{0.5}{\sqrt{300} \times 2} \approx 0.0144,
+$$
+so
+$$
+\vect{x}(t) = 0.025\sin(10t)\mat{1 \\ 1} + 0.0144\sin(17.3t)\mat{1 \\ -1}
+$$
+in metres. Differentiating at $t = 0$ gives $0.025 \times 10\,(1, 1) + 0.0144 \times 17.3\,(1, -1) = (0.5, 0)$. ✓
+
+[Back to exercise 4](../part-6/40-vibrations.qmd#exercise-vibrations-4){.sol-link}
+
+[**5.**]{#solution-vibrations-5} Now $\M{K} = 10^6\mat{20 & -4 \\ -4 & 4}$. Dividing by $4 \times 10^6$ as in Example 3, with $\mu = \omega^2/400$,
+$$
+(5 - 2\mu)(1 - \mu) - 1 = 2\mu^2 - 7\mu + 4 = 0,
+$$
+so
+$$
+\mu = \frac{7 \mp \sqrt{17}}{4} \approx 0.719, \; 2.781.
+$$
+So $\omega^2 \approx 288$ and $1112$, giving $\omega_1 \approx 17.0$ rad/s (2.70 Hz) and $\omega_2 \approx 33.4$ rad/s (5.31 Hz). The first row gives $v_2 = (5 - 2\mu)v_1$, so the modes are $(1, 3.56)$ and $(1, -0.56)$.
+
+Both frequencies went up, as they must when a structure is made stiffer. In the first mode, the top floor now moves 3.56 times as far as the lower one, instead of twice as far: the stiff lower storey hardly bends, and most of the sway happens in the upper storey.
+
+[Back to exercise 5](../part-6/40-vibrations.qmd#exercise-vibrations-5){.sol-link}
+
+[**6.**]{#solution-vibrations-6} The system is the one of Example 3 in symbols: $\M{K} = \mat{k_1 + k_2 & -k_2 \\ -k_2 & k_2}$, $\M{M} = \operatorname{diag}(m_1, m_2)$, and the force is $(F, 0)$. @eq-forced is
+$$
+\mat{k_1 + k_2 - \Omega^2m_1 & -k_2 \\ -k_2 & k_2 - \Omega^2m_2}\mat{X_1 \\ X_2} = \mat{F \\ 0},
+$$
+and by the $2 \times 2$ inverse formula,
+$$
+X_1 = \frac{(k_2 - \Omega^2m_2)F}{\Delta},
+\qquad
+X_2 = \frac{k_2F}{\Delta},
+$$
+where $\Delta$ is the determinant. So $X_1 = 0$ when $\Omega^2 = k_2/m_2$, whatever $m_1$ and $k_1$ are. (There, $\Delta = -k_2^2$, so $X_2 = -F/k_2$, and the spring pulls on the machine with force $k_2(X_2 - X_1) = -F$, exactly cancelling the motor.) For 50 Hz, $\Omega = 2\pi \times 50 \approx 314$ rad/s, so
+$$
+k_2 = m_2\Omega^2 = 2 \times 314.2^2 \approx 1.97 \times 10^5 \text{ N/m}.
+$$
+The absorber only works near this one frequency; at other speeds the combined system has two resonances, one on each side of it.
+
+[Back to exercise 6](../part-6/40-vibrations.qmd#exercise-vibrations-6){.sol-link}
+
+[**7.**]{#solution-vibrations-7}
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+#| fig-alt: "The first three mode shapes of a chain of 30 masses between two walls, plotted against mass number: half a sine wave, a full sine wave and one and a half sine waves, each zero at both ends."
+import numpy as np
+import matplotlib.pyplot as plt
+
+m, k, n = 1, 100, 10
+K = k * (2 * np.eye(n) - np.eye(n, k=1) - np.eye(n, k=-1))
+omega = np.sqrt(np.linalg.eigvalsh(K) / m)       # M = m I, so an ordinary eigenproblem
+exact = 2 * np.sqrt(k / m) * np.sin(np.arange(1, n + 1) * np.pi / (2 * (n + 1)))
+print("agree:", np.allclose(omega, exact))
+
+n = 30                                           # mode shapes for a longer chain
+K = 2 * np.eye(n) - np.eye(n, k=1) - np.eye(n, k=-1)
+lam, V = np.linalg.eigh(K)
+plt.figure(figsize=(6, 3))
+for j in range(3):
+    plt.plot(range(1, n + 1), V[:, j], "o-", ms=3, label=f"mode {j + 1}")
+plt.xlabel("mass number"); plt.ylabel("displacement"); plt.legend()
+plt.show()
+```
+
+## MATLAB
+
+```matlab
+m = 1; k = 100; n = 10;
+K = k * (2*eye(n) - diag(ones(n-1, 1), 1) - diag(ones(n-1, 1), -1));
+omega = sqrt(eig(K) / m);                         % M = m*I, so an ordinary eigenproblem
+exact = 2*sqrt(k/m) * sin((1:n)' * pi / (2*(n+1)));
+fprintf('agree: %d\n', max(abs(omega - exact)) < 1e-12)
+
+n = 30;                                           % mode shapes for a longer chain
+K = 2*eye(n) - diag(ones(n-1, 1), 1) - diag(ones(n-1, 1), -1);
+[V, ~] = eig(K);
+plot(1:n, V(:, 1:3), 'o-')
+xlabel('mass number'); ylabel('displacement'); legend('mode 1', 'mode 2', 'mode 3')
+```
+
+```{.text .code-output}
+agree: 1
+```
+:::
+
+The mode shapes are samples of sine curves: half a wave for mode 1, a whole wave for mode 2, one and a half for mode 3, each zero at the walls (the signs may be flipped). A long chain of masses and springs approximates a stretched string, such as a guitar string, whose modes are exactly these sines, with frequencies in the ratio $1 : 2 : 3$ for the low modes. The matrix is the finite difference matrix of @sec-finite-differences.
+
+[Back to exercise 7](../part-6/40-vibrations.qmd#exercise-vibrations-7){.sol-link}
+
+## Networks and graphs {#sec-solutions-networks}
+
+Exercises from @sec-networks.
+
+[**1.**]{#solution-networks-1}
+$$
+\M{A} = \mat{0 & 1 & 1 & 1 \\ 1 & 0 & 0 & 0 \\ 1 & 0 & 0 & 0 \\ 1 & 0 & 0 & 0},
+\qquad
+\M{A}^2 = \mat{3 & 0 & 0 & 0 \\ 0 & 1 & 1 & 1 \\ 0 & 1 & 1 & 1 \\ 0 & 1 & 1 & 1},
+\qquad
+\M{A}^3 = \mat{0 & 3 & 3 & 3 \\ 3 & 0 & 0 & 0 \\ 3 & 0 & 0 & 0 \\ 3 & 0 & 0 & 0}.
+$$
+In $\M{A}^2$, the centre has 3 walks of length 2 back to itself (out to any leaf and back), each leaf has 1 (to the centre and back), and each pair of leaves has 1 walk between them, through the centre: one friend in common. $\M{A}^3 = 3\M{A}$: there are 3 walks of length 3 between the centre and each leaf, for example leaf 2 → 1 → leaf 3 → 1. The trace of $\M{A}^3$ is 0 because there are no triangles. In fact every walk alternates between the centre and a leaf, so every walk back to its start has even length.
+
+[Back to exercise 1](../part-6/41-networks.qmd#exercise-networks-1){.sol-link}
+
+[**2.**]{#solution-networks-2} $\vect{x}\T\M{D}\vect{x} = \sum_i d_ix_i^2$. Each edge $ij$ adds 1 to $d_i$ and 1 to $d_j$, so this is $\sum_{\text{edges } ij}(x_i^2 + x_j^2)$. And $\vect{x}\T\M{A}\vect{x} = \sum_{i, j}a_{ij}x_ix_j$, in which each edge appears twice, as $a_{ij}$ and $a_{ji}$, so it is $\sum_{\text{edges } ij}2x_ix_j$. Subtracting,
+$$
+\vect{x}\T\M{L}\vect{x} = \sum_{\text{edges } ij}\bigl(x_i^2 - 2x_ix_j + x_j^2\bigr) = \sum_{\text{edges } ij}(x_i - x_j)^2.
+$$
+
+[Back to exercise 2](../part-6/41-networks.qmd#exercise-networks-2){.sol-link}
+
+[**3.**]{#solution-networks-3} (a) Every node has degree 3, so $\M{L} = 3\M{I} - (\M{J} - \M{I}) = 4\M{I} - \M{J}$, where $\M{J}$ is the matrix of all ones. $\M{J}\vect{1} = 4\vect{1}$, so $\M{L}\vect{1} = \zerovec$; and for any $\vect{x}$ perpendicular to $\vect{1}$, such as $(1, -1, 0, 0)$, $\M{J}\vect{x} = \zerovec$, so $\M{L}\vect{x} = 4\vect{x}$. There are three independent such vectors, so the eigenvalues are 0, 4, 4, 4.
+
+(b) $\M{L} = \mat{1 & -1 & 0 & 0 \\ -1 & 2 & -1 & 0 \\ 0 & -1 & 2 & -1 \\ 0 & 0 & -1 & 1}$, with eigenvalues $0$, $2 - \sqrt{2} \approx 0.586$, $2$ and $2 + \sqrt{2} \approx 3.414$ (by computer, or by checking the eigenvectors $(1, \sqrt{2} - 1, 1 - \sqrt{2}, -1)$ and so on).
+
+The complete graph has $\lambda_2 = 4$, far larger than the path's 0.586. That makes sense: splitting the complete graph into two pairs cuts 4 of its 6 edges, while the path falls into two halves when one edge is cut.
+
+[Back to exercise 3](../part-6/41-networks.qmd#exercise-networks-3){.sol-link}
+
+[**4.**]{#solution-networks-4} For the square, $\M{A}^2$ has 2 on the diagonal and 2 in the positions $(1, 3)$, $(2, 4)$, $(3, 1)$ and $(4, 2)$, and zeros elsewhere: two walks of length 2 join opposite corners. Every walk round the square alternates between the sets $\{1, 3\}$ and $\{2, 4\}$, so a walk back to its start has even length, and $\operatorname{trace}(\M{A}^3) = 0$. With the diagonal 1–3 added, the diagonal of $\M{A}^3$ is $(4, 2, 4, 2)$: nodes 1 and 3 are each in two triangles and nodes 2 and 4 in one. So $\operatorname{trace}(\M{A}^3) = 12$, and there are $12/6 = 2$ triangles, 1–2–3 and 1–3–4.
+
+[Back to exercise 4](../part-6/41-networks.qmd#exercise-networks-4){.sol-link}
+
+[**5.**]{#solution-networks-5} With the extra edge, nodes 2 and 5 have degree 3. Check the first three rows of $\M{L}\vect{x}$ for $\vect{x} = (2, 1, 1, -1, -1, -2)$:
+
+- node 1 (degree 2, neighbours 2 and 3): $2 \times 2 - 1 - 1 = 2 = 1 \times x_1$;
+- node 2 (degree 3, neighbours 1, 3 and 5): $3 \times 1 - 2 - 1 - (-1) = 1 = 1 \times x_2$;
+- node 3 (degree 3, neighbours 1, 2 and 4): $3 \times 1 - 2 - 1 - (-1) = 1 = 1 \times x_3$.
+
+The other three rows follow by the symmetry that swaps the two triangles and changes every sign. So $\M{L}\vect{x} = 1 \times \vect{x}$. The computer gives the eigenvalues $0, 1, 3, 3, 4, 5$, so this is $\lambda_2$. Its signs still split the network into $\{1, 2, 3\}$ and $\{4, 5, 6\}$, but now two edges must be cut, 3–4 and 2–5. The larger $\lambda_2$ says that the network has become better connected, and harder to split.
+
+[Back to exercise 5](../part-6/41-networks.qmd#exercise-networks-5){.sol-link}
+
+[**6.**]{#solution-networks-6} There are no edges between different components, so $a_{ij} = 0$ whenever $i$ and $j$ are in different components. With each component's nodes numbered together, all those zeros fall outside the diagonal blocks, and $\M{L}$ is block diagonal, each block being the Laplacian of one component. Each block has the vector of ones in its null space. Putting that vector in the positions of one component and zeros elsewhere gives a null vector of $\M{L}$, and the vectors for different components are independent, since they are nonzero in different positions. So the null space has dimension at least the number of components, and so at least that many eigenvalues are 0. (The chapter shows it is exactly that many.)
+
+[Back to exercise 6](../part-6/41-networks.qmd#exercise-networks-6){.sol-link}
+
+[**7.**]{#solution-networks-7}
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+import numpy as np
+
+rng = np.random.default_rng(1)
+n = 100
+group = np.repeat([0, 1], 50)
+same = group[:, None] == group[None, :]
+for p_out in [0.05, 0.15]:
+    P = np.where(same, 0.3, p_out)
+    A = np.triu(rng.random((n, n)) < P, 1).astype(float)
+    A = A + A.T                                  # each pair joined at most once
+    L = np.diag(A.sum(axis=1)) - A
+    lam, V = np.linalg.eigh(L)
+    guess = V[:, 1] > 0
+    correct = max(np.sum(guess == group), np.sum(guess != group))   # the labels may be swapped
+    print(f"p_out = {p_out}: lambda2 = {lam[1]:.2f}, {correct} of {n} correct")
+```
+
+## MATLAB
+
+```matlab
+rng(1)
+n = 100;
+group = [zeros(50, 1); ones(50, 1)];
+for p_out = [0.05 0.15]
+    P = p_out * ones(n);
+    P(group == group') = 0.3;                     % same community
+    A = triu(rand(n) < P, 1);
+    A = double(A + A');                           % each pair joined at most once
+    L = diag(sum(A, 2)) - A;
+    [V, D] = eig(L);
+    guess = V(:, 2) > 0;
+    correct = max(sum(guess == group), sum(guess ~= group));  % the labels may be swapped
+    fprintf('p_out = %.2f: lambda2 = %.2f, %d of %d correct\n', p_out, D(2, 2), correct, n)
+end
+```
+:::
+
+The results depend on the random numbers, so MATLAB's differ from Python's. With between-community probability 0.05, the Fiedler vector puts all, or almost all, of the 100 nodes in the right group. With 0.15, only about 60 to 90 are right, depending on the random network (half would be right by pure chance). Each node then has about 15 neighbours in its own community and 7.5 in the other, so the communities are much less distinct: many nodes have almost as many links across as within, and random variation decides which side they fall. As the two probabilities approach each other, the hidden communities become impossible to detect by any method.
+
+[Back to exercise 7](../part-6/41-networks.qmd#exercise-networks-7){.sol-link}
+
+## Economics: input–output models {#sec-solutions-input-output}
+
+Exercises from @sec-input-output.
+
+[**1.**]{#solution-input-output-1} Since $\vect{x}$ depends linearly on $\vect{d}$,
+$$
+\Delta\vect{x} = \M{L}\,\Delta\vect{d} = \mat{1.5 & 0.5 \\ 0.667 & 1.333}\mat{0 \\ 10} = \mat{5 \\ 13.33}.
+$$
+Agriculture must produce £5 billion more, although nobody buys more of its products directly, and manufacturing £13.3 billion more, more than the extra £10 billion of demand, because it uses some of its own products.
+
+[Back to exercise 1](../part-6/42-input-output.qmd#exercise-input-output-1){.sol-link}
+
+[**2.**]{#solution-input-output-2} To deliver £1 of sector $j$'s product to final buyers, sector $j$ must at least make that £1 itself, so $\ell_{jj} \ge 1$; any inputs it needs from itself add more. In symbols, $\M{L} = \M{I} + \M{A} + \M{A}^2 + \cdots$, and every term after $\M{I} + \M{A}$ has no negative entries, so each entry of $\M{L}$ is at least the corresponding entry of $\M{I} + \M{A}$: the total requirement is at least the final demand itself plus the direct inputs.
+
+[Back to exercise 2](../part-6/42-input-output.qmd#exercise-input-output-2){.sol-link}
+
+[**3.**]{#solution-input-output-3} $\M{I} - \M{A} = \mat{0.5 & -0.7 \\ -0.6 & 0.6}$, with determinant $0.3 - 0.42 = -0.12$, so
+$$
+\vect{x} = \frac{1}{-0.12}\mat{0.6 & 0.7 \\ 0.6 & 0.5}\mat{10 \\ 10} = -\frac{1}{0.12}\mat{13 \\ 11} \approx \mat{-108.3 \\ -91.7}.
+$$
+Negative outputs are impossible: this economy can't meet the demand at all. Both columns of $\M{A}$ add up to 1.1, so each sector uses £1.10 of inputs to make £1 of output. Together the sectors use up more than they make, and the more they produce, the further they fall behind. (The largest eigenvalue of $\M{A}$ is 1.1, so the series $\M{I} + \M{A} + \M{A}^2 + \cdots$ diverges.)
+
+[Back to exercise 3](../part-6/42-input-output.qmd#exercise-input-output-3){.sol-link}
+
+[**4.**]{#solution-input-output-4}
+
+a. The column sums of $\M{A}$ are 0.6 and 0.4, so $\vect{v} = (0.4, 0.6)$. Then $\M{A}\T(1, 1)$ is the vector of column sums, $(0.6, 0.4)$, and adding $\vect{v}$ gives $(1, 1)$: so $\vect{p} = (1, 1)$ solves $\vect{p} = \M{A}\T\vect{p} + \vect{v}$. Measuring each output in money, each £1 of output costs £1, as it should.
+b. $\Delta\vect{p} = (\M{I} - \M{A}\T)^{-1}\Delta\vect{v} = \M{L}\T(0.1, 0)$, the first column of $\M{L}\T$, which is the first row of $\M{L}$, times 0.1:
+   $$
+   \Delta\vect{p} = 0.1 \times (1.5, 0.5) = (0.15, 0.05).
+   $$
+   The price of agricultural products rises by 15p in the pound, more than the 10p rise in wages, because agriculture also buys its own products, which now cost more. Manufactured goods rise by 5p, because manufacturing buys agricultural inputs. Price rises spread along supply chains in the opposite direction to demand.
+
+[Back to exercise 4](../part-6/42-input-output.qmd#exercise-input-output-4){.sol-link}
+
+[**5.**]{#solution-input-output-5} Multiplying out, almost every term cancels:
+$$
+(\M{I} - \M{A})(\M{I} + \M{A} + \dots + \M{A}^k) = (\M{I} + \M{A} + \dots + \M{A}^k) - (\M{A} + \M{A}^2 + \dots + \M{A}^{k+1}) = \M{I} - \M{A}^{k+1}.
+$$
+If $\M{A}^{k+1} \to \M{0}$, then $\M{I} - \M{A}$ is invertible: if $(\M{I} - \M{A})\vect{x} = \zerovec$, then $\vect{x} = \M{A}\vect{x} = \M{A}^2\vect{x} = \dots \to \zerovec$, so $\vect{x} = \zerovec$. Multiplying the identity on the left by $(\M{I} - \M{A})^{-1}$ gives
+$$
+\M{I} + \M{A} + \dots + \M{A}^k = (\M{I} - \M{A})^{-1}(\M{I} - \M{A}^{k+1}) \to (\M{I} - \M{A})^{-1}.
+$$
+
+[Back to exercise 5](../part-6/42-input-output.qmd#exercise-input-output-5){.sol-link}
+
+[**6.**]{#solution-input-output-6} With $\boldsymbol{\ell} = (10, 5, 15)$ jobs per £1 million of output, the jobs per £1 million of final demand are $\boldsymbol{\ell}\T\M{L}$, the same calculation as a footprint:
+$$
+\boldsymbol{\ell}\T\M{L} \approx (10 \times 1.138 + 5 \times 0.390 + 15 \times 0.256, \; \ldots) \approx (17.2, \; 16.0, \; 22.6).
+$$
+Services support the most jobs, about 23 for each £1 million, because they employ many people directly and buy mostly from themselves. Manufacturing employs the fewest people directly, 5, but supports 16 jobs in total, more than three times as many, through its supply chain.
+
+[Back to exercise 6](../part-6/42-input-output.qmd#exercise-input-output-6){.sol-link}
+
+[**7.**]{#solution-input-output-7}
+
+::: {.panel-tabset group="language"}
+## Python
+
+```{python}
+import numpy as np
+
+A = np.array([[0.10, 0.05, 0.02], [0.20, 0.35, 0.10], [0.10, 0.20, 0.25]])
+L = np.linalg.inv(np.eye(3) - A)
+e = np.array([1.0, 0.6, 0.1])
+e_new = e * np.array([1, 0.8, 1])                # manufacturing cuts by 20%
+f, f_new = e @ L, e_new @ L
+print(np.round(f, 3))
+print(np.round(f_new, 3))
+print(np.round(100 * (f - f_new) / f, 1), "% lower")
+```
+
+## MATLAB
+
+```matlab
+A = [0.10 0.05 0.02; 0.20 0.35 0.10; 0.10 0.20 0.25];
+L = inv(eye(3) - A);
+e = [1.0 0.6 0.1];
+e_new = e .* [1 0.8 1];                           % manufacturing cuts by 20%
+f = e * L;  f_new = e_new * L;
+fprintf('%.3f ', f); fprintf('\n')
+fprintf('%.3f ', f_new); fprintf('\n')
+fprintf('%.1f%% ', 100 * (f - f_new) ./ f); fprintf('lower\n')
+```
+
+```{.text .code-output}
+1.398 1.129 0.321 
+1.351 0.933 0.294 
+3.3% 17.4% 8.6% lower
+```
+:::
+
+The footprints fall from about $(1.40, 1.13, 0.32)$ to $(1.35, 0.93, 0.29)$ kg per £1. Food's footprint falls, although farms emit as much as before, because farming buys manufactured goods: 20p of them per £1 of output, such as fertiliser and machinery, whose emissions are part of food's supply chain. Manufactured goods fall most, by 17%, a little less than 20% because part of their footprint comes from their agricultural and service inputs. Services fall by 9%, through the manufactured goods they buy. Cutting emissions anywhere in a supply chain lowers the footprint of everything downstream.
+
+[Back to exercise 7](../part-6/42-input-output.qmd#exercise-input-output-7){.sol-link}
+
 ## Part VI review {#sec-solutions-review-6}
 
 Exercises from the [Part VI review](../part-6/review.qmd).
@@ -688,7 +1025,39 @@ By symmetry $u_1 = u_3$, so the first two equations become $2u_1 - u_2 = \tfrac{
 
 [Back to exercise 7](../part-6/review.qmd#exercise-review-6-7){.sol-link}
 
-[**8.**]{#solution-review-6-8} *Uses @sec-markov-pagerank, @sec-eigenvalue-algorithms and @sec-cost-sparse.*
+[**8.**]{#solution-review-6-8} *Uses @sec-vibrations, @sec-eigenvalues and @sec-symmetric-matrices.* With $\M{M} = \operatorname{diag}(1, 2)$,
+$$
+\det(\M{K} - \lambda\M{M}) = (3 - \lambda)(2 - 2\lambda) - 4 = 2\lambda^2 - 8\lambda + 2 = 0,
+$$
+so $\lambda^2 - 4\lambda + 1 = 0$ and $\omega^2 = \lambda = 2 \mp \sqrt{3} \approx 0.268, 3.732$. The natural frequencies are $\omega_1 \approx 0.518$ rad/s and $\omega_2 \approx 1.932$ rad/s. The first row gives $(3 - \lambda)v_1 = 2v_2$, so the modes are
+$$
+\vect{v}_1 = \Bigl(1, \tfrac{1 + \sqrt{3}}{2}\Bigr) \approx (1, 1.366),
+\qquad
+\vect{v}_2 = \Bigl(1, \tfrac{1 - \sqrt{3}}{2}\Bigr) \approx (1, -0.366).
+$$
+They are $\M{M}$-orthogonal: $\vect{v}_1\T\M{M}\vect{v}_2 = 1 + 2 \times \tfrac{(1 + \sqrt{3})(1 - \sqrt{3})}{4} = 1 + 2 \times \bigl(-\tfrac{1}{2}\bigr) = 0$. They are not perpendicular, since $\vect{v}_1 \cdot \vect{v}_2 = 1 - \tfrac{1}{2} = \tfrac{1}{2}$: the heavier mass counts double.
+
+[Back to exercise 8](../part-6/review.qmd#exercise-review-6-8){.sol-link}
+
+[**9.**]{#solution-review-6-9} *Uses @sec-networks and @sec-fundamental-subspaces.* Numbering the path first and the triangle second, $\M{L}$ is block diagonal:
+$$
+\M{L} = \mat{1 & -1 & 0 & 0 & 0 & 0 \\ -1 & 2 & -1 & 0 & 0 & 0 \\ 0 & -1 & 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 2 & -1 & -1 \\ 0 & 0 & 0 & -1 & 2 & -1 \\ 0 & 0 & 0 & -1 & -1 & 2}.
+$$
+In each block, the rows add up to zero, so any one row is minus the sum of the others; but any two rows of a block are independent. So each block has rank 2, and $\M{L}$ has rank 4. By rank–nullity the null space has dimension $6 - 4 = 2$, with basis $(1, 1, 1, 0, 0, 0)$ and $(0, 0, 0, 1, 1, 1)$, one vector constant on each piece. Two pieces, two zero eigenvalues: rank $= n - (\text{number of pieces})$.
+
+[Back to exercise 9](../part-6/review.qmd#exercise-review-6-9){.sol-link}
+
+[**10.**]{#solution-review-6-10} *Uses @sec-input-output, @sec-inverses and @sec-eigenvalues.* $\M{I} - \M{A} = \mat{0.8 & -0.4 \\ -0.3 & 0.9}$, with determinant $0.72 - 0.12 = 0.6$, so
+$$
+(\M{I} - \M{A})^{-1} = \frac{1}{0.6}\mat{0.9 & 0.4 \\ 0.3 & 0.8} = \mat{1.5 & 0.667 \\ 0.5 & 1.333},
+\qquad
+\vect{x} = \mat{1.5 \times 30 + 0.667 \times 60 \\ 0.5 \times 30 + 1.333 \times 60} = \mat{85 \\ 95}.
+$$
+The rounds are $\vect{d} = (30, 60)$, $\M{A}\vect{d} = (30, 15)$, $\M{A}^2\vect{d} = (12, 10.5)$, $\M{A}^3\vect{d} = (6.6, 4.65)$, so the running totals are $(60, 75)$, $(72, 85.5)$ and $(78.6, 90.15)$, approaching $(85, 95)$. The gaps left, $(25, 20)$, $(13, 9.5)$, $(6.4, 4.85)$, roughly halve each round. The eigenvalues of $\M{A}$ are 0.5 and $-0.2$ (trace 0.3, determinant $-0.1$), and the larger one in size, 0.5, sets the rate.
+
+[Back to exercise 10](../part-6/review.qmd#exercise-review-6-10){.sol-link}
+
+[**11.**]{#solution-review-6-11} *Uses @sec-markov-pagerank, @sec-eigenvalue-algorithms and @sec-cost-sparse.*
 
 ::: {.panel-tabset group="language"}
 ## Python
@@ -745,4 +1114,4 @@ fprintf('%.4f ', y); fprintf('\n')
 
 The ranks, A to E, are 0.333, 0.313, 0.200, 0.087 and 0.067, and the linear system agrees. The power method took 43 steps, in line with the error shrinking by a factor of about 0.85 per step. D and E rank lowest because no page outside the pair links to them: all they receive is the random jumps and what they pass to each other, and D leaks half of its rank to C.
 
-[Back to exercise 8](../part-6/review.qmd#exercise-review-6-8){.sol-link}
+[Back to exercise 11](../part-6/review.qmd#exercise-review-6-11){.sol-link}

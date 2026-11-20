@@ -1,0 +1,14 @@
+Jacobi, spectral radius 0.3162
+  step 1: error 6.40e-01, ratio 0.2864
+  step 2: error 2.24e-01, ratio 0.3492
+  step 3: error 6.40e-02, ratio 0.2864
+  step 4: error 2.24e-02, ratio 0.3492
+  step 5: error 6.40e-03, ratio 0.2864
+  step 6: error 2.24e-03, ratio 0.3492
+Gauss-Seidel, spectral radius 0.1000
+  step 1: error 5.39e-01, ratio 0.2408
+  step 2: error 5.39e-02, ratio 0.1000
+  step 3: error 5.39e-03, ratio 0.1000
+  step 4: error 5.39e-04, ratio 0.1000
+  step 5: error 5.39e-05, ratio 0.1000
+  step 6: error 5.39e-06, ratio 0.1000

@@ -37,6 +37,8 @@ Each app is a single, self-contained web page. It runs in any modern browser, on
 | [Robot arm](#app-robot-arm) | Forward kinematics as a product of matrices, and reaching a target with Newton's method | @sec-graphics-robotics |
 | [Random surfer](#app-random-surfer) | PageRank as the steady state of a random walk on a small web | @sec-markov-pagerank |
 | [Hill cipher](#app-hill-cipher) | Encrypting and decrypting by matrix multiplication modulo 26 | @sec-cryptography |
+| [Normal modes](#app-normal-modes) | Natural frequencies, mode shapes and resonance of masses on springs | @sec-vibrations |
+| [Network split](#app-network-split) | Laplacian eigenvalues, the Fiedler vector and centrality on a small network | @sec-networks |
 
 ## Matrix multiplication animator {#app-matrix-multiplication}
 
@@ -327,3 +329,24 @@ A Hill cipher machine with a $2 \times 2$ key. Type a message and see each pair 
 - **Start-up settings:** `?key=` sets the key, row by row, `&msg=` the message and `&mode=dec` decryption, as in [`?key=3,3,2,5&msg=HIAT&mode=dec`](../apps/hill-cipher.html?key=3,3,2,5&msg=HIAT&mode=dec){target="_blank"}.
 - **Teaching ideas:** have pairs of students exchange encrypted messages and keys. Then give one pair a ciphertext and a guessed word, and ask them to recover the key by hand.
 
+## Normal modes {#app-normal-modes}
+
+![](images/app-normal-modes.png){fig-alt="The normal modes app with the Absorber preset: a 1 kg mass on a spring with a 0.1 kg mass attached, a table of the two natural frequencies and mode shapes, and a graph of each mass's amplitude against driving frequency, with two resonance peaks and a dip to zero for mass 1 between them."}
+
+A row of up to six masses joined by springs, fixed to a wall at the left and either fixed or free at the right. The masses and stiffnesses can be edited. Choose a mode to watch the masses vibrate in that shape at its natural frequency, or release them from a pulled position to see several modes at once; a bar chart below shows each mass's displacement. **Shake mass 1** drives the first mass at a chosen frequency, and the graph shows the amplitude of every mass against the driving frequency, with peaks at the natural frequencies. Animation starts only when **Play** is pressed.
+
+- **Used in:** @sec-vibrations.
+- **Open:** [normal modes](../apps/normal-modes.html){target="_blank"}.
+- **Start-up settings:** `?preset=` picks a system by its label, `&mode=` a mode to show, and `&drive=1&omega=` shakes mass 1 at a given frequency in rad/s, as in [`?preset=Absorber&drive=1&omega=10`](../apps/normal-modes.html?preset=Absorber&drive=1&omega=10){target="_blank"}.
+- **Teaching ideas:** before playing the modes of **Five masses**, ask students to sketch what they expect mode 3 to look like. With **Building**, ask which change, stiffening the lower storey or lightening the top floor, raises the first frequency more.
+
+## Network split {#app-network-split}
+
+![](images/app-network-split.png){fig-alt="The network split app with two triangles joined by one edge: nodes on the left are circles with positive Fiedler vector entries and nodes on the right are squares with negative entries, the bridge edge is dashed as the one cut, and the Laplacian eigenvalues 0, 0.438, 3, 3, 3 and 4.562 are listed."}
+
+A small network of up to eight nodes. Click two nodes in turn, or use the menus, to add or remove an edge. The panel lists the eigenvalues of the graph Laplacian, counts the zero ones to give the number of pieces, and splits the nodes by the signs of the Fiedler vector, marking the edges cut. The nodes can instead be labelled with their eigenvector centrality or their degree, and a table gives all three for every node.
+
+- **Used in:** @sec-networks.
+- **Open:** [network split](../apps/network-split.html){target="_blank"}.
+- **Start-up settings:** `?preset=` picks a network by its label and `&show=centrality` or `&show=degree` the labels, as in [`?preset=Hub&show=centrality`](../apps/network-split.html?preset=Hub&show=centrality){target="_blank"}.
+- **Teaching ideas:** ask students to find the single edge whose addition raises $\lambda_2$ the most, then to explain their choice in terms of bottlenecks.

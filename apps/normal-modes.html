@@ -1,0 +1,481 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Normal Modes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: the masses and springs first, then the system, the modes and the shaking controls */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.mat { position: relative; display: inline-grid; grid-template-columns: 4.2rem 4.2rem; gap: 6px; padding: 6px 14px; }
+.mat::before, .mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.mat::before { left: 0; border-right: 0; } .mat::after { right: 0; border-left: 0; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.mat input { -moz-appearance: textfield; appearance: textfield; }
+.mat input::-webkit-outer-spin-button, .mat input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.matrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.matrow .nm { font: 600 1.05rem var(--font-num); }
+.status b { font-weight: 600; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.sw.c { border-color: var(--tgt); }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.slide { display: grid; grid-template-columns: auto minmax(0, 1fr) 3.6rem; gap: 10px; align-items: center; font-size: 0.9rem; }
+.slide output { font: 600 0.9rem var(--font-num); text-align: right; }
+.tbl { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+.tbl th { text-align: left; font-weight: 500; color: var(--muted); font-size: 0.78rem; padding: 2px 6px; }
+.tbl td { padding: 3px 6px; border-top: 1px solid var(--line); font-family: var(--font-num); white-space: nowrap; }
+.tbl td.bar { width: 40%; }
+.tbl .b1, .tbl .b2 { height: 7px; border-radius: 3px; margin: 2px 0; }
+.tbl .b1 { background: var(--res); } .tbl .b2 { background: var(--col); opacity: 0.8; }
+.sw.pr { border-color: var(--res); } .sw.vi { border-color: var(--col); }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+
+select { font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 7px; padding: 5px 8px; }
+select:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.inline { font-size: 0.9rem; color: var(--muted); }
+.num { font: 600 0.95rem var(--font-num); min-width: 1.4rem; text-align: center; }
+.tblwrap { overflow-x: auto; }
+.tblwrap:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.tbl th[scope="row"] { color: var(--ink); font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
+.tbl td input[type="number"] { width: 7.5rem; text-align: right; }
+.status.wide { background: var(--surface); }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Masses on springs, <em>modes of vibration</em></h1>
+    <p>Each natural frequency of a chain of masses and springs comes with a mode shape, found from the eigenvalue problem K v = ω² M v. Watch the modes one at a time, release the masses from a pulled position, or shake the first mass and look for resonance.</p>
+  </header>
+
+  <div class="layout">
+    <section class="panel plane-box" aria-label="Masses and springs">
+      <div class="holder"><canvas id="cv" role="img"></canvas></div>
+      <div class="legend">
+        <span>Top: the masses moving along the line</span>
+        <span>Bottom: each mass’s displacement, drawn upwards for movement to the right</span>
+      </div>
+      <div class="row" style="margin-top:8px"><button id="play">Play</button>
+        <label class="inline" for="speed">Speed</label>
+        <select id="speed" aria-label="Animation speed"><option value="1">Real time</option><option value="0.5" selected>Half speed</option><option value="0.25">Quarter speed</option></select>
+      </div>
+      <p class="hint" id="drawnote">Displacements are exaggerated so that they can be seen.</p>
+    </section>
+
+    <div class="side">
+      <section class="panel card wide" aria-label="System">
+        <span class="label">System</span>
+        <div class="row" id="presets"></div>
+        <div class="row">
+          <span>Right-hand end:</span>
+          <button id="endFixed">Fixed to a wall</button><button id="endFree">Free</button>
+        </div>
+        <div class="row"><span>Masses:</span><button id="fewer" aria-label="One mass fewer">−</button><span id="nshow" class="num">2</span><button id="more" aria-label="One mass more">+</button></div>
+        <div class="tblwrap" tabindex="0" role="region" aria-label="Masses and spring stiffnesses"><table class="tbl" id="params"></table></div>
+      </section>
+
+      <section class="panel card wide" aria-label="Motion">
+        <span class="label">Motion</span>
+        <div class="row" id="modes"></div>
+        <div class="row"><button id="free">Release from a pull</button>
+          <select id="pull" aria-label="Which mass to pull"><option value="first">Pull mass 1</option><option value="last">Pull the last mass</option></select>
+        </div>
+        <table class="tbl" id="freqs"></table>
+      </section>
+
+      <section class="panel card wide" aria-label="Shaking">
+        <span class="label">Shake mass 1</span>
+        <label><input type="checkbox" id="drive"> Shake mass 1 with force F cos(Ωt)</label>
+        <div class="slide"><label for="om">Ω (rad/s)</label><input type="range" id="om" min="0" max="40" step="0.01" value="5"><output id="omv">5.00</output></div>
+        <div class="holder"><canvas id="resp" role="img"></canvas></div>
+        <div class="legend" id="resplegend"></div>
+      </section>
+
+      <div class="status wide" id="status" role="status"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), b: v('--col'), t: v('--tgt'), w: v('--res'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), line: v('--line'), num: v('--font-num') }; };
+  function watchTheme(draw) {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    if (document.fonts) document.fonts.ready.then(draw);
+  }
+  const fmt = (x, sig = 3) => {
+    if (!isFinite(x)) return '∞';
+    if (x === 0) return '0';
+    const a = Math.abs(x);
+    let s = (a >= 1e5 || a < 1e-3) ? x.toExponential(sig - 1).replace('e+', '×10^').replace('e', '×10^') : (+x.toPrecision(sig)).toString();
+    return s.replace('-', '−');
+  };
+
+  // Symmetric eigenvalue problem by the Jacobi method (fine for n ≤ 6)
+  function jacobi(S) {
+    const n = S.length, A = S.map(r => r.slice()), V = A.map((r, i) => r.map((_, j) => i === j ? 1 : 0));
+    for (let sweep = 0; sweep < 100; sweep++) {
+      let off = 0; for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) off += A[i][j] ** 2;
+      if (off < 1e-22) break;
+      for (let p = 0; p < n; p++) for (let q = p + 1; q < n; q++) {
+        if (Math.abs(A[p][q]) < 1e-300) continue;
+        const th = (A[q][q] - A[p][p]) / (2 * A[p][q]);
+        const t = Math.sign(th || 1) / (Math.abs(th) + Math.sqrt(th * th + 1)), c = 1 / Math.sqrt(t * t + 1), s = t * c;
+        for (let k = 0; k < n; k++) { const akp = A[k][p], akq = A[k][q]; A[k][p] = c * akp - s * akq; A[k][q] = s * akp + c * akq; }
+        for (let k = 0; k < n; k++) { const apk = A[p][k], aqk = A[q][k]; A[p][k] = c * apk - s * aqk; A[q][k] = s * apk + c * aqk; }
+        for (let k = 0; k < n; k++) { const vkp = V[k][p], vkq = V[k][q]; V[k][p] = c * vkp - s * vkq; V[k][q] = s * vkp + c * vkq; }
+      }
+    }
+    return { vals: A.map((r, i) => r[i]), vecs: V };
+  }
+  function solve(A, b) {
+    const n = b.length, M = A.map((r, i) => [...r, b[i]]);
+    for (let k = 0; k < n; k++) {
+      let p = k; for (let i = k + 1; i < n; i++) if (Math.abs(M[i][k]) > Math.abs(M[p][k])) p = i;
+      [M[k], M[p]] = [M[p], M[k]]; if (Math.abs(M[k][k]) < 1e-300) return null;
+      for (let i = k + 1; i < n; i++) { const f = M[i][k] / M[k][k]; for (let j = k; j <= n; j++) M[i][j] -= f * M[k][j]; }
+    }
+    const x = new Array(n).fill(0);
+    for (let i = n - 1; i >= 0; i--) { let s = M[i][n]; for (let j = i + 1; j < n; j++) s -= M[i][j] * x[j]; x[i] = s / M[i][i]; }
+    return x;
+  }
+
+  const PRESETS = [
+    ['Two masses', { fixed: true, m: [1, 1], k: [100, 100, 100] }],
+    ['Five masses', { fixed: true, m: [1, 1, 1, 1, 1], k: [100, 100, 100, 100, 100, 100] }],
+    ['Building', { fixed: false, m: [20000, 10000], k: [8e6, 4e6] }],
+    ['Absorber', { fixed: false, m: [1, 0.1], k: [100, 10] }]
+  ];
+  const S = { fixed: true, m: [], k: [], view: { kind: 'mode', i: 0 }, playing: false, t: 0, speed: 0.5, drive: false, om: 5 };
+  let modes = null, last = 0, raf = 0;
+
+  const nSprings = () => S.m.length + (S.fixed ? 1 : 0);
+  function stiffness() {
+    const n = S.m.length, K = Array.from({ length: n }, () => new Array(n).fill(0));
+    for (let s = 0; s < nSprings(); s++) {     // spring s joins mass s-1 (or the left wall) to mass s (or the right wall)
+      const i = s - 1, j = s < n ? s : -1, k = S.k[s];
+      if (i >= 0) K[i][i] += k; if (j >= 0) K[j][j] += k;
+      if (i >= 0 && j >= 0) { K[i][j] -= k; K[j][i] -= k; }
+    }
+    return K;
+  }
+  function analyse() {
+    const n = S.m.length, K = stiffness(), r = S.m.map(m => 1 / Math.sqrt(m));
+    const Sm = K.map((row, i) => row.map((x, j) => x * r[i] * r[j]));
+    const { vals, vecs } = jacobi(Sm);
+    let list = vals.map((l, c) => ({ w2: Math.max(0, l), v: vecs.map((row, i) => row[c] * r[i]) }));
+    list.sort((a, b) => a.w2 - b.w2);
+    list.forEach(md => { md.w = Math.sqrt(md.w2); const mx = md.v.reduce((a, x) => Math.abs(x) > Math.abs(a) ? x : a, 0); md.v = md.v.map(x => x / Math.abs(mx)); if (md.v.find(x => Math.abs(x) > 1e-9) < 0) md.v = md.v.map(x => -x); });
+    modes = { K, list };
+  }
+  const omMax = () => Math.max(1, 1.3 * modes.list[modes.list.length - 1].w);
+  function forced(om) {
+    const n = S.m.length, A = modes.K.map((row, i) => row.map((x, j) => x - (i === j ? om * om * S.m[i] : 0)));
+    const b = new Array(n).fill(0); b[0] = 1; return solve(A, b);
+  }
+  function displacement(t) {
+    const n = S.m.length;
+    if (S.drive) { const X = forced(S.om) || new Array(n).fill(0); return X.map(x => x * Math.cos(S.om * t)); }
+    if (S.view.kind === 'mode') { const md = modes.list[S.view.i]; return md.v.map(x => x * Math.cos(md.w * t)); }
+    const x0 = new Array(n).fill(0); x0[S.view.pull === 'last' ? n - 1 : 0] = 1;
+    const x = new Array(n).fill(0);
+    modes.list.forEach(md => {
+      const num = md.v.reduce((s, v, i) => s + v * S.m[i] * x0[i], 0), den = md.v.reduce((s, v, i) => s + v * S.m[i] * v, 0);
+      const a = num / den; md.v.forEach((v, i) => x[i] += a * v * Math.cos(md.w * t));
+    });
+    return x;
+  }
+  function amplitudeScale() {   // largest displacement the current motion can reach, to scale the drawing
+    const n = S.m.length;
+    if (S.drive) { const X = forced(S.om); return X ? Math.max(1e-12, ...X.map(Math.abs)) : 1; }
+    if (S.view.kind === 'mode') return 1;
+    let mx = 0; for (let k = 0; k < 400; k++) mx = Math.max(mx, ...displacement(k * 0.05).map(Math.abs)); return mx || 1;
+  }
+
+  const cv = $('cv'), ctx = cv.getContext('2d'), rc = $('resp'), rctx = rc.getContext('2d');
+  let W = 520, H = 300, dpr = 1, RW = 400, RH = 180, scale = 1;
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    W = Math.min(cv.parentElement.clientWidth, 560); H = Math.round(W * 0.56);
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); cv.style.width = W + 'px'; cv.style.height = H + 'px';
+    RW = Math.min(rc.parentElement.clientWidth, 520); RH = Math.round(Math.max(150, RW * 0.45));
+    rc.width = Math.round(RW * dpr); rc.height = Math.round(RH * dpr); rc.style.width = RW + 'px'; rc.style.height = RH + 'px';
+    draw();
+  }
+  function spring(x1, x2, y, C) {
+    const len = x2 - x1, coils = 8, amp = Math.min(7, Math.max(3, H * 0.025)), lead = Math.min(8, len * 0.15);
+    ctx.strokeStyle = C.muted; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x1 + lead, y);
+    const body = len - 2 * lead;
+    for (let c = 0; c < coils * 2; c++) ctx.lineTo(x1 + lead + body * (c + 0.5) / (coils * 2), y + (c % 2 ? amp : -amp));
+    ctx.lineTo(x2 - lead, y); ctx.lineTo(x2, y); ctx.stroke();
+  }
+  function draw() {
+    if (!modes) return;
+    const C = css(), n = S.m.length, x = displacement(S.t);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, H);
+    const left = 18, right = W - 18, slots = n + 1, sp = (right - left) / slots, yc = H * 0.28;
+    const mmax = Math.max(...S.m), size = i => Math.max(16, Math.min(sp * 0.55, 18 + 22 * Math.cbrt(S.m[i] / mmax)));
+    const disp = sp * 0.32 / scale, X = i => left + (i + 1) * sp + x[i] * disp;
+    // walls
+    ctx.fillStyle = C.line; ctx.fillRect(left - 10, yc - 30, 10, 60); if (S.fixed) ctx.fillRect(right, yc - 30, 10, 60);
+    ctx.strokeStyle = C.ink; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(left, yc - 30); ctx.lineTo(left, yc + 30); if (S.fixed) { ctx.moveTo(right, yc - 30); ctx.lineTo(right, yc + 30); } ctx.stroke();
+    // springs
+    for (let s = 0; s < nSprings(); s++) {
+      const a = s === 0 ? left : X(s - 1) + size(s - 1) / 2, b = s < n ? X(s) - size(s) / 2 : right;
+      if (b > a + 2) spring(a, b, yc, C);
+    }
+    // masses
+    for (let i = 0; i < n; i++) {
+      const s = size(i), cx = X(i);
+      ctx.fillStyle = C.surface; ctx.fillRect(cx - s / 2, yc - s / 2, s, s);
+      ctx.globalAlpha = 0.35; ctx.fillStyle = C.a; ctx.fillRect(cx - s / 2, yc - s / 2, s, s); ctx.globalAlpha = 1;
+      ctx.strokeStyle = C.ink; ctx.lineWidth = 2; ctx.strokeRect(cx - s / 2, yc - s / 2, s, s);
+      ctx.fillStyle = C.ink; ctx.font = `600 13px ${C.num}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(String(i + 1), cx, yc);
+    }
+    // displacement bars
+    const y0 = H * 0.74, bh = H * 0.2;
+    ctx.strokeStyle = C.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(left, y0); ctx.lineTo(right, y0); ctx.stroke();
+    let env = null;
+    if (S.drive) { const F = forced(S.om); env = F ? F.map(v => v / scale) : null; }
+    else if (S.view.kind === 'mode') env = modes.list[S.view.i].v;
+    if (env) { ctx.setLineDash([4, 4]); ctx.strokeStyle = C.muted; ctx.beginPath();
+      env.forEach((v, i) => { const px = left + (i + 1) * sp; i ? ctx.lineTo(px, y0 - v * bh) : ctx.moveTo(px, y0 - v * bh); }); ctx.stroke(); ctx.setLineDash([]); }
+    ctx.strokeStyle = C.w; ctx.lineWidth = 2; ctx.beginPath();
+    x.forEach((v, i) => { const px = left + (i + 1) * sp, py = y0 - v / scale * bh; i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }); ctx.stroke();
+    x.forEach((v, i) => { const px = left + (i + 1) * sp, h = v / scale * bh;
+      ctx.fillStyle = C.w; ctx.globalAlpha = 0.5; ctx.fillRect(px - 6, Math.min(y0, y0 - h), 12, Math.abs(h)); ctx.globalAlpha = 1;
+      ctx.beginPath(); ctx.arc(px, y0 - h, 4, 0, 2 * Math.PI); ctx.fill(); });
+    drawResponse(C);
+    describe();
+  }
+  function drawResponse(C) {
+    const n = S.m.length, top = 10, bot = RH - 32, l = 34, r = RW - 8, wmax = omMax();
+    rctx.setTransform(dpr, 0, 0, dpr, 0, 0); rctx.fillStyle = C.plane; rctx.fillRect(0, 0, RW, RH);
+    const N = 360, curves = Array.from({ length: n }, () => []);
+    for (let k = 0; k <= N; k++) { const om = wmax * k / N, X = forced(om); for (let i = 0; i < n; i++) curves[i].push(X ? Math.abs(X[i]) : Infinity); }
+    const all = curves.flat().filter(v => isFinite(v) && v > 0).sort((a, b) => a - b);
+    const lo = Math.log10(all[Math.floor(all.length * 0.02)] || 1e-6), hi = Math.log10(all[Math.floor(all.length * 0.9)] || 1) + 1.5;
+    const Y = v => { const t = (Math.log10(Math.max(v, 1e-300)) - lo) / (hi - lo); return bot - Math.max(-0.02, Math.min(1.02, t)) * (bot - top); };
+    const Xp = om => l + (r - l) * om / wmax;
+    rctx.strokeStyle = C.line; rctx.lineWidth = 1; rctx.strokeRect(l, top, r - l, bot - top);
+    rctx.fillStyle = C.muted; rctx.font = `500 11px ${C.num}`; rctx.textAlign = 'center'; rctx.textBaseline = 'top';
+    rctx.fillText('driving frequency Ω (rad/s)', (l + r) / 2, bot + 17);
+    const raw = wmax / 5, p10 = 10 ** Math.floor(Math.log10(raw)), step = [1, 2, 2.5, 5, 10].map(f => f * p10).find(s => s >= raw);
+    for (let om = 0; om <= wmax + 1e-9; om += step) rctx.fillText(fmt(om, 3), Xp(om), bot + 2);
+    rctx.save(); rctx.translate(10, (top + bot) / 2); rctx.rotate(-Math.PI / 2); rctx.textBaseline = 'middle'; rctx.fillText('amplitude (log scale)', 0, 0); rctx.restore();
+    modes.list.forEach(md => { rctx.setLineDash([2, 3]); rctx.strokeStyle = C.muted; rctx.beginPath(); rctx.moveTo(Xp(md.w), top); rctx.lineTo(Xp(md.w), bot); rctx.stroke(); });
+    rctx.setLineDash([]);
+    const cols = [C.a, C.b, C.w, C.t, C.ink], dashes = [[], [6, 4], [2, 3], [10, 3, 2, 3], [1, 2]];
+    rctx.save(); rctx.beginPath(); rctx.rect(l, top, r - l, bot - top); rctx.clip();
+    curves.forEach((cv_, i) => { rctx.strokeStyle = cols[i % 5]; rctx.setLineDash(dashes[i % 5]); rctx.lineWidth = 2; rctx.beginPath();
+      cv_.forEach((v, k) => { const px = Xp(wmax * k / N), py = Y(v); k ? rctx.lineTo(px, py) : rctx.moveTo(px, py); }); rctx.stroke(); });
+    rctx.restore(); rctx.setLineDash([]);
+    if (S.drive) { rctx.strokeStyle = C.ink; rctx.lineWidth = 2; rctx.beginPath(); rctx.moveTo(Xp(S.om), top); rctx.lineTo(Xp(S.om), bot); rctx.stroke(); }
+    $('resplegend').innerHTML = curves.map((_, i) => `<span><span class="sw" style="border-color:${cols[i % 5]};border-top-style:${['solid', 'dashed', 'dotted', 'dashed', 'dotted'][i % 5]}"></span>mass ${i + 1}</span>`).join('') + '<span>dotted lines: natural frequencies</span>';
+    rc.setAttribute('aria-label', 'Amplitude of each mass against driving frequency, with peaks at the natural frequencies ' + modes.list.map(md => fmt(md.w)).join(', ') + ' rad/s.');
+  }
+  function describe() {
+    const n = S.m.length;
+    let msg;
+    if (S.drive) {
+      const X = forced(S.om);
+      const near = modes.list.reduce((b, md) => Math.abs(md.w - S.om) < Math.abs(b.w - S.om) ? md : b);
+      msg = X ? `Shaking mass 1 at Ω = ${S.om.toFixed(2)} rad/s. Amplitudes per newton of force: ${X.map((v, i) => `mass ${i + 1}: ${fmt(v)} m`).join(', ')}. ` : 'Exactly at a natural frequency: the amplitudes are infinite without damping. ';
+      if (X && Math.abs(near.w - S.om) < 0.03 * near.w) msg += 'This is very close to a natural frequency: resonance. ';
+      if (X && n > 1 && Math.abs(X[0]) < 0.02 * Math.max(...X.map(Math.abs))) msg += '<b>Mass 1 hardly moves</b>, although it is the one being pushed: the other masses cancel the force on it. ';
+      msg += 'The drawing is scaled to fit; the graph shows the true sizes.';
+    } else if (S.view.kind === 'mode') {
+      const md = modes.list[S.view.i], ch = md.v.slice(1).reduce((c, v, i) => c + (v * md.v[i] < -1e-9 ? 1 : 0), 0);
+      msg = `Mode ${S.view.i + 1}: ω = ${fmt(md.w)} rad/s (${fmt(md.w / 2 / Math.PI)} Hz). Shape (${md.v.map(v => fmt(v, 2)).join(', ')}): the direction of movement changes ${ch} time${ch === 1 ? '' : 's'} along the chain.`;
+      if (md.w < 1e-6) msg += ' A frequency of zero: the chain can move this way without stretching any spring.';
+    } else {
+      msg = `Released from rest after pulling ${S.view.pull === 'last' ? 'the last mass' : 'mass 1'}. The motion is a sum of all the modes, each at its own frequency, so it needn't repeat.`;
+    }
+    $('status').innerHTML = msg;
+    cv.setAttribute('aria-label', `${n} masses on springs, ${S.fixed ? 'fixed to walls at both ends' : 'fixed at the left end and free at the right'}. ` + $('status').textContent);
+  }
+  function tableParams() {
+    const n = S.m.length;
+    let h = '<tr><th scope="col">Part</th><th scope="col">Value</th></tr>';
+    S.m.forEach((m, i) => h += `<tr><th scope="row">mass ${i + 1} (kg)</th><td><input type="number" min="0.01" step="any" data-m="${i}" value="${m}" aria-label="Mass ${i + 1} in kilograms"></td></tr>`);
+    for (let s = 0; s < nSprings(); s++) {
+      const a = s === 0 ? 'wall' : `mass ${s}`, b = s < n ? `mass ${s + 1}` : 'wall';
+      h += `<tr><th scope="row">spring ${a}–${b} (N/m)</th><td><input type="number" min="0.01" step="any" data-k="${s}" value="${S.k[s]}" aria-label="Stiffness of the spring from ${a} to ${b} in newtons per metre"></td></tr>`;
+    }
+    $('params').innerHTML = h; $('nshow').textContent = String(n);
+    $('params').querySelectorAll('input').forEach(inp => inp.addEventListener('change', e => {
+      let v = parseFloat(e.target.value); if (!isFinite(v) || v <= 0) v = e.target.dataset.m !== undefined ? S.m[+e.target.dataset.m] : S.k[+e.target.dataset.k];
+      v = Math.max(0.01, Math.min(1e9, v));
+      if (e.target.dataset.m !== undefined) S.m[+e.target.dataset.m] = v; else S.k[+e.target.dataset.k] = v;
+      e.target.value = String(v); changed(false);
+    }));
+  }
+  function tableModes() {
+    const box = $('modes'); box.innerHTML = '';
+    modes.list.forEach((md, i) => { const b = document.createElement('button'); b.textContent = `Mode ${i + 1}`;
+      b.setAttribute('aria-pressed', String(!S.drive && S.view.kind === 'mode' && S.view.i === i));
+      b.addEventListener('click', () => { S.drive = false; $('drive').checked = false; S.view = { kind: 'mode', i }; S.t = 0; refresh(); }); box.appendChild(b); });
+    $('free').setAttribute('aria-pressed', String(!S.drive && S.view.kind === 'free'));
+    let h = '<tr><th scope="col">Mode</th><th scope="col">ω (rad/s)</th><th scope="col">f (Hz)</th><th scope="col">Shape (largest entry 1)</th></tr>';
+    modes.list.forEach((md, i) => h += `<tr><td>${i + 1}</td><td>${fmt(md.w)}</td><td>${fmt(md.w / 2 / Math.PI)}</td><td>(${md.v.map(v => fmt(v, 2)).join(', ')})</td></tr>`);
+    $('freqs').innerHTML = h;
+  }
+  function refresh() { scale = amplitudeScale(); tableModes(); markPresets(); $('endFixed').setAttribute('aria-pressed', String(S.fixed)); $('endFree').setAttribute('aria-pressed', String(!S.fixed)); draw(); }
+  function changed(rebuildTable = true) {
+    analyse();
+    if (S.view.kind === 'mode' && S.view.i >= S.m.length) S.view = { kind: 'mode', i: 0 };
+    $('om').max = String(omMax()); if (S.om > omMax()) S.om = omMax() / 2; $('om').value = String(S.om); $('omv').textContent = S.om.toFixed(2); $('om').step = String(omMax() / 2000);
+    if (rebuildTable) tableParams();
+    refresh();
+  }
+  function frame(ts) {
+    if (!S.playing) return;
+    const dt = last ? Math.min(0.05, (ts - last) / 1000) : 0; last = ts; S.t += dt * S.speed; draw(); raf = requestAnimationFrame(frame);
+  }
+  function play(on) { S.playing = on; $('play').textContent = on ? 'Pause' : 'Play'; last = 0; if (on) raf = requestAnimationFrame(frame); else cancelAnimationFrame(raf); }
+  $('play').addEventListener('click', () => play(!S.playing));
+  $('speed').addEventListener('change', e => { S.speed = +e.target.value; });
+  $('free').addEventListener('click', () => { S.drive = false; $('drive').checked = false; S.view = { kind: 'free', pull: $('pull').value }; S.t = 0; refresh(); });
+  $('pull').addEventListener('change', () => { if (S.view.kind === 'free') { S.view.pull = $('pull').value; S.t = 0; refresh(); } });
+  $('drive').addEventListener('change', e => { S.drive = e.target.checked; S.t = 0; refresh(); });
+  $('om').addEventListener('input', e => { S.om = +e.target.value; $('omv').textContent = S.om.toFixed(2); if (!S.drive) { S.drive = true; $('drive').checked = true; tableModes(); } scale = amplitudeScale(); draw(); });
+  $('endFixed').addEventListener('click', () => { if (!S.fixed) { S.fixed = true; S.k.push(S.k[S.k.length - 1]); changed(); } });
+  $('endFree').addEventListener('click', () => { if (S.fixed) { S.fixed = false; S.k.pop(); changed(); } });
+  $('more').addEventListener('click', () => { if (S.m.length >= 6) return; S.m.push(S.m[S.m.length - 1]); S.k.push(S.k[S.k.length - 1]); changed(); });
+  $('fewer').addEventListener('click', () => { if (S.m.length <= 1) return; S.m.pop(); S.k.pop(); changed(); });
+  let markPresets = () => {};
+  (function () {
+    const box = $('presets');
+    PRESETS.forEach(p => { const b = document.createElement('button'); b.textContent = p[0]; b.addEventListener('click', () => load(p[1])); box.appendChild(b); });
+    markPresets = () => box.querySelectorAll('button').forEach((b, k) => { const p = PRESETS[k][1]; b.setAttribute('aria-pressed', String(p.fixed === S.fixed && JSON.stringify(p.m) === JSON.stringify(S.m) && JSON.stringify(p.k) === JSON.stringify(S.k))); });
+  })();
+  function load(p) { play(false); S.fixed = p.fixed; S.m = p.m.slice(); S.k = p.k.slice(); S.view = { kind: 'mode', i: 0 }; S.drive = false; $('drive').checked = false; S.t = 0; S.om = 0; changed(); S.om = Math.min(omMax(), 0.5 * modes.list[0].w); $('om').value = String(S.om); $('omv').textContent = S.om.toFixed(2); refresh(); }
+
+  // Optional start-up settings: ?preset=Building, &mode=2, &drive=1&omega=10
+  const q = new URLSearchParams(location.search);
+  load((PRESETS.find(p => p[0] === q.get('preset')) || PRESETS[0])[1]);
+  if (+q.get('mode') >= 1 && +q.get('mode') <= S.m.length) S.view = { kind: 'mode', i: +q.get('mode') - 1 };
+  if (q.get('drive') === '1') { S.drive = true; $('drive').checked = true; if (isFinite(parseFloat(q.get('omega')))) S.om = Math.min(omMax(), Math.max(0, parseFloat(q.get('omega')))); $('om').value = String(S.om); $('omv').textContent = S.om.toFixed(2); }
+  refresh();
+  new ResizeObserver(resize).observe(cv.parentElement); watchTheme(draw);
+  resize();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+p_out = 0.05: lambda2 = 4.04, 100 of 100 correct
+p_out = 0.15: lambda2 = 11.06, 96 of 100 correct

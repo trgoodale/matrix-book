@@ -21,7 +21,7 @@ The book has six parts, shown in the contents list on the left:
 | Part III: Vector spaces | [14](../part-3/14-span-independence.qmd)–[17](../part-3/17-orthogonality-least-squares.qmd) |
 | Part IV: Eigenvalues and matrix calculus | [18](../part-4/18-eigenvalues.qmd)–[23](../part-4/23-linear-odes.qmd) |
 | Part V: Numerical methods | [24](../part-5/24-floating-point-conditioning.qmd)–[30](../part-5/30-qr-least-squares.qmd) |
-| Part VI: Applications | [31](../part-6/31-trusses.qmd)–[39](../part-6/39-cryptography.qmd) |
+| Part VI: Applications | [31](../part-6/31-trusses.qmd)–[42](../part-6/42-input-output.qmd) |
 
 These routes pick out the chapters for common courses and goals.
 
@@ -31,7 +31,7 @@ These routes pick out the chapters for common courses and goals.
 - Part II: Linear systems (Chapters [10](../part-2/10-linear-systems.qmd)–[13](../part-2/13-lu-decomposition.qmd))
 - Chapters [14](../part-3/14-span-independence.qmd)–[16](../part-3/16-fundamental-subspaces.qmd), span, basis and the null space
 - Chapters [18](../part-4/18-eigenvalues.qmd) and [19](../part-4/19-diagonalisation.qmd), eigenvalues and diagonalisation
-- Applications: Chapters [31](../part-6/31-trusses.qmd), [32](../part-6/32-circuits.qmd) and [34](../part-6/34-graphics-robotics.qmd) (trusses, circuits, graphics and robotics)
+- Applications: Chapters [31](../part-6/31-trusses.qmd), [32](../part-6/32-circuits.qmd), [34](../part-6/34-graphics-robotics.qmd) and [40](../part-6/40-vibrations.qmd) (trusses, circuits, graphics and robotics, vibrations)
 
 **Numerical methods**
 
@@ -49,7 +49,7 @@ These routes pick out the chapters for common courses and goals.
 - Part III: Vector spaces (Chapters [14](../part-3/14-span-independence.qmd)–[17](../part-3/17-orthogonality-least-squares.qmd))
 - Chapters [18](../part-4/18-eigenvalues.qmd)–[21](../part-4/21-svd-pca.qmd), from eigenvalues to the SVD and PCA
 - Chapter [30](../part-5/30-qr-least-squares.qmd), QR factorisation and stable least squares
-- Application: Chapter [37](../part-6/37-data-science.qmd), regression and dimensionality reduction
+- Applications: Chapter [37](../part-6/37-data-science.qmd), regression and dimensionality reduction, and Chapter [41](../part-6/41-networks.qmd), networks and graphs
 
 **Physics**
 
@@ -58,7 +58,15 @@ These routes pick out the chapters for common courses and goals.
 - Part III: Vector spaces (Chapters [14](../part-3/14-span-independence.qmd)–[17](../part-3/17-orthogonality-least-squares.qmd)), especially change of basis and orthogonality, which underpin quantum mechanics
 - Part IV: Eigenvalues and matrix calculus (Chapters [18](../part-4/18-eigenvalues.qmd)–[23](../part-4/23-linear-odes.qmd))
 - Chapters [24](../part-5/24-floating-point-conditioning.qmd) and [29](../part-5/29-eigenvalue-algorithms.qmd), conditioning and eigenvalue algorithms, for computational work
-- Applications: Chapters [38](../part-6/38-physics.qmd) and [33](../part-6/33-finite-differences.qmd) (rotations, inertia and quantum states; heat flow and finite differences)
+- Applications: Chapters [38](../part-6/38-physics.qmd), [33](../part-6/33-finite-differences.qmd) and [40](../part-6/40-vibrations.qmd) (rotations, inertia and quantum states; heat flow and finite differences; vibrations and normal modes)
+
+**Economics and business**
+
+- Chapters [1](../part-1/01-matrices.qmd)–[7](../part-1/07-inverses.qmd), from matrices to inverses
+- Part II: Linear systems (Chapters [10](../part-2/10-linear-systems.qmd)–[13](../part-2/13-lu-decomposition.qmd))
+- Chapter [17](../part-3/17-orthogonality-least-squares.qmd), least squares, for fitting models to data
+- Chapters [18](../part-4/18-eigenvalues.qmd) and [19](../part-4/19-diagonalisation.qmd), eigenvalues and matrix powers
+- Applications: Chapter [42](../part-6/42-input-output.qmd), input–output models, needs only Parts I and II; then Chapters [35](../part-6/35-markov-pagerank.qmd) (Markov chains) and [37](../part-6/37-data-science.qmd) (regression)
 
 ## How each chapter works
 

@@ -82,6 +82,9 @@ book:
           - part-6/37-data-science.qmd
           - part-6/38-physics.qmd
           - part-6/39-cryptography.qmd
+          - part-6/40-vibrations.qmd
+          - part-6/41-networks.qmd
+          - part-6/42-input-output.qmd
           - part-6/review.qmd
       - references.qmd
   appendices:

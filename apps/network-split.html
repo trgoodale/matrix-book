@@ -1,0 +1,337 @@
+<!doctype html>
+<!-- © 2026 Tom Goodale. MIT licence: see LICENSE.md in the book repository. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Network Split</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: the network first, then the presets, the Laplacian eigenvalues and the table of node values */
+:root {
+  --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
+  --row: #2153b8; --col: #9c5208; --res: #0a7050; --tgt: #6a3db0;
+  --plane: #fbfcfd; --pgrid: #e3e8ee;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+    --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
+  --row: #74a4ff; --col: #f0a35a; --res: #43c999; --tgt: #b89cff; --plane: #131920; --pgrid: #222b36; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px;
+}
+header h1 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+header h1 em { color: var(--res); }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.plane-box { padding: 12px; }
+.holder { width: 100%; max-width: 560px; margin: 0 auto; }
+canvas { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: none; }
+canvas.grab { cursor: grab; } canvas.grabbing { cursor: grabbing; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; border-top: 3px solid; display: inline-block; }
+.sw.a { border-color: var(--row); } .sw.b { border-color: var(--col); border-top-style: dashed; }
+.sw.w { border-color: var(--res); } .sw.t { border-color: var(--tgt); border-top-style: dotted; }
+.side { display: grid; gap: 14px; }
+.card { padding: 14px 16px; display: grid; gap: 10px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.coef { display: grid; grid-template-columns: auto minmax(0, 1fr) 4.6rem; align-items: center; gap: 10px; }
+.coef label { font: 600 1rem var(--font-num); }
+.coef label.a { color: var(--row); } .coef label.b { color: var(--col); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+input[type="number"] {
+  width: 100%; font: 600 0.95rem var(--font-num); color: var(--ink); background: var(--paper);
+  border: 1.5px solid var(--line); border-radius: 6px; padding: 4px 6px; text-align: center;
+}
+.eq { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 1rem var(--font-num); }
+.colv { position: relative; display: inline-grid; padding: 3px 10px; gap: 2px; text-align: center; min-width: 3.4rem; }
+.colv::before, .colv::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6px; border: 1.5px solid var(--ink); }
+.colv::before { left: 0; border-right: 0; } .colv::after { right: 0; border-left: 0; }
+.colv.a { color: var(--row); } .colv.b { color: var(--col); } .colv.w { color: var(--res); font-weight: 600; }
+.k { font-weight: 600; } .k.a { color: var(--row); } .k.b { color: var(--col); }
+.op { color: var(--muted); }
+button {
+  font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.status { font-size: 0.92rem; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); }
+.status.hit { border-color: var(--res); color: var(--res); font-weight: 600; }
+.status.stuck { border-color: var(--tgt); border-style: dashed; }
+.hint { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.embedded body { background-image: none; }
+html.embedded header { display: none; }
+html.embedded .wrap { padding-block: 6px 10px; }
+html.br-round .colv::before { border-top: 0; border-bottom: 0; width: 8px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .colv::after { border-top: 0; border-bottom: 0; width: 8px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+@media (min-width: 560px) and (max-width: 860px) {
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .side > .wide { grid-column: 1 / -1; }
+}
+
+.mat { position: relative; display: inline-grid; grid-template-columns: 4.2rem 4.2rem; gap: 6px; padding: 6px 14px; }
+.mat::before, .mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px; border: 1.5px solid var(--ink); }
+.mat::before { left: 0; border-right: 0; } .mat::after { right: 0; border-left: 0; }
+html.br-round .mat::before { border-top: 0; border-bottom: 0; width: 10px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+html.br-round .mat::after { border-top: 0; border-bottom: 0; width: 10px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+.mat input { -moz-appearance: textfield; appearance: textfield; }
+.mat input::-webkit-outer-spin-button, .mat input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.matrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.matrow .nm { font: 600 1.05rem var(--font-num); }
+.status b { font-weight: 600; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.sw.c { border-color: var(--tgt); }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.slide { display: grid; grid-template-columns: auto minmax(0, 1fr) 3.6rem; gap: 10px; align-items: center; font-size: 0.9rem; }
+.slide output { font: 600 0.9rem var(--font-num); text-align: right; }
+.tbl { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+.tbl th { text-align: left; font-weight: 500; color: var(--muted); font-size: 0.78rem; padding: 2px 6px; }
+.tbl td { padding: 3px 6px; border-top: 1px solid var(--line); font-family: var(--font-num); white-space: nowrap; }
+.tbl td.bar { width: 40%; }
+.tbl .b1, .tbl .b2 { height: 7px; border-radius: 3px; margin: 2px 0; }
+.tbl .b1 { background: var(--res); } .tbl .b2 { background: var(--col); opacity: 0.8; }
+.sw.pr { border-color: var(--res); } .sw.vi { border-color: var(--col); }
+input[type="checkbox"] { flex: none; width: 1.1rem; height: 1.1rem; margin: 0 0.35rem 0 0; vertical-align: -0.2rem; }
+label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; min-height: 24px; cursor: pointer; }
+
+select { font: 500 0.88rem var(--font-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 7px; padding: 5px 8px; }
+select:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.inline { font-size: 0.9rem; color: var(--muted); }
+.tblwrap { overflow-x: auto; }
+.tblwrap:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+.eigs { display: flex; flex-wrap: wrap; gap: 6px; font: 500 0.88rem var(--font-num); }
+.ev { padding: 3px 8px; border: 1.5px solid var(--line); border-radius: 6px; }
+.ev.zero { border-color: var(--res); color: var(--res); font-weight: 600; }
+.ev.l2 { border-style: dashed; border-color: var(--tgt); }
+.dot { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--ink); }
+.dot.c { border-radius: 50%; background: color-mix(in srgb, var(--row) 45%, var(--surface)); }
+.dot.s { background: color-mix(in srgb, var(--col) 45%, var(--surface)); }
+</style>
+<script>
+/* Book settings: embedded mode, brackets and theme follow the book. */
+(function () {
+  var root = document.documentElement, q = new URLSearchParams(location.search), s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) {}
+  if (q.has("embed")) root.classList.add("embedded");
+  if (q.has("lock")) root.classList.add("lock");
+  if ((s.br || "round") === "round") root.classList.add("br-round");
+  if (q.has("embed")) {
+    try {
+      var pb = parent.document.body;
+      var sync = function () { root.setAttribute("data-theme", pb.classList.contains("quarto-dark") ? "dark" : "light"); };
+      sync();
+      new MutationObserver(sync).observe(pb, { attributes: true, attributeFilter: ["class"] });
+    } catch (e) {}
+  }
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Split a network, <em>find who matters</em></h1>
+    <p>The graph Laplacian L = D − A has one zero eigenvalue for each piece of the network. The eigenvector of the next eigenvalue, the Fiedler vector, splits the network into two groups by its signs; the leading eigenvector of A measures how central each node is.</p>
+  </header>
+
+  <div class="layout">
+    <section class="panel plane-box" aria-label="Network">
+      <div class="holder"><canvas id="cv" role="img"></canvas></div>
+      <div class="legend" id="legend"></div>
+      <p class="hint">Click one node and then another to add or remove the edge between them. Click the same node twice to cancel.</p>
+      <div class="row">
+        <label class="inline" for="ea">Edge from</label><select id="ea" aria-label="First node of the edge"></select>
+        <label class="inline" for="eb">to</label><select id="eb" aria-label="Second node of the edge"></select>
+        <button id="toggle">Add or remove</button>
+      </div>
+    </section>
+
+    <div class="side">
+      <section class="panel card wide" aria-label="Network and colouring">
+        <span class="label">Network</span>
+        <div class="row" id="presets"></div>
+        <div class="row"><span>Label the nodes with:</span>
+          <button id="showSplit">Fiedler vector</button><button id="showCent">Centrality</button><button id="showDeg">Degree</button>
+        </div>
+      </section>
+      <section class="panel card wide" aria-label="Laplacian eigenvalues">
+        <span class="label">Eigenvalues of the Laplacian</span>
+        <div id="eigs" class="eigs"></div>
+        <div class="status" id="status" role="status"></div>
+      </section>
+      <section class="panel card wide" aria-label="Values at each node">
+        <span class="label">Nodes</span>
+        <div class="tblwrap" tabindex="0" role="region" aria-label="Table of node values"><table class="tbl" id="tbl"></table></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
+    return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), b: v('--col'), t: v('--tgt'), w: v('--res'), plane: v('--plane'), surface: v('--surface'), line: v('--line'), num: v('--font-num') }; };
+  function watchTheme(draw) {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    if (document.fonts) document.fonts.ready.then(draw);
+  }
+  const f3 = x => { const r = Math.round(x * 1000) / 1000; return (Object.is(r, -0) ? 0 : r).toFixed(3).replace('-', '−'); };
+  function jacobi(S) {
+    const n = S.length, A = S.map(r => r.slice()), V = A.map((r, i) => r.map((_, j) => i === j ? 1 : 0));
+    for (let sweep = 0; sweep < 100; sweep++) {
+      let off = 0; for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) off += A[i][j] ** 2;
+      if (off < 1e-24) break;
+      for (let p = 0; p < n; p++) for (let q = p + 1; q < n; q++) {
+        if (Math.abs(A[p][q]) < 1e-300) continue;
+        const th = (A[q][q] - A[p][p]) / (2 * A[p][q]);
+        const t = Math.sign(th || 1) / (Math.abs(th) + Math.sqrt(th * th + 1)), c = 1 / Math.sqrt(t * t + 1), s = t * c;
+        for (let k = 0; k < n; k++) { const akp = A[k][p], akq = A[k][q]; A[k][p] = c * akp - s * akq; A[k][q] = s * akp + c * akq; }
+        for (let k = 0; k < n; k++) { const apk = A[p][k], aqk = A[q][k]; A[p][k] = c * apk - s * aqk; A[q][k] = s * apk + c * aqk; }
+        for (let k = 0; k < n; k++) { const vkp = V[k][p], vkq = V[k][q]; V[k][p] = c * vkp - s * vkq; V[k][q] = s * vkp + c * vkq; }
+      }
+    }
+    const order = A.map((r, i) => i).sort((i, j) => A[i][i] - A[j][j]);
+    return { vals: order.map(i => A[i][i]), vecs: order.map(c => V.map(r => r[c])) };
+  }
+
+  const ring = n => Array.from({ length: n }, (_, k) => [0.5 + 0.38 * Math.cos(-Math.PI / 2 + 2 * Math.PI * k / n), 0.5 + 0.38 * Math.sin(-Math.PI / 2 + 2 * Math.PI * k / n)]);
+  const PRESETS = [
+    ['Two triangles', [[0.12, 0.25], [0.12, 0.75], [0.37, 0.5], [0.63, 0.5], [0.88, 0.25], [0.88, 0.75]], [[1, 2], [1, 3], [2, 3], [3, 4], [4, 5], [4, 6], [5, 6]]],
+    ['Two pieces', [[0.15, 0.3], [0.38, 0.55], [0.15, 0.8], [0.68, 0.35], [0.88, 0.7]], [[1, 2], [2, 3], [4, 5]]],
+    ['Ring', ring(8), [[1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 1]]],
+    ['Barbell', [[0.06, 0.28], [0.06, 0.72], [0.32, 0.72], [0.32, 0.28], [0.68, 0.28], [0.68, 0.72], [0.94, 0.72], [0.94, 0.28]], [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4], [4, 5], [5, 6], [5, 7], [5, 8], [6, 7], [6, 8], [7, 8]]],
+    ['Hub', [[0.3, 0.5], [0.08, 0.22], [0.06, 0.6], [0.2, 0.86], [0.55, 0.5], [0.75, 0.25], [0.78, 0.75], [0.95, 0.1]], [[1, 2], [1, 3], [1, 4], [1, 5], [5, 6], [5, 7], [6, 7], [6, 8]]]
+  ];
+  const S = { pos: null, edges: null, show: 'split', sel: -1, preset: 0 };
+  let R = null;
+  const key = (i, j) => i < j ? `${i}-${j}` : `${j}-${i}`;
+
+  function analyse() {
+    const n = S.pos.length, A = Array.from({ length: n }, () => new Array(n).fill(0));
+    S.edges.forEach(e => { const [i, j] = e.split('-').map(Number); A[i][j] = A[j][i] = 1; });
+    const deg = A.map(r => r.reduce((s, x) => s + x, 0));
+    const L = A.map((r, i) => r.map((x, j) => (i === j ? deg[i] : 0) - x));
+    const { vals, vecs } = jacobi(L);
+    const zeros = vals.filter(v => Math.abs(v) < 1e-9).length;
+    let f = vecs[1].slice(); const first = f.find(x => Math.abs(x) > 1e-9); if (first < 0) f = f.map(x => -x);
+    // eigenvector centrality: power method on A + I (same eigenvector, avoids oscillation)
+    let c = new Array(n).fill(1);
+    for (let k = 0; k < 2000; k++) { const y = c.map((ci, i) => ci + A[i].reduce((s, a, j) => s + a * c[j], 0)); const m = Math.max(...y); c = m > 0 ? y.map(v => v / m) : y; }
+    const cut = [...S.edges].filter(e => { const [i, j] = e.split('-').map(Number); return (f[i] > 1e-9) !== (f[j] > 1e-9); }).length;
+    R = { n, A, deg, vals: vals.map(v => Math.abs(v) < 1e-9 ? 0 : v), f, c, zeros, cut };
+  }
+
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  let W = 500, H = 380, dpr = 1;
+  const P = k => [24 + S.pos[k][0] * (W - 48), 24 + S.pos[k][1] * (H - 48)];
+  function resize() { W = Math.min(cv.parentElement.clientWidth, 560); H = Math.round(W * 0.72); dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); cv.style.width = W + 'px'; cv.style.height = H + 'px'; draw(); }
+  function valueOf(k) { return S.show === 'split' ? R.f[k] : S.show === 'cent' ? R.c[k] : R.deg[k]; }
+  function draw() {
+    if (!R) return;
+    const C = css(), rad = Math.max(16, Math.min(24, W / 22));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = C.plane; ctx.fillRect(0, 0, W, H);
+    S.edges.forEach(e => { const [i, j] = e.split('-').map(Number), a = P(i), b = P(j);
+      const crossing = S.show === 'split' && (R.f[i] > 1e-9) !== (R.f[j] > 1e-9);
+      ctx.strokeStyle = crossing ? C.t : C.muted; ctx.lineWidth = crossing ? 3 : 2; ctx.setLineDash(crossing ? [7, 5] : []);
+      ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); ctx.setLineDash([]); });
+    const cmax = Math.max(...R.c), fmax = Math.max(...R.f.map(Math.abs)) || 1;
+    for (let k = 0; k < R.n; k++) {
+      const [x, y] = P(k), v = valueOf(k);
+      let fill = C.surface, alpha = 0, square = false;
+      if (S.show === 'split') { square = v <= 1e-9; fill = square ? C.b : C.a; alpha = 0.2 + 0.5 * Math.abs(v) / fmax; }
+      else if (S.show === 'cent') { fill = C.w; alpha = 0.1 + 0.6 * v / cmax; }
+      else { fill = C.w; alpha = 0.1 + 0.6 * v / Math.max(...R.deg, 1); }
+      ctx.beginPath(); if (square) ctx.rect(x - rad * 0.9, y - rad * 0.9, rad * 1.8, rad * 1.8); else ctx.arc(x, y, rad, 0, 2 * Math.PI);
+      ctx.fillStyle = C.surface; ctx.fill(); ctx.globalAlpha = alpha; ctx.fillStyle = fill; ctx.fill(); ctx.globalAlpha = 1;
+      ctx.lineWidth = S.sel === k ? 4 : 2; ctx.strokeStyle = S.sel === k ? C.t : C.ink; ctx.stroke();
+      ctx.fillStyle = C.ink; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = `600 14px ${C.num}`; ctx.fillText(String(k + 1), x, y);
+      ctx.font = `500 11px ${C.num}`; ctx.fillText(S.show === 'deg' ? String(v) : f3(v), x, y + rad + 10);
+    }
+    readout();
+  }
+  function readout() {
+    const n = R.n;
+    $('eigs').innerHTML = R.vals.map((v, i) => `<span class="ev${Math.abs(v) < 1e-9 ? ' zero' : ''}${i === 1 ? ' l2' : ''}">λ<sub>${i + 1}</sub> = ${f3(v)}</span>`).join('');
+    const pos = [...Array(n).keys()].filter(k => R.f[k] > 1e-9).map(k => k + 1), neg = [...Array(n).keys()].filter(k => R.f[k] <= 1e-9).map(k => k + 1);
+    let msg = `<b>${R.zeros}</b> zero eigenvalue${R.zeros === 1 ? '' : 's'}: the network is in <b>${R.zeros}</b> piece${R.zeros === 1 ? '' : 's'}. `;
+    if (R.zeros === 1) msg += `λ<sub>2</sub> = ${f3(R.vals[1])}. The signs of the Fiedler vector split the nodes into {${pos.join(', ')}} and {${neg.join(', ')}}, cutting ${R.cut} edge${R.cut === 1 ? '' : 's'}. `;
+    else msg += 'So λ<sub>2</sub> = 0 too, and the Fiedler vector is not unique: any vector that is constant on each piece and perpendicular to the vector of ones is in the null space. The split shown is one of them. ';
+    if (S.show === 'cent') { const top = R.c.indexOf(Math.max(...R.c)); msg += `Node <b>${top + 1}</b> is the most central${R.zeros > 1 ? ' (with several pieces, the centrality comes from the piece with the largest eigenvalue)' : ''}.`; }
+    $('status').innerHTML = msg;
+    let h = '<tr><th scope="col">Node</th><th scope="col">Degree</th><th scope="col">Fiedler</th><th scope="col">Centrality</th><th scope="col">Neighbours</th></tr>';
+    for (let k = 0; k < n; k++) h += `<tr><td>${k + 1}</td><td>${R.deg[k]}</td><td>${f3(R.f[k])}</td><td>${f3(R.c[k] / Math.max(...R.c))}</td><td>${R.A[k].map((a, j) => a ? j + 1 : 0).filter(Boolean).join(' ') || '—'}</td></tr>`;
+    $('tbl').innerHTML = h;
+    const C = css();
+    $('legend').innerHTML = S.show === 'split'
+      ? `<span><span class="dot c"></span>positive entry (circle)</span><span><span class="dot s"></span>negative entry (square)</span><span><span class="sw t"></span>edge cut by the split</span>`
+      : S.show === 'cent' ? '<span>Darker node: higher eigenvector centrality (largest = 1)</span>' : '<span>Darker node: more edges</span>';
+    cv.setAttribute('aria-label', `Network of ${n} nodes with edges ${[...S.edges].map(e => e.split('-').map(x => +x + 1).join('–')).join(', ')}. ` + $('status').textContent);
+    ['showSplit', 'showCent', 'showDeg'].forEach((id, i) => $(id).setAttribute('aria-pressed', String(S.show === ['split', 'cent', 'deg'][i])));
+    $('presets').querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-pressed', String(k === S.preset && sameEdges(k))));
+  }
+  function sameEdges(k) { const E = new Set(PRESETS[k][2].map(([i, j]) => key(i - 1, j - 1))); return E.size === S.edges.size && [...E].every(e => S.edges.has(e)); }
+  function toggle(i, j) { if (i === j) return; const e = key(i, j); S.edges.has(e) ? S.edges.delete(e) : S.edges.add(e); analyse(); draw(); }
+  function load(k) {
+    S.preset = k; S.pos = PRESETS[k][1]; S.edges = new Set(PRESETS[k][2].map(([i, j]) => key(i - 1, j - 1))); S.sel = -1;
+    const opts = S.pos.map((_, i) => `<option value="${i}">${i + 1}</option>`).join('');
+    $('ea').innerHTML = opts; $('eb').innerHTML = opts; $('eb').value = '1';
+    analyse(); draw();
+  }
+  PRESETS.forEach((p, k) => { const b = document.createElement('button'); b.textContent = p[0]; b.addEventListener('click', () => load(k)); $('presets').appendChild(b); });
+  $('showSplit').addEventListener('click', () => { S.show = 'split'; draw(); });
+  $('showCent').addEventListener('click', () => { S.show = 'cent'; draw(); });
+  $('showDeg').addEventListener('click', () => { S.show = 'deg'; draw(); });
+  $('toggle').addEventListener('click', () => toggle(+$('ea').value, +$('eb').value));
+  cv.addEventListener('pointerdown', e => {
+    const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, rad = Math.max(16, Math.min(24, W / 22));
+    const k = S.pos.findIndex((_, k) => { const p = P(k); return Math.hypot(p[0] - x, p[1] - y) < rad + 6; });
+    if (k < 0) { S.sel = -1; draw(); return; }
+    if (S.sel < 0) S.sel = k; else { const s = S.sel; S.sel = -1; toggle(s, k); }
+    draw();
+  });
+
+  // Optional start-up settings: ?preset=Ring&show=centrality
+  const q = new URLSearchParams(location.search);
+  const k0 = PRESETS.findIndex(p => p[0] === q.get('preset'));
+  if (q.get('show') === 'centrality') S.show = 'cent'; else if (q.get('show') === 'degree') S.show = 'deg';
+  load(k0 >= 0 ? k0 : 0);
+  new ResizeObserver(resize).observe(cv.parentElement); watchTheme(draw);
+  resize();
+})();
+</script>
+</body>
+</html>

@@ -4,10 +4,13 @@ Absorbing state
 : A state of a Markov chain that, once entered, is never left. The other states are **transient**. See @sec-markov-pagerank.
 
 Adjacency matrix
-: A table of connections: entry $(i, j)$ is 1 if item $i$ is linked to item $j$, and 0 otherwise. See @sec-matrices.
+: A table of connections: entry $(i, j)$ is 1 if item $i$ is linked to item $j$, and 0 otherwise. Its powers count routes. See @sec-matrices and @sec-networks.
 
 Affine transformation
 : A linear transformation followed by a translation, $\vect{x} \mapsto \M{M}\vect{x} + \vect{t}$. In homogeneous coordinates it is a single matrix. See @sec-graphics-robotics.
+
+Algebraic connectivity
+: The second smallest eigenvalue $\lambda_2$ of a graph Laplacian. It is zero exactly when the network is in more than one piece, and small when the network has a bottleneck. See @sec-networks.
 
 Algebraic multiplicity
 : The number of times an eigenvalue is repeated as a root of the characteristic polynomial. Compare **geometric multiplicity**. See @sec-eigenvalues.
@@ -108,6 +111,9 @@ Eigenvalue
 Eigenvector
 : A non-zero vector that a matrix only stretches (or flips), so that it stays on the same line through the origin: $\M{A}\vect{v} = \lambda\vect{v}$. The number $\lambda$ is the matching **eigenvalue**. See @sec-invariant-lines and @sec-eigenvalues.
 
+Eigenvector centrality
+: A measure of how important each node of a network is: the entries of the eigenvector of the adjacency matrix for its largest eigenvalue. A node scores highly if its neighbours do. See @sec-networks.
+
 Elasticity
 : In population models, the proportional change in the growth rate $\lambda$ for a proportional change in one matrix entry. See @sec-population-models.
 
@@ -119,6 +125,9 @@ Equilibrium
 
 Equilibrium matrix
 : The matrix whose columns give the forces that each member force and reaction exerts on the joints of a truss. See @sec-trusses.
+
+Fiedler vector
+: The eigenvector of a graph Laplacian for its second smallest eigenvalue. The signs of its entries split the network into two well-separated groups. See @sec-networks.
 
 Fill-in
 : New non-zero entries created in the factors of a sparse matrix during elimination. See @sec-cost-sparse.
@@ -155,6 +164,9 @@ Gradient descent
 
 Gram–Schmidt process
 : A method for turning independent vectors into orthonormal vectors with the same span. See @sec-orthogonality-least-squares.
+
+Graph Laplacian
+: The matrix $\M{L} = \M{D} - \M{A}$ of a network, with the degrees of the nodes on its diagonal and $-1$ for each edge. It is symmetric positive semidefinite, with one zero eigenvalue for each piece of the network. See @sec-networks.
 
 Growth factor
 : The largest entry produced during elimination divided by the largest entry of the original matrix. Large growth magnifies rounding errors. See @sec-pivoting.
@@ -222,6 +234,9 @@ Least squares
 Left null space
 : The null space of $\M{A}\T$: the combinations of the rows of $\M{A}$ that add up to zero. See @sec-fundamental-subspaces.
 
+Leontief inverse
+: The matrix $(\M{I} - \M{A})^{-1}$ of an input–output model, giving the total output, direct and indirect, needed from each industry for each £1 of final demand. See @sec-input-output.
+
 Leslie matrix
 : A population projection matrix with fecundities in its first row and survival rates just below the diagonal. See @sec-diagonalisation and @sec-population-models.
 
@@ -264,11 +279,17 @@ Mechanism
 Mode
 : A pattern that evolves on its own in a linear system: an eigenvector, multiplied by $\lambda^k$ in a discrete process or by $e^{\lambda t}$ in a continuous one. See @sec-diagonalisation and @sec-linear-odes.
 
+Mode shape
+: The pattern in which a structure moves when it vibrates at one of its natural frequencies: an eigenvector of $\M{K}\vect{v} = \omega^2\M{M}\vect{v}$. See @sec-vibrations.
+
 Modified nodal analysis
 : Nodal analysis extended with the currents through voltage sources as extra unknowns. See @sec-circuits.
 
 Multiplier
 : In Gaussian elimination, the number $m_{ik} = a_{ik}/a_{kk}$ such that subtracting $m_{ik}$ times the pivot row clears the entry below the pivot. See @sec-gaussian-elimination.
+
+Natural frequency
+: A frequency at which a structure vibrates freely when disturbed. The natural frequencies $\omega$ of a system of masses and springs solve $\det(\M{K} - \omega^2\M{M}) = 0$. See @sec-vibrations.
 
 Newton's method
 : Solving $\vect{f}(\vect{x}) = \zerovec$ by repeatedly solving the linear system $\M{J}(\vect{x}_k)\,\Delta\vect{x} = -\vect{f}(\vect{x}_k)$ and setting $\vect{x}_{k+1} = \vect{x}_k + \Delta\vect{x}$. See @sec-newton-systems.
@@ -357,6 +378,9 @@ Reduced row echelon form
 Residual
 : The vector $\vect{b} - \M{A}\hat{\vect{x}}$, showing how well an approximate solution $\hat{\vect{x}}$ satisfies $\M{A}\vect{x} = \vect{b}$. See @sec-floating-point-conditioning.
 
+Resonance
+: The large response of a structure pushed at, or near, one of its natural frequencies. See @sec-vibrations.
+
 Row echelon form
 : A matrix in which each row's first non-zero entry is to the right of the one above, so that all entries below the pivots are zero. See @sec-gauss-jordan-rank.
 
@@ -419,6 +443,9 @@ Successive over-relaxation
 
 Symmetric matrix
 : A square matrix equal to its transpose, so that $a_{ij} = a_{ji}$. See @sec-matrices.
+
+Technical coefficients matrix
+: In an input–output model, the matrix $\M{A}$ whose entry $a_{ij}$ is the value of industry $i$'s product used to make £1 of industry $j$'s product. See @sec-input-output.
 
 Thomas algorithm
 : Gaussian elimination specialised to tridiagonal matrices, needing about $8n$ operations. See @sec-cost-sparse.
