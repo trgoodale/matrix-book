@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1136,13 +1136,23 @@ window.Quarto = {
 </section>
 <section id="projection-onto-a-line" class="level3">
 <h3 class="anchored" data-anchor-id="projection-onto-a-line">Projection onto a line</h3>
-<p>The closest point to <span class="math inline">\(\vect{b}\)</span> on the line through the origin in the direction <span class="math inline">\(\vect{a}\)</span> is found by dropping a perpendicular. Call it <span class="math inline">\(\vect{p} = \hat{x}\,\vect{a}\)</span>. The error <span class="math inline">\(\vect{e} = \vect{b} - \vect{p}\)</span> must be at right angles to <span class="math inline">\(\vect{a}\)</span>: <span id="eq-project-line"><span class="math display">\[
+<p>The closest point to <span class="math inline">\(\vect{b}\)</span> on the line through the origin in the direction <span class="math inline">\(\vect{a}\)</span> is found by dropping a perpendicular. Call it <span class="math inline">\(\vect{p} = \hat{x}\,\vect{a}\)</span>. The error <span class="math inline">\(\vect{e} = \vect{b} - \vect{p}\)</span> must be at right angles to <span class="math inline">\(\vect{a}\)</span> (<a href="#fig-project-line" class="quarto-xref">Figure&nbsp;<span>17.1</span></a>): <span id="eq-project-line"><span class="math display">\[
 \vect{a} \cdot (\vect{b} - \hat{x}\,\vect{a}) = 0
 \quad\Longrightarrow\quad
 \hat{x} = \frac{\vect{a} \cdot \vect{b}}{\vect{a} \cdot \vect{a}},
 \qquad
 \vect{p} = \frac{\vect{a} \cdot \vect{b}}{\vect{a} \cdot \vect{a}}\,\vect{a}.
 \tag{17.1}\]</span></span> This <span class="math inline">\(\vect{p}\)</span> is the <strong>projection</strong> of <span class="math inline">\(\vect{b}\)</span> onto the line. It really is the closest point: any other point <span class="math inline">\(\vect{q}\)</span> on the line gives <span class="math inline">\(\vect{b} - \vect{q} = \vect{e} + (\vect{p} - \vect{q})\)</span>, a sum of two orthogonal vectors, so by Pythagoras <span class="math inline">\(\lVert\vect{b} - \vect{q}\rVert^2 = \lVert\vect{e}\rVert^2 + \lVert\vect{p} - \vect{q}\rVert^2\)</span>, which is bigger. You met this as the “shadow” of one vector on another in the dot product view of the vector explorer.</p>
+<div id="fig-project-line" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A dashed line through the origin in the direction of the vector a. The vector b points up and to the right, off the line. The blue vector p runs along the line to the foot of the perpendicular from b, and the brown vector e goes from the tip of p to the tip of b, with a right-angle mark where it meets the line.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-project-line-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/project-line.png" class="img-fluid figure-img" style="width:50.0%" alt="A dashed line through the origin in the direction of the vector a. The vector b points up and to the right, off the line. The blue vector p runs along the line to the foot of the perpendicular from b, and the brown vector e goes from the tip of p to the tip of b, with a right-angle mark where it meets the line.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-project-line-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.1: Projecting <span class="math inline">\(\vect{b}\)</span> onto the line through <span class="math inline">\(\vect{a}\)</span>. The projection <span class="math inline">\(\vect{p}\)</span> is the closest point on the line, and the error <span class="math inline">\(\vect{e} = \vect{b} - \vect{p}\)</span> is at right angles to the line.
+</figcaption>
+</figure>
+</div>
 <div id="ex-orthogonality-least-squares-1" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1160,13 +1170,23 @@ window.Quarto = {
 </section>
 <section id="projection-onto-a-subspace" class="level3">
 <h3 class="anchored" data-anchor-id="projection-onto-a-subspace">Projection onto a subspace</h3>
-<p>Now project <span class="math inline">\(\vect{b}\)</span> onto a bigger subspace: the column space of a matrix <span class="math inline">\(\M{A}\)</span> with independent columns (<a href="16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a>). The closest point is <span class="math inline">\(\vect{p} = \M{A}\hat{\vect{x}}\)</span> for some <span class="math inline">\(\hat{\vect{x}}\)</span>, and the same argument says the error <span class="math inline">\(\vect{e} = \vect{b} - \M{A}\hat{\vect{x}}\)</span> must be at right angles to the whole subspace, so to every column of <span class="math inline">\(\M{A}\)</span>. Dotting with every column at once is multiplying by <span class="math inline">\(\M{A}\T\)</span>: <span id="eq-normal-equations"><span class="math display">\[
+<p>Now project <span class="math inline">\(\vect{b}\)</span> onto a bigger subspace: the column space of a matrix <span class="math inline">\(\M{A}\)</span> with independent columns (<a href="16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a>). The closest point is <span class="math inline">\(\vect{p} = \M{A}\hat{\vect{x}}\)</span> for some <span class="math inline">\(\hat{\vect{x}}\)</span>, and the same argument says the error <span class="math inline">\(\vect{e} = \vect{b} - \M{A}\hat{\vect{x}}\)</span> must be at right angles to the whole subspace (<a href="#fig-project-plane" class="quarto-xref">Figure&nbsp;<span>17.2</span></a>), so to every column of <span class="math inline">\(\M{A}\)</span>. Dotting with every column at once is multiplying by <span class="math inline">\(\M{A}\T\)</span>: <span id="eq-normal-equations"><span class="math display">\[
 \M{A}\T(\vect{b} - \M{A}\hat{\vect{x}}) = \zerovec
 \quad\Longrightarrow\quad
 \M{A}\T\M{A}\,\hat{\vect{x}} = \M{A}\T\vect{b}.
 \tag{17.2}\]</span></span> These are the <strong>normal equations</strong> (“normal” is another word for perpendicular). <span class="math inline">\(\M{A}\T\M{A}\)</span> is a square matrix, with one row and column for each column of <span class="math inline">\(\M{A}\)</span>, and it is invertible exactly when the columns of <span class="math inline">\(\M{A}\)</span> are independent (<a href="16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a>, Exercise 6). Then the projection is <span class="math display">\[
 \vect{p} = \M{A}\hat{\vect{x}} = \M{A}(\M{A}\T\M{A})^{-1}\M{A}\T\vect{b}.
 \]</span> The matrix <span class="math inline">\(\M{P} = \M{A}(\M{A}\T\M{A})^{-1}\M{A}\T\)</span> is the <strong>projection matrix</strong> onto the column space. Projecting twice is the same as projecting once, so <span class="math inline">\(\M{P}^2 = \M{P}\)</span>.</p>
+<div id="fig-project-plane" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A shaded parallelogram represents the plane, the column space of A, containing the column vectors a1 and a2 from a common origin. The vector b rises above the plane. The blue vector p equals A x hat lies in the plane, directly below the tip of b, and the brown vector e equals b minus A x hat rises vertically from the tip of p to the tip of b, with a right-angle mark.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-project-plane-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/project-plane.png" class="img-fluid figure-img" style="width:55.0%" alt="A shaded parallelogram represents the plane, the column space of A, containing the column vectors a1 and a2 from a common origin. The vector b rises above the plane. The blue vector p equals A x hat lies in the plane, directly below the tip of b, and the brown vector e equals b minus A x hat rises vertically from the tip of p to the tip of b, with a right-angle mark.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-project-plane-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.2: Projecting <span class="math inline">\(\vect{b}\)</span> onto the column space of <span class="math inline">\(\M{A}\)</span>, here a plane spanned by the columns <span class="math inline">\(\vect{a}_1\)</span> and <span class="math inline">\(\vect{a}_2\)</span>. The error <span class="math inline">\(\vect{e}\)</span> is at right angles to the whole plane.
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="least-squares" class="level3">
 <h3 class="anchored" data-anchor-id="least-squares">Least squares</h3>
@@ -1244,7 +1264,7 @@ y = 0.9 + 1.4t.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="e621886c" class="cell" data-execution_count="1">
+<div id="6759a12b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>

@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1185,8 +1185,18 @@ q = \vect{x}\T\M{Q}\M{\Lambda}\M{Q}\T\vect{x} = \vect{y}\T\M{\Lambda}\vect{y} = 
 <p>Describe the curves (a) <span class="math inline">\(5x^2 + 4xy + 2y^2 = 6\)</span> and (b) <span class="math inline">\(x^2 + 4xy + y^2 = 3\)</span>.</p>
 <p><strong>Solution.</strong> (a) The matrix is <span class="math inline">\(\mat{5 &amp; 2 \\ 2 &amp; 2}\)</span>, with trace 7 and determinant 6, so the eigenvalues are 6 and 1, with eigenvectors <span class="math inline">\((2, 1)\T\)</span> and <span class="math inline">\((1, -2)\T\)</span>. In eigenvector coordinates the curve is <span class="math inline">\(6y_1^2 + y_2^2 = 6\)</span>, that is, <span class="math inline">\(y_1^2 + y_2^2/6 = 1\)</span>: an ellipse with semi-axis 1 along <span class="math inline">\((2, 1)\T\)</span> and semi-axis <span class="math inline">\(\sqrt{6} \approx 2.45\)</span> along <span class="math inline">\((1, -2)\T\)</span>. The form is positive definite. This is <strong>Ellipse</strong> in the app.</p>
 <ol start="2" type="a">
-<li>The matrix is <span class="math inline">\(\mat{1 &amp; 2 \\ 2 &amp; 1}\)</span>, with eigenvalues 3 and <span class="math inline">\(-1\)</span> and eigenvectors <span class="math inline">\((1, 1)\T\)</span> and <span class="math inline">\((1, -1)\T\)</span>. In eigenvector coordinates the curve is <span class="math inline">\(3y_1^2 - y_2^2 = 3\)</span>: a hyperbola crossing the <span class="math inline">\((1, 1)\)</span> axis at distance 1 from the origin, never crossing the <span class="math inline">\((1, -1)\)</span> axis. The form is indefinite, a saddle. This is <strong>Saddle</strong> in the app.</li>
+<li>The matrix is <span class="math inline">\(\mat{1 &amp; 2 \\ 2 &amp; 1}\)</span>, with eigenvalues 3 and <span class="math inline">\(-1\)</span> and eigenvectors <span class="math inline">\((1, 1)\T\)</span> and <span class="math inline">\((1, -1)\T\)</span>. In eigenvector coordinates the curve is <span class="math inline">\(3y_1^2 - y_2^2 = 3\)</span>: a hyperbola crossing the <span class="math inline">\((1, 1)\)</span> axis at distance 1 from the origin, never crossing the <span class="math inline">\((1, -1)\)</span> axis. The form is indefinite, a saddle. This is <strong>Saddle</strong> in the app. <a href="#fig-conics" class="quarto-xref">Figure&nbsp;<span>20.1</span></a> shows both curves.</li>
 </ol>
+<div id="fig-conics" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels on square grids. Left: a tilted ellipse, with a short blue semi-axis of length 1 along the direction (2, 1) and a long brown semi-axis of length root 6 along (1, minus 2). Right: a hyperbola with two branches opening along the blue dashed (1, 1) direction, labelled lambda equals 3, crossing it at distance 1 from the origin, and never meeting the brown dashed (1, minus 1) direction, labelled lambda equals minus 1.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-conics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/conics.png" class="img-fluid figure-img" style="width:100.0%" alt="Two panels on square grids. Left: a tilted ellipse, with a short blue semi-axis of length 1 along the direction (2, 1) and a long brown semi-axis of length root 6 along (1, minus 2). Right: a hyperbola with two branches opening along the blue dashed (1, 1) direction, labelled lambda equals 3, crossing it at distance 1 from the origin, and never meeting the brown dashed (1, minus 1) direction, labelled lambda equals minus 1.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-conics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;20.1: The curves of Example 2, with their eigenvector directions (dashed). (a) An ellipse, with semi-axes along the eigenvectors. (b) A hyperbola, which crosses the <span class="math inline">\((1, 1)\)</span> axis, where the form is positive, and never crosses the <span class="math inline">\((1, -1)\)</span> axis, where it is negative.
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1281,7 +1291,17 @@ q = \vect{x}\T\M{Q}\M{\Lambda}\M{Q}\T\vect{x} = \vect{y}\T\M{\Lambda}\vect{y} = 
 \M{\sigma} = \mat{50 &amp; 30 \\ 30 &amp; -30}.
 \]</span> Find the principal stresses and the direction of the largest.</p>
 <p><strong>Solution.</strong> The trace is 20 and the determinant <span class="math inline">\(-1500 - 900 = -2400\)</span>, so <span class="math inline">\(\lambda^2 - 20\lambda - 2400 = 0\)</span>, giving <span class="math inline">\(\lambda = 10 \pm \sqrt{100 + 2400} = 10 \pm 50\)</span>. The principal stresses are <strong>60 MPa</strong> (tension) and <strong><span class="math inline">\(-40\)</span> MPa</strong> (compression). Both are larger in size than any entry of <span class="math inline">\(\M{\sigma}\)</span>: the shear has made the worst case worse than either the <span class="math inline">\(x\)</span> or the <span class="math inline">\(y\)</span> stress alone.</p>
-<p>For <span class="math inline">\(\lambda = 60\)</span>, <span class="math inline">\(\M{\sigma} - 60\M{I} = \mat{-10 &amp; 30 \\ 30 &amp; -90}\)</span> gives <span class="math inline">\(x = 3y\)</span>, so the direction is <span class="math inline">\((3, 1)\T\)</span>, at an angle of <span class="math inline">\(\tan^{-1}\tfrac{1}{3} \approx 18.4°\)</span> to the <span class="math inline">\(x\)</span>-axis. The compression acts at right angles to this.</p>
+<p>For <span class="math inline">\(\lambda = 60\)</span>, <span class="math inline">\(\M{\sigma} - 60\M{I} = \mat{-10 &amp; 30 \\ 30 &amp; -90}\)</span> gives <span class="math inline">\(x = 3y\)</span>, so the direction is <span class="math inline">\((3, 1)\T\)</span>, at an angle of <span class="math inline">\(\tan^{-1}\tfrac{1}{3} \approx 18.4°\)</span> to the <span class="math inline">\(x\)</span>-axis. The compression acts at right angles to this (<a href="#fig-principal-stresses" class="quarto-xref">Figure&nbsp;<span>20.2</span></a>).</p>
+<div id="fig-principal-stresses" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a square with blue arrows pulling outwards from its left and right faces, labelled 50, brown arrows pushing inwards on its top and bottom faces, labelled 30 push, and black shear arrows running along each face, labelled shear 30. Right: a square tilted by 18.4 degrees, with blue arrows pulling outwards from two opposite faces, labelled 60, and brown arrows pushing inwards on the other two, labelled 40 push, and no shear arrows.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-principal-stresses-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/principal-stresses.png" class="img-fluid figure-img" style="width:90.0%" alt="Left: a square with blue arrows pulling outwards from its left and right faces, labelled 50, brown arrows pushing inwards on its top and bottom faces, labelled 30 push, and black shear arrows running along each face, labelled shear 30. Right: a square tilted by 18.4 degrees, with blue arrows pulling outwards from two opposite faces, labelled 60, and brown arrows pushing inwards on the other two, labelled 40 push, and no shear arrows.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-principal-stresses-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;20.2: Example 4. Left: a small square of material with a pull of 50 MPa across its <span class="math inline">\(x\)</span> faces, a push of 30 MPa across its <span class="math inline">\(y\)</span> faces, and a shear of 30 MPa along all four. Right: the same point, turned by <span class="math inline">\(18.4°\)</span> to the principal directions, where there is no shear: a pull of 60 MPa and a push of 40 MPa.
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1293,7 +1313,7 @@ q = \vect{x}\T\M{Q}\M{\Lambda}\M{Q}\T\vect{x} = \vect{y}\T\M{\Lambda}\vect{y} = 
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="72f55201" class="cell" data-execution_count="1">
+<div id="e1b2c40b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">5</span>, <span class="dv">2</span>], [<span class="dv">2</span>, <span class="dv">2</span>]])</span>

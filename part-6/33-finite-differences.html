@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1121,20 +1121,40 @@ u''(x) = \frac{u(x - h) - 2u(x) + u(x + h)}{h^2} + O(h^2).
 u(0) = T_0,
 \quad
 u(1) = T_1,
-\]</span> where <span class="math inline">\(k\)</span> is the thermal conductivity. Divide the rod into <span class="math inline">\(n + 1\)</span> equal intervals, with <span class="math inline">\(h = 1/(n + 1)\)</span>, and let <span class="math inline">\(u_i\)</span> approximate <span class="math inline">\(u(ih)\)</span>. Replacing <span class="math inline">\(u''\)</span> by the central difference at each interior point, <span class="math display">\[
+\]</span> where <span class="math inline">\(k\)</span> is the thermal conductivity. Divide the rod into <span class="math inline">\(n + 1\)</span> equal intervals, with <span class="math inline">\(h = 1/(n + 1)\)</span>, and let <span class="math inline">\(u_i\)</span> approximate <span class="math inline">\(u(ih)\)</span> (<a href="#fig-rod-grid" class="quarto-xref">Figure&nbsp;<span>33.1</span></a>). Replacing <span class="math inline">\(u''\)</span> by the central difference at each interior point, <span class="math display">\[
 -u_{i-1} + 2u_i - u_{i+1} = \frac{h^2}{k}q_i,
 \qquad i = 1, \dots, n,
 \]</span> with <span class="math inline">\(u_0 = T_0\)</span> and <span class="math inline">\(u_{n+1} = T_1\)</span> known, so they move to the right-hand side. In matrix form, <span class="math display">\[
 \mat{2 &amp; -1 &amp; &amp; \\ -1 &amp; 2 &amp; \ddots &amp; \\ &amp; \ddots &amp; \ddots &amp; -1 \\ &amp; &amp; -1 &amp; 2}\mat{u_1 \\ u_2 \\ \vdots \\ u_n} = \frac{h^2}{k}\mat{q_1 \\ q_2 \\ \vdots \\ q_n} + \mat{T_0 \\ 0 \\ \vdots \\ T_1}.
 \]</span> The matrix is tridiagonal, symmetric and positive definite (its eigenvalues are <span class="math inline">\(2 - 2\cos\bigl(m\pi/(n + 1)\bigr) &gt; 0\)</span>, as in <a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a> exercise 7), so the Thomas algorithm solves it in about <span class="math inline">\(8n\)</span> operations without pivoting (<a href="../part-5/26-cost-sparse.html" class="quarto-xref"><span>Chapter 26</span></a>).</p>
+<div id="fig-rod-grid" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A rod from 0 to 1 with five equally spaced grid points at 0, h, 2h, 3h and 1. The end points are black squares labelled u 0 equals T 0 and u 4 equals T 1. The three interior points are blue circles labelled u 1, u 2 and u 3. The spacing between neighbouring points is h.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rod-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/rod-grid.png" class="img-fluid figure-img" style="width:75.0%" alt="A rod from 0 to 1 with five equally spaced grid points at 0, h, 2h, 3h and 1. The end points are black squares labelled u 0 equals T 0 and u 4 equals T 1. The three interior points are blue circles labelled u 1, u 2 and u 3. The spacing between neighbouring points is h.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rod-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;33.1: The grid on the rod for <span class="math inline">\(n = 3\)</span>, as in Example 1, with <span class="math inline">\(h = 1/4\)</span>. The end values (black) are known, and the interior values (blue) are the unknowns.
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="two-dimensional-problems" class="level3">
 <h3 class="anchored" data-anchor-id="two-dimensional-problems">Two-dimensional problems</h3>
 <p>For a square plate with its edges held at fixed temperatures and no heat sources, the temperature satisfies <strong>Laplace’s equation</strong>, <span class="math display">\[
 \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0.
-\]</span> On a square grid of spacing <span class="math inline">\(h\)</span>, with <span class="math inline">\(u_{i,j}\)</span> at the point in row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span>, the central difference in each direction gives the <strong>five-point stencil</strong> <span class="math display">\[
+\]</span> On a square grid of spacing <span class="math inline">\(h\)</span>, with <span class="math inline">\(u_{i,j}\)</span> at the point in row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span>, the central difference in each direction gives the <strong>five-point stencil</strong> (<a href="#fig-five-point-stencil" class="quarto-xref">Figure&nbsp;<span>33.2</span></a>) <span class="math display">\[
 4u_{i,j} - u_{i-1,j} - u_{i+1,j} - u_{i,j-1} - u_{i,j+1} = 0:
 \]</span> in the steady state, <strong>each temperature is the average of its four neighbours</strong>. Neighbours on the edge are known and move to the right-hand side.</p>
+<div id="fig-five-point-stencil" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A square grid. The centre point, u i j, is a filled blue circle containing 4. Its four neighbours, each a blue circle containing minus 1, are u i minus 1 j above, u i plus 1 j below, u i j minus 1 to the left and u i j plus 1 to the right. The grid spacing is h.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-five-point-stencil-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/five-point-stencil.png" class="img-fluid figure-img" style="width:45.0%" alt="A square grid. The centre point, u i j, is a filled blue circle containing 4. Its four neighbours, each a blue circle containing minus 1, are u i minus 1 j above, u i plus 1 j below, u i j minus 1 to the left and u i j plus 1 to the right. The grid spacing is h.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-five-point-stencil-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;33.2: The five-point stencil. The equation at point <span class="math inline">\((i, j)\)</span> has coefficient 4 there and <span class="math inline">\(-1\)</span> at each of its four neighbours, a distance <span class="math inline">\(h\)</span> away. Row <span class="math inline">\(i - 1\)</span> is the row above.
+</figcaption>
+</figure>
+</div>
 <p>Numbering the <span class="math inline">\(n \times n\)</span> interior points row by row gives an <span class="math inline">\(n^2 \times n^2\)</span> matrix. Each row has at most five non-zeros: 4 on the diagonal, and <span class="math inline">\(-1\)</span> for each neighbour, either beside it (one place away) or above or below it (<span class="math inline">\(n\)</span> places away). It can be written compactly with the <strong>Kronecker product</strong>, which <code>np.kron</code> and MATLAB’s <code>kron</code> compute: <span class="math display">\[
 \M{A} = \M{I} \otimes \M{T} + \M{T} \otimes \M{I},
 \]</span> where <span class="math inline">\(\M{T}\)</span> is the <span class="math inline">\(n \times n\)</span> tridiagonal matrix of the rod. A grid of <span class="math inline">\(1000 \times 1000\)</span> points gives a million unknowns, but only five million non-zeros, so sparse solvers handle it easily, while a dense solver could not even store it. In three dimensions the stencil has seven points, and fill-in makes direct solvers expensive, so iterative methods such as preconditioned conjugate gradients take over (<a href="../part-5/27-iterative-methods.html" class="quarto-xref"><span>Chapter 27</span></a>).</p>
@@ -1215,7 +1235,17 @@ u(1) = T_1,
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A square plate has its top edge at 100 °C and the other three at 0 °C. Find the temperatures on a <span class="math inline">\(2 \times 2\)</span> grid of interior points, then describe the <span class="math inline">\(3 \times 3\)</span> case.</p>
+<p>A square plate has its top edge at 100 °C and the other three at 0 °C. Find the temperatures on a <span class="math inline">\(2 \times 2\)</span> grid of interior points (<a href="#fig-plate-grid" class="quarto-xref">Figure&nbsp;<span>33.3</span></a>), then describe the <span class="math inline">\(3 \times 3\)</span> case.</p>
+<div id="fig-plate-grid" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A square plate divided into a 3 by 3 grid of cells. The top edge is at 100 degrees and the other three edges are at 0 degrees, with small squares marking the known grid points on each edge. The four interior grid points are blue circles: the top two labelled a and the bottom two labelled b.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plate-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/plate-grid.png" class="img-fluid figure-img" style="width:45.0%" alt="A square plate divided into a 3 by 3 grid of cells. The top edge is at 100 degrees and the other three edges are at 0 degrees, with small squares marking the known grid points on each edge. The four interior grid points are blue circles: the top two labelled a and the bottom two labelled b.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plate-grid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;33.3: The plate of Example 3. The edge values (squares) are known; by symmetry the unknowns are <span class="math inline">\(a\)</span> for the two top points and <span class="math inline">\(b\)</span> for the two bottom ones.
+</figcaption>
+</figure>
+</div>
 <p><strong>Solution.</strong> By symmetry, the two top points share a temperature <span class="math inline">\(a\)</span> and the two bottom points share <span class="math inline">\(b\)</span>. Each top point has neighbours 100 (above), 0 (at the side), the other top point and a bottom point: <span class="math inline">\(4a = 100 + 0 + a + b\)</span>. Each bottom point: <span class="math inline">\(4b = 0 + 0 + b + a\)</span>. So <span class="math inline">\(3a - b = 100\)</span> and <span class="math inline">\(a = 3b\)</span>, giving <span class="math inline">\(b = 12.5\)</span> and <span class="math inline">\(a = 37.5\)</span> °C.</p>
 <p>For a <span class="math inline">\(3 \times 3\)</span> grid the matrix is <span class="math inline">\(9 \times 9\)</span>:</p>
 <div class="wide-matrix">
@@ -1261,7 +1291,7 @@ u(1) = T_1,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="c3f6a848" class="cell" data-execution_count="1">
+<div id="0ad5d646" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.sparse <span class="im">as</span> sp</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse.linalg <span class="im">import</span> spsolve, cg</span>

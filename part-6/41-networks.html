@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1168,7 +1168,17 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Five people are friends as follows: 1–2, 1–3, 2–3, 3–4 and 4–5. Write down <span class="math inline">\(\M{A}\)</span>, find <span class="math inline">\(\M{A}^2\)</span>, and interpret its entries. How many triangles are there?</p>
+<p>Five people are friends as follows: 1–2, 1–3, 2–3, 3–4 and 4–5 (<a href="#fig-friends" class="quarto-xref">Figure&nbsp;<span>41.1</span></a>). Write down <span class="math inline">\(\M{A}\)</span>, find <span class="math inline">\(\M{A}^2\)</span>, and interpret its entries. How many triangles are there?</p>
+<div id="fig-friends" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Five numbered circles. Nodes 1, 2 and 3 form a shaded triangle; node 3 is joined to node 4, and node 4 to node 5.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-friends-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/friends.png" class="img-fluid figure-img" style="width:50.0%" alt="Five numbered circles. Nodes 1, 2 and 3 form a shaded triangle; node 3 is joined to node 4, and node 4 to node 5.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-friends-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;41.1: The friendships of Example 1. The shaded triangle 1–2–3 is the only triangle.
+</figcaption>
+</figure>
+</div>
 <p><strong>Solution.</strong> <span class="math display">\[
 \M{A} = \mat{0 &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\ 1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\ 1 &amp; 1 &amp; 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0},
 \qquad
@@ -1215,7 +1225,17 @@ window.Quarto = {
 \lambda_2 = \frac{5 - \sqrt{17}}{2} \approx 0.438,
 \]</span> with <span class="math inline">\(b = (1 - \lambda_2)a \approx 0.562a\)</span>. Normalising, <span class="math display">\[
 \vect{v}_2 \approx (0.465, 0.465, 0.261, -0.261, -0.465, -0.465).
-\]</span> The signs split the network into <span class="math inline">\(\{1, 2, 3\}\)</span> and <span class="math inline">\(\{4, 5, 6\}\)</span>, cutting only the bridge. The bridge nodes 3 and 4 have the smallest values: they are the least clearly in one group. (The other eigenvalues are 0, 3, 3, 3 and <span class="math inline">\((5 + \sqrt{17})/2 \approx 4.56\)</span>; the computer confirms this.)</p>
+\]</span> The signs split the network into <span class="math inline">\(\{1, 2, 3\}\)</span> and <span class="math inline">\(\{4, 5, 6\}\)</span>, cutting only the bridge (<a href="#fig-two-triangles" class="quarto-xref">Figure&nbsp;<span>41.2</span></a>). The bridge nodes 3 and 4 have the smallest values: they are the least clearly in one group. (The other eigenvalues are 0, 3, 3, 3 and <span class="math inline">\((5 + \sqrt{17})/2 \approx 4.56\)</span>; the computer confirms this.)</p>
+<div id="fig-two-triangles" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two triangles joined by a dashed bridge from node 3 to node 4, with a dotted line labelled cut across it. Nodes 1, 2 and 3 are blue circles with values plus 0.465, plus 0.465 and plus 0.261. Nodes 4, 5 and 6 are brown squares with values minus 0.261, minus 0.465 and minus 0.465.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-two-triangles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/two-triangles.png" class="img-fluid figure-img" style="width:65.0%" alt="Two triangles joined by a dashed bridge from node 3 to node 4, with a dotted line labelled cut across it. Nodes 1, 2 and 3 are blue circles with values plus 0.465, plus 0.465 and plus 0.261. Nodes 4, 5 and 6 are brown squares with values minus 0.261, minus 0.465 and minus 0.465.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two-triangles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;41.2: The network of Example 3, with each node’s entry in the Fiedler vector. Positive entries (blue circles) form one group and negative entries (brown squares) the other; the split cuts only the bridge 3–4.
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <div id="ex-networks-4" class="callout callout-style-simple callout-note no-icon callout-titled">
@@ -1231,7 +1251,17 @@ window.Quarto = {
 <p>Eight nodes have edges 1–2, 1–3, 1–4, 1–5, 5–6, 5–7, 6–7 and 6–8. Node 1 has the highest degree, 4. Is it the most central?</p>
 <p><strong>Solution.</strong> The degrees are <span class="math inline">\((4, 1, 1, 1, 3, 3, 2, 1)\)</span>. The largest eigenvalue of <span class="math inline">\(\M{A}\)</span> is about 2.45, and its eigenvector, scaled so that its largest entry is 1, is <span class="math display">\[
 \vect{c} \approx (0.82, 0.33, 0.33, 0.33, 1.00, 0.86, 0.76, 0.35).
-\]</span> Node 5, with only three edges, is the most central: it links the hub, node 1, to the tightly knit group 5–6–7. Node 1’s many neighbours are leaves, nodes 2, 3 and 4, which have no other connections, so they add little. Eigenvector centrality rewards being connected to well-connected nodes, the same idea as PageRank.</p>
+\]</span> Node 5, with only three edges, is the most central (<a href="#fig-hub" class="quarto-xref">Figure&nbsp;<span>41.3</span></a>): it links the hub, node 1, to the tightly knit group 5–6–7. Node 1’s many neighbours are leaves, nodes 2, 3 and 4, which have no other connections, so they add little. Eigenvector centrality rewards being connected to well-connected nodes, the same idea as PageRank.</p>
+<div id="fig-hub" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Eight numbered nodes. Node 1 is a hub joined to leaves 2, 3 and 4 and to node 5. Nodes 5, 6 and 7 form a triangle, and node 8 hangs off node 6. Centralities beside the nodes: 1: 0.82; 2, 3 and 4: 0.33; 5: 1.00, highlighted in blue; 6: 0.86; 7: 0.76; 8: 0.35.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hub-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/hub.png" class="img-fluid figure-img" style="width:65.0%" alt="Eight numbered nodes. Node 1 is a hub joined to leaves 2, 3 and 4 and to node 5. Nodes 5, 6 and 7 form a triangle, and node 8 hangs off node 6. Centralities beside the nodes: 1: 0.82; 2, 3 and 4: 0.33; 5: 1.00, highlighted in blue; 6: 0.86; 7: 0.76; 8: 0.35.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hub-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;41.3: The network of Example 4, with each node’s eigenvector centrality. Node 5 (highlighted) scores highest, although node 1 has more edges.
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1258,7 +1288,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="77c6e605" class="cell" data-execution_count="1">
+<div id="09b57cef" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> adjacency(n, edges):</span>

@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1175,7 +1175,17 @@ x_i \ge 0.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Each day is sunny (S), cloudy (C) or rainy (R). After a sunny day, the next is sunny with probability 0.7, cloudy 0.2 and rainy 0.1; after a cloudy day, the probabilities are 0.3, 0.4 and 0.3; after a rainy day, 0.2, 0.3 and 0.5. If today is sunny, what are the chances for the day after tomorrow? In the long run, what fraction of days are rainy?</p>
+<p>Each day is sunny (S), cloudy (C) or rainy (R). After a sunny day, the next is sunny with probability 0.7, cloudy 0.2 and rainy 0.1; after a cloudy day, the probabilities are 0.3, 0.4 and 0.3; after a rainy day, 0.2, 0.3 and 0.5 (<a href="#fig-weather-chain" class="quarto-xref">Figure&nbsp;<span>35.1</span></a>). If today is sunny, what are the chances for the day after tomorrow? In the long run, what fraction of days are rainy?</p>
+<div id="fig-weather-chain" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three circles, S for sunny, C for cloudy and R for rainy, in a triangle, with arrows between every pair in both directions and a loop on each. S: loop 0.7, to C 0.2, to R 0.1. C: loop 0.4, to S 0.3, to R 0.3. R: loop 0.5, to S 0.2, to C 0.3.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-weather-chain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/weather-chain.png" class="img-fluid figure-img" style="width:55.0%" alt="Three circles, S for sunny, C for cloudy and R for rainy, in a triangle, with arrows between every pair in both directions and a loop on each. S: loop 0.7, to C 0.2, to R 0.1. C: loop 0.4, to S 0.3, to R 0.3. R: loop 0.5, to S 0.2, to C 0.3.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weather-chain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;35.1: The weather chain of Example 1. Each arrow is labelled with the probability of that change from one day to the next; the probabilities leaving each state add up to 1.
+</figcaption>
+</figure>
+</div>
 <p><strong>Solution.</strong> The columns are the “from” states: <span class="math display">\[
 \M{M} = \mat{0.7 &amp; 0.3 &amp; 0.2 \\ 0.2 &amp; 0.4 &amp; 0.3 \\ 0.1 &amp; 0.3 &amp; 0.5}.
 \]</span> Starting from <span class="math inline">\(\vect{x}_0 = (1, 0, 0)\T\)</span>, <span class="math inline">\(\vect{x}_1 = \M{M}\vect{x}_0 = (0.7, 0.2, 0.1)\T\)</span>, and <span class="math display">\[
@@ -1198,7 +1208,17 @@ x_i \ge 0.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Four pages link as follows: A links to B and C; B links to C; C links to A; D links to C. Find the PageRank with <span class="math inline">\(d = 0.85\)</span>.</p>
+<p>Four pages link as follows: A links to B and C; B links to C; C links to A; D links to C (<a href="#fig-four-pages" class="quarto-xref">Figure&nbsp;<span>35.2</span></a>). Find the PageRank with <span class="math inline">\(d = 0.85\)</span>.</p>
+<div id="fig-four-pages" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four circles labelled A, B, C and D with arrows for links: A to B, A to C, B to C, C to A and D to C.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-four-pages-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/four-pages.png" class="img-fluid figure-img" style="width:40.0%" alt="Four circles labelled A, B, C and D with arrows for links: A to B, A to C, B to C, C to A and D to C.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-four-pages-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;35.2: The four pages of Example 2 and their links. No page links to D.
+</figcaption>
+</figure>
+</div>
 <p><strong>Solution.</strong> With columns for A, B, C, D, <span class="math display">\[
 \M{M} = \mat{0 &amp; 0 &amp; 1 &amp; 0 \\ \tfrac{1}{2} &amp; 0 &amp; 0 &amp; 0 \\ \tfrac{1}{2} &amp; 1 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 0 &amp; 0}.
 \]</span> Solve <span class="math inline">\((\M{I} - 0.85\M{M})\vect{x} = 0.0375\,\vect{1}\)</span>. No page links to D, so its row gives <span class="math inline">\(x_D = 0.0375\)</span>: only random jumps ever reach it. Then <span class="math display">\[
@@ -1220,7 +1240,17 @@ x_A = 0.0375 + 0.85x_C,
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A three-year degree is modelled year by year. In each year, a student repeats the year with probability 0.1. Otherwise, in year 1 they progress with probability 0.8 and leave with probability 0.1; in year 2 they progress with probability 0.85 and leave with probability 0.05; and in year 3 they graduate with probability 0.85 and leave with probability 0.05. For a new student, how many years do they spend at university, on average, and how likely are they to graduate?</p>
+<p>A three-year degree is modelled year by year. In each year, a student repeats the year with probability 0.1. Otherwise, in year 1 they progress with probability 0.8 and leave with probability 0.1; in year 2 they progress with probability 0.85 and leave with probability 0.05; and in year 3 they graduate with probability 0.85 and leave with probability 0.05 (<a href="#fig-degree-chain" class="quarto-xref">Figure&nbsp;<span>35.3</span></a>). For a new student, how many years do they spend at university, on average, and how likely are they to graduate?</p>
+<div id="fig-degree-chain" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Boxes for Year 1, Year 2 and Year 3 in a row, each with a loop labelled 0.1 for repeating. Arrows go from Year 1 to Year 2 with 0.8, Year 2 to Year 3 with 0.85, and Year 3 to a shaded Graduated box with 0.85. Arrows also go from each year to a shaded Left box below, with 0.1, 0.05 and 0.05.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-degree-chain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/degree-chain.png" class="img-fluid figure-img" style="width:75.0%" alt="Boxes for Year 1, Year 2 and Year 3 in a row, each with a loop labelled 0.1 for repeating. Arrows go from Year 1 to Year 2 with 0.8, Year 2 to Year 3 with 0.85, and Year 3 to a shaded Graduated box with 0.85. Arrows also go from each year to a shaded Left box below, with 0.1, 0.05 and 0.05.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-degree-chain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;35.3: The degree of Example 3 as an absorbing Markov chain. <em>Graduated</em> and <em>Left</em> (shaded) are absorbing: once there, a student stays.
+</figcaption>
+</figure>
+</div>
 <p><strong>Solution.</strong> The transient states are years 1, 2 and 3; the absorbing states are <em>graduated</em> and <em>left</em>. The columns are the “from” states: <span class="math display">\[
 \M{Q} = \mat{0.1 &amp; 0 &amp; 0 \\ 0.8 &amp; 0.1 &amp; 0 \\ 0 &amp; 0.85 &amp; 0.1},
 \qquad
@@ -1256,7 +1286,7 @@ n_1 + n_2 + n_3 \approx 3.03 \text{ years}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="f65a4ae1" class="cell" data-execution_count="1">
+<div id="823426a6" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: the steady state of the weather</span></span>

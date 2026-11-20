@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1219,7 +1219,17 @@ F_k = \frac{\lambda_1^k - \lambda_2^k}{\sqrt{5}}.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A bike-hire scheme has two docking stations, A and B. Each day, 90% of the bikes at A end the day at A and 10% at B; of those at B, 20% end at A and 80% stay at B. If all the bikes start at A, what happens in the long run?</p>
+<p>A bike-hire scheme has two docking stations, A and B. Each day, 90% of the bikes at A end the day at A and 10% at B; of those at B, 20% end at A and 80% stay at B (<a href="#fig-bike-stations" class="quarto-xref">Figure&nbsp;<span>19.1</span></a>). If all the bikes start at A, what happens in the long run?</p>
+<div id="fig-bike-stations" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two circles, A and B. A has a loop labelled 0.9 and an arrow to B labelled 0.1. B has a loop labelled 0.8 and an arrow to A labelled 0.2.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bike-stations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/bike-stations.png" class="img-fluid figure-img" style="width:50.0%" alt="Two circles, A and B. A has a loop labelled 0.9 and an arrow to B labelled 0.1. B has a loop labelled 0.8 and an arrow to A labelled 0.2.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bike-stations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.1: The daily movement of bikes in Example 4. The two numbers leaving each station add up to 1.
+</figcaption>
+</figure>
+</div>
 <p><strong>Solution.</strong> Let <span class="math inline">\(\vect{x}_k\)</span> hold the fractions of bikes at A and at B after <span class="math inline">\(k\)</span> days. Then <span class="math inline">\(\vect{x}_{k+1} = \M{M}\vect{x}_k\)</span> with <span class="math display">\[
 \M{M} = \mat{0.9 &amp; 0.2 \\ 0.1 &amp; 0.8}.
 \]</span> Each column adds up to 1, because every bike ends up somewhere. The trace is 1.7 and the determinant <span class="math inline">\(0.72 - 0.02 = 0.7\)</span>, so <span class="math inline">\(\lambda^2 - 1.7\lambda + 0.7 = 0\)</span>, giving <span class="math inline">\(\lambda_1 = 1\)</span> and <span class="math inline">\(\lambda_2 = 0.7\)</span>.</p>
@@ -1238,7 +1248,7 @@ F_k = \frac{\lambda_1^k - \lambda_2^k}{\sqrt{5}}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="0e87cb09" class="cell" data-execution_count="1">
+<div id="6712e195" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">4</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">3</span>]])</span>

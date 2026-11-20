@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1143,7 +1143,17 @@ window.Quarto = {
 <li><span class="math inline">\(\M{\Sigma}\)</span> stretches along the axes by <span class="math inline">\(\sigma_1, \sigma_2, \dots\)</span>;</li>
 <li><span class="math inline">\(\M{U}\)</span> turns the result into place, so that the axes line up with the columns <span class="math inline">\(\vect{u}_1, \vect{u}_2, \dots\)</span> of <span class="math inline">\(\M{U}\)</span>.</li>
 </ol>
-<p>The unit circle (or sphere) becomes an ellipse (or ellipsoid) whose semi-axes are <span class="math inline">\(\sigma_1\vect{u}_1, \sigma_2\vect{u}_2, \dots\)</span></p>
+<p>The unit circle (or sphere) becomes an ellipse (or ellipsoid) whose semi-axes are <span class="math inline">\(\sigma_1\vect{u}_1, \sigma_2\vect{u}_2, \dots\)</span> (<a href="#fig-svd-steps" class="quarto-xref">Figure&nbsp;<span>21.1</span></a>).</p>
+<div id="fig-svd-steps" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four panels from left to right. Start: the unit circle with two perpendicular arrows, v1 in blue at 30 degrees and v2 in brown at 120 degrees. After V transpose: the same circle, with the arrows turned onto the x and y axes. After Sigma: an ellipse stretched to 2 along x and squashed to 0.6 along y, with the arrows stretched to match. After U: the ellipse turned by 60 degrees, with semi-axes labelled sigma 1 u 1 and sigma 2 u 2.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-svd-steps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/svd-steps.png" class="img-fluid figure-img" style="width:100.0%" alt="Four panels from left to right. Start: the unit circle with two perpendicular arrows, v1 in blue at 30 degrees and v2 in brown at 120 degrees. After V transpose: the same circle, with the arrows turned onto the x and y axes. After Sigma: an ellipse stretched to 2 along x and squashed to 0.6 along y, with the arrows stretched to match. After U: the ellipse turned by 60 degrees, with semi-axes labelled sigma 1 u 1 and sigma 2 u 2.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-svd-steps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;21.1: The unit circle under <span class="math inline">\(\M{A} = \M{U}\M{\Sigma}\M{V}\T\)</span>, one factor at a time, for <span class="math inline">\(\M{V}\)</span> a rotation by <span class="math inline">\(30°\)</span>, <span class="math inline">\(\M{\Sigma} = \operatorname{diag}(2, 0.6)\)</span> and <span class="math inline">\(\M{U}\)</span> a rotation by <span class="math inline">\(60°\)</span>. The right singular vectors <span class="math inline">\(\vect{v}_1\)</span> and <span class="math inline">\(\vect{v}_2\)</span> (blue and brown) end up as the semi-axes <span class="math inline">\(\sigma_1\vect{u}_1\)</span> and <span class="math inline">\(\sigma_2\vect{u}_2\)</span> of the ellipse.
+</figcaption>
+</figure>
+</div>
 <p>Column by column, the decomposition says <span id="eq-svd-columns"><span class="math display">\[
 \M{A}\vect{v}_i = \sigma_i\vect{u}_i.
 \tag{21.1}\]</span></span> Compare <span class="math inline">\(\M{A}\vect{v} = \lambda\vect{v}\)</span>: the <strong>right singular vectors</strong> <span class="math inline">\(\vect{v}_i\)</span> are perpendicular directions in the input that <span class="math inline">\(\M{A}\)</span> sends to perpendicular directions <span class="math inline">\(\vect{u}_i\)</span> in the output (the <strong>left singular vectors</strong>), stretched by <span class="math inline">\(\sigma_i\)</span>. Unlike eigenvectors, the input and output directions can differ, which is what makes the SVD possible for every matrix.</p>
@@ -1270,7 +1280,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="d69b568d" class="cell" data-execution_count="1">
+<div id="e545fce6" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">3</span>, <span class="dv">0</span>], [<span class="dv">4</span>, <span class="dv">5</span>]])</span>
@@ -1326,10 +1336,10 @@ window.Quarto = {
 <div id="fig-svd-compress" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A row of four greyscale images, the original and rank 1, 5 and 20 approximations, becoming clearer as the rank grows, followed by a log-scale plot of singular values that drops steeply then levels off.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-svd-compress-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="21-svd-pca_files/figure-html/fig-svd-compress-output-1.png" alt="A row of four greyscale images, the original and rank 1, 5 and 20 approximations, becoming clearer as the rank grows, followed by a log-scale plot of singular values that drops steeply then levels off." width="1042" height="240" class="figure-img">
+<img src="21-svd-pca_files/figure-html/fig-svd-compress-output-1.png" alt="A row of four greyscale images, the original and rank 1, 5 and 20 approximations, becoming clearer as the rank grows, followed by a log-scale plot of singular values that drops steeply then levels off." width="1046" height="240" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-svd-compress-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;21.1: A 120 × 120 picture and its best approximations of rank 1, 5 and 20, with the percentage of the original 14 400 numbers each one needs. The first 60 singular values (right, on a logarithmic scale) fall quickly at first, which is why so few terms are needed.
+Figure&nbsp;21.2: A 120 × 120 picture and its best approximations of rank 1, 5 and 20, with the percentage of the original 14 400 numbers each one needs. The first 60 singular values (right, on a logarithmic scale) fall quickly at first, which is why so few terms are needed.
 </figcaption>
 </figure>
 </div>

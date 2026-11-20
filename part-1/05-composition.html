@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1223,7 +1223,17 @@ window.Quarto = {
 </section>
 <section id="two-reflections-make-a-rotation" class="level3">
 <h3 class="anchored" data-anchor-id="two-reflections-make-a-rotation">Two reflections make a rotation</h3>
-<p>Reflecting in a line through the origin at angle <span class="math inline">\(\varphi\)</span>, then in a line at angle <span class="math inline">\(\theta\)</span>, gives a rotation by <span class="math inline">\(2(\theta - \varphi)\)</span>, twice the angle between the lines. (Exercise 4 asks you to check this by multiplying, using the optional reflection formula in <a href="04-transformations.html" class="quarto-xref"><span>Chapter 4</span></a>.) You can see it with a pair of mirrors: two reflections reverse the picture twice, so the result is the right way round, but turned.</p>
+<p>Reflecting in a line through the origin at angle <span class="math inline">\(\varphi\)</span>, then in a line at angle <span class="math inline">\(\theta\)</span>, gives a rotation by <span class="math inline">\(2(\theta - \varphi)\)</span>, twice the angle between the lines (<a href="#fig-two-reflections" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>). (Exercise 4 asks you to check this by multiplying, using the optional reflection formula in <a href="04-transformations.html" class="quarto-xref"><span>Chapter 4</span></a>.) You can see it with a pair of mirrors: two reflections reverse the picture twice, so the result is the right way round, but turned.</p>
+<div id="fig-two-reflections" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two dashed mirror lines through the origin, at 10 and 50 degrees. A grey letter F labelled start, below them; its dashed reflection in the first mirror, above both mirrors; and the reflection of that in the second mirror, in blue, between the mirrors. An arc from the start to the final shape is labelled 2 times theta minus phi: the final F is the start rotated about the origin.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-two-reflections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/two-reflections.png" class="img-fluid figure-img" style="width:55.0%" alt="Two dashed mirror lines through the origin, at 10 and 50 degrees. A grey letter F labelled start, below them; its dashed reflection in the first mirror, above both mirrors; and the reflection of that in the second mirror, in blue, between the mirrors. An arc from the start to the final shape is labelled 2 times theta minus phi: the final F is the start rotated about the origin.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two-reflections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: Reflecting in the first mirror and then in the second has the same effect as rotating about the origin by twice the angle between the mirrors. Here the mirrors are at <span class="math inline">\(10°\)</span> and <span class="math inline">\(50°\)</span>, so the rotation is <span class="math inline">\(80°\)</span>.
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="breaking-a-transformation-into-pieces" class="level3">
 <h3 class="anchored" data-anchor-id="breaking-a-transformation-into-pieces">Breaking a transformation into pieces</h3>
@@ -1238,7 +1248,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="6f72a940" class="cell" data-execution_count="1">
+<div id="2fab3f33" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> R(theta_deg):</span>

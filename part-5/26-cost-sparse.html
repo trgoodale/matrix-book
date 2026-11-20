@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1135,7 +1135,7 @@ window.Quarto = {
 <div id="fig-arrow" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four sparsity patterns. An arrow matrix with a full first row and column has completely filled LU factors; reordered with the full row and column last, its factors keep the arrow pattern with no fill-in.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-arrow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="26-cost-sparse_files/figure-html/fig-arrow-output-1.png" alt="Four sparsity patterns. An arrow matrix with a full first row and column has completely filled LU factors; reordered with the full row and column last, its factors keep the arrow pattern with no fill-in." width="950" height="262" class="figure-img">
+<img src="26-cost-sparse_files/figure-html/fig-arrow-output-1.png" alt="Four sparsity patterns. An arrow matrix with a full first row and column has completely filled LU factors; reordered with the full row and column last, its factors keep the arrow pattern with no fill-in." width="950" height="260" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arrow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;26.1: Left pair: an arrow matrix with its full row and column first, and the non-zero entries of its LU factors (L and U drawn together in one square). Elimination fills in the entire matrix. Right pair: the same matrix with the unknowns in the opposite order. Now the factors have no new non-zero entries at all.
@@ -1286,8 +1286,18 @@ m &amp;= 2 - \tfrac{3}{4} = \tfrac{5}{4}, &amp; &amp; &amp; b'_4 &amp;= \bigl(1 
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Heat flow on a square plate is modelled on a grid of <span class="math inline">\(500 \times 500\)</span> interior points, each linked to its four neighbours. Compare the storage needed for the matrix in dense and sparse form.</p>
+<p>Heat flow on a square plate is modelled on a grid of <span class="math inline">\(500 \times 500\)</span> interior points, each linked to its four neighbours (<a href="#fig-grid-sparsity" class="quarto-xref">Figure&nbsp;<span>26.2</span></a> shows a small version). Compare the storage needed for the matrix in dense and sparse form.</p>
 <p><strong>Solution.</strong> There are <span class="math inline">\(n = 250\,000\)</span> unknowns. Dense storage needs <span class="math inline">\(n^2 = 6.25 \times 10^{10}\)</span> numbers, 500 GB. Each row has at most 5 non-zeros, so CSR stores at most <span class="math inline">\(1.25 \times 10^6\)</span> values and <span class="math inline">\(1.25 \times 10^6\)</span> column numbers, plus <span class="math inline">\(n + 1\)</span> row starts: about 20 MB, 25 000 times less.</p>
+<div id="fig-grid-sparsity" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a 4 by 4 grid of numbered points, 1 to 16 row by row, with point 7 filled blue and its neighbours 3, 6, 8 and 11 shaded. Right: the 16 by 16 matrix as a pattern of black squares for the non-zero entries, lying on the main diagonal, the diagonals next to it and the diagonals four places away. Row 7 is highlighted in blue, with entries in columns 3, 6, 7, 8 and 11.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grid-sparsity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/grid-sparsity.png" class="img-fluid figure-img" style="width:95.0%" alt="Left: a 4 by 4 grid of numbered points, 1 to 16 row by row, with point 7 filled blue and its neighbours 3, 6, 8 and 11 shaded. Right: the 16 by 16 matrix as a pattern of black squares for the non-zero entries, lying on the main diagonal, the diagonals next to it and the diagonals four places away. Row 7 is highlighted in blue, with entries in columns 3, 6, 7, 8 and 11.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grid-sparsity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;26.2: A <span class="math inline">\(4 \times 4\)</span> version of Example 3. Each unknown is coupled only to itself and its neighbours, so row 7 of the matrix has non-zeros in columns 3, 6, 7, 8 and 11, and the matrix has five diagonals of non-zeros. On a <span class="math inline">\(500 \times 500\)</span> grid, the proportion of non-zeros is tiny.
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1305,7 +1315,7 @@ m &amp;= 2 - \tfrac{3}{4} = \tfrac{5}{4}, &amp; &amp; &amp; b'_4 &amp;= \bigl(1 
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="0b01451d" class="cell" data-execution_count="2">
+<div id="182659c8" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.sparse <span class="im">as</span> sp</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse.linalg <span class="im">import</span> spsolve</span>
@@ -1339,7 +1349,7 @@ m &amp;= 2 - \tfrac{3}{4} = \tfrac{5}{4}, &amp; &amp; &amp; b'_4 &amp;= \bigl(1 
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">max</span>(np.<span class="bu">abs</span>(u <span class="op">-</span> t <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> t) <span class="op">/</span> <span class="dv">2</span>)))     <span class="co"># error</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1. 1. 1. 1.]
-sparse solve: 0.054 s, 299998 non-zeros
+sparse solve: 0.101 s, 299998 non-zeros
 5.254774393392836e-11</code></pre>
 </div>
 </div>

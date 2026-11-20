@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1140,7 +1140,7 @@ window.Quarto = {
 <div id="fig-gradient-descent" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Elliptical contour lines around a minimum at (1, 2), grey gradient arrows pointing downhill, and a red zigzag path of gradient descent from (−2, −1) to the minimum.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gradient-descent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="22-matrix-calculus_files/figure-html/fig-gradient-descent-output-1.png" alt="Elliptical contour lines around a minimum at (1, 2), grey gradient arrows pointing downhill, and a red zigzag path of gradient descent from (−2, −1) to the minimum." width="525" height="470" class="figure-img">
+<img src="22-matrix-calculus_files/figure-html/fig-gradient-descent-output-1.png" alt="Elliptical contour lines around a minimum at (1, 2), grey gradient arrows pointing downhill, and a red zigzag path of gradient descent from (−2, −1) to the minimum." width="534" height="470" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gradient-descent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;22.1: Contours of <span class="math inline">\(f(\vect{x}) = \tfrac{1}{2}\vect{x}\T\M{A}\vect{x} - \vect{b}\T\vect{x}\)</span> with <span class="math inline">\(\M{A} = \mat{3 &amp; 1 \\ 1 &amp; 2}\)</span> and <span class="math inline">\(\vect{b} = (5, 5)\T\)</span>. The grey arrows show the negative gradient <span class="math inline">\(-\nabla f\)</span> (scaled down), and the red path is gradient descent with step size 0.4, starting from <span class="math inline">\((-2, -1)\)</span> and reaching the minimum at <span class="math inline">\((1, 2)\)</span>.
@@ -1246,9 +1246,19 @@ E(\vect{x}) = \lVert\M{A}\vect{x} - \vect{b}\rVert^2 = (\M{A}\vect{x} - \vect{b}
 \M{J} = \mat{\partial x/\partial r &amp; \partial x/\partial\theta \\ \partial y/\partial r &amp; \partial y/\partial\theta} = \mat{\cos\theta &amp; -r\sin\theta \\ \sin\theta &amp; r\cos\theta},
 \qquad
 \det\M{J} = r\cos^2\theta + r\sin^2\theta = r.
-\]</span> This is the <span class="math inline">\(r\)</span> in <span class="math inline">\(dA = r\,dr\,d\theta\)</span> for integrals in polar coordinates: a small patch <span class="math inline">\(dr\)</span> by <span class="math inline">\(d\theta\)</span> has area about <span class="math inline">\(r\,dr\,d\theta\)</span>. At <span class="math inline">\(r = 2\)</span>, <span class="math inline">\(\theta = \pi/6\)</span>, <span class="math display">\[
+\]</span> This is the <span class="math inline">\(r\)</span> in <span class="math inline">\(dA = r\,dr\,d\theta\)</span> for integrals in polar coordinates: a small patch <span class="math inline">\(dr\)</span> by <span class="math inline">\(d\theta\)</span> has area about <span class="math inline">\(r\,dr\,d\theta\)</span> (<a href="#fig-polar-patch" class="quarto-xref">Figure&nbsp;<span>22.2</span></a>). At <span class="math inline">\(r = 2\)</span>, <span class="math inline">\(\theta = \pi/6\)</span>, <span class="math display">\[
 \Delta\mat{x \\ y} \approx \mat{\sqrt{3}/2 &amp; -1 \\ 1/2 &amp; \sqrt{3}}\mat{0.1 \\ 0.05} \approx \mat{0.0366 \\ 0.1366}.
 \]</span> The exact change is <span class="math inline">\((0.0319, 0.1396)\)</span>, so the linear approximation is close.</p>
+<div id="fig-polar-patch" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two dashed rays from the origin at angles theta and theta plus d theta, and two dotted arcs at radii r and r plus dr. The shaded blue patch between them has a radial side labelled dr and an outer curved side labelled r d theta.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-polar-patch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/polar-patch.png" class="img-fluid figure-img" style="width:50.0%" alt="Two dashed rays from the origin at angles theta and theta plus d theta, and two dotted arcs at radii r and r plus dr. The shaded blue patch between them has a radial side labelled dr and an outer curved side labelled r d theta.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-polar-patch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;22.2: A small polar patch. Its sides are <span class="math inline">\(dr\)</span> along the radius and <span class="math inline">\(r\,d\theta\)</span> around the arc, so its area is about <span class="math inline">\(r\,dr\,d\theta\)</span>: the determinant of the Jacobian is the factor <span class="math inline">\(r\)</span>.
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1290,7 +1300,17 @@ f(\vect{x} + \Delta\vect{x}) \approx f(\vect{x}) + \nabla f(\vect{x}) \cdot \Del
 <p>Find and classify the stationary points of <span class="math inline">\(f(x, y) = x^3 - 3x + y^2\)</span>.</p>
 <p><strong>Solution.</strong> The gradient is <span class="math inline">\(\nabla f = (3x^2 - 3, \; 2y)\T\)</span>, which is zero at <span class="math inline">\((1, 0)\)</span> and <span class="math inline">\((-1, 0)\)</span>. The Hessian is <span class="math display">\[
 \M{H} = \mat{6x &amp; 0 \\ 0 &amp; 2}.
-\]</span> At <span class="math inline">\((1, 0)\)</span>, <span class="math inline">\(\M{H} = \mat{6 &amp; 0 \\ 0 &amp; 2}\)</span> has eigenvalues 6 and 2, both positive: a local minimum, with <span class="math inline">\(f = -2\)</span>. At <span class="math inline">\((-1, 0)\)</span>, <span class="math inline">\(\M{H} = \mat{-6 &amp; 0 \\ 0 &amp; 2}\)</span> has eigenvalues <span class="math inline">\(-6\)</span> and 2: a saddle point, a maximum along the <span class="math inline">\(x\)</span> direction and a minimum along the <span class="math inline">\(y\)</span> direction.</p>
+\]</span> At <span class="math inline">\((1, 0)\)</span>, <span class="math inline">\(\M{H} = \mat{6 &amp; 0 \\ 0 &amp; 2}\)</span> has eigenvalues 6 and 2, both positive: a local minimum, with <span class="math inline">\(f = -2\)</span>. At <span class="math inline">\((-1, 0)\)</span>, <span class="math inline">\(\M{H} = \mat{-6 &amp; 0 \\ 0 &amp; 2}\)</span> has eigenvalues <span class="math inline">\(-6\)</span> and 2: a saddle point, a maximum along the <span class="math inline">\(x\)</span> direction and a minimum along the <span class="math inline">\(y\)</span> direction (<a href="#fig-stationary-contours" class="quarto-xref">Figure&nbsp;<span>22.3</span></a>).</p>
+<div id="fig-stationary-contours" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A contour plot for x from minus 2 to 2.3 and y from minus 2 to 2. Nested ovals surround a blue dot at (1, 0), labelled local minimum with f equals minus 2. A brown contour, f equals 2, crosses itself in an X shape at a brown square at (minus 1, 0), labelled saddle, and loops around the ovals. Other contours curve away on either side of the saddle.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-stationary-contours-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/stationary-contours.png" class="img-fluid figure-img" style="width:65.0%" alt="A contour plot for x from minus 2 to 2.3 and y from minus 2 to 2. Nested ovals surround a blue dot at (1, 0), labelled local minimum with f equals minus 2. A brown contour, f equals 2, crosses itself in an X shape at a brown square at (minus 1, 0), labelled saddle, and loops around the ovals. Other contours curve away on either side of the saddle.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stationary-contours-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;22.3: Contours of <span class="math inline">\(f(x, y) = x^3 - 3x + y^2\)</span>. Around the minimum at <span class="math inline">\((1, 0)\)</span> the contours are closed ovals; at the saddle <span class="math inline">\((-1, 0)\)</span> the contour <span class="math inline">\(f = 2\)</span> (brown) crosses itself.
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1313,7 +1333,7 @@ f(\vect{x} + \Delta\vect{x}) \approx f(\vect{x}) + \nabla f(\vect{x}) \cdot \Del
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="91c78f09" class="cell" data-execution_count="2">
+<div id="6ca244b2" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">1.0</span>, <span class="fl">2.0</span>]])</span>
@@ -1336,7 +1356,7 @@ f(\vect{x} + \Delta\vect{x}) \approx f(\vect{x}) + \nabla f(\vect{x}) \cdot \Del
 [1.00000092 2.00000031]</code></pre>
 </div>
 </div>
-<div id="8e0969f9" class="cell" data-execution_count="3">
+<div id="548c797e" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>x, y, r, t <span class="op">=</span> sp.symbols(<span class="st">"x y r theta"</span>)</span>

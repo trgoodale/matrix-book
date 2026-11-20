@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1113,7 +1113,17 @@ window.Quarto = {
 <li>loads are applied only at the joints;</li>
 <li>each member carries a single axial force <span class="math inline">\(N\)</span>, the same along its length, counted positive in tension.</li>
 </ul>
-<p>A member from joint <span class="math inline">\(i\)</span> to joint <span class="math inline">\(j\)</span>, with unit vector <span class="math inline">\(\vect{e}\)</span> pointing from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>, pulls joint <span class="math inline">\(i\)</span> with force <span class="math inline">\(N\vect{e}\)</span> (towards <span class="math inline">\(j\)</span>, if <span class="math inline">\(N &gt; 0\)</span>) and joint <span class="math inline">\(j\)</span> with force <span class="math inline">\(-N\vect{e}\)</span>. Supports provide <strong>reactions</strong>: a <strong>pin</strong> can push in any direction, so it provides two unknown reaction components; a <strong>roller</strong> can only push perpendicular to the surface it rolls on, so it provides one.</p>
+<p>A member from joint <span class="math inline">\(i\)</span> to joint <span class="math inline">\(j\)</span>, with unit vector <span class="math inline">\(\vect{e}\)</span> pointing from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>, pulls joint <span class="math inline">\(i\)</span> with force <span class="math inline">\(N\vect{e}\)</span> (towards <span class="math inline">\(j\)</span>, if <span class="math inline">\(N &gt; 0\)</span>) and joint <span class="math inline">\(j\)</span> with force <span class="math inline">\(-N\vect{e}\)</span>. Supports provide <strong>reactions</strong>: a <strong>pin</strong> can push in any direction, so it provides two unknown reaction components; a <strong>roller</strong> can only push perpendicular to the surface it rolls on, so it provides one (<a href="#fig-truss-member" class="quarto-xref">Figure&nbsp;<span>31.1</span></a>).</p>
+<div id="fig-truss-member" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Left: a sloping member between joints i and j. A blue arrow labelled N e at joint i points along the member towards j, and a blue arrow labelled minus N e at joint j points back towards i. Right: a pin support, a triangle on hatched ground, with a horizontal reaction R x and a vertical reaction R y; and a roller support, a triangle on two small wheels, with only a vertical reaction R y.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-truss-member-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/truss-member.png" class="img-fluid figure-img" style="width:85.0%" alt="Left: a sloping member between joints i and j. A blue arrow labelled N e at joint i points along the member towards j, and a blue arrow labelled minus N e at joint j points back towards i. Right: a pin support, a triangle on hatched ground, with a horizontal reaction R x and a vertical reaction R y; and a roller support, a triangle on two small wheels, with only a vertical reaction R y.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-truss-member-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;31.1: Left: a member from joint <span class="math inline">\(i\)</span> to joint <span class="math inline">\(j\)</span>, with unit vector <span class="math inline">\(\vect{e}\)</span> from <span class="math inline">\(i\)</span> towards <span class="math inline">\(j\)</span>. In tension it pulls joint <span class="math inline">\(i\)</span> with <span class="math inline">\(N\vect{e}\)</span> and joint <span class="math inline">\(j\)</span> with <span class="math inline">\(-N\vect{e}\)</span>. Right: a pin provides two reaction components and a roller on a horizontal surface one.
+</figcaption>
+</figure>
+</div>
 <p>At each joint, the sum of the member forces, the reactions and the applied load <span class="math inline">\(\vect{p}\)</span> is zero. Collecting all the unknown member forces and reactions into one vector <span class="math inline">\(\vect{f}\)</span>, the <span class="math inline">\(2j\)</span> equations for <span class="math inline">\(j\)</span> joints form a linear system <span class="math display">\[
 \M{A}\vect{f} = -\vect{p},
 \]</span> where <span class="math inline">\(\vect{p}\)</span> lists the applied loads, joint by joint. Column <span class="math inline">\(k\)</span> of the <strong>equilibrium matrix</strong> <span class="math inline">\(\M{A}\)</span> shows where unknown <span class="math inline">\(k\)</span> pushes or pulls: a member’s column holds <span class="math inline">\(\vect{e}\)</span> in the rows of joint <span class="math inline">\(i\)</span> and <span class="math inline">\(-\vect{e}\)</span> in the rows of joint <span class="math inline">\(j\)</span>, and a reaction’s column holds a single 1.</p>
@@ -1151,7 +1161,17 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Joints 1 at <span class="math inline">\((0, 0)\)</span> and 2 at <span class="math inline">\((4, 0)\)</span> (in metres) sit on a pin and a roller, and joint 3 at <span class="math inline">\((2, 2)\)</span> carries a load of 10 kN downwards. Find the force in each member and the reactions.</p>
+<p>Joints 1 at <span class="math inline">\((0, 0)\)</span> and 2 at <span class="math inline">\((4, 0)\)</span> (in metres) sit on a pin and a roller, and joint 3 at <span class="math inline">\((2, 2)\)</span> carries a load of 10 kN downwards (<a href="#fig-truss-triangle" class="quarto-xref">Figure&nbsp;<span>31.2</span></a>). Find the force in each member and the reactions.</p>
+<div id="fig-truss-triangle" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A triangle with joints 1 at the bottom left, 2 at the bottom right, 4 m apart, and 3 at the top, 2 m above them. Member a is along the bottom, b from 1 to 3 and c from 2 to 3. Joint 1 sits on a pin, joint 2 on a roller, and a 10 kN load points down at joint 3.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-truss-triangle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/truss-triangle.png" class="img-fluid figure-img" style="width:55.0%" alt="A triangle with joints 1 at the bottom left, 2 at the bottom right, 4 m apart, and 3 at the top, 2 m above them. Member a is along the bottom, b from 1 to 3 and c from 2 to 3. Joint 1 sits on a pin, joint 2 on a roller, and a 10 kN load points down at joint 3.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-truss-triangle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;31.2: The triangular truss of Example 1: members <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> and <span class="math inline">\(c\)</span>, a pin at joint 1 and a roller at joint 2.
+</figcaption>
+</figure>
+</div>
 <p><strong>Solution.</strong> Call the forces in members 1–2, 1–3 and 2–3 <span class="math inline">\(N_a\)</span>, <span class="math inline">\(N_b\)</span> and <span class="math inline">\(N_c\)</span>. Their unit vectors are <span class="math inline">\((1, 0)\)</span>, <span class="math inline">\(\tfrac{1}{\sqrt{2}}(1, 1)\)</span> and <span class="math inline">\(\tfrac{1}{\sqrt{2}}(-1, 1)\)</span>. The pin gives reactions <span class="math inline">\(R_{1x}\)</span> and <span class="math inline">\(R_{1y}\)</span>, and the roller <span class="math inline">\(R_{2y}\)</span>. The six equations, two per joint, are <span class="math display">\[
 \mat{1 &amp; \tfrac{1}{\sqrt{2}} &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; \tfrac{1}{\sqrt{2}} &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\ -1 &amp; 0 &amp; -\tfrac{1}{\sqrt{2}} &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; \tfrac{1}{\sqrt{2}} &amp; 0 &amp; 0 &amp; 1 \\ 0 &amp; -\tfrac{1}{\sqrt{2}} &amp; \tfrac{1}{\sqrt{2}} &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; -\tfrac{1}{\sqrt{2}} &amp; -\tfrac{1}{\sqrt{2}} &amp; 0 &amp; 0 &amp; 0}
 \mat{N_a \\ N_b \\ N_c \\ R_{1x} \\ R_{1y} \\ R_{2y}}
@@ -1171,7 +1191,17 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <p>Four members join the corners of a square, on a pin and a roller. Show that it is a mechanism, and that one diagonal fixes it.</p>
-<p><strong>Solution.</strong> There are <span class="math inline">\(j = 4\)</span> joints, <span class="math inline">\(m = 4\)</span> members and <span class="math inline">\(r = 3\)</span> reactions, so <span class="math inline">\(\M{A}\)</span> is <span class="math inline">\(8 \times 7\)</span>. Its rank is at most 7, so its column space can’t be all of <span class="math inline">\(\R^8\)</span>: there are loads it can’t balance. Physically, the square can lean over into a parallelogram without any member changing length; a sideways push at the top has nothing to resist it. Adding a diagonal gives <span class="math inline">\(m + r = 8\)</span>, and the <span class="math inline">\(8 \times 8\)</span> matrix is invertible: the square has been split into two triangles. Adding the second diagonal as well gives <span class="math inline">\(m + r = 9 &gt; 8\)</span>: the truss is then indeterminate, with one redundant member. (Try <strong>Square</strong> and <strong>Doubly braced</strong> in the app below.)</p>
+<p><strong>Solution.</strong> There are <span class="math inline">\(j = 4\)</span> joints, <span class="math inline">\(m = 4\)</span> members and <span class="math inline">\(r = 3\)</span> reactions, so <span class="math inline">\(\M{A}\)</span> is <span class="math inline">\(8 \times 7\)</span>. Its rank is at most 7, so its column space can’t be all of <span class="math inline">\(\R^8\)</span>: there are loads it can’t balance. Physically, the square can lean over into a parallelogram without any member changing length (<a href="#fig-truss-square" class="quarto-xref">Figure&nbsp;<span>31.3</span></a>, left); a sideways push at the top has nothing to resist it. Adding a diagonal gives <span class="math inline">\(m + r = 8\)</span>, and the <span class="math inline">\(8 \times 8\)</span> matrix is invertible: the square has been split into two triangles. Adding the second diagonal as well gives <span class="math inline">\(m + r = 9 &gt; 8\)</span>: the truss is then indeterminate, with one redundant member. (Try <strong>Square</strong> and <strong>Doubly braced</strong> in the app below.)</p>
+<div id="fig-truss-square" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three squares, each on a pin at the bottom left and a roller at the bottom right. The first has no diagonal, an arrow pushing sideways at its top left corner and a dashed parallelogram showing it leaning over; its label says m plus r equals 7, mechanism. The second has one diagonal: m plus r equals 8, determinate. The third has both diagonals: m plus r equals 9, indeterminate.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-truss-square-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/truss-square.png" class="img-fluid figure-img" style="width:100.0%" alt="Three squares, each on a pin at the bottom left and a roller at the bottom right. The first has no diagonal, an arrow pushing sideways at its top left corner and a dashed parallelogram showing it leaning over; its label says m plus r equals 7, mechanism. The second has one diagonal: m plus r equals 8, determinate. The third has both diagonals: m plus r equals 9, indeterminate.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-truss-square-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;31.3: Example 2. Left: the square can lean over (dashed) without any member changing length, so nothing resists a sideways push. Middle: one diagonal makes two triangles, and the truss is determinate. Right: a second diagonal makes it indeterminate.
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
@@ -1184,7 +1214,17 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A joint at the origin hangs from three supports, at <span class="math inline">\((-1, 1)\)</span>, <span class="math inline">\((0, 1)\)</span> and <span class="math inline">\((1, 1)\)</span>, by three bars with the same <span class="math inline">\(EA\)</span>, and carries a 10 kN load downwards. Find the bar forces.</p>
+<p>A joint at the origin hangs from three supports, at <span class="math inline">\((-1, 1)\)</span>, <span class="math inline">\((0, 1)\)</span> and <span class="math inline">\((1, 1)\)</span>, by three bars with the same <span class="math inline">\(EA\)</span>, and carries a 10 kN load downwards (<a href="#fig-truss-three-bars" class="quarto-xref">Figure&nbsp;<span>31.4</span></a>). Find the bar forces.</p>
+<div id="fig-truss-three-bars" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A joint at the origin hangs from a ceiling by three bars: A to the support at (minus 1, 1), B straight up to (0, 1), and C to (1, 1). A 10 kN load points down from the joint.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-truss-three-bars-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/truss-three-bars.png" class="img-fluid figure-img" style="width:45.0%" alt="A joint at the origin hangs from a ceiling by three bars: A to the support at (minus 1, 1), B straight up to (0, 1), and C to (1, 1). A 10 kN load points down from the joint.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-truss-three-bars-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;31.4: The joint of Example 3, hanging from three supports by bars <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span>.
+</figcaption>
+</figure>
+</div>
 <p><strong>Solution.</strong> There are only 2 equilibrium equations (at the free joint) and 3 unknown forces, so equilibrium alone can’t decide how the load is shared. Taking each unit vector from the free joint towards its support, <span class="math inline">\(\vect{e}_A = \tfrac{1}{\sqrt{2}}(-1, 1)\)</span>, <span class="math inline">\(\vect{e}_B = (0, 1)\)</span> and <span class="math inline">\(\vect{e}_C = \tfrac{1}{\sqrt{2}}(1, 1)\)</span>, with lengths <span class="math inline">\(\sqrt{2}\)</span>, 1 and <span class="math inline">\(\sqrt{2}\)</span>. Only the free joint moves, so <span class="math display">\[
 \M{K} = \sum\frac{EA}{L}\vect{e}\vect{e}\T = EA\left(\frac{1}{\sqrt{2}} \cdot \frac{1}{2}\mat{1 &amp; -1 \\ -1 &amp; 1} + \mat{0 &amp; 0 \\ 0 &amp; 1} + \frac{1}{\sqrt{2}} \cdot \frac{1}{2}\mat{1 &amp; 1 \\ 1 &amp; 1}\right) = EA\mat{0.707 &amp; 0 \\ 0 &amp; 1.707}.
 \]</span> Solving <span class="math inline">\(\M{K}\vect{u} = (0, -10)\T\)</span> gives <span class="math inline">\(\vect{u} = \bigl(0, \; -10/(1.707\,EA)\bigr)\)</span>: the joint moves straight down. A bar’s extension is <span class="math inline">\(-\vect{u} \cdot \vect{e}\)</span> (its far end is fixed), so the forces are <span class="math display">\[
@@ -1219,7 +1259,7 @@ N_A = N_C = \frac{EA}{\sqrt{2}} \cdot \frac{10}{1.707\,EA} \cdot \frac{1}{\sqrt{
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="82c4b859" class="cell" data-execution_count="1">
+<div id="a84abc79" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> truss(P, members, supports, loads):</span>

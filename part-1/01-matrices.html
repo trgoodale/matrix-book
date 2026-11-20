@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1154,10 +1154,20 @@ x - y + 4z &amp;= 6.
 </tbody>
 </table>
 <p>Without the labels, this is a matrix with 4 rows and 3 columns.</p>
-<p><strong>Networks.</strong> Four towns are linked by roads: 1 to 2, 1 to 3, 2 to 3 and 3 to 4. Put a 1 in row <span class="math inline">\(i\)</span>, column <span class="math inline">\(j\)</span> when towns <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are linked, and 0 otherwise:</p>
+<p><strong>Networks.</strong> Four towns are linked by roads: 1 to 2, 1 to 3, 2 to 3 and 3 to 4 (<a href="#fig-towns" class="quarto-xref">Figure&nbsp;<span>1.1</span></a>). Put a 1 in row <span class="math inline">\(i\)</span>, column <span class="math inline">\(j\)</span> when towns <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are linked, and 0 otherwise:</p>
 <p><span class="math display">\[
 \mat{0 &amp; 1 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 1 &amp; 0 \\ 1 &amp; 1 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 1 &amp; 0}.
 \]</span></p>
+<div id="fig-towns" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A network of four numbered circles. Towns 1, 2 and 3 form a triangle, joined by roads 1–2, 1–3 and 2–3, and town 4 is joined only to town 3.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-towns-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/towns.png" class="img-fluid figure-img" style="width:50.0%" alt="A network of four numbered circles. Towns 1, 2 and 3 form a triangle, joined by roads 1–2, 1–3 and 2–3, and town 4 is joined only to town 3.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-towns-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1: Four towns and the roads between them. Each road gives two 1s in the adjacency matrix: the road from 1 to 3 puts a 1 in row 1, column 3 and in row 3, column 1.
+</figcaption>
+</figure>
+</div>
 <p>This table of connections is called the <strong>adjacency matrix</strong> of the network (“adjacent” means “next to”). It holds more information than it seems: <a href="03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a> shows how to use it to count routes between towns.</p>
 </section>
 <section id="the-ideas" class="level2" data-number="1.2">
@@ -1275,7 +1285,7 @@ x_1 + 3x_2 + x_3 &amp;= 0 \\
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="f495600b" class="cell" data-execution_count="1">
+<div id="e263fe3c" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Temperature readings: rows are times, columns are sensors</span></span>
@@ -1298,7 +1308,7 @@ x_1 + 3x_2 + x_3 &amp;= 0 \\
 </div>
 </div>
 <p>To check whether a matrix is symmetric, compare it with its transpose:</p>
-<div id="ba9810d3" class="cell" data-execution_count="2">
+<div id="de084fe0" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">5</span>], [<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">6</span>], [<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">3</span>]])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.array_equal(A, A.T))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">

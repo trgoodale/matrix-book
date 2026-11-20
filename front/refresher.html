@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1105,7 +1105,17 @@ window.Quarto = {
 </section>
 <section id="sine-and-cosine" class="level3">
 <h3 class="anchored" data-anchor-id="sine-and-cosine">Sine and cosine</h3>
-<p>Measure an angle <span class="math inline">\(\theta\)</span> anticlockwise from the positive <span class="math inline">\(x\)</span>-axis. The point at that angle on the circle of radius 1 about the origin is <span class="math inline">\((\cos\theta, \sin\theta)\)</span>. This is the picture behind every rotation matrix in the book.</p>
+<p>Measure an angle <span class="math inline">\(\theta\)</span> anticlockwise from the positive <span class="math inline">\(x\)</span>-axis. The point at that angle on the circle of radius 1 about the origin is <span class="math inline">\((\cos\theta, \sin\theta)\)</span> (<a href="#fig-unit-circle" class="quarto-xref">Figure&nbsp;<span>1</span></a>). This is the picture behind every rotation matrix in the book.</p>
+<div id="fig-unit-circle" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A circle of radius 1 centred at the origin, with x and y axes. A radius at angle theta from the positive x axis reaches the point labelled cos theta, sin theta. A brown segment along the x axis from the origin is labelled cos theta, and a blue dashed vertical segment from the axis up to the point is labelled sin theta.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-unit-circle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/unit-circle.png" class="img-fluid figure-img" style="width:45.0%" alt="A circle of radius 1 centred at the origin, with x and y axes. A radius at angle theta from the positive x axis reaches the point labelled cos theta, sin theta. A brown segment along the x axis from the origin is labelled cos theta, and a blue dashed vertical segment from the axis up to the point is labelled sin theta.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-unit-circle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The unit circle. The point at angle <span class="math inline">\(\theta\)</span> is <span class="math inline">\((\cos\theta, \sin\theta)\)</span>: <span class="math inline">\(\cos\theta\)</span> is how far across it is, and <span class="math inline">\(\sin\theta\)</span> how far up.
+</figcaption>
+</figure>
+</div>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1328,7 +1338,7 @@ x - y + z &amp;= 2 \\
 \]</span> Subtracting the second equation from the first gives <span class="math inline">\(2y = 4\)</span>, so <span class="math inline">\(y = 2\)</span>. The first and third then become <span class="math inline">\(x + z = 4\)</span> and <span class="math inline">\(2x - z = -1\)</span>; adding these gives <span class="math inline">\(3x = 3\)</span>, so <span class="math inline">\(x = 1\)</span> and <span class="math inline">\(z = 3\)</span>.</p>
 <section id="when-there-is-no-single-answer" class="level3">
 <h3 class="anchored" data-anchor-id="when-there-is-no-single-answer">When there is no single answer</h3>
-<p>Each equation in two unknowns is a straight line, and the solution is where the lines cross. Two lines usually cross at one point, but not always (<a href="#fig-two-lines" class="quarto-xref">Figure&nbsp;<span>1</span></a>).</p>
+<p>Each equation in two unknowns is a straight line, and the solution is where the lines cross. Two lines usually cross at one point, but not always (<a href="#fig-two-lines" class="quarto-xref">Figure&nbsp;<span>2</span></a>).</p>
 <div id="cell-fig-two-lines" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code for this figure</summary>
@@ -1363,7 +1373,7 @@ x - y + z &amp;= 2 \\
 <img src="refresher_files/figure-html/fig-two-lines-output-1.png" alt="Three panels, each with a pair of straight lines: in the first they cross at the single point (3, 1); in the second they are parallel and never meet; in the third they lie on top of each other." width="917" height="317" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two-lines-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Two equations in two unknowns are two lines. Left: they cross once, so there is one solution. Middle: they are parallel, so there is none. Right: they are the same line, so every point on it is a solution.
+Figure&nbsp;2: Two equations in two unknowns are two lines. Left: they cross once, so there is one solution. Middle: they are parallel, so there is none. Right: they are the same line, so every point on it is a solution.
 </figcaption>
 </figure>
 </div>
@@ -1534,7 +1544,7 @@ e^{i\theta} = \cos\theta + i\sin\theta,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div id="6047fa9d" class="cell" data-execution_count="2">
+<div id="0510d90c" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1591,7 +1601,7 @@ e^{i\theta} = \cos\theta + i\sin\theta,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div id="72eb577f" class="cell" data-execution_count="3">
+<div id="3ecb170e" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rotation(theta_deg):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Matrix of the rotation by theta degrees anticlockwise."""</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> np.radians(theta_deg)</span>

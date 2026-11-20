@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1124,7 +1124,17 @@ window.Quarto = {
 \]</span> <span class="math display">\[
 \M{R}_z(\theta) = \mat{\cos\theta &amp; -\sin\theta &amp; 0 \\ \sin\theta &amp; \cos\theta &amp; 0 \\ 0 &amp; 0 &amp; 1}.
 \]</span></p>
-<p><strong>The right-hand rule</strong> (as for the cross product in the <a href="../front/refresher.html">Refresher</a>) fixes which way is positive: point your right thumb along the positive axis, and your fingers curl in the direction of a positive rotation. So a positive rotation about <span class="math inline">\(z\)</span> takes <span class="math inline">\(x\)</span> towards <span class="math inline">\(y\)</span>; about <span class="math inline">\(x\)</span>, it takes <span class="math inline">\(y\)</span> towards <span class="math inline">\(z\)</span>; and about <span class="math inline">\(y\)</span>, it takes <span class="math inline">\(z\)</span> towards <span class="math inline">\(x\)</span>.</p>
+<p><strong>The right-hand rule</strong> (as for the cross product in the <a href="../front/refresher.html">Refresher</a>) fixes which way is positive: point your right thumb along the positive axis, and your fingers curl in the direction of a positive rotation. So a positive rotation about <span class="math inline">\(z\)</span> takes <span class="math inline">\(x\)</span> towards <span class="math inline">\(y\)</span>; about <span class="math inline">\(x\)</span>, it takes <span class="math inline">\(y\)</span> towards <span class="math inline">\(z\)</span>; and about <span class="math inline">\(y\)</span>, it takes <span class="math inline">\(z\)</span> towards <span class="math inline">\(x\)</span> (<a href="#fig-right-hand-rule" class="quarto-xref">Figure&nbsp;<span>8.1</span></a>).</p>
+<div id="fig-right-hand-rule" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three axes x, y and z drawn in perspective, with z upwards. A curved arrow around each axis shows the positive direction of rotation: around z, labelled x to y, in blue; around x, labelled y to z, in brown; around y, labelled z to x, in green.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-right-hand-rule-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/right-hand-rule.png" class="img-fluid figure-img" style="width:50.0%" alt="Three axes x, y and z drawn in perspective, with z upwards. A curved arrow around each axis shows the positive direction of rotation: around z, labelled x to y, in blue; around x, labelled y to z, in brown; around y, labelled z to x, in green.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-right-hand-rule-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.1: The positive direction of rotation about each axis, by the right-hand rule: about <span class="math inline">\(z\)</span>, <span class="math inline">\(x\)</span> turns towards <span class="math inline">\(y\)</span>; about <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span> turns towards <span class="math inline">\(z\)</span>; about <span class="math inline">\(y\)</span>, <span class="math inline">\(z\)</span> turns towards <span class="math inline">\(x\)</span>.
+</figcaption>
+</figure>
+</div>
 <p>That last one explains the odd-looking signs in <span class="math inline">\(\M{R}_y\)</span>. A positive rotation about <span class="math inline">\(y\)</span> moves <span class="math inline">\(\uk\)</span> towards <span class="math inline">\(\ui\)</span>, so the image of <span class="math inline">\(\uk\)</span> (column 3) has a <em>positive</em> <span class="math inline">\(x\)</span>-component, <span class="math inline">\(\sin\theta\)</span>, and the image of <span class="math inline">\(\ui\)</span> has a <em>negative</em> <span class="math inline">\(z\)</span>-component. If you list the axes in the cyclic order <span class="math inline">\(z, x\)</span> rather than <span class="math inline">\(x, z\)</span>, it looks just like the others.</p>
 <p>All three are orthogonal matrices (<a href="07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a>): <span class="math inline">\(\M{R}\T\M{R} = \M{I}\)</span>, and their determinant is 1. This works the other way round too. Any <span class="math inline">\(3 \times 3\)</span> orthogonal matrix with determinant 1 is a rotation about some axis through the origin (a proof is in <a href="../appendices/proofs.html#sec-proofs-transformations-3d" class="quarto-xref"><span>Section C.4</span></a>). <a href="09-invariant-lines.html" class="quarto-xref"><span>Chapter 9</span></a> shows how to find the axis.</p>
 <div id="ex-transformations-3d-1" class="callout callout-style-simple callout-note no-icon callout-titled">
@@ -1207,7 +1217,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="e6879bbd" class="cell" data-execution_count="1">
+<div id="055fb4b4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Rx(t):</span>

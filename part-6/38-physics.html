@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1153,7 +1153,17 @@ window.Quarto = {
 <p><strong>Solution.</strong> For <span class="math inline">\(\vect{r} = (1, 1, 0)\)</span>, <span class="math inline">\(\lVert\vect{r}\rVert^2 = 2\)</span> and <span class="math display">\[
 2\M{I}_3 - \vect{r}\vect{r}\T = \mat{1 &amp; -1 &amp; 0 \\ -1 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 2}.
 \]</span> The other mass gives the same, so <span class="math inline">\(\M{I} = \mat{2 &amp; -2 &amp; 0 \\ -2 &amp; 2 &amp; 0 \\ 0 &amp; 0 &amp; 4}\)</span> kg m². Its eigenvalues are 0, with eigenvector <span class="math inline">\((1, 1, 0)\)</span>, along the rod: the point masses don’t resist spinning about their own axis. The other two are both 4, with eigenvectors <span class="math inline">\((1, -1, 0)\)</span> and <span class="math inline">\((0, 0, 1)\)</span>: any axis perpendicular to the rod.</p>
-<p>Spinning about the <span class="math inline">\(x\)</span> axis, <span class="math inline">\(\vect{L} = \M{I}\vect{\omega} = (2, -2, 0)\)</span>: not along the <span class="math inline">\(x\)</span> axis at all, but perpendicular to the rod. As the dumbbell turns, <span class="math inline">\(\vect{L}\)</span> turns with it, so a torque is needed to keep it spinning about <span class="math inline">\(x\)</span>: the bearings would feel a wobble.</p>
+<p>Spinning about the <span class="math inline">\(x\)</span> axis, <span class="math inline">\(\vect{L} = \M{I}\vect{\omega} = (2, -2, 0)\)</span>: not along the <span class="math inline">\(x\)</span> axis at all, but perpendicular to the rod. As the dumbbell turns, <span class="math inline">\(\vect{L}\)</span> turns with it, so a torque is needed to keep it spinning about <span class="math inline">\(x\)</span>: the bearings would feel a wobble (<a href="#fig-dumbbell" class="quarto-xref">Figure&nbsp;<span>38.1</span></a>).</p>
+<div id="fig-dumbbell" class="quarto-float quarto-figure quarto-figure-center anchored" alt="3D axes x, y and z. Two black masses at (1, 1, 0) and (minus 1, minus 1, 0), joined by a rod through the origin in the xy plane. A blue arrow omega points along the x axis. A brown arrow L equals (2, minus 2, 0) points in a different direction, at right angles to the rod.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dumbbell-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/dumbbell.png" class="img-fluid figure-img" style="width:60.0%" alt="3D axes x, y and z. Two black masses at (1, 1, 0) and (minus 1, minus 1, 0), joined by a rod through the origin in the xy plane. A blue arrow omega points along the x axis. A brown arrow L equals (2, minus 2, 0) points in a different direction, at right angles to the rod.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dumbbell-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;38.1: The dumbbell of Example 1, spinning about the <span class="math inline">\(x\)</span> axis. Its angular momentum <span class="math inline">\(\vect{L} = (2, -2, 0)\)</span> is not along <span class="math inline">\(\boldsymbol{\omega}\)</span>, but at right angles to the rod.
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
@@ -1199,7 +1209,7 @@ e^{-i\omega t\M{\sigma}_x/2} = \cos\frac{\omega t}{2}\,\M{I} - i\sin\frac{\omega
 </section>
 <section id="explore" class="level2" data-number="38.3">
 <h2 data-number="38.3" class="anchored" data-anchor-id="explore"><span class="header-section-number">38.3</span> Explore</h2>
-<p>There is no app for this chapter. <a href="#fig-rabi" class="quarto-xref">Figure&nbsp;<span>38.1</span></a> shows the probabilities of Example 3, computed with the matrix exponential, alongside the probabilities for a state that starts tilted from the <span class="math inline">\(z\)</span> axis.</p>
+<p>There is no app for this chapter. <a href="#fig-rabi" class="quarto-xref">Figure&nbsp;<span>38.2</span></a> shows the probabilities of Example 3, computed with the matrix exponential, alongside the probabilities for a state that starts tilted from the <span class="math inline">\(z\)</span> axis.</p>
 <div id="cell-fig-rabi" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code for this figure</summary>
@@ -1227,10 +1237,10 @@ e^{-i\omega t\M{\sigma}_x/2} = \cos\frac{\omega t}{2}\,\M{I} - i\sin\frac{\omega
 <div id="fig-rabi" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two wave-shaped curves of probability against time, each swinging between 0 and 1 twice over the plotted range. The dashed curve is shifted along the time axis relative to the solid one.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rabi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="38-physics_files/figure-html/fig-rabi-output-1.png" alt="Two wave-shaped curves of probability against time, each swinging between 0 and 1 twice over the plotted range. The dashed curve is shifted along the time axis relative to the solid one." width="566" height="298" class="figure-img">
+<img src="38-physics_files/figure-html/fig-rabi-output-1.png" alt="Two wave-shaped curves of probability against time, each swinging between 0 and 1 twice over the plotted range. The dashed curve is shifted along the time axis relative to the solid one." width="567" height="298" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rabi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;38.1: Rabi oscillation: the probability of finding the spin up along z, for a spin evolving under H = ½ħω σₓ, starting spin up (solid) and starting tilted 60° from the z axis towards y (dashed). Each curve comes from applying the 2 × 2 matrix exponential to the starting state.
+Figure&nbsp;38.2: Rabi oscillation: the probability of finding the spin up along z, for a spin evolving under H = ½ħω σₓ, starting spin up (solid) and starting tilted 60° from the z axis towards y (dashed). Each curve comes from applying the 2 × 2 matrix exponential to the starting state.
 </figcaption>
 </figure>
 </div>
@@ -1250,7 +1260,7 @@ Figure&nbsp;38.1: Rabi oscillation: the probability of finding the spin up along
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="63b1dc5d" class="cell" data-execution_count="2">
+<div id="f4e61d50" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>

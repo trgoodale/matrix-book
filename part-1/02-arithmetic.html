@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1249,11 +1249,21 @@ window.Quarto = {
 </section>
 <section id="linear-combinations" class="level3">
 <h3 class="anchored" data-anchor-id="linear-combinations">Linear combinations</h3>
-<p>A vector with two entries can be drawn as an arrow from the origin to the point with those coordinates. Scaling and adding then have a picture:</p>
+<p>A vector with two entries can be drawn as an arrow from the origin to the point with those coordinates. Scaling and adding then have a picture (<a href="#fig-vector-pictures" class="quarto-xref">Figure&nbsp;<span>2.1</span></a>):</p>
 <ul>
 <li><span class="math inline">\(s\vect{a}\)</span> is an arrow along the same line as <span class="math inline">\(\vect{a}\)</span>, <span class="math inline">\(s\)</span> times as long, pointing backwards if <span class="math inline">\(s\)</span> is negative;</li>
 <li><span class="math inline">\(\vect{a} + \vect{b}\)</span> is found by placing the tail of <span class="math inline">\(\vect{b}\)</span> at the tip of <span class="math inline">\(\vect{a}\)</span> (<strong>tip to tail</strong>).</li>
 </ul>
+<div id="fig-vector-pictures" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three panels on a square grid. Scaling: the blue arrow a from the origin to (2, 1), with dashed arrows 2a to (4, 2) and minus a to (minus 2, minus 1). Adding: a, then b from its tip, reach a plus b at (1, 2); the dashed path b then a reaches the same point, making a parallelogram. A linear combination: a, then b twice, reach a plus 2b at (0, 3).">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vector-pictures-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/vector-pictures.png" class="img-fluid figure-img" style="width:100.0%" alt="Three panels on a square grid. Scaling: the blue arrow a from the origin to (2, 1), with dashed arrows 2a to (4, 2) and minus a to (minus 2, minus 1). Adding: a, then b from its tip, reach a plus b at (1, 2); the dashed path b then a reaches the same point, making a parallelogram. A linear combination: a, then b twice, reach a plus 2b at (0, 3).">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vector-pictures-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: Left: <span class="math inline">\(\vect{a} = (2, 1)\)</span> scaled by 2 and by <span class="math inline">\(-1\)</span>. Middle: adding <span class="math inline">\(\vect{b} = (-1, 1)\)</span> tip to tail. Both orders (solid and dashed) reach the same point, <span class="math inline">\(\vect{a} + \vect{b}\)</span>. Right: the linear combination <span class="math inline">\(\vect{a} + 2\vect{b}\)</span>.
+</figcaption>
+</figure>
+</div>
 <p>A sum of scaled vectors, such as <span class="math inline">\(s\vect{a} + t\vect{b}\)</span>, is called a <strong>linear combination</strong> of <span class="math inline">\(\vect{a}\)</span> and <span class="math inline">\(\vect{b}\)</span>. The numbers <span class="math inline">\(s\)</span> and <span class="math inline">\(t\)</span> say how much of each vector to use. The bakery’s shopping list <span class="math inline">\(3\vect{c} + 2\vect{b}\)</span> was a linear combination of the two recipes.</p>
 <p>Try it below. Change <span class="math inline">\(s\)</span> and <span class="math inline">\(t\)</span> to steer the green arrow onto the target, then drag the arrow tips to change the vectors themselves.</p>
 <div class="app-embed">
@@ -1295,7 +1305,7 @@ s\mat{2 \\ 1} + t\mat{-1 \\ 1} = \mat{1 \\ 5}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="a8b907f8" class="cell" data-execution_count="1">
+<div id="b41f589b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> np.array([<span class="fl">0.2</span>, <span class="fl">0.15</span>, <span class="fl">0.15</span>])     <span class="co"># cake recipe: flour, sugar, butter (kg)</span></span>

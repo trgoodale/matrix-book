@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1122,7 +1122,17 @@ window.Quarto = {
 <h2 data-number="24.2" class="anchored" data-anchor-id="the-ideas"><span class="header-section-number">24.2</span> The ideas</h2>
 <section id="floating-point-numbers" class="level3">
 <h3 class="anchored" data-anchor-id="floating-point-numbers">Floating-point numbers</h3>
-<p>Computers store numbers in binary scientific notation, a <strong>floating-point</strong> number <span class="math inline">\(\pm m \times 2^e\)</span>, with a fixed number of binary digits in <span class="math inline">\(m\)</span>. The standard <strong>double precision</strong> keeps 53 binary digits, about 16 decimal digits, and allows exponents up to about <span class="math inline">\(\pm 1000\)</span> (numbers up to about <span class="math inline">\(10^{308}\)</span>). Python’s <code>float</code> and MATLAB’s default numbers are double precision.</p>
+<p>Computers store numbers in binary scientific notation, a <strong>floating-point</strong> number <span class="math inline">\(\pm m \times 2^e\)</span>, with a fixed number of binary digits in <span class="math inline">\(m\)</span>. The standard <strong>double precision</strong> keeps 53 binary digits, about 16 decimal digits, and allows exponents up to about <span class="math inline">\(\pm 1000\)</span> (numbers up to about <span class="math inline">\(10^{308}\)</span>). Python’s <code>float</code> and MATLAB’s default numbers are double precision. Because the digits are fixed and the exponent varies, the gaps between neighbouring floating-point numbers double at each power of 2 (<a href="#fig-float-gaps" class="quarto-xref">Figure&nbsp;<span>24.1</span></a>).</p>
+<div id="fig-float-gaps" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A number line from 1 to 8 with tick marks at each floating-point number: 1, 1.25, 1.5, 1.75, then 2, 2.5, 3, 3.5, then 4, 5, 6, 7 and 8. Brackets above show gaps of 0.25 from 1 to 2, 0.5 from 2 to 4, and 1 from 4 to 8.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-float-gaps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/float-gaps.png" class="img-fluid figure-img" style="width:85.0%" alt="A number line from 1 to 8 with tick marks at each floating-point number: 1, 1.25, 1.5, 1.75, then 2, 2.5, 3, 3.5, then 4, 5, 6, 7 and 8. Brackets above show gaps of 0.25 from 1 to 2, 0.5 from 2 to 4, and 1 from 4 to 8.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-float-gaps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;24.1: All the floating-point numbers from 1 to 8 in a toy system with 3 binary digits. Each power of 2 starts a run of equally spaced numbers, with gaps twice as wide as the run before. Double precision has the same pattern, with 53 digits.
+</figcaption>
+</figure>
+</div>
 <p>Most numbers, even simple ones like <span class="math inline">\(0.1\)</span>, can’t be stored exactly in binary, so they are rounded to the nearest floating-point number. The gap between 1 and the next larger floating-point number is the <strong>machine epsilon</strong> <span class="math display">\[
 \varepsilon = 2^{-52} \approx 2.2 \times 10^{-16},
 \]</span> and rounding any number changes it by a relative amount of at most <span class="math inline">\(\varepsilon/2\)</span>. The arithmetic operations <span class="math inline">\(+\)</span>, <span class="math inline">\(-\)</span>, <span class="math inline">\(\times\)</span> and <span class="math inline">\(\div\)</span> give the exact result, rounded in the same way. Two consequences surprise everyone at first:</p>
@@ -1296,7 +1306,7 @@ x_2 = \frac{1}{x_1} = \frac{1}{10^8} = 10^{-8},
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="99f9b71c" class="cell" data-execution_count="1">
+<div id="794db65c" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> hilbert</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>

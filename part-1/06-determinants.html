@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1126,7 +1126,17 @@ window.Quarto = {
 <section id="the-area-scale-factor" class="level3">
 <h3 class="anchored" data-anchor-id="the-area-scale-factor">The area scale factor</h3>
 <p>A linear transformation turns the grid of unit squares into a grid of identical parallelograms (<a href="04-transformations.html" class="quarto-xref"><span>Chapter 4</span></a>). So every unit square has its area multiplied by the same number. Any shape can be approximated by small squares, so <strong>every</strong> area is multiplied by that number.</p>
-<p>For <span class="math inline">\(\M{A} = \mat{a &amp; b \\ c &amp; d}\)</span>, the unit square becomes the parallelogram with sides <span class="math inline">\((a, c)\T\)</span> and <span class="math inline">\((b, d)\T\)</span>, the columns of <span class="math inline">\(\M{A}\)</span>. Its area is <span class="math inline">\(|ad - bc|\)</span>. (To see this for <span class="math inline">\(a, b, c, d &gt; 0\)</span>, draw the parallelogram inside the rectangle of width <span class="math inline">\(a + b\)</span> and height <span class="math inline">\(c + d\)</span>, and subtract the two triangles and two small rectangles around it; Exercise 7 asks you to do this.)</p>
+<p>For <span class="math inline">\(\M{A} = \mat{a &amp; b \\ c &amp; d}\)</span>, the unit square becomes the parallelogram with sides <span class="math inline">\((a, c)\T\)</span> and <span class="math inline">\((b, d)\T\)</span>, the columns of <span class="math inline">\(\M{A}\)</span> (<a href="#fig-det-area" class="quarto-xref">Figure&nbsp;<span>6.1</span></a>). Its area is <span class="math inline">\(|ad - bc|\)</span>. (To see this for <span class="math inline">\(a, b, c, d &gt; 0\)</span>, draw the parallelogram inside the rectangle of width <span class="math inline">\(a + b\)</span> and height <span class="math inline">\(c + d\)</span>, and subtract the two triangles and two small rectangles around it; Exercise 7 asks you to do this.)</p>
+<div id="fig-det-area" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two grids at the same scale. Left: the unit square, with i along the x axis in blue and j up the y axis in brown, labelled area 1. Right: a parallelogram with sides A i equals (3, 2) in blue and A j equals (minus 1, 4) in brown, labelled area det A equals 14.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-det-area-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/det-area.png" class="img-fluid figure-img" style="width:80.0%" alt="Two grids at the same scale. Left: the unit square, with i along the x axis in blue and j up the y axis in brown, labelled area 1. Right: a parallelogram with sides A i equals (3, 2) in blue and A j equals (minus 1, 4) in brown, labelled area det A equals 14.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-det-area-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1: The unit square and its image under the matrix of Example 1, <span class="math inline">\(\M{A} = \mat{3 &amp; -1 \\ 2 &amp; 4}\)</span>, drawn to the same scale. The image is the parallelogram on the columns of <span class="math inline">\(\M{A}\)</span>, with area <span class="math inline">\(\det\M{A} = 14\)</span>.
+</figcaption>
+</figure>
+</div>
 <p>The <strong>determinant</strong> keeps the sign: <span id="eq-det2"><span class="math display">\[
 \det\M{A} = \begin{vmatrix} a &amp; b \\ c &amp; d \end{vmatrix} = ad - bc.
 \tag{6.1}\]</span></span></p>
@@ -1327,7 +1337,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="40c4eda6" class="cell" data-execution_count="1">
+<div id="2468ff1a" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>], [<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">4</span>], [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>]])</span>
@@ -1338,7 +1348,7 @@ window.Quarto = {
 </div>
 <p>The exact answer is <span class="math inline">\(-9\)</span>. If you see something like <code>-8.999999999999998</code>, the tiny error comes from rounding in floating-point arithmetic: NumPy computes determinants by elimination (as in Example 4), not by cofactors, and each step is rounded.</p>
 <p>For the same reason, <strong>never test whether a matrix is singular with <code>det(A) == 0</code></strong>. A singular matrix may give a tiny non-zero determinant, and a perfectly healthy matrix can have a tiny determinant just because its entries are small: <span class="math inline">\(\det(0.1\M{I}_{10}) = 10^{-10}\)</span>. To check whether a matrix is close to singular, use its <strong>rank</strong>, the number of independent directions it keeps (3 for a healthy <span class="math inline">\(3 \times 3\)</span> matrix; see <a href="../part-2/12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a>), or its <strong>condition number</strong>, which is huge for a matrix that is singular or nearly so (<a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>):</p>
-<div id="f07946f9" class="cell" data-execution_count="2">
+<div id="d6959e67" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>], [<span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>]])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.matrix_rank(S))      <span class="co"># 2, not 3: S is singular</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.cond(S))             <span class="co"># enormous: S is singular or nearly so</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

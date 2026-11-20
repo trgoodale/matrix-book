@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1220,11 +1220,21 @@ c_1 - c_2 &amp;= 1
 </div>
 <div class="callout-body-container callout-body">
 <p>Find the matrix of the reflection in the line <span class="math inline">\(y = 2x\)</span>.</p>
-<p><strong>Solution.</strong> In the right basis, this reflection is easy to describe. Take <span class="math inline">\(\vect{b}_1 = (1, 2)\T\)</span> along the mirror and <span class="math inline">\(\vect{b}_2 = (-2, 1)\T\)</span> at right angles to it. The reflection leaves <span class="math inline">\(\vect{b}_1\)</span> alone and reverses <span class="math inline">\(\vect{b}_2\)</span>, so in this basis its matrix is <span class="math display">\[
+<p><strong>Solution.</strong> In the right basis, this reflection is easy to describe. Take <span class="math inline">\(\vect{b}_1 = (1, 2)\T\)</span> along the mirror and <span class="math inline">\(\vect{b}_2 = (-2, 1)\T\)</span> at right angles to it (<a href="#fig-reflect-basis" class="quarto-xref">Figure&nbsp;<span>15.1</span></a>). The reflection leaves <span class="math inline">\(\vect{b}_1\)</span> alone and reverses <span class="math inline">\(\vect{b}_2\)</span>, so in this basis its matrix is <span class="math display">\[
 \M{B} = \mat{1 &amp; 0 \\ 0 &amp; -1}.
 \]</span> With <span class="math inline">\(\M{P} = \mat{1 &amp; -2 \\ 2 &amp; 1}\)</span>, whose determinant is 5, the inverse is <span class="math inline">\(\M{P}^{-1} = \tfrac{1}{5}\mat{1 &amp; 2 \\ -2 &amp; 1}\)</span>, and so <span class="math display">\[
 \M{A} = \M{P}\M{B}\M{P}^{-1} = \mat{1 &amp; 2 \\ 2 &amp; -1} \cdot \frac{1}{5}\mat{1 &amp; 2 \\ -2 &amp; 1} = \frac{1}{5}\mat{-3 &amp; 4 \\ 4 &amp; 3}.
 \]</span> Check: <span class="math inline">\(\M{A}(1, 2)\T = \tfrac{1}{5}(5, 10)\T = (1, 2)\T\)</span>, so the mirror line is fixed. ✓ This agrees with the reflection formula in <a href="../part-1/04-transformations.html" class="quarto-xref"><span>Chapter 4</span></a>.</p>
+<div id="fig-reflect-basis" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Axes with a dashed mirror line y equals 2x. The blue vector b1 equals (1, 2) lies along the mirror, labelled stays put. The brown vector b2 equals (minus 2, 1) is at right angles to the mirror, and a dashed brown arrow pointing the opposite way is labelled reflected to minus b2.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-reflect-basis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/reflect-basis.png" class="img-fluid figure-img" style="width:50.0%" alt="Axes with a dashed mirror line y equals 2x. The blue vector b1 equals (1, 2) lies along the mirror, labelled stays put. The brown vector b2 equals (minus 2, 1) is at right angles to the mirror, and a dashed brown arrow pointing the opposite way is labelled reflected to minus b2.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reflect-basis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.1: The convenient basis for the reflection in <span class="math inline">\(y = 2x\)</span>: <span class="math inline">\(\vect{b}_1\)</span> lies along the mirror and is left alone, and <span class="math inline">\(\vect{b}_2\)</span> is at right angles to it and is reversed.
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <div id="ex-basis-change-4" class="callout callout-style-simple callout-note no-icon callout-titled">
@@ -1254,7 +1264,7 @@ c_1 - c_2 &amp;= 1
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="e5f20058" class="cell" data-execution_count="1">
+<div id="3a1d98c7" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>P <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>]])            <span class="co"># basis vectors as columns</span></span>

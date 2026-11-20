@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1118,9 +1118,19 @@ window.Quarto = {
 </section>
 <section id="rotating-about-a-point" class="level3">
 <h3 class="anchored" data-anchor-id="rotating-about-a-point">Rotating about a point</h3>
-<p>To rotate by an angle <span class="math inline">\(\theta\)</span> about a point <span class="math inline">\(\vect{c}\)</span> instead of the origin, move <span class="math inline">\(\vect{c}\)</span> to the origin, rotate, and move back: <span class="math display">\[
+<p>To rotate by an angle <span class="math inline">\(\theta\)</span> about a point <span class="math inline">\(\vect{c}\)</span> instead of the origin, move <span class="math inline">\(\vect{c}\)</span> to the origin, rotate, and move back (<a href="#fig-rotate-about-point" class="quarto-xref">Figure&nbsp;<span>34.1</span></a> shows the steps for Example 1): <span class="math display">\[
 \M{T}(\vect{c})\,\M{R}(\theta)\,\M{T}(-\vect{c}).
 \]</span> The same sandwich scales about a point, or reflects in a line that doesn’t pass through the origin.</p>
+<div id="fig-rotate-about-point" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four small panels with axes. Start: the centre c at (2, 1) joined to the point (3, 1). After moving c to the origin, the point is at (1, 0). After rotating by 90 degrees about the origin, it is at (0, 1). After moving back, c is at (2, 1) again and the point is at (2, 2), directly above c.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rotate-about-point-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/rotate-about-point.png" class="img-fluid figure-img" style="width:100.0%" alt="Four small panels with axes. Start: the centre c at (2, 1) joined to the point (3, 1). After moving c to the origin, the point is at (1, 0). After rotating by 90 degrees about the origin, it is at (0, 1). After moving back, c is at (2, 1) again and the point is at (2, 2), directly above c.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rotate-about-point-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;34.1: Rotating <span class="math inline">\((3, 1)\)</span> by <span class="math inline">\(90°\)</span> about <span class="math inline">\(\vect{c} = (2, 1)\)</span>, as in Example 1, in three steps: move <span class="math inline">\(\vect{c}\)</span> to the origin, rotate about the origin, and move back.
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="model-view-and-projection" class="level3">
 <h3 class="anchored" data-anchor-id="model-view-and-projection">Model, view and projection</h3>
@@ -1130,17 +1140,37 @@ window.Quarto = {
 <li>the <strong>view</strong> matrix moves the whole scene so that the camera sits at the origin, looking along the negative <span class="math inline">\(z\)</span> axis;</li>
 <li>the <strong>projection</strong> matrix maps the visible region onto the screen.</li>
 </ol>
-<p><strong>Perspective</strong> makes distant objects look smaller: a point at depth <span class="math inline">\(-z\)</span> in front of a camera with focal length <span class="math inline">\(d\)</span> appears at <span class="math inline">\((dx/(-z), \; dy/(-z))\)</span>. Dividing by <span class="math inline">\(z\)</span> isn’t linear, but homogeneous coordinates handle it too. The matrix <span class="math display">\[
+<p><strong>Perspective</strong> makes distant objects look smaller: a point at depth <span class="math inline">\(-z\)</span> in front of a camera with focal length <span class="math inline">\(d\)</span> appears at <span class="math inline">\((dx/(-z), \; dy/(-z))\)</span>, by similar triangles (<a href="#fig-perspective" class="quarto-xref">Figure&nbsp;<span>34.2</span></a>). Dividing by <span class="math inline">\(z\)</span> isn’t linear, but homogeneous coordinates handle it too. The matrix <span class="math display">\[
 \M{P} = \mat{d &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; d &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; -1 &amp; 0}
 \]</span> sends <span class="math inline">\((x, y, z, 1)\)</span> to <span class="math inline">\((dx, dy, z, -z)\)</span>, and the rule is that homogeneous coordinates <span class="math inline">\((X, Y, Z, W)\)</span> stand for the point <span class="math inline">\((X/W, Y/W, Z/W)\)</span>. Dividing by <span class="math inline">\(W = -z\)</span> gives exactly the perspective formula. (Real graphics libraries use a slightly different third row, which keeps depth information for deciding which surfaces are in front.) The whole pipeline is one matrix, <span class="math inline">\(\M{P}\M{V}\M{M}\)</span>, computed once per object and applied to all its points; graphics cards are built to do millions of these <span class="math inline">\(4 \times 4\)</span> products every millisecond.</p>
+<div id="fig-perspective" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A side view. The camera is at the left, looking right along the negative z direction, with a screen 1 unit in front of it. Two upright posts of height 1 stand at z equals minus 4 (blue) and z equals minus 8 (brown). Dashed lines from the top of each post to the camera cross the screen at heights 0.25 and 0.125.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-perspective-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/perspective.png" class="img-fluid figure-img" style="width:85.0%" alt="A side view. The camera is at the left, looking right along the negative z direction, with a screen 1 unit in front of it. Two upright posts of height 1 stand at z equals minus 4 (blue) and z equals minus 8 (brown). Dashed lines from the top of each post to the camera cross the screen at heights 0.25 and 0.125.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-perspective-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;34.2: Perspective, seen from the side, for the two points of Example 2. Each point appears where the line from it to the camera crosses the screen, at distance <span class="math inline">\(d = 1\)</span>: the point twice as far away appears half as high. (The vertical scale is stretched.)
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="robot-arm-kinematics" class="level3">
 <h3 class="anchored" data-anchor-id="robot-arm-kinematics">Robot arm kinematics</h3>
-<p>A robot arm is a chain of rigid links joined by rotating joints. Give each link its own coordinate frame. For a planar arm, the frame of each link is the frame of the one before, rotated by the joint angle <span class="math inline">\(\theta_i\)</span> and then translated along the new <span class="math inline">\(x\)</span> axis by the link length <span class="math inline">\(L_i\)</span>: <span class="math display">\[
+<p>A robot arm is a chain of rigid links joined by rotating joints. Give each link its own coordinate frame. For a planar arm, the frame of each link is the frame of the one before, rotated by the joint angle <span class="math inline">\(\theta_i\)</span> and then translated along the new <span class="math inline">\(x\)</span> axis by the link length <span class="math inline">\(L_i\)</span> (<a href="#fig-arm-forward" class="quarto-xref">Figure&nbsp;<span>34.3</span></a>): <span class="math display">\[
 \M{T}_i = \M{R}(\theta_i)\,\M{T}(L_i, 0) = \mat{\cos\theta_i &amp; -\sin\theta_i &amp; L_i\cos\theta_i \\ \sin\theta_i &amp; \cos\theta_i &amp; L_i\sin\theta_i \\ 0 &amp; 0 &amp; 1}.
 \]</span> The position and orientation of the hand, relative to the base, is the product <span class="math display">\[
 \M{T} = \M{T}_1\M{T}_2\cdots\M{T}_n.
 \]</span> Its last column gives the hand’s position, and its top-left <span class="math inline">\(2 \times 2\)</span> block its orientation. This is <strong>forward kinematics</strong>. Industrial arms work the same way in three dimensions, with one <span class="math inline">\(4 \times 4\)</span> matrix per joint, usually set out by the <strong>Denavit–Hartenberg</strong> convention.</p>
+<div id="fig-arm-forward" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A two-link arm on a base at the origin. The first link, of length 1.5, rises at 30 degrees to the elbow at (1.299, 0.75). The second link, of length 1, points straight up to the hand at (1.299, 1.75). An arc marks theta 1 between the x axis and the first link, and another marks theta 2 between a dashed extension of the first link and the second link.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-arm-forward-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/arm-forward.png" class="img-fluid figure-img" style="width:55.0%" alt="A two-link arm on a base at the origin. The first link, of length 1.5, rises at 30 degrees to the elbow at (1.299, 0.75). The second link, of length 1, points straight up to the hand at (1.299, 1.75). An arc marks theta 1 between the x axis and the first link, and another marks theta 2 between a dashed extension of the first link and the second link.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arm-forward-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;34.3: The two-link arm of Example 4. <span class="math inline">\(\theta_1\)</span> is measured from the <span class="math inline">\(x\)</span> axis, and <span class="math inline">\(\theta_2\)</span> from the direction of the first link (dashed).
+</figcaption>
+</figure>
+</div>
 <p>The reverse problem, <strong>inverse kinematics</strong>, finds joint angles that put the hand at a chosen point. It is a system of nonlinear equations, usually solved by Newton’s method with the Jacobian of the forward kinematics (<a href="../part-5/28-newton-systems.html" class="quarto-xref"><span>Chapter 28</span></a>, Example 2). Where the Jacobian is singular, as when the arm is fully stretched out, the hand can’t move in some direction at all: a <strong>singularity</strong>, which robot controllers must steer around.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1238,7 +1268,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="9a9237a5" class="cell" data-execution_count="1">
+<div id="a462e815" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1276,7 +1306,7 @@ hand at [1.299 1.75 ]</code></pre>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="34-graphics-robotics_files/figure-html/cell-2-output-2.png" alt="A grey house shape and a blue copy rotated by 90 degrees about the point (2, 1), which is marked with a dot." width="335" height="340" class="figure-img"></p>
+<p><img src="34-graphics-robotics_files/figure-html/cell-2-output-2.png" alt="A grey house shape and a blue copy rotated by 90 degrees about the point (2, 1), which is marked with a dot." width="335" height="338" class="figure-img"></p>
 <figcaption>A house shape (grey), rotated by 90° about the point (2, 1) (blue), using one 3 × 3 matrix in homogeneous coordinates.</figcaption>
 </figure>
 </div>

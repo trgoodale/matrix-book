@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1248,7 +1248,7 @@ x\mat{3 \\ 4} + y\mat{2 \\ -5} = \mat{7 \\ -6}.
 <div id="fig-two-pictures" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels. Left, the row picture: the lines 3x + 2y = 7 and 4x − 5y = −6 cross at the point (1, 2). Right, the column picture: arrows a1 = (3, 4) and a2 = (2, −5) from the origin, and a path that goes along a1 once to (3, 4) and then along a2 twice to b = (7, −6).">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-two-pictures-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="10-linear-systems_files/figure-html/fig-two-pictures-output-1.png" alt="Two panels. Left, the row picture: the lines 3x + 2y = 7 and 4x − 5y = −6 cross at the point (1, 2). Right, the column picture: arrows a1 = (3, 4) and a2 = (2, −5) from the origin, and a path that goes along a1 once to (3, 4) and then along a2 twice to b = (7, −6)." width="763" height="432" class="figure-img">
+<img src="10-linear-systems_files/figure-html/fig-two-pictures-output-1.png" alt="Two panels. Left, the row picture: the lines 3x + 2y = 7 and 4x − 5y = −6 cross at the point (1, 2). Right, the column picture: arrows a1 = (3, 4) and a2 = (2, −5) from the origin, and a path that goes along a1 once to (3, 4) and then along a2 twice to b = (7, −6)." width="771" height="432" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two-pictures-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;10.1: The same system in two pictures. Left: each equation is a line, and the solution is where they cross. Right: each column is an arrow, made from the coefficients of one unknown, and the solution says how much of each arrow to take to reach b: one of a₁ (blue, the coefficients of x), then two of a₂ (orange, the coefficients of y).
@@ -1306,7 +1306,7 @@ x - y + z &amp;= 1 \\
 \end{aligned}
 \]</span></p>
 <p><strong>Solution.</strong> Adding the first two equations gives <span class="math inline">\(2x + 2z = 4\)</span>. But the third equation says <span class="math inline">\(2x + 2z = 5\)</span>. Both cannot hold, so there is no solution: the system is inconsistent.</p>
-<p>No two of the planes are parallel (no equation’s coefficients are a multiple of another’s), so each pair of planes meets in a line. But the three lines never meet: they are parallel, and the planes form a triangular tube. This is the <strong>Triangular tube</strong> preset in the app.</p>
+<p>No two of the planes are parallel (no equation’s coefficients are a multiple of another’s), so each pair of planes meets in a line. But the three lines never meet: they are parallel, and the planes form a triangular tube (<a href="#fig-three-planes" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>, left). This is the <strong>Triangular tube</strong> preset in the app.</p>
 </div>
 </div>
 <div id="ex-linear-systems-3" class="callout callout-style-simple callout-note no-icon callout-titled">
@@ -1323,7 +1323,17 @@ x - y + z &amp;= 1 \\
 <p><strong>Solution.</strong> Now adding the first two equations gives <span class="math inline">\(2x + 2z = 4\)</span>, which <em>is</em> the third equation. So the third equation adds no new information, and the system is really the first two equations. Subtracting the second from the first gives <span class="math inline">\(2y = 2\)</span>, so <span class="math inline">\(y = 1\)</span>, and then the first equation says <span class="math inline">\(x + z = 2\)</span>.</p>
 <p>Any value of <span class="math inline">\(z\)</span> works, with <span class="math inline">\(x = 2 - z\)</span>. Writing <span class="math inline">\(z = t\)</span>, the solutions are <span class="math display">\[
 \vect{x} = \mat{2 - t \\ 1 \\ t} = \mat{2 \\ 1 \\ 0} + t\mat{-1 \\ 0 \\ 1}
-\]</span> for every number <span class="math inline">\(t\)</span>: a line of solutions, along which all three planes meet, like the pages of an open book. This matches <a href="#eq-general-solution" class="quarto-xref">Equation&nbsp;<span>10.1</span></a>. The vector <span class="math inline">\((2, 1, 0)\T\)</span> is a particular solution, and <span class="math inline">\(t(-1, 0, 1)\T\)</span> runs through every solution of the homogeneous system.</p>
+\]</span> for every number <span class="math inline">\(t\)</span>: a line of solutions, along which all three planes meet, like the pages of an open book (<a href="#fig-three-planes" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>, right). This matches <a href="#eq-general-solution" class="quarto-xref">Equation&nbsp;<span>10.1</span></a>. The vector <span class="math inline">\((2, 1, 0)\T\)</span> is a particular solution, and <span class="math inline">\(t(-1, 0, 1)\T\)</span> runs through every solution of the homogeneous system.</p>
+<div id="fig-three-planes" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels, each showing three planes edge on, as lines. Left, Example 2: the lines for x plus y plus z equals 3, x minus y plus z equals 1, and 2x plus 2z equals 5 form a small shaded triangle, with no point on all three. Right, Example 3: the lines for x plus y plus z equals 3, x minus y plus z equals 1, and 2x plus 2z equals 4 all pass through one point, labelled the line of solutions.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-three-planes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/three-planes.png" class="img-fluid figure-img" style="width:90.0%" alt="Two panels, each showing three planes edge on, as lines. Left, Example 2: the lines for x plus y plus z equals 3, x minus y plus z equals 1, and 2x plus 2z equals 5 form a small shaded triangle, with no point on all three. Right, Example 3: the lines for x plus y plus z equals 3, x minus y plus z equals 1, and 2x plus 2z equals 4 all pass through one point, labelled the line of solutions.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-three-planes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.2: The planes of Examples 2 and 3, viewed along the direction <span class="math inline">\((-1, 0, 1)\)</span>, which lies in all three planes, so that each plane appears as a line. Left: each pair of planes meets, but the three lines where they meet are parallel and form a triangular tube (shaded), so there is no solution. Right: all three planes share one line, which appears as a single point.
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1376,7 +1386,7 @@ a &amp;= c \quad\text{(carbon)} \\
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="0b7e61b2" class="cell" data-execution_count="2">
+<div id="aedae367" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">0.6</span>, <span class="fl">0.8</span>, <span class="fl">0.5</span>],</span>
@@ -1393,7 +1403,7 @@ a &amp;= c \quad\text{(carbon)} \\
 </div>
 </div>
 <p>When <span class="math inline">\(\det\M{A} = 0\)</span>, <code>np.linalg.solve</code> stops with an error rather than guess:</p>
-<div id="c1c9a612" class="cell" data-execution_count="3">
+<div id="819c6c4b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A2 <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>b2 <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -1405,7 +1415,7 @@ a &amp;= c \quad\text{(carbon)} \\
 </div>
 </div>
 <p>To tell “no solution” from “infinitely many”, compare the <strong>rank</strong> of <span class="math inline">\(\M{A}\)</span> with the rank of the augmented matrix. The rank counts the genuinely independent equations (<a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a> explains it fully). If adding <span class="math inline">\(\vect{b}\)</span> increases the rank, <span class="math inline">\(\vect{b}\)</span> brings in an equation that contradicts the others, and there is no solution:</p>
-<div id="3eef5fc8" class="cell" data-execution_count="4">
+<div id="de3a408a" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Ab2 <span class="op">=</span> np.column_stack([A2, b2])          <span class="co"># the augmented matrix [A | b]</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.matrix_rank(A2), np.linalg.matrix_rank(Ab2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">

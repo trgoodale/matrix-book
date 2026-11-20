@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1187,7 +1187,17 @@ window.Quarto = {
 \M{H} = \M{I} - \frac{2\vect{v}\vect{v}\T}{\vect{v}\T\vect{v}},
 \]</span> the reflection in the plane (or line, or hyperplane) perpendicular to <span class="math inline">\(\vect{v}\)</span>. It is symmetric and orthogonal, and <span class="math inline">\(\M{H}^2 = \M{I}\)</span>: reflecting twice puts everything back. Given any vector <span class="math inline">\(\vect{x}\)</span>, choosing <span class="math display">\[
 \vect{v} = \vect{x} + \operatorname{sign}(x_1)\lVert\vect{x}\rVert\,\ue{1}
-\]</span> gives a reflection that sends <span class="math inline">\(\vect{x}\)</span> to <span class="math inline">\(-\operatorname{sign}(x_1)\lVert\vect{x}\rVert\,\ue{1}\)</span>: a vector along the first axis, of the same length. All entries but the first become zero. (The sign is chosen to avoid cancellation when forming <span class="math inline">\(\vect{v}\)</span>, <a href="24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>.)</p>
+\]</span> gives a reflection that sends <span class="math inline">\(\vect{x}\)</span> to <span class="math inline">\(-\operatorname{sign}(x_1)\lVert\vect{x}\rVert\,\ue{1}\)</span>: a vector along the first axis, of the same length. All entries but the first become zero (<a href="#fig-householder" class="quarto-xref">Figure&nbsp;<span>30.1</span></a> shows Example 1). (The sign is chosen to avoid cancellation when forming <span class="math inline">\(\vect{v}\)</span>, <a href="24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>.)</p>
+<div id="fig-householder" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Axes with a dashed half-circle of radius 5. The blue vector x from the origin to (3, 4), and the brown vector H x from the origin to (minus 5, 0). A green vector v in the direction (8, 4), drawn at half size. A dashed mirror line through the origin, at right angles to v, lies halfway between x and H x; a dotted line joins their tips.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-householder-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/householder.png" class="img-fluid figure-img" style="width:60.0%" alt="Axes with a dashed half-circle of radius 5. The blue vector x from the origin to (3, 4), and the brown vector H x from the origin to (minus 5, 0). A green vector v in the direction (8, 4), drawn at half size. A dashed mirror line through the origin, at right angles to v, lies halfway between x and H x; a dotted line joins their tips.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-householder-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;30.1: The Householder reflection of Example 1. The mirror is at right angles to <span class="math inline">\(\vect{v} = \vect{x} + 5\ue{1}\)</span>, so it reflects <span class="math inline">\(\vect{x} = (3, 4)\)</span> onto the first axis, at <span class="math inline">\(\M{H}\vect{x} = (-5, 0)\)</span>. Lengths don’t change, so both lie on the circle of radius 5 (dashed).
+</figcaption>
+</figure>
+</div>
 <p><strong>Householder QR</strong> uses such reflections the way elimination uses row operations. The first reflection <span class="math inline">\(\M{H}_1\)</span> zeros column 1 below the diagonal; the second, acting only on rows 2 to <span class="math inline">\(m\)</span>, zeros column 2 below the diagonal; and so on. After <span class="math inline">\(n\)</span> reflections, <span class="math display">\[
 \M{H}_n\cdots\M{H}_2\M{H}_1\M{A} = \mat{\M{R} \\ \M{0}},
 \]</span> and <span class="math inline">\(\M{Q} = \M{H}_1\M{H}_2\cdots\M{H}_n\)</span> (each <span class="math inline">\(\M{H}_i\)</span> is its own inverse). Because every step is an orthogonal transformation, which preserves lengths, rounding errors are never magnified. Householder QR costs about <span class="math inline">\(2mn^2 - \tfrac{2}{3}n^3\)</span> operations, roughly twice as much as forming and solving the normal equations.</p>
@@ -1289,7 +1299,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="e5aa93d2" class="cell" data-execution_count="1">
+<div id="ade3c904" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">50</span>)</span>
@@ -1303,10 +1313,10 @@ window.Quarto = {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"degree </span><span class="sc">{</span>deg<span class="sc">:2d}</span><span class="ss">: cond(A) = </span><span class="sc">{</span>np<span class="sc">.</span>linalg<span class="sc">.</span>cond(A)<span class="sc">:.1e}</span><span class="ss">, "</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"error: normal </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">max</span>(<span class="bu">abs</span>(c_normal <span class="op">-</span> c))<span class="sc">:.1e}</span><span class="ss">, QR </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">max</span>(<span class="bu">abs</span>(c_qr <span class="op">-</span> c))<span class="sc">:.1e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>degree  5: cond(A) = 3.5e+03, error: normal 4.9e-10, QR 3.9e-13
-degree  8: cond(A) = 6.3e+05, error: normal 7.2e-06, QR 3.7e-11
-degree 10: cond(A) = 2.0e+07, error: normal 2.1e-03, QR 1.1e-09
-degree 12: cond(A) = 6.8e+08, error: normal 2.4e+01, QR 1.9e-08</code></pre>
+<pre><code>degree  5: cond(A) = 3.5e+03, error: normal 4.9e-10, QR 1.0e-13
+degree  8: cond(A) = 6.3e+05, error: normal 7.2e-06, QR 7.0e-11
+degree 10: cond(A) = 2.0e+07, error: normal 2.1e-03, QR 1.6e-10
+degree 12: cond(A) = 6.8e+08, error: normal 2.4e+01, QR 2.2e-08</code></pre>
 </div>
 </div>
 </div>

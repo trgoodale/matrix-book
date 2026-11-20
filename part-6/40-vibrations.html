@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-285ca7a94a0e43958063c9cd3d9576cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e01276ef318688753432eaa28863e076.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1181,11 +1181,21 @@ b_i = \frac{\vect{v}_i\T\M{M}\dot{\vect{x}}_0}{\omega_i\,\vect{v}_i\T\M{M}\vect{
 \M{K} = \mat{200 &amp; -100 \\ -100 &amp; 200},
 \qquad
 \det(\M{K} - \lambda\M{I}) = (200 - \lambda)^2 - 100^2 = (\lambda - 100)(\lambda - 300),
-\]</span> writing <span class="math inline">\(\lambda = \omega^2\)</span>. For <span class="math inline">\(\lambda = 100\)</span>, <span class="math inline">\(\M{K} - 100\M{I} = \mat{100 &amp; -100 \\ -100 &amp; 100}\)</span> gives <span class="math inline">\(\vect{v}_1 = (1, 1)\T\)</span>: the masses move together, in step, and the middle spring is never stretched. For <span class="math inline">\(\lambda = 300\)</span>, <span class="math inline">\(\M{K} - 300\M{I} = \mat{-100 &amp; -100 \\ -100 &amp; -100}\)</span> gives <span class="math inline">\(\vect{v}_2 = (1, -1)\T\)</span>: the masses move in opposite directions, stretching and squashing the middle spring as well. The natural frequencies are <span class="math display">\[
+\]</span> writing <span class="math inline">\(\lambda = \omega^2\)</span>. For <span class="math inline">\(\lambda = 100\)</span>, <span class="math inline">\(\M{K} - 100\M{I} = \mat{100 &amp; -100 \\ -100 &amp; 100}\)</span> gives <span class="math inline">\(\vect{v}_1 = (1, 1)\T\)</span>: the masses move together, in step, and the middle spring is never stretched. For <span class="math inline">\(\lambda = 300\)</span>, <span class="math inline">\(\M{K} - 300\M{I} = \mat{-100 &amp; -100 \\ -100 &amp; -100}\)</span> gives <span class="math inline">\(\vect{v}_2 = (1, -1)\T\)</span>: the masses move in opposite directions, stretching and squashing the middle spring as well (<a href="#fig-two-mass-modes" class="quarto-xref">Figure&nbsp;<span>40.2</span></a>). The natural frequencies are <span class="math display">\[
 \omega_1 = 10 \text{ rad/s}\;(1.59 \text{ Hz}),
 \qquad
 \omega_2 = \sqrt{300} \approx 17.3 \text{ rad/s}\;(2.76 \text{ Hz}).
 \]</span> The mode that stretches more springs, for the same displacements, is the stiffer one, and so the faster one. That is true in general: higher modes have more changes of direction along the structure.</p>
+<div id="fig-two-mass-modes" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two rows, each showing two masses between walls joined by three springs, with blue arrows under the masses for their displacements. Mode 1: both arrows point right, and the middle spring is its normal length. Mode 2: the arrows point towards each other, and the middle spring is compressed.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-two-mass-modes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/two-mass-modes.png" class="img-fluid figure-img" style="width:80.0%" alt="Two rows, each showing two masses between walls joined by three springs, with blue arrows under the masses for their displacements. Mode 1: both arrows point right, and the middle spring is its normal length. Mode 2: the arrows point towards each other, and the middle spring is compressed.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two-mass-modes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;40.2: The two mode shapes of Example 1. In mode 1 the masses move together and the middle spring keeps its length; in mode 2 they move in opposite directions, so the middle spring is stretched and squashed too, and the mode is faster.
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <div id="ex-vibrations-2" class="callout callout-style-simple callout-note no-icon callout-titled">
@@ -1229,10 +1239,20 @@ a_2 = \frac{0.02}{2} = 0.01,
 \omega_1 \approx 14.1 \text{ rad/s}\;(2.25 \text{ Hz}),
 \qquad
 \omega_2 \approx 28.3 \text{ rad/s}\;(4.50 \text{ Hz}).
-\]</span> The first row of <span class="math inline">\((\M{K} - \omega^2\M{M})\vect{v} = \zerovec\)</span> gives <span class="math inline">\((3 - 2\mu)v_1 = v_2\)</span>. For <span class="math inline">\(\mu = \tfrac{1}{2}\)</span>, <span class="math inline">\(\vect{v}_1 = (1, 2)\T\)</span>: both floors sway the same way, the top one twice as far. For <span class="math inline">\(\mu = 2\)</span>, <span class="math inline">\(\vect{v}_2 = (1, -1)\T\)</span>: the floors sway in opposite directions.</p>
+\]</span> The first row of <span class="math inline">\((\M{K} - \omega^2\M{M})\vect{v} = \zerovec\)</span> gives <span class="math inline">\((3 - 2\mu)v_1 = v_2\)</span>. For <span class="math inline">\(\mu = \tfrac{1}{2}\)</span>, <span class="math inline">\(\vect{v}_1 = (1, 2)\T\)</span>: both floors sway the same way, the top one twice as far. For <span class="math inline">\(\mu = 2\)</span>, <span class="math inline">\(\vect{v}_2 = (1, -1)\T\)</span>: the floors sway in opposite directions (<a href="#fig-building-modes" class="quarto-xref">Figure&nbsp;<span>40.3</span></a>).</p>
 <p>These modes are not perpendicular, <span class="math inline">\((1, 2) \cdot (1, -1) = -1\)</span>, but they are <span class="math inline">\(\M{M}\)</span>-orthogonal: <span class="math display">\[
 \vect{v}_1\T\M{M}\vect{v}_2 = 10^4(2 \times 1 \times 1 + 1 \times 2 \times (-1)) = 0.
 \]</span> Earthquakes often shake the ground strongly at frequencies of a few hertz, close to these, which is why low-rise buildings in earthquake zones need careful design.</p>
+<div id="fig-building-modes" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three sketches of a two-storey frame on hatched ground. The model: floors labelled m1 equals 20 t and m2 equals 10 t, with storeys labelled k1 equals 8 MN per m and k2 equals 4 MN per m. Mode 1, 2.25 Hz: both floors shifted right, the top twice as far. Mode 2, 4.50 Hz: the lower floor shifted right and the top floor shifted left by the same amount.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-building-modes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/building-modes.png" class="img-fluid figure-img" style="width:95.0%" alt="Three sketches of a two-storey frame on hatched ground. The model: floors labelled m1 equals 20 t and m2 equals 10 t, with storeys labelled k1 equals 8 MN per m and k2 equals 4 MN per m. Mode 1, 2.25 Hz: both floors shifted right, the top twice as far. Mode 2, 4.50 Hz: the lower floor shifted right and the top floor shifted left by the same amount.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-building-modes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;40.3: The two-storey building of Example 3 and its two mode shapes. In mode 1 both floors sway the same way, the top one twice as far; in mode 2 they sway in opposite directions.
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <div id="ex-vibrations-4" class="callout callout-style-simple callout-note no-icon callout-titled">
@@ -1281,7 +1301,7 @@ X_2 = \frac{100F}{(100 - \Omega^2)(300 - \Omega^2)}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="74144854" class="cell" data-execution_count="1">
+<div id="4420f685" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
