@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,18 +75,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../part-1/06-determinants.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-a4502c8cbc339fc51dc0f3ab78f51ea6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-5462cc173e5e61cc875ab38cfb1b7763.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-ae6c1fbcc07bf00db2a7efa1353188f4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-df4d7c86c405b8a13a19df7c6a896452.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-7a86a2117345dc92d9c69f4b7413ad4f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-df4d7c86c405b8a13a19df7c6a896452.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -112,473 +116,239 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
-
 <script>
-
 /*
-
   Notation settings for the book.
-
   All mathematics is written with the macros below, never with hard-coded notation:
-
     \vect{v}   a vector            \M{A}      a matrix
-
     \ui \uj \uk  standard unit vectors in 2D/3D   \ue{n}  general basis vector e_n
-
     \mat{..}   a matrix in brackets (rows split by \\, entries by &)
-
     \amat{ccc|c}{..}  an augmented matrix   \T  transpose   \R  real numbers
-
   The reader's choices are stored in localStorage under "mb-settings" and read
-
   here, before MathJax loads, so every page is typeset in their notation.
-
 */
-
 (function () {
-
   var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python" };
-
   var s = {};
-
   try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) { s = {}; }
-
   for (var k in DEFAULTS) if (!(k in s)) s[k] = DEFAULTS[k];
-
   window.mbSettings = s;
-
   window.mbDefaults = DEFAULTS;
 
-
-
   var vec = { bold: "\\mathbf{#1}", arrow: "\\vec{#1}", underline: "\\underline{#1}" }[s.vec] || "\\mathbf{#1}";
-
   var unit = function (letter, dotless, idx) {
-
     if (s.basis === "e") return vec.replace("#1", "e") + "_{" + idx + "}";
-
     if (s.basis === "hat") return "\\hat{" + dotless + "}";
-
     return vec.replace("#1", letter);
-
   };
-
   var open = s.br === "square" ? "[" : "(";
-
   var close = s.br === "square" ? "]" : ")";
-
   var env = s.br === "square" ? "bmatrix" : "pmatrix";
 
-
-
   window.MathJax = {
-
     tex: {
-
       macros: {
-
         vect: [vec, 1],
-
         M: [s.mat === "italic" ? "#1" : "\\mathbf{#1}", 1],
-
         ui: unit("i", "\\imath", 1),
-
         uj: unit("j", "\\jmath", 2),
-
         uk: unit("k", "k", 3),
-
         ue: [vec.replace("#1", "e") + "_{#1}", 1],
-
         mat: ["\\begin{" + env + "}#1\\end{" + env + "}", 1],
-
         amat: ["\\left" + open + "\\begin{array}{#1}#2\\end{array}\\right" + close, 2],
-
         T: s.tr === "top" ? "^{\\top}" : "^{\\mathsf{T}}",
-
         R: "\\mathbb{R}",
-
         zerovec: vec.replace("#1", "0")
-
       }
-
     },
-
     // MathJax 4: break long equations across lines to fit narrow screens
-
     output: { displayOverflow: "linebreak", linebreaks: { inline: true, width: "100%", lineleading: 0.6 } },
-
     chtml: { scale: 1.0 }
-
   };
 
-
-
   // Default language for code tabs: Quarto reads this when the page is shown.
-
   try {
-
     var key = "quarto-persistent-tabsets-data";
-
     var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
-
     if (!tabs.language) { tabs.language = s.code; localStorage.setItem(key, JSON.stringify(tabs)); }
-
   } catch (e) {}
 
-
-
   // ---------- settings panel ----------
-
   var GROUPS = [
-
     { key: "vec", label: "Vectors", opts: [["bold", "Bold", "\\mathbf{v}"], ["arrow", "Arrow", "\\vec{v}"], ["underline", "Underlined", "\\underline{v}"]] },
-
     { key: "mat", label: "Matrices", opts: [["bold", "Bold", "\\mathbf{A}"], ["italic", "Italic", "A"]] },
-
     { key: "basis", label: "Unit vectors", opts: [["ijk", "i, j, k", "\\mathbf{i},\\ \\mathbf{j},\\ \\mathbf{k}"], ["hat", "Hats", "\\hat{\\imath},\\ \\hat{\\jmath},\\ \\hat{k}"], ["e", "e₁, e₂, e₃", "\\mathbf{e}_1,\\ \\mathbf{e}_2,\\ \\mathbf{e}_3"]] },
-
     { key: "br", label: "Brackets", opts: [["round", "Round", "\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}"], ["square", "Square", "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}"]] },
-
     { key: "tr", label: "Transpose", opts: [["T", "Letter T", "\\mathbf{A}^{\\mathsf{T}}"], ["top", "Symbol ⊤", "\\mathbf{A}^{\\top}"]] },
-
     { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] }
-
   ];
 
-
-
   function buildForm(prefix) {
-
     var form = document.createElement("form");
-
     form.className = "mb-settings-form";
-
     form.addEventListener("submit", function (e) { e.preventDefault(); });
-
     GROUPS.forEach(function (g) {
-
       var fs = document.createElement("fieldset");
-
       var lg = document.createElement("legend");
-
       lg.textContent = g.label;
-
       fs.appendChild(lg);
-
       g.opts.forEach(function (o) {
-
         var id = prefix + "-" + g.key + "-" + o[0];
-
         var lab = document.createElement("label");
-
         lab.className = "mb-opt";
-
         lab.htmlFor = id;
-
         var inp = document.createElement("input");
-
         inp.type = "radio"; inp.name = prefix + "-" + g.key; inp.id = id; inp.value = o[0];
-
         inp.checked = s[g.key] === o[0];
-
         lab.appendChild(inp);
-
         var txt = document.createElement("span");
-
         txt.className = "mb-opt-name";
-
         txt.textContent = o[1];
-
         lab.appendChild(txt);
-
         if (o[2]) {
-
           var ex = document.createElement("span");
-
           ex.className = "mb-opt-example";
-
           ex.textContent = "\\(" + o[2] + "\\)";
-
           lab.appendChild(ex);
-
         }
-
         fs.appendChild(lab);
-
       });
-
       form.appendChild(fs);
-
     });
-
     var row = document.createElement("div");
-
     row.className = "mb-settings-actions";
-
     var apply = document.createElement("button");
-
     apply.type = "button"; apply.className = "btn btn-primary"; apply.textContent = "Apply";
-
     var reset = document.createElement("button");
-
     reset.type = "button"; reset.className = "btn btn-outline-secondary"; reset.textContent = "Restore defaults";
-
     var note = document.createElement("span");
-
     note.className = "mb-settings-note";
-
     note.textContent = "Saved in this browser and used on every page.";
-
     row.appendChild(apply); row.appendChild(reset); row.appendChild(note);
-
     form.appendChild(row);
 
-
-
     apply.addEventListener("click", function () {
-
       var next = {};
-
       GROUPS.forEach(function (g) {
-
         var c = form.querySelector('input[name="' + prefix + "-" + g.key + '"]:checked');
-
         next[g.key] = c ? c.value : DEFAULTS[g.key];
-
       });
-
       save(next);
-
     });
-
     reset.addEventListener("click", function () { save(Object.assign({}, DEFAULTS)); });
-
     return form;
-
   }
-
-
 
   function save(next) {
-
     try {
-
       localStorage.setItem("mb-settings", JSON.stringify(next));
-
       var key = "quarto-persistent-tabsets-data";
-
       var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
-
       tabs.language = next.code;
-
       localStorage.setItem(key, JSON.stringify(tabs));
-
       sessionStorage.setItem("mb-scroll", String(window.scrollY));
-
     } catch (e) {}
-
     location.reload();
-
   }
-
-
 
   function typeset(el) {
-
     var M = window.MathJax;
-
     if (!M || !M.startup || !M.startup.promise) return;
-
     M.startup.promise.then(function () { return M.typesetPromise([el]); }).catch(function () {});
-
   }
-
-
 
   document.addEventListener("DOMContentLoaded", function () {
-
     try {
-
       var y = sessionStorage.getItem("mb-scroll");
-
       if (y !== null) { sessionStorage.removeItem("mb-scroll"); window.addEventListener("load", function () { window.scrollTo(0, +y); }); }
-
     } catch (e) {}
 
-
-
     // Inline panel (on the conventions page)
-
     var inline = document.getElementById("mb-settings-inline");
-
     if (inline) { inline.appendChild(buildForm("inline")); typeset(inline); }
 
-
-
     // Floating button and dialog on every page
-
     var btn = document.createElement("button");
-
     btn.type = "button";
-
     btn.className = "mb-settings-button";
-
     btn.setAttribute("aria-haspopup", "dialog");
-
     btn.innerHTML = '<span aria-hidden="true">⚙</span> Notation';
-
     var dlg = document.createElement("dialog");
-
     dlg.className = "mb-settings-dialog";
-
     dlg.setAttribute("aria-labelledby", "mb-dlg-title");
-
     dlg.innerHTML = '<div class="mb-dlg-head"><h2 id="mb-dlg-title">Notation and code</h2>' +
-
       '<button type="button" class="btn-close" aria-label="Close"></button></div>' +
-
       '<p class="mb-dlg-intro">Choose the notation you are used to. Every page of the book, and the apps, will use it. ' +
-
       'See <a class="mb-conv-link">Notation and conventions</a> for what each option means.</p>';
-
     dlg.appendChild(buildForm("dlg"));
-
     document.body.appendChild(btn);
-
     document.body.appendChild(dlg);
-
     var conv = dlg.querySelector(".mb-conv-link");
-
     var sideLink = document.querySelector('a[href$="conventions.html"]');
-
     conv.href = sideLink ? sideLink.getAttribute("href") : "conventions.html";
-
     btn.addEventListener("click", function () { dlg.showModal(); typeset(dlg); });
-
     dlg.querySelector(".btn-close").addEventListener("click", function () { dlg.close(); });
-
     dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
 
-
-
     // Size embedded apps to their content (same origin)
-
     document.querySelectorAll("iframe.app-frame").forEach(function (f) {
-
       function fit() {
-
         try { var d = f.contentDocument; if (d && d.documentElement) f.style.height = d.documentElement.scrollHeight + "px"; } catch (e) {}
-
       }
-
       f.addEventListener("load", function () {
-
         fit();
-
         try { new ResizeObserver(fit).observe(f.contentDocument.body); } catch (e) {}
-
       });
-
     });
-
   });
-
 })();
-
 </script>
-
 <script>
-
 /* Accessibility fixes for markup that Quarto generates. */
-
 document.addEventListener("DOMContentLoaded", function () {
-
   // Collapsible callouts ("Check your understanding"): make the header a real,
-
   // keyboard-operable button that announces whether the answer is shown.
-
   document.querySelectorAll(".callout-header[data-bs-toggle='collapse']").forEach(function (h) {
-
     var target = document.querySelector(h.getAttribute("data-bs-target"));
-
     h.setAttribute("role", "button");
-
     h.setAttribute("tabindex", "0");
-
     if (target) {
-
       if (!target.id) target.id = "mb-" + Math.random().toString(36).slice(2, 9);
-
       h.setAttribute("aria-controls", target.id);
-
     }
-
     h.addEventListener("keydown", function (e) {
-
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); h.click(); }
-
     });
-
   });
-
   // Sidebar: label the landmark, and stop section toggles posing as landmarks.
-
   var side = document.getElementById("quarto-sidebar");
-
   if (side) side.setAttribute("aria-label", "Book contents");
-
   document.querySelectorAll("#quarto-sidebar [data-bs-toggle='collapse'][role='navigation']").forEach(function (a) {
-
     a.setAttribute("role", "button");
-
   });
-
   var toc = document.querySelector("nav#TOC");
-
   if (toc && !toc.getAttribute("aria-label")) toc.setAttribute("aria-label", "On this page");
-
   // Code output that scrolls sideways must be reachable from the keyboard.
-
   function markScrollers() {
-
     var n = 0;
-
     document.querySelectorAll(".cell-output pre, pre.code-output, div.code-output pre").forEach(function (p) {
-
       if (p.scrollWidth > p.clientWidth + 1) {
-
         n += 1;
-
         p.setAttribute("tabindex", "0");
-
         p.setAttribute("role", "region");
-
         p.setAttribute("aria-label", "Code output " + n + " (scrolls sideways)");
-
       } else if (p.getAttribute("role") === "region") {
-
         p.removeAttribute("tabindex"); p.removeAttribute("role"); p.removeAttribute("aria-label");
-
       }
-
     });
-
   }
-
   markScrollers();
-
   window.addEventListener("resize", markScrollers);
-
   document.addEventListener("shown.bs.tab", markScrollers);
-
 });
-
 </script>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js" type="text/javascript"></script>
@@ -612,7 +382,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -635,6 +405,7 @@ window.Quarto = {
       for (let i=0; i < toggles.length; i++) {
         const toggle = toggles[i];
         if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
           if (alternate) {
             toggle.classList.add("alternate");
           } else {
@@ -664,13 +435,19 @@ window.Quarto = {
       manageTransitions('#quarto-margin-sidebar .nav-link', true);
       // Switch the toggles
       setColorSchemeToggle(alternate)
-      // Hack to workaround the fact that safari doesn't
-      // properly recolor the scrollbar when toggling (#1455)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
       if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
         manageTransitions("body", false);
-        window.scrollTo(0, 1);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
         setTimeout(() => {
-          window.scrollTo(0, 0);
+          window.scrollTo(0, scrollY);
           manageTransitions("body", true);
         }, 40);
       }
@@ -764,6 +541,7 @@ window.Quarto = {
       // Read the current dark / light value
       let toAlternate = !hasAlternateSentinel();
       toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
       setStyleSentinel(toAlternate);
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
@@ -778,13 +556,13 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-1/01-matrices.html">Part I: Matrices and transformations</a></li><li class="breadcrumb-item"><a href="../part-1/07-inverses.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Inverse matrices</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-1/01-matrices.html">Part I: Matrices and transformations</a></li><li class="breadcrumb-item"><a href="../part-1/07-inverses.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Inverse matrices</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -795,13 +573,13 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Matrices in Practice</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/trgoodale/matrix-book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
 </div>
     </div>
       </div>
@@ -838,13 +616,10 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Part I: Matrices and transformations</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Matrices and transformations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../part-1/01-matrices.html" class="sidebar-item-text sidebar-link">
@@ -909,13 +684,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Part II: Linear systems</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Linear systems</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../part-2/10-linear-systems.html" class="sidebar-item-text sidebar-link">
@@ -950,13 +722,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Part III: Vector spaces</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Vector spaces</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../part-3/14-span-independence.html" class="sidebar-item-text sidebar-link">
@@ -991,13 +760,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Part IV: Eigenvalues and matrix calculus</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Eigenvalues and matrix calculus</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../part-4/18-eigenvalues.html" class="sidebar-item-text sidebar-link">
@@ -1044,13 +810,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Part V: Numerical methods</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Numerical methods</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../part-5/24-floating-point-conditioning.html" class="sidebar-item-text sidebar-link">
@@ -1103,13 +866,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Part VI: Applications</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Part VI: Applications</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../part-6/31-trusses.html" class="sidebar-item-text sidebar-link">
@@ -1180,13 +940,10 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../appendices/apps.html" class="sidebar-item-text sidebar-link">
@@ -1261,7 +1018,7 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
@@ -1285,10 +1042,10 @@ window.Quarto = {
 <div class="toc-actions"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/part-1/07-inverses.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-1/01-matrices.html">Part I: Matrices and transformations</a></li><li class="breadcrumb-item"><a href="../part-1/07-inverses.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Inverse matrices</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-1/01-matrices.html">Part I: Matrices and transformations</a></li><li class="breadcrumb-item"><a href="../part-1/07-inverses.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Inverse matrices</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span id="sec-inverses" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Inverse matrices</span></span></h1>
 </div>
@@ -1513,7 +1270,7 @@ C_{31} &amp;= +(8 - 3) = 5, &amp; C_{32} &amp;= -(4 - 0) = -4, &amp; C_{33} &amp
 <section id="in-code" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="in-code"><span class="header-section-number">7.3</span> In code</h2>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div id="572a0487" class="cell" data-execution_count="1">
@@ -1690,15 +1447,50 @@ ans =
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-      const a = window.document.createElement('a');
-      a.classList.add('top-right');
-      a.classList.add('quarto-color-scheme-toggle');
-      a.href = "";
-      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
       const i = window.document.createElement("i");
       i.classList.add('bi');
-      a.appendChild(i);
-      window.document.body.appendChild(a);
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
     }
     setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
@@ -1777,7 +1569,8 @@ ans =
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -1786,8 +1579,69 @@ ans =
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -1801,6 +1655,7 @@ ans =
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -1963,44 +1818,54 @@ ans =
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -2099,7 +1964,10 @@ ans =
     }
   });
   </script>
-<nav class="page-navigation">
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="../part-1/06-determinants.html" class="pagination-link" aria-label="Determinants">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Determinants</span></span>

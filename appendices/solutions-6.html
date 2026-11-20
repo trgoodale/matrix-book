@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,18 +75,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../appendices/solutions-5.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-a4502c8cbc339fc51dc0f3ab78f51ea6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-358809aabf6580fa7317aa5ddd6b32e6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-5462cc173e5e61cc875ab38cfb1b7763.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-ae6c1fbcc07bf00db2a7efa1353188f4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-5041a4839df469c10ec9ee977f8800ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-df4d7c86c405b8a13a19df7c6a896452.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-7a86a2117345dc92d9c69f4b7413ad4f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-df4d7c86c405b8a13a19df7c6a896452.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -112,473 +116,239 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
-
 <script>
-
 /*
-
   Notation settings for the book.
-
   All mathematics is written with the macros below, never with hard-coded notation:
-
     \vect{v}   a vector            \M{A}      a matrix
-
     \ui \uj \uk  standard unit vectors in 2D/3D   \ue{n}  general basis vector e_n
-
     \mat{..}   a matrix in brackets (rows split by \\, entries by &)
-
     \amat{ccc|c}{..}  an augmented matrix   \T  transpose   \R  real numbers
-
   The reader's choices are stored in localStorage under "mb-settings" and read
-
   here, before MathJax loads, so every page is typeset in their notation.
-
 */
-
 (function () {
-
   var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python" };
-
   var s = {};
-
   try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) { s = {}; }
-
   for (var k in DEFAULTS) if (!(k in s)) s[k] = DEFAULTS[k];
-
   window.mbSettings = s;
-
   window.mbDefaults = DEFAULTS;
 
-
-
   var vec = { bold: "\\mathbf{#1}", arrow: "\\vec{#1}", underline: "\\underline{#1}" }[s.vec] || "\\mathbf{#1}";
-
   var unit = function (letter, dotless, idx) {
-
     if (s.basis === "e") return vec.replace("#1", "e") + "_{" + idx + "}";
-
     if (s.basis === "hat") return "\\hat{" + dotless + "}";
-
     return vec.replace("#1", letter);
-
   };
-
   var open = s.br === "square" ? "[" : "(";
-
   var close = s.br === "square" ? "]" : ")";
-
   var env = s.br === "square" ? "bmatrix" : "pmatrix";
 
-
-
   window.MathJax = {
-
     tex: {
-
       macros: {
-
         vect: [vec, 1],
-
         M: [s.mat === "italic" ? "#1" : "\\mathbf{#1}", 1],
-
         ui: unit("i", "\\imath", 1),
-
         uj: unit("j", "\\jmath", 2),
-
         uk: unit("k", "k", 3),
-
         ue: [vec.replace("#1", "e") + "_{#1}", 1],
-
         mat: ["\\begin{" + env + "}#1\\end{" + env + "}", 1],
-
         amat: ["\\left" + open + "\\begin{array}{#1}#2\\end{array}\\right" + close, 2],
-
         T: s.tr === "top" ? "^{\\top}" : "^{\\mathsf{T}}",
-
         R: "\\mathbb{R}",
-
         zerovec: vec.replace("#1", "0")
-
       }
-
     },
-
     // MathJax 4: break long equations across lines to fit narrow screens
-
     output: { displayOverflow: "linebreak", linebreaks: { inline: true, width: "100%", lineleading: 0.6 } },
-
     chtml: { scale: 1.0 }
-
   };
 
-
-
   // Default language for code tabs: Quarto reads this when the page is shown.
-
   try {
-
     var key = "quarto-persistent-tabsets-data";
-
     var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
-
     if (!tabs.language) { tabs.language = s.code; localStorage.setItem(key, JSON.stringify(tabs)); }
-
   } catch (e) {}
 
-
-
   // ---------- settings panel ----------
-
   var GROUPS = [
-
     { key: "vec", label: "Vectors", opts: [["bold", "Bold", "\\mathbf{v}"], ["arrow", "Arrow", "\\vec{v}"], ["underline", "Underlined", "\\underline{v}"]] },
-
     { key: "mat", label: "Matrices", opts: [["bold", "Bold", "\\mathbf{A}"], ["italic", "Italic", "A"]] },
-
     { key: "basis", label: "Unit vectors", opts: [["ijk", "i, j, k", "\\mathbf{i},\\ \\mathbf{j},\\ \\mathbf{k}"], ["hat", "Hats", "\\hat{\\imath},\\ \\hat{\\jmath},\\ \\hat{k}"], ["e", "e₁, e₂, e₃", "\\mathbf{e}_1,\\ \\mathbf{e}_2,\\ \\mathbf{e}_3"]] },
-
     { key: "br", label: "Brackets", opts: [["round", "Round", "\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}"], ["square", "Square", "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}"]] },
-
     { key: "tr", label: "Transpose", opts: [["T", "Letter T", "\\mathbf{A}^{\\mathsf{T}}"], ["top", "Symbol ⊤", "\\mathbf{A}^{\\top}"]] },
-
     { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] }
-
   ];
 
-
-
   function buildForm(prefix) {
-
     var form = document.createElement("form");
-
     form.className = "mb-settings-form";
-
     form.addEventListener("submit", function (e) { e.preventDefault(); });
-
     GROUPS.forEach(function (g) {
-
       var fs = document.createElement("fieldset");
-
       var lg = document.createElement("legend");
-
       lg.textContent = g.label;
-
       fs.appendChild(lg);
-
       g.opts.forEach(function (o) {
-
         var id = prefix + "-" + g.key + "-" + o[0];
-
         var lab = document.createElement("label");
-
         lab.className = "mb-opt";
-
         lab.htmlFor = id;
-
         var inp = document.createElement("input");
-
         inp.type = "radio"; inp.name = prefix + "-" + g.key; inp.id = id; inp.value = o[0];
-
         inp.checked = s[g.key] === o[0];
-
         lab.appendChild(inp);
-
         var txt = document.createElement("span");
-
         txt.className = "mb-opt-name";
-
         txt.textContent = o[1];
-
         lab.appendChild(txt);
-
         if (o[2]) {
-
           var ex = document.createElement("span");
-
           ex.className = "mb-opt-example";
-
           ex.textContent = "\\(" + o[2] + "\\)";
-
           lab.appendChild(ex);
-
         }
-
         fs.appendChild(lab);
-
       });
-
       form.appendChild(fs);
-
     });
-
     var row = document.createElement("div");
-
     row.className = "mb-settings-actions";
-
     var apply = document.createElement("button");
-
     apply.type = "button"; apply.className = "btn btn-primary"; apply.textContent = "Apply";
-
     var reset = document.createElement("button");
-
     reset.type = "button"; reset.className = "btn btn-outline-secondary"; reset.textContent = "Restore defaults";
-
     var note = document.createElement("span");
-
     note.className = "mb-settings-note";
-
     note.textContent = "Saved in this browser and used on every page.";
-
     row.appendChild(apply); row.appendChild(reset); row.appendChild(note);
-
     form.appendChild(row);
 
-
-
     apply.addEventListener("click", function () {
-
       var next = {};
-
       GROUPS.forEach(function (g) {
-
         var c = form.querySelector('input[name="' + prefix + "-" + g.key + '"]:checked');
-
         next[g.key] = c ? c.value : DEFAULTS[g.key];
-
       });
-
       save(next);
-
     });
-
     reset.addEventListener("click", function () { save(Object.assign({}, DEFAULTS)); });
-
     return form;
-
   }
-
-
 
   function save(next) {
-
     try {
-
       localStorage.setItem("mb-settings", JSON.stringify(next));
-
       var key = "quarto-persistent-tabsets-data";
-
       var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
-
       tabs.language = next.code;
-
       localStorage.setItem(key, JSON.stringify(tabs));
-
       sessionStorage.setItem("mb-scroll", String(window.scrollY));
-
     } catch (e) {}
-
     location.reload();
-
   }
-
-
 
   function typeset(el) {
-
     var M = window.MathJax;
-
     if (!M || !M.startup || !M.startup.promise) return;
-
     M.startup.promise.then(function () { return M.typesetPromise([el]); }).catch(function () {});
-
   }
-
-
 
   document.addEventListener("DOMContentLoaded", function () {
-
     try {
-
       var y = sessionStorage.getItem("mb-scroll");
-
       if (y !== null) { sessionStorage.removeItem("mb-scroll"); window.addEventListener("load", function () { window.scrollTo(0, +y); }); }
-
     } catch (e) {}
 
-
-
     // Inline panel (on the conventions page)
-
     var inline = document.getElementById("mb-settings-inline");
-
     if (inline) { inline.appendChild(buildForm("inline")); typeset(inline); }
 
-
-
     // Floating button and dialog on every page
-
     var btn = document.createElement("button");
-
     btn.type = "button";
-
     btn.className = "mb-settings-button";
-
     btn.setAttribute("aria-haspopup", "dialog");
-
     btn.innerHTML = '<span aria-hidden="true">⚙</span> Notation';
-
     var dlg = document.createElement("dialog");
-
     dlg.className = "mb-settings-dialog";
-
     dlg.setAttribute("aria-labelledby", "mb-dlg-title");
-
     dlg.innerHTML = '<div class="mb-dlg-head"><h2 id="mb-dlg-title">Notation and code</h2>' +
-
       '<button type="button" class="btn-close" aria-label="Close"></button></div>' +
-
       '<p class="mb-dlg-intro">Choose the notation you are used to. Every page of the book, and the apps, will use it. ' +
-
       'See <a class="mb-conv-link">Notation and conventions</a> for what each option means.</p>';
-
     dlg.appendChild(buildForm("dlg"));
-
     document.body.appendChild(btn);
-
     document.body.appendChild(dlg);
-
     var conv = dlg.querySelector(".mb-conv-link");
-
     var sideLink = document.querySelector('a[href$="conventions.html"]');
-
     conv.href = sideLink ? sideLink.getAttribute("href") : "conventions.html";
-
     btn.addEventListener("click", function () { dlg.showModal(); typeset(dlg); });
-
     dlg.querySelector(".btn-close").addEventListener("click", function () { dlg.close(); });
-
     dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
 
-
-
     // Size embedded apps to their content (same origin)
-
     document.querySelectorAll("iframe.app-frame").forEach(function (f) {
-
       function fit() {
-
         try { var d = f.contentDocument; if (d && d.documentElement) f.style.height = d.documentElement.scrollHeight + "px"; } catch (e) {}
-
       }
-
       f.addEventListener("load", function () {
-
         fit();
-
         try { new ResizeObserver(fit).observe(f.contentDocument.body); } catch (e) {}
-
       });
-
     });
-
   });
-
 })();
-
 </script>
-
 <script>
-
 /* Accessibility fixes for markup that Quarto generates. */
-
 document.addEventListener("DOMContentLoaded", function () {
-
   // Collapsible callouts ("Check your understanding"): make the header a real,
-
   // keyboard-operable button that announces whether the answer is shown.
-
   document.querySelectorAll(".callout-header[data-bs-toggle='collapse']").forEach(function (h) {
-
     var target = document.querySelector(h.getAttribute("data-bs-target"));
-
     h.setAttribute("role", "button");
-
     h.setAttribute("tabindex", "0");
-
     if (target) {
-
       if (!target.id) target.id = "mb-" + Math.random().toString(36).slice(2, 9);
-
       h.setAttribute("aria-controls", target.id);
-
     }
-
     h.addEventListener("keydown", function (e) {
-
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); h.click(); }
-
     });
-
   });
-
   // Sidebar: label the landmark, and stop section toggles posing as landmarks.
-
   var side = document.getElementById("quarto-sidebar");
-
   if (side) side.setAttribute("aria-label", "Book contents");
-
   document.querySelectorAll("#quarto-sidebar [data-bs-toggle='collapse'][role='navigation']").forEach(function (a) {
-
     a.setAttribute("role", "button");
-
   });
-
   var toc = document.querySelector("nav#TOC");
-
   if (toc && !toc.getAttribute("aria-label")) toc.setAttribute("aria-label", "On this page");
-
   // Code output that scrolls sideways must be reachable from the keyboard.
-
   function markScrollers() {
-
     var n = 0;
-
     document.querySelectorAll(".cell-output pre, pre.code-output, div.code-output pre").forEach(function (p) {
-
       if (p.scrollWidth > p.clientWidth + 1) {
-
         n += 1;
-
         p.setAttribute("tabindex", "0");
-
         p.setAttribute("role", "region");
-
         p.setAttribute("aria-label", "Code output " + n + " (scrolls sideways)");
-
       } else if (p.getAttribute("role") === "region") {
-
         p.removeAttribute("tabindex"); p.removeAttribute("role"); p.removeAttribute("aria-label");
-
       }
-
     });
-
   }
-
   markScrollers();
-
   window.addEventListener("resize", markScrollers);
-
   document.addEventListener("shown.bs.tab", markScrollers);
-
 });
-
 </script>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js" type="text/javascript"></script>
@@ -612,7 +382,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -635,6 +405,7 @@ window.Quarto = {
       for (let i=0; i < toggles.length; i++) {
         const toggle = toggles[i];
         if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
           if (alternate) {
             toggle.classList.add("alternate");
           } else {
@@ -664,13 +435,19 @@ window.Quarto = {
       manageTransitions('#quarto-margin-sidebar .nav-link', true);
       // Switch the toggles
       setColorSchemeToggle(alternate)
-      // Hack to workaround the fact that safari doesn't
-      // properly recolor the scrollbar when toggling (#1455)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
       if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
         manageTransitions("body", false);
-        window.scrollTo(0, 1);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
         setTimeout(() => {
-          window.scrollTo(0, 0);
+          window.scrollTo(0, scrollY);
           manageTransitions("body", true);
         }, 40);
       }
@@ -764,6 +541,7 @@ window.Quarto = {
       // Read the current dark / light value
       let toAlternate = !hasAlternateSentinel();
       toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
       setStyleSentinel(toAlternate);
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
@@ -778,13 +556,13 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/apps.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/solutions-6.html"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Solutions: Part VI</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/apps.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/solutions-6.html"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Solutions: Part VI</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -795,13 +573,13 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Matrices in Practice</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/trgoodale/matrix-book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
 </div>
     </div>
       </div>
@@ -838,13 +616,10 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Part I: Matrices and transformations</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Matrices and transformations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../part-1/01-matrices.html" class="sidebar-item-text sidebar-link">
@@ -909,13 +684,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Part II: Linear systems</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Linear systems</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../part-2/10-linear-systems.html" class="sidebar-item-text sidebar-link">
@@ -950,13 +722,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Part III: Vector spaces</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Vector spaces</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../part-3/14-span-independence.html" class="sidebar-item-text sidebar-link">
@@ -991,13 +760,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Part IV: Eigenvalues and matrix calculus</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Eigenvalues and matrix calculus</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../part-4/18-eigenvalues.html" class="sidebar-item-text sidebar-link">
@@ -1044,13 +810,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Part V: Numerical methods</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Numerical methods</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../part-5/24-floating-point-conditioning.html" class="sidebar-item-text sidebar-link">
@@ -1103,13 +866,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Part VI: Applications</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Part VI: Applications</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../part-6/31-trusses.html" class="sidebar-item-text sidebar-link">
@@ -1180,13 +940,10 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../appendices/apps.html" class="sidebar-item-text sidebar-link">
@@ -1261,7 +1018,7 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
@@ -1279,10 +1036,10 @@ window.Quarto = {
 <div class="toc-actions"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/appendices/solutions-6.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/apps.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/solutions-6.html"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Solutions: Part VI</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/apps.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/solutions-6.html"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Solutions: Part VI</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span id="sec-solutions-part-6" class="quarto-section-identifier">Appendix J — Solutions: Part VI</span></h1>
 </div>
@@ -1325,10 +1082,10 @@ window.Quarto = {
 <p><a href="../part-6/31-trusses.html#exercise-trusses-6" class="sol-link">Back to exercise 6</a></p>
 <p><span id="solution-trusses-7"><strong>7.</strong></span></p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="" aria-current="page">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="f976ab94" class="cell" data-execution_count="1">
+<div id="24ce297b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> truss(P, members, supports, loads):</span>
@@ -1429,8 +1186,8 @@ window.Quarto = {
 <p><a href="../part-6/32-circuits.html#exercise-circuits-2" class="sol-link">Back to exercise 2</a></p>
 <p><span id="solution-circuits-3"><strong>3.</strong></span> With <span class="math inline">\(V_t = 10\)</span> known, KCL at <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> gives <span class="math display">\[
 \mat{\tfrac{1}{100} + \tfrac{1}{R_a} + \tfrac{1}{50} &amp; -\tfrac{1}{50} \\ -\tfrac{1}{50} &amp; \tfrac{1}{200} + \tfrac{1}{400} + \tfrac{1}{50}}\mat{V_a \\ V_b} = \mat{0.1 \\ 0.05}.
-\]</span> (a) With <span class="math inline">\(R_a = 200\)</span> Ω, <span class="math inline">\(V_a = V_b = \tfrac{20}{3} \approx 6.67\)</span> V, and the meter current is zero. The bridge is <strong>balanced</strong>: <span class="math inline">\(100/200 = 200/400\)</span>, so each side divides the voltage in the same ratio, and no current flows across. Measuring an unknown resistor by adjusting a known one until the meter reads zero is the classic use of the bridge.<br>
-(b) With <span class="math inline">\(R_a = 300\)</span> Ω, <span class="math inline">\(V_a = \tfrac{225}{31} \approx 7.258\)</span> V and <span class="math inline">\(V_b = \tfrac{220}{31} \approx 7.097\)</span> V, so the meter carries <span class="math inline">\((V_a - V_b)/50 \approx 3.2\)</span> mA from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span>.</p>
+\]</span> (a) With <span class="math inline">\(R_a = 200\)</span> Ω, the matrix is <span class="math inline">\(\mat{0.035 &amp; -0.02 \\ -0.02 &amp; 0.0275}\)</span>. Trying <span class="math inline">\(V_a = V_b = V\)</span>, the two rows become <span class="math inline">\(0.015V = 0.1\)</span> and <span class="math inline">\(0.0075V = 0.05\)</span>, which agree: <span class="math inline">\(V = \tfrac{20}{3} \approx 6.67\)</span> V. So <span class="math inline">\(V_a = V_b\)</span>, and the meter current is zero. The bridge is <strong>balanced</strong>: <span class="math inline">\(100/200 = 200/400\)</span>, so each side divides the voltage in the same ratio, and no current flows across. Measuring an unknown resistor by adjusting a known one until the meter reads zero is the classic use of the bridge.<br>
+(b) With <span class="math inline">\(R_a = 300\)</span> Ω, multiplying both equations by 1200 clears the fractions: <span class="math inline">\(40V_a - 24V_b = 120\)</span> and <span class="math inline">\(-24V_a + 33V_b = 60\)</span>. The determinant is <span class="math inline">\(40 \times 33 - 24^2 = 744\)</span>, so <span class="math inline">\(V_a = (120 \times 33 + 24 \times 60)/744 = \tfrac{225}{31} \approx 7.258\)</span> V and <span class="math inline">\(V_b = (40 \times 60 + 24 \times 120)/744 = \tfrac{220}{31} \approx 7.097\)</span> V, so the meter carries <span class="math inline">\((V_a - V_b)/50 \approx 3.2\)</span> mA from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span>.</p>
 <p><a href="../part-6/32-circuits.html#exercise-circuits-3" class="sol-link">Back to exercise 3</a></p>
 <p><span id="solution-circuits-4"><strong>4.</strong></span> With the resistors in the order 10 Ω (1 to ground), 5 Ω (1 to 2), 10 Ω (2 to ground), 5 Ω (2 to 3), 10 Ω (3 to ground): <span class="math display">\[
 \M{A} = \mat{1 &amp; 0 &amp; 0 \\ 1 &amp; -1 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 1 &amp; -1 \\ 0 &amp; 0 &amp; 1},
@@ -1441,7 +1198,7 @@ window.Quarto = {
 <p><span id="solution-circuits-5"><strong>5.</strong></span> KCL at the output node: <span class="math inline">\((V_{\text{out}} - V_{\text{in}})/R + j\omega CV_{\text{out}} = 0\)</span>, so <span class="math inline">\(V_{\text{out}}(1 + j\omega RC) = V_{\text{in}}\)</span> and <span class="math inline">\(V_{\text{out}}/V_{\text{in}} = 1/(1 + j\omega RC)\)</span>. With <span class="math inline">\(\omega RC = 2\)</span>, this is <span class="math inline">\(1/(1 + 2j) = (1 - 2j)/5 = 0.2 - 0.4j\)</span>, of size <span class="math inline">\(1/\sqrt{5} \approx 0.447\)</span> and phase <span class="math inline">\(-\arctan 2 \approx -63.4°\)</span>.</p>
 <p><a href="../part-6/32-circuits.html#exercise-circuits-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-circuits-6"><strong>6.</strong></span></p>
-<div id="81e324a3" class="cell" data-execution_count="2">
+<div id="5450837e" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> brentq</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1462,13 +1219,13 @@ window.Quarto = {
 <section id="sec-solutions-finite-differences" class="level2" data-number="J.3">
 <h2 data-number="J.3" class="anchored" data-anchor-id="sec-solutions-finite-differences"><span class="header-section-number">J.3</span> Heat flow and finite differences</h2>
 <p>Exercises from <a href="../part-6/33-finite-differences.html" class="quarto-xref"><span>Chapter 33</span></a>.</p>
-<p><span id="solution-finite-differences-1"><strong>1.</strong></span> With <span class="math inline">\(h = 0.25\)</span> and no source, the system is <span class="math inline">\(\mat{2 &amp; -1 &amp; 0 \\ -1 &amp; 2 &amp; -1 \\ 0 &amp; -1 &amp; 2}\vect{u} = (20, 0, 80)\T\)</span>, with solution <span class="math inline">\(\vect{u} = (35, 50, 65)\T\)</span>. The exact solution is the straight line <span class="math inline">\(u = 20 + 60x\)</span>, which has these values. The central difference of a linear (or quadratic) function is exact, because its third and higher derivatives are zero.</p>
+<p><span id="solution-finite-differences-1"><strong>1.</strong></span> With <span class="math inline">\(h = 0.25\)</span> and no source, the system is <span class="math inline">\(\mat{2 &amp; -1 &amp; 0 \\ -1 &amp; 2 &amp; -1 \\ 0 &amp; -1 &amp; 2}\vect{u} = (20, 0, 80)\T\)</span>, Elimination: <span class="math inline">\(R_2 \leftarrow R_2 + \tfrac{1}{2}R_1\)</span> gives <span class="math inline">\(\tfrac{3}{2}u_2 - u_3 = 10\)</span>, and then <span class="math inline">\(R_3 \leftarrow R_3 + \tfrac{2}{3}R_2\)</span> gives <span class="math inline">\(\tfrac{4}{3}u_3 = 80 + \tfrac{20}{3} = \tfrac{260}{3}\)</span>. Back substitution: <span class="math inline">\(u_3 = 65\)</span>, <span class="math inline">\(u_2 = \tfrac{2}{3}(10 + 65) = 50\)</span> and <span class="math inline">\(u_1 = \tfrac{1}{2}(20 + 50) = 35\)</span>. So <span class="math inline">\(\vect{u} = (35, 50, 65)\T\)</span>. The exact solution is the straight line <span class="math inline">\(u = 20 + 60x\)</span>, which has these values. The central difference of a linear (or quadratic) function is exact, because its third and higher derivatives are zero.</p>
 <p><a href="../part-6/33-finite-differences.html#exercise-finite-differences-1" class="sol-link">Back to exercise 1</a></p>
 <p><span id="solution-finite-differences-2"><strong>2.</strong></span> From the Taylor expansion, <span class="math inline">\(\bigl(u(x + h) - u(x)\bigr)/h = u'(x) + \tfrac{h}{2}u''(x) + O(h^2)\)</span>: the error is proportional to <span class="math inline">\(h\)</span>. Subtracting the expansions for <span class="math inline">\(u(x + h)\)</span> and <span class="math inline">\(u(x - h)\)</span> cancels the even terms: <span class="math inline">\(u(x + h) - u(x - h) = 2hu'(x) + \tfrac{h^3}{3}u'''(x) + O(h^5)\)</span>, so <span class="math inline">\(\bigl(u(x + h) - u(x - h)\bigr)/(2h) = u'(x) + \tfrac{h^2}{6}u'''(x) + \ldots\)</span>, with error proportional to <span class="math inline">\(h^2\)</span>.</p>
 <p><a href="../part-6/33-finite-differences.html#exercise-finite-differences-2" class="sol-link">Back to exercise 2</a></p>
 <p><span id="solution-finite-differences-3"><strong>3.</strong></span> <span class="math inline">\(h^2q_1 = 0.0625\)</span>, so <span class="math display">\[
 \mat{2 &amp; -1 &amp; 0 \\ -1 &amp; 2 &amp; -1 \\ 0 &amp; -1 &amp; 2}\vect{u} = \mat{0.0625 \\ 0 \\ 0},
-\]</span> with solution <span class="math inline">\(u_1 = 0.046875\)</span>, <span class="math inline">\(u_2 = 0.03125\)</span>, <span class="math inline">\(u_3 = 0.015625\)</span>. The temperature is highest near the heated left part, and falls linearly across the unheated right part, where <span class="math inline">\(u'' = 0\)</span>.</p>
+\]</span> The same elimination steps as in exercise 1 give <span class="math inline">\(\tfrac{3}{2}u_2 - u_3 = \tfrac{1}{32}\)</span> and then <span class="math inline">\(\tfrac{4}{3}u_3 = \tfrac{1}{48}\)</span>. Back substitution gives <span class="math inline">\(u_3 = \tfrac{1}{64} = 0.015625\)</span>, <span class="math inline">\(u_2 = \tfrac{2}{3}\bigl(\tfrac{1}{32} + \tfrac{1}{64}\bigr) = \tfrac{1}{32} = 0.03125\)</span> and <span class="math inline">\(u_1 = \tfrac{1}{2}\bigl(\tfrac{1}{16} + \tfrac{1}{32}\bigr) = \tfrac{3}{64} = 0.046875\)</span>. The temperature is highest near the heated left part, and falls linearly across the unheated right part, where <span class="math inline">\(u'' = 0\)</span>.</p>
 <p><a href="../part-6/33-finite-differences.html#exercise-finite-differences-3" class="sol-link">Back to exercise 3</a></p>
 <p><span id="solution-finite-differences-4"><strong>4.</strong></span> The solution for the top edge alone, from Example 3, is 37.5 in the top two points and 12.5 in the bottom two. The solution for the left edge alone is the same pattern rotated: 37.5 in the left two points and 12.5 in the right two. Laplace’s equation is linear, so the solution with both edges hot is the sum: 75 °C top left, 50 °C top right and bottom left, and 25 °C bottom right. Directly, the equations for the four points give the same values.</p>
 <p><a href="../part-6/33-finite-differences.html#exercise-finite-differences-4" class="sol-link">Back to exercise 4</a></p>
@@ -1479,7 +1236,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div id="8c7dc9ac" class="cell" data-execution_count="3">
+<div id="4f5676d9" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.sparse <span class="im">as</span> sp</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse.linalg <span class="im">import</span> spsolve, cg</span>
@@ -1495,9 +1252,9 @@ window.Quarto = {
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"n = </span><span class="sc">{</span>n<span class="sc">:3d}</span><span class="ss">: direct </span><span class="sc">{</span>t1 <span class="op">-</span> t0<span class="sc">:.4f}</span><span class="ss"> s, CG </span><span class="sc">{</span>t2 <span class="op">-</span> t1<span class="sc">:.4f}</span><span class="ss"> s in </span><span class="sc">{</span><span class="bu">len</span>(steps)<span class="sc">}</span><span class="ss"> steps"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>n =  10: direct 0.0006 s, CG 0.0007 s in 28 steps
-n =  20: direct 0.0011 s, CG 0.0013 s in 57 steps
-n =  40: direct 0.0034 s, CG 0.0029 s in 111 steps
-n =  80: direct 0.0145 s, CG 0.0103 s in 217 steps</code></pre>
+n =  20: direct 0.0009 s, CG 0.0011 s in 57 steps
+n =  40: direct 0.0057 s, CG 0.0033 s in 111 steps
+n =  80: direct 0.0167 s, CG 0.0105 s in 217 steps</code></pre>
 </div>
 </div>
 </div>
@@ -1526,11 +1283,13 @@ n =  80: direct 0.0145 s, CG 0.0103 s in 217 steps</code></pre>
 \M{R}(90°)\M{T}(3, 1) = \mat{0 &amp; -1 &amp; -1 \\ 1 &amp; 0 &amp; 3 \\ 0 &amp; 0 &amp; 1},
 \qquad
 \M{T}(3, 1)\M{R}(90°) = \mat{0 &amp; -1 &amp; 3 \\ 1 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 1}.
-\]</span> The first translates by <span class="math inline">\((3, 1)\)</span> and then rotates, so the origin goes to <span class="math inline">\((3, 1)\)</span> and then to <span class="math inline">\((-1, 3)\)</span>. The second rotates first, which leaves the origin where it is, then translates it to <span class="math inline">\((3, 1)\)</span>.</p>
+\]</span> In each product, the top-left <span class="math inline">\(2 \times 2\)</span> block is the rotation. The last column of <span class="math inline">\(\M{R}(90°)\M{T}(3, 1)\)</span> is the rotation applied to <span class="math inline">\((3, 1)\)</span>, which is <span class="math inline">\((-1, 3)\)</span>; the last column of <span class="math inline">\(\M{T}(3, 1)\M{R}(90°)\)</span> is just <span class="math inline">\((3, 1)\)</span>. The first translates by <span class="math inline">\((3, 1)\)</span> and then rotates, so the origin goes to <span class="math inline">\((3, 1)\)</span> and then to <span class="math inline">\((-1, 3)\)</span>. The second rotates first, which leaves the origin where it is, then translates it to <span class="math inline">\((3, 1)\)</span>.</p>
 <p><a href="../part-6/34-graphics-robotics.html#exercise-graphics-robotics-1" class="sol-link">Back to exercise 1</a></p>
-<p><span id="solution-graphics-robotics-2"><strong>2.</strong></span> <span class="math inline">\(\M{T}(1, 1)\M{S}(2, 2)\M{T}(-1, -1) = \mat{2 &amp; 0 &amp; -1 \\ 0 &amp; 2 &amp; -1 \\ 0 &amp; 0 &amp; 1}\)</span>. It sends <span class="math inline">\((1, 1)\)</span> to itself (the centre is fixed), <span class="math inline">\((2, 1)\)</span> to <span class="math inline">\((3, 1)\)</span> (twice as far from the centre), and <span class="math inline">\((0, 0)\)</span> to <span class="math inline">\((-1, -1)\)</span>.</p>
+<p><span id="solution-graphics-robotics-2"><strong>2.</strong></span> Move the centre to the origin, scale, and move it back. Working from the right, <span class="math inline">\(\M{S}(2, 2)\M{T}(-1, -1) = \mat{2 &amp; 0 &amp; -2 \\ 0 &amp; 2 &amp; -2 \\ 0 &amp; 0 &amp; 1}\)</span>, and then <span class="math display">\[
+\M{T}(1, 1)\M{S}(2, 2)\M{T}(-1, -1) = \mat{1 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 1}\mat{2 &amp; 0 &amp; -2 \\ 0 &amp; 2 &amp; -2 \\ 0 &amp; 0 &amp; 1} = \mat{2 &amp; 0 &amp; -1 \\ 0 &amp; 2 &amp; -1 \\ 0 &amp; 0 &amp; 1}.
+\]</span> It sends <span class="math inline">\((1, 1)\)</span> to itself (the centre is fixed), <span class="math inline">\((2, 1)\)</span> to <span class="math inline">\((3, 1)\)</span> (twice as far from the centre), and <span class="math inline">\((0, 0)\)</span> to <span class="math inline">\((-1, -1)\)</span>.</p>
 <p><a href="../part-6/34-graphics-robotics.html#exercise-graphics-robotics-2" class="sol-link">Back to exercise 2</a></p>
-<p><span id="solution-graphics-robotics-3"><strong>3.</strong></span> <span class="math inline">\(\M{T}(3, 0)\mat{-1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1}\M{T}(-3, 0) = \mat{-1 &amp; 0 &amp; 6 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1}\)</span>, so <span class="math inline">\((x, y) \mapsto (6 - x, y)\)</span>. Check: points on <span class="math inline">\(x = 3\)</span> stay put, and <span class="math inline">\((0, 0) \mapsto (6, 0)\)</span>.</p>
+<p><span id="solution-graphics-robotics-3"><strong>3.</strong></span> Move the line <span class="math inline">\(x = 3\)</span> to the <span class="math inline">\(y\)</span>-axis, reflect in it, and move it back. Working from the right, the reflection times <span class="math inline">\(\M{T}(-3, 0)\)</span> is <span class="math inline">\(\mat{-1 &amp; 0 &amp; 3 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1}\)</span>, and adding the final translation by 3 to the top-right entry gives <span class="math inline">\(\M{T}(3, 0)\mat{-1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1}\M{T}(-3, 0) = \mat{-1 &amp; 0 &amp; 6 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1}\)</span>, so <span class="math inline">\((x, y) \mapsto (6 - x, y)\)</span>. Check: points on <span class="math inline">\(x = 3\)</span> stay put, and <span class="math inline">\((0, 0) \mapsto (6, 0)\)</span>.</p>
 <p><a href="../part-6/34-graphics-robotics.html#exercise-graphics-robotics-3" class="sol-link">Back to exercise 3</a></p>
 <p><span id="solution-graphics-robotics-4"><strong>4.</strong></span> Multiply: <span class="math display">\[
 \mat{\M{R}\T &amp; -\M{R}\T\vect{t} \\ \zerovec\T &amp; 1}\mat{\M{R} &amp; \vect{t} \\ \zerovec\T &amp; 1} = \mat{\M{R}\T\M{R} &amp; \M{R}\T\vect{t} - \M{R}\T\vect{t} \\ \zerovec\T &amp; 1} = \mat{\M{I} &amp; \zerovec \\ \zerovec\T &amp; 1},
@@ -1539,7 +1298,7 @@ n =  80: direct 0.0145 s, CG 0.0103 s in 217 steps</code></pre>
 <p><span id="solution-graphics-robotics-5"><strong>5.</strong></span> <span class="math inline">\(\M{T}_1\M{T}_2\M{T}_3\)</span> with angles <span class="math inline">\(45°\)</span>, <span class="math inline">\(-90°\)</span>, <span class="math inline">\(45°\)</span>. The links point in the directions <span class="math inline">\(45°\)</span>, <span class="math inline">\(45° - 90° = -45°\)</span> and <span class="math inline">\(-45° + 45° = 0°\)</span>, so the hand is at <span class="math inline">\((\cos 45° + \cos(-45°) + 1, \; \sin 45° + \sin(-45°) + 0) = (1 + \sqrt{2}, 0) \approx (2.414, 0)\)</span>, and the last link points along the positive <span class="math inline">\(x\)</span> axis (the rotation block of the product is the identity).</p>
 <p><a href="../part-6/34-graphics-robotics.html#exercise-graphics-robotics-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-graphics-robotics-6"><strong>6.</strong></span></p>
-<div id="56b8bd2c" class="cell" data-execution_count="4">
+<div id="6be9ba7b" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1573,7 +1332,11 @@ n =  80: direct 0.0145 s, CG 0.0103 s in 217 steps</code></pre>
 \M{M} = \mat{0.9 &amp; 0.6 \\ 0.1 &amp; 0.4}.
 \]</span> The steady state satisfies <span class="math inline">\(-0.1x_W + 0.6x_B = 0\)</span>, so <span class="math inline">\(x_W = 6x_B\)</span>, and with <span class="math inline">\(x_W + x_B = 1\)</span>, <span class="math inline">\(\vect{x} = (\tfrac{6}{7}, \tfrac{1}{7})\)</span>: the machine works on about 86% of days.</p>
 <p><a href="../part-6/35-markov-pagerank.html#exercise-markov-pagerank-1" class="sol-link">Back to exercise 1</a></p>
-<p><span id="solution-markov-pagerank-2"><strong>2.</strong></span> <span class="math inline">\(\M{M}^3(0, 1, 0)\T \approx (0.426, 0.292, 0.282)\T\)</span>, so the chance of rain is about 28%, already close to the long-run 26%.</p>
+<p><span id="solution-markov-pagerank-2"><strong>2.</strong></span> Start from <span class="math inline">\(\vect{x}_0 = (0, 1, 0)\T\)</span> (cloudy) and multiply by <span class="math inline">\(\M{M}\)</span> three times. <span class="math inline">\(\vect{x}_1 = \M{M}\vect{x}_0\)</span> is the cloudy column, <span class="math inline">\((0.3, 0.4, 0.3)\T\)</span>. Then <span class="math display">\[
+\vect{x}_2 = \M{M}\vect{x}_1 = \mat{0.21 + 0.12 + 0.06 \\ 0.06 + 0.16 + 0.09 \\ 0.03 + 0.12 + 0.15} = \mat{0.39 \\ 0.31 \\ 0.30},
+\qquad
+\vect{x}_3 = \M{M}\vect{x}_2 = \mat{0.426 \\ 0.292 \\ 0.282},
+\]</span> so <span class="math inline">\(\M{M}^3(0, 1, 0)\T \approx (0.426, 0.292, 0.282)\T\)</span>, so the chance of rain is about 28%, already close to the long-run 26%.</p>
 <p><a href="../part-6/35-markov-pagerank.html#exercise-markov-pagerank-2" class="sol-link">Back to exercise 2</a></p>
 <p><span id="solution-markov-pagerank-3"><strong>3.</strong></span> The entries of <span class="math inline">\(\M{M}\vect{x}\)</span> are sums of products of non-negative numbers, so they are non-negative. Their sum is <span class="math inline">\(\vect{1}\T\M{M}\vect{x} = (\M{M}\T\vect{1})\T\vect{x} = \vect{1}\T\vect{x} = 1\)</span>, since each column of <span class="math inline">\(\M{M}\)</span> adds to 1.</p>
 <p><a href="../part-6/35-markov-pagerank.html#exercise-markov-pagerank-3" class="sol-link">Back to exercise 3</a></p>
@@ -1581,14 +1344,41 @@ n =  80: direct 0.0145 s, CG 0.0103 s in 217 steps</code></pre>
 <p><a href="../part-6/35-markov-pagerank.html#exercise-markov-pagerank-4" class="sol-link">Back to exercise 4</a></p>
 <p><span id="solution-markov-pagerank-5"><strong>5.</strong></span> <span class="math inline">\(\M{M} = \mat{0 &amp; \tfrac{1}{2} &amp; 1 \\ 1 &amp; 0 &amp; 0 \\ 0 &amp; \tfrac{1}{2} &amp; 0}\)</span>, and <span class="math inline">\((\M{I} - 0.85\M{M})\vect{x} = 0.05\vect{1}\)</span> gives <span class="math display">\[
 \vect{x} = \tfrac{1}{1769}(703, 686, 380) \approx (0.397, 0.388, 0.215).
-\]</span> A ranks highest, with links from both other pages; B is close behind, because A, the most important page, gives B its only link.</p>
+\]</span></p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show the working: solving the system
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Here <span class="math inline">\(0.05 = (1 - 0.85)/3\)</span>. The three equations are <span class="math display">\[
+\begin{aligned}
+x_A - 0.425x_B - 0.85x_C &amp;= 0.05, \\
+-0.85x_A + x_B &amp;= 0.05, \\
+-0.425x_B + x_C &amp;= 0.05.
+\end{aligned}
+\]</span> The second gives <span class="math inline">\(x_B = 0.05 + 0.85x_A\)</span>, and then the third gives <span class="math display">\[
+x_C = 0.05 + 0.425x_B = 0.07125 + 0.36125x_A.
+\]</span> Substituting both into the first: <span class="math display">\[
+x_A - 0.02125 - 0.36125x_A - 0.0605625 - 0.3070625x_A = 0.05,
+\]</span> so <span class="math inline">\(0.3316875x_A = 0.1318125\)</span> and <span class="math inline">\(x_A \approx 0.3974\)</span>. Then <span class="math inline">\(x_B \approx 0.05 + 0.3378 = 0.3878\)</span> and <span class="math inline">\(x_C \approx 0.07125 + 0.1436 = 0.2148\)</span>. The three add up to 1, as they must.</p>
+</div>
+</div>
+</div>
+<p>A ranks highest, with links from both other pages; B is close behind, because A, the most important page, gives B its only link.</p>
 <p><a href="../part-6/35-markov-pagerank.html#exercise-markov-pagerank-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-markov-pagerank-6"><strong>6.</strong></span></p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div id="2c45d3f1" class="cell" data-execution_count="5">
+<div id="335a94b9" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pagerank(links, d<span class="op">=</span><span class="fl">0.85</span>, steps<span class="op">=</span><span class="dv">200</span>):</span>
@@ -1651,7 +1441,7 @@ P + G = \frac{s - s^D + s^D - s^{D+1}}{1 - s^D} = \frac{s(1 - s^D)}{1 - s^D} = s
 <p><span id="solution-population-models-5"><strong>5.</strong></span> Writing <span class="math inline">\(\vect{x}_0 = c_1\vect{w}_1 + c_2\vect{w}_2 + c_3\vect{w}_3\)</span> in terms of the eigenvectors (<a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>), <span class="math inline">\(\vect{x}_k = c_1(1.5)^k\vect{w}_1 + c_2(-1.309)^k\vect{w}_2 + c_3(-0.191)^k\vect{w}_3\)</span>. Relative to the dominant term, the second shrinks by a factor of only <span class="math inline">\(1.309/1.5 \approx 0.87\)</span> a year, so it takes about 17 years to fall to a tenth. It is negative, so it changes sign every year, alternately adding to and subtracting from the age classes: the proportions overshoot and undershoot the stable distribution. Biologically, a large cohort of newborns becomes a large cohort of breeders, which produces another large cohort of newborns.</p>
 <p><a href="../part-6/36-population-models.html#exercise-population-models-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-population-models-6"><strong>6.</strong></span></p>
-<div id="319a3d65" class="cell" data-execution_count="6">
+<div id="2ae37823" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1707,7 +1497,7 @@ P + G = \frac{s - s^D + s^D - s^{D+1}}{1 - s^D} = \frac{s(1 - s^D)}{1 - s^D} = s
 <p><span id="solution-data-science-5"><strong>5.</strong></span> The score is <span class="math inline">\(0.52 \times 1.0 - 0.27 \times 0.5 + 0.58 \times 1.2 + 0.57 \times 1.1 \approx 1.71\)</span>. In <a href="../part-6/37-data-science.html#fig-iris-pca" class="quarto-xref">Figure&nbsp;<span>37.1</span></a>, <em>setosa</em> flowers have first scores around <span class="math inline">\(-2.2\)</span> and <em>virginica</em> around <span class="math inline">\(+1.7\)</span>, so it is very likely a <em>virginica</em>: large petals and a long sepal.</p>
 <p><a href="../part-6/37-data-science.html#exercise-data-science-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-data-science-6"><strong>6.</strong></span></p>
-<div id="3449c826" class="cell" data-execution_count="7">
+<div id="e524409d" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.genfromtxt(<span class="st">"../data/iris.csv"</span>, delimiter<span class="op">=</span><span class="st">","</span>, skip_header<span class="op">=</span><span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">str</span>)</span>
@@ -1739,7 +1529,7 @@ setosa only: [2.352 0.655 0.238 0.252], cond = 50.4</code></pre>
 <p><span id="solution-physics-5"><strong>5.</strong></span> <span class="math inline">\(\M{\sigma}_y\)</span> has trace 0 and determinant <span class="math inline">\(0 - (-i)(i) = -1\)</span>, so its eigenvalues are <span class="math inline">\(\pm 1\)</span>. For <span class="math inline">\(+1\)</span>: <span class="math inline">\(-iy = x\)</span>, giving <span class="math inline">\(\tfrac{1}{\sqrt{2}}(1, i)\T\)</span>; for <span class="math inline">\(-1\)</span>: <span class="math inline">\(\tfrac{1}{\sqrt{2}}(1, -i)\T\)</span>. For <span class="math inline">\(\vect{\psi} = (1, 0)\T\)</span>, the probabilities are <span class="math inline">\(\lvert\vect{e}^*\vect{\psi}\rvert^2 = \lvert\tfrac{1}{\sqrt{2}}\rvert^2 = \tfrac{1}{2}\)</span> each (the conjugate of the first entry is 1 in both cases).</p>
 <p><a href="../part-6/38-physics.html#exercise-physics-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-physics-6"><strong>6.</strong></span></p>
-<div id="049671ec" class="cell" data-execution_count="8">
+<div id="b985fc7a" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1785,7 +1575,7 @@ setosa only: [2.352 0.655 0.238 0.252], cond = 50.4</code></pre>
 <p><span id="solution-cryptography-5"><strong>5.</strong></span> Encrypting with <span class="math inline">\(\M{K}_1\)</span> and then <span class="math inline">\(\M{K}_2\)</span> gives <span class="math inline">\(\M{K}_2\M{K}_1\vect{p}\)</span>, which is a Hill cipher with the single key <span class="math inline">\(\M{K}_2\M{K}_1\)</span> (reduced modulo 26). The attacker doesn’t need to find <span class="math inline">\(\M{K}_1\)</span> and <span class="math inline">\(\M{K}_2\)</span>, only their product, which the same known-plaintext attack reveals. Linear steps combined are still linear; that is why modern ciphers must include non-linear steps.</p>
 <p><a href="../part-6/39-cryptography.html#exercise-cryptography-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-cryptography-6"><strong>6.</strong></span></p>
-<div id="c74b61a2" class="cell" data-execution_count="9">
+<div id="57ea768d" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> to_nums(text):</span>
@@ -1819,7 +1609,7 @@ ATTACKATDAWN</code></pre>
 <ol type="a">
 <li>Spring 1 stretches by <span class="math inline">\(u_1\)</span> and spring 2 by <span class="math inline">\(u_2 - u_1\)</span>, so <span class="math display">\[\M{B} = \mat{1 &amp; 0 \\ -1 &amp; 1}, \qquad
 \M{B}\T\M{D}\M{B} = \mat{k_1 &amp; -k_2 \\ 0 &amp; k_2}\mat{1 &amp; 0 \\ -1 &amp; 1} = \mat{k_1 + k_2 &amp; -k_2 \\ -k_2 &amp; k_2}.\]</span></li>
-<li><span class="math inline">\(\M{K} = \mat{200 &amp; -100 \\ -100 &amp; 100}\)</span> and <span class="math inline">\(\vect{f} = (0, 10)\)</span> give <span class="math inline">\(\vect{u} = (0.1, 0.2)\)</span> metres. Each spring stretches by 0.1 m, so each carries <span class="math inline">\(100 \times 0.1 = 10\)</span> N, as it must, since each holds up mass 2.</li>
+<li><span class="math inline">\(\M{K} = \mat{200 &amp; -100 \\ -100 &amp; 100}\)</span> and <span class="math inline">\(\vect{f} = (0, 10)\)</span> give <span class="math inline">\(200u_1 - 100u_2 = 0\)</span> and <span class="math inline">\(-100u_1 + 100u_2 = 10\)</span>. The first says <span class="math inline">\(u_2 = 2u_1\)</span>, and then the second says <span class="math inline">\(100u_1 = 10\)</span>, so <span class="math inline">\(\vect{u} = (0.1, 0.2)\)</span> metres. Each spring stretches by 0.1 m, so each carries <span class="math inline">\(100 \times 0.1 = 10\)</span> N, as it must, since each holds up mass 2.</li>
 <li><span class="math inline">\(\vect{u}\T\M{K}\vect{u} = (\M{B}\vect{u})\T\M{D}(\M{B}\vect{u}) = k_1e_1^2 + k_2e_2^2\)</span>, the (doubled) energy stored in the springs. This is positive unless both extensions are zero, and <span class="math inline">\(\M{B}\)</span> is invertible, so that only happens when <span class="math inline">\(\vect{u} = \zerovec\)</span>.</li>
 </ol>
 <p><a href="../part-6/review.html#exercise-review-6-1" class="sol-link">Back to exercise 1</a></p>
@@ -1836,16 +1626,16 @@ ATTACKATDAWN</code></pre>
 \M{K}^{-1} \equiv 21\mat{4 &amp; -3 \\ -1 &amp; 2} = \mat{84 &amp; -63 \\ -21 &amp; 42} \equiv \mat{6 &amp; 15 \\ 5 &amp; 16} \pmod{26}.
 \]</span> GO is <span class="math inline">\((6, 14)\)</span>, and <span class="math inline">\(\M{K}(6, 14)\T = (54, 62)\T \equiv (2, 10)\T\)</span>, which is CK. To decrypt, <span class="math inline">\(\M{K}^{-1}(2, 10)\T = (162, 170)\T \equiv (6, 14)\T\)</span>, which is GO again.</p>
 <p><a href="../part-6/review.html#exercise-review-6-5" class="sol-link">Back to exercise 5</a></p>
-<p><span id="solution-review-6-6"><strong>6.</strong></span> <em>Uses <a href="../part-6/33-finite-differences.html" class="quarto-xref"><span>Chapter 33</span></a> and <a href="../part-2/11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a>.</em> The interior points are <span class="math inline">\(x = \tfrac{1}{4}, \tfrac{1}{2}, \tfrac{3}{4}\)</span>, and <span class="math inline">\(-u_{i-1} + 2u_i - u_{i+1} = h^2 = \tfrac{1}{16}\)</span> gives <span class="math display">\[\mat{2 &amp; -1 &amp; 0 \\ -1 &amp; 2 &amp; -1 \\ 0 &amp; -1 &amp; 2}\mat{u_1 \\ u_2 \\ u_3} = \frac{1}{16}\mat{1 \\ 1 \\ 1}.\]</span> By symmetry <span class="math inline">\(u_1 = u_3\)</span>, and solving gives <span class="math inline">\(u_1 = u_3 = \tfrac{3}{32}\)</span> and <span class="math inline">\(u_2 = \tfrac{1}{8}\)</span>. The exact solution gives <span class="math inline">\(\tfrac{1}{2} \cdot \tfrac{1}{4} \cdot \tfrac{3}{4} = \tfrac{3}{32}\)</span> and <span class="math inline">\(\tfrac{1}{2} \cdot \tfrac{1}{2} \cdot \tfrac{1}{2} = \tfrac{1}{8}\)</span>: identical. The error in the central difference formula depends on the fourth derivative of <span class="math inline">\(u\)</span>, which is zero for a quadratic, so the formula is exact here.</p>
+<p><span id="solution-review-6-6"><strong>6.</strong></span> <em>Uses <a href="../part-6/33-finite-differences.html" class="quarto-xref"><span>Chapter 33</span></a> and <a href="../part-2/11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a>.</em> The interior points are <span class="math inline">\(x = \tfrac{1}{4}, \tfrac{1}{2}, \tfrac{3}{4}\)</span>, and <span class="math inline">\(-u_{i-1} + 2u_i - u_{i+1} = h^2 = \tfrac{1}{16}\)</span> gives <span class="math display">\[\mat{2 &amp; -1 &amp; 0 \\ -1 &amp; 2 &amp; -1 \\ 0 &amp; -1 &amp; 2}\mat{u_1 \\ u_2 \\ u_3} = \frac{1}{16}\mat{1 \\ 1 \\ 1}.\]</span> By symmetry <span class="math inline">\(u_1 = u_3\)</span>, so the first two equations become <span class="math inline">\(2u_1 - u_2 = \tfrac{1}{16}\)</span> and <span class="math inline">\(-2u_1 + 2u_2 = \tfrac{1}{16}\)</span>. Adding them gives <span class="math inline">\(u_2 = \tfrac{1}{8}\)</span>, and then <span class="math inline">\(u_1 = \tfrac{1}{2}\bigl(\tfrac{1}{16} + \tfrac{1}{8}\bigr) = \tfrac{3}{32}\)</span>. So <span class="math inline">\(u_1 = u_3 = \tfrac{3}{32}\)</span> and <span class="math inline">\(u_2 = \tfrac{1}{8}\)</span>. The exact solution gives <span class="math inline">\(\tfrac{1}{2} \cdot \tfrac{1}{4} \cdot \tfrac{3}{4} = \tfrac{3}{32}\)</span> and <span class="math inline">\(\tfrac{1}{2} \cdot \tfrac{1}{2} \cdot \tfrac{1}{2} = \tfrac{1}{8}\)</span>: identical. The error in the central difference formula depends on the fourth derivative of <span class="math inline">\(u\)</span>, which is zero for a quadratic, so the formula is exact here.</p>
 <p><a href="../part-6/review.html#exercise-review-6-6" class="sol-link">Back to exercise 6</a></p>
-<p><span id="solution-review-6-7"><strong>7.</strong></span> <em>Uses <a href="../part-6/37-data-science.html" class="quarto-xref"><span>Chapter 37</span></a>, <a href="../part-4/21-svd-pca.html" class="quarto-xref"><span>Chapter 21</span></a> and <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>.</em> The eigenvalues are 5, with eigenvector <span class="math inline">\((2, 1)\)</span>, and 0, with eigenvector <span class="math inline">\((-1, 2)\)</span>. The first principal component explains <span class="math inline">\(5/(5 + 0) = 100\%\)</span> of the variance. The data have no spread at all in the direction <span class="math inline">\((-1, 2)\)</span>: every point lies on one straight line through the mean, with direction <span class="math inline">\((2, 1)\)</span>, so the second variable is exactly half the first plus a constant. The covariance matrix is singular, and the correlation is <span class="math inline">\(2/\sqrt{4 \times 1} = 1\)</span>.</p>
+<p><span id="solution-review-6-7"><strong>7.</strong></span> <em>Uses <a href="../part-6/37-data-science.html" class="quarto-xref"><span>Chapter 37</span></a>, <a href="../part-4/21-svd-pca.html" class="quarto-xref"><span>Chapter 21</span></a> and <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>.</em> The trace is 5 and the determinant <span class="math inline">\(4 - 4 = 0\)</span>, so the eigenvalues are 5 and 0. For <span class="math inline">\(\lambda = 5\)</span>, the matrix minus <span class="math inline">\(5\M{I}\)</span> is <span class="math inline">\(\mat{-1 &amp; 2 \\ 2 &amp; -4}\)</span>, giving <span class="math inline">\(x = 2y\)</span>, so the eigenvectors are <span class="math inline">\((2, 1)\)</span> for 5 and the perpendicular <span class="math inline">\((-1, 2)\)</span> for 0. The first principal component explains <span class="math inline">\(5/(5 + 0) = 100\%\)</span> of the variance. The data have no spread at all in the direction <span class="math inline">\((-1, 2)\)</span>: every point lies on one straight line through the mean, with direction <span class="math inline">\((2, 1)\)</span>, so the second variable is exactly half the first plus a constant. The covariance matrix is singular, and the correlation is <span class="math inline">\(2/\sqrt{4 \times 1} = 1\)</span>.</p>
 <p><a href="../part-6/review.html#exercise-review-6-7" class="sol-link">Back to exercise 7</a></p>
 <p><span id="solution-review-6-8"><strong>8.</strong></span> <em>Uses <a href="../part-6/35-markov-pagerank.html" class="quarto-xref"><span>Chapter 35</span></a>, <a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a> and <a href="../part-5/26-cost-sparse.html" class="quarto-xref"><span>Chapter 26</span></a>.</em></p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<div id="5215386b" class="cell" data-execution_count="10">
+<div id="32176ffc" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> {<span class="dv">0</span>: [<span class="dv">1</span>], <span class="dv">1</span>: [<span class="dv">0</span>, <span class="dv">2</span>], <span class="dv">2</span>: [<span class="dv">0</span>], <span class="dv">3</span>: [<span class="dv">2</span>, <span class="dv">4</span>], <span class="dv">4</span>: [<span class="dv">3</span>]}   <span class="co"># pages A to E as 0 to 4</span></span>
@@ -1906,15 +1696,50 @@ ATTACKATDAWN</code></pre>
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-      const a = window.document.createElement('a');
-      a.classList.add('top-right');
-      a.classList.add('quarto-color-scheme-toggle');
-      a.href = "";
-      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
       const i = window.document.createElement("i");
       i.classList.add('bi');
-      a.appendChild(i);
-      window.document.body.appendChild(a);
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
     }
     setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
@@ -1993,7 +1818,8 @@ ATTACKATDAWN</code></pre>
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -2002,8 +1828,69 @@ ATTACKATDAWN</code></pre>
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -2017,6 +1904,7 @@ ATTACKATDAWN</code></pre>
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -2179,44 +2067,54 @@ ATTACKATDAWN</code></pre>
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -2315,7 +2213,10 @@ ATTACKATDAWN</code></pre>
     }
   });
   </script>
-<nav class="page-navigation">
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="../appendices/solutions-5.html" class="pagination-link" aria-label="Solutions: Part V">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Solutions: Part V</span></span>
