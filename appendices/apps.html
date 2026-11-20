@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-df4d7c86c405b8a13a19df7c6a896452.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-7a86a2117345dc92d9c69f4b7413ad4f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-df4d7c86c405b8a13a19df7c6a896452.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -891,6 +891,24 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../part-6/40-vibrations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Vibrations and normal modes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/41-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Networks and graphs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/42-input-output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Economics: input–output models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../part-6/review.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part VI review</span></a>
   </div>
@@ -1012,6 +1030,8 @@ window.Quarto = {
   <li><a href="#app-robot-arm" id="toc-app-robot-arm" class="nav-link" data-scroll-target="#app-robot-arm"><span class="header-section-number">A.23</span> Robot arm</a></li>
   <li><a href="#app-random-surfer" id="toc-app-random-surfer" class="nav-link" data-scroll-target="#app-random-surfer"><span class="header-section-number">A.24</span> Random surfer</a></li>
   <li><a href="#app-hill-cipher" id="toc-app-hill-cipher" class="nav-link" data-scroll-target="#app-hill-cipher"><span class="header-section-number">A.25</span> Hill cipher</a></li>
+  <li><a href="#app-normal-modes" id="toc-app-normal-modes" class="nav-link" data-scroll-target="#app-normal-modes"><span class="header-section-number">A.26</span> Normal modes</a></li>
+  <li><a href="#app-network-split" id="toc-app-network-split" class="nav-link" data-scroll-target="#app-network-split"><span class="header-section-number">A.27</span> Network split</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/appendices/apps.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -1189,6 +1209,16 @@ window.Quarto = {
 <td style="text-align: left;"><a href="#app-hill-cipher">Hill cipher</a></td>
 <td style="text-align: left;">Encrypting and decrypting by matrix multiplication modulo 26</td>
 <td style="text-align: left;"><a href="../part-6/39-cryptography.html" class="quarto-xref"><span>Chapter 39</span></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="#app-normal-modes">Normal modes</a></td>
+<td style="text-align: left;">Natural frequencies, mode shapes and resonance of masses on springs</td>
+<td style="text-align: left;"><a href="../part-6/40-vibrations.html" class="quarto-xref"><span>Chapter 40</span></a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="#app-network-split">Network split</a></td>
+<td style="text-align: left;">Laplacian eigenvalues, the Fiedler vector and centrality on a small network</td>
+<td style="text-align: left;"><a href="../part-6/41-networks.html" class="quarto-xref"><span>Chapter 41</span></a></td>
 </tr>
 </tbody>
 </table>
@@ -1477,6 +1507,28 @@ window.Quarto = {
 <li><strong>Open:</strong> <a href="../apps/hill-cipher.html" target="_blank">Hill cipher</a>.</li>
 <li><strong>Start-up settings:</strong> <code>?key=</code> sets the key, row by row, <code>&amp;msg=</code> the message and <code>&amp;mode=dec</code> decryption, as in <a href="../apps/hill-cipher.html?key=3,3,2,5&amp;msg=HIAT&amp;mode=dec" target="_blank"><code>?key=3,3,2,5&amp;msg=HIAT&amp;mode=dec</code></a>.</li>
 <li><strong>Teaching ideas:</strong> have pairs of students exchange encrypted messages and keys. Then give one pair a ciphertext and a guessed word, and ask them to recover the key by hand.</li>
+</ul>
+</section>
+<section id="app-normal-modes" class="level2" data-number="A.26">
+<h2 data-number="A.26" class="anchored" data-anchor-id="app-normal-modes"><span class="header-section-number">A.26</span> Normal modes</h2>
+<p><img src="images/app-normal-modes.png" class="img-fluid" alt="The normal modes app with the Absorber preset: a 1 kg mass on a spring with a 0.1 kg mass attached, a table of the two natural frequencies and mode shapes, and a graph of each mass's amplitude against driving frequency, with two resonance peaks and a dip to zero for mass 1 between them."></p>
+<p>A row of up to six masses joined by springs, fixed to a wall at the left and either fixed or free at the right. The masses and stiffnesses can be edited. Choose a mode to watch the masses vibrate in that shape at its natural frequency, or release them from a pulled position to see several modes at once; a bar chart below shows each mass’s displacement. <strong>Shake mass 1</strong> drives the first mass at a chosen frequency, and the graph shows the amplitude of every mass against the driving frequency, with peaks at the natural frequencies. Animation starts only when <strong>Play</strong> is pressed.</p>
+<ul>
+<li><strong>Used in:</strong> <a href="../part-6/40-vibrations.html" class="quarto-xref"><span>Chapter 40</span></a>.</li>
+<li><strong>Open:</strong> <a href="../apps/normal-modes.html" target="_blank">normal modes</a>.</li>
+<li><strong>Start-up settings:</strong> <code>?preset=</code> picks a system by its label, <code>&amp;mode=</code> a mode to show, and <code>&amp;drive=1&amp;omega=</code> shakes mass 1 at a given frequency in rad/s, as in <a href="../apps/normal-modes.html?preset=Absorber&amp;drive=1&amp;omega=10" target="_blank"><code>?preset=Absorber&amp;drive=1&amp;omega=10</code></a>.</li>
+<li><strong>Teaching ideas:</strong> before playing the modes of <strong>Five masses</strong>, ask students to sketch what they expect mode 3 to look like. With <strong>Building</strong>, ask which change, stiffening the lower storey or lightening the top floor, raises the first frequency more.</li>
+</ul>
+</section>
+<section id="app-network-split" class="level2" data-number="A.27">
+<h2 data-number="A.27" class="anchored" data-anchor-id="app-network-split"><span class="header-section-number">A.27</span> Network split</h2>
+<p><img src="images/app-network-split.png" class="img-fluid" alt="The network split app with two triangles joined by one edge: nodes on the left are circles with positive Fiedler vector entries and nodes on the right are squares with negative entries, the bridge edge is dashed as the one cut, and the Laplacian eigenvalues 0, 0.438, 3, 3, 3 and 4.562 are listed."></p>
+<p>A small network of up to eight nodes. Click two nodes in turn, or use the menus, to add or remove an edge. The panel lists the eigenvalues of the graph Laplacian, counts the zero ones to give the number of pieces, and splits the nodes by the signs of the Fiedler vector, marking the edges cut. The nodes can instead be labelled with their eigenvector centrality or their degree, and a table gives all three for every node.</p>
+<ul>
+<li><strong>Used in:</strong> <a href="../part-6/41-networks.html" class="quarto-xref"><span>Chapter 41</span></a>.</li>
+<li><strong>Open:</strong> <a href="../apps/network-split.html" target="_blank">network split</a>.</li>
+<li><strong>Start-up settings:</strong> <code>?preset=</code> picks a network by its label and <code>&amp;show=centrality</code> or <code>&amp;show=degree</code> the labels, as in <a href="../apps/network-split.html?preset=Hub&amp;show=centrality" target="_blank"><code>?preset=Hub&amp;show=centrality</code></a>.</li>
+<li><strong>Teaching ideas:</strong> ask students to find the single edge whose addition raises <span class="math inline">\(\lambda_2\)</span> the most, then to explain their choice in terms of bottlenecks.</li>
 </ul>
 
 

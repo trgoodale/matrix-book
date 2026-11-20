@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>40&nbsp; Vibrations and normal modes – Matrices in Practice</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../part-6/41-networks.html" rel="next">
+<link href="../part-6/39-cryptography.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-5462cc173e5e61cc875ab38cfb1b7763.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<script>
+/*
+  Notation settings for the book.
+  All mathematics is written with the macros below, never with hard-coded notation:
+    \vect{v}   a vector            \M{A}      a matrix
+    \ui \uj \uk  standard unit vectors in 2D/3D   \ue{n}  general basis vector e_n
+    \mat{..}   a matrix in brackets (rows split by \\, entries by &)
+    \amat{ccc|c}{..}  an augmented matrix   \T  transpose   \R  real numbers
+  The reader's choices are stored in localStorage under "mb-settings" and read
+  here, before MathJax loads, so every page is typeset in their notation.
+*/
+(function () {
+  var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python" };
+  var s = {};
+  try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) { s = {}; }
+  for (var k in DEFAULTS) if (!(k in s)) s[k] = DEFAULTS[k];
+  window.mbSettings = s;
+  window.mbDefaults = DEFAULTS;
+
+  var vec = { bold: "\\mathbf{#1}", arrow: "\\vec{#1}", underline: "\\underline{#1}" }[s.vec] || "\\mathbf{#1}";
+  var unit = function (letter, dotless, idx) {
+    if (s.basis === "e") return vec.replace("#1", "e") + "_{" + idx + "}";
+    if (s.basis === "hat") return "\\hat{" + dotless + "}";
+    return vec.replace("#1", letter);
+  };
+  var open = s.br === "square" ? "[" : "(";
+  var close = s.br === "square" ? "]" : ")";
+  var env = s.br === "square" ? "bmatrix" : "pmatrix";
+
+  window.MathJax = {
+    tex: {
+      macros: {
+        vect: [vec, 1],
+        M: [s.mat === "italic" ? "#1" : "\\mathbf{#1}", 1],
+        ui: unit("i", "\\imath", 1),
+        uj: unit("j", "\\jmath", 2),
+        uk: unit("k", "k", 3),
+        ue: [vec.replace("#1", "e") + "_{#1}", 1],
+        mat: ["\\begin{" + env + "}#1\\end{" + env + "}", 1],
+        amat: ["\\left" + open + "\\begin{array}{#1}#2\\end{array}\\right" + close, 2],
+        T: s.tr === "top" ? "^{\\top}" : "^{\\mathsf{T}}",
+        R: "\\mathbb{R}",
+        zerovec: vec.replace("#1", "0")
+      }
+    },
+    // MathJax 4: break long equations across lines to fit narrow screens
+    output: { displayOverflow: "linebreak", linebreaks: { inline: true, width: "100%", lineleading: 0.6 } },
+    chtml: { scale: 1.0 }
+  };
+
+  // Default language for code tabs: Quarto reads this when the page is shown.
+  try {
+    var key = "quarto-persistent-tabsets-data";
+    var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+    if (!tabs.language) { tabs.language = s.code; localStorage.setItem(key, JSON.stringify(tabs)); }
+  } catch (e) {}
+
+  // ---------- settings panel ----------
+  var GROUPS = [
+    { key: "vec", label: "Vectors", opts: [["bold", "Bold", "\\mathbf{v}"], ["arrow", "Arrow", "\\vec{v}"], ["underline", "Underlined", "\\underline{v}"]] },
+    { key: "mat", label: "Matrices", opts: [["bold", "Bold", "\\mathbf{A}"], ["italic", "Italic", "A"]] },
+    { key: "basis", label: "Unit vectors", opts: [["ijk", "i, j, k", "\\mathbf{i},\\ \\mathbf{j},\\ \\mathbf{k}"], ["hat", "Hats", "\\hat{\\imath},\\ \\hat{\\jmath},\\ \\hat{k}"], ["e", "e₁, e₂, e₃", "\\mathbf{e}_1,\\ \\mathbf{e}_2,\\ \\mathbf{e}_3"]] },
+    { key: "br", label: "Brackets", opts: [["round", "Round", "\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}"], ["square", "Square", "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}"]] },
+    { key: "tr", label: "Transpose", opts: [["T", "Letter T", "\\mathbf{A}^{\\mathsf{T}}"], ["top", "Symbol ⊤", "\\mathbf{A}^{\\top}"]] },
+    { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] }
+  ];
+
+  function buildForm(prefix) {
+    var form = document.createElement("form");
+    form.className = "mb-settings-form";
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+    GROUPS.forEach(function (g) {
+      var fs = document.createElement("fieldset");
+      var lg = document.createElement("legend");
+      lg.textContent = g.label;
+      fs.appendChild(lg);
+      g.opts.forEach(function (o) {
+        var id = prefix + "-" + g.key + "-" + o[0];
+        var lab = document.createElement("label");
+        lab.className = "mb-opt";
+        lab.htmlFor = id;
+        var inp = document.createElement("input");
+        inp.type = "radio"; inp.name = prefix + "-" + g.key; inp.id = id; inp.value = o[0];
+        inp.checked = s[g.key] === o[0];
+        lab.appendChild(inp);
+        var txt = document.createElement("span");
+        txt.className = "mb-opt-name";
+        txt.textContent = o[1];
+        lab.appendChild(txt);
+        if (o[2]) {
+          var ex = document.createElement("span");
+          ex.className = "mb-opt-example";
+          ex.textContent = "\\(" + o[2] + "\\)";
+          lab.appendChild(ex);
+        }
+        fs.appendChild(lab);
+      });
+      form.appendChild(fs);
+    });
+    var row = document.createElement("div");
+    row.className = "mb-settings-actions";
+    var apply = document.createElement("button");
+    apply.type = "button"; apply.className = "btn btn-primary"; apply.textContent = "Apply";
+    var reset = document.createElement("button");
+    reset.type = "button"; reset.className = "btn btn-outline-secondary"; reset.textContent = "Restore defaults";
+    var note = document.createElement("span");
+    note.className = "mb-settings-note";
+    note.textContent = "Saved in this browser and used on every page.";
+    row.appendChild(apply); row.appendChild(reset); row.appendChild(note);
+    form.appendChild(row);
+
+    apply.addEventListener("click", function () {
+      var next = {};
+      GROUPS.forEach(function (g) {
+        var c = form.querySelector('input[name="' + prefix + "-" + g.key + '"]:checked');
+        next[g.key] = c ? c.value : DEFAULTS[g.key];
+      });
+      save(next);
+    });
+    reset.addEventListener("click", function () { save(Object.assign({}, DEFAULTS)); });
+    return form;
+  }
+
+  function save(next) {
+    try {
+      localStorage.setItem("mb-settings", JSON.stringify(next));
+      var key = "quarto-persistent-tabsets-data";
+      var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
+      tabs.language = next.code;
+      localStorage.setItem(key, JSON.stringify(tabs));
+      sessionStorage.setItem("mb-scroll", String(window.scrollY));
+    } catch (e) {}
+    location.reload();
+  }
+
+  function typeset(el) {
+    var M = window.MathJax;
+    if (!M || !M.startup || !M.startup.promise) return;
+    M.startup.promise.then(function () { return M.typesetPromise([el]); }).catch(function () {});
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    try {
+      var y = sessionStorage.getItem("mb-scroll");
+      if (y !== null) { sessionStorage.removeItem("mb-scroll"); window.addEventListener("load", function () { window.scrollTo(0, +y); }); }
+    } catch (e) {}
+
+    // Inline panel (on the conventions page)
+    var inline = document.getElementById("mb-settings-inline");
+    if (inline) { inline.appendChild(buildForm("inline")); typeset(inline); }
+
+    // Floating button and dialog on every page
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "mb-settings-button";
+    btn.setAttribute("aria-haspopup", "dialog");
+    btn.innerHTML = '<span aria-hidden="true">⚙</span> Notation';
+    var dlg = document.createElement("dialog");
+    dlg.className = "mb-settings-dialog";
+    dlg.setAttribute("aria-labelledby", "mb-dlg-title");
+    dlg.innerHTML = '<div class="mb-dlg-head"><h2 id="mb-dlg-title">Notation and code</h2>' +
+      '<button type="button" class="btn-close" aria-label="Close"></button></div>' +
+      '<p class="mb-dlg-intro">Choose the notation you are used to. Every page of the book, and the apps, will use it. ' +
+      'See <a class="mb-conv-link">Notation and conventions</a> for what each option means.</p>';
+    dlg.appendChild(buildForm("dlg"));
+    document.body.appendChild(btn);
+    document.body.appendChild(dlg);
+    var conv = dlg.querySelector(".mb-conv-link");
+    var sideLink = document.querySelector('a[href$="conventions.html"]');
+    conv.href = sideLink ? sideLink.getAttribute("href") : "conventions.html";
+    btn.addEventListener("click", function () { dlg.showModal(); typeset(dlg); });
+    dlg.querySelector(".btn-close").addEventListener("click", function () { dlg.close(); });
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+    // Size embedded apps to their content (same origin)
+    document.querySelectorAll("iframe.app-frame").forEach(function (f) {
+      function fit() {
+        try { var d = f.contentDocument; if (d && d.documentElement) f.style.height = d.documentElement.scrollHeight + "px"; } catch (e) {}
+      }
+      f.addEventListener("load", function () {
+        fit();
+        try { new ResizeObserver(fit).observe(f.contentDocument.body); } catch (e) {}
+      });
+    });
+  });
+})();
+</script>
+<script>
+/* Accessibility fixes for markup that Quarto generates. */
+document.addEventListener("DOMContentLoaded", function () {
+  // Collapsible callouts ("Check your understanding"): make the header a real,
+  // keyboard-operable button that announces whether the answer is shown.
+  document.querySelectorAll(".callout-header[data-bs-toggle='collapse']").forEach(function (h) {
+    var target = document.querySelector(h.getAttribute("data-bs-target"));
+    h.setAttribute("role", "button");
+    h.setAttribute("tabindex", "0");
+    if (target) {
+      if (!target.id) target.id = "mb-" + Math.random().toString(36).slice(2, 9);
+      h.setAttribute("aria-controls", target.id);
+    }
+    h.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); h.click(); }
+    });
+  });
+  // Sidebar: label the landmark, and stop section toggles posing as landmarks.
+  var side = document.getElementById("quarto-sidebar");
+  if (side) side.setAttribute("aria-label", "Book contents");
+  document.querySelectorAll("#quarto-sidebar [data-bs-toggle='collapse'][role='navigation']").forEach(function (a) {
+    a.setAttribute("role", "button");
+  });
+  var toc = document.querySelector("nav#TOC");
+  if (toc && !toc.getAttribute("aria-label")) toc.setAttribute("aria-label", "On this page");
+  // Code output that scrolls sideways must be reachable from the keyboard.
+  function markScrollers() {
+    var n = 0;
+    document.querySelectorAll(".cell-output pre, pre.code-output, div.code-output pre").forEach(function (p) {
+      if (p.scrollWidth > p.clientWidth + 1) {
+        n += 1;
+        p.setAttribute("tabindex", "0");
+        p.setAttribute("role", "region");
+        p.setAttribute("aria-label", "Code output " + n + " (scrolls sideways)");
+      } else if (p.getAttribute("role") === "region") {
+        p.removeAttribute("tabindex"); p.removeAttribute("role"); p.removeAttribute("aria-label");
+      }
+    });
+  }
+  markScrollers();
+  window.addEventListener("resize", markScrollers);
+  document.addEventListener("shown.bs.tab", markScrollers);
+});
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-6/31-trusses.html">Part VI: Applications</a></li><li class="breadcrumb-item"><a href="../part-6/40-vibrations.html"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Vibrations and normal modes</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Matrices in Practice</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/trgoodale/matrix-book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/how-to-use.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to use this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/conventions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notation and conventions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../front/refresher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Refresher</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Matrices and transformations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/01-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is a matrix?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/02-arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Adding and scaling matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/03-multiplication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix multiplication</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/04-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrices as transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/05-composition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Composing transformations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/06-determinants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Determinants</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/07-inverses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Inverse matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/08-transformations-3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Transformations in three dimensions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/09-invariant-lines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Invariant points and lines</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-1/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part I review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Linear systems</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/10-linear-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Systems of linear equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/11-gaussian-elimination.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Gaussian elimination</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/12-gauss-jordan-rank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Gauss–Jordan elimination and rank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/13-lu-decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">LU decomposition</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-2/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part II review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Vector spaces</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/14-span-independence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Span and linear independence</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/15-basis-change.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Basis, dimension and change of basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/16-fundamental-subspaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Column space, null space and rank–nullity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/17-orthogonality-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Orthogonality and least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-3/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Eigenvalues and matrix calculus</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/18-eigenvalues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Eigenvalues and eigenvectors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/19-diagonalisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Diagonalisation and matrix powers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/20-symmetric-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Symmetric and positive definite matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/21-svd-pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">The singular value decomposition and PCA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/22-matrix-calculus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Derivatives with vectors and matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/23-linear-odes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear ODE systems and the matrix exponential</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-4/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Numerical methods</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/24-floating-point-conditioning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Floating point and conditioning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/25-pivoting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Pivoting</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/26-cost-sparse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Cost, banded and sparse systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/27-iterative-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Iterative methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/28-newton-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Newton’s method for nonlinear systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/29-eigenvalue-algorithms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Eigenvalue algorithms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/30-qr-least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">QR factorisation and stable least squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-5/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part V review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Part VI: Applications</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/31-trusses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Structures: pin-jointed trusses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/32-circuits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Electrical circuits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/33-finite-differences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Heat flow and finite differences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/34-graphics-robotics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Computer graphics and robotics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/35-markov-pagerank.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Markov chains and PageRank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/36-population-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Population models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/37-data-science.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Data: regression and dimensionality reduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/38-physics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Physics: rotations, inertia and quantum states</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/39-cryptography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Cryptography: the Hill cipher</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/40-vibrations.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Vibrations and normal modes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/41-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Networks and graphs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/42-input-output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Economics: input–output models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part VI review</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/apps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Interactive apps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Reference: matrices and their rules</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/matrix-calculus-identities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Matrix calculus identities</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Solutions: Part I</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions: Part II</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Solutions: Part III</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Solutions: Part IV</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Solutions: Part V</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/solutions-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Solutions: Part VI</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-problem" id="toc-the-problem" class="nav-link active" data-scroll-target="#the-problem"><span class="header-section-number">40.1</span> The problem</a></li>
+  <li><a href="#the-model" id="toc-the-model" class="nav-link" data-scroll-target="#the-model"><span class="header-section-number">40.2</span> The model</a>
+  <ul class="collapse">
+  <li><a href="#equations-of-motion" id="toc-equations-of-motion" class="nav-link" data-scroll-target="#equations-of-motion">Equations of motion</a></li>
+  <li><a href="#natural-frequencies-and-mode-shapes" id="toc-natural-frequencies-and-mode-shapes" class="nav-link" data-scroll-target="#natural-frequencies-and-mode-shapes">Natural frequencies and mode shapes</a></li>
+  <li><a href="#building-any-motion-from-the-modes" id="toc-building-any-motion-from-the-modes" class="nav-link" data-scroll-target="#building-any-motion-from-the-modes">Building any motion from the modes</a></li>
+  <li><a href="#forced-vibration-and-resonance" id="toc-forced-vibration-and-resonance" class="nav-link" data-scroll-target="#forced-vibration-and-resonance">Forced vibration and resonance</a></li>
+  </ul></li>
+  <li><a href="#explore" id="toc-explore" class="nav-link" data-scroll-target="#explore"><span class="header-section-number">40.3</span> Explore</a></li>
+  <li><a href="#in-code" id="toc-in-code" class="nav-link" data-scroll-target="#in-code"><span class="header-section-number">40.4</span> In code</a></li>
+  <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">40.5</span> Check your understanding</a></li>
+  <li><a href="#key-ideas" id="toc-key-ideas" class="nav-link" data-scroll-target="#key-ideas"><span class="header-section-number">40.6</span> Key ideas</a></li>
+  <li><a href="#sec-vibrations-exercises" id="toc-sec-vibrations-exercises" class="nav-link" data-scroll-target="#sec-vibrations-exercises"><span class="header-section-number">40.7</span> Exercises</a></li>
+  <li><a href="#going-further" id="toc-going-further" class="nav-link" data-scroll-target="#going-further"><span class="header-section-number">40.8</span> Going further</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/part-6/40-vibrations.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../part-6/31-trusses.html">Part VI: Applications</a></li><li class="breadcrumb-item"><a href="../part-6/40-vibrations.html"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Vibrations and normal modes</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-vibrations" class="quarto-section-identifier"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Vibrations and normal modes</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><span class="level-badge core">Core</span></p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>In this chapter you will
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>write the equations of motion of a system of masses and springs as <span class="math inline">\(\M{M}\ddot{\vect{x}} + \M{K}\vect{x} = \zerovec\)</span></li>
+<li>find its natural frequencies and mode shapes from the eigenvalue problem <span class="math inline">\(\M{K}\vect{v} = \omega^2\M{M}\vect{v}\)</span></li>
+<li>build any free vibration from the normal modes, using their orthogonality</li>
+<li>explain resonance, and how a small added mass can stop a large one vibrating</li>
+</ul>
+</div>
+</div>
+<p><strong>Builds on</strong> <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>, <a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>. The stiffness matrix of <a href="31-trusses.html" class="quarto-xref"><span>Chapter 31</span></a> helps, but this chapter explains what it needs.</p>
+<section id="the-problem" class="level2" data-number="40.1">
+<h2 data-number="40.1" class="anchored" data-anchor-id="the-problem"><span class="header-section-number">40.1</span> The problem</h2>
+<p>Everything with mass and stiffness vibrates: buildings and bridges, car suspensions, aircraft wings, guitar strings, the atoms in a molecule. Each structure has a few <strong>natural frequencies</strong> at which it prefers to vibrate, and at each one it moves in a particular pattern, its <strong>mode shape</strong>. Engineers need to know both. If an earthquake, a machine, the wind or footsteps push a structure at one of its natural frequencies, the vibrations build up: this is <strong>resonance</strong>, and it can break things. Chemists use the same ideas the other way round: a molecule absorbs infrared light at its natural frequencies, which identifies the molecule.</p>
+<p>For a structure with <span class="math inline">\(n\)</span> moving parts, the natural frequencies and mode shapes come from an <span class="math inline">\(n \times n\)</span> eigenvalue problem. This chapter sets it up for masses joined by springs, the model behind both a tall building and a vibrating molecule.</p>
+</section>
+<section id="the-model" class="level2" data-number="40.2">
+<h2 data-number="40.2" class="anchored" data-anchor-id="the-model"><span class="header-section-number">40.2</span> The model</h2>
+<section id="equations-of-motion" class="level3">
+<h3 class="anchored" data-anchor-id="equations-of-motion">Equations of motion</h3>
+<p>Take <span class="math inline">\(n\)</span> masses <span class="math inline">\(m_1, \dots, m_n\)</span> in a line, joined to each other and to fixed walls by springs, and let <span class="math inline">\(x_i\)</span> be the displacement of mass <span class="math inline">\(i\)</span> from its resting position. A spring of stiffness <span class="math inline">\(k\)</span> stretched by <span class="math inline">\(\delta\)</span> pulls with force <span class="math inline">\(k\delta\)</span>, so the spring between masses <span class="math inline">\(i\)</span> and <span class="math inline">\(i + 1\)</span> pulls mass <span class="math inline">\(i\)</span> with force <span class="math inline">\(k(x_{i+1} - x_i)\)</span>, and mass <span class="math inline">\(i + 1\)</span> with the opposite force. Newton’s second law for each mass gives one equation, and together they form <span id="eq-free-vibration"><span class="math display">\[
+\M{M}\ddot{\vect{x}} + \M{K}\vect{x} = \zerovec,
+\tag{40.1}\]</span></span> where the dots mean derivatives with respect to time, <span class="math inline">\(\M{M} = \operatorname{diag}(m_1, \dots, m_n)\)</span> is the <strong>mass matrix</strong> and <span class="math inline">\(\M{K}\)</span> is the <strong>stiffness matrix</strong>. For three springs and two masses between walls (<a href="#fig-two-masses" class="quarto-xref">Figure&nbsp;<span>40.1</span></a>), <span class="math display">\[
+\M{K} = \mat{k_1 + k_2 &amp; -k_2 \\ -k_2 &amp; k_2 + k_3}.
+\]</span> Each mass’s diagonal entry is the total stiffness of the springs attached to it, and each spring joining two masses puts <span class="math inline">\(-k\)</span> in their off-diagonal entries. As for a truss (<a href="31-trusses.html" class="quarto-xref"><span>Chapter 31</span></a>), <span class="math inline">\(\M{K} = \M{B}\T\M{D}\M{B}\)</span>, where <span class="math inline">\(\M{B}\)</span> turns displacements into spring extensions and <span class="math inline">\(\M{D}\)</span> holds the stiffnesses, so <span class="math inline">\(\M{K}\)</span> is symmetric and positive semidefinite.</p>
+<div id="fig-two-masses" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A wall on the left, spring k1, mass m1, spring k2, mass m2, spring k3, and a wall on the right. Arrows under the masses show their displacements x1 and x2 to the right. Below, K is the 2 by 2 matrix with rows k1 plus k2, minus k2 and minus k2, k2 plus k3. A note says the off-diagonal entry is minus k for the spring joining the two masses, and another says each diagonal entry is the total stiffness of the springs attached to that mass.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-two-masses-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/two-masses.png" class="img-fluid figure-img" style="width:85.0%" alt="A wall on the left, spring k1, mass m1, spring k2, mass m2, spring k3, and a wall on the right. Arrows under the masses show their displacements x1 and x2 to the right. Below, K is the 2 by 2 matrix with rows k1 plus k2, minus k2 and minus k2, k2 plus k3. A note says the off-diagonal entry is minus k for the spring joining the two masses, and another says each diagonal entry is the total stiffness of the springs attached to that mass.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two-masses-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;40.1: Two masses between walls, joined by three springs, and the stiffness matrix they give. Each term in <span class="math inline">\(\M{K}\)</span> is coloured like the spring it comes from: spring <span class="math inline">\(k_2\)</span>, which joins the masses, appears in all four entries.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="natural-frequencies-and-mode-shapes" class="level3">
+<h3 class="anchored" data-anchor-id="natural-frequencies-and-mode-shapes">Natural frequencies and mode shapes</h3>
+<p>Look for motions in which every mass moves in step, at the same frequency: <span class="math display">\[
+\vect{x}(t) = \vect{v}\cos(\omega t).
+\]</span> Then <span class="math inline">\(\ddot{\vect{x}} = -\omega^2\vect{v}\cos(\omega t)\)</span>, and <a href="#eq-free-vibration" class="quarto-xref">Equation&nbsp;<span>40.1</span></a> becomes <span class="math inline">\((\M{K} - \omega^2\M{M})\vect{v}\cos(\omega t) = \zerovec\)</span> for all <span class="math inline">\(t\)</span>, so <span id="eq-generalised-eigen"><span class="math display">\[
+\M{K}\vect{v} = \omega^2\M{M}\vect{v}.
+\tag{40.2}\]</span></span> This is a <strong>generalised eigenvalue problem</strong>: an ordinary one when <span class="math inline">\(\M{M} = m\M{I}\)</span>, but with <span class="math inline">\(\M{M}\)</span> in place of <span class="math inline">\(\M{I}\)</span> in general. It has a nonzero solution <span class="math inline">\(\vect{v}\)</span> only when <span class="math display">\[
+\det(\M{K} - \omega^2\M{M}) = 0,
+\]</span> a polynomial equation of degree <span class="math inline">\(n\)</span> in <span class="math inline">\(\omega^2\)</span>. Its roots give the <strong>natural frequencies</strong> <span class="math inline">\(\omega_1 \le \omega_2 \le \dots \le \omega_n\)</span>, in radians per second (<span class="math inline">\(f = \omega/2\pi\)</span> in hertz, cycles per second), and the solutions <span class="math inline">\(\vect{v}_i\)</span> are the <strong>mode shapes</strong>. A mode shape gives the pattern of the motion, not its size: any multiple of <span class="math inline">\(\vect{v}_i\)</span> is also a mode shape.</p>
+<p>Because <span class="math inline">\(\M{K}\)</span> and <span class="math inline">\(\M{M}\)</span> are symmetric, and <span class="math inline">\(\M{M}\)</span> is positive definite, the modes behave like the eigenvectors of a symmetric matrix. Substitute <span class="math inline">\(\vect{v} = \M{M}^{-1/2}\vect{w}\)</span>, where <span class="math inline">\(\M{M}^{-1/2} = \operatorname{diag}(1/\sqrt{m_1}, \dots, 1/\sqrt{m_n})\)</span>. Then <a href="#eq-generalised-eigen" class="quarto-xref">Equation&nbsp;<span>40.2</span></a> becomes <span class="math display">\[
+\M{M}^{-1/2}\M{K}\M{M}^{-1/2}\,\vect{w} = \omega^2\vect{w},
+\]</span> an ordinary eigenvalue problem for a symmetric positive semidefinite matrix (<a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>). So:</p>
+<ul>
+<li>every <span class="math inline">\(\omega^2\)</span> is real and at least 0, so every natural frequency is real;</li>
+<li>there are <span class="math inline">\(n\)</span> independent mode shapes, even when frequencies repeat;</li>
+<li>the modes are <strong>orthogonal with respect to <span class="math inline">\(\M{M}\)</span></strong>: <span class="math inline">\(\vect{v}_i\T\M{M}\vect{v}_j = 0\)</span> for <span class="math inline">\(i \neq j\)</span> (exercise 2), and also <span class="math inline">\(\vect{v}_i\T\M{K}\vect{v}_j = 0\)</span>.</li>
+</ul>
+<p>A natural frequency of zero means that <span class="math inline">\(\M{K}\vect{v} = \zerovec\)</span>: the structure can move in the pattern <span class="math inline">\(\vect{v}\)</span> without stretching any spring. That is a <strong>rigid-body mode</strong>, such as a molecule drifting through space, or a mechanism (<a href="31-trusses.html" class="quarto-xref"><span>Chapter 31</span></a>).</p>
+<p><em>Worked example:</em> <a href="#ex-vibrations-1">Example 1</a>.</p>
+</section>
+<section id="building-any-motion-from-the-modes" class="level3">
+<h3 class="anchored" data-anchor-id="building-any-motion-from-the-modes">Building any motion from the modes</h3>
+<p>The equations are linear, so any combination of modes is also a motion, and every free vibration is one: <span id="eq-modal-sum"><span class="math display">\[
+\vect{x}(t) = \sum_{i=1}^n \vect{v}_i\bigl(a_i\cos(\omega_i t) + b_i\sin(\omega_i t)\bigr).
+\tag{40.3}\]</span></span> This is the same idea as solving <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x}\)</span> with eigenvectors (<a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>); here the equation is second order, so each mode has a cosine and a sine instead of one exponential. The starting displacement <span class="math inline">\(\vect{x}_0\)</span> and velocity <span class="math inline">\(\dot{\vect{x}}_0\)</span> fix the coefficients, and <span class="math inline">\(\M{M}\)</span>-orthogonality gives them directly. Multiplying <a href="#eq-modal-sum" class="quarto-xref">Equation&nbsp;<span>40.3</span></a> at <span class="math inline">\(t = 0\)</span> by <span class="math inline">\(\vect{v}_i\T\M{M}\)</span> kills every term except the <span class="math inline">\(i\)</span>th: <span class="math display">\[
+a_i = \frac{\vect{v}_i\T\M{M}\vect{x}_0}{\vect{v}_i\T\M{M}\vect{v}_i},
+\qquad
+b_i = \frac{\vect{v}_i\T\M{M}\dot{\vect{x}}_0}{\omega_i\,\vect{v}_i\T\M{M}\vect{v}_i}.
+\]</span> Each mode then carries on at its own frequency, ignoring the others. The motion as a whole needn’t repeat, because the frequencies needn’t be in simple ratios.</p>
+<p><em>Worked examples:</em> <a href="#ex-vibrations-2">Example 2</a>, <a href="#ex-vibrations-3">Example 3</a>.</p>
+</section>
+<section id="forced-vibration-and-resonance" class="level3">
+<h3 class="anchored" data-anchor-id="forced-vibration-and-resonance">Forced vibration and resonance</h3>
+<p>Now push the masses with forces that vary like <span class="math inline">\(\cos(\Omega t)\)</span>, at a <strong>driving frequency</strong> <span class="math inline">\(\Omega\)</span>: <span class="math display">\[
+\M{M}\ddot{\vect{x}} + \M{K}\vect{x} = \vect{f}\cos(\Omega t).
+\]</span> Trying <span class="math inline">\(\vect{x} = \vect{X}\cos(\Omega t)\)</span> gives a linear system for the amplitudes, <span id="eq-forced"><span class="math display">\[
+(\M{K} - \Omega^2\M{M})\vect{X} = \vect{f}.
+\tag{40.4}\]</span></span> When <span class="math inline">\(\Omega\)</span> is close to a natural frequency, the matrix <span class="math inline">\(\M{K} - \Omega^2\M{M}\)</span> is close to singular, so the amplitudes are huge: <strong>resonance</strong>. Writing <span class="math inline">\(\vect{X}\)</span> in terms of the modes, using their <span class="math inline">\(\M{M}\)</span>-orthogonality, shows exactly how: <span class="math display">\[
+\vect{X} = \sum_{i=1}^n \frac{\vect{v}_i\T\vect{f}}{(\omega_i^2 - \Omega^2)\,\vect{v}_i\T\M{M}\vect{v}_i}\,\vect{v}_i.
+\]</span> Mode <span class="math inline">\(i\)</span> is amplified by <span class="math inline">\(1/(\omega_i^2 - \Omega^2)\)</span>, which blows up as <span class="math inline">\(\Omega\)</span> approaches <span class="math inline">\(\omega_i\)</span>. But a mode is not excited at all if <span class="math inline">\(\vect{v}_i\T\vect{f} = 0\)</span>: pushing a structure where a mode doesn’t move, or symmetrically when the mode is antisymmetric, can’t drive it. Real structures have some <strong>damping</strong>, a friction-like force <span class="math inline">\(\M{C}\dot{\vect{x}}\)</span>, which keeps the peaks finite; but lightly damped structures, which most are, still respond far more strongly near their natural frequencies. Designers move the natural frequencies away from the driving frequencies they expect, add damping, or add a <strong>tuned mass damper</strong>.</p>
+<p><em>Worked example:</em> <a href="#ex-vibrations-4">Example 4</a>.</p>
+<div id="ex-vibrations-1" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 1: two masses between walls
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Two masses of <span class="math inline">\(m = 1\)</span> kg are joined to each other and to two walls by three springs of stiffness <span class="math inline">\(k = 100\)</span> N/m. Find the natural frequencies and mode shapes.</p>
+<p><strong>Solution.</strong> Here <span class="math inline">\(\M{M} = \M{I}\)</span> and <span class="math display">\[
+\M{K} = \mat{200 &amp; -100 \\ -100 &amp; 200},
+\qquad
+\det(\M{K} - \lambda\M{I}) = (200 - \lambda)^2 - 100^2 = (\lambda - 100)(\lambda - 300),
+\]</span> writing <span class="math inline">\(\lambda = \omega^2\)</span>. For <span class="math inline">\(\lambda = 100\)</span>, <span class="math inline">\(\M{K} - 100\M{I} = \mat{100 &amp; -100 \\ -100 &amp; 100}\)</span> gives <span class="math inline">\(\vect{v}_1 = (1, 1)\T\)</span>: the masses move together, in step, and the middle spring is never stretched. For <span class="math inline">\(\lambda = 300\)</span>, <span class="math inline">\(\M{K} - 300\M{I} = \mat{-100 &amp; -100 \\ -100 &amp; -100}\)</span> gives <span class="math inline">\(\vect{v}_2 = (1, -1)\T\)</span>: the masses move in opposite directions, stretching and squashing the middle spring as well. The natural frequencies are <span class="math display">\[
+\omega_1 = 10 \text{ rad/s}\;(1.59 \text{ Hz}),
+\qquad
+\omega_2 = \sqrt{300} \approx 17.3 \text{ rad/s}\;(2.76 \text{ Hz}).
+\]</span> The mode that stretches more springs, for the same displacements, is the stiffer one, and so the faster one. That is true in general: higher modes have more changes of direction along the structure.</p>
+</div>
+</div>
+<div id="ex-vibrations-2" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 2: pulling one mass and letting go
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In Example 1, mass 1 is pulled 2 cm to the right and both masses are released from rest. Describe the motion.</p>
+<p><strong>Solution.</strong> With <span class="math inline">\(\M{M} = \M{I}\)</span>, the coefficients are <span class="math inline">\(a_i = \vect{v}_i\T\vect{x}_0/\vect{v}_i\T\vect{v}_i\)</span>. For <span class="math inline">\(\vect{x}_0 = (0.02, 0)\T\)</span>, <span class="math display">\[
+a_1 = \frac{0.02}{2} = 0.01,
+\qquad
+a_2 = \frac{0.02}{2} = 0.01,
+\]</span> and every <span class="math inline">\(b_i = 0\)</span>, since the start is from rest. So <span class="math display">\[
+\vect{x}(t) = 0.01\cos(10t)\mat{1 \\ 1} + 0.01\cos(17.3t)\mat{1 \\ -1}.
+\]</span> Mass 1 moves as <span class="math inline">\(0.01\bigl(\cos(10t) + \cos(17.3t)\bigr)\)</span> and mass 2 as <span class="math inline">\(0.01\bigl(\cos(10t) - \cos(17.3t)\bigr)\)</span>. Pulling one mass excites both modes equally, and since <span class="math inline">\(\sqrt{3}\)</span> is irrational the motion never exactly repeats; but it is just two simple vibrations added together.</p>
+</div>
+</div>
+<div id="ex-vibrations-3" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 3: a two-storey building
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In a simple model of a two-storey building, each floor is a mass and each storey’s columns are a spring that resists sideways movement. The lower floor has mass <span class="math inline">\(m_1 = 20\)</span> tonnes and the upper <span class="math inline">\(m_2 = 10\)</span> tonnes; the lower storey has stiffness <span class="math inline">\(k_1 = 8\)</span> MN/m and the upper <span class="math inline">\(k_2 = 4\)</span> MN/m. Find the natural frequencies and mode shapes.</p>
+<p><strong>Solution.</strong> The ground is fixed and the roof is free, so <span class="math display">\[
+\M{K} = 10^6\mat{12 &amp; -4 \\ -4 &amp; 4},
+\qquad
+\M{M} = 10^4\mat{2 &amp; 0 \\ 0 &amp; 1}.
+\]</span> Dividing both by <span class="math inline">\(4 \times 10^6\)</span> and writing <span class="math inline">\(\mu = \omega^2/400\)</span>, <span class="math display">\[
+\det\mat{3 - 2\mu &amp; -1 \\ -1 &amp; 1 - \mu} = (3 - 2\mu)(1 - \mu) - 1 = 2\mu^2 - 5\mu + 2 = (2\mu - 1)(\mu - 2) = 0.
+\]</span> So <span class="math inline">\(\mu = \tfrac{1}{2}\)</span> or 2, that is <span class="math inline">\(\omega^2 = 200\)</span> or 800: <span class="math display">\[
+\omega_1 \approx 14.1 \text{ rad/s}\;(2.25 \text{ Hz}),
+\qquad
+\omega_2 \approx 28.3 \text{ rad/s}\;(4.50 \text{ Hz}).
+\]</span> The first row of <span class="math inline">\((\M{K} - \omega^2\M{M})\vect{v} = \zerovec\)</span> gives <span class="math inline">\((3 - 2\mu)v_1 = v_2\)</span>. For <span class="math inline">\(\mu = \tfrac{1}{2}\)</span>, <span class="math inline">\(\vect{v}_1 = (1, 2)\T\)</span>: both floors sway the same way, the top one twice as far. For <span class="math inline">\(\mu = 2\)</span>, <span class="math inline">\(\vect{v}_2 = (1, -1)\T\)</span>: the floors sway in opposite directions.</p>
+<p>These modes are not perpendicular, <span class="math inline">\((1, 2) \cdot (1, -1) = -1\)</span>, but they are <span class="math inline">\(\M{M}\)</span>-orthogonal: <span class="math display">\[
+\vect{v}_1\T\M{M}\vect{v}_2 = 10^4(2 \times 1 \times 1 + 1 \times 2 \times (-1)) = 0.
+\]</span> Earthquakes often shake the ground strongly at frequencies of a few hertz, close to these, which is why low-rise buildings in earthquake zones need careful design.</p>
+</div>
+</div>
+<div id="ex-vibrations-4" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 4: shaking one mass
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In Example 1, a force <span class="math inline">\(F\cos(\Omega t)\)</span> pushes mass 1. Find the amplitudes of the two masses, and the driving frequencies at which they become very large. At what frequency does mass 1 not move at all?</p>
+<p><strong>Solution.</strong> <a href="#eq-forced" class="quarto-xref">Equation&nbsp;<span>40.4</span></a> is <span class="math display">\[
+\mat{200 - \Omega^2 &amp; -100 \\ -100 &amp; 200 - \Omega^2}\mat{X_1 \\ X_2} = \mat{F \\ 0}.
+\]</span> The determinant is <span class="math inline">\((200 - \Omega^2)^2 - 100^2 = (100 - \Omega^2)(300 - \Omega^2)\)</span>, so by the <span class="math inline">\(2 \times 2\)</span> inverse formula (<a href="../part-1/07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a>), <span class="math display">\[
+X_1 = \frac{(200 - \Omega^2)F}{(100 - \Omega^2)(300 - \Omega^2)},
+\qquad
+X_2 = \frac{100F}{(100 - \Omega^2)(300 - \Omega^2)}.
+\]</span> Both blow up at <span class="math inline">\(\Omega = 10\)</span> and <span class="math inline">\(\Omega = \sqrt{300} \approx 17.3\)</span> rad/s: the natural frequencies. But at <span class="math inline">\(\Omega = \sqrt{200} \approx 14.1\)</span> rad/s, <span class="math inline">\(X_1 = 0\)</span>: mass 1 stands still, even though it is the one being pushed, while mass 2 moves with amplitude <span class="math inline">\(X_2 = -F/100\)</span>. Mass 2 pulls on mass 1, through the middle spring, with a force that exactly cancels the push.</p>
+<p>This is the principle of the <strong>tuned mass damper</strong>. A large mass attached to a vibrating structure by a spring, tuned to the troublesome frequency, absorbs the vibration. The 101-storey Taipei 101 tower has a 660-tonne steel ball hanging near its top for this reason.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="explore" class="level2" data-number="40.3">
+<h2 data-number="40.3" class="anchored" data-anchor-id="explore"><span class="header-section-number">40.3</span> Explore</h2>
+<p>The app shows a row of masses and springs. Choose a mode to watch it, start the masses from a pulled position, or shake the first mass and see how the amplitudes depend on the driving frequency.</p>
+<div class="app-embed">
+<iframe class="app-frame" src="../apps/normal-modes.html?embed=1" title="Normal modes" loading="lazy">
+</iframe>
+<p><a href="../apps/normal-modes.html" class="app-open" target="_blank">Open the normal modes app in its own tab</a></p>
+</div>
+<p>Things to try:</p>
+<ul>
+<li>In <strong>Two masses</strong>, play mode 1 and then mode 2. Which springs stretch in each? Then choose <strong>Pull mass 1</strong> and release it: can you see both modes in the motion?</li>
+<li>In <strong>Five masses</strong>, play the modes in order. How many times does the shape change direction in mode <span class="math inline">\(k\)</span>? Does the pattern remind you of a vibrating string?</li>
+<li>In <strong>Building</strong>, double the mass of the top floor. Do the frequencies go up or down? Does the shape of mode 1 change?</li>
+<li>In <strong>Absorber</strong>, a 1 kg mass on a spring has a small 0.1 kg mass attached to it. Turn on <strong>Shake mass 1</strong> and slowly sweep the driving frequency from about 5 to 15 rad/s. Where does mass 1 stop moving, and how does that frequency compare with <span class="math inline">\(\sqrt{k_2/m_2}\)</span> for the small mass and its spring? Now make the small mass 0.2 kg: where does that point move?</li>
+</ul>
+</section>
+<section id="in-code" class="level2" data-number="40.4">
+<h2 data-number="40.4" class="anchored" data-anchor-id="in-code"><span class="header-section-number">40.4</span> In code</h2>
+<p><code>scipy.linalg.eigh</code> and MATLAB’s <code>eig</code> both solve the generalised problem <span class="math inline">\(\M{K}\vect{v} = \lambda\M{M}\vect{v}\)</span> directly, when given both matrices.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div id="74144854" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 3: the two-storey building</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="fl">1e6</span> <span class="op">*</span> np.array([[<span class="dv">12</span>, <span class="op">-</span><span class="dv">4</span>], [<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>]])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> <span class="fl">1e4</span> <span class="op">*</span> np.diag([<span class="dv">2</span>, <span class="dv">1</span>])</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>lam, V <span class="op">=</span> eigh(K, M)            <span class="co"># solves K v = lam M v, smallest lam first</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>omega <span class="op">=</span> np.sqrt(lam)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(omega, omega <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.pi))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(V <span class="op">/</span> V[<span class="dv">0</span>])                <span class="co"># scale each mode so that its first entry is 1</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(V.T <span class="op">@</span> M <span class="op">@</span> V, <span class="dv">10</span>))   <span class="co"># M-orthogonal: eigh scales them so this is I</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 4: amplitudes when mass 1 is shaken</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>K1 <span class="op">=</span> np.array([[<span class="dv">200</span>, <span class="op">-</span><span class="dv">100</span>], [<span class="op">-</span><span class="dv">100</span>, <span class="dv">200</span>]])</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> Om <span class="kw">in</span> [<span class="dv">5</span>, <span class="fl">10.5</span>, np.sqrt(<span class="dv">200</span>), <span class="dv">20</span>]:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.linalg.solve(K1 <span class="op">-</span> Om<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> np.eye(<span class="dv">2</span>), [<span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">round</span>(Om, <span class="dv">2</span>), np.<span class="bu">round</span>(X, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[14.14213562 28.28427125] [2.25079079 4.50158158]
+[[ 1.  1.]
+ [ 2. -1.]]
+[[1. 0.]
+ [0. 1.]]
+5 [0.0085 0.0048]
+10.5 [-0.0461 -0.0514]
+14.14 [ 0.   -0.01]
+20 [-0.0067  0.0033]</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Example 3: the two-storey building</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">K</span> <span class="op">=</span> <span class="fl">1e6</span> <span class="op">*</span> [<span class="fl">12</span> <span class="op">-</span><span class="fl">4</span><span class="op">;</span> <span class="op">-</span><span class="fl">4</span> <span class="fl">4</span>]<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">M</span> <span class="op">=</span> <span class="fl">1e4</span> <span class="op">*</span> <span class="va">diag</span>([<span class="fl">2</span> <span class="fl">1</span>])<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>[<span class="va">V</span><span class="op">,</span> <span class="va">L</span>] <span class="op">=</span> <span class="va">eig</span>(<span class="va">K</span><span class="op">,</span> <span class="va">M</span>)<span class="op">;</span>            <span class="co">% solves K v = lambda M v</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="va">omega</span> <span class="op">=</span> <span class="va">sqrt</span>(<span class="va">diag</span>(<span class="va">L</span>))<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="va">V</span> <span class="op">=</span> <span class="va">V</span> <span class="op">./</span> <span class="va">V</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">;</span>              <span class="co">% scale each mode so that its first entry is 1</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'omega = %.4f rad/s, f = %.4f Hz, mode (1, %.4f)\n'</span><span class="op">,</span> [<span class="va">omega</span><span class="op">';</span> <span class="va">omega</span><span class="op">'/</span>(<span class="fl">2</span><span class="op">*</span><span class="va">pi</span>)<span class="op">;</span> <span class="va">V</span>(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)])</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">% Example 4: amplitudes when mass 1 is shaken</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="va">K1</span> <span class="op">=</span> [<span class="fl">200</span> <span class="op">-</span><span class="fl">100</span><span class="op">;</span> <span class="op">-</span><span class="fl">100</span> <span class="fl">200</span>]<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">Om</span> <span class="op">=</span> [<span class="fl">5</span> <span class="fl">10.5</span> <span class="va">sqrt</span>(<span class="fl">200</span>) <span class="fl">20</span>]</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">X</span> <span class="op">=</span> (<span class="va">K1</span> <span class="op">-</span> <span class="va">Om</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">eye</span>(<span class="fl">2</span>)) <span class="op">\</span> [<span class="fl">1</span><span class="op">;</span> <span class="fl">0</span>]<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'%6.2f  %9.4f %9.4f\n'</span><span class="op">,</span> <span class="va">Om</span><span class="op">,</span> <span class="va">X</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>omega = 14.1421 rad/s, f = 2.2508 Hz, mode (1, 2.0000)
+omega = 28.2843 rad/s, f = 4.5016 Hz, mode (1, -1.0000)
+  5.00     0.0085    0.0048
+ 10.50    -0.0461   -0.0514
+ 14.14     0.0000   -0.0100
+ 20.00    -0.0067    0.0033</code></pre>
+</div>
+</div>
+</div>
+<p>Close to the first resonance, at <span class="math inline">\(\Omega = 10.5\)</span>, the amplitudes are 5 to 10 times larger than at <span class="math inline">\(\Omega = 5\)</span>, and both masses move the same way, roughly in the shape of mode 1. At <span class="math inline">\(\Omega = \sqrt{200}\)</span>, mass 1 doesn’t move, as Example 4 found.</p>
+</section>
+<section id="check-your-understanding" class="level2" data-number="40.5">
+<h2 data-number="40.5" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">40.5</span> Check your understanding</h2>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>If every mass in a structure is doubled, what happens to the natural frequencies?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>They are divided by <span class="math inline">\(\sqrt{2}\)</span>. Doubling <span class="math inline">\(\M{M}\)</span> turns <span class="math inline">\(\M{K}\vect{v} = \omega^2\M{M}\vect{v}\)</span> into <span class="math inline">\(\M{K}\vect{v} = \omega^2(2\M{M})\vect{v}\)</span>, which has the same mode shapes with <span class="math inline">\(\omega^2\)</span> halved. Heavier structures vibrate more slowly; stiffer ones more quickly.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>In Example 1, can equal forces <span class="math inline">\(F\cos(\Omega t)\)</span> on both masses make the second mode resonate?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>No.&nbsp;The force vector is <span class="math inline">\(F(1, 1)\)</span>, and <span class="math inline">\(\vect{v}_2\T(1, 1) = 1 - 1 = 0\)</span>, so the second mode isn’t excited at all, whatever <span class="math inline">\(\Omega\)</span> is. Pushing both masses the same way can only drive the mode in which they move together.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What does a natural frequency of zero mean?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>That <span class="math inline">\(\M{K}\vect{v} = \zerovec\)</span> for the mode shape <span class="math inline">\(\vect{v}\)</span>: the structure can move in that pattern without stretching any spring, so nothing pulls it back. It is a rigid-body motion, such as a whole molecule drifting, or a mechanism.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="key-ideas" class="level2" data-number="40.6">
+<h2 data-number="40.6" class="anchored" data-anchor-id="key-ideas"><span class="header-section-number">40.6</span> Key ideas</h2>
+<ul>
+<li>Masses joined by springs obey <span class="math inline">\(\M{M}\ddot{\vect{x}} + \M{K}\vect{x} = \zerovec\)</span>, with a diagonal mass matrix and a symmetric stiffness matrix.</li>
+<li>The natural frequencies and mode shapes solve the generalised eigenvalue problem <span class="math inline">\(\M{K}\vect{v} = \omega^2\M{M}\vect{v}\)</span>.</li>
+<li>The frequencies are real, and the modes are orthogonal with respect to <span class="math inline">\(\M{M}\)</span>, because the problem is a symmetric eigenvalue problem in disguise.</li>
+<li>Every free vibration is a sum of modes, each at its own frequency; <span class="math inline">\(\M{M}\)</span>-orthogonality gives the amount of each from the starting state.</li>
+<li>Forcing at a natural frequency makes the amplitudes grow without limit (resonance), unless the force doesn’t excite that mode. A tuned mass damper uses an added mass and spring to cancel the motion at one frequency.</li>
+</ul>
+</section>
+<section id="sec-vibrations-exercises" class="level2" data-number="40.7">
+<h2 data-number="40.7" class="anchored" data-anchor-id="sec-vibrations-exercises"><span class="header-section-number">40.7</span> Exercises</h2>
+<ol type="1">
+<li><p><span id="exercise-vibrations-1"></span>Two masses <span class="math inline">\(m\)</span> hang one below the other from a fixed support: a spring <span class="math inline">\(k\)</span> joins the support to mass 1, and another spring <span class="math inline">\(k\)</span> joins mass 1 to mass 2. Find the natural frequencies, as multiples of <span class="math inline">\(\sqrt{k/m}\)</span>, and the mode shapes.</p>
+<p><a href="../appendices/solutions-6.html#solution-vibrations-1" class="sol-link">Solution to exercise 1</a></p></li>
+<li><p><span id="exercise-vibrations-2"></span>Suppose <span class="math inline">\(\M{K}\vect{v} = \lambda\M{M}\vect{v}\)</span> and <span class="math inline">\(\M{K}\vect{w} = \mu\M{M}\vect{w}\)</span>, with <span class="math inline">\(\M{K}\)</span> and <span class="math inline">\(\M{M}\)</span> symmetric and <span class="math inline">\(\lambda \neq \mu\)</span>. Show that <span class="math inline">\(\vect{v}\T\M{M}\vect{w} = 0\)</span> and <span class="math inline">\(\vect{v}\T\M{K}\vect{w} = 0\)</span>. (Hint: compute <span class="math inline">\(\vect{v}\T\M{K}\vect{w}\)</span> in two ways.)</p>
+<p><a href="../appendices/solutions-6.html#solution-vibrations-2" class="sol-link">Solution to exercise 2</a></p></li>
+<li><p><span id="exercise-vibrations-3"></span>A diatomic molecule is two atoms of masses <span class="math inline">\(m_1\)</span> and <span class="math inline">\(m_2\)</span> joined by a bond that acts like a spring of stiffness <span class="math inline">\(k\)</span>, with no walls. Write down <span class="math inline">\(\M{K}\)</span> and <span class="math inline">\(\M{M}\)</span>, and show that one natural frequency is 0 and the other is <span class="math inline">\(\omega = \sqrt{k(1/m_1 + 1/m_2)}\)</span>. Describe both modes. For carbon monoxide, <span class="math inline">\(k \approx 1900\)</span> N/m, the atoms have masses 12 and 16 atomic mass units, and <span class="math inline">\(1 \text{ u} = 1.661 \times 10^{-27}\)</span> kg. Find the vibration frequency in hertz.</p>
+<p><a href="../appendices/solutions-6.html#solution-vibrations-3" class="sol-link">Solution to exercise 3</a></p></li>
+<li><p><span id="exercise-vibrations-4"></span>In Example 1, both masses start at rest in their resting positions, and mass 1 is struck so that it starts with velocity 0.5 m/s. Find <span class="math inline">\(\vect{x}(t)\)</span>.</p>
+<p><a href="../appendices/solutions-6.html#solution-vibrations-4" class="sol-link">Solution to exercise 4</a></p></li>
+<li><p><span id="exercise-vibrations-5"></span>The lower storey of the building in Example 3 is stiffened to <span class="math inline">\(k_1 = 16\)</span> MN/m. Find the new natural frequencies and mode shapes. Which way did the frequencies move, and how did the first mode shape change?</p>
+<p><a href="../appendices/solutions-6.html#solution-vibrations-5" class="sol-link">Solution to exercise 5</a></p></li>
+<li><p><span id="exercise-vibrations-6"></span>A machine of mass <span class="math inline">\(m_1\)</span> sits on a mounting of stiffness <span class="math inline">\(k_1\)</span>, and an unbalanced motor shakes it with force <span class="math inline">\(F\cos(\Omega t)\)</span>. A small mass <span class="math inline">\(m_2\)</span> is attached to it by a spring <span class="math inline">\(k_2\)</span>. Show that the machine doesn’t move at all when <span class="math inline">\(\Omega^2 = k_2/m_2\)</span>, whatever <span class="math inline">\(m_1\)</span> and <span class="math inline">\(k_1\)</span> are. If the motor runs at 50 Hz and <span class="math inline">\(m_2 = 2\)</span> kg, what should <span class="math inline">\(k_2\)</span> be?</p>
+<p><a href="../appendices/solutions-6.html#solution-vibrations-6" class="sol-link">Solution to exercise 6</a></p></li>
+<li><p><span id="exercise-vibrations-7"></span><strong>Code.</strong> For <span class="math inline">\(n\)</span> equal masses <span class="math inline">\(m\)</span> joined by <span class="math inline">\(n + 1\)</span> equal springs <span class="math inline">\(k\)</span> between two walls, the natural frequencies are <span class="math display">\[
+\omega_j = 2\sqrt{k/m}\,\sin\frac{j\pi}{2(n + 1)},
+\qquad j = 1, \dots, n.
+\]</span> Check this numerically for <span class="math inline">\(n = 10\)</span>, <span class="math inline">\(m = 1\)</span> and <span class="math inline">\(k = 100\)</span>. Plot the first three mode shapes for <span class="math inline">\(n = 30\)</span>. What shapes are they, and what physical object does a long chain of masses and springs approximate?</p>
+<p><a href="../appendices/solutions-6.html#solution-vibrations-7" class="sol-link">Solution to exercise 7</a></p></li>
+</ol>
+<p>Solutions are in <a href="../appendices/solutions-6.html#sec-solutions-vibrations" class="quarto-xref"><span>Section J.10</span></a>.</p>
+</section>
+<section id="going-further" class="level2" data-number="40.8">
+<h2 data-number="40.8" class="anchored" data-anchor-id="going-further"><span class="header-section-number">40.8</span> Going further</h2>
+<ul>
+<li>Real structures have damping, <span class="math inline">\(\M{M}\ddot{\vect{x}} + \M{C}\dot{\vect{x}} + \M{K}\vect{x} = \vect{f}(t)\)</span>. If <span class="math inline">\(\M{C}\)</span> is a combination of <span class="math inline">\(\M{M}\)</span> and <span class="math inline">\(\M{K}\)</span> (<strong>Rayleigh damping</strong>), the same modes still separate the equations; otherwise the problem becomes a quadratic eigenvalue problem, with complex frequencies whose imaginary parts give the decay rates.</li>
+<li>In the <strong>finite element method</strong>, <span class="math inline">\(\M{K}\)</span> and <span class="math inline">\(\M{M}\)</span> for a bridge or an aircraft have millions of rows. Engineers need only the lowest few modes, and find them with shift-and-invert Lanczos iteration (<a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a>).</li>
+<li>As the number of masses grows, the chain becomes a string or a beam, the matrix becomes a differential operator, and the mode shapes become sines (exercise 7). The finite difference matrix of <a href="33-finite-differences.html" class="quarto-xref"><span>Chapter 33</span></a> is the same matrix.</li>
+<li>In chemistry, the vibrations of a molecule with <span class="math inline">\(N\)</span> atoms are found from a <span class="math inline">\(3N \times 3N\)</span> problem of this form, with six zero frequencies for the rigid-body translations and rotations. The other frequencies appear in its infrared and Raman spectra.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../part-6/39-cryptography.html" class="pagination-link" aria-label="Cryptography: the Hill cipher">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Cryptography: the Hill cipher</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../part-6/41-networks.html" class="pagination-link" aria-label="Networks and graphs">
+        <span class="nav-page-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Networks and graphs</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2026 Tom Goodale. Text and figures licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; code licensed under the <a href="https://trgoodale.github.io/matrix-book/LICENSE.md">MIT licence</a>.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/part-6/40-vibrations.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

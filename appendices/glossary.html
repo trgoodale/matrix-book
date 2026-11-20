@@ -49,9 +49,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-df4d7c86c405b8a13a19df7c6a896452.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-7a86a2117345dc92d9c69f4b7413ad4f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-df4d7c86c405b8a13a19df7c6a896452.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -890,6 +890,24 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../part-6/40-vibrations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Vibrations and normal modes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/41-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Networks and graphs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/42-input-output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Economics: input–output models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../part-6/review.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part VI review</span></a>
   </div>
@@ -1014,11 +1032,15 @@ A state of a Markov chain that, once entered, is never left. The other states ar
 </dd>
 <dt>Adjacency matrix</dt>
 <dd>
-A table of connections: entry <span class="math inline">\((i, j)\)</span> is 1 if item <span class="math inline">\(i\)</span> is linked to item <span class="math inline">\(j\)</span>, and 0 otherwise. See <a href="../part-1/01-matrices.html" class="quarto-xref"><span>Chapter 1</span></a>.
+A table of connections: entry <span class="math inline">\((i, j)\)</span> is 1 if item <span class="math inline">\(i\)</span> is linked to item <span class="math inline">\(j\)</span>, and 0 otherwise. Its powers count routes. See <a href="../part-1/01-matrices.html" class="quarto-xref"><span>Chapter 1</span></a> and <a href="../part-6/41-networks.html" class="quarto-xref"><span>Chapter 41</span></a>.
 </dd>
 <dt>Affine transformation</dt>
 <dd>
 A linear transformation followed by a translation, <span class="math inline">\(\vect{x} \mapsto \M{M}\vect{x} + \vect{t}\)</span>. In homogeneous coordinates it is a single matrix. See <a href="../part-6/34-graphics-robotics.html" class="quarto-xref"><span>Chapter 34</span></a>.
+</dd>
+<dt>Algebraic connectivity</dt>
+<dd>
+The second smallest eigenvalue <span class="math inline">\(\lambda_2\)</span> of a graph Laplacian. It is zero exactly when the network is in more than one piece, and small when the network has a bottleneck. See <a href="../part-6/41-networks.html" class="quarto-xref"><span>Chapter 41</span></a>.
 </dd>
 <dt>Algebraic multiplicity</dt>
 <dd>
@@ -1152,6 +1174,10 @@ A number <span class="math inline">\(\lambda\)</span> for which <span class="mat
 <dd>
 A non-zero vector that a matrix only stretches (or flips), so that it stays on the same line through the origin: <span class="math inline">\(\M{A}\vect{v} = \lambda\vect{v}\)</span>. The number <span class="math inline">\(\lambda\)</span> is the matching <strong>eigenvalue</strong>. See <a href="../part-1/09-invariant-lines.html" class="quarto-xref"><span>Chapter 9</span></a> and <a href="../part-4/18-eigenvalues.html" class="quarto-xref"><span>Chapter 18</span></a>.
 </dd>
+<dt>Eigenvector centrality</dt>
+<dd>
+A measure of how important each node of a network is: the entries of the eigenvector of the adjacency matrix for its largest eigenvalue. A node scores highly if its neighbours do. See <a href="../part-6/41-networks.html" class="quarto-xref"><span>Chapter 41</span></a>.
+</dd>
 <dt>Elasticity</dt>
 <dd>
 In population models, the proportional change in the growth rate <span class="math inline">\(\lambda\)</span> for a proportional change in one matrix entry. See <a href="../part-6/36-population-models.html" class="quarto-xref"><span>Chapter 36</span></a>.
@@ -1167,6 +1193,10 @@ A state that does not change. For <span class="math inline">\(\dot{\vect{x}} = \
 <dt>Equilibrium matrix</dt>
 <dd>
 The matrix whose columns give the forces that each member force and reaction exerts on the joints of a truss. See <a href="../part-6/31-trusses.html" class="quarto-xref"><span>Chapter 31</span></a>.
+</dd>
+<dt>Fiedler vector</dt>
+<dd>
+The eigenvector of a graph Laplacian for its second smallest eigenvalue. The signs of its entries split the network into two well-separated groups. See <a href="../part-6/41-networks.html" class="quarto-xref"><span>Chapter 41</span></a>.
 </dd>
 <dt>Fill-in</dt>
 <dd>
@@ -1215,6 +1245,10 @@ Minimising a function by repeatedly stepping in the direction of <span class="ma
 <dt>Gram–Schmidt process</dt>
 <dd>
 A method for turning independent vectors into orthonormal vectors with the same span. See <a href="../part-3/17-orthogonality-least-squares.html" class="quarto-xref"><span>Chapter 17</span></a>.
+</dd>
+<dt>Graph Laplacian</dt>
+<dd>
+The matrix <span class="math inline">\(\M{L} = \M{D} - \M{A}\)</span> of a network, with the degrees of the nodes on its diagonal and <span class="math inline">\(-1\)</span> for each edge. It is symmetric positive semidefinite, with one zero eigenvalue for each piece of the network. See <a href="../part-6/41-networks.html" class="quarto-xref"><span>Chapter 41</span></a>.
 </dd>
 <dt>Growth factor</dt>
 <dd>
@@ -1304,6 +1338,10 @@ Choosing <span class="math inline">\(\vect{x}\)</span> to make the sum of the sq
 <dd>
 The null space of <span class="math inline">\(\M{A}\T\)</span>: the combinations of the rows of <span class="math inline">\(\M{A}\)</span> that add up to zero. See <a href="../part-3/16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a>.
 </dd>
+<dt>Leontief inverse</dt>
+<dd>
+The matrix <span class="math inline">\((\M{I} - \M{A})^{-1}\)</span> of an input–output model, giving the total output, direct and indirect, needed from each industry for each £1 of final demand. See <a href="../part-6/42-input-output.html" class="quarto-xref"><span>Chapter 42</span></a>.
+</dd>
 <dt>Leslie matrix</dt>
 <dd>
 A population projection matrix with fecundities in its first row and survival rates just below the diagonal. See <a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a> and <a href="../part-6/36-population-models.html" class="quarto-xref"><span>Chapter 36</span></a>.
@@ -1360,6 +1398,10 @@ A structure that can move without any member changing length; its equilibrium ma
 <dd>
 A pattern that evolves on its own in a linear system: an eigenvector, multiplied by <span class="math inline">\(\lambda^k\)</span> in a discrete process or by <span class="math inline">\(e^{\lambda t}\)</span> in a continuous one. See <a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a> and <a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>.
 </dd>
+<dt>Mode shape</dt>
+<dd>
+The pattern in which a structure moves when it vibrates at one of its natural frequencies: an eigenvector of <span class="math inline">\(\M{K}\vect{v} = \omega^2\M{M}\vect{v}\)</span>. See <a href="../part-6/40-vibrations.html" class="quarto-xref"><span>Chapter 40</span></a>.
+</dd>
 <dt>Modified nodal analysis</dt>
 <dd>
 Nodal analysis extended with the currents through voltage sources as extra unknowns. See <a href="../part-6/32-circuits.html" class="quarto-xref"><span>Chapter 32</span></a>.
@@ -1367,6 +1409,10 @@ Nodal analysis extended with the currents through voltage sources as extra unkno
 <dt>Multiplier</dt>
 <dd>
 In Gaussian elimination, the number <span class="math inline">\(m_{ik} = a_{ik}/a_{kk}\)</span> such that subtracting <span class="math inline">\(m_{ik}\)</span> times the pivot row clears the entry below the pivot. See <a href="../part-2/11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a>.
+</dd>
+<dt>Natural frequency</dt>
+<dd>
+A frequency at which a structure vibrates freely when disturbed. The natural frequencies <span class="math inline">\(\omega\)</span> of a system of masses and springs solve <span class="math inline">\(\det(\M{K} - \omega^2\M{M}) = 0\)</span>. See <a href="../part-6/40-vibrations.html" class="quarto-xref"><span>Chapter 40</span></a>.
 </dd>
 <dt>Newton’s method</dt>
 <dd>
@@ -1484,6 +1530,10 @@ A row echelon form in which every pivot is 1 and is the only non-zero entry in i
 <dd>
 The vector <span class="math inline">\(\vect{b} - \M{A}\hat{\vect{x}}\)</span>, showing how well an approximate solution <span class="math inline">\(\hat{\vect{x}}\)</span> satisfies <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span>. See <a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>.
 </dd>
+<dt>Resonance</dt>
+<dd>
+The large response of a structure pushed at, or near, one of its natural frequencies. See <a href="../part-6/40-vibrations.html" class="quarto-xref"><span>Chapter 40</span></a>.
+</dd>
 <dt>Row echelon form</dt>
 <dd>
 A matrix in which each row’s first non-zero entry is to the right of the one above, so that all entries below the pivots are zero. See <a href="../part-2/12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a>.
@@ -1567,6 +1617,10 @@ SOR: Gauss–Seidel with each update stretched by a factor <span class="math inl
 <dt>Symmetric matrix</dt>
 <dd>
 A square matrix equal to its transpose, so that <span class="math inline">\(a_{ij} = a_{ji}\)</span>. See <a href="../part-1/01-matrices.html" class="quarto-xref"><span>Chapter 1</span></a>.
+</dd>
+<dt>Technical coefficients matrix</dt>
+<dd>
+In an input–output model, the matrix <span class="math inline">\(\M{A}\)</span> whose entry <span class="math inline">\(a_{ij}\)</span> is the value of industry <span class="math inline">\(i\)</span>’s product used to make £1 of industry <span class="math inline">\(j\)</span>’s product. See <a href="../part-6/42-input-output.html" class="quarto-xref"><span>Chapter 42</span></a>.
 </dd>
 <dt>Thomas algorithm</dt>
 <dd>

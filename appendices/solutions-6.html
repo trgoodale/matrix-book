@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-df4d7c86c405b8a13a19df7c6a896452.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-7a86a2117345dc92d9c69f4b7413ad4f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-df4d7c86c405b8a13a19df7c6a896452.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-728edd8cbb298f457ad67e401409ed68.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a0f3148cb20ac8f227bb206aeb9fa368.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -926,6 +926,24 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../part-6/40-vibrations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Vibrations and normal modes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/41-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Networks and graphs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part-6/42-input-output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Economics: input–output models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../part-6/review.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part VI review</span></a>
   </div>
@@ -1031,7 +1049,10 @@ window.Quarto = {
   <li><a href="#sec-solutions-data-science" id="toc-sec-solutions-data-science" class="nav-link" data-scroll-target="#sec-solutions-data-science"><span class="header-section-number">J.7</span> Data: regression and dimensionality reduction</a></li>
   <li><a href="#sec-solutions-physics" id="toc-sec-solutions-physics" class="nav-link" data-scroll-target="#sec-solutions-physics"><span class="header-section-number">J.8</span> Physics: rotations, inertia and quantum states</a></li>
   <li><a href="#sec-solutions-cryptography" id="toc-sec-solutions-cryptography" class="nav-link" data-scroll-target="#sec-solutions-cryptography"><span class="header-section-number">J.9</span> Cryptography: the Hill cipher</a></li>
-  <li><a href="#sec-solutions-review-6" id="toc-sec-solutions-review-6" class="nav-link" data-scroll-target="#sec-solutions-review-6"><span class="header-section-number">J.10</span> Part VI review</a></li>
+  <li><a href="#sec-solutions-vibrations" id="toc-sec-solutions-vibrations" class="nav-link" data-scroll-target="#sec-solutions-vibrations"><span class="header-section-number">J.10</span> Vibrations and normal modes</a></li>
+  <li><a href="#sec-solutions-networks" id="toc-sec-solutions-networks" class="nav-link" data-scroll-target="#sec-solutions-networks"><span class="header-section-number">J.11</span> Networks and graphs</a></li>
+  <li><a href="#sec-solutions-input-output" id="toc-sec-solutions-input-output" class="nav-link" data-scroll-target="#sec-solutions-input-output"><span class="header-section-number">J.12</span> Economics: input–output models</a></li>
+  <li><a href="#sec-solutions-review-6" id="toc-sec-solutions-review-6" class="nav-link" data-scroll-target="#sec-solutions-review-6"><span class="header-section-number">J.13</span> Part VI review</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/appendices/solutions-6.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -1085,7 +1106,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="24ce297b" class="cell" data-execution_count="1">
+<div id="227f87bb" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> truss(P, members, supports, loads):</span>
@@ -1198,7 +1219,7 @@ window.Quarto = {
 <p><span id="solution-circuits-5"><strong>5.</strong></span> KCL at the output node: <span class="math inline">\((V_{\text{out}} - V_{\text{in}})/R + j\omega CV_{\text{out}} = 0\)</span>, so <span class="math inline">\(V_{\text{out}}(1 + j\omega RC) = V_{\text{in}}\)</span> and <span class="math inline">\(V_{\text{out}}/V_{\text{in}} = 1/(1 + j\omega RC)\)</span>. With <span class="math inline">\(\omega RC = 2\)</span>, this is <span class="math inline">\(1/(1 + 2j) = (1 - 2j)/5 = 0.2 - 0.4j\)</span>, of size <span class="math inline">\(1/\sqrt{5} \approx 0.447\)</span> and phase <span class="math inline">\(-\arctan 2 \approx -63.4°\)</span>.</p>
 <p><a href="../part-6/32-circuits.html#exercise-circuits-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-circuits-6"><strong>6.</strong></span></p>
-<div id="5450837e" class="cell" data-execution_count="2">
+<div id="5a8ae1b7" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> brentq</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1236,7 +1257,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div id="4f5676d9" class="cell" data-execution_count="3">
+<div id="45b6f91c" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.sparse <span class="im">as</span> sp</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse.linalg <span class="im">import</span> spsolve, cg</span>
@@ -1251,10 +1272,10 @@ window.Quarto = {
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    cg(A, b.ravel(), rtol<span class="op">=</span><span class="fl">1e-8</span>, callback<span class="op">=</span><span class="kw">lambda</span> xk: steps.append(<span class="dv">1</span>))<span class="op">;</span> t2 <span class="op">=</span> time.perf_counter()</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"n = </span><span class="sc">{</span>n<span class="sc">:3d}</span><span class="ss">: direct </span><span class="sc">{</span>t1 <span class="op">-</span> t0<span class="sc">:.4f}</span><span class="ss"> s, CG </span><span class="sc">{</span>t2 <span class="op">-</span> t1<span class="sc">:.4f}</span><span class="ss"> s in </span><span class="sc">{</span><span class="bu">len</span>(steps)<span class="sc">}</span><span class="ss"> steps"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>n =  10: direct 0.0006 s, CG 0.0007 s in 28 steps
-n =  20: direct 0.0009 s, CG 0.0011 s in 57 steps
-n =  40: direct 0.0057 s, CG 0.0033 s in 111 steps
-n =  80: direct 0.0167 s, CG 0.0105 s in 217 steps</code></pre>
+<pre><code>n =  10: direct 0.0004 s, CG 0.0025 s in 28 steps
+n =  20: direct 0.0009 s, CG 0.0012 s in 57 steps
+n =  40: direct 0.0036 s, CG 0.0030 s in 111 steps
+n =  80: direct 0.0161 s, CG 0.0116 s in 217 steps</code></pre>
 </div>
 </div>
 </div>
@@ -1298,7 +1319,7 @@ n =  80: direct 0.0167 s, CG 0.0105 s in 217 steps</code></pre>
 <p><span id="solution-graphics-robotics-5"><strong>5.</strong></span> <span class="math inline">\(\M{T}_1\M{T}_2\M{T}_3\)</span> with angles <span class="math inline">\(45°\)</span>, <span class="math inline">\(-90°\)</span>, <span class="math inline">\(45°\)</span>. The links point in the directions <span class="math inline">\(45°\)</span>, <span class="math inline">\(45° - 90° = -45°\)</span> and <span class="math inline">\(-45° + 45° = 0°\)</span>, so the hand is at <span class="math inline">\((\cos 45° + \cos(-45°) + 1, \; \sin 45° + \sin(-45°) + 0) = (1 + \sqrt{2}, 0) \approx (2.414, 0)\)</span>, and the last link points along the positive <span class="math inline">\(x\)</span> axis (the rotation block of the product is the identity).</p>
 <p><a href="../part-6/34-graphics-robotics.html#exercise-graphics-robotics-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-graphics-robotics-6"><strong>6.</strong></span></p>
-<div id="6be9ba7b" class="cell" data-execution_count="4">
+<div id="a536d4e3" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1378,7 +1399,7 @@ x_A - 0.02125 - 0.36125x_A - 0.0605625 - 0.3070625x_A = 0.05,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div id="335a94b9" class="cell" data-execution_count="5">
+<div id="efbd519c" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pagerank(links, d<span class="op">=</span><span class="fl">0.85</span>, steps<span class="op">=</span><span class="dv">200</span>):</span>
@@ -1441,7 +1462,7 @@ P + G = \frac{s - s^D + s^D - s^{D+1}}{1 - s^D} = \frac{s(1 - s^D)}{1 - s^D} = s
 <p><span id="solution-population-models-5"><strong>5.</strong></span> Writing <span class="math inline">\(\vect{x}_0 = c_1\vect{w}_1 + c_2\vect{w}_2 + c_3\vect{w}_3\)</span> in terms of the eigenvectors (<a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>), <span class="math inline">\(\vect{x}_k = c_1(1.5)^k\vect{w}_1 + c_2(-1.309)^k\vect{w}_2 + c_3(-0.191)^k\vect{w}_3\)</span>. Relative to the dominant term, the second shrinks by a factor of only <span class="math inline">\(1.309/1.5 \approx 0.87\)</span> a year, so it takes about 17 years to fall to a tenth. It is negative, so it changes sign every year, alternately adding to and subtracting from the age classes: the proportions overshoot and undershoot the stable distribution. Biologically, a large cohort of newborns becomes a large cohort of breeders, which produces another large cohort of newborns.</p>
 <p><a href="../part-6/36-population-models.html#exercise-population-models-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-population-models-6"><strong>6.</strong></span></p>
-<div id="2ae37823" class="cell" data-execution_count="6">
+<div id="eab2b5cf" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1497,7 +1518,7 @@ P + G = \frac{s - s^D + s^D - s^{D+1}}{1 - s^D} = \frac{s(1 - s^D)}{1 - s^D} = s
 <p><span id="solution-data-science-5"><strong>5.</strong></span> The score is <span class="math inline">\(0.52 \times 1.0 - 0.27 \times 0.5 + 0.58 \times 1.2 + 0.57 \times 1.1 \approx 1.71\)</span>. In <a href="../part-6/37-data-science.html#fig-iris-pca" class="quarto-xref">Figure&nbsp;<span>37.1</span></a>, <em>setosa</em> flowers have first scores around <span class="math inline">\(-2.2\)</span> and <em>virginica</em> around <span class="math inline">\(+1.7\)</span>, so it is very likely a <em>virginica</em>: large petals and a long sepal.</p>
 <p><a href="../part-6/37-data-science.html#exercise-data-science-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-data-science-6"><strong>6.</strong></span></p>
-<div id="e524409d" class="cell" data-execution_count="7">
+<div id="195591c0" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.genfromtxt(<span class="st">"../data/iris.csv"</span>, delimiter<span class="op">=</span><span class="st">","</span>, skip_header<span class="op">=</span><span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">str</span>)</span>
@@ -1529,7 +1550,7 @@ setosa only: [2.352 0.655 0.238 0.252], cond = 50.4</code></pre>
 <p><span id="solution-physics-5"><strong>5.</strong></span> <span class="math inline">\(\M{\sigma}_y\)</span> has trace 0 and determinant <span class="math inline">\(0 - (-i)(i) = -1\)</span>, so its eigenvalues are <span class="math inline">\(\pm 1\)</span>. For <span class="math inline">\(+1\)</span>: <span class="math inline">\(-iy = x\)</span>, giving <span class="math inline">\(\tfrac{1}{\sqrt{2}}(1, i)\T\)</span>; for <span class="math inline">\(-1\)</span>: <span class="math inline">\(\tfrac{1}{\sqrt{2}}(1, -i)\T\)</span>. For <span class="math inline">\(\vect{\psi} = (1, 0)\T\)</span>, the probabilities are <span class="math inline">\(\lvert\vect{e}^*\vect{\psi}\rvert^2 = \lvert\tfrac{1}{\sqrt{2}}\rvert^2 = \tfrac{1}{2}\)</span> each (the conjugate of the first entry is 1 in both cases).</p>
 <p><a href="../part-6/38-physics.html#exercise-physics-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-physics-6"><strong>6.</strong></span></p>
-<div id="b985fc7a" class="cell" data-execution_count="8">
+<div id="201433f5" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1575,7 +1596,7 @@ setosa only: [2.352 0.655 0.238 0.252], cond = 50.4</code></pre>
 <p><span id="solution-cryptography-5"><strong>5.</strong></span> Encrypting with <span class="math inline">\(\M{K}_1\)</span> and then <span class="math inline">\(\M{K}_2\)</span> gives <span class="math inline">\(\M{K}_2\M{K}_1\vect{p}\)</span>, which is a Hill cipher with the single key <span class="math inline">\(\M{K}_2\M{K}_1\)</span> (reduced modulo 26). The attacker doesn’t need to find <span class="math inline">\(\M{K}_1\)</span> and <span class="math inline">\(\M{K}_2\)</span>, only their product, which the same known-plaintext attack reveals. Linear steps combined are still linear; that is why modern ciphers must include non-linear steps.</p>
 <p><a href="../part-6/39-cryptography.html#exercise-cryptography-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-cryptography-6"><strong>6.</strong></span></p>
-<div id="57ea768d" class="cell" data-execution_count="9">
+<div id="ce8ea955" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> to_nums(text):</span>
@@ -1602,8 +1623,266 @@ ATTACKATDAWN</code></pre>
 <p>The known pairs AT and TA give <span class="math inline">\(\M{P} = \mat{0 &amp; 19 \\ 19 &amp; 0}\)</span>, with determinant <span class="math inline">\(-361 \equiv 3\)</span>, which is invertible. The key is <span class="math inline">\(\mat{3 &amp; 3 \\ 2 &amp; 5}\)</span>, and the message is ATTACKATDAWN. In MATLAB, the functions <code>hill</code> and <code>inv26</code> from the chapter do the same in three lines.</p>
 <p><a href="../part-6/39-cryptography.html#exercise-cryptography-6" class="sol-link">Back to exercise 6</a></p>
 </section>
-<section id="sec-solutions-review-6" class="level2" data-number="J.10">
-<h2 data-number="J.10" class="anchored" data-anchor-id="sec-solutions-review-6"><span class="header-section-number">J.10</span> Part VI review</h2>
+<section id="sec-solutions-vibrations" class="level2" data-number="J.10">
+<h2 data-number="J.10" class="anchored" data-anchor-id="sec-solutions-vibrations"><span class="header-section-number">J.10</span> Vibrations and normal modes</h2>
+<p>Exercises from <a href="../part-6/40-vibrations.html" class="quarto-xref"><span>Chapter 40</span></a>.</p>
+<p><span id="solution-vibrations-1"><strong>1.</strong></span> The upper spring connects to the support and the lower one joins the masses, so <span class="math display">\[
+\M{K} = k\mat{2 &amp; -1 \\ -1 &amp; 1}, \qquad \M{M} = m\M{I}.
+\]</span> Writing <span class="math inline">\(\omega^2 = \lambda k/m\)</span>, the equation <span class="math inline">\(\det(\M{K} - \omega^2\M{M}) = 0\)</span> becomes <span class="math display">\[
+(2 - \lambda)(1 - \lambda) - 1 = \lambda^2 - 3\lambda + 1 = 0,
+\]</span> so <span class="math display">\[
+\lambda = \frac{3 \mp \sqrt{5}}{2} \approx 0.382, \; 2.618.
+\]</span> So <span class="math inline">\(\omega_1 \approx 0.618\sqrt{k/m}\)</span> and <span class="math inline">\(\omega_2 \approx 1.618\sqrt{k/m}\)</span> (these are the golden ratio and its reciprocal, since <span class="math inline">\(\sqrt{0.382} = 0.618\)</span> and <span class="math inline">\(\sqrt{2.618} = 1.618\)</span>). The first row gives <span class="math inline">\(v_2 = (2 - \lambda)v_1\)</span>. For <span class="math inline">\(\lambda_1\)</span>, <span class="math inline">\(\vect{v}_1 \approx (1, 1.618)\)</span>: both masses move the same way, the lower one further. For <span class="math inline">\(\lambda_2\)</span>, <span class="math inline">\(\vect{v}_2 \approx (1, -0.618)\)</span>: they move in opposite directions.</p>
+<p><a href="../part-6/40-vibrations.html#exercise-vibrations-1" class="sol-link">Back to exercise 1</a></p>
+<p><span id="solution-vibrations-2"><strong>2.</strong></span> On the one hand, <span class="math inline">\(\vect{v}\T\M{K}\vect{w} = \vect{v}\T(\mu\M{M}\vect{w}) = \mu\,\vect{v}\T\M{M}\vect{w}\)</span>. On the other, since <span class="math inline">\(\M{K}\)</span> and <span class="math inline">\(\M{M}\)</span> are symmetric, <span class="math display">\[
+\vect{v}\T\M{K}\vect{w} = (\M{K}\vect{v})\T\vect{w} = (\lambda\M{M}\vect{v})\T\vect{w} = \lambda\,\vect{v}\T\M{M}\vect{w}.
+\]</span> Subtracting, <span class="math inline">\((\lambda - \mu)\,\vect{v}\T\M{M}\vect{w} = 0\)</span>, and <span class="math inline">\(\lambda \neq \mu\)</span>, so <span class="math inline">\(\vect{v}\T\M{M}\vect{w} = 0\)</span>. Then <span class="math inline">\(\vect{v}\T\M{K}\vect{w} = \mu \times 0 = 0\)</span> too.</p>
+<p><a href="../part-6/40-vibrations.html#exercise-vibrations-2" class="sol-link">Back to exercise 2</a></p>
+<p><span id="solution-vibrations-3"><strong>3.</strong></span> The bond pulls each atom towards the other, so <span class="math display">\[
+\M{K} = k\mat{1 &amp; -1 \\ -1 &amp; 1}, \qquad \M{M} = \mat{m_1 &amp; 0 \\ 0 &amp; m_2},
+\]</span> and <span class="math display">\[
+\det(\M{K} - \omega^2\M{M}) = (k - \omega^2m_1)(k - \omega^2m_2) - k^2 = \omega^2\bigl(\omega^2m_1m_2 - k(m_1 + m_2)\bigr).
+\]</span> So <span class="math inline">\(\omega^2 = 0\)</span> or <span class="math inline">\(\omega^2 = k(m_1 + m_2)/(m_1m_2) = k(1/m_1 + 1/m_2)\)</span>. For <span class="math inline">\(\omega = 0\)</span>, the mode is <span class="math inline">\((1, 1)\)</span>: the whole molecule drifts without stretching the bond. For the other, the first row gives <span class="math inline">\((k - \omega^2m_1)v_1 = kv_2\)</span>, and <span class="math inline">\(k - \omega^2m_1 = -km_1/m_2\)</span>, so <span class="math inline">\(\vect{v} = (m_2, -m_1)\)</span>: the atoms move in opposite directions, the lighter one further, and the centre of mass <span class="math inline">\(m_1v_1 + m_2v_2 = 0\)</span> stays still.</p>
+<p>For carbon monoxide, <span class="math inline">\(1/m_1 + 1/m_2 = (1/12 + 1/16)/(1.661 \times 10^{-27}) = (7/48)/(1.661 \times 10^{-27})\)</span> per kg, so <span class="math display">\[
+\omega = \sqrt{1900 \times \frac{7/48}{1.661 \times 10^{-27}}} \approx 4.08 \times 10^{14} \text{ rad/s},
+\qquad
+f = \frac{\omega}{2\pi} \approx 6.5 \times 10^{13} \text{ Hz}.
+\]</span> Light of this frequency has a wavelength of about <span class="math inline">\(c/f \approx 4.6\)</span> micrometres, in the infrared, where carbon monoxide does absorb strongly.</p>
+<p><a href="../part-6/40-vibrations.html#exercise-vibrations-3" class="sol-link">Back to exercise 3</a></p>
+<p><span id="solution-vibrations-4"><strong>4.</strong></span> The start is at the resting position, so every <span class="math inline">\(a_i = 0\)</span>. With <span class="math inline">\(\M{M} = \M{I}\)</span> and <span class="math inline">\(\dot{\vect{x}}_0 = (0.5, 0)\)</span>, <span class="math display">\[
+b_1 = \frac{\vect{v}_1\T\dot{\vect{x}}_0}{\omega_1\,\vect{v}_1\T\vect{v}_1} = \frac{0.5}{10 \times 2} = 0.025,
+\qquad
+b_2 = \frac{0.5}{\sqrt{300} \times 2} \approx 0.0144,
+\]</span> so <span class="math display">\[
+\vect{x}(t) = 0.025\sin(10t)\mat{1 \\ 1} + 0.0144\sin(17.3t)\mat{1 \\ -1}
+\]</span> in metres. Differentiating at <span class="math inline">\(t = 0\)</span> gives <span class="math inline">\(0.025 \times 10\,(1, 1) + 0.0144 \times 17.3\,(1, -1) = (0.5, 0)\)</span>. ✓</p>
+<p><a href="../part-6/40-vibrations.html#exercise-vibrations-4" class="sol-link">Back to exercise 4</a></p>
+<p><span id="solution-vibrations-5"><strong>5.</strong></span> Now <span class="math inline">\(\M{K} = 10^6\mat{20 &amp; -4 \\ -4 &amp; 4}\)</span>. Dividing by <span class="math inline">\(4 \times 10^6\)</span> as in Example 3, with <span class="math inline">\(\mu = \omega^2/400\)</span>, <span class="math display">\[
+(5 - 2\mu)(1 - \mu) - 1 = 2\mu^2 - 7\mu + 4 = 0,
+\]</span> so <span class="math display">\[
+\mu = \frac{7 \mp \sqrt{17}}{4} \approx 0.719, \; 2.781.
+\]</span> So <span class="math inline">\(\omega^2 \approx 288\)</span> and <span class="math inline">\(1112\)</span>, giving <span class="math inline">\(\omega_1 \approx 17.0\)</span> rad/s (2.70 Hz) and <span class="math inline">\(\omega_2 \approx 33.4\)</span> rad/s (5.31 Hz). The first row gives <span class="math inline">\(v_2 = (5 - 2\mu)v_1\)</span>, so the modes are <span class="math inline">\((1, 3.56)\)</span> and <span class="math inline">\((1, -0.56)\)</span>.</p>
+<p>Both frequencies went up, as they must when a structure is made stiffer. In the first mode, the top floor now moves 3.56 times as far as the lower one, instead of twice as far: the stiff lower storey hardly bends, and most of the sway happens in the upper storey.</p>
+<p><a href="../part-6/40-vibrations.html#exercise-vibrations-5" class="sol-link">Back to exercise 5</a></p>
+<p><span id="solution-vibrations-6"><strong>6.</strong></span> The system is the one of Example 3 in symbols: <span class="math inline">\(\M{K} = \mat{k_1 + k_2 &amp; -k_2 \\ -k_2 &amp; k_2}\)</span>, <span class="math inline">\(\M{M} = \operatorname{diag}(m_1, m_2)\)</span>, and the force is <span class="math inline">\((F, 0)\)</span>. <a href="../part-6/40-vibrations.html#eq-forced" class="quarto-xref">Equation&nbsp;<span>40.4</span></a> is <span class="math display">\[
+\mat{k_1 + k_2 - \Omega^2m_1 &amp; -k_2 \\ -k_2 &amp; k_2 - \Omega^2m_2}\mat{X_1 \\ X_2} = \mat{F \\ 0},
+\]</span> and by the <span class="math inline">\(2 \times 2\)</span> inverse formula, <span class="math display">\[
+X_1 = \frac{(k_2 - \Omega^2m_2)F}{\Delta},
+\qquad
+X_2 = \frac{k_2F}{\Delta},
+\]</span> where <span class="math inline">\(\Delta\)</span> is the determinant. So <span class="math inline">\(X_1 = 0\)</span> when <span class="math inline">\(\Omega^2 = k_2/m_2\)</span>, whatever <span class="math inline">\(m_1\)</span> and <span class="math inline">\(k_1\)</span> are. (There, <span class="math inline">\(\Delta = -k_2^2\)</span>, so <span class="math inline">\(X_2 = -F/k_2\)</span>, and the spring pulls on the machine with force <span class="math inline">\(k_2(X_2 - X_1) = -F\)</span>, exactly cancelling the motor.) For 50 Hz, <span class="math inline">\(\Omega = 2\pi \times 50 \approx 314\)</span> rad/s, so <span class="math display">\[
+k_2 = m_2\Omega^2 = 2 \times 314.2^2 \approx 1.97 \times 10^5 \text{ N/m}.
+\]</span> The absorber only works near this one frequency; at other speeds the combined system has two resonances, one on each side of it.</p>
+<p><a href="../part-6/40-vibrations.html#exercise-vibrations-6" class="sol-link">Back to exercise 6</a></p>
+<p><span id="solution-vibrations-7"><strong>7.</strong></span></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div id="7062be0e" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>m, k, n <span class="op">=</span> <span class="dv">1</span>, <span class="dv">100</span>, <span class="dv">10</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> k <span class="op">*</span> (<span class="dv">2</span> <span class="op">*</span> np.eye(n) <span class="op">-</span> np.eye(n, k<span class="op">=</span><span class="dv">1</span>) <span class="op">-</span> np.eye(n, k<span class="op">=-</span><span class="dv">1</span>))</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>omega <span class="op">=</span> np.sqrt(np.linalg.eigvalsh(K) <span class="op">/</span> m)       <span class="co"># M = m I, so an ordinary eigenproblem</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>exact <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.sqrt(k <span class="op">/</span> m) <span class="op">*</span> np.sin(np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> np.pi <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> (n <span class="op">+</span> <span class="dv">1</span>)))</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"agree:"</span>, np.allclose(omega, exact))</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">30</span>                                           <span class="co"># mode shapes for a longer chain</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.eye(n) <span class="op">-</span> np.eye(n, k<span class="op">=</span><span class="dv">1</span>) <span class="op">-</span> np.eye(n, k<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>lam, V <span class="op">=</span> np.linalg.eigh(K)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">3</span>))</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>), V[:, j], <span class="st">"o-"</span>, ms<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="ss">f"mode </span><span class="sc">{</span>j <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"mass number"</span>)<span class="op">;</span> plt.ylabel(<span class="st">"displacement"</span>)<span class="op">;</span> plt.legend()</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>agree: True</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="solutions-6_files/figure-html/cell-11-output-2.png" alt="The first three mode shapes of a chain of 30 masses between two walls, plotted against mass number: half a sine wave, a full sine wave and one and a half sine waves, each zero at both ends." width="525" height="288" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">100</span><span class="op">;</span> <span class="va">n</span> <span class="op">=</span> <span class="fl">10</span><span class="op">;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="va">K</span> <span class="op">=</span> <span class="va">k</span> <span class="op">*</span> (<span class="fl">2</span><span class="op">*</span><span class="va">eye</span>(<span class="va">n</span>) <span class="op">-</span> <span class="va">diag</span>(<span class="va">ones</span>(<span class="va">n</span><span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">,</span> <span class="fl">1</span>) <span class="op">-</span> <span class="va">diag</span>(<span class="va">ones</span>(<span class="va">n</span><span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">,</span> <span class="op">-</span><span class="fl">1</span>))<span class="op">;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="va">omega</span> <span class="op">=</span> <span class="va">sqrt</span>(<span class="va">eig</span>(<span class="va">K</span>) <span class="op">/</span> <span class="va">m</span>)<span class="op">;</span>                         <span class="co">% M = m*I, so an ordinary eigenproblem</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="va">exact</span> <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="va">sqrt</span>(<span class="va">k</span><span class="op">/</span><span class="va">m</span>) <span class="op">*</span> <span class="va">sin</span>((<span class="fl">1</span><span class="op">:</span><span class="va">n</span>)<span class="op">'</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">/</span> (<span class="fl">2</span><span class="op">*</span>(<span class="va">n</span><span class="op">+</span><span class="fl">1</span>)))<span class="op">;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'agree: %d\n'</span><span class="op">,</span> <span class="va">max</span>(<span class="va">abs</span>(<span class="va">omega</span> <span class="op">-</span> <span class="va">exact</span>)) <span class="op">&lt;</span> <span class="fl">1e-12</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">30</span><span class="op">;</span>                                           <span class="co">% mode shapes for a longer chain</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="va">K</span> <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="va">eye</span>(<span class="va">n</span>) <span class="op">-</span> <span class="va">diag</span>(<span class="va">ones</span>(<span class="va">n</span><span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">,</span> <span class="fl">1</span>) <span class="op">-</span> <span class="va">diag</span>(<span class="va">ones</span>(<span class="va">n</span><span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">,</span> <span class="op">-</span><span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>[<span class="va">V</span><span class="op">,</span> <span class="op">~</span>] <span class="op">=</span> <span class="va">eig</span>(<span class="va">K</span>)<span class="op">;</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="va">plot</span>(<span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">,</span> <span class="va">V</span>(<span class="op">:,</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>)<span class="op">,</span> <span class="ss">'o-'</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'mass number'</span>)<span class="op">;</span> <span class="va">ylabel</span>(<span class="ss">'displacement'</span>)<span class="op">;</span> <span class="va">legend</span>(<span class="ss">'mode 1'</span><span class="op">,</span> <span class="ss">'mode 2'</span><span class="op">,</span> <span class="ss">'mode 3'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>agree: 1</code></pre>
+</div>
+</div>
+</div>
+<p>The mode shapes are samples of sine curves: half a wave for mode 1, a whole wave for mode 2, one and a half for mode 3, each zero at the walls (the signs may be flipped). A long chain of masses and springs approximates a stretched string, such as a guitar string, whose modes are exactly these sines, with frequencies in the ratio <span class="math inline">\(1 : 2 : 3\)</span> for the low modes. The matrix is the finite difference matrix of <a href="../part-6/33-finite-differences.html" class="quarto-xref"><span>Chapter 33</span></a>.</p>
+<p><a href="../part-6/40-vibrations.html#exercise-vibrations-7" class="sol-link">Back to exercise 7</a></p>
+</section>
+<section id="sec-solutions-networks" class="level2" data-number="J.11">
+<h2 data-number="J.11" class="anchored" data-anchor-id="sec-solutions-networks"><span class="header-section-number">J.11</span> Networks and graphs</h2>
+<p>Exercises from <a href="../part-6/41-networks.html" class="quarto-xref"><span>Chapter 41</span></a>.</p>
+<p><span id="solution-networks-1"><strong>1.</strong></span> <span class="math display">\[
+\M{A} = \mat{0 &amp; 1 &amp; 1 &amp; 1 \\ 1 &amp; 0 &amp; 0 &amp; 0 \\ 1 &amp; 0 &amp; 0 &amp; 0 \\ 1 &amp; 0 &amp; 0 &amp; 0},
+\qquad
+\M{A}^2 = \mat{3 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 1 &amp; 1 \\ 0 &amp; 1 &amp; 1 &amp; 1 \\ 0 &amp; 1 &amp; 1 &amp; 1},
+\qquad
+\M{A}^3 = \mat{0 &amp; 3 &amp; 3 &amp; 3 \\ 3 &amp; 0 &amp; 0 &amp; 0 \\ 3 &amp; 0 &amp; 0 &amp; 0 \\ 3 &amp; 0 &amp; 0 &amp; 0}.
+\]</span> In <span class="math inline">\(\M{A}^2\)</span>, the centre has 3 walks of length 2 back to itself (out to any leaf and back), each leaf has 1 (to the centre and back), and each pair of leaves has 1 walk between them, through the centre: one friend in common. <span class="math inline">\(\M{A}^3 = 3\M{A}\)</span>: there are 3 walks of length 3 between the centre and each leaf, for example leaf 2 → 1 → leaf 3 → 1. The trace of <span class="math inline">\(\M{A}^3\)</span> is 0 because there are no triangles. In fact every walk alternates between the centre and a leaf, so every walk back to its start has even length.</p>
+<p><a href="../part-6/41-networks.html#exercise-networks-1" class="sol-link">Back to exercise 1</a></p>
+<p><span id="solution-networks-2"><strong>2.</strong></span> <span class="math inline">\(\vect{x}\T\M{D}\vect{x} = \sum_i d_ix_i^2\)</span>. Each edge <span class="math inline">\(ij\)</span> adds 1 to <span class="math inline">\(d_i\)</span> and 1 to <span class="math inline">\(d_j\)</span>, so this is <span class="math inline">\(\sum_{\text{edges } ij}(x_i^2 + x_j^2)\)</span>. And <span class="math inline">\(\vect{x}\T\M{A}\vect{x} = \sum_{i, j}a_{ij}x_ix_j\)</span>, in which each edge appears twice, as <span class="math inline">\(a_{ij}\)</span> and <span class="math inline">\(a_{ji}\)</span>, so it is <span class="math inline">\(\sum_{\text{edges } ij}2x_ix_j\)</span>. Subtracting, <span class="math display">\[
+\vect{x}\T\M{L}\vect{x} = \sum_{\text{edges } ij}\bigl(x_i^2 - 2x_ix_j + x_j^2\bigr) = \sum_{\text{edges } ij}(x_i - x_j)^2.
+\]</span></p>
+<p><a href="../part-6/41-networks.html#exercise-networks-2" class="sol-link">Back to exercise 2</a></p>
+<p><span id="solution-networks-3"><strong>3.</strong></span> (a) Every node has degree 3, so <span class="math inline">\(\M{L} = 3\M{I} - (\M{J} - \M{I}) = 4\M{I} - \M{J}\)</span>, where <span class="math inline">\(\M{J}\)</span> is the matrix of all ones. <span class="math inline">\(\M{J}\vect{1} = 4\vect{1}\)</span>, so <span class="math inline">\(\M{L}\vect{1} = \zerovec\)</span>; and for any <span class="math inline">\(\vect{x}\)</span> perpendicular to <span class="math inline">\(\vect{1}\)</span>, such as <span class="math inline">\((1, -1, 0, 0)\)</span>, <span class="math inline">\(\M{J}\vect{x} = \zerovec\)</span>, so <span class="math inline">\(\M{L}\vect{x} = 4\vect{x}\)</span>. There are three independent such vectors, so the eigenvalues are 0, 4, 4, 4.</p>
+<ol start="2" type="a">
+<li><span class="math inline">\(\M{L} = \mat{1 &amp; -1 &amp; 0 &amp; 0 \\ -1 &amp; 2 &amp; -1 &amp; 0 \\ 0 &amp; -1 &amp; 2 &amp; -1 \\ 0 &amp; 0 &amp; -1 &amp; 1}\)</span>, with eigenvalues <span class="math inline">\(0\)</span>, <span class="math inline">\(2 - \sqrt{2} \approx 0.586\)</span>, <span class="math inline">\(2\)</span> and <span class="math inline">\(2 + \sqrt{2} \approx 3.414\)</span> (by computer, or by checking the eigenvectors <span class="math inline">\((1, \sqrt{2} - 1, 1 - \sqrt{2}, -1)\)</span> and so on).</li>
+</ol>
+<p>The complete graph has <span class="math inline">\(\lambda_2 = 4\)</span>, far larger than the path’s 0.586. That makes sense: splitting the complete graph into two pairs cuts 4 of its 6 edges, while the path falls into two halves when one edge is cut.</p>
+<p><a href="../part-6/41-networks.html#exercise-networks-3" class="sol-link">Back to exercise 3</a></p>
+<p><span id="solution-networks-4"><strong>4.</strong></span> For the square, <span class="math inline">\(\M{A}^2\)</span> has 2 on the diagonal and 2 in the positions <span class="math inline">\((1, 3)\)</span>, <span class="math inline">\((2, 4)\)</span>, <span class="math inline">\((3, 1)\)</span> and <span class="math inline">\((4, 2)\)</span>, and zeros elsewhere: two walks of length 2 join opposite corners. Every walk round the square alternates between the sets <span class="math inline">\(\{1, 3\}\)</span> and <span class="math inline">\(\{2, 4\}\)</span>, so a walk back to its start has even length, and <span class="math inline">\(\operatorname{trace}(\M{A}^3) = 0\)</span>. With the diagonal 1–3 added, the diagonal of <span class="math inline">\(\M{A}^3\)</span> is <span class="math inline">\((4, 2, 4, 2)\)</span>: nodes 1 and 3 are each in two triangles and nodes 2 and 4 in one. So <span class="math inline">\(\operatorname{trace}(\M{A}^3) = 12\)</span>, and there are <span class="math inline">\(12/6 = 2\)</span> triangles, 1–2–3 and 1–3–4.</p>
+<p><a href="../part-6/41-networks.html#exercise-networks-4" class="sol-link">Back to exercise 4</a></p>
+<p><span id="solution-networks-5"><strong>5.</strong></span> With the extra edge, nodes 2 and 5 have degree 3. Check the first three rows of <span class="math inline">\(\M{L}\vect{x}\)</span> for <span class="math inline">\(\vect{x} = (2, 1, 1, -1, -1, -2)\)</span>:</p>
+<ul>
+<li>node 1 (degree 2, neighbours 2 and 3): <span class="math inline">\(2 \times 2 - 1 - 1 = 2 = 1 \times x_1\)</span>;</li>
+<li>node 2 (degree 3, neighbours 1, 3 and 5): <span class="math inline">\(3 \times 1 - 2 - 1 - (-1) = 1 = 1 \times x_2\)</span>;</li>
+<li>node 3 (degree 3, neighbours 1, 2 and 4): <span class="math inline">\(3 \times 1 - 2 - 1 - (-1) = 1 = 1 \times x_3\)</span>.</li>
+</ul>
+<p>The other three rows follow by the symmetry that swaps the two triangles and changes every sign. So <span class="math inline">\(\M{L}\vect{x} = 1 \times \vect{x}\)</span>. The computer gives the eigenvalues <span class="math inline">\(0, 1, 3, 3, 4, 5\)</span>, so this is <span class="math inline">\(\lambda_2\)</span>. Its signs still split the network into <span class="math inline">\(\{1, 2, 3\}\)</span> and <span class="math inline">\(\{4, 5, 6\}\)</span>, but now two edges must be cut, 3–4 and 2–5. The larger <span class="math inline">\(\lambda_2\)</span> says that the network has become better connected, and harder to split.</p>
+<p><a href="../part-6/41-networks.html#exercise-networks-5" class="sol-link">Back to exercise 5</a></p>
+<p><span id="solution-networks-6"><strong>6.</strong></span> There are no edges between different components, so <span class="math inline">\(a_{ij} = 0\)</span> whenever <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are in different components. With each component’s nodes numbered together, all those zeros fall outside the diagonal blocks, and <span class="math inline">\(\M{L}\)</span> is block diagonal, each block being the Laplacian of one component. Each block has the vector of ones in its null space. Putting that vector in the positions of one component and zeros elsewhere gives a null vector of <span class="math inline">\(\M{L}\)</span>, and the vectors for different components are independent, since they are nonzero in different positions. So the null space has dimension at least the number of components, and so at least that many eigenvalues are 0. (The chapter shows it is exactly that many.)</p>
+<p><a href="../part-6/41-networks.html#exercise-networks-6" class="sol-link">Back to exercise 6</a></p>
+<p><span id="solution-networks-7"><strong>7.</strong></span></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<div id="0fa9dc58" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">1</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>group <span class="op">=</span> np.repeat([<span class="dv">0</span>, <span class="dv">1</span>], <span class="dv">50</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>same <span class="op">=</span> group[:, <span class="va">None</span>] <span class="op">==</span> group[<span class="va">None</span>, :]</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p_out <span class="kw">in</span> [<span class="fl">0.05</span>, <span class="fl">0.15</span>]:</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> np.where(same, <span class="fl">0.3</span>, p_out)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.triu(rng.random((n, n)) <span class="op">&lt;</span> P, <span class="dv">1</span>).astype(<span class="bu">float</span>)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> A <span class="op">+</span> A.T                                  <span class="co"># each pair joined at most once</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    L <span class="op">=</span> np.diag(A.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)) <span class="op">-</span> A</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    lam, V <span class="op">=</span> np.linalg.eigh(L)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    guess <span class="op">=</span> V[:, <span class="dv">1</span>] <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    correct <span class="op">=</span> <span class="bu">max</span>(np.<span class="bu">sum</span>(guess <span class="op">==</span> group), np.<span class="bu">sum</span>(guess <span class="op">!=</span> group))   <span class="co"># the labels may be swapped</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"p_out = </span><span class="sc">{</span>p_out<span class="sc">}</span><span class="ss">: lambda2 = </span><span class="sc">{</span>lam[<span class="dv">1</span>]<span class="sc">:.2f}</span><span class="ss">, </span><span class="sc">{</span>correct<span class="sc">}</span><span class="ss"> of </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss"> correct"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>p_out = 0.05: lambda2 = 4.53, 100 of 100 correct
+p_out = 0.15: lambda2 = 11.35, 94 of 100 correct</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="va">rng</span>(<span class="fl">1</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">100</span><span class="op">;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="va">group</span> <span class="op">=</span> [<span class="va">zeros</span>(<span class="fl">50</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span> <span class="va">ones</span>(<span class="fl">50</span><span class="op">,</span> <span class="fl">1</span>)]<span class="op">;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">p_out</span> <span class="op">=</span> [<span class="fl">0.05</span> <span class="fl">0.15</span>]</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">P</span> <span class="op">=</span> <span class="va">p_out</span> <span class="op">*</span> <span class="va">ones</span>(<span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">P</span>(<span class="va">group</span> <span class="op">==</span> <span class="va">group</span><span class="op">'</span>) <span class="op">=</span> <span class="fl">0.3</span><span class="op">;</span>                     <span class="co">% same community</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">A</span> <span class="op">=</span> <span class="va">triu</span>(<span class="va">rand</span>(<span class="va">n</span>) <span class="op">&lt;</span> <span class="va">P</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">A</span> <span class="op">=</span> <span class="va">double</span>(<span class="va">A</span> <span class="op">+</span> <span class="va">A</span><span class="op">'</span>)<span class="op">;</span>                           <span class="co">% each pair joined at most once</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">L</span> <span class="op">=</span> <span class="va">diag</span>(<span class="va">sum</span>(<span class="va">A</span><span class="op">,</span> <span class="fl">2</span>)) <span class="op">-</span> <span class="va">A</span><span class="op">;</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    [<span class="va">V</span><span class="op">,</span> <span class="va">D</span>] <span class="op">=</span> <span class="va">eig</span>(<span class="va">L</span>)<span class="op">;</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">guess</span> <span class="op">=</span> <span class="va">V</span>(<span class="op">:,</span> <span class="fl">2</span>) <span class="op">&gt;</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">correct</span> <span class="op">=</span> <span class="va">max</span>(<span class="va">sum</span>(<span class="va">guess</span> <span class="op">==</span> <span class="va">group</span>)<span class="op">,</span> <span class="va">sum</span>(<span class="va">guess</span> <span class="op">~=</span> <span class="va">group</span>))<span class="op">;</span>  <span class="co">% the labels may be swapped</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'p_out = %.2f: lambda2 = %.2f, %d of %d correct\n'</span><span class="op">,</span> <span class="va">p_out</span><span class="op">,</span> <span class="va">D</span>(<span class="fl">2</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">,</span> <span class="va">correct</span><span class="op">,</span> <span class="va">n</span>)</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p>The results depend on the random numbers, so MATLAB’s differ from Python’s. With between-community probability 0.05, the Fiedler vector puts all, or almost all, of the 100 nodes in the right group. With 0.15, only about 60 to 90 are right, depending on the random network (half would be right by pure chance). Each node then has about 15 neighbours in its own community and 7.5 in the other, so the communities are much less distinct: many nodes have almost as many links across as within, and random variation decides which side they fall. As the two probabilities approach each other, the hidden communities become impossible to detect by any method.</p>
+<p><a href="../part-6/41-networks.html#exercise-networks-7" class="sol-link">Back to exercise 7</a></p>
+</section>
+<section id="sec-solutions-input-output" class="level2" data-number="J.12">
+<h2 data-number="J.12" class="anchored" data-anchor-id="sec-solutions-input-output"><span class="header-section-number">J.12</span> Economics: input–output models</h2>
+<p>Exercises from <a href="../part-6/42-input-output.html" class="quarto-xref"><span>Chapter 42</span></a>.</p>
+<p><span id="solution-input-output-1"><strong>1.</strong></span> Since <span class="math inline">\(\vect{x}\)</span> depends linearly on <span class="math inline">\(\vect{d}\)</span>, <span class="math display">\[
+\Delta\vect{x} = \M{L}\,\Delta\vect{d} = \mat{1.5 &amp; 0.5 \\ 0.667 &amp; 1.333}\mat{0 \\ 10} = \mat{5 \\ 13.33}.
+\]</span> Agriculture must produce £5 billion more, although nobody buys more of its products directly, and manufacturing £13.3 billion more, more than the extra £10 billion of demand, because it uses some of its own products.</p>
+<p><a href="../part-6/42-input-output.html#exercise-input-output-1" class="sol-link">Back to exercise 1</a></p>
+<p><span id="solution-input-output-2"><strong>2.</strong></span> To deliver £1 of sector <span class="math inline">\(j\)</span>’s product to final buyers, sector <span class="math inline">\(j\)</span> must at least make that £1 itself, so <span class="math inline">\(\ell_{jj} \ge 1\)</span>; any inputs it needs from itself add more. In symbols, <span class="math inline">\(\M{L} = \M{I} + \M{A} + \M{A}^2 + \cdots\)</span>, and every term after <span class="math inline">\(\M{I} + \M{A}\)</span> has no negative entries, so each entry of <span class="math inline">\(\M{L}\)</span> is at least the corresponding entry of <span class="math inline">\(\M{I} + \M{A}\)</span>: the total requirement is at least the final demand itself plus the direct inputs.</p>
+<p><a href="../part-6/42-input-output.html#exercise-input-output-2" class="sol-link">Back to exercise 2</a></p>
+<p><span id="solution-input-output-3"><strong>3.</strong></span> <span class="math inline">\(\M{I} - \M{A} = \mat{0.5 &amp; -0.7 \\ -0.6 &amp; 0.6}\)</span>, with determinant <span class="math inline">\(0.3 - 0.42 = -0.12\)</span>, so <span class="math display">\[
+\vect{x} = \frac{1}{-0.12}\mat{0.6 &amp; 0.7 \\ 0.6 &amp; 0.5}\mat{10 \\ 10} = -\frac{1}{0.12}\mat{13 \\ 11} \approx \mat{-108.3 \\ -91.7}.
+\]</span> Negative outputs are impossible: this economy can’t meet the demand at all. Both columns of <span class="math inline">\(\M{A}\)</span> add up to 1.1, so each sector uses £1.10 of inputs to make £1 of output. Together the sectors use up more than they make, and the more they produce, the further they fall behind. (The largest eigenvalue of <span class="math inline">\(\M{A}\)</span> is 1.1, so the series <span class="math inline">\(\M{I} + \M{A} + \M{A}^2 + \cdots\)</span> diverges.)</p>
+<p><a href="../part-6/42-input-output.html#exercise-input-output-3" class="sol-link">Back to exercise 3</a></p>
+<p><span id="solution-input-output-4"><strong>4.</strong></span></p>
+<ol type="a">
+<li>The column sums of <span class="math inline">\(\M{A}\)</span> are 0.6 and 0.4, so <span class="math inline">\(\vect{v} = (0.4, 0.6)\)</span>. Then <span class="math inline">\(\M{A}\T(1, 1)\)</span> is the vector of column sums, <span class="math inline">\((0.6, 0.4)\)</span>, and adding <span class="math inline">\(\vect{v}\)</span> gives <span class="math inline">\((1, 1)\)</span>: so <span class="math inline">\(\vect{p} = (1, 1)\)</span> solves <span class="math inline">\(\vect{p} = \M{A}\T\vect{p} + \vect{v}\)</span>. Measuring each output in money, each £1 of output costs £1, as it should.</li>
+<li><span class="math inline">\(\Delta\vect{p} = (\M{I} - \M{A}\T)^{-1}\Delta\vect{v} = \M{L}\T(0.1, 0)\)</span>, the first column of <span class="math inline">\(\M{L}\T\)</span>, which is the first row of <span class="math inline">\(\M{L}\)</span>, times 0.1: <span class="math display">\[
+\Delta\vect{p} = 0.1 \times (1.5, 0.5) = (0.15, 0.05).
+\]</span> The price of agricultural products rises by 15p in the pound, more than the 10p rise in wages, because agriculture also buys its own products, which now cost more. Manufactured goods rise by 5p, because manufacturing buys agricultural inputs. Price rises spread along supply chains in the opposite direction to demand.</li>
+</ol>
+<p><a href="../part-6/42-input-output.html#exercise-input-output-4" class="sol-link">Back to exercise 4</a></p>
+<p><span id="solution-input-output-5"><strong>5.</strong></span> Multiplying out, almost every term cancels: <span class="math display">\[
+(\M{I} - \M{A})(\M{I} + \M{A} + \dots + \M{A}^k) = (\M{I} + \M{A} + \dots + \M{A}^k) - (\M{A} + \M{A}^2 + \dots + \M{A}^{k+1}) = \M{I} - \M{A}^{k+1}.
+\]</span> If <span class="math inline">\(\M{A}^{k+1} \to \M{0}\)</span>, then <span class="math inline">\(\M{I} - \M{A}\)</span> is invertible: if <span class="math inline">\((\M{I} - \M{A})\vect{x} = \zerovec\)</span>, then <span class="math inline">\(\vect{x} = \M{A}\vect{x} = \M{A}^2\vect{x} = \dots \to \zerovec\)</span>, so <span class="math inline">\(\vect{x} = \zerovec\)</span>. Multiplying the identity on the left by <span class="math inline">\((\M{I} - \M{A})^{-1}\)</span> gives <span class="math display">\[
+\M{I} + \M{A} + \dots + \M{A}^k = (\M{I} - \M{A})^{-1}(\M{I} - \M{A}^{k+1}) \to (\M{I} - \M{A})^{-1}.
+\]</span></p>
+<p><a href="../part-6/42-input-output.html#exercise-input-output-5" class="sol-link">Back to exercise 5</a></p>
+<p><span id="solution-input-output-6"><strong>6.</strong></span> With <span class="math inline">\(\boldsymbol{\ell} = (10, 5, 15)\)</span> jobs per £1 million of output, the jobs per £1 million of final demand are <span class="math inline">\(\boldsymbol{\ell}\T\M{L}\)</span>, the same calculation as a footprint: <span class="math display">\[
+\boldsymbol{\ell}\T\M{L} \approx (10 \times 1.138 + 5 \times 0.390 + 15 \times 0.256, \; \ldots) \approx (17.2, \; 16.0, \; 22.6).
+\]</span> Services support the most jobs, about 23 for each £1 million, because they employ many people directly and buy mostly from themselves. Manufacturing employs the fewest people directly, 5, but supports 16 jobs in total, more than three times as many, through its supply chain.</p>
+<p><a href="../part-6/42-input-output.html#exercise-input-output-6" class="sol-link">Back to exercise 6</a></p>
+<p><span id="solution-input-output-7"><strong>7.</strong></span></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<div id="29827716" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">0.10</span>, <span class="fl">0.05</span>, <span class="fl">0.02</span>], [<span class="fl">0.20</span>, <span class="fl">0.35</span>, <span class="fl">0.10</span>], [<span class="fl">0.10</span>, <span class="fl">0.20</span>, <span class="fl">0.25</span>]])</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> np.linalg.inv(np.eye(<span class="dv">3</span>) <span class="op">-</span> A)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>e <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">0.6</span>, <span class="fl">0.1</span>])</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>e_new <span class="op">=</span> e <span class="op">*</span> np.array([<span class="dv">1</span>, <span class="fl">0.8</span>, <span class="dv">1</span>])                <span class="co"># manufacturing cuts by 20%</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>f, f_new <span class="op">=</span> e <span class="op">@</span> L, e_new <span class="op">@</span> L</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(f, <span class="dv">3</span>))</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(f_new, <span class="dv">3</span>))</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(<span class="dv">100</span> <span class="op">*</span> (f <span class="op">-</span> f_new) <span class="op">/</span> f, <span class="dv">1</span>), <span class="st">"</span><span class="sc">% lo</span><span class="st">wer"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1.398 1.129 0.321]
+[1.351 0.933 0.294]
+[ 3.3 17.4  8.6] % lower</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="va">A</span> <span class="op">=</span> [<span class="fl">0.10</span> <span class="fl">0.05</span> <span class="fl">0.02</span><span class="op">;</span> <span class="fl">0.20</span> <span class="fl">0.35</span> <span class="fl">0.10</span><span class="op">;</span> <span class="fl">0.10</span> <span class="fl">0.20</span> <span class="fl">0.25</span>]<span class="op">;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="va">L</span> <span class="op">=</span> <span class="va">inv</span>(<span class="va">eye</span>(<span class="fl">3</span>) <span class="op">-</span> <span class="va">A</span>)<span class="op">;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="va">e</span> <span class="op">=</span> [<span class="fl">1.0</span> <span class="fl">0.6</span> <span class="fl">0.1</span>]<span class="op">;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="va">e_new</span> <span class="op">=</span> <span class="va">e</span> <span class="op">.*</span> [<span class="fl">1</span> <span class="fl">0.8</span> <span class="fl">1</span>]<span class="op">;</span>                           <span class="co">% manufacturing cuts by 20%</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="va">f</span> <span class="op">=</span> <span class="va">e</span> <span class="op">*</span> <span class="va">L</span><span class="op">;</span>  <span class="va">f_new</span> <span class="op">=</span> <span class="va">e_new</span> <span class="op">*</span> <span class="va">L</span><span class="op">;</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'%.3f '</span><span class="op">,</span> <span class="va">f</span>)<span class="op">;</span> <span class="va">fprintf</span>(<span class="ss">'\n'</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'%.3f '</span><span class="op">,</span> <span class="va">f_new</span>)<span class="op">;</span> <span class="va">fprintf</span>(<span class="ss">'\n'</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'%.1f%% '</span><span class="op">,</span> <span class="fl">100</span> <span class="op">*</span> (<span class="va">f</span> <span class="op">-</span> <span class="va">f_new</span>) <span class="op">./</span> <span class="va">f</span>)<span class="op">;</span> <span class="va">fprintf</span>(<span class="ss">'lower\n'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text code-output"><code>1.398 1.129 0.321 
+1.351 0.933 0.294 
+3.3% 17.4% 8.6% lower</code></pre>
+</div>
+</div>
+</div>
+<p>The footprints fall from about <span class="math inline">\((1.40, 1.13, 0.32)\)</span> to <span class="math inline">\((1.35, 0.93, 0.29)\)</span> kg per £1. Food’s footprint falls, although farms emit as much as before, because farming buys manufactured goods: 20p of them per £1 of output, such as fertiliser and machinery, whose emissions are part of food’s supply chain. Manufactured goods fall most, by 17%, a little less than 20% because part of their footprint comes from their agricultural and service inputs. Services fall by 9%, through the manufactured goods they buy. Cutting emissions anywhere in a supply chain lowers the footprint of everything downstream.</p>
+<p><a href="../part-6/42-input-output.html#exercise-input-output-7" class="sol-link">Back to exercise 7</a></p>
+</section>
+<section id="sec-solutions-review-6" class="level2" data-number="J.13">
+<h2 data-number="J.13" class="anchored" data-anchor-id="sec-solutions-review-6"><span class="header-section-number">J.13</span> Part VI review</h2>
 <p>Exercises from the <a href="../part-6/review.html">Part VI review</a>.</p>
 <p><span id="solution-review-6-1"><strong>1.</strong></span> <em>Uses <a href="../part-6/31-trusses.html" class="quarto-xref"><span>Chapter 31</span></a> and <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>.</em></p>
 <ol type="a">
@@ -1630,30 +1909,48 @@ ATTACKATDAWN</code></pre>
 <p><a href="../part-6/review.html#exercise-review-6-6" class="sol-link">Back to exercise 6</a></p>
 <p><span id="solution-review-6-7"><strong>7.</strong></span> <em>Uses <a href="../part-6/37-data-science.html" class="quarto-xref"><span>Chapter 37</span></a>, <a href="../part-4/21-svd-pca.html" class="quarto-xref"><span>Chapter 21</span></a> and <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>.</em> The trace is 5 and the determinant <span class="math inline">\(4 - 4 = 0\)</span>, so the eigenvalues are 5 and 0. For <span class="math inline">\(\lambda = 5\)</span>, the matrix minus <span class="math inline">\(5\M{I}\)</span> is <span class="math inline">\(\mat{-1 &amp; 2 \\ 2 &amp; -4}\)</span>, giving <span class="math inline">\(x = 2y\)</span>, so the eigenvectors are <span class="math inline">\((2, 1)\)</span> for 5 and the perpendicular <span class="math inline">\((-1, 2)\)</span> for 0. The first principal component explains <span class="math inline">\(5/(5 + 0) = 100\%\)</span> of the variance. The data have no spread at all in the direction <span class="math inline">\((-1, 2)\)</span>: every point lies on one straight line through the mean, with direction <span class="math inline">\((2, 1)\)</span>, so the second variable is exactly half the first plus a constant. The covariance matrix is singular, and the correlation is <span class="math inline">\(2/\sqrt{4 \times 1} = 1\)</span>.</p>
 <p><a href="../part-6/review.html#exercise-review-6-7" class="sol-link">Back to exercise 7</a></p>
-<p><span id="solution-review-6-8"><strong>8.</strong></span> <em>Uses <a href="../part-6/35-markov-pagerank.html" class="quarto-xref"><span>Chapter 35</span></a>, <a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a> and <a href="../part-5/26-cost-sparse.html" class="quarto-xref"><span>Chapter 26</span></a>.</em></p>
+<p><span id="solution-review-6-8"><strong>8.</strong></span> <em>Uses <a href="../part-6/40-vibrations.html" class="quarto-xref"><span>Chapter 40</span></a>, <a href="../part-4/18-eigenvalues.html" class="quarto-xref"><span>Chapter 18</span></a> and <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>.</em> With <span class="math inline">\(\M{M} = \operatorname{diag}(1, 2)\)</span>, <span class="math display">\[
+\det(\M{K} - \lambda\M{M}) = (3 - \lambda)(2 - 2\lambda) - 4 = 2\lambda^2 - 8\lambda + 2 = 0,
+\]</span> so <span class="math inline">\(\lambda^2 - 4\lambda + 1 = 0\)</span> and <span class="math inline">\(\omega^2 = \lambda = 2 \mp \sqrt{3} \approx 0.268, 3.732\)</span>. The natural frequencies are <span class="math inline">\(\omega_1 \approx 0.518\)</span> rad/s and <span class="math inline">\(\omega_2 \approx 1.932\)</span> rad/s. The first row gives <span class="math inline">\((3 - \lambda)v_1 = 2v_2\)</span>, so the modes are <span class="math display">\[
+\vect{v}_1 = \Bigl(1, \tfrac{1 + \sqrt{3}}{2}\Bigr) \approx (1, 1.366),
+\qquad
+\vect{v}_2 = \Bigl(1, \tfrac{1 - \sqrt{3}}{2}\Bigr) \approx (1, -0.366).
+\]</span> They are <span class="math inline">\(\M{M}\)</span>-orthogonal: <span class="math inline">\(\vect{v}_1\T\M{M}\vect{v}_2 = 1 + 2 \times \tfrac{(1 + \sqrt{3})(1 - \sqrt{3})}{4} = 1 + 2 \times \bigl(-\tfrac{1}{2}\bigr) = 0\)</span>. They are not perpendicular, since <span class="math inline">\(\vect{v}_1 \cdot \vect{v}_2 = 1 - \tfrac{1}{2} = \tfrac{1}{2}\)</span>: the heavier mass counts double.</p>
+<p><a href="../part-6/review.html#exercise-review-6-8" class="sol-link">Back to exercise 8</a></p>
+<p><span id="solution-review-6-9"><strong>9.</strong></span> <em>Uses <a href="../part-6/41-networks.html" class="quarto-xref"><span>Chapter 41</span></a> and <a href="../part-3/16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a>.</em> Numbering the path first and the triangle second, <span class="math inline">\(\M{L}\)</span> is block diagonal: <span class="math display">\[
+\M{L} = \mat{1 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ -1 &amp; 2 &amp; -1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; -1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 2 &amp; -1 &amp; -1 \\ 0 &amp; 0 &amp; 0 &amp; -1 &amp; 2 &amp; -1 \\ 0 &amp; 0 &amp; 0 &amp; -1 &amp; -1 &amp; 2}.
+\]</span> In each block, the rows add up to zero, so any one row is minus the sum of the others; but any two rows of a block are independent. So each block has rank 2, and <span class="math inline">\(\M{L}\)</span> has rank 4. By rank–nullity the null space has dimension <span class="math inline">\(6 - 4 = 2\)</span>, with basis <span class="math inline">\((1, 1, 1, 0, 0, 0)\)</span> and <span class="math inline">\((0, 0, 0, 1, 1, 1)\)</span>, one vector constant on each piece. Two pieces, two zero eigenvalues: rank <span class="math inline">\(= n - (\text{number of pieces})\)</span>.</p>
+<p><a href="../part-6/review.html#exercise-review-6-9" class="sol-link">Back to exercise 9</a></p>
+<p><span id="solution-review-6-10"><strong>10.</strong></span> <em>Uses <a href="../part-6/42-input-output.html" class="quarto-xref"><span>Chapter 42</span></a>, <a href="../part-1/07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a> and <a href="../part-4/18-eigenvalues.html" class="quarto-xref"><span>Chapter 18</span></a>.</em> <span class="math inline">\(\M{I} - \M{A} = \mat{0.8 &amp; -0.4 \\ -0.3 &amp; 0.9}\)</span>, with determinant <span class="math inline">\(0.72 - 0.12 = 0.6\)</span>, so <span class="math display">\[
+(\M{I} - \M{A})^{-1} = \frac{1}{0.6}\mat{0.9 &amp; 0.4 \\ 0.3 &amp; 0.8} = \mat{1.5 &amp; 0.667 \\ 0.5 &amp; 1.333},
+\qquad
+\vect{x} = \mat{1.5 \times 30 + 0.667 \times 60 \\ 0.5 \times 30 + 1.333 \times 60} = \mat{85 \\ 95}.
+\]</span> The rounds are <span class="math inline">\(\vect{d} = (30, 60)\)</span>, <span class="math inline">\(\M{A}\vect{d} = (30, 15)\)</span>, <span class="math inline">\(\M{A}^2\vect{d} = (12, 10.5)\)</span>, <span class="math inline">\(\M{A}^3\vect{d} = (6.6, 4.65)\)</span>, so the running totals are <span class="math inline">\((60, 75)\)</span>, <span class="math inline">\((72, 85.5)\)</span> and <span class="math inline">\((78.6, 90.15)\)</span>, approaching <span class="math inline">\((85, 95)\)</span>. The gaps left, <span class="math inline">\((25, 20)\)</span>, <span class="math inline">\((13, 9.5)\)</span>, <span class="math inline">\((6.4, 4.85)\)</span>, roughly halve each round. The eigenvalues of <span class="math inline">\(\M{A}\)</span> are 0.5 and <span class="math inline">\(-0.2\)</span> (trace 0.3, determinant <span class="math inline">\(-0.1\)</span>), and the larger one in size, 0.5, sets the rate.</p>
+<p><a href="../part-6/review.html#exercise-review-6-10" class="sol-link">Back to exercise 10</a></p>
+<p><span id="solution-review-6-11"><strong>11.</strong></span> <em>Uses <a href="../part-6/35-markov-pagerank.html" class="quarto-xref"><span>Chapter 35</span></a>, <a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a> and <a href="../part-5/26-cost-sparse.html" class="quarto-xref"><span>Chapter 26</span></a>.</em></p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">MATLAB</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
-<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<div id="32176ffc" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> {<span class="dv">0</span>: [<span class="dv">1</span>], <span class="dv">1</span>: [<span class="dv">0</span>, <span class="dv">2</span>], <span class="dv">2</span>: [<span class="dv">0</span>], <span class="dv">3</span>: [<span class="dv">2</span>, <span class="dv">4</span>], <span class="dv">4</span>: [<span class="dv">3</span>]}   <span class="co"># pages A to E as 0 to 4</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>n, d <span class="op">=</span> <span class="dv">5</span>, <span class="fl">0.85</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> np.zeros((n, n))</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j, targets <span class="kw">in</span> links.items():</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    M[targets, j] <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> <span class="bu">len</span>(targets)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.ones(n) <span class="op">/</span> n</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">1001</span>):</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    x_new <span class="op">=</span> d <span class="op">*</span> M <span class="op">@</span> x <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> d) <span class="op">/</span> n</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> np.<span class="bu">abs</span>(x_new <span class="op">-</span> x).<span class="bu">sum</span>() <span class="op">&lt;</span> <span class="fl">1e-10</span>:</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x_new</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x_new</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(k, <span class="st">"iterations"</span>)</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(x, <span class="dv">4</span>))</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(np.linalg.solve(np.eye(n) <span class="op">-</span> d <span class="op">*</span> M, (<span class="dv">1</span> <span class="op">-</span> d) <span class="op">/</span> n <span class="op">*</span> np.ones(n)), <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<div id="26386771" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> {<span class="dv">0</span>: [<span class="dv">1</span>], <span class="dv">1</span>: [<span class="dv">0</span>, <span class="dv">2</span>], <span class="dv">2</span>: [<span class="dv">0</span>], <span class="dv">3</span>: [<span class="dv">2</span>, <span class="dv">4</span>], <span class="dv">4</span>: [<span class="dv">3</span>]}   <span class="co"># pages A to E as 0 to 4</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>n, d <span class="op">=</span> <span class="dv">5</span>, <span class="fl">0.85</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> np.zeros((n, n))</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j, targets <span class="kw">in</span> links.items():</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    M[targets, j] <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> <span class="bu">len</span>(targets)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.ones(n) <span class="op">/</span> n</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">1001</span>):</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    x_new <span class="op">=</span> d <span class="op">*</span> M <span class="op">@</span> x <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> d) <span class="op">/</span> n</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> np.<span class="bu">abs</span>(x_new <span class="op">-</span> x).<span class="bu">sum</span>() <span class="op">&lt;</span> <span class="fl">1e-10</span>:</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x_new</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x_new</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(k, <span class="st">"iterations"</span>)</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(x, <span class="dv">4</span>))</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(np.linalg.solve(np.eye(n) <span class="op">-</span> d <span class="op">*</span> M, (<span class="dv">1</span> <span class="op">-</span> d) <span class="op">/</span> n <span class="op">*</span> np.ones(n)), <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>43 iterations
 [0.3331 0.3131 0.2    0.0869 0.0669]
@@ -1661,24 +1958,24 @@ ATTACKATDAWN</code></pre>
 </div>
 </div>
 </div>
-<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="va">links</span> <span class="op">=</span> {<span class="fl">2</span><span class="op">,</span> [<span class="fl">1</span> <span class="fl">3</span>]<span class="op">,</span> <span class="fl">1</span><span class="op">,</span> [<span class="fl">3</span> <span class="fl">5</span>]<span class="op">,</span> <span class="fl">4</span>}<span class="op">;</span>    <span class="co">% page j links to the pages in links{j}</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span>  <span class="va">d</span> <span class="op">=</span> <span class="fl">0.85</span><span class="op">;</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="va">M</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">n</span>)<span class="op">;</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">j</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">M</span>(<span class="va">links</span>{<span class="va">j</span>}<span class="op">,</span> <span class="va">j</span>) <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">numel</span>(<span class="va">links</span>{<span class="va">j</span>})<span class="op">;</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">ones</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">1</span>) <span class="op">/</span> <span class="va">n</span><span class="op">;</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">1000</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">x_new</span> <span class="op">=</span> <span class="va">d</span><span class="op">*</span><span class="va">M</span><span class="op">*</span><span class="va">x</span> <span class="op">+</span> (<span class="fl">1</span> <span class="op">-</span> <span class="va">d</span>)<span class="op">/</span><span class="va">n</span><span class="op">;</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="va">norm</span>(<span class="va">x_new</span> <span class="op">-</span> <span class="va">x</span><span class="op">,</span> <span class="fl">1</span>) <span class="op">&lt;</span> <span class="fl">1e-10</span><span class="op">,</span> <span class="kw">break</span><span class="op">,</span> <span class="kw">end</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">x</span> <span class="op">=</span> <span class="va">x_new</span><span class="op">;</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">x_new</span><span class="op">;</span></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'%d iterations\n'</span><span class="op">,</span> <span class="va">k</span>)</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'%.4f '</span><span class="op">,</span> <span class="va">x</span>)<span class="op">;</span> <span class="va">fprintf</span>(<span class="ss">'\n'</span>)</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="va">y</span> <span class="op">=</span> (<span class="va">eye</span>(<span class="va">n</span>) <span class="op">-</span> <span class="va">d</span><span class="op">*</span><span class="va">M</span>) <span class="op">\</span> ((<span class="fl">1</span> <span class="op">-</span> <span class="va">d</span>)<span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">ones</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">1</span>))<span class="op">;</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'%.4f '</span><span class="op">,</span> <span class="va">y</span>)<span class="op">;</span> <span class="va">fprintf</span>(<span class="ss">'\n'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="va">links</span> <span class="op">=</span> {<span class="fl">2</span><span class="op">,</span> [<span class="fl">1</span> <span class="fl">3</span>]<span class="op">,</span> <span class="fl">1</span><span class="op">,</span> [<span class="fl">3</span> <span class="fl">5</span>]<span class="op">,</span> <span class="fl">4</span>}<span class="op">;</span>    <span class="co">% page j links to the pages in links{j}</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="va">n</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span>  <span class="va">d</span> <span class="op">=</span> <span class="fl">0.85</span><span class="op">;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="va">M</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">j</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">M</span>(<span class="va">links</span>{<span class="va">j</span>}<span class="op">,</span> <span class="va">j</span>) <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">numel</span>(<span class="va">links</span>{<span class="va">j</span>})<span class="op">;</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">ones</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">1</span>) <span class="op">/</span> <span class="va">n</span><span class="op">;</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">1000</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">x_new</span> <span class="op">=</span> <span class="va">d</span><span class="op">*</span><span class="va">M</span><span class="op">*</span><span class="va">x</span> <span class="op">+</span> (<span class="fl">1</span> <span class="op">-</span> <span class="va">d</span>)<span class="op">/</span><span class="va">n</span><span class="op">;</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="va">norm</span>(<span class="va">x_new</span> <span class="op">-</span> <span class="va">x</span><span class="op">,</span> <span class="fl">1</span>) <span class="op">&lt;</span> <span class="fl">1e-10</span><span class="op">,</span> <span class="kw">break</span><span class="op">,</span> <span class="kw">end</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">x</span> <span class="op">=</span> <span class="va">x_new</span><span class="op">;</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">x_new</span><span class="op">;</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'%d iterations\n'</span><span class="op">,</span> <span class="va">k</span>)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'%.4f '</span><span class="op">,</span> <span class="va">x</span>)<span class="op">;</span> <span class="va">fprintf</span>(<span class="ss">'\n'</span>)</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a><span class="va">y</span> <span class="op">=</span> (<span class="va">eye</span>(<span class="va">n</span>) <span class="op">-</span> <span class="va">d</span><span class="op">*</span><span class="va">M</span>) <span class="op">\</span> ((<span class="fl">1</span> <span class="op">-</span> <span class="va">d</span>)<span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">ones</span>(<span class="va">n</span><span class="op">,</span> <span class="fl">1</span>))<span class="op">;</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'%.4f '</span><span class="op">,</span> <span class="va">y</span>)<span class="op">;</span> <span class="va">fprintf</span>(<span class="ss">'\n'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <pre class="text code-output"><code>43 iterations
 0.3331 0.3131 0.2000 0.0869 0.0669 
 0.3331 0.3131 0.2000 0.0869 0.0669 </code></pre>
@@ -1686,7 +1983,7 @@ ATTACKATDAWN</code></pre>
 </div>
 </div>
 <p>The ranks, A to E, are 0.333, 0.313, 0.200, 0.087 and 0.067, and the linear system agrees. The power method took 43 steps, in line with the error shrinking by a factor of about 0.85 per step. D and E rank lowest because no page outside the pair links to them: all they receive is the random jumps and what they pass to each other, and D leaks half of its rank to C.</p>
-<p><a href="../part-6/review.html#exercise-review-6-8" class="sol-link">Back to exercise 8</a></p>
+<p><a href="../part-6/review.html#exercise-review-6-11" class="sol-link">Back to exercise 11</a></p>
 
 
 </section>
