@@ -182,6 +182,8 @@ Undoing a rotation by $\theta$ means rotating by $-\theta$ about the same axis. 
 
 ## Exercises {#sec-transformations-3d-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-transformations-3d-1}Write down the matrix of: (a) rotation by $180°$ about the $y$-axis; (b) reflection in the plane $x = 0$; (c) the stretch that doubles $x$, halves $y$ and leaves $z$ alone. Find the determinant of each and interpret it.
 
    [Solution to exercise 1](../appendices/solutions-1.qmd#solution-transformations-3d-1){.sol-link}
@@ -194,7 +196,7 @@ Undoing a rotation by $\theta$ means rotating by $-\theta$ about the same axis. 
 
    [Solution to exercise 3](../appendices/solutions-1.qmd#solution-transformations-3d-3){.sol-link}
 
-4. []{#exercise-transformations-3d-4}Write down the matrix $\M{P}$ of the projection onto the $xz$-plane. Show that $\M{R}_y(90°)\M{P} = \M{P}\M{R}_y(90°)$, and explain geometrically why the order does not matter here.
+4. []{#exercise-transformations-3d-4}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Write down the matrix $\M{P}$ of the projection onto the $xz$-plane. Show that $\M{R}_y(90°)\M{P} = \M{P}\M{R}_y(90°)$, and explain geometrically why the order does not matter here.
 
    [Solution to exercise 4](../appendices/solutions-1.qmd#solution-transformations-3d-4){.sol-link}
 

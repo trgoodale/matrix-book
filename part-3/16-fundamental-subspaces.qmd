@@ -278,6 +278,8 @@ No. The column space lives in $\R^3$, and its dimension is the rank, which is at
 
 ## Exercises {#sec-fundamental-subspaces-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-fundamental-subspaces-1}Find bases for the column space and null space of $\mat{1 & 2 & 3 \\ 2 & 4 & 6}$, and check rank–nullity.
 
    [Solution to exercise 1](../appendices/solutions-3.qmd#solution-fundamental-subspaces-1){.sol-link}
@@ -298,7 +300,7 @@ No. The column space lives in $\R^3$, and its dimension is the rank, which is at
 
    [Solution to exercise 5](../appendices/solutions-3.qmd#solution-fundamental-subspaces-5){.sol-link}
 
-6. []{#exercise-fundamental-subspaces-6}Explain why $\M{A}$ and $\M{A}\T\M{A}$ have the same null space. (*Hint*: if $\M{A}\T\M{A}\vect{x} = \zerovec$, multiply on the left by $\vect{x}\T$ and think about lengths.)
+6. []{#exercise-fundamental-subspaces-6}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Explain why $\M{A}$ and $\M{A}\T\M{A}$ have the same null space. (*Hint*: if $\M{A}\T\M{A}\vect{x} = \zerovec$, multiply on the left by $\vect{x}\T$ and think about lengths.)
 
    [Solution to exercise 6](../appendices/solutions-3.qmd#solution-fundamental-subspaces-6){.sol-link}
 

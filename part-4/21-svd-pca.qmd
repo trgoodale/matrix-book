@@ -309,6 +309,8 @@ They are the same: $\M{A} = \M{Q}\M{\Lambda}\M{Q}\T$ is already an SVD, with $\M
 
 ## Exercises {#sec-svd-pca-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-svd-pca-1}Find the singular values of $\mat{1 & 1 \\ 0 & 0}$, and describe what the matrix does to the unit circle.
 
    [Solution to exercise 1](../appendices/solutions-4.qmd#solution-svd-pca-1){.sol-link}
@@ -329,7 +331,7 @@ They are the same: $\M{A} = \M{Q}\M{\Lambda}\M{Q}\T$ is already an SVD, with $\M
 
    [Solution to exercise 5](../appendices/solutions-4.qmd#solution-svd-pca-5){.sol-link}
 
-6. []{#exercise-svd-pca-6}Find the pseudoinverse of $\M{A} = \mat{1 & 1 \\ 1 & 1}$, and use it to find the shortest least-squares solution of $\M{A}\vect{x} = (1, 3)\T$.
+6. []{#exercise-svd-pca-6}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Find the pseudoinverse of $\M{A} = \mat{1 & 1 \\ 1 & 1}$, and use it to find the shortest least-squares solution of $\M{A}\vect{x} = (1, 3)\T$.
 
    [Solution to exercise 6](../appendices/solutions-4.qmd#solution-svd-pca-6){.sol-link}
 

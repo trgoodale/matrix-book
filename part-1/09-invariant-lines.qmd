@@ -331,6 +331,8 @@ The origin is the only one, because $(\M{A} - \M{I})\vect{x} = \zerovec$ then ha
 
 ## Exercises {#sec-invariant-lines-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-invariant-lines-1}Find the invariant lines through the origin, the stretch factor along each, and any lines of invariant points, for
 
    (a) $\mat{2 & 1 \\ 1 & 2}$
@@ -349,7 +351,7 @@ The origin is the only one, because $(\M{A} - \M{I})\vect{x} = \zerovec$ then ha
 
    [Solution to exercise 3](../appendices/solutions-1.qmd#solution-invariant-lines-3){.sol-link}
 
-4. []{#exercise-invariant-lines-4}Show that the rotation by $\theta$ about the origin, $\mat{\cos\theta & -\sin\theta \\ \sin\theta & \cos\theta}$, has no invariant lines unless $\theta = 0°$ or $180°$. What happens in those two cases? (*Hint*: a line through the origin along $\vect{v}$ is invariant only if $\M{A}\vect{v}$ points along the same line as $\vect{v}$. A rotation turns every vector through $\theta$; when does that leave it on the same line?)
+4. []{#exercise-invariant-lines-4}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that the rotation by $\theta$ about the origin, $\mat{\cos\theta & -\sin\theta \\ \sin\theta & \cos\theta}$, has no invariant lines unless $\theta = 0°$ or $180°$. What happens in those two cases? (*Hint*: a line through the origin along $\vect{v}$ is invariant only if $\M{A}\vect{v}$ points along the same line as $\vect{v}$. A rotation turns every vector through $\theta$; when does that leave it on the same line?)
 
    [Solution to exercise 4](../appendices/solutions-1.qmd#solution-invariant-lines-4){.sol-link}
 
@@ -357,7 +359,7 @@ The origin is the only one, because $(\M{A} - \M{I})\vect{x} = \zerovec$ then ha
 
    [Solution to exercise 5](../appendices/solutions-1.qmd#solution-invariant-lines-5){.sol-link}
 
-6. []{#exercise-invariant-lines-6}The matrix $\M{Q} = \frac{1}{3}\mat{2 & -1 & 2 \\ 2 & 2 & -1 \\ -1 & 2 & 2}$ is a rotation. Check that $\M{Q}\T\M{Q} = \M{I}$ and $\det\M{Q} = 1$, and find its axis.
+6. []{#exercise-invariant-lines-6}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} The matrix $\M{Q} = \frac{1}{3}\mat{2 & -1 & 2 \\ 2 & 2 & -1 \\ -1 & 2 & 2}$ is a rotation. Check that $\M{Q}\T\M{Q} = \M{I}$ and $\det\M{Q} = 1$, and find its axis.
 
    [Solution to exercise 6](../appendices/solutions-1.qmd#solution-invariant-lines-6){.sol-link}
 

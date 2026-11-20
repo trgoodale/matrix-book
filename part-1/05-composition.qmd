@@ -241,6 +241,8 @@ A rotation by $2(40° - 10°) = 60°$ anticlockwise.
 
 ## Exercises {#sec-composition-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-composition-1}Find the single matrix for each sequence, and describe the result geometrically:
    (a) reflect in the $x$-axis, then reflect in the $y$-axis;
    (b) rotate by $90°$ anticlockwise, then enlarge by factor 3;
@@ -256,7 +258,7 @@ A rotation by $2(40° - 10°) = 60°$ anticlockwise.
 
    [Solution to exercise 3](../appendices/solutions-1.qmd#solution-composition-3){.sol-link}
 
-4. []{#exercise-composition-4}Multiply the reflection matrices for lines at angles $\theta$ and $\varphi$ to show that reflecting in the $\varphi$ line and then the $\theta$ line gives $\M{R}(2(\theta - \varphi))$. What happens when $\theta = \varphi$? (*Hint*: the matrix of the first reflection, in the $\varphi$ line, goes on the right of the product. Multiply out, then simplify with $\cos(a - b) = \cos a\cos b + \sin a\sin b$ and $\sin(a - b) = \sin a\cos b - \cos a\sin b$.)
+4. []{#exercise-composition-4}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Multiply the reflection matrices for lines at angles $\theta$ and $\varphi$ to show that reflecting in the $\varphi$ line and then the $\theta$ line gives $\M{R}(2(\theta - \varphi))$. What happens when $\theta = \varphi$? (*Hint*: the matrix of the first reflection, in the $\varphi$ line, goes on the right of the product. Multiply out, then simplify with $\cos(a - b) = \cos a\cos b + \sin a\sin b$ and $\sin(a - b) = \sin a\cos b - \cos a\sin b$.)
 
    [Solution to exercise 4](../appendices/solutions-1.qmd#solution-composition-4){.sol-link}
 

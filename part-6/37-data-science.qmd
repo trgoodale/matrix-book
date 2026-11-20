@@ -270,6 +270,8 @@ Without centring, the first component mostly points towards the mean of the data
 
 ## Exercises {#sec-data-science-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-data-science-1}Fit a straight line $y \approx \beta_0 + \beta_1x$ to the points $(1, 1)$, $(2, 3)$, $(3, 4)$ and $(4, 4)$ by forming and solving the normal equations, and find $R^2$.
 
    [Solution to exercise 1](../appendices/solutions-6.qmd#solution-data-science-1){.sol-link}
@@ -278,7 +280,7 @@ Without centring, the first component mostly points towards the mean of the data
 
    [Solution to exercise 2](../appendices/solutions-6.qmd#solution-data-science-2){.sol-link}
 
-3. []{#exercise-data-science-3}Show that if the columns of the design matrix are orthogonal, the least-squares coefficient of each variable is $\hat\beta_j = (\vect{x}_j \cdot \vect{y})/(\vect{x}_j \cdot \vect{x}_j)$, the same whether or not the other variables are included.
+3. []{#exercise-data-science-3}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that if the columns of the design matrix are orthogonal, the least-squares coefficient of each variable is $\hat\beta_j = (\vect{x}_j \cdot \vect{y})/(\vect{x}_j \cdot \vect{x}_j)$, the same whether or not the other variables are included.
 
    [Solution to exercise 3](../appendices/solutions-6.qmd#solution-data-science-3){.sol-link}
 

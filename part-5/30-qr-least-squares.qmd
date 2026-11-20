@@ -222,6 +222,8 @@ Reflecting twice in the same mirror returns every vector to where it started. Al
 
 ## Exercises {#sec-qr-least-squares-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-qr-least-squares-1}Find the QR factorisation of $\M{A} = \mat{3 & 1 \\ 4 & 2}$ by Gram–Schmidt.
 
    [Solution to exercise 1](../appendices/solutions-5.qmd#solution-qr-least-squares-1){.sol-link}
@@ -242,7 +244,7 @@ Reflecting twice in the same mirror returns every vector to where it started. Al
 
    [Solution to exercise 5](../appendices/solutions-5.qmd#solution-qr-least-squares-5){.sol-link}
 
-6. []{#exercise-qr-least-squares-6}Explain why, if $\M{A} = \M{Q}\M{R}$, the least-squares residual is $\lVert\vect{b} - \M{A}\hat{\vect{x}}\rVert^2 = \lVert\vect{b}\rVert^2 - \lVert\M{Q}\T\vect{b}\rVert^2$.
+6. []{#exercise-qr-least-squares-6}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Explain why, if $\M{A} = \M{Q}\M{R}$, the least-squares residual is $\lVert\vect{b} - \M{A}\hat{\vect{x}}\rVert^2 = \lVert\vect{b}\rVert^2 - \lVert\M{Q}\T\vect{b}\rVert^2$.
 
    [Solution to exercise 6](../appendices/solutions-5.qmd#solution-qr-least-squares-6){.sol-link}
 

@@ -306,6 +306,8 @@ Because there is no reason to: pivoting costs almost nothing and protects agains
 
 ## Exercises {#sec-pivoting-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-pivoting-1}Solve $0.0001x + y = 1$, $x + y = 2$ rounding every result to 3 significant digits, first without pivoting and then with partial pivoting. Compare both with the exact solution.
 
    [Solution to exercise 1](../appendices/solutions-5.qmd#solution-pivoting-1){.sol-link}
@@ -318,11 +320,11 @@ Because there is no reason to: pivoting costs almost nothing and protects agains
 
    [Solution to exercise 3](../appendices/solutions-5.qmd#solution-pivoting-3){.sol-link}
 
-4. []{#exercise-pivoting-4}Wilkinson's matrix of size 4 is $\M{W} = \mat{1 & 0 & 0 & 1 \\ -1 & 1 & 0 & 1 \\ -1 & -1 & 1 & 1 \\ -1 & -1 & -1 & 1}$. Carry out elimination with partial pivoting (taking the first row when there is a tie). Find $\M{U}$ and the growth factor, and predict the growth factor for size $n$.
+4. []{#exercise-pivoting-4}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Wilkinson's matrix of size 4 is $\M{W} = \mat{1 & 0 & 0 & 1 \\ -1 & 1 & 0 & 1 \\ -1 & -1 & 1 & 1 \\ -1 & -1 & -1 & 1}$. Carry out elimination with partial pivoting (taking the first row when there is a tie). Find $\M{U}$ and the growth factor, and predict the growth factor for size $n$.
 
    [Solution to exercise 4](../appendices/solutions-5.qmd#solution-pivoting-4){.sol-link}
 
-5. []{#exercise-pivoting-5}Show that if $\M{A}$ is $2 \times 2$ and diagonally dominant by columns, $\lvert a_{11}\rvert > \lvert a_{21}\rvert$ and $\lvert a_{22}\rvert > \lvert a_{12}\rvert$, then partial pivoting makes no swaps, and the second pivot is not zero.
+5. []{#exercise-pivoting-5}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that if $\M{A}$ is $2 \times 2$ and diagonally dominant by columns, $\lvert a_{11}\rvert > \lvert a_{21}\rvert$ and $\lvert a_{22}\rvert > \lvert a_{12}\rvert$, then partial pivoting makes no swaps, and the second pivot is not zero.
 
    [Solution to exercise 5](../appendices/solutions-5.qmd#solution-pivoting-5){.sol-link}
 

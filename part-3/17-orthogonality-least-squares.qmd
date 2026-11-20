@@ -260,6 +260,8 @@ The identity matrix.
 
 ## Exercises {#sec-orthogonality-least-squares-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-orthogonality-least-squares-1}Find the angle between (a) $(1, 2, 2)\T$ and $(2, 1, -2)\T$; (b) $(1, 1, 0)\T$ and $(1, 0, 1)\T$.
 
    [Solution to exercise 1](../appendices/solutions-3.qmd#solution-orthogonality-least-squares-1){.sol-link}
@@ -280,7 +282,7 @@ The identity matrix.
 
    [Solution to exercise 5](../appendices/solutions-3.qmd#solution-orthogonality-least-squares-5){.sol-link}
 
-6. []{#exercise-orthogonality-least-squares-6}Show that for a straight-line fit $y = c + mt$, the least-squares errors always add up to zero. (*Hint*: look at the first of the normal equations, $\M{A}\T\vect{e} = \zerovec$.)
+6. []{#exercise-orthogonality-least-squares-6}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that for a straight-line fit $y = c + mt$, the least-squares errors always add up to zero. (*Hint*: look at the first of the normal equations, $\M{A}\T\vect{e} = \zerovec$.)
 
    [Solution to exercise 6](../appendices/solutions-3.qmd#solution-orthogonality-least-squares-6){.sol-link}
 

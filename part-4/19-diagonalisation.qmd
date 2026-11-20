@@ -249,6 +249,8 @@ It shrinks to $\zerovec$, eventually along the eigenvector for 0.9, shrinking by
 
 ## Exercises {#sec-diagonalisation-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-diagonalisation-1}Diagonalise $\M{A} = \mat{1 & 2 \\ 2 & 1}$, and use your answer to find $\M{A}^{10}$.
 
    [Solution to exercise 1](../appendices/solutions-4.qmd#solution-diagonalisation-1){.sol-link}
@@ -265,7 +267,7 @@ It shrinks to $\zerovec$, eventually along the eigenvector for 0.9, shrinking by
 
    [Solution to exercise 4](../appendices/solutions-4.qmd#solution-diagonalisation-4){.sol-link}
 
-5. []{#exercise-diagonalisation-5}The Lucas numbers $2, 1, 3, 4, 7, 11, \dots$ follow the same rule as the Fibonacci numbers, $L_{k+1} = L_k + L_{k-1}$, but start from $L_0 = 2$, $L_1 = 1$. Show that $L_k = \lambda_1^k + \lambda_2^k$, with $\lambda_1$ and $\lambda_2$ as in Example 3. (*Hint*: as in Example 3, $L_k = a\lambda_1^k + b\lambda_2^k$ for some numbers $a$ and $b$. Use $L_0 = 2$ and $L_1 = 1$ to find them.)
+5. []{#exercise-diagonalisation-5}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} The Lucas numbers $2, 1, 3, 4, 7, 11, \dots$ follow the same rule as the Fibonacci numbers, $L_{k+1} = L_k + L_{k-1}$, but start from $L_0 = 2$, $L_1 = 1$. Show that $L_k = \lambda_1^k + \lambda_2^k$, with $\lambda_1$ and $\lambda_2$ as in Example 3. (*Hint*: as in Example 3, $L_k = a\lambda_1^k + b\lambda_2^k$ for some numbers $a$ and $b$. Use $L_0 = 2$ and $L_1 = 1$ to find them.)
 
    [Solution to exercise 5](../appendices/solutions-4.qmd#solution-diagonalisation-5){.sol-link}
 

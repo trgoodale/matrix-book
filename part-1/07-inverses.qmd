@@ -273,6 +273,8 @@ $\M{A}^{-1} = \M{A}$, since $\M{A}\M{A} = \M{I}$. Any reflection is an example: 
 
 ## Exercises {#sec-inverses-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-inverses-1}Find the inverse, if it exists:
 
    (a) $\mat{3 & 5 \\ 1 & 2}$
@@ -288,7 +290,7 @@ $\M{A}^{-1} = \M{A}$, since $\M{A}\M{A} = \M{I}$. Any reflection is an example: 
 
    [Solution to exercise 2](../appendices/solutions-1.qmd#solution-inverses-2){.sol-link}
 
-3. []{#exercise-inverses-3}Find the inverse of $\mat{2 & 0 & 1 \\ 1 & 1 & 0 \\ 0 & 3 & 1}$ using cofactors, and check your answer.
+3. []{#exercise-inverses-3}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Find the inverse of $\mat{2 & 0 & 1 \\ 1 & 1 & 0 \\ 0 & 3 & 1}$ using cofactors, and check your answer.
 
    [Solution to exercise 3](../appendices/solutions-1.qmd#solution-inverses-3){.sol-link}
 

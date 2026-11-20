@@ -311,6 +311,8 @@ Not in general. The correct rule reverses the order: $(\M{A}\M{B})\T = \M{B}\T\M
 
 ## Exercises {#sec-multiplication-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-multiplication-1}Find each product, or explain why it is not defined:
 
    (a) $\mat{2 & -1 \\ 0 & 3}\mat{1 & 4 \\ 5 & -2}$
@@ -324,7 +326,7 @@ Not in general. The correct rule reverses the order: $(\M{A}\M{B})\T = \M{B}\T\M
 
    [Solution to exercise 2](../appendices/solutions-1.qmd#solution-multiplication-2){.sol-link}
 
-3. []{#exercise-multiplication-3}Let $\M{A} = \mat{1 & 1 \\ 0 & 1}$. Find $\M{A}^2$, $\M{A}^3$ and $\M{A}^4$, guess a formula for $\M{A}^n$, and check your guess by showing that it is consistent with $\M{A}^{n+1} = \M{A}^n\M{A}$.
+3. []{#exercise-multiplication-3}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Let $\M{A} = \mat{1 & 1 \\ 0 & 1}$. Find $\M{A}^2$, $\M{A}^3$ and $\M{A}^4$, guess a formula for $\M{A}^n$, and check your guess by showing that it is consistent with $\M{A}^{n+1} = \M{A}^n\M{A}$.
 
    [Solution to exercise 3](../appendices/solutions-1.qmd#solution-multiplication-3){.sol-link}
 

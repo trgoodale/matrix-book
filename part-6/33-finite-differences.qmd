@@ -260,11 +260,13 @@ It is $10^6 \times 10^6$, so it would have $10^{12}$ entries, about 8 terabytes 
 
 ## Exercises {#sec-finite-differences-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-finite-differences-1}Solve the rod problem $-u'' = 0$ with $u(0) = 20$ and $u(1) = 80$, using $n = 3$ interior points. What is the exact solution, and why does the method get it exactly?
 
    [Solution to exercise 1](../appendices/solutions-6.qmd#solution-finite-differences-1){.sol-link}
 
-2. []{#exercise-finite-differences-2}Use Taylor expansions to show that the **forward difference** $\bigl(u(x + h) - u(x)\bigr)/h$ approximates $u'(x)$ with an error proportional to $h$, while the central difference $\bigl(u(x + h) - u(x - h)\bigr)/(2h)$ has error proportional to $h^2$.
+2. []{#exercise-finite-differences-2}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Use Taylor expansions to show that the **forward difference** $\bigl(u(x + h) - u(x)\bigr)/h$ approximates $u'(x)$ with an error proportional to $h$, while the central difference $\bigl(u(x + h) - u(x - h)\bigr)/(2h)$ has error proportional to $h^2$.
 
    [Solution to exercise 2](../appendices/solutions-6.qmd#solution-finite-differences-2){.sol-link}
 

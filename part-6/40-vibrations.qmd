@@ -306,6 +306,8 @@ That $\M{K}\vect{v} = \zerovec$ for the mode shape $\vect{v}$: the structure can
 
 ## Exercises {#sec-vibrations-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-vibrations-1}Two masses $m$ hang one below the other from a fixed support: a spring $k$ joins the support to mass 1, and another spring $k$ joins mass 1 to mass 2. Find the natural frequencies, as multiples of $\sqrt{k/m}$, and the mode shapes.
 
    [Solution to exercise 1](../appendices/solutions-6.qmd#solution-vibrations-1){.sol-link}
@@ -314,7 +316,7 @@ That $\M{K}\vect{v} = \zerovec$ for the mode shape $\vect{v}$: the structure can
 
    [Solution to exercise 2](../appendices/solutions-6.qmd#solution-vibrations-2){.sol-link}
 
-3. []{#exercise-vibrations-3}A diatomic molecule is two atoms of masses $m_1$ and $m_2$ joined by a bond that acts like a spring of stiffness $k$, with no walls. Write down $\M{K}$ and $\M{M}$, and show that one natural frequency is 0 and the other is $\omega = \sqrt{k(1/m_1 + 1/m_2)}$. Describe both modes. For carbon monoxide, $k \approx 1900$ N/m, the atoms have masses 12 and 16 atomic mass units, and $1 \text{ u} = 1.661 \times 10^{-27}$ kg. Find the vibration frequency in hertz. (*Hint*: with no walls, $\M{K} = k\mat{1 & -1 \\ -1 & 1}$. Set $\det(\M{K} - \omega^2\M{M}) = 0$ and take out the factor $\omega^2$.)
+3. []{#exercise-vibrations-3}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} A diatomic molecule is two atoms of masses $m_1$ and $m_2$ joined by a bond that acts like a spring of stiffness $k$, with no walls. Write down $\M{K}$ and $\M{M}$, and show that one natural frequency is 0 and the other is $\omega = \sqrt{k(1/m_1 + 1/m_2)}$. Describe both modes. For carbon monoxide, $k \approx 1900$ N/m, the atoms have masses 12 and 16 atomic mass units, and $1 \text{ u} = 1.661 \times 10^{-27}$ kg. Find the vibration frequency in hertz. (*Hint*: with no walls, $\M{K} = k\mat{1 & -1 \\ -1 & 1}$. Set $\det(\M{K} - \omega^2\M{M}) = 0$ and take out the factor $\omega^2$.)
 
    [Solution to exercise 3](../appendices/solutions-6.qmd#solution-vibrations-3){.sol-link}
 
@@ -326,7 +328,7 @@ That $\M{K}\vect{v} = \zerovec$ for the mode shape $\vect{v}$: the structure can
 
    [Solution to exercise 5](../appendices/solutions-6.qmd#solution-vibrations-5){.sol-link}
 
-6. []{#exercise-vibrations-6}A machine of mass $m_1$ sits on a mounting of stiffness $k_1$, and an unbalanced motor shakes it with force $F\cos(\Omega t)$. A small mass $m_2$ is attached to it by a spring $k_2$. Show that the machine doesn't move at all when $\Omega^2 = k_2/m_2$, whatever $m_1$ and $k_1$ are. If the motor runs at 50 Hz and $m_2 = 2$ kg, what should $k_2$ be? (*Hint*: write the amplitude equations $(\M{K} - \Omega^2\M{M})\vect{X} = (F, 0)\T$ and eliminate $X_2$: the answer for $X_1$ has a factor $k_2 - \Omega^2 m_2$.)
+6. []{#exercise-vibrations-6}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} A machine of mass $m_1$ sits on a mounting of stiffness $k_1$, and an unbalanced motor shakes it with force $F\cos(\Omega t)$. A small mass $m_2$ is attached to it by a spring $k_2$. Show that the machine doesn't move at all when $\Omega^2 = k_2/m_2$, whatever $m_1$ and $k_1$ are. If the motor runs at 50 Hz and $m_2 = 2$ kg, what should $k_2$ be? (*Hint*: write the amplitude equations $(\M{K} - \Omega^2\M{M})\vect{X} = (F, 0)\T$ and eliminate $X_2$: the answer for $X_1$ has a factor $k_2 - \Omega^2 m_2$.)
 
    [Solution to exercise 6](../appendices/solutions-6.qmd#solution-vibrations-6){.sol-link}
 

@@ -415,6 +415,8 @@ $\det\M{A} = 0$ means the two columns lie along the same line through the origin
 
 ## Exercises {#sec-linear-systems-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-linear-systems-1}Write this system as $\M{A}\vect{x} = \vect{b}$ and as an augmented matrix:
    $$
    \begin{aligned}
@@ -452,7 +454,7 @@ $\det\M{A} = 0$ means the two columns lie along the same line through the origin
 
    [Solution to exercise 6](../appendices/solutions-2.qmd#solution-linear-systems-6){.sol-link}
 
-7. []{#exercise-linear-systems-7}Describe in words, or with a sketch, how three planes can be arranged so that the system has (a) exactly one solution, (b) infinitely many solutions forming a line, (c) infinitely many solutions forming a plane, (d) no solution, in as many different ways as you can.
+7. []{#exercise-linear-systems-7}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Describe in words, or with a sketch, how three planes can be arranged so that the system has (a) exactly one solution, (b) infinitely many solutions forming a line, (c) infinitely many solutions forming a plane, (d) no solution, in as many different ways as you can.
 
    [Solution to exercise 7](../appendices/solutions-2.qmd#solution-linear-systems-7){.sol-link}
 

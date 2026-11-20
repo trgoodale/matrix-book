@@ -313,6 +313,8 @@ $\vect{1}$ is the eigenvector for $\lambda_1 = 0$, and eigenvectors of a symmetr
 
 ## Exercises {#sec-networks-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-networks-1}A **star** has a centre, node 1, joined to three leaves, nodes 2, 3 and 4, and no other edges. Find $\M{A}^2$ and $\M{A}^3$, and explain what their entries count. Why is $\operatorname{trace}(\M{A}^3) = 0$?
 
    [Solution to exercise 1](../appendices/solutions-6.qmd#solution-networks-1){.sol-link}
@@ -321,7 +323,7 @@ $\vect{1}$ is the eigenvector for $\lambda_1 = 0$, and eigenvectors of a symmetr
 
    [Solution to exercise 2](../appendices/solutions-6.qmd#solution-networks-2){.sol-link}
 
-3. []{#exercise-networks-3}Find the Laplacian eigenvalues of (a) the complete graph on 4 nodes, in which every pair is joined, and (b) the path 1–2–3–4. Which has the larger algebraic connectivity $\lambda_2$, and why does that make sense? (For (a), try the vectors $\vect{1}$ and $(1, -1, 0, 0)\T$.)
+3. []{#exercise-networks-3}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Find the Laplacian eigenvalues of (a) the complete graph on 4 nodes, in which every pair is joined, and (b) the path 1–2–3–4. Which has the larger algebraic connectivity $\lambda_2$, and why does that make sense? (For (a), try the vectors $\vect{1}$ and $(1, -1, 0, 0)\T$.)
 
    [Solution to exercise 3](../appendices/solutions-6.qmd#solution-networks-3){.sol-link}
 
@@ -333,7 +335,7 @@ $\vect{1}$ is the eigenvector for $\lambda_1 = 0$, and eigenvectors of a symmetr
 
    [Solution to exercise 5](../appendices/solutions-6.qmd#solution-networks-5){.sol-link}
 
-6. []{#exercise-networks-6}Explain why, if the nodes of a network are numbered so that each connected component's nodes come together, $\M{L}$ is block diagonal. Use this to show that the number of zero eigenvalues is at least the number of components. (*Hint*: each block is the Laplacian of one component, and every Laplacian has eigenvalue 0 with eigenvector $\vect{1}$. Pad that vector with zeros outside the block.)
+6. []{#exercise-networks-6}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Explain why, if the nodes of a network are numbered so that each connected component's nodes come together, $\M{L}$ is block diagonal. Use this to show that the number of zero eigenvalues is at least the number of components. (*Hint*: each block is the Laplacian of one component, and every Laplacian has eigenvalue 0 with eigenvector $\vect{1}$. Pad that vector with zeros outside the block.)
 
    [Solution to exercise 6](../appendices/solutions-6.qmd#solution-networks-6){.sol-link}
 

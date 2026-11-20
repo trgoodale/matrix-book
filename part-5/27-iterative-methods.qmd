@@ -289,6 +289,8 @@ They never change the matrix: they only multiply vectors by it (and by its diago
 
 ## Exercises {#sec-iterative-methods-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-iterative-methods-1}Take two steps of Jacobi and of Gauss–Seidel for $\mat{5 & -1 \\ 2 & 4}\vect{x} = \mat{4 \\ 6}$, starting from $(0, 0)\T$. What is the exact solution?
 
    [Solution to exercise 1](../appendices/solutions-5.qmd#solution-iterative-methods-1){.sol-link}
@@ -301,7 +303,7 @@ They never change the matrix: they only multiply vectors by it (and by its diago
 
    [Solution to exercise 3](../appendices/solutions-5.qmd#solution-iterative-methods-3){.sol-link}
 
-4. []{#exercise-iterative-methods-4}For a $2 \times 2$ matrix with non-zero diagonal entries, show that $\rho(\M{T}_{GS}) = \rho(\M{T}_J)^2$.
+4. []{#exercise-iterative-methods-4}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} For a $2 \times 2$ matrix with non-zero diagonal entries, show that $\rho(\M{T}_{GS}) = \rho(\M{T}_J)^2$.
 
    [Solution to exercise 4](../appendices/solutions-5.qmd#solution-iterative-methods-4){.sol-link}
 

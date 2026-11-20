@@ -261,6 +261,8 @@ About $2N$: one multiplication and one addition per non-zero, whatever the size 
 
 ## Exercises {#sec-cost-sparse-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-cost-sparse-1}Count exactly the multiplications and additions in (a) the dot product of two vectors of length $n$, (b) the product $\M{A}\vect{x}$ of an $n \times n$ matrix and a vector, (c) the product of two $n \times n$ matrices.
 
    [Solution to exercise 1](../appendices/solutions-5.qmd#solution-cost-sparse-1){.sol-link}
@@ -280,11 +282,11 @@ About $2N$: one multiplication and one addition per non-zero, whatever the size 
 
    [Solution to exercise 4](../appendices/solutions-5.qmd#solution-cost-sparse-4){.sol-link}
 
-5. []{#exercise-cost-sparse-5}Show that when a tridiagonal matrix is factorised as $\M{L}\M{U}$ without row swaps, $\M{L}$ has non-zeros only on its diagonal and just below it, and $\M{U}$ only on its diagonal and just above it. So there is no fill-in.
+5. []{#exercise-cost-sparse-5}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that when a tridiagonal matrix is factorised as $\M{L}\M{U}$ without row swaps, $\M{L}$ has non-zeros only on its diagonal and just below it, and $\M{U}$ only on its diagonal and just above it. So there is no fill-in.
 
    [Solution to exercise 5](../appendices/solutions-5.qmd#solution-cost-sparse-5){.sol-link}
 
-6. []{#exercise-cost-sparse-6}A matrix has non-zeros on its diagonal and in its last row and last column. How many non-zeros do its LU factors have? What changes if the full row and column are moved to the top?
+6. []{#exercise-cost-sparse-6}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} A matrix has non-zeros on its diagonal and in its last row and last column. How many non-zeros do its LU factors have? What changes if the full row and column are moved to the top?
 
    [Solution to exercise 6](../appendices/solutions-5.qmd#solution-cost-sparse-6){.sol-link}
 

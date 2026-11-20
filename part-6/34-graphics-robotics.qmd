@@ -265,6 +265,8 @@ So that translations leave it unchanged: the last column of a translation matrix
 
 ## Exercises {#sec-graphics-robotics-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-graphics-robotics-1}Find $\M{R}(90°)\M{T}(3, 1)$ and $\M{T}(3, 1)\M{R}(90°)$, and describe in words what each does to the origin.
 
    [Solution to exercise 1](../appendices/solutions-6.qmd#solution-graphics-robotics-1){.sol-link}
@@ -277,7 +279,7 @@ So that translations leave it unchanged: the last column of a translation matrix
 
    [Solution to exercise 3](../appendices/solutions-6.qmd#solution-graphics-robotics-3){.sol-link}
 
-4. []{#exercise-graphics-robotics-4}Show that the inverse of $\mat{\M{R} & \vect{t} \\ \zerovec\T & 1}$, where $\M{R}$ is a rotation, is $\mat{\M{R}\T & -\M{R}\T\vect{t} \\ \zerovec\T & 1}$. Why is this useful for building a view matrix from the camera's position and orientation? (*Hint*: multiply the two block matrices together, block by block, using $\M{R}\T\M{R} = \M{I}$.)
+4. []{#exercise-graphics-robotics-4}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that the inverse of $\mat{\M{R} & \vect{t} \\ \zerovec\T & 1}$, where $\M{R}$ is a rotation, is $\mat{\M{R}\T & -\M{R}\T\vect{t} \\ \zerovec\T & 1}$. Why is this useful for building a view matrix from the camera's position and orientation? (*Hint*: multiply the two block matrices together, block by block, using $\M{R}\T\M{R} = \M{I}$.)
 
    [Solution to exercise 4](../appendices/solutions-6.qmd#solution-graphics-robotics-4){.sol-link}
 

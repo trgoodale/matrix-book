@@ -259,6 +259,8 @@ Its roots can be extremely sensitive to small changes in its coefficients, so ro
 
 ## Exercises {#sec-eigenvalue-algorithms-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-eigenvalue-algorithms-1}Take three steps of the power method for $\mat{4 & 1 \\ 2 & 3}$ from $(1, 0)\T$, estimating the eigenvalue at each step with the Rayleigh quotient. Compare with the exact eigenvalues, 5 and 2 (@sec-eigenvalues).
 
    [Solution to exercise 1](../appendices/solutions-5.qmd#solution-eigenvalue-algorithms-1){.sol-link}
@@ -271,7 +273,7 @@ Its roots can be extremely sensitive to small changes in its coefficients, so ro
 
    [Solution to exercise 3](../appendices/solutions-5.qmd#solution-eigenvalue-algorithms-3){.sol-link}
 
-4. []{#exercise-eigenvalue-algorithms-4}Explain what the power method does for $\M{A} = \mat{0 & 1 \\ 1 & 0}$, starting from $(1, 0)\T$. Why doesn't it converge, and how could a shift fix it?
+4. []{#exercise-eigenvalue-algorithms-4}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Explain what the power method does for $\M{A} = \mat{0 & 1 \\ 1 & 0}$, starting from $(1, 0)\T$. Why doesn't it converge, and how could a shift fix it?
 
    [Solution to exercise 4](../appendices/solutions-5.qmd#solution-eigenvalue-algorithms-4){.sol-link}
 

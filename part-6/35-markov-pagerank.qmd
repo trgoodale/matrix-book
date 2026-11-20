@@ -302,6 +302,8 @@ A student in year 2 has already survived the risk of leaving in year 1, the larg
 
 ## Exercises {#sec-markov-pagerank-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-markov-pagerank-1}A machine is either working (W) or broken (B). A working machine breaks down by the next day with probability 0.1; a broken one is repaired by the next day with probability 0.6. Write down the transition matrix, and find the long-run fraction of days the machine works.
 
    [Solution to exercise 1](../appendices/solutions-6.qmd#solution-markov-pagerank-1){.sol-link}
@@ -318,7 +320,7 @@ A student in year 2 has already survived the risk of leaving in year 1, the larg
 
    [Solution to exercise 4](../appendices/solutions-6.qmd#solution-markov-pagerank-4){.sol-link}
 
-5. []{#exercise-markov-pagerank-5}Three pages link as follows: A links to B, B links to A and C, and C links to A. Find the PageRank with $d = 0.85$ by solving the linear system.
+5. []{#exercise-markov-pagerank-5}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Three pages link as follows: A links to B, B links to A and C, and C links to A. Find the PageRank with $d = 0.85$ by solving the linear system.
 
    [Solution to exercise 5](../appendices/solutions-6.qmd#solution-markov-pagerank-5){.sol-link}
 

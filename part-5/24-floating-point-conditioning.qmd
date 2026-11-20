@@ -266,6 +266,8 @@ Not necessarily. A small residual shows the method was stable, but the error in 
 
 ## Exercises {#sec-floating-point-conditioning-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-floating-point-conditioning-1}Find $\lVert\vect{x}\rVert_1$, $\lVert\vect{x}\rVert_2$ and $\lVert\vect{x}\rVert_\infty$ for $\vect{x} = (3, -4, 12)\T$.
 
    [Solution to exercise 1](../appendices/solutions-5.qmd#solution-floating-point-conditioning-1){.sol-link}
@@ -278,7 +280,7 @@ Not necessarily. A small residual shows the method was stable, but the error in 
 
    [Solution to exercise 3](../appendices/solutions-5.qmd#solution-floating-point-conditioning-3){.sol-link}
 
-4. []{#exercise-floating-point-conditioning-4}Show that (a) $\kappa(\M{A}) \ge 1$ for every invertible $\M{A}$, (b) $\kappa(c\M{A}) = \kappa(\M{A})$ for any number $c \neq 0$, and (c) $\kappa_2(\M{Q}) = 1$ for an orthogonal matrix $\M{Q}$.
+4. []{#exercise-floating-point-conditioning-4}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that (a) $\kappa(\M{A}) \ge 1$ for every invertible $\M{A}$, (b) $\kappa(c\M{A}) = \kappa(\M{A})$ for any number $c \neq 0$, and (c) $\kappa_2(\M{Q}) = 1$ for an orthogonal matrix $\M{Q}$.
 
    [Solution to exercise 4](../appendices/solutions-5.qmd#solution-floating-point-conditioning-4){.sol-link}
 

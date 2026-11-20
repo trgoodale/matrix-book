@@ -320,6 +320,8 @@ $\M{A}$ itself, at every point: the best linear approximation to a linear functi
 
 ## Exercises {#sec-matrix-calculus-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-matrix-calculus-1}Find the gradients of $f(\vect{x}) = 3x_1 - 2x_2 + x_3$ and $g(\vect{x}) = \lVert\vect{x} - \vect{c}\rVert^2$ for a fixed vector $\vect{c}$.
 
    [Solution to exercise 1](../appendices/solutions-4.qmd#solution-matrix-calculus-1){.sol-link}
@@ -340,7 +342,7 @@ $\M{A}$ itself, at every point: the best linear approximation to a linear functi
 
    [Solution to exercise 5](../appendices/solutions-4.qmd#solution-matrix-calculus-5){.sol-link}
 
-6. []{#exercise-matrix-calculus-6}**Ridge regression** minimises $\lVert\M{A}\vect{x} - \vect{b}\rVert^2 + \mu\lVert\vect{x}\rVert^2$ for a constant $\mu > 0$. Find the gradient, and show that the minimiser solves $(\M{A}\T\M{A} + \mu\M{I})\vect{x} = \M{A}\T\vect{b}$. Why is this system always solvable, even when the columns of $\M{A}$ are dependent?
+6. []{#exercise-matrix-calculus-6}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} **Ridge regression** minimises $\lVert\M{A}\vect{x} - \vect{b}\rVert^2 + \mu\lVert\vect{x}\rVert^2$ for a constant $\mu > 0$. Find the gradient, and show that the minimiser solves $(\M{A}\T\M{A} + \mu\M{I})\vect{x} = \M{A}\T\vect{b}$. Why is this system always solvable, even when the columns of $\M{A}$ are dependent?
 
    [Solution to exercise 6](../appendices/solutions-4.qmd#solution-matrix-calculus-6){.sol-link}
 

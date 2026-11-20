@@ -255,6 +255,8 @@ Yes, if it is positive: the trace is the sum of the eigenvalues (or twice their 
 
 ## Exercises {#sec-linear-odes-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-linear-odes-1}Write $\ddot{x} + 3\dot{x} + 2x = 0$ as a first-order system, find the eigenvalues, and classify the equilibrium.
 
    [Solution to exercise 1](../appendices/solutions-4.qmd#solution-linear-odes-1){.sol-link}
@@ -285,7 +287,7 @@ Yes, if it is positive: the trace is the sum of the eigenvalues (or twice their 
 
    [Solution to exercise 5](../appendices/solutions-4.qmd#solution-linear-odes-5){.sol-link}
 
-6. []{#exercise-linear-odes-6}Show that if $\M{A}$ is symmetric and negative definite, every solution of $\dot{\vect{x}} = \M{A}\vect{x}$ tends to $\zerovec$, and that $\lVert\vect{x}(t)\rVert$ decreases all the time. (*Hint*: use orthonormal eigenvectors, @sec-symmetric-matrices.)
+6. []{#exercise-linear-odes-6}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that if $\M{A}$ is symmetric and negative definite, every solution of $\dot{\vect{x}} = \M{A}\vect{x}$ tends to $\zerovec$, and that $\lVert\vect{x}(t)\rVert$ decreases all the time. (*Hint*: use orthonormal eigenvectors, @sec-symmetric-matrices.)
 
    [Solution to exercise 6](../appendices/solutions-4.qmd#solution-linear-odes-6){.sol-link}
 

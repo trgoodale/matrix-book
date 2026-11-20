@@ -82,7 +82,7 @@ Chapters follow the same pattern, so you always know where to look.
 4. **In code** shows the same methods in Python and MATLAB.
 5. **Check your understanding** has quick questions. Click to reveal each answer.
 6. **Key ideas** sums up the chapter in a few points: a quick check before the exercises, and the place to start when you revise.
-7. **Exercises** have full solutions in the appendices, one for each Part (@sec-solutions-part-1 to @sec-solutions-part-6). Each exercise ends with a link to its solution, and each solution with a link back. Have a real go at an exercise before following its link: the effort of trying is what makes the solution stick.
+7. **Exercises** have full solutions in the appendices, one for each Part (@sec-solutions-part-1 to @sec-solutions-part-6). Each exercise ends with a link to its solution, and each solution with a link back. Have a real go at an exercise before following its link: the effort of trying is what makes the solution stick. Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show. Some proofs end with a hint that gives a first step.
 8. **In practice** shows where the ideas are used.
 9. **Going further** points to deeper material and to the proofs in @sec-proofs.
 

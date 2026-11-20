@@ -259,6 +259,8 @@ $\vect{u}\T\M{K}\vect{u} = (\M{B}\vect{u})\T\M{D}(\M{B}\vect{u}) = \sum (EA/L)\,
 
 ## Exercises {#sec-trusses-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-trusses-1}A joint at the origin hangs from pins at $(-3, 4)$ and $(3, 4)$ by two members, and carries a load of 12 kN downwards. Find the member forces, first by resolving forces by hand and then by setting up and solving $\M{A}\vect{f} = -\vect{p}$.
 
    [Solution to exercise 1](../appendices/solutions-6.qmd#solution-trusses-1){.sol-link}
@@ -275,7 +277,7 @@ $\vect{u}\T\M{K}\vect{u} = (\M{B}\vect{u})\T\M{D}(\M{B}\vect{u}) = \sum (EA/L)\,
 
    [Solution to exercise 4](../appendices/solutions-6.qmd#solution-trusses-4){.sol-link}
 
-5. []{#exercise-trusses-5}Show that the equilibrium equations at the free joints are $\M{B}\T\vect{N} = \vect{p}$, where $\M{B}$ is the matrix that gives member extensions from joint displacements. (*Hint*: write down row $k$ of $\M{B}$, and compare it with column $k$ of the equilibrium matrix.)
+5. []{#exercise-trusses-5}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that the equilibrium equations at the free joints are $\M{B}\T\vect{N} = \vect{p}$, where $\M{B}$ is the matrix that gives member extensions from joint displacements. (*Hint*: write down row $k$ of $\M{B}$, and compare it with column $k$ of the equilibrium matrix.)
 
    [Solution to exercise 5](../appendices/solutions-6.qmd#solution-trusses-5){.sol-link}
 

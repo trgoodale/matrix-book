@@ -230,6 +230,8 @@ No. Complex eigenvalues come in conjugate pairs, so with three eigenvalues at le
 
 ## Exercises {#sec-eigenvalues-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-eigenvalues-1}Find the eigenvalues and eigenvectors of $\mat{5 & 2 \\ 2 & 2}$, and check them with the trace and determinant.
 
    [Solution to exercise 1](../appendices/solutions-4.qmd#solution-eigenvalues-1){.sol-link}
@@ -250,7 +252,7 @@ No. Complex eigenvalues come in conjugate pairs, so with three eigenvalues at le
 
    [Solution to exercise 5](../appendices/solutions-4.qmd#solution-eigenvalues-5){.sol-link}
 
-6. []{#exercise-eigenvalues-6}Show that $\mat{a & b \\ c & d}$ has real eigenvalues whenever $b$ and $c$ have the same sign. (*Hint*: look at the discriminant of @eq-char-2x2.)
+6. []{#exercise-eigenvalues-6}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that $\mat{a & b \\ c & d}$ has real eigenvalues whenever $b$ and $c$ have the same sign. (*Hint*: look at the discriminant of @eq-char-2x2.)
 
    [Solution to exercise 6](../appendices/solutions-4.qmd#solution-eigenvalues-6){.sol-link}
 

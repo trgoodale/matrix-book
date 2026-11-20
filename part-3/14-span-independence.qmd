@@ -244,6 +244,8 @@ No. Every span contains $\zerovec$.
 
 ## Exercises {#sec-span-independence-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-span-independence-1}Describe the span of each set geometrically.
 
    (a) $\{(1, 2)\T\}$
@@ -268,7 +270,7 @@ No. Every span contains $\zerovec$.
 
    [Solution to exercise 4](../appendices/solutions-3.qmd#solution-span-independence-4){.sol-link}
 
-5. []{#exercise-span-independence-5}Explain why each statement is true.
+5. []{#exercise-span-independence-5}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Explain why each statement is true.
 
    (a) If $\vect{v}_1, \vect{v}_2, \vect{v}_3$ are independent, then so are $\vect{v}_1$ and $\vect{v}_2$.
    (b) If $\vect{u}$ and $\vect{v}$ are independent, then so are $\vect{u} + \vect{v}$ and $\vect{u} - \vect{v}$.

@@ -255,15 +255,17 @@ Its impedance $1/(j\omega C)$ is huge when $\omega$ is small, so it acts like a 
 
 ## Exercises {#sec-circuits-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-circuits-1}A 2 A current source feeds node 1. Node 1 is connected to ground by 4 Ω and to node 2 by 2 Ω, and node 2 is connected to ground by 4 Ω. Find the node voltages.
 
    [Solution to exercise 1](../appendices/solutions-6.qmd#solution-circuits-1){.sol-link}
 
-2. []{#exercise-circuits-2}Show that for a circuit of resistors in which every node has a path to ground, the conductance matrix is positive definite. (*Hint*: use $\M{G} = \M{A}\T\M{C}\M{A}$, and the argument of @sec-symmetric-matrices exercise 5.)
+2. []{#exercise-circuits-2}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that for a circuit of resistors in which every node has a path to ground, the conductance matrix is positive definite. (*Hint*: use $\M{G} = \M{A}\T\M{C}\M{A}$, and the argument of @sec-symmetric-matrices exercise 5.)
 
    [Solution to exercise 2](../appendices/solutions-6.qmd#solution-circuits-2){.sol-link}
 
-3. []{#exercise-circuits-3}In a **Wheatstone bridge**, a 10 V source feeds node $t$. Resistors of 100 Ω and 200 Ω connect $t$ to nodes $a$ and $b$; resistors $R_a$ and 400 Ω connect $a$ and $b$ to ground; and a 50 Ω meter connects $a$ to $b$. Find the current through the meter when (a) $R_a = 200$ Ω, (b) $R_a = 300$ Ω. Explain result (a).
+3. []{#exercise-circuits-3}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} In a **Wheatstone bridge**, a 10 V source feeds node $t$. Resistors of 100 Ω and 200 Ω connect $t$ to nodes $a$ and $b$; resistors $R_a$ and 400 Ω connect $a$ and $b$ to ground; and a 50 Ω meter connects $a$ to $b$. Find the current through the meter when (a) $R_a = 200$ Ω, (b) $R_a = 300$ Ω. Explain result (a).
 
    [Solution to exercise 3](../appendices/solutions-6.qmd#solution-circuits-3){.sol-link}
 

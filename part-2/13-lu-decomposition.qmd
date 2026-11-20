@@ -282,6 +282,8 @@ Not without a row swap: its first pivot is 0. With $\M{P} = \mat{0 & 1 \\ 1 & 0}
 
 ## Exercises {#sec-lu-decomposition-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-lu-decomposition-1}Find the LU decomposition of (a) $\mat{1 & 2 \\ 3 & 8}$ and (b) $\mat{1 & 1 & 1 \\ 2 & 3 & 4 \\ 3 & 5 & 8}$. Check each by multiplying.
 
    [Solution to exercise 1](../appendices/solutions-2.qmd#solution-lu-decomposition-1){.sol-link}
@@ -290,7 +292,7 @@ Not without a row swap: its first pivot is 0. With $\M{P} = \mat{0 & 1 \\ 1 & 0}
 
    [Solution to exercise 2](../appendices/solutions-2.qmd#solution-lu-decomposition-2){.sol-link}
 
-3. []{#exercise-lu-decomposition-3}Show that $\mat{0 & 1 \\ 1 & 1}$ cannot be written as $\M{L}\M{U}$ with $\M{L}$ lower triangular with 1s on its diagonal and $\M{U}$ upper triangular. (*Hint*: multiply out a general $\M{L}\M{U}$ and compare the top-left entries.) Then find $\M{P}$, $\M{L}$ and $\M{U}$ with $\M{P}\M{A} = \M{L}\M{U}$.
+3. []{#exercise-lu-decomposition-3}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that $\mat{0 & 1 \\ 1 & 1}$ cannot be written as $\M{L}\M{U}$ with $\M{L}$ lower triangular with 1s on its diagonal and $\M{U}$ upper triangular. (*Hint*: multiply out a general $\M{L}\M{U}$ and compare the top-left entries.) Then find $\M{P}$, $\M{L}$ and $\M{U}$ with $\M{P}\M{A} = \M{L}\M{U}$.
 
    [Solution to exercise 3](../appendices/solutions-2.qmd#solution-lu-decomposition-3){.sol-link}
 

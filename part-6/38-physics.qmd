@@ -253,11 +253,13 @@ The eigenvalues of $\M{\sigma}_z$, $+1$ (up) and $-1$ (down), with eigenvectors 
 
 ## Exercises {#sec-physics-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-physics-1}Find the inertia tensor of four 1 kg masses at $(\pm 1, \pm 2, 0)$, all four sign combinations. Why are its products of inertia zero?
 
    [Solution to exercise 1](../appendices/solutions-6.qmd#solution-physics-1){.sol-link}
 
-2. []{#exercise-physics-2}Show that for any rigid body the angle between $\vect{\omega}$ and $\vect{L} = \M{I}\vect{\omega}$ is never more than $90°$. For the dumbbell of Example 1, can it ever be exactly $90°$? (*Hint*: consider $\vect{\omega}\T\M{I}\vect{\omega}$.)
+2. []{#exercise-physics-2}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that for any rigid body the angle between $\vect{\omega}$ and $\vect{L} = \M{I}\vect{\omega}$ is never more than $90°$. For the dumbbell of Example 1, can it ever be exactly $90°$? (*Hint*: consider $\vect{\omega}\T\M{I}\vect{\omega}$.)
 
    [Solution to exercise 2](../appendices/solutions-6.qmd#solution-physics-2){.sol-link}
 

@@ -234,6 +234,8 @@ No: similar matrices describe the same transformation, and $\det(\M{P}^{-1}\M{A}
 
 ## Exercises {#sec-basis-change-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-basis-change-1}Which of these are bases of $\R^2$ or $\R^3$? Give a reason in each case.
 
    (a) $(1, 2)\T$, $(2, 4)\T$
@@ -255,7 +257,7 @@ No: similar matrices describe the same transformation, and $\det(\M{P}^{-1}\M{A}
 
    [Solution to exercise 4](../appendices/solutions-3.qmd#solution-basis-change-4){.sol-link}
 
-5. []{#exercise-basis-change-5}Use a convenient basis, as in Example 3, to find the matrix of the projection onto the line $y = x$.
+5. []{#exercise-basis-change-5}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Use a convenient basis, as in Example 3, to find the matrix of the projection onto the line $y = x$.
 
    [Solution to exercise 5](../appendices/solutions-3.qmd#solution-basis-change-5){.sol-link}
 

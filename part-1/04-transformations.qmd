@@ -276,6 +276,8 @@ It is $\M{R}(-\theta)$, since $\cos(-\theta) = \cos\theta$ and $\sin(-\theta) = 
 
 ## Exercises {#sec-transformations-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-transformations-1}Write down the matrix of each transformation:
    (a) reflection in the $y$-axis; (b) rotation by $60°$ anticlockwise; (c) stretch by factor 3 parallel to the $y$-axis; (d) shear parallel to the $x$-axis that sends $(0, 1)$ to $(2, 1)$; (e) reflection in the line $y = \sqrt{3}\,x$ (use the optional formula).
 
@@ -298,7 +300,7 @@ It is $\M{R}(-\theta)$, since $\cos(-\theta) = \cos\theta$ and $\sin(-\theta) = 
 
    [Solution to exercise 4](../appendices/solutions-1.qmd#solution-transformations-4){.sol-link}
 
-5. []{#exercise-transformations-5}*(Uses the optional formula.)* Show that the reflection matrix $\mat{\cos 2\theta & \sin 2\theta \\ \sin 2\theta & -\cos 2\theta}$ leaves the vector $(\cos\theta, \sin\theta)\T$ unchanged, and sends $(-\sin\theta, \cos\theta)\T$ to its negative. Explain why this proves that it is the reflection in the line at angle $\theta$. (*Hint*: a reflection is fixed once you know what it does to two perpendicular directions: the mirror line, and the direction straight across it.)
+5. []{#exercise-transformations-5}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} *(Uses the optional formula.)* Show that the reflection matrix $\mat{\cos 2\theta & \sin 2\theta \\ \sin 2\theta & -\cos 2\theta}$ leaves the vector $(\cos\theta, \sin\theta)\T$ unchanged, and sends $(-\sin\theta, \cos\theta)\T$ to its negative. Explain why this proves that it is the reflection in the line at angle $\theta$. (*Hint*: a reflection is fixed once you know what it does to two perpendicular directions: the mirror line, and the direction straight across it.)
 
    [Solution to exercise 5](../appendices/solutions-1.qmd#solution-transformations-5){.sol-link}
 

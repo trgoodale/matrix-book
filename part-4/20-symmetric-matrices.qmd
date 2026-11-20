@@ -254,6 +254,8 @@ No. If $a_{ii} < 0$, then $\ue{i}\T\M{A}\ue{i} = a_{ii} < 0$.
 
 ## Exercises {#sec-symmetric-matrices-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-symmetric-matrices-1}Write $\M{A} = \mat{3 & 4 \\ 4 & -3}$ as $\M{Q}\M{\Lambda}\M{Q}\T$.
 
    [Solution to exercise 1](../appendices/solutions-4.qmd#solution-symmetric-matrices-1){.sol-link}
@@ -274,7 +276,7 @@ No. If $a_{ii} < 0$, then $\ue{i}\T\M{A}\ue{i} = a_{ii} < 0$.
 
    [Solution to exercise 4](../appendices/solutions-4.qmd#solution-symmetric-matrices-4){.sol-link}
 
-5. []{#exercise-symmetric-matrices-5}Show that for any $m \times n$ matrix $\M{A}$, the matrix $\M{A}\T\M{A}$ is symmetric and positive semidefinite, and that it is positive definite when the columns of $\M{A}$ are independent.
+5. []{#exercise-symmetric-matrices-5}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that for any $m \times n$ matrix $\M{A}$, the matrix $\M{A}\T\M{A}$ is symmetric and positive semidefinite, and that it is positive definite when the columns of $\M{A}$ are independent.
 
    [Solution to exercise 5](../appendices/solutions-4.qmd#solution-symmetric-matrices-5){.sol-link}
 

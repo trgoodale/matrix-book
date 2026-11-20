@@ -273,6 +273,8 @@ Column $j$ adds up the inputs bought by sector $j$ per £1 of its output. If the
 
 ## Exercises {#sec-input-output-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-input-output-1}In Example 1, final demand for manufactured goods rises by £10 billion, with no change for agriculture. By how much must each sector's output rise?
 
    [Solution to exercise 1](../appendices/solutions-6.qmd#solution-input-output-1){.sol-link}
@@ -285,14 +287,14 @@ Column $j$ adds up the inputs bought by sector $j$ per £1 of its output. If the
 
    [Solution to exercise 3](../appendices/solutions-6.qmd#solution-input-output-3){.sol-link}
 
-4. []{#exercise-input-output-4}**Prices.** Let $p_j$ be the price of sector $j$'s product per unit, and $v_j$ the value added (wages and profits) per unit of output. A sector's price must cover the inputs it buys and its value added: $p_j = \sum_i a_{ij}p_i + v_j$, that is $\vect{p} = \M{A}\T\vect{p} + \vect{v}$.
+4. []{#exercise-input-output-4}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} **Prices.** Let $p_j$ be the price of sector $j$'s product per unit, and $v_j$ the value added (wages and profits) per unit of output. A sector's price must cover the inputs it buys and its value added: $p_j = \sum_i a_{ij}p_i + v_j$, that is $\vect{p} = \M{A}\T\vect{p} + \vect{v}$.
 
    a. In Example 1, with $v_j = 1 - \sum_i a_{ij}$, show that $\vect{p} = (1, 1)$.
    b. Wages in agriculture rise, so that $v_1$ rises by 0.1. Find the change in both prices, using $(\M{I} - \M{A}\T)^{-1} = \M{L}\T$.
 
    [Solution to exercise 4](../appendices/solutions-6.qmd#solution-input-output-4){.sol-link}
 
-5. []{#exercise-input-output-5}Show that $(\M{I} - \M{A})(\M{I} + \M{A} + \M{A}^2 + \dots + \M{A}^k) = \M{I} - \M{A}^{k+1}$. Explain why, if $\M{A}^{k} \to \M{0}$ as $k \to \infty$, the series $\M{I} + \M{A} + \M{A}^2 + \cdots$ converges to $(\M{I} - \M{A})^{-1}$. (*Hint*: multiply out the left-hand side: almost every term cancels with its neighbour.)
+5. []{#exercise-input-output-5}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that $(\M{I} - \M{A})(\M{I} + \M{A} + \M{A}^2 + \dots + \M{A}^k) = \M{I} - \M{A}^{k+1}$. Explain why, if $\M{A}^{k} \to \M{0}$ as $k \to \infty$, the series $\M{I} + \M{A} + \M{A}^2 + \cdots$ converges to $(\M{I} - \M{A})^{-1}$. (*Hint*: multiply out the left-hand side: almost every term cancels with its neighbour.)
 
    [Solution to exercise 5](../appendices/solutions-6.qmd#solution-input-output-5){.sol-link}
 

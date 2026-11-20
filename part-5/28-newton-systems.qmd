@@ -229,6 +229,8 @@ A tiny step can also mean the Jacobian is very large, or the method has stalled.
 
 ## Exercises {#sec-newton-systems-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-newton-systems-1}Take two steps of Newton's method for $x^2 + y^2 = 1$, $y = x^2$, starting from $(1, 1)$.
 
    [Solution to exercise 1](../appendices/solutions-5.qmd#solution-newton-systems-1){.sol-link}
@@ -249,7 +251,7 @@ A tiny step can also mean the Jacobian is very large, or the method has stalled.
 
    [Solution to exercise 5](../appendices/solutions-5.qmd#solution-newton-systems-5){.sol-link}
 
-6. []{#exercise-newton-systems-6}To minimise a smooth function $g(\vect{x})$, we can solve $\nabla g = \zerovec$ by Newton's method. Show that the Jacobian of $\nabla g$ is the Hessian $\M{H}$ (@sec-matrix-calculus), and write down the step. What happens when $g$ is a quadratic $\tfrac{1}{2}\vect{x}\T\M{A}\vect{x} - \vect{b}\T\vect{x}$?
+6. []{#exercise-newton-systems-6}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} To minimise a smooth function $g(\vect{x})$, we can solve $\nabla g = \zerovec$ by Newton's method. Show that the Jacobian of $\nabla g$ is the Hessian $\M{H}$ (@sec-matrix-calculus), and write down the step. What happens when $g$ is a quadratic $\tfrac{1}{2}\vect{x}\T\M{A}\vect{x} - \vect{b}\T\vect{x}$?
 
    [Solution to exercise 6](../appendices/solutions-5.qmd#solution-newton-systems-6){.sol-link}
 

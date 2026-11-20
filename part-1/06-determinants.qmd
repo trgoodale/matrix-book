@@ -251,6 +251,8 @@ Yes, if $\M{B}$ is singular: $\det(\M{A}\M{B}) = \det\M{A}\det\M{B} = 0$ wheneve
 
 ## Exercises {#sec-determinants-exercises}
 
+Exercises marked † are harder: they take longer, or need an idea that the worked examples don't show.
+
 1. []{#exercise-determinants-1}Find the determinants:
 
    (a) $\begin{vmatrix} 5 & 2 \\ -3 & 4 \end{vmatrix}$
@@ -272,7 +274,7 @@ Yes, if $\M{B}$ is singular: $\det(\M{A}\M{B}) = \det\M{A}\det\M{B} = 0$ wheneve
 
    [Solution to exercise 4](../appendices/solutions-1.qmd#solution-determinants-4){.sol-link}
 
-5. []{#exercise-determinants-5}Show that
+5. []{#exercise-determinants-5}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Show that
    $$\begin{vmatrix} 1 & 1 & 1 \\ x & y & z \\ x^2 & y^2 & z^2 \end{vmatrix} = (y - x)(z - x)(z - y).$$
    When is this matrix singular? (*Hint*: subtract the first column from the other two (allowed, because $\det(\M{A}\T) = \det\M{A}$), expand along the first row, and take out the factors $y - x$ and $z - x$.)
 
@@ -282,7 +284,7 @@ Yes, if $\M{B}$ is singular: $\det(\M{A}\M{B}) = \det\M{A}\det\M{B} = 0$ wheneve
 
    [Solution to exercise 6](../appendices/solutions-1.qmd#solution-determinants-6){.sol-link}
 
-7. []{#exercise-determinants-7}Prove that the area of the parallelogram with sides $(a, c)\T$ and $(b, d)\T$ is $ad - bc$ when $a, b, c, d > 0$ and $(b, d)\T$ is anticlockwise from $(a, c)\T$, by subtracting areas from the surrounding rectangle. (*Hint*: the rectangle has sides $a + b$ and $c + d$. The pieces outside the parallelogram come in equal pairs: two triangles with legs $a$ and $c$, two with legs $b$ and $d$, and two small rectangles.)
+7. []{#exercise-determinants-7}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Prove that the area of the parallelogram with sides $(a, c)\T$ and $(b, d)\T$ is $ad - bc$ when $a, b, c, d > 0$ and $(b, d)\T$ is anticlockwise from $(a, c)\T$, by subtracting areas from the surrounding rectangle. (*Hint*: the rectangle has sides $a + b$ and $c + d$. The pieces outside the parallelogram come in equal pairs: two triangles with legs $a$ and $c$, two with legs $b$ and $d$, and two small rectangles.)
 
    [Solution to exercise 7](../appendices/solutions-1.qmd#solution-determinants-7){.sol-link}
 
