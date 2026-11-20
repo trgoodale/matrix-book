@@ -1135,26 +1135,6 @@ y \approx \beta_0 + \beta_1x_1 + \beta_2x_2 + \dots + \beta_px_p.
 \]</span> (<a href="../part-3/17-orthogonality-least-squares.html" class="quarto-xref"><span>Chapter 17</span></a>), or more accurately by QR (<a href="../part-5/30-qr-least-squares.html" class="quarto-xref"><span>Chapter 30</span></a>), which is what statistical software does. The fitted values are <span class="math inline">\(\hat{\vect{y}} = \M{X}\hat{\vect{\beta}}\)</span>, the projection of <span class="math inline">\(\vect{y}\)</span> onto the column space of <span class="math inline">\(\M{X}\)</span>. How well the model fits is summarised by the <strong>coefficient of determination</strong> <span class="math display">\[
 R^2 = 1 - \frac{\lVert\vect{y} - \hat{\vect{y}}\rVert^2}{\lVert\vect{y} - \bar{y}\vect{1}\rVert^2},
 \]</span> the fraction of the variation in <span class="math inline">\(y\)</span> that the model explains. Statistical theory adds a measure of the uncertainty in each coefficient, its <strong>standard error</strong>, which is proportional to the square root of the corresponding diagonal entry of <span class="math inline">\((\M{X}\T\M{X})^{-1}\)</span>.</p>
-</section>
-<section id="collinearity" class="level3">
-<h3 class="anchored" data-anchor-id="collinearity">Collinearity</h3>
-<p>If two explanatory variables are nearly proportional, the columns of <span class="math inline">\(\M{X}\)</span> are nearly dependent, and <span class="math inline">\(\M{X}\)</span> is ill-conditioned (<a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>). The data can’t tell their effects apart: many quite different combinations of the two coefficients fit almost equally well. The symptoms are:</p>
-<ul>
-<li>large standard errors, because the diagonal of <span class="math inline">\((\M{X}\T\M{X})^{-1}\)</span> is large;</li>
-<li>coefficients that change a lot, even changing sign, when a variable is added or removed, or the data change slightly;</li>
-<li>a large condition number of <span class="math inline">\(\M{X}\)</span> (after scaling its columns to comparable sizes).</li>
-</ul>
-<p>This is <strong>collinearity</strong> (or multicollinearity). The fitted values <span class="math inline">\(\hat{\vect{y}}\)</span> are still fine, since the column space is still well defined; it is the individual coefficients that become unreliable, and with them any story about which variable “matters”. The remedies are to drop or combine variables, to collect data that separate them, or to use <strong>ridge regression</strong> (<a href="../part-4/22-matrix-calculus.html" class="quarto-xref"><span>Chapter 22</span></a>, exercise 6), which adds <span class="math inline">\(\mu\M{I}\)</span> to <span class="math inline">\(\M{X}\T\M{X}\)</span>.</p>
-</section>
-<section id="pca-in-practice" class="level3">
-<h3 class="anchored" data-anchor-id="pca-in-practice">PCA in practice</h3>
-<p><a href="../part-4/21-svd-pca.html" class="quarto-xref"><span>Chapter 21</span></a> showed that the principal components of a data set are the right singular vectors of its centred data matrix. In practice, three decisions come first.</p>
-<ul>
-<li><strong>Centre</strong> each column, by subtracting its mean. Without this, the first component mostly points towards the mean.</li>
-<li><strong>Standardise</strong> each column, by dividing by its standard deviation, when the variables are measured in different units or on very different scales. Otherwise the variables with the largest numbers dominate. (For the iris data all four are lengths in centimetres, so either choice is reasonable; standardising is the common default.)</li>
-<li><strong>Choose how many components to keep</strong>, typically enough to explain 80–95% of the variance, or where a plot of the explained variance against the component number (a <strong>scree plot</strong>) levels off.</li>
-</ul>
-<p>Then interpret the <strong>loadings</strong>, the entries of each principal component vector, which say how much each original variable contributes; and plot the <strong>scores</strong>, each item’s coordinates along the first two components.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1200,9 +1180,19 @@ R^2 = 1 - \frac{\lVert\vect{y} - \hat{\vect{y}}\rVert^2}{\lVert\vect{y} - \bar{y
 \M{X}\T\M{X} = \mat{5 &amp; 0 &amp; 0 \\ 0 &amp; 10 &amp; 0 \\ 0 &amp; 0 &amp; 4},
 \qquad
 \M{X}\T\vect{y} = \mat{25 \\ 17 \\ 2},
-\]</span> and <span class="math inline">\(\hat{\vect{\beta}} = (5, 1.7, 0.5)\T\)</span>: <span class="math inline">\(\hat{y} = 5 + 1.7x_1 + 0.5x_2\)</span>. Each coefficient is found separately, and adding or removing a variable doesn’t change the others. This is why designed experiments choose their settings to make the columns orthogonal: it is the opposite of collinearity.</p>
+\]</span> and <span class="math inline">\(\hat{\vect{\beta}} = (5, 1.7, 0.5)\T\)</span>: <span class="math inline">\(\hat{y} = 5 + 1.7x_1 + 0.5x_2\)</span>. Each coefficient is found separately, and adding or removing a variable doesn’t change the others. This is why designed experiments choose their settings to make the columns orthogonal: it is the opposite of collinearity, the subject of the next section.</p>
 </div>
 </div>
+</section>
+<section id="collinearity" class="level3">
+<h3 class="anchored" data-anchor-id="collinearity">Collinearity</h3>
+<p>If two explanatory variables are nearly proportional, the columns of <span class="math inline">\(\M{X}\)</span> are nearly dependent, and <span class="math inline">\(\M{X}\)</span> is ill-conditioned (<a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>). The data can’t tell their effects apart: many quite different combinations of the two coefficients fit almost equally well. The symptoms are:</p>
+<ul>
+<li>large standard errors, because the diagonal of <span class="math inline">\((\M{X}\T\M{X})^{-1}\)</span> is large;</li>
+<li>coefficients that change a lot, even changing sign, when a variable is added or removed, or the data change slightly;</li>
+<li>a large condition number of <span class="math inline">\(\M{X}\)</span> (after scaling its columns to comparable sizes).</li>
+</ul>
+<p>This is <strong>collinearity</strong> (or multicollinearity). The fitted values <span class="math inline">\(\hat{\vect{y}}\)</span> are still fine, since the column space is still well defined; it is the individual coefficients that become unreliable, and with them any story about which variable “matters”. The remedies are to drop or combine variables, to collect data that separate them, or to use <strong>ridge regression</strong> (<a href="../part-4/22-matrix-calculus.html" class="quarto-xref"><span>Chapter 22</span></a>, exercise 6), which adds <span class="math inline">\(\mu\M{I}\)</span> to <span class="math inline">\(\M{X}\T\M{X}\)</span>.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1254,6 +1244,16 @@ R^2 = 1 - \frac{\lVert\vect{y} - \hat{\vect{y}}\rVert^2}{\lVert\vect{y} - \bar{y
 <p>(The numbers in brackets are standard errors.) On its own, petal width has a clear positive effect: wider petals go with longer sepals. With petal length included, its coefficient turns <em>negative</em>, with a standard error three times as large, while <span class="math inline">\(R^2\)</span> barely moves. The two petal measurements have correlation 0.963, so the columns are nearly dependent, and the condition number of the design matrix rises from about 4 to 25. The negative coefficient doesn’t mean that wider petals cause shorter sepals; it means that among flowers <em>with the same petal length</em>, which hardly vary in width, the data say little, and the coefficient is poorly determined.</p>
 </div>
 </div>
+</section>
+<section id="pca-in-practice" class="level3">
+<h3 class="anchored" data-anchor-id="pca-in-practice">PCA in practice</h3>
+<p><a href="../part-4/21-svd-pca.html" class="quarto-xref"><span>Chapter 21</span></a> showed that the principal components of a data set are the right singular vectors of its centred data matrix. In practice, three decisions come first.</p>
+<ul>
+<li><strong>Centre</strong> each column, by subtracting its mean. Without this, the first component mostly points towards the mean.</li>
+<li><strong>Standardise</strong> each column, by dividing by its standard deviation, when the variables are measured in different units or on very different scales. Otherwise the variables with the largest numbers dominate. (For the iris data all four are lengths in centimetres, so either choice is reasonable; standardising is the common default.)</li>
+<li><strong>Choose how many components to keep</strong>, typically enough to explain 80–95% of the variance, or where a plot of the explained variance against the component number (a <strong>scree plot</strong>) levels off.</li>
+</ul>
+<p>Then interpret the <strong>loadings</strong>, the entries of each principal component vector, which say how much each original variable contributes; and plot the <strong>scores</strong>, each item’s coordinates along the first two components.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1306,7 +1306,7 @@ R^2 = 1 - \frac{\lVert\vect{y} - \hat{\vect{y}}\rVert^2}{\lVert\vect{y} - \bar{y
 <div id="fig-iris-pca" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Scatter plot of 150 iris flowers on the first two principal components; setosa forms a separate cluster on the left, while versicolor and virginica overlap on the right.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-iris-pca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="37-data-science_files/figure-html/fig-iris-pca-output-1.png" alt="Scatter plot of 150 iris flowers on the first two principal components; setosa forms a separate cluster on the left, while versicolor and virginica overlap on the right." width="418" height="374" class="figure-img">
+<img src="37-data-science_files/figure-html/fig-iris-pca-output-1.png" alt="Scatter plot of 150 iris flowers on the first two principal components; setosa forms a separate cluster on the left, while versicolor and virginica overlap on the right." width="424" height="374" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-iris-pca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;37.1: The 150 iris flowers plotted by their scores on the first two principal components of the standardised measurements, which together explain 96% of the variance. The species labels were not used to find the components.
@@ -1328,7 +1328,7 @@ Figure&nbsp;37.1: The 150 iris flowers plotted by their scores on the first two 
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="921a2e58" class="cell" data-execution_count="2">
+<div id="b3d2c31c" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.genfromtxt(<span class="st">"../data/iris.csv"</span>, delimiter<span class="op">=</span><span class="st">","</span>, skip_header<span class="op">=</span><span class="dv">1</span>, usecols<span class="op">=</span><span class="bu">range</span>(<span class="dv">4</span>))</span>

@@ -1150,29 +1150,6 @@ Figure&nbsp;40.1: Two masses between walls, joined by three springs, and the sti
 <li>the modes are <strong>orthogonal with respect to <span class="math inline">\(\M{M}\)</span></strong>: <span class="math inline">\(\vect{v}_i\T\M{M}\vect{v}_j = 0\)</span> for <span class="math inline">\(i \neq j\)</span> (exercise 2), and also <span class="math inline">\(\vect{v}_i\T\M{K}\vect{v}_j = 0\)</span>.</li>
 </ul>
 <p>A natural frequency of zero means that <span class="math inline">\(\M{K}\vect{v} = \zerovec\)</span>: the structure can move in the pattern <span class="math inline">\(\vect{v}\)</span> without stretching any spring. That is a <strong>rigid-body mode</strong>, such as a molecule drifting through space, or a mechanism (<a href="31-trusses.html" class="quarto-xref"><span>Chapter 31</span></a>).</p>
-<p><em>Worked example:</em> <a href="#ex-vibrations-1">Example 1</a>.</p>
-</section>
-<section id="building-any-motion-from-the-modes" class="level3">
-<h3 class="anchored" data-anchor-id="building-any-motion-from-the-modes">Building any motion from the modes</h3>
-<p>The equations are linear, so any combination of modes is also a motion, and every free vibration is one: <span id="eq-modal-sum"><span class="math display">\[
-\vect{x}(t) = \sum_{i=1}^n \vect{v}_i\bigl(a_i\cos(\omega_i t) + b_i\sin(\omega_i t)\bigr).
-\tag{40.3}\]</span></span> This is the same idea as solving <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x}\)</span> with eigenvectors (<a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>); here the equation is second order, so each mode has a cosine and a sine instead of one exponential. The starting displacement <span class="math inline">\(\vect{x}_0\)</span> and velocity <span class="math inline">\(\dot{\vect{x}}_0\)</span> fix the coefficients, and <span class="math inline">\(\M{M}\)</span>-orthogonality gives them directly. Multiplying <a href="#eq-modal-sum" class="quarto-xref">Equation&nbsp;<span>40.3</span></a> at <span class="math inline">\(t = 0\)</span> by <span class="math inline">\(\vect{v}_i\T\M{M}\)</span> kills every term except the <span class="math inline">\(i\)</span>th: <span class="math display">\[
-a_i = \frac{\vect{v}_i\T\M{M}\vect{x}_0}{\vect{v}_i\T\M{M}\vect{v}_i},
-\qquad
-b_i = \frac{\vect{v}_i\T\M{M}\dot{\vect{x}}_0}{\omega_i\,\vect{v}_i\T\M{M}\vect{v}_i}.
-\]</span> Each mode then carries on at its own frequency, ignoring the others. The motion as a whole needn’t repeat, because the frequencies needn’t be in simple ratios.</p>
-<p><em>Worked examples:</em> <a href="#ex-vibrations-2">Example 2</a>, <a href="#ex-vibrations-3">Example 3</a>.</p>
-</section>
-<section id="forced-vibration-and-resonance" class="level3">
-<h3 class="anchored" data-anchor-id="forced-vibration-and-resonance">Forced vibration and resonance</h3>
-<p>Now push the masses with forces that vary like <span class="math inline">\(\cos(\Omega t)\)</span>, at a <strong>driving frequency</strong> <span class="math inline">\(\Omega\)</span>: <span class="math display">\[
-\M{M}\ddot{\vect{x}} + \M{K}\vect{x} = \vect{f}\cos(\Omega t).
-\]</span> Trying <span class="math inline">\(\vect{x} = \vect{X}\cos(\Omega t)\)</span> gives a linear system for the amplitudes, <span id="eq-forced"><span class="math display">\[
-(\M{K} - \Omega^2\M{M})\vect{X} = \vect{f}.
-\tag{40.4}\]</span></span> When <span class="math inline">\(\Omega\)</span> is close to a natural frequency, the matrix <span class="math inline">\(\M{K} - \Omega^2\M{M}\)</span> is close to singular, so the amplitudes are huge: <strong>resonance</strong>. Writing <span class="math inline">\(\vect{X}\)</span> in terms of the modes, using their <span class="math inline">\(\M{M}\)</span>-orthogonality, shows exactly how: <span class="math display">\[
-\vect{X} = \sum_{i=1}^n \frac{\vect{v}_i\T\vect{f}}{(\omega_i^2 - \Omega^2)\,\vect{v}_i\T\M{M}\vect{v}_i}\,\vect{v}_i.
-\]</span> Mode <span class="math inline">\(i\)</span> is amplified by <span class="math inline">\(1/(\omega_i^2 - \Omega^2)\)</span>, which blows up as <span class="math inline">\(\Omega\)</span> approaches <span class="math inline">\(\omega_i\)</span>. But a mode is not excited at all if <span class="math inline">\(\vect{v}_i\T\vect{f} = 0\)</span>: pushing a structure where a mode doesn’t move, or symmetrically when the mode is antisymmetric, can’t drive it. Real structures have some <strong>damping</strong>, a friction-like force <span class="math inline">\(\M{C}\dot{\vect{x}}\)</span>, which keeps the peaks finite; but lightly damped structures, which most are, still respond far more strongly near their natural frequencies. Designers move the natural frequencies away from the driving frequencies they expect, add damping, or add a <strong>tuned mass damper</strong>.</p>
-<p><em>Worked example:</em> <a href="#ex-vibrations-4">Example 4</a>.</p>
 <div id="ex-vibrations-1" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1205,6 +1182,16 @@ Figure&nbsp;40.2: The two mode shapes of Example 1. In mode 1 the masses move to
 </div>
 </div>
 </div>
+</section>
+<section id="building-any-motion-from-the-modes" class="level3">
+<h3 class="anchored" data-anchor-id="building-any-motion-from-the-modes">Building any motion from the modes</h3>
+<p>The equations are linear, so any combination of modes is also a motion, and every free vibration is one: <span id="eq-modal-sum"><span class="math display">\[
+\vect{x}(t) = \sum_{i=1}^n \vect{v}_i\bigl(a_i\cos(\omega_i t) + b_i\sin(\omega_i t)\bigr).
+\tag{40.3}\]</span></span> This is the same idea as solving <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x}\)</span> with eigenvectors (<a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>); here the equation is second order, so each mode has a cosine and a sine instead of one exponential. The starting displacement <span class="math inline">\(\vect{x}_0\)</span> and velocity <span class="math inline">\(\dot{\vect{x}}_0\)</span> fix the coefficients, and <span class="math inline">\(\M{M}\)</span>-orthogonality gives them directly. Multiplying <a href="#eq-modal-sum" class="quarto-xref">Equation&nbsp;<span>40.3</span></a> at <span class="math inline">\(t = 0\)</span> by <span class="math inline">\(\vect{v}_i\T\M{M}\)</span> kills every term except the <span class="math inline">\(i\)</span>th: <span class="math display">\[
+a_i = \frac{\vect{v}_i\T\M{M}\vect{x}_0}{\vect{v}_i\T\M{M}\vect{v}_i},
+\qquad
+b_i = \frac{\vect{v}_i\T\M{M}\dot{\vect{x}}_0}{\omega_i\,\vect{v}_i\T\M{M}\vect{v}_i}.
+\]</span> Each mode then carries on at its own frequency, ignoring the others. The motion as a whole needn’t repeat, because the frequencies needn’t be in simple ratios.</p>
 <div id="ex-vibrations-2" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1262,6 +1249,16 @@ Figure&nbsp;40.3: The two-storey building of Example 3 and its two mode shapes. 
 </div>
 </div>
 </div>
+</section>
+<section id="forced-vibration-and-resonance" class="level3">
+<h3 class="anchored" data-anchor-id="forced-vibration-and-resonance">Forced vibration and resonance</h3>
+<p>Now push the masses with forces that vary like <span class="math inline">\(\cos(\Omega t)\)</span>, at a <strong>driving frequency</strong> <span class="math inline">\(\Omega\)</span>: <span class="math display">\[
+\M{M}\ddot{\vect{x}} + \M{K}\vect{x} = \vect{f}\cos(\Omega t).
+\]</span> Trying <span class="math inline">\(\vect{x} = \vect{X}\cos(\Omega t)\)</span> gives a linear system for the amplitudes, <span id="eq-forced"><span class="math display">\[
+(\M{K} - \Omega^2\M{M})\vect{X} = \vect{f}.
+\tag{40.4}\]</span></span> When <span class="math inline">\(\Omega\)</span> is close to a natural frequency, the matrix <span class="math inline">\(\M{K} - \Omega^2\M{M}\)</span> is close to singular, so the amplitudes are huge: <strong>resonance</strong>. Writing <span class="math inline">\(\vect{X}\)</span> in terms of the modes, using their <span class="math inline">\(\M{M}\)</span>-orthogonality, shows exactly how: <span class="math display">\[
+\vect{X} = \sum_{i=1}^n \frac{\vect{v}_i\T\vect{f}}{(\omega_i^2 - \Omega^2)\,\vect{v}_i\T\M{M}\vect{v}_i}\,\vect{v}_i.
+\]</span> Mode <span class="math inline">\(i\)</span> is amplified by <span class="math inline">\(1/(\omega_i^2 - \Omega^2)\)</span>, which blows up as <span class="math inline">\(\Omega\)</span> approaches <span class="math inline">\(\omega_i\)</span>. But a mode is not excited at all if <span class="math inline">\(\vect{v}_i\T\vect{f} = 0\)</span>: pushing a structure where a mode doesn’t move, or symmetrically when the mode is antisymmetric, can’t drive it. Real structures have some <strong>damping</strong>, a friction-like force <span class="math inline">\(\M{C}\dot{\vect{x}}\)</span>, which keeps the peaks finite; but lightly damped structures, which most are, still respond far more strongly near their natural frequencies. Designers move the natural frequencies away from the driving frequencies they expect, add damping, or add a <strong>tuned mass damper</strong>.</p>
 <div id="ex-vibrations-4" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1308,7 +1305,7 @@ X_2 = \frac{100F}{(100 - \Omega^2)(300 - \Omega^2)}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="4420f685" class="cell" data-execution_count="1">
+<div id="35e8defe" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>

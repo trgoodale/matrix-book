@@ -1143,12 +1143,6 @@ G_i = \frac{s_i^{D_i}(1 - s_i)}{1 - s_i^{D_i}}.
 <li><span class="math inline">\(\vect{w}\)</span>, scaled so that its entries add up to 1, is the <strong>stable age distribution</strong> (or stable stage distribution): the proportions in each class that the population settles into, whatever it started with.</li>
 <li>The other eigenvalues decide how quickly it settles: the transient effects die away like <span class="math inline">\(\lvert\lambda_2/\lambda_1\rvert^k\)</span>.</li>
 </ul>
-</section>
-<section id="which-rates-matter-most" class="level3">
-<h3 class="anchored" data-anchor-id="which-rates-matter-most">Which rates matter most?</h3>
-<p>A manager can afford to improve only some survival or birth rates. Which change raises <span class="math inline">\(\lambda\)</span> the most? The <strong>sensitivity</strong> of <span class="math inline">\(\lambda\)</span> to the entry <span class="math inline">\(a_{ij}\)</span> of the matrix is <span class="math display">\[
-\frac{\partial\lambda}{\partial a_{ij}} = \frac{v_iw_j}{\vect{v} \cdot \vect{w}},
-\]</span> where <span class="math inline">\(\vect{w}\)</span> is the right eigenvector (the stable distribution) and <span class="math inline">\(\vect{v}\)</span> is the <strong>left eigenvector</strong>, <span class="math inline">\(\vect{v}\T\M{L} = \lambda\vect{v}\T\)</span>, whose entries are the <strong>reproductive values</strong> of the stages: how much an individual in each stage will contribute to future generations. Because fecundities and survival rates are on very different scales, ecologists compare <strong>elasticities</strong>, <span class="math inline">\(e_{ij} = (a_{ij}/\lambda)\,\partial\lambda/\partial a_{ij}\)</span>: the proportional change in <span class="math inline">\(\lambda\)</span> for a 1% change in <span class="math inline">\(a_{ij}\)</span>. The elasticities add up to 1.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1206,6 +1200,12 @@ Figure&nbsp;36.1: The life cycle of Example 1. Straight arrows are survival into
 <p><strong>Solution.</strong> The dominant eigenvalue, from the code below, is <span class="math inline">\(\lambda = 0.945\)</span>: the population shrinks by about 5.5% a year, halving in about 12 years. The stable stage distribution is about 21% eggs and hatchlings, 67% small juveniles, 11% large juveniles, and under 1% in each later stage: only about 2 in 1000 turtles is a mature breeder, because so few survive the long juvenile stages.</p>
 </div>
 </div>
+</section>
+<section id="which-rates-matter-most" class="level3">
+<h3 class="anchored" data-anchor-id="which-rates-matter-most">Which rates matter most?</h3>
+<p>A manager can afford to improve only some survival or birth rates. Which change raises <span class="math inline">\(\lambda\)</span> the most? The <strong>sensitivity</strong> of <span class="math inline">\(\lambda\)</span> to the entry <span class="math inline">\(a_{ij}\)</span> of the matrix is <span class="math display">\[
+\frac{\partial\lambda}{\partial a_{ij}} = \frac{v_iw_j}{\vect{v} \cdot \vect{w}},
+\]</span> where <span class="math inline">\(\vect{w}\)</span> is the right eigenvector (the stable distribution) and <span class="math inline">\(\vect{v}\)</span> is the <strong>left eigenvector</strong>, <span class="math inline">\(\vect{v}\T\M{L} = \lambda\vect{v}\T\)</span>, whose entries are the <strong>reproductive values</strong> of the stages: how much an individual in each stage will contribute to future generations. Because fecundities and survival rates are on very different scales, ecologists compare <strong>elasticities</strong>, <span class="math inline">\(e_{ij} = (a_{ij}/\lambda)\,\partial\lambda/\partial a_{ij}\)</span>: the proportional change in <span class="math inline">\(\lambda\)</span> for a 1% change in <span class="math inline">\(a_{ij}\)</span>. The elasticities add up to 1.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1293,7 +1293,7 @@ Figure&nbsp;36.2: Long-run growth rate λ of the loggerhead model as the annual 
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="5a535586" class="cell" data-execution_count="2">
+<div id="dcb42b2a" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">127</span>, <span class="dv">4</span>, <span class="dv">80</span>],</span>

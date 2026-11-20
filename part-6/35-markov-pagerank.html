@@ -1144,34 +1144,6 @@ x_i \ge 0.
 <li>from any starting distribution, <span class="math inline">\(\vect{x}_k\)</span> approaches the steady state, with the error shrinking like <span class="math inline">\(\lvert\lambda_2\rvert^k\)</span>, where <span class="math inline">\(\lambda_2\)</span> is the next largest eigenvalue in size (<a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>).</li>
 </ul>
 <p>To find the steady state, solve <span class="math inline">\((\M{M} - \M{I})\vect{x} = \zerovec\)</span> together with <span class="math inline">\(\sum x_i = 1\)</span>, or use the <strong>power method</strong> (<a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a>): start from any probability vector and multiply by <span class="math inline">\(\M{M}\)</span> again and again until it stops changing. For a Markov chain this is just simulating the probabilities forward.</p>
-</section>
-<section id="pagerank" class="level3">
-<h3 class="anchored" data-anchor-id="pagerank">PageRank</h3>
-<p>Represent the web as <span class="math inline">\(n\)</span> pages, with links between them. A random surfer on page <span class="math inline">\(j\)</span> clicks one of its <span class="math inline">\(\ell_j\)</span> outgoing links, each with probability <span class="math inline">\(1/\ell_j\)</span>. That defines a transition matrix <span class="math inline">\(\M{M}\)</span> with <span class="math inline">\(m_{ij} = 1/\ell_j\)</span> if page <span class="math inline">\(j\)</span> links to page <span class="math inline">\(i\)</span>, and 0 otherwise. Two problems arise.</p>
-<ul>
-<li><strong>Dead ends</strong>: a page with no outgoing links gives a column of zeros. The fix is to let the surfer jump to a page chosen at random, replacing that column by <span class="math inline">\(\tfrac{1}{n}\vect{1}\)</span>.</li>
-<li><strong>Traps</strong>: a group of pages that link only to each other would capture the surfer forever, and the chain is not regular, so the steady state may not be unique.</li>
-</ul>
-<p>Page and Brin’s fix for traps is <strong>damping</strong>: at each step, with probability <span class="math inline">\(d\)</span> the surfer follows a link, and with probability <span class="math inline">\(1 - d\)</span> they get bored and jump to a page chosen at random. The transition matrix becomes the <strong>Google matrix</strong> <span class="math display">\[
-\M{G} = d\M{M} + \frac{1 - d}{n}\vect{1}\vect{1}\T,
-\]</span> whose entries are all positive, so it is regular, with a unique steady state: the <strong>PageRank</strong> vector. Page and Brin used <span class="math inline">\(d = 0.85\)</span>.</p>
-<p>For the real web, <span class="math inline">\(n\)</span> is in the billions, but <span class="math inline">\(\M{M}\)</span> is extremely sparse, and the second term never needs to be stored: <span class="math inline">\(\M{G}\vect{x} = d\M{M}\vect{x} + \tfrac{1 - d}{n}\vect{1}\)</span> for any probability vector <span class="math inline">\(\vect{x}\)</span>. The power method needs only sparse matrix–vector products, and every eigenvalue of <span class="math inline">\(\M{G}\)</span> other than 1 has size at most <span class="math inline">\(d\)</span>, so the error shrinks by a factor of at least 0.85 at each step: about 43 steps for every three more correct digits, whatever the size of the web. Equivalently, PageRank solves the sparse linear system <span class="math display">\[
-(\M{I} - d\M{M})\vect{x} = \frac{1 - d}{n}\vect{1}.
-\]</span></p>
-</section>
-<section id="absorbing-chains" class="level3">
-<h3 class="anchored" data-anchor-id="absorbing-chains">Absorbing chains</h3>
-<p>Some chains end. A state that, once entered, is never left is called <strong>absorbing</strong>: the end of a game, a customer who cancels, a patient who recovers. The other states are <strong>transient</strong>. For a chain with absorbing states, the questions are no longer about the long run, but about how long the process lasts and how it ends.</p>
-<p>Number the transient states first and the absorbing states last. The transition matrix then has the block form <span class="math display">\[
-\M{M} = \mat{\M{Q} &amp; \M{0} \\ \M{R} &amp; \M{I}},
-\]</span> where <span class="math inline">\(\M{Q}\)</span> holds the probabilities of moving between transient states and <span class="math inline">\(\M{R}\)</span> the probabilities of moving from a transient state into an absorbing one. Entry <span class="math inline">\((i, j)\)</span> of <span class="math inline">\(\M{Q}^k\)</span> is the probability of being in transient state <span class="math inline">\(i\)</span> after <span class="math inline">\(k\)</span> steps, starting from transient state <span class="math inline">\(j\)</span>, so the expected number of visits to state <span class="math inline">\(i\)</span>, counting the start, is the sum <span class="math display">\[
-\M{I} + \M{Q} + \M{Q}^2 + \dots = (\M{I} - \M{Q})^{-1}.
-\]</span> This is the matrix version of the geometric series <span class="math inline">\(1 + q + q^2 + \dots = 1/(1 - q)\)</span>, and it converges because, if every transient state can reach an absorbing one, <span class="math inline">\(\M{Q}^k \to \M{0}\)</span>. The matrix <span class="math inline">\(\M{N} = (\M{I} - \M{Q})^{-1}\)</span> is called the <strong>fundamental matrix</strong>, and it answers both questions:</p>
-<ul>
-<li>the expected number of steps before absorption, starting from transient state <span class="math inline">\(j\)</span>, is the sum of column <span class="math inline">\(j\)</span> of <span class="math inline">\(\M{N}\)</span>;</li>
-<li>the probability of ending in absorbing state <span class="math inline">\(i\)</span>, starting from transient state <span class="math inline">\(j\)</span>, is entry <span class="math inline">\((i, j)\)</span> of <span class="math inline">\(\M{R}\M{N}\)</span>.</li>
-</ul>
-<p>For one starting state, there is no need to form the inverse: solve <span class="math inline">\((\M{I} - \M{Q})\vect{n} = \vect{e}_j\)</span> for column <span class="math inline">\(j\)</span> of <span class="math inline">\(\M{N}\)</span> (<a href="../part-2/10-linear-systems.html" class="quarto-xref"><span>Chapter 10</span></a>).</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1205,6 +1177,20 @@ Figure&nbsp;35.1: The weather chain of Example 1. Each arrow is labelled with th
 \]</span> (The third equation is the negative of the sum of these two.) Eliminating gives <span class="math inline">\(x_1 = \tfrac{21}{12}x_3\)</span> and <span class="math inline">\(x_2 = \tfrac{13}{12}x_3\)</span>, and scaling so that the entries add to 1, <span class="math inline">\(\vect{x} = \tfrac{1}{46}(21, 13, 12)\T \approx (0.457, 0.283, 0.261)\T\)</span>. In the long run about 26% of days are rainy. The other eigenvalues are about 0.47 and 0.13, so the forecast forgets today’s weather quickly: after a week, <span class="math inline">\(0.47^7 \approx 0.005\)</span>.</p>
 </div>
 </div>
+</section>
+<section id="pagerank" class="level3">
+<h3 class="anchored" data-anchor-id="pagerank">PageRank</h3>
+<p>Represent the web as <span class="math inline">\(n\)</span> pages, with links between them. A random surfer on page <span class="math inline">\(j\)</span> clicks one of its <span class="math inline">\(\ell_j\)</span> outgoing links, each with probability <span class="math inline">\(1/\ell_j\)</span>. That defines a transition matrix <span class="math inline">\(\M{M}\)</span> with <span class="math inline">\(m_{ij} = 1/\ell_j\)</span> if page <span class="math inline">\(j\)</span> links to page <span class="math inline">\(i\)</span>, and 0 otherwise. Two problems arise.</p>
+<ul>
+<li><strong>Dead ends</strong>: a page with no outgoing links gives a column of zeros. The fix is to let the surfer jump to a page chosen at random, replacing that column by <span class="math inline">\(\tfrac{1}{n}\vect{1}\)</span>.</li>
+<li><strong>Traps</strong>: a group of pages that link only to each other would capture the surfer forever, and the chain is not regular, so the steady state may not be unique.</li>
+</ul>
+<p>Page and Brin’s fix for traps is <strong>damping</strong>: at each step, with probability <span class="math inline">\(d\)</span> the surfer follows a link, and with probability <span class="math inline">\(1 - d\)</span> they get bored and jump to a page chosen at random. The transition matrix becomes the <strong>Google matrix</strong> <span class="math display">\[
+\M{G} = d\M{M} + \frac{1 - d}{n}\vect{1}\vect{1}\T,
+\]</span> whose entries are all positive, so it is regular, with a unique steady state: the <strong>PageRank</strong> vector. Page and Brin used <span class="math inline">\(d = 0.85\)</span>.</p>
+<p>For the real web, <span class="math inline">\(n\)</span> is in the billions, but <span class="math inline">\(\M{M}\)</span> is extremely sparse, and the second term never needs to be stored: <span class="math inline">\(\M{G}\vect{x} = d\M{M}\vect{x} + \tfrac{1 - d}{n}\vect{1}\)</span> for any probability vector <span class="math inline">\(\vect{x}\)</span>. The power method needs only sparse matrix–vector products, and every eigenvalue of <span class="math inline">\(\M{G}\)</span> other than 1 has size at most <span class="math inline">\(d\)</span>, so the error shrinks by a factor of at least 0.85 at each step: about 43 steps for every three more correct digits, whatever the size of the web. Equivalently, PageRank solves the sparse linear system <span class="math display">\[
+(\M{I} - d\M{M})\vect{x} = \frac{1 - d}{n}\vect{1}.
+\]</span></p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1237,6 +1223,20 @@ x_A = 0.0375 + 0.85x_C,
 \]</span> which give <span class="math inline">\(x_A \approx 0.373\)</span>, <span class="math inline">\(x_B \approx 0.196\)</span>, <span class="math inline">\(x_C \approx 0.394\)</span> and <span class="math inline">\(x_D = 0.0375\)</span>. C ranks highest, with three pages linking to it; A is close behind, because although only one page links to it, that page is C, the most important one. A link from an important page counts for more: that is the central idea of PageRank.</p>
 </div>
 </div>
+</section>
+<section id="absorbing-chains" class="level3">
+<h3 class="anchored" data-anchor-id="absorbing-chains">Absorbing chains</h3>
+<p>Some chains end. A state that, once entered, is never left is called <strong>absorbing</strong>: the end of a game, a customer who cancels, a patient who recovers. The other states are <strong>transient</strong>. For a chain with absorbing states, the questions are no longer about the long run, but about how long the process lasts and how it ends.</p>
+<p>Number the transient states first and the absorbing states last. The transition matrix then has the block form <span class="math display">\[
+\M{M} = \mat{\M{Q} &amp; \M{0} \\ \M{R} &amp; \M{I}},
+\]</span> where <span class="math inline">\(\M{Q}\)</span> holds the probabilities of moving between transient states and <span class="math inline">\(\M{R}\)</span> the probabilities of moving from a transient state into an absorbing one. Entry <span class="math inline">\((i, j)\)</span> of <span class="math inline">\(\M{Q}^k\)</span> is the probability of being in transient state <span class="math inline">\(i\)</span> after <span class="math inline">\(k\)</span> steps, starting from transient state <span class="math inline">\(j\)</span>, so the expected number of visits to state <span class="math inline">\(i\)</span>, counting the start, is the sum <span class="math display">\[
+\M{I} + \M{Q} + \M{Q}^2 + \dots = (\M{I} - \M{Q})^{-1}.
+\]</span> This is the matrix version of the geometric series <span class="math inline">\(1 + q + q^2 + \dots = 1/(1 - q)\)</span>, and it converges because, if every transient state can reach an absorbing one, <span class="math inline">\(\M{Q}^k \to \M{0}\)</span>. The matrix <span class="math inline">\(\M{N} = (\M{I} - \M{Q})^{-1}\)</span> is called the <strong>fundamental matrix</strong>, and it answers both questions:</p>
+<ul>
+<li>the expected number of steps before absorption, starting from transient state <span class="math inline">\(j\)</span>, is the sum of column <span class="math inline">\(j\)</span> of <span class="math inline">\(\M{N}\)</span>;</li>
+<li>the probability of ending in absorbing state <span class="math inline">\(i\)</span>, starting from transient state <span class="math inline">\(j\)</span>, is entry <span class="math inline">\((i, j)\)</span> of <span class="math inline">\(\M{R}\M{N}\)</span>.</li>
+</ul>
+<p>For one starting state, there is no need to form the inverse: solve <span class="math inline">\((\M{I} - \M{Q})\vect{n} = \vect{e}_j\)</span> for column <span class="math inline">\(j\)</span> of <span class="math inline">\(\M{N}\)</span> (<a href="../part-2/10-linear-systems.html" class="quarto-xref"><span>Chapter 10</span></a>).</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1293,7 +1293,7 @@ n_1 + n_2 + n_3 \approx 3.03 \text{ years}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="823426a6" class="cell" data-execution_count="1">
+<div id="a857b4d3" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: the steady state of the weather</span></span>

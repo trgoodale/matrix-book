@@ -1134,30 +1134,6 @@ Figure&nbsp;31.1: Left: a member from joint <span class="math inline">\(i\)</spa
 <p>At each joint, the sum of the member forces, the reactions and the applied load <span class="math inline">\(\vect{p}\)</span> is zero. Collecting all the unknown member forces and reactions into one vector <span class="math inline">\(\vect{f}\)</span>, the <span class="math inline">\(2j\)</span> equations for <span class="math inline">\(j\)</span> joints form a linear system <span class="math display">\[
 \M{A}\vect{f} = -\vect{p},
 \]</span> where <span class="math inline">\(\vect{p}\)</span> lists the applied loads, joint by joint. Column <span class="math inline">\(k\)</span> of the <strong>equilibrium matrix</strong> <span class="math inline">\(\M{A}\)</span> shows where unknown <span class="math inline">\(k\)</span> pushes or pulls: a member’s column holds <span class="math inline">\(\vect{e}\)</span> in the rows of joint <span class="math inline">\(i\)</span> and <span class="math inline">\(-\vect{e}\)</span> in the rows of joint <span class="math inline">\(j\)</span>, and a reaction’s column holds a single 1.</p>
-</section>
-<section id="determinate-indeterminate-and-mechanisms" class="level3">
-<h3 class="anchored" data-anchor-id="determinate-indeterminate-and-mechanisms">Determinate, indeterminate and mechanisms</h3>
-<p>The truss has <span class="math inline">\(m\)</span> members and <span class="math inline">\(r\)</span> reaction components, so <span class="math inline">\(\M{A}\)</span> is <span class="math inline">\(2j \times (m + r)\)</span>. The fundamental subspaces of <a href="../part-3/16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a> say exactly what can happen.</p>
-<ul>
-<li>If <span class="math inline">\(m + r = 2j\)</span> and <span class="math inline">\(\M{A}\)</span> is invertible, every load has exactly one set of member forces that balances it. The truss is <strong>statically determinate</strong>: equilibrium alone fixes the forces.</li>
-<li>If <span class="math inline">\(\M{A}\)</span> has rank less than <span class="math inline">\(2j\)</span>, its column space is not all of <span class="math inline">\(\R^{2j}\)</span>, so some loads can’t be balanced at all. The truss is a <strong>mechanism</strong>: it would fold up. This always happens if <span class="math inline">\(m + r &lt; 2j\)</span>, but it can also happen with enough members, badly arranged.</li>
-<li>If <span class="math inline">\(\M{A}\)</span> has rank <span class="math inline">\(2j\)</span> but <span class="math inline">\(m + r &gt; 2j\)</span>, every load can be balanced, but in infinitely many ways: the null space of <span class="math inline">\(\M{A}\)</span> contains sets of member forces that balance each other with no load at all (<strong>self-stress</strong>). The truss is <strong>statically indeterminate</strong>, with <span class="math inline">\(m + r - 2j\)</span> <strong>redundant</strong> members. To find which forces actually occur, we need to know how the members stretch.</li>
-</ul>
-<p>The simplest stable shape is the triangle. Adding a joint connected by two new members to a triangle keeps the count <span class="math inline">\(m + r = 2j\)</span>, which is why trusses are built from triangles.</p>
-</section>
-<section id="the-stiffness-method" class="level3">
-<h3 class="anchored" data-anchor-id="the-stiffness-method">The stiffness method</h3>
-<p>Real members stretch slightly under load. A member of length <span class="math inline">\(L\)</span>, cross-sectional area <span class="math inline">\(A\)</span> and Young’s modulus <span class="math inline">\(E\)</span> behaves like a stiff spring: its force is <span class="math inline">\(N = (EA/L)\,\delta\)</span>, where <span class="math inline">\(\delta\)</span> is its extension. If the joints move by small displacements <span class="math inline">\(\vect{u}\)</span>, the extension of a member from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> is <span class="math display">\[
-\delta = (\vect{u}_j - \vect{u}_i) \cdot \vect{e}.
-\]</span> Writing <span class="math inline">\(\M{B}\)</span> for the matrix that gives all the extensions, <span class="math inline">\(\vect{\delta} = \M{B}\vect{u}\)</span>, and <span class="math inline">\(\M{D}\)</span> for the diagonal matrix of member stiffnesses <span class="math inline">\(EA/L\)</span>, the member forces are <span class="math inline">\(\vect{N} = \M{D}\M{B}\vect{u}\)</span>. Equilibrium at the free joints turns out to use the transpose of the same matrix, <span class="math inline">\(\M{B}\T\vect{N} = \vect{p}\)</span> (exercise 5), so <span class="math display">\[
-\M{K}\vect{u} = \vect{p},
-\qquad
-\M{K} = \M{B}\T\M{D}\M{B}.
-\]</span></p>
-<p>The <strong>stiffness matrix</strong> <span class="math inline">\(\M{K}\)</span> is symmetric, and positive definite unless the truss is a mechanism (<a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>). Solve for the displacements <span class="math inline">\(\vect{u}\)</span>, then find the forces from <span class="math inline">\(\vect{N} = \M{D}\M{B}\vect{u}\)</span>. This works for determinate and indeterminate trusses alike, and it gives the deflections too. It is the method that structural analysis software uses, and the starting point of the finite element method.</p>
-<p>Each member contributes a <span class="math inline">\(4 \times 4\)</span> block, <span class="math display">\[
-\frac{EA}{L}\mat{\vect{e}\vect{e}\T &amp; -\vect{e}\vect{e}\T \\ -\vect{e}\vect{e}\T &amp; \vect{e}\vect{e}\T},
-\]</span> to the rows and columns of its two joints, so <span class="math inline">\(\M{K}\)</span> can be assembled member by member.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1184,9 +1160,19 @@ Figure&nbsp;31.2: The triangular truss of Example 1: members <span class="math i
 \mat{N_a \\ N_b \\ N_c \\ R_{1x} \\ R_{1y} \\ R_{2y}}
 =
 \mat{0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 10}.
-\]</span> The last two rows (joint 3) give <span class="math inline">\(N_b = N_c\)</span> and <span class="math inline">\(N_b + N_c = -10\sqrt{2}\)</span>, so <span class="math inline">\(N_b = N_c = -5\sqrt{2} \approx -7.07\)</span> kN: both sloping members are in compression. Row 3 then gives <span class="math inline">\(N_a = -N_c/\sqrt{2} = 5\)</span> kN, in tension: the bottom member ties the feet together. Finally <span class="math inline">\(R_{1x} = 0\)</span>, <span class="math inline">\(R_{1y} = 5\)</span> and <span class="math inline">\(R_{2y} = 5\)</span> kN: each support carries half the load, as symmetry demands. Here <span class="math inline">\(m + r = 3 + 3 = 6 = 2j\)</span>, and the matrix is invertible: the triangle is determinate.</p>
+\]</span> The last two rows (joint 3) give <span class="math inline">\(N_b = N_c\)</span> and <span class="math inline">\(N_b + N_c = -10\sqrt{2}\)</span>, so <span class="math inline">\(N_b = N_c = -5\sqrt{2} \approx -7.07\)</span> kN: both sloping members are in compression. Row 3 then gives <span class="math inline">\(N_a = -N_c/\sqrt{2} = 5\)</span> kN, in tension: the bottom member ties the feet together. Finally <span class="math inline">\(R_{1x} = 0\)</span>, <span class="math inline">\(R_{1y} = 5\)</span> and <span class="math inline">\(R_{2y} = 5\)</span> kN: each support carries half the load, as symmetry demands. Here <span class="math inline">\(m + r = 3 + 3 = 6 = 2j\)</span>, and the matrix is invertible, so these are the only forces that balance the load: the next section calls such a truss determinate.</p>
 </div>
 </div>
+</section>
+<section id="determinate-indeterminate-and-mechanisms" class="level3">
+<h3 class="anchored" data-anchor-id="determinate-indeterminate-and-mechanisms">Determinate, indeterminate and mechanisms</h3>
+<p>The truss has <span class="math inline">\(m\)</span> members and <span class="math inline">\(r\)</span> reaction components, so <span class="math inline">\(\M{A}\)</span> is <span class="math inline">\(2j \times (m + r)\)</span>. The fundamental subspaces of <a href="../part-3/16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a> say exactly what can happen.</p>
+<ul>
+<li>If <span class="math inline">\(m + r = 2j\)</span> and <span class="math inline">\(\M{A}\)</span> is invertible, every load has exactly one set of member forces that balances it. The truss is <strong>statically determinate</strong>: equilibrium alone fixes the forces.</li>
+<li>If <span class="math inline">\(\M{A}\)</span> has rank less than <span class="math inline">\(2j\)</span>, its column space is not all of <span class="math inline">\(\R^{2j}\)</span>, so some loads can’t be balanced at all. The truss is a <strong>mechanism</strong>: it would fold up. This always happens if <span class="math inline">\(m + r &lt; 2j\)</span>, but it can also happen with enough members, badly arranged.</li>
+<li>If <span class="math inline">\(\M{A}\)</span> has rank <span class="math inline">\(2j\)</span> but <span class="math inline">\(m + r &gt; 2j\)</span>, every load can be balanced, but in infinitely many ways: the null space of <span class="math inline">\(\M{A}\)</span> contains sets of member forces that balance each other with no load at all (<strong>self-stress</strong>). The truss is <strong>statically indeterminate</strong>, with <span class="math inline">\(m + r - 2j\)</span> <strong>redundant</strong> members. To find which forces actually occur, we need to know how the members stretch.</li>
+</ul>
+<p>The simplest stable shape is the triangle. Adding a joint connected by two new members to a triangle keeps the count <span class="math inline">\(m + r = 2j\)</span>, which is why trusses are built from triangles.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1211,6 +1197,20 @@ Figure&nbsp;31.3: Example 2. Left: the square can lean over (dashed) without any
 </div>
 </div>
 </div>
+</section>
+<section id="the-stiffness-method" class="level3">
+<h3 class="anchored" data-anchor-id="the-stiffness-method">The stiffness method</h3>
+<p>Real members stretch slightly under load. A member of length <span class="math inline">\(L\)</span>, cross-sectional area <span class="math inline">\(A\)</span> and Young’s modulus <span class="math inline">\(E\)</span> behaves like a stiff spring: its force is <span class="math inline">\(N = (EA/L)\,\delta\)</span>, where <span class="math inline">\(\delta\)</span> is its extension. If the joints move by small displacements <span class="math inline">\(\vect{u}\)</span>, the extension of a member from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> is <span class="math display">\[
+\delta = (\vect{u}_j - \vect{u}_i) \cdot \vect{e}.
+\]</span> Writing <span class="math inline">\(\M{B}\)</span> for the matrix that gives all the extensions, <span class="math inline">\(\vect{\delta} = \M{B}\vect{u}\)</span>, and <span class="math inline">\(\M{D}\)</span> for the diagonal matrix of member stiffnesses <span class="math inline">\(EA/L\)</span>, the member forces are <span class="math inline">\(\vect{N} = \M{D}\M{B}\vect{u}\)</span>. Equilibrium at the free joints turns out to use the transpose of the same matrix, <span class="math inline">\(\M{B}\T\vect{N} = \vect{p}\)</span> (exercise 5), so <span class="math display">\[
+\M{K}\vect{u} = \vect{p},
+\qquad
+\M{K} = \M{B}\T\M{D}\M{B}.
+\]</span></p>
+<p>The <strong>stiffness matrix</strong> <span class="math inline">\(\M{K}\)</span> is symmetric, and positive definite unless the truss is a mechanism (<a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>). Solve for the displacements <span class="math inline">\(\vect{u}\)</span>, then find the forces from <span class="math inline">\(\vect{N} = \M{D}\M{B}\vect{u}\)</span>. This works for determinate and indeterminate trusses alike, and it gives the deflections too. It is the method that structural analysis software uses, and the starting point of the finite element method.</p>
+<p>Each member contributes a <span class="math inline">\(4 \times 4\)</span> block, <span class="math display">\[
+\frac{EA}{L}\mat{\vect{e}\vect{e}\T &amp; -\vect{e}\vect{e}\T \\ -\vect{e}\vect{e}\T &amp; \vect{e}\vect{e}\T},
+\]</span> to the rows and columns of its two joints, so <span class="math inline">\(\M{K}\)</span> can be assembled member by member.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1266,7 +1266,7 @@ N_A = N_C = \frac{EA}{\sqrt{2}} \cdot \frac{10}{1.707\,EA} \cdot \frac{1}{\sqrt{
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="a84abc79" class="cell" data-execution_count="1">
+<div id="97028e04" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> truss(P, members, supports, loads):</span>

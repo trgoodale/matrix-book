@@ -1127,44 +1127,6 @@ window.Quarto = {
 <p>A walk of length 3 from a node back to itself goes round a triangle. Each triangle is counted from each of its 3 corners, in each of 2 directions, so <span class="math display">\[
 \text{number of triangles} = \frac{\operatorname{trace}(\M{A}^3)}{6}.
 \]</span> Triangles measure how clustered a network is: in friendship networks, your friends are often friends of each other.</p>
-<p><em>Worked example:</em> <a href="#ex-networks-1">Example 1</a>.</p>
-</section>
-<section id="the-graph-laplacian" class="level3">
-<h3 class="anchored" data-anchor-id="the-graph-laplacian">The graph Laplacian</h3>
-<p>Much as for the circuits of <a href="32-circuits.html" class="quarto-xref"><span>Chapter 32</span></a>, give each edge a direction, chosen arbitrarily, and form the <strong>incidence matrix</strong> <span class="math inline">\(\M{B}\)</span>, with one row per edge: the row for an edge from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> has <span class="math inline">\(-1\)</span> in column <span class="math inline">\(i\)</span>, <span class="math inline">\(+1\)</span> in column <span class="math inline">\(j\)</span>, and zeros elsewhere. If <span class="math inline">\(\vect{x}\)</span> assigns a number <span class="math inline">\(x_i\)</span> to each node (a voltage, a temperature, an opinion), then <span class="math inline">\(\M{B}\vect{x}\)</span> lists the differences <span class="math inline">\(x_j - x_i\)</span> across the edges. The <strong>graph Laplacian</strong> is <span class="math display">\[
-\M{L} = \M{B}\T\M{B} = \M{D} - \M{A},
-\]</span> where <span class="math inline">\(\M{D} = \operatorname{diag}(d_1, \dots, d_n)\)</span> holds the degrees. So <span class="math inline">\(\M{L}\)</span> has the degrees on its diagonal and <span class="math inline">\(-1\)</span> for each edge, and every row adds up to zero. (The directions don’t matter: reversing an edge changes the sign of its row of <span class="math inline">\(\M{B}\)</span>, which doesn’t change <span class="math inline">\(\M{B}\T\M{B}\)</span>.)</p>
-<p>The key fact about <span class="math inline">\(\M{L}\)</span> is the quadratic form <span id="eq-laplacian-form"><span class="math display">\[
-\vect{x}\T\M{L}\vect{x} = \lVert\M{B}\vect{x}\rVert^2 = \sum_{\text{edges } ij} (x_i - x_j)^2.
-\tag{41.1}\]</span></span> It is never negative, so <span class="math inline">\(\M{L}\)</span> is symmetric positive semidefinite (<a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>): its eigenvalues are real and at least zero, <span class="math inline">\(0 = \lambda_1 \le \lambda_2 \le \dots \le \lambda_n\)</span>, with orthogonal eigenvectors. And it measures how much <span class="math inline">\(\vect{x}\)</span> changes across the edges: it is small when neighbouring nodes have similar values.</p>
-</section>
-<section id="connected-pieces-and-the-null-space" class="level3">
-<h3 class="anchored" data-anchor-id="connected-pieces-and-the-null-space">Connected pieces and the null space</h3>
-<p>If <span class="math inline">\(\M{L}\vect{x} = \zerovec\)</span>, then <span class="math inline">\(\vect{x}\T\M{L}\vect{x} = 0\)</span>, so by <a href="#eq-laplacian-form" class="quarto-xref">Equation&nbsp;<span>41.1</span></a> every edge has <span class="math inline">\(x_i = x_j\)</span>. Following edges, <span class="math inline">\(\vect{x}\)</span> is constant on each <strong>connected component</strong>, each piece of the network in which every node can reach every other. Conversely, any vector that is constant on each component is in the null space. So:</p>
-<ul>
-<li>the vector <span class="math inline">\(\vect{1}\)</span> of all ones is always in the null space, so <span class="math inline">\(\lambda_1 = 0\)</span>;</li>
-<li>the dimension of the null space of <span class="math inline">\(\M{L}\)</span>, the number of zero eigenvalues, equals the number of connected components;</li>
-<li>the network is connected exactly when <span class="math inline">\(\lambda_2 &gt; 0\)</span>.</li>
-</ul>
-<p>Testing connectivity is easy enough by following edges. The real value of the Laplacian lies in what <span class="math inline">\(\lambda_2\)</span> says when it is small but not zero.</p>
-<p><em>Worked example:</em> <a href="#ex-networks-2">Example 2</a>.</p>
-</section>
-<section id="splitting-a-network-the-fiedler-vector" class="level3">
-<h3 class="anchored" data-anchor-id="splitting-a-network-the-fiedler-vector">Splitting a network: the Fiedler vector</h3>
-<p>Suppose we want to split a connected network into two groups, cutting as few edges as possible, without making one group tiny. Label the nodes in one group <span class="math inline">\(x_i = +1\)</span> and in the other <span class="math inline">\(x_i = -1\)</span>. An edge inside a group contributes 0 to <a href="#eq-laplacian-form" class="quarto-xref">Equation&nbsp;<span>41.1</span></a>, and an edge between groups contributes <span class="math inline">\(2^2 = 4\)</span>, so <span class="math display">\[
-\vect{x}\T\M{L}\vect{x} = 4 \times (\text{number of edges cut}).
-\]</span> Requiring <span class="math inline">\(\vect{x} \perp \vect{1}\)</span> makes the two groups the same size. Finding the best <span class="math inline">\(\pm 1\)</span> vector is very hard for large networks, but if we allow any real numbers, with <span class="math inline">\(\lVert\vect{x}\rVert = 1\)</span> and <span class="math inline">\(\vect{x} \perp \vect{1}\)</span>, the minimum of <span class="math inline">\(\vect{x}\T\M{L}\vect{x}\)</span> is <span class="math inline">\(\lambda_2\)</span>, reached at its eigenvector <span class="math inline">\(\vect{v}_2\)</span>. This is the Rayleigh quotient idea of <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>: the smallest eigenvalue minimises <span class="math inline">\(\vect{x}\T\M{L}\vect{x}\)</span> over unit vectors, and the next one does so over unit vectors perpendicular to the first eigenvector, here <span class="math inline">\(\vect{1}\)</span>.</p>
-<p>So <strong>spectral partitioning</strong> splits the nodes by the signs of <span class="math inline">\(\vect{v}_2\)</span>, which is called the <strong>Fiedler vector</strong>, after Miroslav Fiedler. Its eigenvalue <span class="math inline">\(\lambda_2\)</span>, the <strong>algebraic connectivity</strong>, measures how well connected the network is: a small <span class="math inline">\(\lambda_2\)</span> means that some split cuts few edges, and a network with a bottleneck has a small <span class="math inline">\(\lambda_2\)</span>.</p>
-<p><em>Worked example:</em> <a href="#ex-networks-3">Example 3</a>.</p>
-</section>
-<section id="who-matters-most-eigenvector-centrality" class="level3">
-<h3 class="anchored" data-anchor-id="who-matters-most-eigenvector-centrality">Who matters most: eigenvector centrality</h3>
-<p>The simplest measure of a node’s importance is its degree. But being connected to important nodes should count for more than being connected to unimportant ones. <strong>Eigenvector centrality</strong> asks for scores <span class="math inline">\(c_i\)</span> in which each node’s score is proportional to the total score of its neighbours: <span class="math display">\[
-\lambda c_i = \sum_j a_{ij}c_j,
-\qquad\text{that is}\qquad
-\M{A}\vect{c} = \lambda\vect{c}.
-\]</span> For a connected network, the Perron–Frobenius theorem (<a href="35-markov-pagerank.html" class="quarto-xref"><span>Chapter 35</span></a>) guarantees that the largest eigenvalue of <span class="math inline">\(\M{A}\)</span> has an eigenvector with every entry positive, and that is the centrality. The power method (<a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a>) finds it, and it is the undirected cousin of PageRank.</p>
-<p><em>Worked example:</em> <a href="#ex-networks-4">Example 4</a>.</p>
 <div id="ex-networks-1" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1195,6 +1157,25 @@ Figure&nbsp;41.1: The friendships of Example 1. The shaded triangle 1–2–3 is
 \]</span> the triangle 1–2–3. Persons 4 and 5 are in no triangle.</p>
 </div>
 </div>
+</section>
+<section id="the-graph-laplacian" class="level3">
+<h3 class="anchored" data-anchor-id="the-graph-laplacian">The graph Laplacian</h3>
+<p>Much as for the circuits of <a href="32-circuits.html" class="quarto-xref"><span>Chapter 32</span></a>, give each edge a direction, chosen arbitrarily, and form the <strong>incidence matrix</strong> <span class="math inline">\(\M{B}\)</span>, with one row per edge: the row for an edge from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> has <span class="math inline">\(-1\)</span> in column <span class="math inline">\(i\)</span>, <span class="math inline">\(+1\)</span> in column <span class="math inline">\(j\)</span>, and zeros elsewhere. If <span class="math inline">\(\vect{x}\)</span> assigns a number <span class="math inline">\(x_i\)</span> to each node (a voltage, a temperature, an opinion), then <span class="math inline">\(\M{B}\vect{x}\)</span> lists the differences <span class="math inline">\(x_j - x_i\)</span> across the edges. The <strong>graph Laplacian</strong> is <span class="math display">\[
+\M{L} = \M{B}\T\M{B} = \M{D} - \M{A},
+\]</span> where <span class="math inline">\(\M{D} = \operatorname{diag}(d_1, \dots, d_n)\)</span> holds the degrees. So <span class="math inline">\(\M{L}\)</span> has the degrees on its diagonal and <span class="math inline">\(-1\)</span> for each edge, and every row adds up to zero. (The directions don’t matter: reversing an edge changes the sign of its row of <span class="math inline">\(\M{B}\)</span>, which doesn’t change <span class="math inline">\(\M{B}\T\M{B}\)</span>.)</p>
+<p>The key fact about <span class="math inline">\(\M{L}\)</span> is the quadratic form <span id="eq-laplacian-form"><span class="math display">\[
+\vect{x}\T\M{L}\vect{x} = \lVert\M{B}\vect{x}\rVert^2 = \sum_{\text{edges } ij} (x_i - x_j)^2.
+\tag{41.1}\]</span></span> It is never negative, so <span class="math inline">\(\M{L}\)</span> is symmetric positive semidefinite (<a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>): its eigenvalues are real and at least zero, <span class="math inline">\(0 = \lambda_1 \le \lambda_2 \le \dots \le \lambda_n\)</span>, with orthogonal eigenvectors. And it measures how much <span class="math inline">\(\vect{x}\)</span> changes across the edges: it is small when neighbouring nodes have similar values.</p>
+</section>
+<section id="connected-pieces-and-the-null-space" class="level3">
+<h3 class="anchored" data-anchor-id="connected-pieces-and-the-null-space">Connected pieces and the null space</h3>
+<p>If <span class="math inline">\(\M{L}\vect{x} = \zerovec\)</span>, then <span class="math inline">\(\vect{x}\T\M{L}\vect{x} = 0\)</span>, so by <a href="#eq-laplacian-form" class="quarto-xref">Equation&nbsp;<span>41.1</span></a> every edge has <span class="math inline">\(x_i = x_j\)</span>. Following edges, <span class="math inline">\(\vect{x}\)</span> is constant on each <strong>connected component</strong>, each piece of the network in which every node can reach every other. Conversely, any vector that is constant on each component is in the null space. So:</p>
+<ul>
+<li>the vector <span class="math inline">\(\vect{1}\)</span> of all ones is always in the null space, so <span class="math inline">\(\lambda_1 = 0\)</span>;</li>
+<li>the dimension of the null space of <span class="math inline">\(\M{L}\)</span>, the number of zero eigenvalues, equals the number of connected components;</li>
+<li>the network is connected exactly when <span class="math inline">\(\lambda_2 &gt; 0\)</span>.</li>
+</ul>
+<p>Testing connectivity is easy enough by following edges. The real value of the Laplacian lies in what <span class="math inline">\(\lambda_2\)</span> says when it is small but not zero.</p>
 <div id="ex-networks-2" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1211,6 +1192,13 @@ Figure&nbsp;41.1: The friendships of Example 1. The shaded triangle 1–2–3 is
 \]</span> <span class="math inline">\(\M{L}\vect{x} = \zerovec\)</span> says <span class="math inline">\(x_1 = x_2\)</span> (row 1), then <span class="math inline">\(x_2 = x_3\)</span> (row 3), and <span class="math inline">\(x_4 = x_5\)</span> (row 4). So the null space has the basis <span class="math inline">\((1, 1, 1, 0, 0)\T\)</span> and <span class="math inline">\((0, 0, 0, 1, 1)\T\)</span>: dimension 2, one vector for each piece. The eigenvalues are <span class="math inline">\(0, 0, 1, 2, 3\)</span>: two zeros, two components. The matrix is <strong>block diagonal</strong>, one block for each component, which happens whenever the nodes of each piece are numbered together.</p>
 </div>
 </div>
+</section>
+<section id="splitting-a-network-the-fiedler-vector" class="level3">
+<h3 class="anchored" data-anchor-id="splitting-a-network-the-fiedler-vector">Splitting a network: the Fiedler vector</h3>
+<p>Suppose we want to split a connected network into two groups, cutting as few edges as possible, without making one group tiny. Label the nodes in one group <span class="math inline">\(x_i = +1\)</span> and in the other <span class="math inline">\(x_i = -1\)</span>. An edge inside a group contributes 0 to <a href="#eq-laplacian-form" class="quarto-xref">Equation&nbsp;<span>41.1</span></a>, and an edge between groups contributes <span class="math inline">\(2^2 = 4\)</span>, so <span class="math display">\[
+\vect{x}\T\M{L}\vect{x} = 4 \times (\text{number of edges cut}).
+\]</span> Requiring <span class="math inline">\(\vect{x} \perp \vect{1}\)</span> makes the two groups the same size. Finding the best <span class="math inline">\(\pm 1\)</span> vector is very hard for large networks, but if we allow any real numbers, with <span class="math inline">\(\lVert\vect{x}\rVert = 1\)</span> and <span class="math inline">\(\vect{x} \perp \vect{1}\)</span>, the minimum of <span class="math inline">\(\vect{x}\T\M{L}\vect{x}\)</span> is <span class="math inline">\(\lambda_2\)</span>, reached at its eigenvector <span class="math inline">\(\vect{v}_2\)</span>. This is the Rayleigh quotient idea of <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>: the smallest eigenvalue minimises <span class="math inline">\(\vect{x}\T\M{L}\vect{x}\)</span> over unit vectors, and the next one does so over unit vectors perpendicular to the first eigenvector, here <span class="math inline">\(\vect{1}\)</span>.</p>
+<p>So <strong>spectral partitioning</strong> splits the nodes by the signs of <span class="math inline">\(\vect{v}_2\)</span>, which is called the <strong>Fiedler vector</strong>, after Miroslav Fiedler. Its eigenvalue <span class="math inline">\(\lambda_2\)</span>, the <strong>algebraic connectivity</strong>, measures how well connected the network is: a small <span class="math inline">\(\lambda_2\)</span> means that some split cuts few edges, and a network with a bottleneck has a small <span class="math inline">\(\lambda_2\)</span>.</p>
 <div id="ex-networks-3" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1245,6 +1233,14 @@ Figure&nbsp;41.2: The network of Example 3, with each node’s entry in the Fied
 </div>
 </div>
 </div>
+</section>
+<section id="who-matters-most-eigenvector-centrality" class="level3">
+<h3 class="anchored" data-anchor-id="who-matters-most-eigenvector-centrality">Who matters most: eigenvector centrality</h3>
+<p>The simplest measure of a node’s importance is its degree. But being connected to important nodes should count for more than being connected to unimportant ones. <strong>Eigenvector centrality</strong> asks for scores <span class="math inline">\(c_i\)</span> in which each node’s score is proportional to the total score of its neighbours: <span class="math display">\[
+\lambda c_i = \sum_j a_{ij}c_j,
+\qquad\text{that is}\qquad
+\M{A}\vect{c} = \lambda\vect{c}.
+\]</span> For a connected network, the Perron–Frobenius theorem (<a href="35-markov-pagerank.html" class="quarto-xref"><span>Chapter 35</span></a>) guarantees that the largest eigenvalue of <span class="math inline">\(\M{A}\)</span> has an eigenvector with every entry positive, and that is the centrality. The power method (<a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a>) finds it, and it is the undirected cousin of PageRank.</p>
 <div id="ex-networks-4" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1295,7 +1291,7 @@ Figure&nbsp;41.3: The network of Example 4, with each node’s eigenvector centr
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="09b57cef" class="cell" data-execution_count="1">
+<div id="358f42cb" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> adjacency(n, edges):</span>

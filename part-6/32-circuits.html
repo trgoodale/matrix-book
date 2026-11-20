@@ -1137,16 +1137,6 @@ window.Quarto = {
 <p>There is a deeper reason for this structure. Number the resistors, and let <span class="math inline">\(\M{A}\)</span> be the <strong>incidence matrix</strong>: row <span class="math inline">\(k\)</span> has <span class="math inline">\(+1\)</span> in the column of the node where resistor <span class="math inline">\(k\)</span> starts and <span class="math inline">\(-1\)</span> where it ends. Then <span class="math inline">\(\M{A}\vect{v}\)</span> gives the voltage across each resistor, <span class="math inline">\(\M{C}\M{A}\vect{v}\)</span> the currents, where <span class="math inline">\(\M{C}\)</span> is the diagonal matrix of conductances, and KCL says <span class="math inline">\(\M{A}\T(\M{C}\M{A}\vect{v}) = \vect{i}\)</span>. So <span class="math display">\[
 \M{G} = \M{A}\T\M{C}\M{A},
 \]</span> exactly the pattern <span class="math inline">\(\M{B}\T\M{D}\M{B}\)</span> of the truss stiffness matrix (<a href="31-trusses.html" class="quarto-xref"><span>Chapter 31</span></a>), with voltages for displacements and currents for forces.</p>
-</section>
-<section id="voltage-sources-modified-nodal-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="voltage-sources-modified-nodal-analysis">Voltage sources: modified nodal analysis</h3>
-<p>A voltage source fixes the difference between two node voltages, but the current through it is unknown. <strong>Modified nodal analysis</strong> (MNA) adds that current as an extra unknown, and the source’s equation as an extra row. For a source of <span class="math inline">\(E\)</span> volts from ground to node <span class="math inline">\(k\)</span>, with current <span class="math inline">\(I_s\)</span> flowing out of node <span class="math inline">\(k\)</span> into the source, <span class="math display">\[
-\mat{\M{G} &amp; \ue{k} \\ \ue{k}\T &amp; 0}\mat{\vect{v} \\ I_s} = \mat{\vect{i} \\ E}.
-\]</span> The matrix is still symmetric, but no longer positive definite (it has a zero on its diagonal), so solvers pivot. MNA is how SPICE handles every kind of component.</p>
-</section>
-<section id="ac-circuits-complex-matrices" class="level3">
-<h3 class="anchored" data-anchor-id="ac-circuits-complex-matrices">AC circuits: complex matrices</h3>
-<p>For sinusoidal signals at angular frequency <span class="math inline">\(\omega\)</span>, capacitors and inductors behave like resistors with complex <strong>impedances</strong>: <span class="math inline">\(Z_C = 1/(j\omega C)\)</span> and <span class="math inline">\(Z_L = j\omega L\)</span>, where <span class="math inline">\(j = \sqrt{-1}\)</span> (engineers write <span class="math inline">\(j\)</span>, not <span class="math inline">\(i\)</span>). Each voltage is represented by a complex number, a <strong>phasor</strong>, whose size is the amplitude and whose angle is the phase. Nodal analysis works unchanged, with complex conductances <span class="math inline">\(Y = 1/Z\)</span> (called <strong>admittances</strong>), giving a complex system <span class="math inline">\(\M{Y}\vect{v} = \vect{i}\)</span>. NumPy and MATLAB solve complex systems exactly as they solve real ones.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1164,6 +1154,12 @@ window.Quarto = {
 \]</span> Elimination gives <span class="math inline">\(V_3 = \tfrac{40}{7} \approx 5.71\)</span> V, <span class="math inline">\(V_2 = \tfrac{60}{7} \approx 8.57\)</span> V and <span class="math inline">\(V_1 = \tfrac{110}{7} \approx 15.71\)</span> V. The currents follow from Ohm’s law: 1.57 A through the first 10 Ω resistor, 1.43 A along to node 2, of which 0.86 A goes to ground and 0.57 A on to node 3 and down through the last resistor. Check at node 1: <span class="math inline">\(1.57 + 1.43 = 3\)</span> A, the source current. ✓</p>
 </div>
 </div>
+</section>
+<section id="voltage-sources-modified-nodal-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="voltage-sources-modified-nodal-analysis">Voltage sources: modified nodal analysis</h3>
+<p>A voltage source fixes the difference between two node voltages, but the current through it is unknown. <strong>Modified nodal analysis</strong> (MNA) adds that current as an extra unknown, and the source’s equation as an extra row. For a source of <span class="math inline">\(E\)</span> volts from ground to node <span class="math inline">\(k\)</span>, with current <span class="math inline">\(I_s\)</span> flowing out of node <span class="math inline">\(k\)</span> into the source, <span class="math display">\[
+\mat{\M{G} &amp; \ue{k} \\ \ue{k}\T &amp; 0}\mat{\vect{v} \\ I_s} = \mat{\vect{i} \\ E}.
+\]</span> The matrix is still symmetric, but no longer positive definite (it has a zero on its diagonal), so solvers pivot. MNA is how SPICE handles every kind of component.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1181,6 +1177,10 @@ window.Quarto = {
 \]</span> With <span class="math inline">\(V_1 = 12\)</span>, the third row gives <span class="math inline">\(V_3 = \tfrac{2}{3}V_2\)</span>, and the second then gives <span class="math inline">\(0.5V_2 - 2.4 - \tfrac{0.4}{3}V_2 = 0\)</span>, so <span class="math inline">\(V_2 = \tfrac{72}{11} \approx 6.55\)</span> V and <span class="math inline">\(V_3 = \tfrac{48}{11} \approx 4.36\)</span> V. The first row gives <span class="math inline">\(I_s = -0.3 \times 12 + 0.2 \times \tfrac{72}{11} \approx -2.29\)</span> A: the negative sign means 2.29 A flows <em>out</em> of the source into node 1. The source delivers <span class="math inline">\(12 \times 2.29 = 27.5\)</span> W.</p>
 </div>
 </div>
+</section>
+<section id="ac-circuits-complex-matrices" class="level3">
+<h3 class="anchored" data-anchor-id="ac-circuits-complex-matrices">AC circuits: complex matrices</h3>
+<p>For sinusoidal signals at angular frequency <span class="math inline">\(\omega\)</span>, capacitors and inductors behave like resistors with complex <strong>impedances</strong>: <span class="math inline">\(Z_C = 1/(j\omega C)\)</span> and <span class="math inline">\(Z_L = j\omega L\)</span>, where <span class="math inline">\(j = \sqrt{-1}\)</span> (engineers write <span class="math inline">\(j\)</span>, not <span class="math inline">\(i\)</span>). Each voltage is represented by a complex number, a <strong>phasor</strong>, whose size is the amplitude and whose angle is the phase. Nodal analysis works unchanged, with complex conductances <span class="math inline">\(Y = 1/Z\)</span> (called <strong>admittances</strong>), giving a complex system <span class="math inline">\(\M{Y}\vect{v} = \vect{i}\)</span>. NumPy and MATLAB solve complex systems exactly as they solve real ones.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1242,7 +1242,7 @@ V_1 = (1 + j)\Bigl(-\frac{j}{3}\Bigr) = \frac{1 - j}{3}.
 <div id="fig-filter" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two plots against frequency on a log scale: the output amplitude of the RC filter falls from 1 towards zero above the cut-off, and the phase drops from 0 towards minus 180 degrees.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="32-circuits_files/figure-html/fig-filter-output-1.png" alt="Two plots against frequency on a log scale: the output amplitude of the RC filter falls from 1 towards zero above the cut-off, and the phase drops from 0 towards minus 180 degrees." width="566" height="393" class="figure-img">
+<img src="32-circuits_files/figure-html/fig-filter-output-1.png" alt="Two plots against frequency on a log scale: the output amplitude of the RC filter falls from 1 towards zero above the cut-off, and the phase drops from 0 towards minus 180 degrees." width="568" height="393" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;32.1: Output amplitude and phase of the two-stage RC filter of Example 3, from solving its 2 × 2 complex nodal system at each frequency. Low frequencies pass through; high frequencies are blocked. The dotted line marks ω = 1000 rad/s, where the output is 1/3 of the input and 90° behind.
@@ -1264,7 +1264,7 @@ Figure&nbsp;32.1: Output amplitude and phase of the two-stage RC filter of Examp
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="77adb109" class="cell" data-execution_count="2">
+<div id="4c4c6e43" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: nodal analysis</span></span>

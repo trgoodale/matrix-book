@@ -1138,6 +1138,24 @@ Figure&nbsp;34.1: Rotating <span class="math inline">\((3, 1)\)</span> by <span 
 </figcaption>
 </figure>
 </div>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 1: rotating about a point
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Find the matrix that rotates the plane by <span class="math inline">\(90°\)</span> anticlockwise about the point <span class="math inline">\((2, 1)\)</span>, and apply it to <span class="math inline">\((3, 1)\)</span>.</p>
+<p><strong>Solution.</strong> <span class="math display">\[
+\M{T}(2, 1)\,\M{R}(90°)\,\M{T}(-2, -1)
+= \mat{1 &amp; 0 &amp; 2 \\ 0 &amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 1}\mat{0 &amp; -1 &amp; 0 \\ 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1}\mat{1 &amp; 0 &amp; -2 \\ 0 &amp; 1 &amp; -1 \\ 0 &amp; 0 &amp; 1}
+= \mat{0 &amp; -1 &amp; 3 \\ 1 &amp; 0 &amp; -1 \\ 0 &amp; 0 &amp; 1}.
+\]</span> Then <span class="math inline">\((3, 1, 1) \mapsto (0 - 1 + 3, \; 3 + 0 - 1, \; 1) = (2, 2, 1)\)</span>. Check: <span class="math inline">\((3, 1)\)</span> is one unit to the right of the centre <span class="math inline">\((2, 1)\)</span>, and a quarter turn anticlockwise puts it one unit above, at <span class="math inline">\((2, 2)\)</span>. ✓ The order matters: <span class="math inline">\(\M{R}(90°)\M{T}(3, 1)\)</span> and <span class="math inline">\(\M{T}(3, 1)\M{R}(90°)\)</span> are different transformations (exercise 1).</p>
+</div>
+</div>
 </section>
 <section id="model-view-and-projection" class="level3">
 <h3 class="anchored" data-anchor-id="model-view-and-projection">Model, view and projection</h3>
@@ -1159,43 +1177,6 @@ Figure&nbsp;34.1: Rotating <span class="math inline">\((3, 1)\)</span> by <span 
 Figure&nbsp;34.2: Perspective, seen from the side, for the two points of Example 2. Each point appears where the line from it to the camera crosses the screen, at distance <span class="math inline">\(d = 1\)</span>: the point twice as far away appears half as high. (The vertical scale is stretched.)
 </figcaption>
 </figure>
-</div>
-</section>
-<section id="robot-arm-kinematics" class="level3">
-<h3 class="anchored" data-anchor-id="robot-arm-kinematics">Robot arm kinematics</h3>
-<p>A robot arm is a chain of rigid links joined by rotating joints. Give each link its own coordinate frame. For a planar arm, the frame of each link is the frame of the one before, rotated by the joint angle <span class="math inline">\(\theta_i\)</span> and then translated along the new <span class="math inline">\(x\)</span> axis by the link length <span class="math inline">\(L_i\)</span> (<a href="#fig-arm-forward" class="quarto-xref">Figure&nbsp;<span>34.3</span></a>): <span class="math display">\[
-\M{T}_i = \M{R}(\theta_i)\,\M{T}(L_i, 0) = \mat{\cos\theta_i &amp; -\sin\theta_i &amp; L_i\cos\theta_i \\ \sin\theta_i &amp; \cos\theta_i &amp; L_i\sin\theta_i \\ 0 &amp; 0 &amp; 1}.
-\]</span> The position and orientation of the hand, relative to the base, is the product <span class="math display">\[
-\M{T} = \M{T}_1\M{T}_2\cdots\M{T}_n.
-\]</span> Its last column gives the hand’s position, and its top-left <span class="math inline">\(2 \times 2\)</span> block its orientation. This is <strong>forward kinematics</strong>. Industrial arms work the same way in three dimensions, with one <span class="math inline">\(4 \times 4\)</span> matrix per joint, usually set out by the <strong>Denavit–Hartenberg</strong> convention.</p>
-<div id="fig-arm-forward" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A two-link arm on a base at the origin. The first link, of length 1.5, rises at 30 degrees to the elbow at (1.299, 0.75). The second link, of length 1, points straight up to the hand at (1.299, 1.75). An arc marks theta 1 between the x axis and the first link, and another marks theta 2 between a dashed extension of the first link and the second link.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-arm-forward-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/arm-forward.png" class="img-fluid figure-img" style="width:55.0%" alt="A two-link arm on a base at the origin. The first link, of length 1.5, rises at 30 degrees to the elbow at (1.299, 0.75). The second link, of length 1, points straight up to the hand at (1.299, 1.75). An arc marks theta 1 between the x axis and the first link, and another marks theta 2 between a dashed extension of the first link and the second link.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arm-forward-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;34.3: The two-link arm of Example 4. <span class="math inline">\(\theta_1\)</span> is measured from the <span class="math inline">\(x\)</span> axis, and <span class="math inline">\(\theta_2\)</span> from the direction of the first link (dashed).
-</figcaption>
-</figure>
-</div>
-<p>The reverse problem, <strong>inverse kinematics</strong>, finds joint angles that put the hand at a chosen point. It is a system of nonlinear equations, usually solved by Newton’s method with the Jacobian of the forward kinematics (<a href="../part-5/28-newton-systems.html" class="quarto-xref"><span>Chapter 28</span></a>, Example 2). Where the Jacobian is singular, as when the arm is fully stretched out, the hand can’t move in some direction at all: a <strong>singularity</strong>, which robot controllers must steer around.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example 1: rotating about a point
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Find the matrix that rotates the plane by <span class="math inline">\(90°\)</span> anticlockwise about the point <span class="math inline">\((2, 1)\)</span>, and apply it to <span class="math inline">\((3, 1)\)</span>.</p>
-<p><strong>Solution.</strong> <span class="math display">\[
-\M{T}(2, 1)\,\M{R}(90°)\,\M{T}(-2, -1)
-= \mat{1 &amp; 0 &amp; 2 \\ 0 &amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 1}\mat{0 &amp; -1 &amp; 0 \\ 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1}\mat{1 &amp; 0 &amp; -2 \\ 0 &amp; 1 &amp; -1 \\ 0 &amp; 0 &amp; 1}
-= \mat{0 &amp; -1 &amp; 3 \\ 1 &amp; 0 &amp; -1 \\ 0 &amp; 0 &amp; 1}.
-\]</span> Then <span class="math inline">\((3, 1, 1) \mapsto (0 - 1 + 3, \; 3 + 0 - 1, \; 1) = (2, 2, 1)\)</span>. Check: <span class="math inline">\((3, 1)\)</span> is one unit to the right of the centre <span class="math inline">\((2, 1)\)</span>, and a quarter turn anticlockwise puts it one unit above, at <span class="math inline">\((2, 2)\)</span>. ✓ The order matters: <span class="math inline">\(\M{R}(90°)\M{T}(3, 1)\)</span> and <span class="math inline">\(\M{T}(3, 1)\M{R}(90°)\)</span> are different transformations (exercise 1).</p>
-</div>
 </div>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1236,6 +1217,25 @@ Figure&nbsp;34.3: The two-link arm of Example 4. <span class="math inline">\(\th
 <p>The view matrix is the inverse of the matrix <span class="math inline">\(\M{T}(\vect{c})\,\M{R}\T\)</span> that would place the camera in the world. Inverting it needs no elimination: the inverse of a translation is the opposite translation, and the inverse of a rotation is its transpose (<a href="../part-1/07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a>).</p>
 </div>
 </div>
+</section>
+<section id="robot-arm-kinematics" class="level3">
+<h3 class="anchored" data-anchor-id="robot-arm-kinematics">Robot arm kinematics</h3>
+<p>A robot arm is a chain of rigid links joined by rotating joints. Give each link its own coordinate frame. For a planar arm, the frame of each link is the frame of the one before, rotated by the joint angle <span class="math inline">\(\theta_i\)</span> and then translated along the new <span class="math inline">\(x\)</span> axis by the link length <span class="math inline">\(L_i\)</span> (<a href="#fig-arm-forward" class="quarto-xref">Figure&nbsp;<span>34.3</span></a>): <span class="math display">\[
+\M{T}_i = \M{R}(\theta_i)\,\M{T}(L_i, 0) = \mat{\cos\theta_i &amp; -\sin\theta_i &amp; L_i\cos\theta_i \\ \sin\theta_i &amp; \cos\theta_i &amp; L_i\sin\theta_i \\ 0 &amp; 0 &amp; 1}.
+\]</span> The position and orientation of the hand, relative to the base, is the product <span class="math display">\[
+\M{T} = \M{T}_1\M{T}_2\cdots\M{T}_n.
+\]</span> Its last column gives the hand’s position, and its top-left <span class="math inline">\(2 \times 2\)</span> block its orientation. This is <strong>forward kinematics</strong>. Industrial arms work the same way in three dimensions, with one <span class="math inline">\(4 \times 4\)</span> matrix per joint, usually set out by the <strong>Denavit–Hartenberg</strong> convention.</p>
+<div id="fig-arm-forward" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A two-link arm on a base at the origin. The first link, of length 1.5, rises at 30 degrees to the elbow at (1.299, 0.75). The second link, of length 1, points straight up to the hand at (1.299, 1.75). An arc marks theta 1 between the x axis and the first link, and another marks theta 2 between a dashed extension of the first link and the second link.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-arm-forward-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/arm-forward.png" class="img-fluid figure-img" style="width:55.0%" alt="A two-link arm on a base at the origin. The first link, of length 1.5, rises at 30 degrees to the elbow at (1.299, 0.75). The second link, of length 1, points straight up to the hand at (1.299, 1.75). An arc marks theta 1 between the x axis and the first link, and another marks theta 2 between a dashed extension of the first link and the second link.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arm-forward-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;34.3: The two-link arm of Example 4. <span class="math inline">\(\theta_1\)</span> is measured from the <span class="math inline">\(x\)</span> axis, and <span class="math inline">\(\theta_2\)</span> from the direction of the first link (dashed).
+</figcaption>
+</figure>
+</div>
+<p>The reverse problem, <strong>inverse kinematics</strong>, finds joint angles that put the hand at a chosen point. It is a system of nonlinear equations, usually solved by Newton’s method with the Jacobian of the forward kinematics (<a href="../part-5/28-newton-systems.html" class="quarto-xref"><span>Chapter 28</span></a>, Example 2). Where the Jacobian is singular, as when the arm is fully stretched out, the hand can’t move in some direction at all: a <strong>singularity</strong>, which robot controllers must steer around.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1275,7 +1275,7 @@ Figure&nbsp;34.3: The two-link arm of Example 4. <span class="math inline">\(\th
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="a462e815" class="cell" data-execution_count="1">
+<div id="feebdc2e" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>

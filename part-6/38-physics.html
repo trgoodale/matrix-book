@@ -1119,33 +1119,6 @@ window.Quarto = {
 \M{I} = \sum_k m_k\left(\lVert\vect{r}_k\rVert^2\M{I}_3 - \vect{r}_k\vect{r}_k\T\right),
 \]</span> where <span class="math inline">\(\M{I}_3\)</span> is the <span class="math inline">\(3 \times 3\)</span> identity. The <strong>inertia tensor</strong> <span class="math inline">\(\M{I}\)</span> is symmetric and positive semidefinite. Its diagonal entries are the familiar <strong>moments of inertia</strong> about the axes, such as <span class="math inline">\(I_{xx} = \sum m(y^2 + z^2)\)</span>; its off-diagonal entries, the <strong>products of inertia</strong> such as <span class="math inline">\(I_{xy} = -\sum mxy\)</span>, measure how unbalanced the body is.</p>
 <p>Because <span class="math inline">\(\M{I}\)</span> is symmetric, the spectral theorem (<a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>) says that it has three perpendicular eigenvectors: the <strong>principal axes</strong>. About a principal axis, <span class="math inline">\(\vect{L} = \lambda\vect{\omega}\)</span> is parallel to <span class="math inline">\(\vect{\omega}\)</span>, and the body spins smoothly; the eigenvalues are the <strong>principal moments of inertia</strong>. About any other axis, <span class="math inline">\(\vect{L}\)</span> and <span class="math inline">\(\vect{\omega}\)</span> point different ways, and keeping the body spinning about that axis needs a constantly changing torque, felt as vibration. Balancing a car wheel means adding small weights to make its axle a principal axis.</p>
-</section>
-<section id="rotating-frames-and-angular-velocity" class="level3">
-<h3 class="anchored" data-anchor-id="rotating-frames-and-angular-velocity">Rotating frames and angular velocity</h3>
-<p>A body’s orientation can be described by the rotation matrix <span class="math inline">\(\M{R}(t)\)</span> that turns its own axes into the fixed ones (<a href="../part-1/08-transformations-3d.html" class="quarto-xref"><span>Chapter 8</span></a>). A point fixed in the body, at <span class="math inline">\(\vect{r}(t) = \M{R}(t)\vect{r}_0\)</span>, has velocity <span class="math display">\[
-\dot{\vect{r}} = \dot{\M{R}}\vect{r}_0 = \dot{\M{R}}\M{R}\T\vect{r},
-\]</span> using <span class="math inline">\(\M{R}\T\M{R} = \M{I}\)</span>. Differentiating <span class="math inline">\(\M{R}\M{R}\T = \M{I}\)</span> shows that <span class="math inline">\(\M{\Omega} = \dot{\M{R}}\M{R}\T\)</span> satisfies <span class="math inline">\(\M{\Omega}\T = -\M{\Omega}\)</span>: it is <strong>skew-symmetric</strong>, so it has the form <span class="math display">\[
-\M{\Omega} = \mat{0 &amp; -\omega_z &amp; \omega_y \\ \omega_z &amp; 0 &amp; -\omega_x \\ -\omega_y &amp; \omega_x &amp; 0},
-\qquad
-\M{\Omega}\vect{r} = \vect{\omega} \times \vect{r}.
-\]</span> So the angular velocity vector is hidden in the three independent entries of a skew-symmetric matrix, and <span class="math inline">\(\dot{\M{R}} = \M{\Omega}\M{R}\)</span>. For a constant <span class="math inline">\(\vect{\omega}\)</span>, this is a linear differential equation with solution <span class="math inline">\(\M{R}(t) = e^{\M{\Omega}t}\M{R}(0)\)</span> (<a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>): <strong>the exponential of a skew-symmetric matrix is a rotation</strong>. Gyroscopes in phones and aircraft measure <span class="math inline">\(\vect{\omega}\)</span>, and navigation software integrates this equation to track orientation.</p>
-</section>
-<section id="two-state-quantum-systems" class="level3">
-<h3 class="anchored" data-anchor-id="two-state-quantum-systems">Two-state quantum systems</h3>
-<p>The simplest quantum systems have just two basic states: the spin of an electron (up or down along a chosen axis), the polarisation of a photon, or the two levels of a qubit in a quantum computer. The rules of quantum mechanics, for such a system, are:</p>
-<ul>
-<li><strong>States</strong> are vectors <span class="math inline">\(\vect{\psi} = (\alpha, \beta)\T\)</span> of complex numbers, with <span class="math inline">\(\lvert\alpha\rvert^2 + \lvert\beta\rvert^2 = 1\)</span>. The basis states <span class="math inline">\((1, 0)\T\)</span> and <span class="math inline">\((0, 1)\T\)</span> are written <span class="math inline">\(\lvert\uparrow\rangle\)</span> and <span class="math inline">\(\lvert\downarrow\rangle\)</span>.</li>
-<li><strong>Measurable quantities</strong> are <strong>Hermitian</strong> matrices, equal to their own conjugate transpose: the complex version of symmetric. Like symmetric matrices, they have real eigenvalues and orthonormal eigenvectors (<a href="../appendices/proofs.html#sec-proofs-symmetric-matrices" class="quarto-xref"><span>Section C.13</span></a>).</li>
-<li><strong>Measurement</strong>: measuring the quantity <span class="math inline">\(\M{A}\)</span> always gives one of its eigenvalues. The probability of getting the eigenvalue with unit eigenvector <span class="math inline">\(\vect{e}\)</span> is <span class="math inline">\(\lvert\vect{e}^*\vect{\psi}\rvert^2\)</span>, the squared size of the component of <span class="math inline">\(\vect{\psi}\)</span> along <span class="math inline">\(\vect{e}\)</span> (where <span class="math inline">\(^*\)</span> is the conjugate transpose). After the measurement, the state <em>is</em> that eigenvector.</li>
-<li><strong>Time evolution</strong>: between measurements, <span class="math inline">\(\vect{\psi}(t) = e^{-i\M{H}t/\hbar}\vect{\psi}(0)\)</span>, where the Hermitian <strong>Hamiltonian</strong> <span class="math inline">\(\M{H}\)</span> is the energy, and <span class="math inline">\(\hbar\)</span> is the reduced Planck constant. This is the solution of the linear system <span class="math inline">\(i\hbar\,\dot{\vect{\psi}} = \M{H}\vect{\psi}\)</span>, the <strong>Schrödinger equation</strong> (<a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>).</li>
-</ul>
-<p>For spin, the measurements of spin along the three axes are (in units of <span class="math inline">\(\hbar/2\)</span>) the <strong>Pauli matrices</strong> <span class="math display">\[
-\M{\sigma}_x = \mat{0 &amp; 1 \\ 1 &amp; 0},
-\qquad
-\M{\sigma}_y = \mat{0 &amp; -i \\ i &amp; 0},
-\qquad
-\M{\sigma}_z = \mat{1 &amp; 0 \\ 0 &amp; -1},
-\]</span> each with eigenvalues <span class="math inline">\(+1\)</span> and <span class="math inline">\(-1\)</span>: a measurement of spin along any axis gives only “up” or “down”, never anything in between. The three matrices don’t commute, and so they have no common eigenvectors: a state can’t have a definite spin along <span class="math inline">\(x\)</span> and along <span class="math inline">\(z\)</span> at once. That is the uncertainty principle, in its simplest form, and it is a statement about matrices.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1173,6 +1146,16 @@ Figure&nbsp;38.1: The dumbbell of Example 1, spinning about the <span class="mat
 </div>
 </div>
 </div>
+</section>
+<section id="rotating-frames-and-angular-velocity" class="level3">
+<h3 class="anchored" data-anchor-id="rotating-frames-and-angular-velocity">Rotating frames and angular velocity</h3>
+<p>A body’s orientation can be described by the rotation matrix <span class="math inline">\(\M{R}(t)\)</span> that turns its own axes into the fixed ones (<a href="../part-1/08-transformations-3d.html" class="quarto-xref"><span>Chapter 8</span></a>). A point fixed in the body, at <span class="math inline">\(\vect{r}(t) = \M{R}(t)\vect{r}_0\)</span>, has velocity <span class="math display">\[
+\dot{\vect{r}} = \dot{\M{R}}\vect{r}_0 = \dot{\M{R}}\M{R}\T\vect{r},
+\]</span> using <span class="math inline">\(\M{R}\T\M{R} = \M{I}\)</span>. Differentiating <span class="math inline">\(\M{R}\M{R}\T = \M{I}\)</span> shows that <span class="math inline">\(\M{\Omega} = \dot{\M{R}}\M{R}\T\)</span> satisfies <span class="math inline">\(\M{\Omega}\T = -\M{\Omega}\)</span>: it is <strong>skew-symmetric</strong>, so it has the form <span class="math display">\[
+\M{\Omega} = \mat{0 &amp; -\omega_z &amp; \omega_y \\ \omega_z &amp; 0 &amp; -\omega_x \\ -\omega_y &amp; \omega_x &amp; 0},
+\qquad
+\M{\Omega}\vect{r} = \vect{\omega} \times \vect{r}.
+\]</span> So the angular velocity vector is hidden in the three independent entries of a skew-symmetric matrix, and <span class="math inline">\(\dot{\M{R}} = \M{\Omega}\M{R}\)</span>. For a constant <span class="math inline">\(\vect{\omega}\)</span>, this is a linear differential equation with solution <span class="math inline">\(\M{R}(t) = e^{\M{\Omega}t}\M{R}(0)\)</span> (<a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>): <strong>the exponential of a skew-symmetric matrix is a rotation</strong>. Gyroscopes in phones and aircraft measure <span class="math inline">\(\vect{\omega}\)</span>, and navigation software integrates this equation to track orientation.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1193,6 +1176,23 @@ Figure&nbsp;38.1: The dumbbell of Example 1, spinning about the <span class="mat
 \]</span> using <span class="math inline">\(c^2 + s^2 = 1\)</span>. Matching the pattern above, <span class="math inline">\(\vect{\omega} = (0, 0, \omega)\)</span>: along the axis of rotation, with length equal to the rate, as it should be. Then, for example, the point <span class="math inline">\((1, 0, 0)\)</span> has velocity <span class="math inline">\(\M{\Omega}(1, 0, 0)\T = (0, \omega, 0)\)</span>.</p>
 </div>
 </div>
+</section>
+<section id="two-state-quantum-systems" class="level3">
+<h3 class="anchored" data-anchor-id="two-state-quantum-systems">Two-state quantum systems</h3>
+<p>The simplest quantum systems have just two basic states: the spin of an electron (up or down along a chosen axis), the polarisation of a photon, or the two levels of a qubit in a quantum computer. The rules of quantum mechanics, for such a system, are:</p>
+<ul>
+<li><strong>States</strong> are vectors <span class="math inline">\(\vect{\psi} = (\alpha, \beta)\T\)</span> of complex numbers, with <span class="math inline">\(\lvert\alpha\rvert^2 + \lvert\beta\rvert^2 = 1\)</span>. The basis states <span class="math inline">\((1, 0)\T\)</span> and <span class="math inline">\((0, 1)\T\)</span> are written <span class="math inline">\(\lvert\uparrow\rangle\)</span> and <span class="math inline">\(\lvert\downarrow\rangle\)</span>.</li>
+<li><strong>Measurable quantities</strong> are <strong>Hermitian</strong> matrices, equal to their own conjugate transpose: the complex version of symmetric. Like symmetric matrices, they have real eigenvalues and orthonormal eigenvectors (<a href="../appendices/proofs.html#sec-proofs-symmetric-matrices" class="quarto-xref"><span>Section C.13</span></a>).</li>
+<li><strong>Measurement</strong>: measuring the quantity <span class="math inline">\(\M{A}\)</span> always gives one of its eigenvalues. The probability of getting the eigenvalue with unit eigenvector <span class="math inline">\(\vect{e}\)</span> is <span class="math inline">\(\lvert\vect{e}^*\vect{\psi}\rvert^2\)</span>, the squared size of the component of <span class="math inline">\(\vect{\psi}\)</span> along <span class="math inline">\(\vect{e}\)</span> (where <span class="math inline">\(^*\)</span> is the conjugate transpose). After the measurement, the state <em>is</em> that eigenvector.</li>
+<li><strong>Time evolution</strong>: between measurements, <span class="math inline">\(\vect{\psi}(t) = e^{-i\M{H}t/\hbar}\vect{\psi}(0)\)</span>, where the Hermitian <strong>Hamiltonian</strong> <span class="math inline">\(\M{H}\)</span> is the energy, and <span class="math inline">\(\hbar\)</span> is the reduced Planck constant. This is the solution of the linear system <span class="math inline">\(i\hbar\,\dot{\vect{\psi}} = \M{H}\vect{\psi}\)</span>, the <strong>Schrödinger equation</strong> (<a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>).</li>
+</ul>
+<p>For spin, the measurements of spin along the three axes are (in units of <span class="math inline">\(\hbar/2\)</span>) the <strong>Pauli matrices</strong> <span class="math display">\[
+\M{\sigma}_x = \mat{0 &amp; 1 \\ 1 &amp; 0},
+\qquad
+\M{\sigma}_y = \mat{0 &amp; -i \\ i &amp; 0},
+\qquad
+\M{\sigma}_z = \mat{1 &amp; 0 \\ 0 &amp; -1},
+\]</span> each with eigenvalues <span class="math inline">\(+1\)</span> and <span class="math inline">\(-1\)</span>: a measurement of spin along any axis gives only “up” or “down”, never anything in between. The three matrices don’t commute, and so they have no common eigenvectors: a state can’t have a definite spin along <span class="math inline">\(x\)</span> and along <span class="math inline">\(z\)</span> at once. That is the uncertainty principle, in its simplest form, and it is a statement about matrices.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1267,7 +1267,7 @@ Figure&nbsp;38.2: Rabi oscillation: the probability of finding the spin up along
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="f4e61d50" class="cell" data-execution_count="2">
+<div id="c3aa2985" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>

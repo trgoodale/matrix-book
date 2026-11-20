@@ -1123,6 +1123,24 @@ window.Quarto = {
 <p>Choose a <span class="math inline">\(2 \times 2\)</span> <strong>key matrix</strong> <span class="math inline">\(\M{K}\)</span> with entries from 0 to 25. Split the message into pairs of letters (adding an X if needed), and turn each pair into a vector <span class="math inline">\(\vect{p}\)</span>. The ciphertext pair is <span class="math display">\[
 \vect{c} \equiv \M{K}\vect{p} \pmod{26}.
 \]</span> Each ciphertext letter depends on both letters of the pair, so the same letter is encrypted differently in different pairs, and a single-letter count reveals little. Larger keys, <span class="math inline">\(3 \times 3\)</span> or more, mix more letters together.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 1: encrypting
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Encrypt HELP with the key <span class="math inline">\(\M{K} = \mat{3 &amp; 3 \\ 2 &amp; 5}\)</span>.</p>
+<p><strong>Solution.</strong> HELP is H = 7, E = 4, L = 11, P = 15, giving the pairs <span class="math inline">\((7, 4)\)</span> and <span class="math inline">\((11, 15)\)</span>. <span class="math display">\[
+\M{K}\mat{7 \\ 4} = \mat{21 + 12 \\ 14 + 20} = \mat{33 \\ 34} \equiv \mat{7 \\ 8} = \text{HI},
+\qquad
+\M{K}\mat{11 \\ 15} = \mat{33 + 45 \\ 22 + 75} = \mat{78 \\ 97} \equiv \mat{0 \\ 19} = \text{AT}.
+\]</span> The ciphertext is HIAT. The two letters of the second pair are both affected by both letters of the first: changing HELP to HELD would change the AT.</p>
+</div>
+</div>
 </section>
 <section id="inverses-modulo-26" class="level3">
 <h3 class="anchored" data-anchor-id="inverses-modulo-26">Inverses modulo 26</h3>
@@ -1145,30 +1163,6 @@ window.Quarto = {
 </div>
 </div>
 <p>A non-zero determinant, which is enough over the real numbers, is not enough here. If <span class="math inline">\(\det\M{K}\)</span> is even, for example, then two different messages encrypt to the same ciphertext (exercise 4), and no one, not even the intended recipient, can tell which was sent. The proof is in <a href="../appendices/proofs.html#sec-proofs-cryptography" class="quarto-xref"><span>Section C.22</span></a>.</p>
-</section>
-<section id="breaking-the-cipher" class="level3">
-<h3 class="anchored" data-anchor-id="breaking-the-cipher">Breaking the cipher</h3>
-<p>The Hill cipher’s weakness is its linearity. Suppose an attacker knows, or guesses, the plaintext of just two pairs of letters, perhaps a standard greeting or the sender’s name. Put the two known plaintext pairs as the columns of <span class="math inline">\(\M{P}\)</span>, and the matching ciphertext pairs as the columns of <span class="math inline">\(\M{C}\)</span>. Then <span class="math inline">\(\M{C} \equiv \M{K}\M{P}\)</span>, and if <span class="math inline">\(\M{P}\)</span> is invertible modulo 26, <span class="math display">\[
-\M{K} \equiv \M{C}\M{P}^{-1} \pmod{26}.
-\]</span> Four known letters reveal the whole key, and with it every message. This is a <strong>known-plaintext attack</strong>. For an <span class="math inline">\(n \times n\)</span> key, <span class="math inline">\(n\)</span> known pairs of length <span class="math inline">\(n\)</span> are enough. Even without known plaintext, the attacker can try all <span class="math inline">\(26^4 = 456\,976\)</span> possible <span class="math inline">\(2 \times 2\)</span> keys, a moment’s work for a computer, and pick the one that gives readable English.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example 1: encrypting
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Encrypt HELP with the key <span class="math inline">\(\M{K} = \mat{3 &amp; 3 \\ 2 &amp; 5}\)</span>.</p>
-<p><strong>Solution.</strong> HELP is H = 7, E = 4, L = 11, P = 15, giving the pairs <span class="math inline">\((7, 4)\)</span> and <span class="math inline">\((11, 15)\)</span>. <span class="math display">\[
-\M{K}\mat{7 \\ 4} = \mat{21 + 12 \\ 14 + 20} = \mat{33 \\ 34} \equiv \mat{7 \\ 8} = \text{HI},
-\qquad
-\M{K}\mat{11 \\ 15} = \mat{33 + 45 \\ 22 + 75} = \mat{78 \\ 97} \equiv \mat{0 \\ 19} = \text{AT}.
-\]</span> The ciphertext is HIAT. The two letters of the second pair are both affected by both letters of the first: changing HELP to HELD would change the AT.</p>
-</div>
-</div>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1185,6 +1179,12 @@ window.Quarto = {
 \]</span> Check: <span class="math inline">\(\M{K}^{-1}\M{K} = \mat{45 + 34 &amp; 45 + 85 \\ 60 + 18 &amp; 60 + 45} = \mat{79 &amp; 130 \\ 78 &amp; 105} \equiv \mat{1 &amp; 0 \\ 0 &amp; 1}\)</span>. ✓ Decrypting the first pair, <span class="math inline">\(\M{K}^{-1}(7, 8)\T = (105 + 136, \; 140 + 72) = (241, 212) \equiv (7, 4)\)</span> = HE, and the second, <span class="math inline">\(\M{K}^{-1}(0, 19)\T = (323, 171) \equiv (11, 15)\)</span> = LP.</p>
 </div>
 </div>
+</section>
+<section id="breaking-the-cipher" class="level3">
+<h3 class="anchored" data-anchor-id="breaking-the-cipher">Breaking the cipher</h3>
+<p>The Hill cipher’s weakness is its linearity. Suppose an attacker knows, or guesses, the plaintext of just two pairs of letters, perhaps a standard greeting or the sender’s name. Put the two known plaintext pairs as the columns of <span class="math inline">\(\M{P}\)</span>, and the matching ciphertext pairs as the columns of <span class="math inline">\(\M{C}\)</span>. Then <span class="math inline">\(\M{C} \equiv \M{K}\M{P}\)</span>, and if <span class="math inline">\(\M{P}\)</span> is invertible modulo 26, <span class="math display">\[
+\M{K} \equiv \M{C}\M{P}^{-1} \pmod{26}.
+\]</span> Four known letters reveal the whole key, and with it every message. This is a <strong>known-plaintext attack</strong>. For an <span class="math inline">\(n \times n\)</span> key, <span class="math inline">\(n\)</span> known pairs of length <span class="math inline">\(n\)</span> are enough. Even without known plaintext, the attacker can try all <span class="math inline">\(26^4 = 456\,976\)</span> possible <span class="math inline">\(2 \times 2\)</span> keys, a moment’s work for a computer, and pick the one that gives readable English.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1231,7 +1231,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="a97484d1" class="cell" data-execution_count="1">
+<div id="ca9a8d7b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> to_nums(text):</span>
