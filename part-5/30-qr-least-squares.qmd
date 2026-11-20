@@ -59,7 +59,9 @@ the reflection in the plane (or line, or hyperplane) perpendicular to $\vect{v}$
 $$
 \vect{v} = \vect{x} + \operatorname{sign}(x_1)\lVert\vect{x}\rVert\,\ue{1}
 $$
-gives a reflection that sends $\vect{x}$ to $-\operatorname{sign}(x_1)\lVert\vect{x}\rVert\,\ue{1}$: a vector along the first axis, of the same length. All entries but the first become zero. (The sign is chosen to avoid cancellation when forming $\vect{v}$, @sec-floating-point-conditioning.)
+gives a reflection that sends $\vect{x}$ to $-\operatorname{sign}(x_1)\lVert\vect{x}\rVert\,\ue{1}$: a vector along the first axis, of the same length. All entries but the first become zero (@fig-householder shows Example 1). (The sign is chosen to avoid cancellation when forming $\vect{v}$, @sec-floating-point-conditioning.)
+
+![The Householder reflection of Example 1. The mirror is at right angles to $\vect{v} = \vect{x} + 5\ue{1}$, so it reflects $\vect{x} = (3, 4)$ onto the first axis, at $\M{H}\vect{x} = (-5, 0)$. Lengths don't change, so both lie on the circle of radius 5 (dashed).](images/householder.png){#fig-householder fig-alt="Axes with a dashed half-circle of radius 5. The blue vector x from the origin to (3, 4), and the brown vector H x from the origin to (minus 5, 0). A green vector v in the direction (8, 4), drawn at half size. A dashed mirror line through the origin, at right angles to v, lies halfway between x and H x; a dotted line joins their tips." width=60%}
 
 **Householder QR** uses such reflections the way elimination uses row operations. The first reflection $\M{H}_1$ zeros column 1 below the diagonal; the second, acting only on rows 2 to $m$, zeros column 2 below the diagonal; and so on. After $n$ reflections,
 $$

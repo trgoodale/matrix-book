@@ -47,11 +47,13 @@ $$
 
 Without the labels, this is a matrix with 4 rows and 3 columns.
 
-**Networks.** Four towns are linked by roads: 1 to 2, 1 to 3, 2 to 3 and 3 to 4. Put a 1 in row $i$, column $j$ when towns $i$ and $j$ are linked, and 0 otherwise:
+**Networks.** Four towns are linked by roads: 1 to 2, 1 to 3, 2 to 3 and 3 to 4 (@fig-towns). Put a 1 in row $i$, column $j$ when towns $i$ and $j$ are linked, and 0 otherwise:
 
 $$
 \mat{0 & 1 & 1 & 0 \\ 1 & 0 & 1 & 0 \\ 1 & 1 & 0 & 1 \\ 0 & 0 & 1 & 0}.
 $$
+
+![Four towns and the roads between them. Each road gives two 1s in the adjacency matrix: the road from 1 to 3 puts a 1 in row 1, column 3 and in row 3, column 1.](images/towns.png){#fig-towns fig-alt="A network of four numbered circles. Towns 1, 2 and 3 form a triangle, joined by roads 1–2, 1–3 and 2–3, and town 4 is joined only to town 3." width=50%}
 
 This table of connections is called the **adjacency matrix** of the network ("adjacent" means "next to"). It holds more information than it seems: @sec-multiplication shows how to use it to count routes between towns.
 

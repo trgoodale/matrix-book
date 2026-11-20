@@ -174,7 +174,7 @@ $$
 ::: {#ex-multiplication-2 .callout-note appearance="simple" icon=false}
 ### Example 2: counting routes
 
-Squaring the road network matrix from @sec-matrices gives
+Squaring the road network matrix from @sec-matrices (@fig-towns) gives
 $$
 \M{N} = \mat{0 & 1 & 1 & 0 \\ 1 & 0 & 1 & 0 \\ 1 & 1 & 0 & 1 \\ 0 & 0 & 1 & 0},
 $$

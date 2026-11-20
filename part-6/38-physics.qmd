@@ -74,7 +74,9 @@ $$
 $$
 The other mass gives the same, so $\M{I} = \mat{2 & -2 & 0 \\ -2 & 2 & 0 \\ 0 & 0 & 4}$ kg m². Its eigenvalues are 0, with eigenvector $(1, 1, 0)$, along the rod: the point masses don't resist spinning about their own axis. The other two are both 4, with eigenvectors $(1, -1, 0)$ and $(0, 0, 1)$: any axis perpendicular to the rod.
 
-Spinning about the $x$ axis, $\vect{L} = \M{I}\vect{\omega} = (2, -2, 0)$: not along the $x$ axis at all, but perpendicular to the rod. As the dumbbell turns, $\vect{L}$ turns with it, so a torque is needed to keep it spinning about $x$: the bearings would feel a wobble.
+Spinning about the $x$ axis, $\vect{L} = \M{I}\vect{\omega} = (2, -2, 0)$: not along the $x$ axis at all, but perpendicular to the rod. As the dumbbell turns, $\vect{L}$ turns with it, so a torque is needed to keep it spinning about $x$: the bearings would feel a wobble (@fig-dumbbell).
+
+![The dumbbell of Example 1, spinning about the $x$ axis. Its angular momentum $\vect{L} = (2, -2, 0)$ is not along $\boldsymbol{\omega}$, but at right angles to the rod.](images/dumbbell.png){#fig-dumbbell fig-alt="3D axes x, y and z. Two black masses at (1, 1, 0) and (minus 1, minus 1, 0), joined by a rod through the origin in the xy plane. A blue arrow omega points along the x axis. A brown arrow L equals (2, minus 2, 0) points in a different direction, at right angles to the rod." width=60%}
 :::
 
 ::: {.callout-note appearance="simple" icon=false}

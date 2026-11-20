@@ -119,10 +119,12 @@ $$
 
 ### Linear combinations
 
-A vector with two entries can be drawn as an arrow from the origin to the point with those coordinates. Scaling and adding then have a picture:
+A vector with two entries can be drawn as an arrow from the origin to the point with those coordinates. Scaling and adding then have a picture (@fig-vector-pictures):
 
 - $s\vect{a}$ is an arrow along the same line as $\vect{a}$, $s$ times as long, pointing backwards if $s$ is negative;
 - $\vect{a} + \vect{b}$ is found by placing the tail of $\vect{b}$ at the tip of $\vect{a}$ (**tip to tail**).
+
+![Left: $\vect{a} = (2, 1)$ scaled by 2 and by $-1$. Middle: adding $\vect{b} = (-1, 1)$ tip to tail. Both orders (solid and dashed) reach the same point, $\vect{a} + \vect{b}$. Right: the linear combination $\vect{a} + 2\vect{b}$.](images/vector-pictures.png){#fig-vector-pictures fig-alt="Three panels on a square grid. Scaling: the blue arrow a from the origin to (2, 1), with dashed arrows 2a to (4, 2) and minus a to (minus 2, minus 1). Adding: a, then b from its tip, reach a plus b at (1, 2); the dashed path b then a reaches the same point, making a parallelogram. A linear combination: a, then b twice, reach a plus 2b at (0, 3)." width=100%}
 
 A sum of scaled vectors, such as $s\vect{a} + t\vect{b}$, is called a **linear combination** of $\vect{a}$ and $\vect{b}$. The numbers $s$ and $t$ say how much of each vector to use. The bakery's shopping list $3\vect{c} + 2\vect{b}$ was a linear combination of the two recipes.
 

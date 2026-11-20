@@ -130,7 +130,7 @@ They also have the same eigenvalues (@sec-eigenvalues).
 
 Find the matrix of the reflection in the line $y = 2x$.
 
-**Solution.** In the right basis, this reflection is easy to describe. Take $\vect{b}_1 = (1, 2)\T$ along the mirror and $\vect{b}_2 = (-2, 1)\T$ at right angles to it. The reflection leaves $\vect{b}_1$ alone and reverses $\vect{b}_2$, so in this basis its matrix is
+**Solution.** In the right basis, this reflection is easy to describe. Take $\vect{b}_1 = (1, 2)\T$ along the mirror and $\vect{b}_2 = (-2, 1)\T$ at right angles to it (@fig-reflect-basis). The reflection leaves $\vect{b}_1$ alone and reverses $\vect{b}_2$, so in this basis its matrix is
 $$
 \M{B} = \mat{1 & 0 \\ 0 & -1}.
 $$
@@ -139,6 +139,8 @@ $$
 \M{A} = \M{P}\M{B}\M{P}^{-1} = \mat{1 & 2 \\ 2 & -1} \cdot \frac{1}{5}\mat{1 & 2 \\ -2 & 1} = \frac{1}{5}\mat{-3 & 4 \\ 4 & 3}.
 $$
 Check: $\M{A}(1, 2)\T = \tfrac{1}{5}(5, 10)\T = (1, 2)\T$, so the mirror line is fixed. ✓ This agrees with the reflection formula in @sec-transformations.
+
+![The convenient basis for the reflection in $y = 2x$: $\vect{b}_1$ lies along the mirror and is left alone, and $\vect{b}_2$ is at right angles to it and is reversed.](images/reflect-basis.png){#fig-reflect-basis fig-alt="Axes with a dashed mirror line y equals 2x. The blue vector b1 equals (1, 2) lies along the mirror, labelled stays put. The brown vector b2 equals (minus 2, 1) is at right angles to the mirror, and a dashed brown arrow pointing the opposite way is labelled reflected to minus b2." width=50%}
 :::
 
 ::: {#ex-basis-change-4 .callout-note appearance="simple" icon=false}

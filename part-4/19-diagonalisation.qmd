@@ -138,7 +138,9 @@ Two things follow. The **direction** of $\vect{x}_k$ settles along the dominant 
 ::: {#ex-diagonalisation-4 .callout-note appearance="simple" icon=false}
 ### Example 4: where do the bikes end up?
 
-A bike-hire scheme has two docking stations, A and B. Each day, 90% of the bikes at A end the day at A and 10% at B; of those at B, 20% end at A and 80% stay at B. If all the bikes start at A, what happens in the long run?
+A bike-hire scheme has two docking stations, A and B. Each day, 90% of the bikes at A end the day at A and 10% at B; of those at B, 20% end at A and 80% stay at B (@fig-bike-stations). If all the bikes start at A, what happens in the long run?
+
+![The daily movement of bikes in Example 4. The two numbers leaving each station add up to 1.](images/bike-stations.png){#fig-bike-stations fig-alt="Two circles, A and B. A has a loop labelled 0.9 and an arrow to B labelled 0.1. B has a loop labelled 0.8 and an arrow to A labelled 0.2." width=50%}
 
 **Solution.** Let $\vect{x}_k$ hold the fractions of bikes at A and at B after $k$ days. Then $\vect{x}_{k+1} = \M{M}\vect{x}_k$ with
 $$

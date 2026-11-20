@@ -41,7 +41,7 @@ u(0) = T_0,
 \quad
 u(1) = T_1,
 $$
-where $k$ is the thermal conductivity. Divide the rod into $n + 1$ equal intervals, with $h = 1/(n + 1)$, and let $u_i$ approximate $u(ih)$. Replacing $u''$ by the central difference at each interior point,
+where $k$ is the thermal conductivity. Divide the rod into $n + 1$ equal intervals, with $h = 1/(n + 1)$, and let $u_i$ approximate $u(ih)$ (@fig-rod-grid). Replacing $u''$ by the central difference at each interior point,
 $$
 -u_{i-1} + 2u_i - u_{i+1} = \frac{h^2}{k}q_i,
 \qquad i = 1, \dots, n,
@@ -52,17 +52,21 @@ $$
 $$
 The matrix is tridiagonal, symmetric and positive definite (its eigenvalues are $2 - 2\cos\bigl(m\pi/(n + 1)\bigr) > 0$, as in @sec-eigenvalue-algorithms exercise 7), so the Thomas algorithm solves it in about $8n$ operations without pivoting (@sec-cost-sparse).
 
+![The grid on the rod for $n = 3$, as in Example 1, with $h = 1/4$. The end values (black) are known, and the interior values (blue) are the unknowns.](images/rod-grid.png){#fig-rod-grid fig-alt="A rod from 0 to 1 with five equally spaced grid points at 0, h, 2h, 3h and 1. The end points are black squares labelled u 0 equals T 0 and u 4 equals T 1. The three interior points are blue circles labelled u 1, u 2 and u 3. The spacing between neighbouring points is h." width=75%}
+
 ### Two-dimensional problems
 
 For a square plate with its edges held at fixed temperatures and no heat sources, the temperature satisfies **Laplace's equation**,
 $$
 \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0.
 $$
-On a square grid of spacing $h$, with $u_{i,j}$ at the point in row $i$ and column $j$, the central difference in each direction gives the **five-point stencil**
+On a square grid of spacing $h$, with $u_{i,j}$ at the point in row $i$ and column $j$, the central difference in each direction gives the **five-point stencil** (@fig-five-point-stencil)
 $$
 4u_{i,j} - u_{i-1,j} - u_{i+1,j} - u_{i,j-1} - u_{i,j+1} = 0:
 $$
 in the steady state, **each temperature is the average of its four neighbours**. Neighbours on the edge are known and move to the right-hand side.
+
+![The five-point stencil. The equation at point $(i, j)$ has coefficient 4 there and $-1$ at each of its four neighbours, a distance $h$ away. Row $i - 1$ is the row above.](images/five-point-stencil.png){#fig-five-point-stencil fig-alt="A square grid. The centre point, u i j, is a filled blue circle containing 4. Its four neighbours, each a blue circle containing minus 1, are u i minus 1 j above, u i plus 1 j below, u i j minus 1 to the left and u i j plus 1 to the right. The grid spacing is h." width=45%}
 
 Numbering the $n \times n$ interior points row by row gives an $n^2 \times n^2$ matrix. Each row has at most five non-zeros: 4 on the diagonal, and $-1$ for each neighbour, either beside it (one place away) or above or below it ($n$ places away). It can be written compactly with the **Kronecker product**, which `np.kron` and MATLAB's `kron` compute:
 $$
@@ -103,7 +107,9 @@ Each halving of $h$ divides the error by 4, so the error is proportional to $h^2
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 3: a plate with a hot edge
 
-A square plate has its top edge at 100 °C and the other three at 0 °C. Find the temperatures on a $2 \times 2$ grid of interior points, then describe the $3 \times 3$ case.
+A square plate has its top edge at 100 °C and the other three at 0 °C. Find the temperatures on a $2 \times 2$ grid of interior points (@fig-plate-grid), then describe the $3 \times 3$ case.
+
+![The plate of Example 3. The edge values (squares) are known; by symmetry the unknowns are $a$ for the two top points and $b$ for the two bottom ones.](images/plate-grid.png){#fig-plate-grid fig-alt="A square plate divided into a 3 by 3 grid of cells. The top edge is at 100 degrees and the other three edges are at 0 degrees, with small squares marking the known grid points on each edge. The four interior grid points are blue circles: the top two labelled a and the bottom two labelled b." width=45%}
 
 **Solution.** By symmetry, the two top points share a temperature $a$ and the two bottom points share $b$. Each top point has neighbours 100 (above), 0 (at the side), the other top point and a bottom point: $4a = 100 + 0 + a + b$. Each bottom point: $4b = 0 + 0 + b + a$. So $3a - b = 100$ and $a = 3b$, giving $b = 12.5$ and $a = 37.5$ °C.
 

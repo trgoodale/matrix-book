@@ -148,9 +148,11 @@ counting from 0, as Python does. A matrix–vector product then needs only 2 ope
 ::: {#ex-cost-sparse-3 .callout-note appearance="simple" icon=false}
 ### Example 3: storage for a grid problem
 
-Heat flow on a square plate is modelled on a grid of $500 \times 500$ interior points, each linked to its four neighbours. Compare the storage needed for the matrix in dense and sparse form.
+Heat flow on a square plate is modelled on a grid of $500 \times 500$ interior points, each linked to its four neighbours (@fig-grid-sparsity shows a small version). Compare the storage needed for the matrix in dense and sparse form.
 
 **Solution.** There are $n = 250\,000$ unknowns. Dense storage needs $n^2 = 6.25 \times 10^{10}$ numbers, 500 GB. Each row has at most 5 non-zeros, so CSR stores at most $1.25 \times 10^6$ values and $1.25 \times 10^6$ column numbers, plus $n + 1$ row starts: about 20 MB, 25 000 times less.
+
+![A $4 \times 4$ version of Example 3. Each unknown is coupled only to itself and its neighbours, so row 7 of the matrix has non-zeros in columns 3, 6, 7, 8 and 11, and the matrix has five diagonals of non-zeros. On a $500 \times 500$ grid, the proportion of non-zeros is tiny.](images/grid-sparsity.png){#fig-grid-sparsity fig-alt="Left: a 4 by 4 grid of numbered points, 1 to 16 row by row, with point 7 filled blue and its neighbours 3, 6, 8 and 11 shaded. Right: the 16 by 16 matrix as a pattern of black squares for the non-zero entries, lying on the main diagonal, the diagonals next to it and the diagonals four places away. Row 7 is highlighted in blue, with entries in columns 3, 6, 7, 8 and 11." width=95%}
 :::
 
 ### Fill-in and reordering

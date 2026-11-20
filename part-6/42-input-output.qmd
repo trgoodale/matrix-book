@@ -77,7 +77,9 @@ gives the **footprint** of each product: entry $j$ is the carbon emitted, anywhe
 ::: {#ex-input-output-1 .callout-note appearance="simple" icon=false}
 ### Example 1: two sectors
 
-An economy has two sectors, agriculture and manufacturing. Each £1 of agricultural output uses 20p of agricultural products and 40p of manufactured goods; each £1 of manufacturing output uses 30p of agricultural products and 10p of manufactured goods. Final demand is £60 billion of agricultural products and £30 billion of manufactured goods. What must each sector produce?
+An economy has two sectors, agriculture and manufacturing. Each £1 of agricultural output uses 20p of agricultural products and 40p of manufactured goods; each £1 of manufacturing output uses 30p of agricultural products and 10p of manufactured goods. Final demand is £60 billion of agricultural products and £30 billion of manufactured goods (@fig-two-sectors). What must each sector produce?
+
+![The economy of Example 1. Arrows between the sectors show how much of each sector's product goes into £1 of output of the sector the arrow points to; the lower arrows show the final demand.](images/two-sectors.png){#fig-two-sectors fig-alt="Two boxes, Agriculture and Manufacturing. Agriculture has a loop labelled 20p and an arrow to Manufacturing labelled 30p. Manufacturing has a loop labelled 10p and an arrow to Agriculture labelled 40p. Arrows from both boxes lead down to a shaded Final demand box, labelled £60bn from Agriculture and £30bn from Manufacturing." width=65%}
 
 **Solution.** Each column is one sector's recipe:
 $$

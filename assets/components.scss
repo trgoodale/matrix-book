@@ -109,3 +109,8 @@ pre[role="region"]:focus-visible { outline: 2px solid var(--mb-row); outline-off
 
 /* Links between each exercise and its solution: small, so they don't invite a look before trying. */
 .sol-link { font-size: 0.875rem; }
+
+/* On narrow screens, let every figure use the full column width so its labels stay readable */
+@media (max-width: 600px) {
+  .quarto-figure img, figure img { width: 100% !important; }
+}

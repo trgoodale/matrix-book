@@ -157,11 +157,13 @@ $$
 \qquad
 \det\M{J} = r\cos^2\theta + r\sin^2\theta = r.
 $$
-This is the $r$ in $dA = r\,dr\,d\theta$ for integrals in polar coordinates: a small patch $dr$ by $d\theta$ has area about $r\,dr\,d\theta$. At $r = 2$, $\theta = \pi/6$,
+This is the $r$ in $dA = r\,dr\,d\theta$ for integrals in polar coordinates: a small patch $dr$ by $d\theta$ has area about $r\,dr\,d\theta$ (@fig-polar-patch). At $r = 2$, $\theta = \pi/6$,
 $$
 \Delta\mat{x \\ y} \approx \mat{\sqrt{3}/2 & -1 \\ 1/2 & \sqrt{3}}\mat{0.1 \\ 0.05} \approx \mat{0.0366 \\ 0.1366}.
 $$
 The exact change is $(0.0319, 0.1396)$, so the linear approximation is close.
+
+![A small polar patch. Its sides are $dr$ along the radius and $r\,d\theta$ around the arc, so its area is about $r\,dr\,d\theta$: the determinant of the Jacobian is the factor $r$.](images/polar-patch.png){#fig-polar-patch fig-alt="Two dashed rays from the origin at angles theta and theta plus d theta, and two dotted arcs at radii r and r plus dr. The shaded blue patch between them has a radial side labelled dr and an outer curved side labelled r d theta." width=50%}
 :::
 
 ### The Hessian
@@ -193,7 +195,9 @@ Find and classify the stationary points of $f(x, y) = x^3 - 3x + y^2$.
 $$
 \M{H} = \mat{6x & 0 \\ 0 & 2}.
 $$
-At $(1, 0)$, $\M{H} = \mat{6 & 0 \\ 0 & 2}$ has eigenvalues 6 and 2, both positive: a local minimum, with $f = -2$. At $(-1, 0)$, $\M{H} = \mat{-6 & 0 \\ 0 & 2}$ has eigenvalues $-6$ and 2: a saddle point, a maximum along the $x$ direction and a minimum along the $y$ direction.
+At $(1, 0)$, $\M{H} = \mat{6 & 0 \\ 0 & 2}$ has eigenvalues 6 and 2, both positive: a local minimum, with $f = -2$. At $(-1, 0)$, $\M{H} = \mat{-6 & 0 \\ 0 & 2}$ has eigenvalues $-6$ and 2: a saddle point, a maximum along the $x$ direction and a minimum along the $y$ direction (@fig-stationary-contours).
+
+![Contours of $f(x, y) = x^3 - 3x + y^2$. Around the minimum at $(1, 0)$ the contours are closed ovals; at the saddle $(-1, 0)$ the contour $f = 2$ (brown) crosses itself.](images/stationary-contours.png){#fig-stationary-contours fig-alt="A contour plot for x from minus 2 to 2.3 and y from minus 2 to 2. Nested ovals surround a blue dot at (1, 0), labelled local minimum with f equals minus 2. A brown contour, f equals 2, crosses itself in an X shape at a brown square at (minus 1, 0), labelled saddle, and loops around the ovals. Other contours curve away on either side of the saddle." width=65%}
 :::
 
 ### Gradient descent

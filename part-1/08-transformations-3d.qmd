@@ -45,7 +45,9 @@ $$
 \M{R}_z(\theta) = \mat{\cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1}.
 $$
 
-**The right-hand rule** (as for the cross product in the [Refresher](../front/refresher.qmd)) fixes which way is positive: point your right thumb along the positive axis, and your fingers curl in the direction of a positive rotation. So a positive rotation about $z$ takes $x$ towards $y$; about $x$, it takes $y$ towards $z$; and about $y$, it takes $z$ towards $x$.
+**The right-hand rule** (as for the cross product in the [Refresher](../front/refresher.qmd)) fixes which way is positive: point your right thumb along the positive axis, and your fingers curl in the direction of a positive rotation. So a positive rotation about $z$ takes $x$ towards $y$; about $x$, it takes $y$ towards $z$; and about $y$, it takes $z$ towards $x$ (@fig-right-hand-rule).
+
+![The positive direction of rotation about each axis, by the right-hand rule: about $z$, $x$ turns towards $y$; about $x$, $y$ turns towards $z$; about $y$, $z$ turns towards $x$.](images/right-hand-rule.png){#fig-right-hand-rule fig-alt="Three axes x, y and z drawn in perspective, with z upwards. A curved arrow around each axis shows the positive direction of rotation: around z, labelled x to y, in blue; around x, labelled y to z, in brown; around y, labelled z to x, in green." width=50%}
 
 That last one explains the odd-looking signs in $\M{R}_y$. A positive rotation about $y$ moves $\uk$ towards $\ui$, so the image of $\uk$ (column 3) has a *positive* $x$-component, $\sin\theta$, and the image of $\ui$ has a *negative* $z$-component. If you list the axes in the cyclic order $z, x$ rather than $x, z$, it looks just like the others.
 

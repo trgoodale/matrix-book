@@ -36,7 +36,9 @@ Things to try:
 
 ### Floating-point numbers
 
-Computers store numbers in binary scientific notation, a **floating-point** number $\pm m \times 2^e$, with a fixed number of binary digits in $m$. The standard **double precision** keeps 53 binary digits, about 16 decimal digits, and allows exponents up to about $\pm 1000$ (numbers up to about $10^{308}$). Python's `float` and MATLAB's default numbers are double precision.
+Computers store numbers in binary scientific notation, a **floating-point** number $\pm m \times 2^e$, with a fixed number of binary digits in $m$. The standard **double precision** keeps 53 binary digits, about 16 decimal digits, and allows exponents up to about $\pm 1000$ (numbers up to about $10^{308}$). Python's `float` and MATLAB's default numbers are double precision. Because the digits are fixed and the exponent varies, the gaps between neighbouring floating-point numbers double at each power of 2 (@fig-float-gaps).
+
+![All the floating-point numbers from 1 to 8 in a toy system with 3 binary digits. Each power of 2 starts a run of equally spaced numbers, with gaps twice as wide as the run before. Double precision has the same pattern, with 53 digits.](images/float-gaps.png){#fig-float-gaps fig-alt="A number line from 1 to 8 with tick marks at each floating-point number: 1, 1.25, 1.5, 1.75, then 2, 2.5, 3, 3.5, then 4, 5, 6, 7 and 8. Brackets above show gaps of 0.25 from 1 to 2, 0.5 from 2 to 4, and 1 from 4 to 8." width=85%}
 
 Most numbers, even simple ones like $0.1$, can't be stored exactly in binary, so they are rounded to the nearest floating-point number. The gap between 1 and the next larger floating-point number is the **machine epsilon**
 $$

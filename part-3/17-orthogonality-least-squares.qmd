@@ -54,7 +54,7 @@ $$
 
 ### Projection onto a line
 
-The closest point to $\vect{b}$ on the line through the origin in the direction $\vect{a}$ is found by dropping a perpendicular. Call it $\vect{p} = \hat{x}\,\vect{a}$. The error $\vect{e} = \vect{b} - \vect{p}$ must be at right angles to $\vect{a}$:
+The closest point to $\vect{b}$ on the line through the origin in the direction $\vect{a}$ is found by dropping a perpendicular. Call it $\vect{p} = \hat{x}\,\vect{a}$. The error $\vect{e} = \vect{b} - \vect{p}$ must be at right angles to $\vect{a}$ (@fig-project-line):
 $$
 \vect{a} \cdot (\vect{b} - \hat{x}\,\vect{a}) = 0
 \quad\Longrightarrow\quad
@@ -63,6 +63,8 @@ $$
 \vect{p} = \frac{\vect{a} \cdot \vect{b}}{\vect{a} \cdot \vect{a}}\,\vect{a}.
 $$ {#eq-project-line}
 This $\vect{p}$ is the **projection** of $\vect{b}$ onto the line. It really is the closest point: any other point $\vect{q}$ on the line gives $\vect{b} - \vect{q} = \vect{e} + (\vect{p} - \vect{q})$, a sum of two orthogonal vectors, so by Pythagoras $\lVert\vect{b} - \vect{q}\rVert^2 = \lVert\vect{e}\rVert^2 + \lVert\vect{p} - \vect{q}\rVert^2$, which is bigger. You met this as the "shadow" of one vector on another in the dot product view of the vector explorer.
+
+![Projecting $\vect{b}$ onto the line through $\vect{a}$. The projection $\vect{p}$ is the closest point on the line, and the error $\vect{e} = \vect{b} - \vect{p}$ is at right angles to the line.](images/project-line.png){#fig-project-line fig-alt="A dashed line through the origin in the direction of the vector a. The vector b points up and to the right, off the line. The blue vector p runs along the line to the foot of the perpendicular from b, and the brown vector e goes from the tip of p to the tip of b, with a right-angle mark where it meets the line." width=50%}
 
 ::: {#ex-orthogonality-least-squares-1 .callout-note appearance="simple" icon=false}
 ### Example 1: projection onto a line
@@ -74,7 +76,7 @@ Project $\vect{b} = (3, 1)\T$ onto the line through $\vect{a} = (1, 2)\T$, and f
 
 ### Projection onto a subspace
 
-Now project $\vect{b}$ onto a bigger subspace: the column space of a matrix $\M{A}$ with independent columns (@sec-fundamental-subspaces). The closest point is $\vect{p} = \M{A}\hat{\vect{x}}$ for some $\hat{\vect{x}}$, and the same argument says the error $\vect{e} = \vect{b} - \M{A}\hat{\vect{x}}$ must be at right angles to the whole subspace, so to every column of $\M{A}$. Dotting with every column at once is multiplying by $\M{A}\T$:
+Now project $\vect{b}$ onto a bigger subspace: the column space of a matrix $\M{A}$ with independent columns (@sec-fundamental-subspaces). The closest point is $\vect{p} = \M{A}\hat{\vect{x}}$ for some $\hat{\vect{x}}$, and the same argument says the error $\vect{e} = \vect{b} - \M{A}\hat{\vect{x}}$ must be at right angles to the whole subspace (@fig-project-plane), so to every column of $\M{A}$. Dotting with every column at once is multiplying by $\M{A}\T$:
 $$
 \M{A}\T(\vect{b} - \M{A}\hat{\vect{x}}) = \zerovec
 \quad\Longrightarrow\quad
@@ -85,6 +87,8 @@ $$
 \vect{p} = \M{A}\hat{\vect{x}} = \M{A}(\M{A}\T\M{A})^{-1}\M{A}\T\vect{b}.
 $$
 The matrix $\M{P} = \M{A}(\M{A}\T\M{A})^{-1}\M{A}\T$ is the **projection matrix** onto the column space. Projecting twice is the same as projecting once, so $\M{P}^2 = \M{P}$.
+
+![Projecting $\vect{b}$ onto the column space of $\M{A}$, here a plane spanned by the columns $\vect{a}_1$ and $\vect{a}_2$. The error $\vect{e}$ is at right angles to the whole plane.](images/project-plane.png){#fig-project-plane fig-alt="A shaded parallelogram represents the plane, the column space of A, containing the column vectors a1 and a2 from a common origin. The vector b rises above the plane. The blue vector p equals A x hat lies in the plane, directly below the tip of b, and the brown vector e equals b minus A x hat rises vertically from the tip of p to the tip of b, with a right-angle mark." width=55%}
 
 ### Least squares
 

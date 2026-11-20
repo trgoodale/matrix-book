@@ -12,7 +12,9 @@ Angles are measured in degrees or in **radians**, where a full turn is $360° = 
 
 ### Sine and cosine
 
-Measure an angle $\theta$ anticlockwise from the positive $x$-axis. The point at that angle on the circle of radius 1 about the origin is $(\cos\theta, \sin\theta)$. This is the picture behind every rotation matrix in the book.
+Measure an angle $\theta$ anticlockwise from the positive $x$-axis. The point at that angle on the circle of radius 1 about the origin is $(\cos\theta, \sin\theta)$ (@fig-unit-circle). This is the picture behind every rotation matrix in the book.
+
+![The unit circle. The point at angle $\theta$ is $(\cos\theta, \sin\theta)$: $\cos\theta$ is how far across it is, and $\sin\theta$ how far up.](images/unit-circle.png){#fig-unit-circle fig-alt="A circle of radius 1 centred at the origin, with x and y axes. A radius at angle theta from the positive x axis reaches the point labelled cos theta, sin theta. A brown segment along the x axis from the origin is labelled cos theta, and a blue dashed vertical segment from the axis up to the point is labelled sin theta." width=45%}
 
 | $\theta$ | $0°$ | $30°$ | $45°$ | $60°$ | $90°$ |
 |:--|:--:|:--:|:--:|:--:|:--:|

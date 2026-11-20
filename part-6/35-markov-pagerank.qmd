@@ -97,7 +97,9 @@ For one starting state, there is no need to form the inverse: solve $(\M{I} - \M
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 1: the weather
 
-Each day is sunny (S), cloudy (C) or rainy (R). After a sunny day, the next is sunny with probability 0.7, cloudy 0.2 and rainy 0.1; after a cloudy day, the probabilities are 0.3, 0.4 and 0.3; after a rainy day, 0.2, 0.3 and 0.5. If today is sunny, what are the chances for the day after tomorrow? In the long run, what fraction of days are rainy?
+Each day is sunny (S), cloudy (C) or rainy (R). After a sunny day, the next is sunny with probability 0.7, cloudy 0.2 and rainy 0.1; after a cloudy day, the probabilities are 0.3, 0.4 and 0.3; after a rainy day, 0.2, 0.3 and 0.5 (@fig-weather-chain). If today is sunny, what are the chances for the day after tomorrow? In the long run, what fraction of days are rainy?
+
+![The weather chain of Example 1. Each arrow is labelled with the probability of that change from one day to the next; the probabilities leaving each state add up to 1.](images/weather-chain.png){#fig-weather-chain fig-alt="Three circles, S for sunny, C for cloudy and R for rainy, in a triangle, with arrows between every pair in both directions and a loop on each. S: loop 0.7, to C 0.2, to R 0.1. C: loop 0.4, to S 0.3, to R 0.3. R: loop 0.5, to S 0.2, to C 0.3." width=55%}
 
 **Solution.** The columns are the "from" states:
 $$
@@ -120,7 +122,9 @@ $$
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 2: PageRank for a small web
 
-Four pages link as follows: A links to B and C; B links to C; C links to A; D links to C. Find the PageRank with $d = 0.85$.
+Four pages link as follows: A links to B and C; B links to C; C links to A; D links to C (@fig-four-pages). Find the PageRank with $d = 0.85$.
+
+![The four pages of Example 2 and their links. No page links to D.](images/four-pages.png){#fig-four-pages fig-alt="Four circles labelled A, B, C and D with arrows for links: A to B, A to C, B to C, C to A and D to C." width=40%}
 
 **Solution.** With columns for A, B, C, D,
 $$
@@ -140,7 +144,9 @@ which give $x_A \approx 0.373$, $x_B \approx 0.196$, $x_C \approx 0.394$ and $x_
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 3: getting a degree
 
-A three-year degree is modelled year by year. In each year, a student repeats the year with probability 0.1. Otherwise, in year 1 they progress with probability 0.8 and leave with probability 0.1; in year 2 they progress with probability 0.85 and leave with probability 0.05; and in year 3 they graduate with probability 0.85 and leave with probability 0.05. For a new student, how many years do they spend at university, on average, and how likely are they to graduate?
+A three-year degree is modelled year by year. In each year, a student repeats the year with probability 0.1. Otherwise, in year 1 they progress with probability 0.8 and leave with probability 0.1; in year 2 they progress with probability 0.85 and leave with probability 0.05; and in year 3 they graduate with probability 0.85 and leave with probability 0.05 (@fig-degree-chain). For a new student, how many years do they spend at university, on average, and how likely are they to graduate?
+
+![The degree of Example 3 as an absorbing Markov chain. *Graduated* and *Left* (shaded) are absorbing: once there, a student stays.](images/degree-chain.png){#fig-degree-chain fig-alt="Boxes for Year 1, Year 2 and Year 3 in a row, each with a loop labelled 0.1 for repeating. Arrows go from Year 1 to Year 2 with 0.8, Year 2 to Year 3 with 0.85, and Year 3 to a shaded Graduated box with 0.85. Arrows also go from each year to a shaded Left box below, with 0.1, 0.05 and 0.05." width=75%}
 
 **Solution.** The transient states are years 1, 2 and 3; the absorbing states are *graduated* and *left*. The columns are the "from" states:
 $$

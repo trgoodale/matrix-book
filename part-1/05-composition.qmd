@@ -132,7 +132,9 @@ It also follows that $\M{R}(\theta)^n = \M{R}(n\theta)$. For example, $\M{R}(60�
 
 ### Two reflections make a rotation
 
-Reflecting in a line through the origin at angle $\varphi$, then in a line at angle $\theta$, gives a rotation by $2(\theta - \varphi)$, twice the angle between the lines. (Exercise 4 asks you to check this by multiplying, using the optional reflection formula in @sec-transformations.) You can see it with a pair of mirrors: two reflections reverse the picture twice, so the result is the right way round, but turned.
+Reflecting in a line through the origin at angle $\varphi$, then in a line at angle $\theta$, gives a rotation by $2(\theta - \varphi)$, twice the angle between the lines (@fig-two-reflections). (Exercise 4 asks you to check this by multiplying, using the optional reflection formula in @sec-transformations.) You can see it with a pair of mirrors: two reflections reverse the picture twice, so the result is the right way round, but turned.
+
+![Reflecting in the first mirror and then in the second has the same effect as rotating about the origin by twice the angle between the mirrors. Here the mirrors are at $10°$ and $50°$, so the rotation is $80°$.](images/two-reflections.png){#fig-two-reflections fig-alt="Two dashed mirror lines through the origin, at 10 and 50 degrees. A grey letter F labelled start, below them; its dashed reflection in the first mirror, above both mirrors; and the reflection of that in the second mirror, in blue, between the mirrors. An arc from the start to the final shape is labelled 2 times theta minus phi: the final F is the start rotated about the origin." width=55%}
 
 ### Breaking a transformation into pieces
 

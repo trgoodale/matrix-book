@@ -50,7 +50,9 @@ Read from right to left, as always (@sec-composition):
 2. $\M{\Sigma}$ stretches along the axes by $\sigma_1, \sigma_2, \dots$;
 3. $\M{U}$ turns the result into place, so that the axes line up with the columns $\vect{u}_1, \vect{u}_2, \dots$ of $\M{U}$.
 
-The unit circle (or sphere) becomes an ellipse (or ellipsoid) whose semi-axes are $\sigma_1\vect{u}_1, \sigma_2\vect{u}_2, \dots$
+The unit circle (or sphere) becomes an ellipse (or ellipsoid) whose semi-axes are $\sigma_1\vect{u}_1, \sigma_2\vect{u}_2, \dots$ (@fig-svd-steps).
+
+![The unit circle under $\M{A} = \M{U}\M{\Sigma}\M{V}\T$, one factor at a time, for $\M{V}$ a rotation by $30°$, $\M{\Sigma} = \operatorname{diag}(2, 0.6)$ and $\M{U}$ a rotation by $60°$. The right singular vectors $\vect{v}_1$ and $\vect{v}_2$ (blue and brown) end up as the semi-axes $\sigma_1\vect{u}_1$ and $\sigma_2\vect{u}_2$ of the ellipse.](images/svd-steps.png){#fig-svd-steps fig-alt="Four panels from left to right. Start: the unit circle with two perpendicular arrows, v1 in blue at 30 degrees and v2 in brown at 120 degrees. After V transpose: the same circle, with the arrows turned onto the x and y axes. After Sigma: an ellipse stretched to 2 along x and squashed to 0.6 along y, with the arrows stretched to match. After U: the ellipse turned by 60 degrees, with semi-axes labelled sigma 1 u 1 and sigma 2 u 2." width=100%}
 
 Column by column, the decomposition says
 $$

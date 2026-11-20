@@ -110,13 +110,15 @@ $$
 \qquad
 \det(\M{K} - \lambda\M{I}) = (200 - \lambda)^2 - 100^2 = (\lambda - 100)(\lambda - 300),
 $$
-writing $\lambda = \omega^2$. For $\lambda = 100$, $\M{K} - 100\M{I} = \mat{100 & -100 \\ -100 & 100}$ gives $\vect{v}_1 = (1, 1)\T$: the masses move together, in step, and the middle spring is never stretched. For $\lambda = 300$, $\M{K} - 300\M{I} = \mat{-100 & -100 \\ -100 & -100}$ gives $\vect{v}_2 = (1, -1)\T$: the masses move in opposite directions, stretching and squashing the middle spring as well. The natural frequencies are
+writing $\lambda = \omega^2$. For $\lambda = 100$, $\M{K} - 100\M{I} = \mat{100 & -100 \\ -100 & 100}$ gives $\vect{v}_1 = (1, 1)\T$: the masses move together, in step, and the middle spring is never stretched. For $\lambda = 300$, $\M{K} - 300\M{I} = \mat{-100 & -100 \\ -100 & -100}$ gives $\vect{v}_2 = (1, -1)\T$: the masses move in opposite directions, stretching and squashing the middle spring as well (@fig-two-mass-modes). The natural frequencies are
 $$
 \omega_1 = 10 \text{ rad/s}\;(1.59 \text{ Hz}),
 \qquad
 \omega_2 = \sqrt{300} \approx 17.3 \text{ rad/s}\;(2.76 \text{ Hz}).
 $$
 The mode that stretches more springs, for the same displacements, is the stiffer one, and so the faster one. That is true in general: higher modes have more changes of direction along the structure.
+
+![The two mode shapes of Example 1. In mode 1 the masses move together and the middle spring keeps its length; in mode 2 they move in opposite directions, so the middle spring is stretched and squashed too, and the mode is faster.](images/two-mass-modes.png){#fig-two-mass-modes fig-alt="Two rows, each showing two masses between walls joined by three springs, with blue arrows under the masses for their displacements. Mode 1: both arrows point right, and the middle spring is its normal length. Mode 2: the arrows point towards each other, and the middle spring is compressed." width=80%}
 :::
 
 ::: {#ex-vibrations-2 .callout-note appearance="simple" icon=false}
@@ -158,13 +160,15 @@ $$
 \qquad
 \omega_2 \approx 28.3 \text{ rad/s}\;(4.50 \text{ Hz}).
 $$
-The first row of $(\M{K} - \omega^2\M{M})\vect{v} = \zerovec$ gives $(3 - 2\mu)v_1 = v_2$. For $\mu = \tfrac{1}{2}$, $\vect{v}_1 = (1, 2)\T$: both floors sway the same way, the top one twice as far. For $\mu = 2$, $\vect{v}_2 = (1, -1)\T$: the floors sway in opposite directions.
+The first row of $(\M{K} - \omega^2\M{M})\vect{v} = \zerovec$ gives $(3 - 2\mu)v_1 = v_2$. For $\mu = \tfrac{1}{2}$, $\vect{v}_1 = (1, 2)\T$: both floors sway the same way, the top one twice as far. For $\mu = 2$, $\vect{v}_2 = (1, -1)\T$: the floors sway in opposite directions (@fig-building-modes).
 
 These modes are not perpendicular, $(1, 2) \cdot (1, -1) = -1$, but they are $\M{M}$-orthogonal:
 $$
 \vect{v}_1\T\M{M}\vect{v}_2 = 10^4(2 \times 1 \times 1 + 1 \times 2 \times (-1)) = 0.
 $$
 Earthquakes often shake the ground strongly at frequencies of a few hertz, close to these, which is why low-rise buildings in earthquake zones need careful design.
+
+![The two-storey building of Example 3 and its two mode shapes. In mode 1 both floors sway the same way, the top one twice as far; in mode 2 they sway in opposite directions.](images/building-modes.png){#fig-building-modes fig-alt="Three sketches of a two-storey frame on hatched ground. The model: floors labelled m1 equals 20 t and m2 equals 10 t, with storeys labelled k1 equals 8 MN per m and k2 equals 4 MN per m. Mode 1, 2.25 Hz: both floors shifted right, the top twice as far. Mode 2, 4.50 Hz: the lower floor shifted right and the top floor shifted left by the same amount." width=95%}
 :::
 
 ::: {#ex-vibrations-4 .callout-note appearance="simple" icon=false}

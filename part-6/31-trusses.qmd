@@ -28,7 +28,9 @@ Model the truss as a set of **joints** (nodes), at known positions, connected by
 - loads are applied only at the joints;
 - each member carries a single axial force $N$, the same along its length, counted positive in tension.
 
-A member from joint $i$ to joint $j$, with unit vector $\vect{e}$ pointing from $i$ to $j$, pulls joint $i$ with force $N\vect{e}$ (towards $j$, if $N > 0$) and joint $j$ with force $-N\vect{e}$. Supports provide **reactions**: a **pin** can push in any direction, so it provides two unknown reaction components; a **roller** can only push perpendicular to the surface it rolls on, so it provides one.
+A member from joint $i$ to joint $j$, with unit vector $\vect{e}$ pointing from $i$ to $j$, pulls joint $i$ with force $N\vect{e}$ (towards $j$, if $N > 0$) and joint $j$ with force $-N\vect{e}$. Supports provide **reactions**: a **pin** can push in any direction, so it provides two unknown reaction components; a **roller** can only push perpendicular to the surface it rolls on, so it provides one (@fig-truss-member).
+
+![Left: a member from joint $i$ to joint $j$, with unit vector $\vect{e}$ from $i$ towards $j$. In tension it pulls joint $i$ with $N\vect{e}$ and joint $j$ with $-N\vect{e}$. Right: a pin provides two reaction components and a roller on a horizontal surface one.](images/truss-member.png){#fig-truss-member fig-alt="Left: a sloping member between joints i and j. A blue arrow labelled N e at joint i points along the member towards j, and a blue arrow labelled minus N e at joint j points back towards i. Right: a pin support, a triangle on hatched ground, with a horizontal reaction R x and a vertical reaction R y; and a roller support, a triangle on two small wheels, with only a vertical reaction R y." width=85%}
 
 At each joint, the sum of the member forces, the reactions and the applied load $\vect{p}$ is zero. Collecting all the unknown member forces and reactions into one vector $\vect{f}$, the $2j$ equations for $j$ joints form a linear system
 $$
@@ -70,7 +72,9 @@ to the rows and columns of its two joints, so $\M{K}$ can be assembled member by
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 1: a triangular truss
 
-Joints 1 at $(0, 0)$ and 2 at $(4, 0)$ (in metres) sit on a pin and a roller, and joint 3 at $(2, 2)$ carries a load of 10 kN downwards. Find the force in each member and the reactions.
+Joints 1 at $(0, 0)$ and 2 at $(4, 0)$ (in metres) sit on a pin and a roller, and joint 3 at $(2, 2)$ carries a load of 10 kN downwards (@fig-truss-triangle). Find the force in each member and the reactions.
+
+![The triangular truss of Example 1: members $a$, $b$ and $c$, a pin at joint 1 and a roller at joint 2.](images/truss-triangle.png){#fig-truss-triangle fig-alt="A triangle with joints 1 at the bottom left, 2 at the bottom right, 4 m apart, and 3 at the top, 2 m above them. Member a is along the bottom, b from 1 to 3 and c from 2 to 3. Joint 1 sits on a pin, joint 2 on a roller, and a 10 kN load points down at joint 3." width=55%}
 
 **Solution.** Call the forces in members 1–2, 1–3 and 2–3 $N_a$, $N_b$ and $N_c$. Their unit vectors are $(1, 0)$, $\tfrac{1}{\sqrt{2}}(1, 1)$ and $\tfrac{1}{\sqrt{2}}(-1, 1)$. The pin gives reactions $R_{1x}$ and $R_{1y}$, and the roller $R_{2y}$. The six equations, two per joint, are
 $$
@@ -87,13 +91,17 @@ The last two rows (joint 3) give $N_b = N_c$ and $N_b + N_c = -10\sqrt{2}$, so $
 
 Four members join the corners of a square, on a pin and a roller. Show that it is a mechanism, and that one diagonal fixes it.
 
-**Solution.** There are $j = 4$ joints, $m = 4$ members and $r = 3$ reactions, so $\M{A}$ is $8 \times 7$. Its rank is at most 7, so its column space can't be all of $\R^8$: there are loads it can't balance. Physically, the square can lean over into a parallelogram without any member changing length; a sideways push at the top has nothing to resist it. Adding a diagonal gives $m + r = 8$, and the $8 \times 8$ matrix is invertible: the square has been split into two triangles. Adding the second diagonal as well gives $m + r = 9 > 8$: the truss is then indeterminate, with one redundant member. (Try **Square** and **Doubly braced** in the app below.)
+**Solution.** There are $j = 4$ joints, $m = 4$ members and $r = 3$ reactions, so $\M{A}$ is $8 \times 7$. Its rank is at most 7, so its column space can't be all of $\R^8$: there are loads it can't balance. Physically, the square can lean over into a parallelogram without any member changing length (@fig-truss-square, left); a sideways push at the top has nothing to resist it. Adding a diagonal gives $m + r = 8$, and the $8 \times 8$ matrix is invertible: the square has been split into two triangles. Adding the second diagonal as well gives $m + r = 9 > 8$: the truss is then indeterminate, with one redundant member. (Try **Square** and **Doubly braced** in the app below.)
+
+![Example 2. Left: the square can lean over (dashed) without any member changing length, so nothing resists a sideways push. Middle: one diagonal makes two triangles, and the truss is determinate. Right: a second diagonal makes it indeterminate.](images/truss-square.png){#fig-truss-square fig-alt="Three squares, each on a pin at the bottom left and a roller at the bottom right. The first has no diagonal, an arrow pushing sideways at its top left corner and a dashed parallelogram showing it leaning over; its label says m plus r equals 7, mechanism. The second has one diagonal: m plus r equals 8, determinate. The third has both diagonals: m plus r equals 9, indeterminate." width=100%}
 :::
 
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 3: an indeterminate truss by the stiffness method
 
-A joint at the origin hangs from three supports, at $(-1, 1)$, $(0, 1)$ and $(1, 1)$, by three bars with the same $EA$, and carries a 10 kN load downwards. Find the bar forces.
+A joint at the origin hangs from three supports, at $(-1, 1)$, $(0, 1)$ and $(1, 1)$, by three bars with the same $EA$, and carries a 10 kN load downwards (@fig-truss-three-bars). Find the bar forces.
+
+![The joint of Example 3, hanging from three supports by bars $A$, $B$ and $C$.](images/truss-three-bars.png){#fig-truss-three-bars fig-alt="A joint at the origin hangs from a ceiling by three bars: A to the support at (minus 1, 1), B straight up to (0, 1), and C to (1, 1). A 10 kN load points down from the joint." width=45%}
 
 **Solution.** There are only 2 equilibrium equations (at the free joint) and 3 unknown forces, so equilibrium alone can't decide how the load is shared. Taking each unit vector from the free joint towards its support, $\vect{e}_A = \tfrac{1}{\sqrt{2}}(-1, 1)$, $\vect{e}_B = (0, 1)$ and $\vect{e}_C = \tfrac{1}{\sqrt{2}}(1, 1)$, with lengths $\sqrt{2}$, 1 and $\sqrt{2}$. Only the free joint moves, so
 $$

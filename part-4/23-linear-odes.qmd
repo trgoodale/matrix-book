@@ -65,13 +65,15 @@ Each term is a **mode** of the system, evolving independently of the others. Thi
 ::: {#ex-linear-odes-1 .callout-note appearance="simple" icon=false}
 ### Example 1: two rooms cooling
 
-Two rooms, at temperatures $x_1$ and $x_2$ above the outside temperature, each lose heat to the outside and exchange heat with each other through a shared wall. With suitable units,
+Two rooms, at temperatures $x_1$ and $x_2$ above the outside temperature, each lose heat to the outside and exchange heat with each other through a shared wall (@fig-two-rooms). With suitable units,
 $$
 \dot{x}_1 = -x_1 - (x_1 - x_2),
 \qquad
 \dot{x}_2 = -x_2 - (x_2 - x_1).
 $$
 Starting from $\vect{x}_0 = (3, 1)\T$, find $\vect{x}(t)$.
+
+![The two rooms of Example 1. Each loses heat to the outside at a rate equal to its temperature (brown), and heat flows through the shared wall at a rate equal to the difference in temperature (green).](images/two-rooms.png){#fig-two-rooms fig-alt="Two rooms side by side, room 1 with temperature x1 and room 2 with x2. Brown arrows leave each room through its outer wall, labelled x1 and x2. A green arrow crosses the shared wall from room 1 to room 2, labelled x1 minus x2 through the wall. Above, a note says the outside is at temperature 0, the reference." width=65%}
 
 **Solution.** The matrix is $\M{A} = \mat{-2 & 1 \\ 1 & -2}$, with trace $-4$ and determinant 3, so $\lambda^2 + 4\lambda + 3 = 0$ and $\lambda = -1$ or $-3$. Eigenvectors: $(1, 1)\T$ for $\lambda = -1$ and $(1, -1)\T$ for $\lambda = -3$. Writing $\vect{x}_0 = (3, 1)\T = 2(1, 1)\T + 1(1, -1)\T$,
 $$

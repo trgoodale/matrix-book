@@ -65,7 +65,9 @@ where $\vect{w}$ is the right eigenvector (the stable distribution) and $\vect{v
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 1: a three-class Leslie matrix
 
-An animal lives for at most three years. Half the newborns survive their first year, and a quarter of one-year-olds survive their second. One-year-olds have 4 female young on average and two-year-olds have 3. Find the long-run growth rate and the stable age distribution.
+An animal lives for at most three years. Half the newborns survive their first year, and a quarter of one-year-olds survive their second. One-year-olds have 4 female young on average and two-year-olds have 3 (@fig-life-cycle). Find the long-run growth rate and the stable age distribution.
+
+![The life cycle of Example 1. Straight arrows are survival into the next class, the subdiagonal of $\M{L}$; curved arrows are births into class 1, its first row.](images/life-cycle.png){#fig-life-cycle fig-alt="Three circles in a row for classes 1, 2 and 3, ages 0, 1 and 2. Straight arrows go from class 1 to class 2 labelled s 1 equals 0.5, and from class 2 to class 3 labelled s 2 equals 0.25. Curved brown arrows go back to class 1 from class 2, labelled f 2 equals 4, and from class 3, labelled f 3 equals 3." width=60%}
 
 **Solution.**
 $$

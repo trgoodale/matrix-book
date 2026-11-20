@@ -38,7 +38,9 @@ Things to notice:
 
 A linear transformation turns the grid of unit squares into a grid of identical parallelograms (@sec-transformations). So every unit square has its area multiplied by the same number. Any shape can be approximated by small squares, so **every** area is multiplied by that number.
 
-For $\M{A} = \mat{a & b \\ c & d}$, the unit square becomes the parallelogram with sides $(a, c)\T$ and $(b, d)\T$, the columns of $\M{A}$. Its area is $|ad - bc|$. (To see this for $a, b, c, d > 0$, draw the parallelogram inside the rectangle of width $a + b$ and height $c + d$, and subtract the two triangles and two small rectangles around it; Exercise 7 asks you to do this.)
+For $\M{A} = \mat{a & b \\ c & d}$, the unit square becomes the parallelogram with sides $(a, c)\T$ and $(b, d)\T$, the columns of $\M{A}$ (@fig-det-area). Its area is $|ad - bc|$. (To see this for $a, b, c, d > 0$, draw the parallelogram inside the rectangle of width $a + b$ and height $c + d$, and subtract the two triangles and two small rectangles around it; Exercise 7 asks you to do this.)
+
+![The unit square and its image under the matrix of Example 1, $\M{A} = \mat{3 & -1 \\ 2 & 4}$, drawn to the same scale. The image is the parallelogram on the columns of $\M{A}$, with area $\det\M{A} = 14$.](images/det-area.png){#fig-det-area fig-alt="Two grids at the same scale. Left: the unit square, with i along the x axis in blue and j up the y axis in brown, labelled area 1. Right: a parallelogram with sides A i equals (3, 2) in blue and A j equals (minus 1, 4) in brown, labelled area det A equals 14." width=80%}
 
 The **determinant** keeps the sign:
 $$

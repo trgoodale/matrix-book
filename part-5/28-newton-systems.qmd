@@ -64,7 +64,9 @@ Never compute $\M{J}^{-1}$: solve the system, by elimination for small problems 
 ::: {#ex-newton-systems-1 .callout-note appearance="simple" icon=false}
 ### Example 1: a circle and a hyperbola
 
-Find where the circle $x^2 + y^2 = 4$ meets the hyperbola $xy = 1$, starting from $(2, 0.5)$.
+Find where the circle $x^2 + y^2 = 4$ meets the hyperbola $xy = 1$, starting from $(2, 0.5)$ (@fig-circle-hyperbola).
+
+![The circle and the hyperbola of Example 1 meet at four points (dots). Newton's method from $(2, 0.5)$ (cross) converges to the nearest one. The steps are too small to see at this scale.](images/circle-hyperbola.png){#fig-circle-hyperbola fig-alt="Axes with a blue circle of radius 2 centred at the origin and a brown hyperbola xy equals 1 with branches in the first and third quadrants. They cross at four points, marked with dots. A cross marks the start point (2, 0.5), right next to the intersection labelled root found, (1.932, 0.518)." width=55%}
 
 **Solution.** Write the equations as $\vect{f}(x, y) = (x^2 + y^2 - 4, \; xy - 1)\T = \zerovec$. The Jacobian is
 $$
@@ -101,7 +103,9 @@ with Jacobian, writing $s_1 = \sin\theta_1$, $c_1 = \cos\theta_1$, $s_{12} = \si
 $$
 \M{J} = \mat{-s_1 - s_{12} & -s_{12} \\ c_1 + c_{12} & c_{12}}.
 $$
-Starting from $(\theta_1, \theta_2) = (0, 1)$, the residual goes $0.34$, $0.098$, $0.0035$, $5.6 \times 10^{-6}$, $1.5 \times 10^{-11}$, and the angles converge to $\theta_1 = -0.1774$ and $\theta_2 = 1.5308$ radians ($-10.16°$ and $87.71°$). Check with the cosine rule: the distance to the target is $d = \sqrt{1.2^2 + 0.8^2}$, and $\cos\theta_2 = (d^2 - 2)/2 = 0.04$, so $\theta_2 = 1.5308$. ✓ Starting from a negative $\theta_2$ finds the other solution, with the elbow bent the other way. In a robot controller, the starting guess is the arm's current position, so Newton's method finds the nearby solution and the arm moves smoothly.
+Starting from $(\theta_1, \theta_2) = (0, 1)$, the residual goes $0.34$, $0.098$, $0.0035$, $5.6 \times 10^{-6}$, $1.5 \times 10^{-11}$, and the angles converge to $\theta_1 = -0.1774$ and $\theta_2 = 1.5308$ radians ($-10.16°$ and $87.71°$). Check with the cosine rule: the distance to the target is $d = \sqrt{1.2^2 + 0.8^2}$, and $\cos\theta_2 = (d^2 - 2)/2 = 0.04$, so $\theta_2 = 1.5308$. ✓ Starting from a negative $\theta_2$ finds the other solution, with the elbow bent the other way (@fig-arm-newton). In a robot controller, the starting guess is the arm's current position, so Newton's method finds the nearby solution and the arm moves smoothly.
+
+![The two solutions of Example 2. Newton's method from $(0, 1)$ finds the solid one, with $\theta_1 = -10.16°$ (below the $x$ axis) and $\theta_2 = 87.71°$; starting with a negative $\theta_2$ finds the dashed one, with the elbow bent the other way.](images/arm-newton.png){#fig-arm-newton fig-alt="A two-link arm fixed at the origin, each link of length 1. In the solid solution the first link points slightly below the x axis and the second turns up by about 88 degrees to reach the target at (1.2, 0.8), marked with a cross. A dashed grey arm reaches the same target with its elbow above, near the y axis. Arcs mark theta 1 from the x axis and theta 2 from the direction of the first link." width=55%}
 :::
 
 ### Quadratic convergence
