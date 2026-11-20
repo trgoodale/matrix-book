@@ -35,6 +35,8 @@ These routes pick out the chapters for common courses and goals.
 
 **Numerical methods**
 
+This is a second course. It assumes Parts I–III and Chapters [18](../part-4/18-eigenvalues.qmd)–[20](../part-4/20-symmetric-matrices.qmd), or a first course that covered the same ground.
+
 - Chapter [11](../part-2/11-gaussian-elimination.qmd), Gaussian elimination, and Chapter [13](../part-2/13-lu-decomposition.qmd), LU decomposition
 - Chapter [17](../part-3/17-orthogonality-least-squares.qmd), orthogonality and least squares
 - Chapter [22](../part-4/22-matrix-calculus.qmd), derivatives with vectors and matrices
@@ -48,7 +50,7 @@ These routes pick out the chapters for common courses and goals.
 - Chapters [10](../part-2/10-linear-systems.qmd)–[12](../part-2/12-gauss-jordan-rank.qmd), linear systems, Gaussian elimination and rank
 - Part III: Vector spaces (Chapters [14](../part-3/14-span-independence.qmd)–[17](../part-3/17-orthogonality-least-squares.qmd))
 - Chapters [18](../part-4/18-eigenvalues.qmd)–[21](../part-4/21-svd-pca.qmd), from eigenvalues to the SVD and PCA
-- Chapter [30](../part-5/30-qr-least-squares.qmd), QR factorisation and stable least squares
+- Chapters [24](../part-5/24-floating-point-conditioning.qmd) and [30](../part-5/30-qr-least-squares.qmd), floating point and conditioning, then QR factorisation and stable least squares
 - Applications: Chapter [37](../part-6/37-data-science.qmd), regression and dimensionality reduction, and Chapter [41](../part-6/41-networks.qmd), networks and graphs
 
 **Physics**
@@ -57,16 +59,18 @@ These routes pick out the chapters for common courses and goals.
 - Part II: Linear systems (Chapters [10](../part-2/10-linear-systems.qmd)–[13](../part-2/13-lu-decomposition.qmd))
 - Part III: Vector spaces (Chapters [14](../part-3/14-span-independence.qmd)–[17](../part-3/17-orthogonality-least-squares.qmd)), especially change of basis and orthogonality, which underpin quantum mechanics
 - Part IV: Eigenvalues and matrix calculus (Chapters [18](../part-4/18-eigenvalues.qmd)–[23](../part-4/23-linear-odes.qmd))
-- Chapters [24](../part-5/24-floating-point-conditioning.qmd) and [29](../part-5/29-eigenvalue-algorithms.qmd), conditioning and eigenvalue algorithms, for computational work
+- Chapters [24](../part-5/24-floating-point-conditioning.qmd), [26](../part-5/26-cost-sparse.qmd), [27](../part-5/27-iterative-methods.qmd) and [29](../part-5/29-eigenvalue-algorithms.qmd), conditioning, sparse systems, iterative methods and eigenvalue algorithms, for computational work
 - Applications: Chapters [38](../part-6/38-physics.qmd), [33](../part-6/33-finite-differences.qmd) and [40](../part-6/40-vibrations.qmd) (rotations, inertia and quantum states; heat flow and finite differences; vibrations and normal modes)
 
 **Economics and business**
 
 - Chapters [1](../part-1/01-matrices.qmd)–[7](../part-1/07-inverses.qmd), from matrices to inverses
+- Chapter [9](../part-1/09-invariant-lines.qmd), invariant lines: a first look at eigenvectors
 - Part II: Linear systems (Chapters [10](../part-2/10-linear-systems.qmd)–[13](../part-2/13-lu-decomposition.qmd))
-- Chapter [17](../part-3/17-orthogonality-least-squares.qmd), least squares, for fitting models to data
+- Part III: Vector spaces (Chapters [14](../part-3/14-span-independence.qmd)–[17](../part-3/17-orthogonality-least-squares.qmd)), ending with least squares for fitting models to data
 - Chapters [18](../part-4/18-eigenvalues.qmd) and [19](../part-4/19-diagonalisation.qmd), eigenvalues and matrix powers
-- Applications: Chapter [42](../part-6/42-input-output.qmd), input–output models, needs only Parts I and II; then Chapters [35](../part-6/35-markov-pagerank.qmd) (Markov chains) and [37](../part-6/37-data-science.qmd) (regression)
+- Applications: Chapter [42](../part-6/42-input-output.qmd), input–output models, needs only Parts I and II; then Chapter [35](../part-6/35-markov-pagerank.qmd), Markov chains
+- For regression, Chapter [37](../part-6/37-data-science.qmd), read Chapters [20](../part-4/20-symmetric-matrices.qmd), [21](../part-4/21-svd-pca.qmd), [24](../part-5/24-floating-point-conditioning.qmd) and [30](../part-5/30-qr-least-squares.qmd) first
 
 ## How each chapter works
 
