@@ -45,6 +45,20 @@ The same sandwich scales about a point, or reflects in a line that doesn't pass 
 
 ![Rotating $(3, 1)$ by $90°$ about $\vect{c} = (2, 1)$, as in Example 1, in three steps: move $\vect{c}$ to the origin, rotate about the origin, and move back.](images/rotate-about-point.png){#fig-rotate-about-point fig-alt="Four small panels with axes. Start: the centre c at (2, 1) joined to the point (3, 1). After moving c to the origin, the point is at (1, 0). After rotating by 90 degrees about the origin, it is at (0, 1). After moving back, c is at (2, 1) again and the point is at (2, 2), directly above c." width=100%}
 
+::: {.callout-note appearance="simple" icon=false}
+### Example 1: rotating about a point
+
+Find the matrix that rotates the plane by $90°$ anticlockwise about the point $(2, 1)$, and apply it to $(3, 1)$.
+
+**Solution.**
+$$
+\M{T}(2, 1)\,\M{R}(90°)\,\M{T}(-2, -1)
+= \mat{1 & 0 & 2 \\ 0 & 1 & 1 \\ 0 & 0 & 1}\mat{0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 1}\mat{1 & 0 & -2 \\ 0 & 1 & -1 \\ 0 & 0 & 1}
+= \mat{0 & -1 & 3 \\ 1 & 0 & -1 \\ 0 & 0 & 1}.
+$$
+Then $(3, 1, 1) \mapsto (0 - 1 + 3, \; 3 + 0 - 1, \; 1) = (2, 2, 1)$. Check: $(3, 1)$ is one unit to the right of the centre $(2, 1)$, and a quarter turn anticlockwise puts it one unit above, at $(2, 2)$. ✓ The order matters: $\M{R}(90°)\M{T}(3, 1)$ and $\M{T}(3, 1)\M{R}(90°)$ are different transformations (exercise 1).
+:::
+
 ### Model, view and projection
 
 A 3D graphics pipeline applies three kinds of $4 \times 4$ matrix to every point:
@@ -60,36 +74,6 @@ $$
 sends $(x, y, z, 1)$ to $(dx, dy, z, -z)$, and the rule is that homogeneous coordinates $(X, Y, Z, W)$ stand for the point $(X/W, Y/W, Z/W)$. Dividing by $W = -z$ gives exactly the perspective formula. (Real graphics libraries use a slightly different third row, which keeps depth information for deciding which surfaces are in front.) The whole pipeline is one matrix, $\M{P}\M{V}\M{M}$, computed once per object and applied to all its points; graphics cards are built to do millions of these $4 \times 4$ products every millisecond.
 
 ![Perspective, seen from the side, for the two points of Example 2. Each point appears where the line from it to the camera crosses the screen, at distance $d = 1$: the point twice as far away appears half as high. (The vertical scale is stretched.)](images/perspective.png){#fig-perspective fig-alt="A side view. The camera is at the left, looking right along the negative z direction, with a screen 1 unit in front of it. Two upright posts of height 1 stand at z equals minus 4 (blue) and z equals minus 8 (brown). Dashed lines from the top of each post to the camera cross the screen at heights 0.25 and 0.125." width=85%}
-
-### Robot arm kinematics
-
-A robot arm is a chain of rigid links joined by rotating joints. Give each link its own coordinate frame. For a planar arm, the frame of each link is the frame of the one before, rotated by the joint angle $\theta_i$ and then translated along the new $x$ axis by the link length $L_i$ (@fig-arm-forward):
-$$
-\M{T}_i = \M{R}(\theta_i)\,\M{T}(L_i, 0) = \mat{\cos\theta_i & -\sin\theta_i & L_i\cos\theta_i \\ \sin\theta_i & \cos\theta_i & L_i\sin\theta_i \\ 0 & 0 & 1}.
-$$
-The position and orientation of the hand, relative to the base, is the product
-$$
-\M{T} = \M{T}_1\M{T}_2\cdots\M{T}_n.
-$$
-Its last column gives the hand's position, and its top-left $2 \times 2$ block its orientation. This is **forward kinematics**. Industrial arms work the same way in three dimensions, with one $4 \times 4$ matrix per joint, usually set out by the **Denavit–Hartenberg** convention.
-
-![The two-link arm of Example 4. $\theta_1$ is measured from the $x$ axis, and $\theta_2$ from the direction of the first link (dashed).](images/arm-forward.png){#fig-arm-forward fig-alt="A two-link arm on a base at the origin. The first link, of length 1.5, rises at 30 degrees to the elbow at (1.299, 0.75). The second link, of length 1, points straight up to the hand at (1.299, 1.75). An arc marks theta 1 between the x axis and the first link, and another marks theta 2 between a dashed extension of the first link and the second link." width=55%}
-
-The reverse problem, **inverse kinematics**, finds joint angles that put the hand at a chosen point. It is a system of nonlinear equations, usually solved by Newton's method with the Jacobian of the forward kinematics (@sec-newton-systems, Example 2). Where the Jacobian is singular, as when the arm is fully stretched out, the hand can't move in some direction at all: a **singularity**, which robot controllers must steer around.
-
-::: {.callout-note appearance="simple" icon=false}
-### Example 1: rotating about a point
-
-Find the matrix that rotates the plane by $90°$ anticlockwise about the point $(2, 1)$, and apply it to $(3, 1)$.
-
-**Solution.**
-$$
-\M{T}(2, 1)\,\M{R}(90°)\,\M{T}(-2, -1)
-= \mat{1 & 0 & 2 \\ 0 & 1 & 1 \\ 0 & 0 & 1}\mat{0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 1}\mat{1 & 0 & -2 \\ 0 & 1 & -1 \\ 0 & 0 & 1}
-= \mat{0 & -1 & 3 \\ 1 & 0 & -1 \\ 0 & 0 & 1}.
-$$
-Then $(3, 1, 1) \mapsto (0 - 1 + 3, \; 3 + 0 - 1, \; 1) = (2, 2, 1)$. Check: $(3, 1)$ is one unit to the right of the centre $(2, 1)$, and a quarter turn anticlockwise puts it one unit above, at $(2, 2)$. ✓ The order matters: $\M{R}(90°)\M{T}(3, 1)$ and $\M{T}(3, 1)\M{R}(90°)$ are different transformations (exercise 1).
-:::
 
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 2: perspective
@@ -122,6 +106,22 @@ The origin goes to $\M{V}(0, 0, 0, 1)\T = (0, 0, -6, 1)\T$: straight ahead of th
 
 The view matrix is the inverse of the matrix $\M{T}(\vect{c})\,\M{R}\T$ that would place the camera in the world. Inverting it needs no elimination: the inverse of a translation is the opposite translation, and the inverse of a rotation is its transpose (@sec-inverses).
 :::
+
+### Robot arm kinematics
+
+A robot arm is a chain of rigid links joined by rotating joints. Give each link its own coordinate frame. For a planar arm, the frame of each link is the frame of the one before, rotated by the joint angle $\theta_i$ and then translated along the new $x$ axis by the link length $L_i$ (@fig-arm-forward):
+$$
+\M{T}_i = \M{R}(\theta_i)\,\M{T}(L_i, 0) = \mat{\cos\theta_i & -\sin\theta_i & L_i\cos\theta_i \\ \sin\theta_i & \cos\theta_i & L_i\sin\theta_i \\ 0 & 0 & 1}.
+$$
+The position and orientation of the hand, relative to the base, is the product
+$$
+\M{T} = \M{T}_1\M{T}_2\cdots\M{T}_n.
+$$
+Its last column gives the hand's position, and its top-left $2 \times 2$ block its orientation. This is **forward kinematics**. Industrial arms work the same way in three dimensions, with one $4 \times 4$ matrix per joint, usually set out by the **Denavit–Hartenberg** convention.
+
+![The two-link arm of Example 4. $\theta_1$ is measured from the $x$ axis, and $\theta_2$ from the direction of the first link (dashed).](images/arm-forward.png){#fig-arm-forward fig-alt="A two-link arm on a base at the origin. The first link, of length 1.5, rises at 30 degrees to the elbow at (1.299, 0.75). The second link, of length 1, points straight up to the hand at (1.299, 1.75). An arc marks theta 1 between the x axis and the first link, and another marks theta 2 between a dashed extension of the first link and the second link." width=55%}
+
+The reverse problem, **inverse kinematics**, finds joint angles that put the hand at a chosen point. It is a system of nonlinear equations, usually solved by Newton's method with the Jacobian of the forward kinematics (@sec-newton-systems, Example 2). Where the Jacobian is singular, as when the arm is fully stretched out, the hand can't move in some direction at all: a **singularity**, which robot controllers must steer around.
 
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 4: forward kinematics

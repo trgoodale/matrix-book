@@ -50,18 +50,6 @@ $$
 $$
 exactly the pattern $\M{B}\T\M{D}\M{B}$ of the truss stiffness matrix (@sec-trusses), with voltages for displacements and currents for forces.
 
-### Voltage sources: modified nodal analysis
-
-A voltage source fixes the difference between two node voltages, but the current through it is unknown. **Modified nodal analysis** (MNA) adds that current as an extra unknown, and the source's equation as an extra row. For a source of $E$ volts from ground to node $k$, with current $I_s$ flowing out of node $k$ into the source,
-$$
-\mat{\M{G} & \ue{k} \\ \ue{k}\T & 0}\mat{\vect{v} \\ I_s} = \mat{\vect{i} \\ E}.
-$$
-The matrix is still symmetric, but no longer positive definite (it has a zero on its diagonal), so solvers pivot. MNA is how SPICE handles every kind of component.
-
-### AC circuits: complex matrices
-
-For sinusoidal signals at angular frequency $\omega$, capacitors and inductors behave like resistors with complex **impedances**: $Z_C = 1/(j\omega C)$ and $Z_L = j\omega L$, where $j = \sqrt{-1}$ (engineers write $j$, not $i$). Each voltage is represented by a complex number, a **phasor**, whose size is the amplitude and whose angle is the phase. Nodal analysis works unchanged, with complex conductances $Y = 1/Z$ (called **admittances**), giving a complex system $\M{Y}\vect{v} = \vect{i}$. NumPy and MATLAB solve complex systems exactly as they solve real ones.
-
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 1: nodal analysis
 
@@ -76,6 +64,14 @@ $$
 Elimination gives $V_3 = \tfrac{40}{7} \approx 5.71$ V, $V_2 = \tfrac{60}{7} \approx 8.57$ V and $V_1 = \tfrac{110}{7} \approx 15.71$ V. The currents follow from Ohm's law: 1.57 A through the first 10 Ω resistor, 1.43 A along to node 2, of which 0.86 A goes to ground and 0.57 A on to node 3 and down through the last resistor. Check at node 1: $1.57 + 1.43 = 3$ A, the source current. ✓
 :::
 
+### Voltage sources: modified nodal analysis
+
+A voltage source fixes the difference between two node voltages, but the current through it is unknown. **Modified nodal analysis** (MNA) adds that current as an extra unknown, and the source's equation as an extra row. For a source of $E$ volts from ground to node $k$, with current $I_s$ flowing out of node $k$ into the source,
+$$
+\mat{\M{G} & \ue{k} \\ \ue{k}\T & 0}\mat{\vect{v} \\ I_s} = \mat{\vect{i} \\ E}.
+$$
+The matrix is still symmetric, but no longer positive definite (it has a zero on its diagonal), so solvers pivot. MNA is how SPICE handles every kind of component.
+
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 2: a voltage source
 
@@ -89,6 +85,10 @@ $$
 $$
 With $V_1 = 12$, the third row gives $V_3 = \tfrac{2}{3}V_2$, and the second then gives $0.5V_2 - 2.4 - \tfrac{0.4}{3}V_2 = 0$, so $V_2 = \tfrac{72}{11} \approx 6.55$ V and $V_3 = \tfrac{48}{11} \approx 4.36$ V. The first row gives $I_s = -0.3 \times 12 + 0.2 \times \tfrac{72}{11} \approx -2.29$ A: the negative sign means 2.29 A flows *out* of the source into node 1. The source delivers $12 \times 2.29 = 27.5$ W.
 :::
+
+### AC circuits: complex matrices
+
+For sinusoidal signals at angular frequency $\omega$, capacitors and inductors behave like resistors with complex **impedances**: $Z_C = 1/(j\omega C)$ and $Z_L = j\omega L$, where $j = \sqrt{-1}$ (engineers write $j$, not $i$). Each voltage is represented by a complex number, a **phasor**, whose size is the amplitude and whose angle is the phase. Nodal analysis works unchanged, with complex conductances $Y = 1/Z$ (called **admittances**), giving a complex system $\M{Y}\vect{v} = \vect{i}$. NumPy and MATLAB solve complex systems exactly as they solve real ones.
 
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 3: an AC filter

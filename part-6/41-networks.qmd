@@ -37,7 +37,25 @@ $$
 $$
 Triangles measure how clustered a network is: in friendship networks, your friends are often friends of each other.
 
-*Worked example:* [Example 1](#ex-networks-1).
+::: {#ex-networks-1 .callout-note appearance="simple" icon=false}
+### Example 1: friends in common
+
+Five people are friends as follows: 1–2, 1–3, 2–3, 3–4 and 4–5 (@fig-friends). Write down $\M{A}$, find $\M{A}^2$, and interpret its entries. How many triangles are there?
+
+![The friendships of Example 1. The shaded triangle 1–2–3 is the only triangle.](images/friends.png){#fig-friends fig-alt="Five numbered circles. Nodes 1, 2 and 3 form a shaded triangle; node 3 is joined to node 4, and node 4 to node 5." width=50%}
+
+**Solution.**
+$$
+\M{A} = \mat{0 & 1 & 1 & 0 & 0 \\ 1 & 0 & 1 & 0 & 0 \\ 1 & 1 & 0 & 1 & 0 \\ 0 & 0 & 1 & 0 & 1 \\ 0 & 0 & 0 & 1 & 0},
+\qquad
+\M{A}^2 = \mat{2 & 1 & 1 & 1 & 0 \\ 1 & 2 & 1 & 1 & 0 \\ 1 & 1 & 3 & 0 & 1 \\ 1 & 1 & 0 & 2 & 0 \\ 0 & 0 & 1 & 0 & 1}.
+$$
+The diagonal of $\M{A}^2$ gives the degrees: person 3 has 3 friends. Off the diagonal, $(\M{A}^2)_{12} = 1$ because 1 and 2 have one friend in common (person 3), and $(\M{A}^2)_{14} = 1$ because 1 and 4 aren't friends but share friend 3: a recommendation system might suggest that they meet. The diagonal of $\M{A}^3$ is $(2, 2, 2, 0, 0)$, so
+$$
+\text{triangles} = \frac{2 + 2 + 2 + 0 + 0}{6} = 1,
+$$
+the triangle 1–2–3. Persons 4 and 5 are in no triangle.
+:::
 
 ### The graph Laplacian
 
@@ -63,52 +81,6 @@ If $\M{L}\vect{x} = \zerovec$, then $\vect{x}\T\M{L}\vect{x} = 0$, so by @eq-lap
 
 Testing connectivity is easy enough by following edges. The real value of the Laplacian lies in what $\lambda_2$ says when it is small but not zero.
 
-*Worked example:* [Example 2](#ex-networks-2).
-
-### Splitting a network: the Fiedler vector
-
-Suppose we want to split a connected network into two groups, cutting as few edges as possible, without making one group tiny. Label the nodes in one group $x_i = +1$ and in the other $x_i = -1$. An edge inside a group contributes 0 to @eq-laplacian-form, and an edge between groups contributes $2^2 = 4$, so
-$$
-\vect{x}\T\M{L}\vect{x} = 4 \times (\text{number of edges cut}).
-$$
-Requiring $\vect{x} \perp \vect{1}$ makes the two groups the same size. Finding the best $\pm 1$ vector is very hard for large networks, but if we allow any real numbers, with $\lVert\vect{x}\rVert = 1$ and $\vect{x} \perp \vect{1}$, the minimum of $\vect{x}\T\M{L}\vect{x}$ is $\lambda_2$, reached at its eigenvector $\vect{v}_2$. This is the Rayleigh quotient idea of @sec-symmetric-matrices: the smallest eigenvalue minimises $\vect{x}\T\M{L}\vect{x}$ over unit vectors, and the next one does so over unit vectors perpendicular to the first eigenvector, here $\vect{1}$.
-
-So **spectral partitioning** splits the nodes by the signs of $\vect{v}_2$, which is called the **Fiedler vector**, after Miroslav Fiedler. Its eigenvalue $\lambda_2$, the **algebraic connectivity**, measures how well connected the network is: a small $\lambda_2$ means that some split cuts few edges, and a network with a bottleneck has a small $\lambda_2$.
-
-*Worked example:* [Example 3](#ex-networks-3).
-
-### Who matters most: eigenvector centrality
-
-The simplest measure of a node's importance is its degree. But being connected to important nodes should count for more than being connected to unimportant ones. **Eigenvector centrality** asks for scores $c_i$ in which each node's score is proportional to the total score of its neighbours:
-$$
-\lambda c_i = \sum_j a_{ij}c_j,
-\qquad\text{that is}\qquad
-\M{A}\vect{c} = \lambda\vect{c}.
-$$
-For a connected network, the Perron–Frobenius theorem (@sec-markov-pagerank) guarantees that the largest eigenvalue of $\M{A}$ has an eigenvector with every entry positive, and that is the centrality. The power method (@sec-eigenvalue-algorithms) finds it, and it is the undirected cousin of PageRank.
-
-*Worked example:* [Example 4](#ex-networks-4).
-
-::: {#ex-networks-1 .callout-note appearance="simple" icon=false}
-### Example 1: friends in common
-
-Five people are friends as follows: 1–2, 1–3, 2–3, 3–4 and 4–5 (@fig-friends). Write down $\M{A}$, find $\M{A}^2$, and interpret its entries. How many triangles are there?
-
-![The friendships of Example 1. The shaded triangle 1–2–3 is the only triangle.](images/friends.png){#fig-friends fig-alt="Five numbered circles. Nodes 1, 2 and 3 form a shaded triangle; node 3 is joined to node 4, and node 4 to node 5." width=50%}
-
-**Solution.**
-$$
-\M{A} = \mat{0 & 1 & 1 & 0 & 0 \\ 1 & 0 & 1 & 0 & 0 \\ 1 & 1 & 0 & 1 & 0 \\ 0 & 0 & 1 & 0 & 1 \\ 0 & 0 & 0 & 1 & 0},
-\qquad
-\M{A}^2 = \mat{2 & 1 & 1 & 1 & 0 \\ 1 & 2 & 1 & 1 & 0 \\ 1 & 1 & 3 & 0 & 1 \\ 1 & 1 & 0 & 2 & 0 \\ 0 & 0 & 1 & 0 & 1}.
-$$
-The diagonal of $\M{A}^2$ gives the degrees: person 3 has 3 friends. Off the diagonal, $(\M{A}^2)_{12} = 1$ because 1 and 2 have one friend in common (person 3), and $(\M{A}^2)_{14} = 1$ because 1 and 4 aren't friends but share friend 3: a recommendation system might suggest that they meet. The diagonal of $\M{A}^3$ is $(2, 2, 2, 0, 0)$, so
-$$
-\text{triangles} = \frac{2 + 2 + 2 + 0 + 0}{6} = 1,
-$$
-the triangle 1–2–3. Persons 4 and 5 are in no triangle.
-:::
-
 ::: {#ex-networks-2 .callout-note appearance="simple" icon=false}
 ### Example 2: two pieces
 
@@ -120,6 +92,16 @@ $$
 $$
 $\M{L}\vect{x} = \zerovec$ says $x_1 = x_2$ (row 1), then $x_2 = x_3$ (row 3), and $x_4 = x_5$ (row 4). So the null space has the basis $(1, 1, 1, 0, 0)\T$ and $(0, 0, 0, 1, 1)\T$: dimension 2, one vector for each piece. The eigenvalues are $0, 0, 1, 2, 3$: two zeros, two components. The matrix is **block diagonal**, one block for each component, which happens whenever the nodes of each piece are numbered together.
 :::
+
+### Splitting a network: the Fiedler vector
+
+Suppose we want to split a connected network into two groups, cutting as few edges as possible, without making one group tiny. Label the nodes in one group $x_i = +1$ and in the other $x_i = -1$. An edge inside a group contributes 0 to @eq-laplacian-form, and an edge between groups contributes $2^2 = 4$, so
+$$
+\vect{x}\T\M{L}\vect{x} = 4 \times (\text{number of edges cut}).
+$$
+Requiring $\vect{x} \perp \vect{1}$ makes the two groups the same size. Finding the best $\pm 1$ vector is very hard for large networks, but if we allow any real numbers, with $\lVert\vect{x}\rVert = 1$ and $\vect{x} \perp \vect{1}$, the minimum of $\vect{x}\T\M{L}\vect{x}$ is $\lambda_2$, reached at its eigenvector $\vect{v}_2$. This is the Rayleigh quotient idea of @sec-symmetric-matrices: the smallest eigenvalue minimises $\vect{x}\T\M{L}\vect{x}$ over unit vectors, and the next one does so over unit vectors perpendicular to the first eigenvector, here $\vect{1}$.
+
+So **spectral partitioning** splits the nodes by the signs of $\vect{v}_2$, which is called the **Fiedler vector**, after Miroslav Fiedler. Its eigenvalue $\lambda_2$, the **algebraic connectivity**, measures how well connected the network is: a small $\lambda_2$ means that some split cuts few edges, and a network with a bottleneck has a small $\lambda_2$.
 
 ::: {#ex-networks-3 .callout-note appearance="simple" icon=false}
 ### Example 3: two triangles and a bridge
@@ -149,6 +131,16 @@ $$ The signs split the network into $\{1, 2, 3\}$ and $\{4, 5, 6\}$, cutting onl
 
 ![The network of Example 3, with each node's entry in the Fiedler vector. Positive entries (blue circles) form one group and negative entries (brown squares) the other; the split cuts only the bridge 3–4.](images/two-triangles.png){#fig-two-triangles fig-alt="Two triangles joined by a dashed bridge from node 3 to node 4, with a dotted line labelled cut across it. Nodes 1, 2 and 3 are blue circles with values plus 0.465, plus 0.465 and plus 0.261. Nodes 4, 5 and 6 are brown squares with values minus 0.261, minus 0.465 and minus 0.465." width=65%}
 :::
+
+### Who matters most: eigenvector centrality
+
+The simplest measure of a node's importance is its degree. But being connected to important nodes should count for more than being connected to unimportant ones. **Eigenvector centrality** asks for scores $c_i$ in which each node's score is proportional to the total score of its neighbours:
+$$
+\lambda c_i = \sum_j a_{ij}c_j,
+\qquad\text{that is}\qquad
+\M{A}\vect{c} = \lambda\vect{c}.
+$$
+For a connected network, the Perron–Frobenius theorem (@sec-markov-pagerank) guarantees that the largest eigenvalue of $\M{A}$ has an eigenvector with every entry positive, and that is the centrality. The power method (@sec-eigenvalue-algorithms) finds it, and it is the undirected cousin of PageRank.
 
 ::: {#ex-networks-4 .callout-note appearance="simple" icon=false}
 ### Example 4: a hub or a well-connected node?

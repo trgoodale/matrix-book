@@ -54,14 +54,6 @@ So:
 - $\vect{w}$, scaled so that its entries add up to 1, is the **stable age distribution** (or stable stage distribution): the proportions in each class that the population settles into, whatever it started with.
 - The other eigenvalues decide how quickly it settles: the transient effects die away like $\lvert\lambda_2/\lambda_1\rvert^k$.
 
-### Which rates matter most?
-
-A manager can afford to improve only some survival or birth rates. Which change raises $\lambda$ the most? The **sensitivity** of $\lambda$ to the entry $a_{ij}$ of the matrix is
-$$
-\frac{\partial\lambda}{\partial a_{ij}} = \frac{v_iw_j}{\vect{v} \cdot \vect{w}},
-$$
-where $\vect{w}$ is the right eigenvector (the stable distribution) and $\vect{v}$ is the **left eigenvector**, $\vect{v}\T\M{L} = \lambda\vect{v}\T$, whose entries are the **reproductive values** of the stages: how much an individual in each stage will contribute to future generations. Because fecundities and survival rates are on very different scales, ecologists compare **elasticities**, $e_{ij} = (a_{ij}/\lambda)\,\partial\lambda/\partial a_{ij}$: the proportional change in $\lambda$ for a 1% change in $a_{ij}$. The elasticities add up to 1.
-
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 1: a three-class Leslie matrix
 
@@ -105,6 +97,14 @@ For example, a small juvenile has a 73.7% chance of surviving and staying a smal
 
 **Solution.** The dominant eigenvalue, from the code below, is $\lambda = 0.945$: the population shrinks by about 5.5% a year, halving in about 12 years. The stable stage distribution is about 21% eggs and hatchlings, 67% small juveniles, 11% large juveniles, and under 1% in each later stage: only about 2 in 1000 turtles is a mature breeder, because so few survive the long juvenile stages.
 :::
+
+### Which rates matter most?
+
+A manager can afford to improve only some survival or birth rates. Which change raises $\lambda$ the most? The **sensitivity** of $\lambda$ to the entry $a_{ij}$ of the matrix is
+$$
+\frac{\partial\lambda}{\partial a_{ij}} = \frac{v_iw_j}{\vect{v} \cdot \vect{w}},
+$$
+where $\vect{w}$ is the right eigenvector (the stable distribution) and $\vect{v}$ is the **left eigenvector**, $\vect{v}\T\M{L} = \lambda\vect{v}\T$, whose entries are the **reproductive values** of the stages: how much an individual in each stage will contribute to future generations. Because fecundities and survival rates are on very different scales, ecologists compare **elasticities**, $e_{ij} = (a_{ij}/\lambda)\,\partial\lambda/\partial a_{ij}$: the proportional change in $\lambda$ for a 1% change in $a_{ij}$. The elasticities add up to 1.
 
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 3: eggs or juveniles?

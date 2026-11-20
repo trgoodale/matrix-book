@@ -63,42 +63,6 @@ an ordinary eigenvalue problem for a symmetric positive semidefinite matrix (@se
 
 A natural frequency of zero means that $\M{K}\vect{v} = \zerovec$: the structure can move in the pattern $\vect{v}$ without stretching any spring. That is a **rigid-body mode**, such as a molecule drifting through space, or a mechanism (@sec-trusses).
 
-*Worked example:* [Example 1](#ex-vibrations-1).
-
-### Building any motion from the modes
-
-The equations are linear, so any combination of modes is also a motion, and every free vibration is one:
-$$
-\vect{x}(t) = \sum_{i=1}^n \vect{v}_i\bigl(a_i\cos(\omega_i t) + b_i\sin(\omega_i t)\bigr).
-$$ {#eq-modal-sum}
-This is the same idea as solving $\dot{\vect{x}} = \M{A}\vect{x}$ with eigenvectors (@sec-linear-odes); here the equation is second order, so each mode has a cosine and a sine instead of one exponential. The starting displacement $\vect{x}_0$ and velocity $\dot{\vect{x}}_0$ fix the coefficients, and $\M{M}$-orthogonality gives them directly. Multiplying @eq-modal-sum at $t = 0$ by $\vect{v}_i\T\M{M}$ kills every term except the $i$th:
-$$
-a_i = \frac{\vect{v}_i\T\M{M}\vect{x}_0}{\vect{v}_i\T\M{M}\vect{v}_i},
-\qquad
-b_i = \frac{\vect{v}_i\T\M{M}\dot{\vect{x}}_0}{\omega_i\,\vect{v}_i\T\M{M}\vect{v}_i}.
-$$
-Each mode then carries on at its own frequency, ignoring the others. The motion as a whole needn't repeat, because the frequencies needn't be in simple ratios.
-
-*Worked examples:* [Example 2](#ex-vibrations-2), [Example 3](#ex-vibrations-3).
-
-### Forced vibration and resonance
-
-Now push the masses with forces that vary like $\cos(\Omega t)$, at a **driving frequency** $\Omega$:
-$$
-\M{M}\ddot{\vect{x}} + \M{K}\vect{x} = \vect{f}\cos(\Omega t).
-$$
-Trying $\vect{x} = \vect{X}\cos(\Omega t)$ gives a linear system for the amplitudes,
-$$
-(\M{K} - \Omega^2\M{M})\vect{X} = \vect{f}.
-$$ {#eq-forced}
-When $\Omega$ is close to a natural frequency, the matrix $\M{K} - \Omega^2\M{M}$ is close to singular, so the amplitudes are huge: **resonance**. Writing $\vect{X}$ in terms of the modes, using their $\M{M}$-orthogonality, shows exactly how:
-$$
-\vect{X} = \sum_{i=1}^n \frac{\vect{v}_i\T\vect{f}}{(\omega_i^2 - \Omega^2)\,\vect{v}_i\T\M{M}\vect{v}_i}\,\vect{v}_i.
-$$
-Mode $i$ is amplified by $1/(\omega_i^2 - \Omega^2)$, which blows up as $\Omega$ approaches $\omega_i$. But a mode is not excited at all if $\vect{v}_i\T\vect{f} = 0$: pushing a structure where a mode doesn't move, or symmetrically when the mode is antisymmetric, can't drive it. Real structures have some **damping**, a friction-like force $\M{C}\dot{\vect{x}}$, which keeps the peaks finite; but lightly damped structures, which most are, still respond far more strongly near their natural frequencies. Designers move the natural frequencies away from the driving frequencies they expect, add damping, or add a **tuned mass damper**.
-
-*Worked example:* [Example 4](#ex-vibrations-4).
-
 ::: {#ex-vibrations-1 .callout-note appearance="simple" icon=false}
 ### Example 1: two masses between walls
 
@@ -120,6 +84,20 @@ The mode that stretches more springs, for the same displacements, is the stiffer
 
 ![The two mode shapes of Example 1. In mode 1 the masses move together and the middle spring keeps its length; in mode 2 they move in opposite directions, so the middle spring is stretched and squashed too, and the mode is faster.](images/two-mass-modes.png){#fig-two-mass-modes fig-alt="Two rows, each showing two masses between walls joined by three springs, with blue arrows under the masses for their displacements. Mode 1: both arrows point right, and the middle spring is its normal length. Mode 2: the arrows point towards each other, and the middle spring is compressed." width=80%}
 :::
+
+### Building any motion from the modes
+
+The equations are linear, so any combination of modes is also a motion, and every free vibration is one:
+$$
+\vect{x}(t) = \sum_{i=1}^n \vect{v}_i\bigl(a_i\cos(\omega_i t) + b_i\sin(\omega_i t)\bigr).
+$$ {#eq-modal-sum}
+This is the same idea as solving $\dot{\vect{x}} = \M{A}\vect{x}$ with eigenvectors (@sec-linear-odes); here the equation is second order, so each mode has a cosine and a sine instead of one exponential. The starting displacement $\vect{x}_0$ and velocity $\dot{\vect{x}}_0$ fix the coefficients, and $\M{M}$-orthogonality gives them directly. Multiplying @eq-modal-sum at $t = 0$ by $\vect{v}_i\T\M{M}$ kills every term except the $i$th:
+$$
+a_i = \frac{\vect{v}_i\T\M{M}\vect{x}_0}{\vect{v}_i\T\M{M}\vect{v}_i},
+\qquad
+b_i = \frac{\vect{v}_i\T\M{M}\dot{\vect{x}}_0}{\omega_i\,\vect{v}_i\T\M{M}\vect{v}_i}.
+$$
+Each mode then carries on at its own frequency, ignoring the others. The motion as a whole needn't repeat, because the frequencies needn't be in simple ratios.
 
 ::: {#ex-vibrations-2 .callout-note appearance="simple" icon=false}
 ### Example 2: pulling one mass and letting go
@@ -170,6 +148,22 @@ Earthquakes often shake the ground strongly at frequencies of a few hertz, close
 
 ![The two-storey building of Example 3 and its two mode shapes. In mode 1 both floors sway the same way, the top one twice as far; in mode 2 they sway in opposite directions.](images/building-modes.png){#fig-building-modes fig-alt="Three sketches of a two-storey frame on hatched ground. The model: floors labelled m1 equals 20 t and m2 equals 10 t, with storeys labelled k1 equals 8 MN per m and k2 equals 4 MN per m. Mode 1, 2.25 Hz: both floors shifted right, the top twice as far. Mode 2, 4.50 Hz: the lower floor shifted right and the top floor shifted left by the same amount." width=95%}
 :::
+
+### Forced vibration and resonance
+
+Now push the masses with forces that vary like $\cos(\Omega t)$, at a **driving frequency** $\Omega$:
+$$
+\M{M}\ddot{\vect{x}} + \M{K}\vect{x} = \vect{f}\cos(\Omega t).
+$$
+Trying $\vect{x} = \vect{X}\cos(\Omega t)$ gives a linear system for the amplitudes,
+$$
+(\M{K} - \Omega^2\M{M})\vect{X} = \vect{f}.
+$$ {#eq-forced}
+When $\Omega$ is close to a natural frequency, the matrix $\M{K} - \Omega^2\M{M}$ is close to singular, so the amplitudes are huge: **resonance**. Writing $\vect{X}$ in terms of the modes, using their $\M{M}$-orthogonality, shows exactly how:
+$$
+\vect{X} = \sum_{i=1}^n \frac{\vect{v}_i\T\vect{f}}{(\omega_i^2 - \Omega^2)\,\vect{v}_i\T\M{M}\vect{v}_i}\,\vect{v}_i.
+$$
+Mode $i$ is amplified by $1/(\omega_i^2 - \Omega^2)$, which blows up as $\Omega$ approaches $\omega_i$. But a mode is not excited at all if $\vect{v}_i\T\vect{f} = 0$: pushing a structure where a mode doesn't move, or symmetrically when the mode is antisymmetric, can't drive it. Real structures have some **damping**, a friction-like force $\M{C}\dot{\vect{x}}$, which keeps the peaks finite; but lightly damped structures, which most are, still respond far more strongly near their natural frequencies. Designers move the natural frequencies away from the driving frequencies they expect, add damping, or add a **tuned mass damper**.
 
 ::: {#ex-vibrations-4 .callout-note appearance="simple" icon=false}
 ### Example 4: shaking one mass

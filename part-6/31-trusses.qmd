@@ -38,6 +38,23 @@ $$
 $$
 where $\vect{p}$ lists the applied loads, joint by joint. Column $k$ of the **equilibrium matrix** $\M{A}$ shows where unknown $k$ pushes or pulls: a member's column holds $\vect{e}$ in the rows of joint $i$ and $-\vect{e}$ in the rows of joint $j$, and a reaction's column holds a single 1.
 
+::: {.callout-note appearance="simple" icon=false}
+### Example 1: a triangular truss
+
+Joints 1 at $(0, 0)$ and 2 at $(4, 0)$ (in metres) sit on a pin and a roller, and joint 3 at $(2, 2)$ carries a load of 10 kN downwards (@fig-truss-triangle). Find the force in each member and the reactions.
+
+![The triangular truss of Example 1: members $a$, $b$ and $c$, a pin at joint 1 and a roller at joint 2.](images/truss-triangle.png){#fig-truss-triangle fig-alt="A triangle with joints 1 at the bottom left, 2 at the bottom right, 4 m apart, and 3 at the top, 2 m above them. Member a is along the bottom, b from 1 to 3 and c from 2 to 3. Joint 1 sits on a pin, joint 2 on a roller, and a 10 kN load points down at joint 3." width=55%}
+
+**Solution.** Call the forces in members 1–2, 1–3 and 2–3 $N_a$, $N_b$ and $N_c$. Their unit vectors are $(1, 0)$, $\tfrac{1}{\sqrt{2}}(1, 1)$ and $\tfrac{1}{\sqrt{2}}(-1, 1)$. The pin gives reactions $R_{1x}$ and $R_{1y}$, and the roller $R_{2y}$. The six equations, two per joint, are
+$$
+\mat{1 & \tfrac{1}{\sqrt{2}} & 0 & 1 & 0 & 0 \\ 0 & \tfrac{1}{\sqrt{2}} & 0 & 0 & 1 & 0 \\ -1 & 0 & -\tfrac{1}{\sqrt{2}} & 0 & 0 & 0 \\ 0 & 0 & \tfrac{1}{\sqrt{2}} & 0 & 0 & 1 \\ 0 & -\tfrac{1}{\sqrt{2}} & \tfrac{1}{\sqrt{2}} & 0 & 0 & 0 \\ 0 & -\tfrac{1}{\sqrt{2}} & -\tfrac{1}{\sqrt{2}} & 0 & 0 & 0}
+\mat{N_a \\ N_b \\ N_c \\ R_{1x} \\ R_{1y} \\ R_{2y}}
+=
+\mat{0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 10}.
+$$
+The last two rows (joint 3) give $N_b = N_c$ and $N_b + N_c = -10\sqrt{2}$, so $N_b = N_c = -5\sqrt{2} \approx -7.07$ kN: both sloping members are in compression. Row 3 then gives $N_a = -N_c/\sqrt{2} = 5$ kN, in tension: the bottom member ties the feet together. Finally $R_{1x} = 0$, $R_{1y} = 5$ and $R_{2y} = 5$ kN: each support carries half the load, as symmetry demands. Here $m + r = 3 + 3 = 6 = 2j$, and the matrix is invertible, so these are the only forces that balance the load: the next section calls such a truss determinate.
+:::
+
 ### Determinate, indeterminate and mechanisms
 
 The truss has $m$ members and $r$ reaction components, so $\M{A}$ is $2j \times (m + r)$. The fundamental subspaces of @sec-fundamental-subspaces say exactly what can happen.
@@ -47,6 +64,16 @@ The truss has $m$ members and $r$ reaction components, so $\M{A}$ is $2j \times 
 - If $\M{A}$ has rank $2j$ but $m + r > 2j$, every load can be balanced, but in infinitely many ways: the null space of $\M{A}$ contains sets of member forces that balance each other with no load at all (**self-stress**). The truss is **statically indeterminate**, with $m + r - 2j$ **redundant** members. To find which forces actually occur, we need to know how the members stretch.
 
 The simplest stable shape is the triangle. Adding a joint connected by two new members to a triangle keeps the count $m + r = 2j$, which is why trusses are built from triangles.
+
+::: {.callout-note appearance="simple" icon=false}
+### Example 2: a square is a mechanism
+
+Four members join the corners of a square, on a pin and a roller. Show that it is a mechanism, and that one diagonal fixes it.
+
+**Solution.** There are $j = 4$ joints, $m = 4$ members and $r = 3$ reactions, so $\M{A}$ is $8 \times 7$. Its rank is at most 7, so its column space can't be all of $\R^8$: there are loads it can't balance. Physically, the square can lean over into a parallelogram without any member changing length (@fig-truss-square, left); a sideways push at the top has nothing to resist it. Adding a diagonal gives $m + r = 8$, and the $8 \times 8$ matrix is invertible: the square has been split into two triangles. Adding the second diagonal as well gives $m + r = 9 > 8$: the truss is then indeterminate, with one redundant member. (Try **Square** and **Doubly braced** in the app below.)
+
+![Example 2. Left: the square can lean over (dashed) without any member changing length, so nothing resists a sideways push. Middle: one diagonal makes two triangles, and the truss is determinate. Right: a second diagonal makes it indeterminate.](images/truss-square.png){#fig-truss-square fig-alt="Three squares, each on a pin at the bottom left and a roller at the bottom right. The first has no diagonal, an arrow pushing sideways at its top left corner and a dashed parallelogram showing it leaning over; its label says m plus r equals 7, mechanism. The second has one diagonal: m plus r equals 8, determinate. The third has both diagonals: m plus r equals 9, indeterminate." width=100%}
+:::
 
 ### The stiffness method
 
@@ -68,33 +95,6 @@ $$
 \frac{EA}{L}\mat{\vect{e}\vect{e}\T & -\vect{e}\vect{e}\T \\ -\vect{e}\vect{e}\T & \vect{e}\vect{e}\T},
 $$
 to the rows and columns of its two joints, so $\M{K}$ can be assembled member by member.
-
-::: {.callout-note appearance="simple" icon=false}
-### Example 1: a triangular truss
-
-Joints 1 at $(0, 0)$ and 2 at $(4, 0)$ (in metres) sit on a pin and a roller, and joint 3 at $(2, 2)$ carries a load of 10 kN downwards (@fig-truss-triangle). Find the force in each member and the reactions.
-
-![The triangular truss of Example 1: members $a$, $b$ and $c$, a pin at joint 1 and a roller at joint 2.](images/truss-triangle.png){#fig-truss-triangle fig-alt="A triangle with joints 1 at the bottom left, 2 at the bottom right, 4 m apart, and 3 at the top, 2 m above them. Member a is along the bottom, b from 1 to 3 and c from 2 to 3. Joint 1 sits on a pin, joint 2 on a roller, and a 10 kN load points down at joint 3." width=55%}
-
-**Solution.** Call the forces in members 1–2, 1–3 and 2–3 $N_a$, $N_b$ and $N_c$. Their unit vectors are $(1, 0)$, $\tfrac{1}{\sqrt{2}}(1, 1)$ and $\tfrac{1}{\sqrt{2}}(-1, 1)$. The pin gives reactions $R_{1x}$ and $R_{1y}$, and the roller $R_{2y}$. The six equations, two per joint, are
-$$
-\mat{1 & \tfrac{1}{\sqrt{2}} & 0 & 1 & 0 & 0 \\ 0 & \tfrac{1}{\sqrt{2}} & 0 & 0 & 1 & 0 \\ -1 & 0 & -\tfrac{1}{\sqrt{2}} & 0 & 0 & 0 \\ 0 & 0 & \tfrac{1}{\sqrt{2}} & 0 & 0 & 1 \\ 0 & -\tfrac{1}{\sqrt{2}} & \tfrac{1}{\sqrt{2}} & 0 & 0 & 0 \\ 0 & -\tfrac{1}{\sqrt{2}} & -\tfrac{1}{\sqrt{2}} & 0 & 0 & 0}
-\mat{N_a \\ N_b \\ N_c \\ R_{1x} \\ R_{1y} \\ R_{2y}}
-=
-\mat{0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 10}.
-$$
-The last two rows (joint 3) give $N_b = N_c$ and $N_b + N_c = -10\sqrt{2}$, so $N_b = N_c = -5\sqrt{2} \approx -7.07$ kN: both sloping members are in compression. Row 3 then gives $N_a = -N_c/\sqrt{2} = 5$ kN, in tension: the bottom member ties the feet together. Finally $R_{1x} = 0$, $R_{1y} = 5$ and $R_{2y} = 5$ kN: each support carries half the load, as symmetry demands. Here $m + r = 3 + 3 = 6 = 2j$, and the matrix is invertible: the triangle is determinate.
-:::
-
-::: {.callout-note appearance="simple" icon=false}
-### Example 2: a square is a mechanism
-
-Four members join the corners of a square, on a pin and a roller. Show that it is a mechanism, and that one diagonal fixes it.
-
-**Solution.** There are $j = 4$ joints, $m = 4$ members and $r = 3$ reactions, so $\M{A}$ is $8 \times 7$. Its rank is at most 7, so its column space can't be all of $\R^8$: there are loads it can't balance. Physically, the square can lean over into a parallelogram without any member changing length (@fig-truss-square, left); a sideways push at the top has nothing to resist it. Adding a diagonal gives $m + r = 8$, and the $8 \times 8$ matrix is invertible: the square has been split into two triangles. Adding the second diagonal as well gives $m + r = 9 > 8$: the truss is then indeterminate, with one redundant member. (Try **Square** and **Doubly braced** in the app below.)
-
-![Example 2. Left: the square can lean over (dashed) without any member changing length, so nothing resists a sideways push. Middle: one diagonal makes two triangles, and the truss is determinate. Right: a second diagonal makes it indeterminate.](images/truss-square.png){#fig-truss-square fig-alt="Three squares, each on a pin at the bottom left and a roller at the bottom right. The first has no diagonal, an arrow pushing sideways at its top left corner and a dashed parallelogram showing it leaning over; its label says m plus r equals 7, mechanism. The second has one diagonal: m plus r equals 8, determinate. The third has both diagonals: m plus r equals 9, indeterminate." width=100%}
-:::
 
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 3: an indeterminate truss by the stiffness method

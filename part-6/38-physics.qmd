@@ -30,6 +30,22 @@ where $\M{I}_3$ is the $3 \times 3$ identity. The **inertia tensor** $\M{I}$ is 
 
 Because $\M{I}$ is symmetric, the spectral theorem (@sec-symmetric-matrices) says that it has three perpendicular eigenvectors: the **principal axes**. About a principal axis, $\vect{L} = \lambda\vect{\omega}$ is parallel to $\vect{\omega}$, and the body spins smoothly; the eigenvalues are the **principal moments of inertia**. About any other axis, $\vect{L}$ and $\vect{\omega}$ point different ways, and keeping the body spinning about that axis needs a constantly changing torque, felt as vibration. Balancing a car wheel means adding small weights to make its axle a principal axis.
 
+::: {.callout-note appearance="simple" icon=false}
+### Example 1: a dumbbell
+
+Two masses of 1 kg are at $(1, 1, 0)$ and $(-1, -1, 0)$ (in metres), joined by a light rod. Find the inertia tensor and its principal axes. If the dumbbell spins about the $x$ axis with $\vect{\omega} = (1, 0, 0)$ rad/s, what is its angular momentum?
+
+**Solution.** For $\vect{r} = (1, 1, 0)$, $\lVert\vect{r}\rVert^2 = 2$ and
+$$
+2\M{I}_3 - \vect{r}\vect{r}\T = \mat{1 & -1 & 0 \\ -1 & 1 & 0 \\ 0 & 0 & 2}.
+$$
+The other mass gives the same, so $\M{I} = \mat{2 & -2 & 0 \\ -2 & 2 & 0 \\ 0 & 0 & 4}$ kg m². Its eigenvalues are 0, with eigenvector $(1, 1, 0)$, along the rod: the point masses don't resist spinning about their own axis. The other two are both 4, with eigenvectors $(1, -1, 0)$ and $(0, 0, 1)$: any axis perpendicular to the rod.
+
+Spinning about the $x$ axis, $\vect{L} = \M{I}\vect{\omega} = (2, -2, 0)$: not along the $x$ axis at all, but perpendicular to the rod. As the dumbbell turns, $\vect{L}$ turns with it, so a torque is needed to keep it spinning about $x$: the bearings would feel a wobble (@fig-dumbbell).
+
+![The dumbbell of Example 1, spinning about the $x$ axis. Its angular momentum $\vect{L} = (2, -2, 0)$ is not along $\boldsymbol{\omega}$, but at right angles to the rod.](images/dumbbell.png){#fig-dumbbell fig-alt="3D axes x, y and z. Two black masses at (1, 1, 0) and (minus 1, minus 1, 0), joined by a rod through the origin in the xy plane. A blue arrow omega points along the x axis. A brown arrow L equals (2, minus 2, 0) points in a different direction, at right angles to the rod." width=60%}
+:::
+
 ### Rotating frames and angular velocity
 
 A body's orientation can be described by the rotation matrix $\M{R}(t)$ that turns its own axes into the fixed ones (@sec-transformations-3d). A point fixed in the body, at $\vect{r}(t) = \M{R}(t)\vect{r}_0$, has velocity
@@ -43,6 +59,22 @@ $$
 \M{\Omega}\vect{r} = \vect{\omega} \times \vect{r}.
 $$
 So the angular velocity vector is hidden in the three independent entries of a skew-symmetric matrix, and $\dot{\M{R}} = \M{\Omega}\M{R}$. For a constant $\vect{\omega}$, this is a linear differential equation with solution $\M{R}(t) = e^{\M{\Omega}t}\M{R}(0)$ (@sec-linear-odes): **the exponential of a skew-symmetric matrix is a rotation**. Gyroscopes in phones and aircraft measure $\vect{\omega}$, and navigation software integrates this equation to track orientation.
+
+::: {.callout-note appearance="simple" icon=false}
+### Example 2: angular velocity from a rotation
+
+A body rotates about the $z$ axis at a constant rate $\omega$: $\M{R}(t)$ is the rotation by $\omega t$ about $z$. Find $\M{\Omega} = \dot{\M{R}}\M{R}\T$.
+
+**Solution.** With $c = \cos\omega t$ and $s = \sin\omega t$,
+$$
+\M{R} = \mat{c & -s & 0 \\ s & c & 0 \\ 0 & 0 & 1},
+\qquad
+\dot{\M{R}} = \omega\mat{-s & -c & 0 \\ c & -s & 0 \\ 0 & 0 & 0},
+\qquad
+\dot{\M{R}}\M{R}\T = \omega\mat{0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0},
+$$
+using $c^2 + s^2 = 1$. Matching the pattern above, $\vect{\omega} = (0, 0, \omega)$: along the axis of rotation, with length equal to the rate, as it should be. Then, for example, the point $(1, 0, 0)$ has velocity $\M{\Omega}(1, 0, 0)\T = (0, \omega, 0)$.
+:::
 
 ### Two-state quantum systems
 
@@ -62,38 +94,6 @@ $$
 \M{\sigma}_z = \mat{1 & 0 \\ 0 & -1},
 $$
 each with eigenvalues $+1$ and $-1$: a measurement of spin along any axis gives only "up" or "down", never anything in between. The three matrices don't commute, and so they have no common eigenvectors: a state can't have a definite spin along $x$ and along $z$ at once. That is the uncertainty principle, in its simplest form, and it is a statement about matrices.
-
-::: {.callout-note appearance="simple" icon=false}
-### Example 1: a dumbbell
-
-Two masses of 1 kg are at $(1, 1, 0)$ and $(-1, -1, 0)$ (in metres), joined by a light rod. Find the inertia tensor and its principal axes. If the dumbbell spins about the $x$ axis with $\vect{\omega} = (1, 0, 0)$ rad/s, what is its angular momentum?
-
-**Solution.** For $\vect{r} = (1, 1, 0)$, $\lVert\vect{r}\rVert^2 = 2$ and
-$$
-2\M{I}_3 - \vect{r}\vect{r}\T = \mat{1 & -1 & 0 \\ -1 & 1 & 0 \\ 0 & 0 & 2}.
-$$
-The other mass gives the same, so $\M{I} = \mat{2 & -2 & 0 \\ -2 & 2 & 0 \\ 0 & 0 & 4}$ kg m². Its eigenvalues are 0, with eigenvector $(1, 1, 0)$, along the rod: the point masses don't resist spinning about their own axis. The other two are both 4, with eigenvectors $(1, -1, 0)$ and $(0, 0, 1)$: any axis perpendicular to the rod.
-
-Spinning about the $x$ axis, $\vect{L} = \M{I}\vect{\omega} = (2, -2, 0)$: not along the $x$ axis at all, but perpendicular to the rod. As the dumbbell turns, $\vect{L}$ turns with it, so a torque is needed to keep it spinning about $x$: the bearings would feel a wobble (@fig-dumbbell).
-
-![The dumbbell of Example 1, spinning about the $x$ axis. Its angular momentum $\vect{L} = (2, -2, 0)$ is not along $\boldsymbol{\omega}$, but at right angles to the rod.](images/dumbbell.png){#fig-dumbbell fig-alt="3D axes x, y and z. Two black masses at (1, 1, 0) and (minus 1, minus 1, 0), joined by a rod through the origin in the xy plane. A blue arrow omega points along the x axis. A brown arrow L equals (2, minus 2, 0) points in a different direction, at right angles to the rod." width=60%}
-:::
-
-::: {.callout-note appearance="simple" icon=false}
-### Example 2: angular velocity from a rotation
-
-A body rotates about the $z$ axis at a constant rate $\omega$: $\M{R}(t)$ is the rotation by $\omega t$ about $z$. Find $\M{\Omega} = \dot{\M{R}}\M{R}\T$.
-
-**Solution.** With $c = \cos\omega t$ and $s = \sin\omega t$,
-$$
-\M{R} = \mat{c & -s & 0 \\ s & c & 0 \\ 0 & 0 & 1},
-\qquad
-\dot{\M{R}} = \omega\mat{-s & -c & 0 \\ c & -s & 0 \\ 0 & 0 & 0},
-\qquad
-\dot{\M{R}}\M{R}\T = \omega\mat{0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0},
-$$
-using $c^2 + s^2 = 1$. Matching the pattern above, $\vect{\omega} = (0, 0, \omega)$: along the axis of rotation, with length equal to the rate, as it should be. Then, for example, the point $(1, 0, 0)$ has velocity $\M{\Omega}(1, 0, 0)\T = (0, \omega, 0)$.
-:::
 
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 3: measuring a spin

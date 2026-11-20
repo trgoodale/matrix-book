@@ -57,43 +57,6 @@ If some power $\M{M}^k$ has all its entries positive, so that every state can re
 
 To find the steady state, solve $(\M{M} - \M{I})\vect{x} = \zerovec$ together with $\sum x_i = 1$, or use the **power method** (@sec-eigenvalue-algorithms): start from any probability vector and multiply by $\M{M}$ again and again until it stops changing. For a Markov chain this is just simulating the probabilities forward.
 
-### PageRank
-
-Represent the web as $n$ pages, with links between them. A random surfer on page $j$ clicks one of its $\ell_j$ outgoing links, each with probability $1/\ell_j$. That defines a transition matrix $\M{M}$ with $m_{ij} = 1/\ell_j$ if page $j$ links to page $i$, and 0 otherwise. Two problems arise.
-
-- **Dead ends**: a page with no outgoing links gives a column of zeros. The fix is to let the surfer jump to a page chosen at random, replacing that column by $\tfrac{1}{n}\vect{1}$.
-- **Traps**: a group of pages that link only to each other would capture the surfer forever, and the chain is not regular, so the steady state may not be unique.
-
-Page and Brin's fix for traps is **damping**: at each step, with probability $d$ the surfer follows a link, and with probability $1 - d$ they get bored and jump to a page chosen at random. The transition matrix becomes the **Google matrix**
-$$
-\M{G} = d\M{M} + \frac{1 - d}{n}\vect{1}\vect{1}\T,
-$$
-whose entries are all positive, so it is regular, with a unique steady state: the **PageRank** vector. Page and Brin used $d = 0.85$.
-
-For the real web, $n$ is in the billions, but $\M{M}$ is extremely sparse, and the second term never needs to be stored: $\M{G}\vect{x} = d\M{M}\vect{x} + \tfrac{1 - d}{n}\vect{1}$ for any probability vector $\vect{x}$. The power method needs only sparse matrix–vector products, and every eigenvalue of $\M{G}$ other than 1 has size at most $d$, so the error shrinks by a factor of at least 0.85 at each step: about 43 steps for every three more correct digits, whatever the size of the web. Equivalently, PageRank solves the sparse linear system
-$$
-(\M{I} - d\M{M})\vect{x} = \frac{1 - d}{n}\vect{1}.
-$$
-
-### Absorbing chains
-
-Some chains end. A state that, once entered, is never left is called **absorbing**: the end of a game, a customer who cancels, a patient who recovers. The other states are **transient**. For a chain with absorbing states, the questions are no longer about the long run, but about how long the process lasts and how it ends.
-
-Number the transient states first and the absorbing states last. The transition matrix then has the block form
-$$
-\M{M} = \mat{\M{Q} & \M{0} \\ \M{R} & \M{I}},
-$$
-where $\M{Q}$ holds the probabilities of moving between transient states and $\M{R}$ the probabilities of moving from a transient state into an absorbing one. Entry $(i, j)$ of $\M{Q}^k$ is the probability of being in transient state $i$ after $k$ steps, starting from transient state $j$, so the expected number of visits to state $i$, counting the start, is the sum
-$$
-\M{I} + \M{Q} + \M{Q}^2 + \dots = (\M{I} - \M{Q})^{-1}.
-$$
-This is the matrix version of the geometric series $1 + q + q^2 + \dots = 1/(1 - q)$, and it converges because, if every transient state can reach an absorbing one, $\M{Q}^k \to \M{0}$. The matrix $\M{N} = (\M{I} - \M{Q})^{-1}$ is called the **fundamental matrix**, and it answers both questions:
-
-- the expected number of steps before absorption, starting from transient state $j$, is the sum of column $j$ of $\M{N}$;
-- the probability of ending in absorbing state $i$, starting from transient state $j$, is entry $(i, j)$ of $\M{R}\M{N}$.
-
-For one starting state, there is no need to form the inverse: solve $(\M{I} - \M{Q})\vect{n} = \vect{e}_j$ for column $j$ of $\M{N}$ (@sec-linear-systems).
-
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 1: the weather
 
@@ -119,6 +82,24 @@ $$
 (The third equation is the negative of the sum of these two.) Eliminating gives $x_1 = \tfrac{21}{12}x_3$ and $x_2 = \tfrac{13}{12}x_3$, and scaling so that the entries add to 1, $\vect{x} = \tfrac{1}{46}(21, 13, 12)\T \approx (0.457, 0.283, 0.261)\T$. In the long run about 26% of days are rainy. The other eigenvalues are about 0.47 and 0.13, so the forecast forgets today's weather quickly: after a week, $0.47^7 \approx 0.005$.
 :::
 
+### PageRank
+
+Represent the web as $n$ pages, with links between them. A random surfer on page $j$ clicks one of its $\ell_j$ outgoing links, each with probability $1/\ell_j$. That defines a transition matrix $\M{M}$ with $m_{ij} = 1/\ell_j$ if page $j$ links to page $i$, and 0 otherwise. Two problems arise.
+
+- **Dead ends**: a page with no outgoing links gives a column of zeros. The fix is to let the surfer jump to a page chosen at random, replacing that column by $\tfrac{1}{n}\vect{1}$.
+- **Traps**: a group of pages that link only to each other would capture the surfer forever, and the chain is not regular, so the steady state may not be unique.
+
+Page and Brin's fix for traps is **damping**: at each step, with probability $d$ the surfer follows a link, and with probability $1 - d$ they get bored and jump to a page chosen at random. The transition matrix becomes the **Google matrix**
+$$
+\M{G} = d\M{M} + \frac{1 - d}{n}\vect{1}\vect{1}\T,
+$$
+whose entries are all positive, so it is regular, with a unique steady state: the **PageRank** vector. Page and Brin used $d = 0.85$.
+
+For the real web, $n$ is in the billions, but $\M{M}$ is extremely sparse, and the second term never needs to be stored: $\M{G}\vect{x} = d\M{M}\vect{x} + \tfrac{1 - d}{n}\vect{1}$ for any probability vector $\vect{x}$. The power method needs only sparse matrix–vector products, and every eigenvalue of $\M{G}$ other than 1 has size at most $d$, so the error shrinks by a factor of at least 0.85 at each step: about 43 steps for every three more correct digits, whatever the size of the web. Equivalently, PageRank solves the sparse linear system
+$$
+(\M{I} - d\M{M})\vect{x} = \frac{1 - d}{n}\vect{1}.
+$$
+
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 2: PageRank for a small web
 
@@ -140,6 +121,25 @@ x_A = 0.0375 + 0.85x_C,
 $$
 which give $x_A \approx 0.373$, $x_B \approx 0.196$, $x_C \approx 0.394$ and $x_D = 0.0375$. C ranks highest, with three pages linking to it; A is close behind, because although only one page links to it, that page is C, the most important one. A link from an important page counts for more: that is the central idea of PageRank.
 :::
+
+### Absorbing chains
+
+Some chains end. A state that, once entered, is never left is called **absorbing**: the end of a game, a customer who cancels, a patient who recovers. The other states are **transient**. For a chain with absorbing states, the questions are no longer about the long run, but about how long the process lasts and how it ends.
+
+Number the transient states first and the absorbing states last. The transition matrix then has the block form
+$$
+\M{M} = \mat{\M{Q} & \M{0} \\ \M{R} & \M{I}},
+$$
+where $\M{Q}$ holds the probabilities of moving between transient states and $\M{R}$ the probabilities of moving from a transient state into an absorbing one. Entry $(i, j)$ of $\M{Q}^k$ is the probability of being in transient state $i$ after $k$ steps, starting from transient state $j$, so the expected number of visits to state $i$, counting the start, is the sum
+$$
+\M{I} + \M{Q} + \M{Q}^2 + \dots = (\M{I} - \M{Q})^{-1}.
+$$
+This is the matrix version of the geometric series $1 + q + q^2 + \dots = 1/(1 - q)$, and it converges because, if every transient state can reach an absorbing one, $\M{Q}^k \to \M{0}$. The matrix $\M{N} = (\M{I} - \M{Q})^{-1}$ is called the **fundamental matrix**, and it answers both questions:
+
+- the expected number of steps before absorption, starting from transient state $j$, is the sum of column $j$ of $\M{N}$;
+- the probability of ending in absorbing state $i$, starting from transient state $j$, is entry $(i, j)$ of $\M{R}\M{N}$.
+
+For one starting state, there is no need to form the inverse: solve $(\M{I} - \M{Q})\vect{n} = \vect{e}_j$ for column $j$ of $\M{N}$ (@sec-linear-systems).
 
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 3: getting a degree

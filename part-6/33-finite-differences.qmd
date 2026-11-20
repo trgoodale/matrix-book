@@ -54,26 +54,6 @@ The matrix is tridiagonal, symmetric and positive definite (its eigenvalues are 
 
 ![The grid on the rod for $n = 3$, as in Example 1, with $h = 1/4$. The end values (black) are known, and the interior values (blue) are the unknowns.](images/rod-grid.png){#fig-rod-grid fig-alt="A rod from 0 to 1 with five equally spaced grid points at 0, h, 2h, 3h and 1. The end points are black squares labelled u 0 equals T 0 and u 4 equals T 1. The three interior points are blue circles labelled u 1, u 2 and u 3. The spacing between neighbouring points is h." width=75%}
 
-### Two-dimensional problems
-
-For a square plate with its edges held at fixed temperatures and no heat sources, the temperature satisfies **Laplace's equation**,
-$$
-\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0.
-$$
-On a square grid of spacing $h$, with $u_{i,j}$ at the point in row $i$ and column $j$, the central difference in each direction gives the **five-point stencil** (@fig-five-point-stencil)
-$$
-4u_{i,j} - u_{i-1,j} - u_{i+1,j} - u_{i,j-1} - u_{i,j+1} = 0:
-$$
-in the steady state, **each temperature is the average of its four neighbours**. Neighbours on the edge are known and move to the right-hand side.
-
-![The five-point stencil. The equation at point $(i, j)$ has coefficient 4 there and $-1$ at each of its four neighbours, a distance $h$ away. Row $i - 1$ is the row above.](images/five-point-stencil.png){#fig-five-point-stencil fig-alt="A square grid. The centre point, u i j, is a filled blue circle containing 4. Its four neighbours, each a blue circle containing minus 1, are u i minus 1 j above, u i plus 1 j below, u i j minus 1 to the left and u i j plus 1 to the right. The grid spacing is h." width=45%}
-
-Numbering the $n \times n$ interior points row by row gives an $n^2 \times n^2$ matrix. Each row has at most five non-zeros: 4 on the diagonal, and $-1$ for each neighbour, either beside it (one place away) or above or below it ($n$ places away). It can be written compactly with the **Kronecker product**, which `np.kron` and MATLAB's `kron` compute:
-$$
-\M{A} = \M{I} \otimes \M{T} + \M{T} \otimes \M{I},
-$$
-where $\M{T}$ is the $n \times n$ tridiagonal matrix of the rod. A grid of $1000 \times 1000$ points gives a million unknowns, but only five million non-zeros, so sparse solvers handle it easily, while a dense solver could not even store it. In three dimensions the stencil has seven points, and fill-in makes direct solvers expensive, so iterative methods such as preconditioned conjugate gradients take over (@sec-iterative-methods).
-
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 1: a heated rod
 
@@ -103,6 +83,26 @@ Solve $-u'' = \pi^2\sin\pi x$ with $u(0) = u(1) = 0$, whose exact solution is $u
 
 Each halving of $h$ divides the error by 4, so the error is proportional to $h^2$: the method is **second-order accurate**, as the Taylor expansion predicted. For an error of $10^{-6}$, $h$ would need to be about 0.001, with 1000 unknowns: no problem in one dimension, but a million in two and a billion in three. That is why accuracy and solver speed both matter.
 :::
+
+### Two-dimensional problems
+
+For a square plate with its edges held at fixed temperatures and no heat sources, the temperature satisfies **Laplace's equation**,
+$$
+\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0.
+$$
+On a square grid of spacing $h$, with $u_{i,j}$ at the point in row $i$ and column $j$, the central difference in each direction gives the **five-point stencil** (@fig-five-point-stencil)
+$$
+4u_{i,j} - u_{i-1,j} - u_{i+1,j} - u_{i,j-1} - u_{i,j+1} = 0:
+$$
+in the steady state, **each temperature is the average of its four neighbours**. Neighbours on the edge are known and move to the right-hand side.
+
+![The five-point stencil. The equation at point $(i, j)$ has coefficient 4 there and $-1$ at each of its four neighbours, a distance $h$ away. Row $i - 1$ is the row above.](images/five-point-stencil.png){#fig-five-point-stencil fig-alt="A square grid. The centre point, u i j, is a filled blue circle containing 4. Its four neighbours, each a blue circle containing minus 1, are u i minus 1 j above, u i plus 1 j below, u i j minus 1 to the left and u i j plus 1 to the right. The grid spacing is h." width=45%}
+
+Numbering the $n \times n$ interior points row by row gives an $n^2 \times n^2$ matrix. Each row has at most five non-zeros: 4 on the diagonal, and $-1$ for each neighbour, either beside it (one place away) or above or below it ($n$ places away). It can be written compactly with the **Kronecker product**, which `np.kron` and MATLAB's `kron` compute:
+$$
+\M{A} = \M{I} \otimes \M{T} + \M{T} \otimes \M{I},
+$$
+where $\M{T}$ is the $n \times n$ tridiagonal matrix of the rod. A grid of $1000 \times 1000$ points gives a million unknowns, but only five million non-zeros, so sparse solvers handle it easily, while a dense solver could not even store it. In three dimensions the stencil has seven points, and fill-in makes direct solvers expensive, so iterative methods such as preconditioned conjugate gradients take over (@sec-iterative-methods).
 
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 3: a plate with a hot edge

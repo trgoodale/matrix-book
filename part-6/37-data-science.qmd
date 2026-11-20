@@ -51,26 +51,6 @@ R^2 = 1 - \frac{\lVert\vect{y} - \hat{\vect{y}}\rVert^2}{\lVert\vect{y} - \bar{y
 $$
 the fraction of the variation in $y$ that the model explains. Statistical theory adds a measure of the uncertainty in each coefficient, its **standard error**, which is proportional to the square root of the corresponding diagonal entry of $(\M{X}\T\M{X})^{-1}$.
 
-### Collinearity
-
-If two explanatory variables are nearly proportional, the columns of $\M{X}$ are nearly dependent, and $\M{X}$ is ill-conditioned (@sec-floating-point-conditioning). The data can't tell their effects apart: many quite different combinations of the two coefficients fit almost equally well. The symptoms are:
-
-- large standard errors, because the diagonal of $(\M{X}\T\M{X})^{-1}$ is large;
-- coefficients that change a lot, even changing sign, when a variable is added or removed, or the data change slightly;
-- a large condition number of $\M{X}$ (after scaling its columns to comparable sizes).
-
-This is **collinearity** (or multicollinearity). The fitted values $\hat{\vect{y}}$ are still fine, since the column space is still well defined; it is the individual coefficients that become unreliable, and with them any story about which variable "matters". The remedies are to drop or combine variables, to collect data that separate them, or to use **ridge regression** (@sec-matrix-calculus, exercise 6), which adds $\mu\M{I}$ to $\M{X}\T\M{X}$.
-
-### PCA in practice
-
-@sec-svd-pca showed that the principal components of a data set are the right singular vectors of its centred data matrix. In practice, three decisions come first.
-
-- **Centre** each column, by subtracting its mean. Without this, the first component mostly points towards the mean.
-- **Standardise** each column, by dividing by its standard deviation, when the variables are measured in different units or on very different scales. Otherwise the variables with the largest numbers dominate. (For the iris data all four are lengths in centimetres, so either choice is reasonable; standardising is the common default.)
-- **Choose how many components to keep**, typically enough to explain 80–95% of the variance, or where a plot of the explained variance against the component number (a **scree plot**) levels off.
-
-Then interpret the **loadings**, the entries of each principal component vector, which say how much each original variable contributes; and plot the **scores**, each item's coordinates along the first two components.
-
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 1: a regression by hand
 
@@ -87,8 +67,18 @@ $$
 \qquad
 \M{X}\T\vect{y} = \mat{25 \\ 17 \\ 2},
 $$
-and $\hat{\vect{\beta}} = (5, 1.7, 0.5)\T$: $\hat{y} = 5 + 1.7x_1 + 0.5x_2$. Each coefficient is found separately, and adding or removing a variable doesn't change the others. This is why designed experiments choose their settings to make the columns orthogonal: it is the opposite of collinearity.
+and $\hat{\vect{\beta}} = (5, 1.7, 0.5)\T$: $\hat{y} = 5 + 1.7x_1 + 0.5x_2$. Each coefficient is found separately, and adding or removing a variable doesn't change the others. This is why designed experiments choose their settings to make the columns orthogonal: it is the opposite of collinearity, the subject of the next section.
 :::
+
+### Collinearity
+
+If two explanatory variables are nearly proportional, the columns of $\M{X}$ are nearly dependent, and $\M{X}$ is ill-conditioned (@sec-floating-point-conditioning). The data can't tell their effects apart: many quite different combinations of the two coefficients fit almost equally well. The symptoms are:
+
+- large standard errors, because the diagonal of $(\M{X}\T\M{X})^{-1}$ is large;
+- coefficients that change a lot, even changing sign, when a variable is added or removed, or the data change slightly;
+- a large condition number of $\M{X}$ (after scaling its columns to comparable sizes).
+
+This is **collinearity** (or multicollinearity). The fitted values $\hat{\vect{y}}$ are still fine, since the column space is still well defined; it is the individual coefficients that become unreliable, and with them any story about which variable "matters". The remedies are to drop or combine variables, to collect data that separate them, or to use **ridge regression** (@sec-matrix-calculus, exercise 6), which adds $\mu\M{I}$ to $\M{X}\T\M{X}$.
 
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 2: collinearity in the iris data
@@ -105,6 +95,16 @@ Predict sepal length from petal width, then from petal length and petal width to
 
 (The numbers in brackets are standard errors.) On its own, petal width has a clear positive effect: wider petals go with longer sepals. With petal length included, its coefficient turns *negative*, with a standard error three times as large, while $R^2$ barely moves. The two petal measurements have correlation 0.963, so the columns are nearly dependent, and the condition number of the design matrix rises from about 4 to 25. The negative coefficient doesn't mean that wider petals cause shorter sepals; it means that among flowers *with the same petal length*, which hardly vary in width, the data say little, and the coefficient is poorly determined.
 :::
+
+### PCA in practice
+
+@sec-svd-pca showed that the principal components of a data set are the right singular vectors of its centred data matrix. In practice, three decisions come first.
+
+- **Centre** each column, by subtracting its mean. Without this, the first component mostly points towards the mean.
+- **Standardise** each column, by dividing by its standard deviation, when the variables are measured in different units or on very different scales. Otherwise the variables with the largest numbers dominate. (For the iris data all four are lengths in centimetres, so either choice is reasonable; standardising is the common default.)
+- **Choose how many components to keep**, typically enough to explain 80–95% of the variance, or where a plot of the explained variance against the component number (a **scree plot**) levels off.
+
+Then interpret the **loadings**, the entries of each principal component vector, which say how much each original variable contributes; and plot the **scores**, each item's coordinates along the first two components.
 
 ::: {.callout-note appearance="simple" icon=false}
 ### Example 3: principal components of the iris data
