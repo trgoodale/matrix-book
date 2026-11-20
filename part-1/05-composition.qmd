@@ -256,11 +256,11 @@ A rotation by $2(40° - 10°) = 60°$ anticlockwise.
 
    [Solution to exercise 3](../appendices/solutions-1.qmd#solution-composition-3){.sol-link}
 
-4. []{#exercise-composition-4}Multiply the reflection matrices for lines at angles $\theta$ and $\varphi$ to show that reflecting in the $\varphi$ line and then the $\theta$ line gives $\M{R}(2(\theta - \varphi))$. What happens when $\theta = \varphi$?
+4. []{#exercise-composition-4}Multiply the reflection matrices for lines at angles $\theta$ and $\varphi$ to show that reflecting in the $\varphi$ line and then the $\theta$ line gives $\M{R}(2(\theta - \varphi))$. What happens when $\theta = \varphi$? (*Hint*: the matrix of the first reflection, in the $\varphi$ line, goes on the right of the product. Multiply out, then simplify with $\cos(a - b) = \cos a\cos b + \sin a\sin b$ and $\sin(a - b) = \sin a\cos b - \cos a\sin b$.)
 
    [Solution to exercise 4](../appendices/solutions-1.qmd#solution-composition-4){.sol-link}
 
-5. []{#exercise-composition-5}Show that every matrix of the form $\mat{a & -b \\ b & a}$ commutes with every other matrix of the same form. Interpret this geometrically.
+5. []{#exercise-composition-5}Show that every matrix of the form $\mat{a & -b \\ b & a}$ commutes with every other matrix of the same form. Interpret this geometrically. (*Hint*: multiply two such matrices in both orders and compare the entries. For the geometry, write $a = r\cos\theta$ and $b = r\sin\theta$.)
 
    [Solution to exercise 5](../appendices/solutions-1.qmd#solution-composition-5){.sol-link}
 

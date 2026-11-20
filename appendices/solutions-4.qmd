@@ -614,7 +614,31 @@ The Hessian is $2\M{A}$, and $\M{A}$ has eigenvalues 3 and 1 (exercise 1), both 
 
 [Back to exercise 7](../part-4/review.qmd#exercise-review-4-7){.sol-link}
 
-[**8.**]{#solution-review-4-8} *Uses @sec-linear-odes and @sec-diagonalisation.*
+[**8.**]{#solution-review-4-8} *Uses @sec-diagonalisation, @sec-determinants and @sec-inverses.* The two directions are eigenvectors: $(2, 1)\T$ with eigenvalue 4 and $(1, 1)\T$ with eigenvalue 1. So $\M{A} = \M{P}\M{D}\M{P}^{-1}$ with $\M{P} = \mat{2 & 1 \\ 1 & 1}$ and $\M{D} = \operatorname{diag}(4, 1)$. Here $\det\M{P} = 1$, so $\M{P}^{-1} = \mat{1 & -1 \\ -1 & 2}$, and
+$$
+\M{A} = \mat{8 & 1 \\ 4 & 1}\mat{1 & -1 \\ -1 & 2} = \mat{7 & -6 \\ 3 & -2}.
+$$
+Check: $\M{A}(2, 1)\T = (8, 4)\T = 4(2, 1)\T$ and $\M{A}(1, 1)\T = (1, 1)\T$. ✓ Then $\det\M{A} = -14 + 18 = 4$, the product of the eigenvalues: every area is multiplied by 4. The inverse is
+$$
+\M{A}^{-1} = \frac{1}{4}\mat{-2 & 6 \\ -3 & 7}.
+$$
+It has the same eigenvectors, with eigenvalues $\tfrac{1}{4}$ and 1: it shrinks $(2, 1)\T$ to a quarter of its length, and still leaves $(1, 1)\T$ unchanged.
+
+[Back to exercise 8](../part-4/review.qmd#exercise-review-4-8){.sol-link}
+
+[**9.**]{#solution-review-4-9} *Uses @sec-gauss-jordan-rank, @sec-fundamental-subspaces, @sec-eigenvalues and @sec-symmetric-matrices.* Every entry of $\M{B} - \M{I}$ is 1, so its reduced row echelon form has one non-zero row, $(1, 1, 1)$: the rank is 1. So $\M{B} - \M{I}$ is singular and 1 is an eigenvalue, and by the rank–nullity theorem its eigenspace, the null space of $\M{B} - \M{I}$, has dimension $3 - 1 = 2$. It is the plane $x + y + z = 0$; setting each free variable to 1 in turn gives the basis $(-1, 1, 0)\T$ and $(-1, 0, 1)\T$.
+
+The eigenvalues add up to the trace, 6, so the third is $6 - 1 - 1 = 4$. Indeed $\M{B}(1, 1, 1)\T = (4, 4, 4)\T$, so its eigenvector is $(1, 1, 1)\T$. Its dot products with the basis vectors are $-1 + 1 + 0 = 0$ and $-1 + 0 + 1 = 0$, so it is perpendicular to the whole eigenspace. This was bound to happen: $\M{B}$ is symmetric, and eigenvectors of a symmetric matrix for different eigenvalues are always perpendicular.
+
+[Back to exercise 9](../part-4/review.qmd#exercise-review-4-9){.sol-link}
+
+[**10.**]{#solution-review-4-10} *Uses @sec-transformations, @sec-basis-change, @sec-eigenvalues and @sec-diagonalisation.* A vector along the mirror, $(1, 2)\T$, is unchanged, so it is an eigenvector with eigenvalue 1. A vector across it, $(-2, 1)\T$, is reversed, so it is an eigenvector with eigenvalue $-1$. Check: $\M{R}(1, 2)\T = \tfrac{1}{5}(5, 10)\T = (1, 2)\T$ and $\M{R}(-2, 1)\T = \tfrac{1}{5}(10, -5)\T = (2, -1)\T$. ✓ The trace is $0 = 1 + (-1)$ and the determinant is $\tfrac{1}{25}(-9 - 16) = -1 = 1 \times (-1)$. ✓
+
+Reflecting twice puts every point back, so $\M{R}^2 = \M{I}$ (in the eigenvector basis, both eigenvalues square to 1). Then $\M{R}^{25} = (\M{R}^2)^{12}\M{R} = \M{R}$.
+
+[Back to exercise 10](../part-4/review.qmd#exercise-review-4-10){.sol-link}
+
+[**11.**]{#solution-review-4-11} *Uses @sec-linear-odes and @sec-diagonalisation.*
 
 ::: {.panel-tabset group="language"}
 ## Python
@@ -656,4 +680,4 @@ fprintf('%.6f %.6f\n', [x_expm, x_eig, x_formula])
 
 All three agree. `expm` doesn't need the eigenvectors, so it also works for matrices that can't be diagonalised.
 
-[Back to exercise 8](../part-4/review.qmd#exercise-review-4-8){.sol-link}
+[Back to exercise 11](../part-4/review.qmd#exercise-review-4-11){.sol-link}

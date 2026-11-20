@@ -292,7 +292,7 @@ Column $j$ adds up the inputs bought by sector $j$ per £1 of its output. If the
 
    [Solution to exercise 4](../appendices/solutions-6.qmd#solution-input-output-4){.sol-link}
 
-5. []{#exercise-input-output-5}Show that $(\M{I} - \M{A})(\M{I} + \M{A} + \M{A}^2 + \dots + \M{A}^k) = \M{I} - \M{A}^{k+1}$. Explain why, if $\M{A}^{k} \to \M{0}$ as $k \to \infty$, the series $\M{I} + \M{A} + \M{A}^2 + \cdots$ converges to $(\M{I} - \M{A})^{-1}$.
+5. []{#exercise-input-output-5}Show that $(\M{I} - \M{A})(\M{I} + \M{A} + \M{A}^2 + \dots + \M{A}^k) = \M{I} - \M{A}^{k+1}$. Explain why, if $\M{A}^{k} \to \M{0}$ as $k \to \infty$, the series $\M{I} + \M{A} + \M{A}^2 + \cdots$ converges to $(\M{I} - \M{A})^{-1}$. (*Hint*: multiply out the left-hand side: almost every term cancels with its neighbour.)
 
    [Solution to exercise 5](../appendices/solutions-6.qmd#solution-input-output-5){.sol-link}
 

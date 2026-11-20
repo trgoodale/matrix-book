@@ -259,7 +259,7 @@ No: similar matrices describe the same transformation, and $\det(\M{P}^{-1}\M{A}
 
    [Solution to exercise 5](../appendices/solutions-3.qmd#solution-basis-change-5){.sol-link}
 
-6. []{#exercise-basis-change-6}Show that if $\M{B} = \M{P}^{-1}\M{A}\M{P}$, then $\M{B}^2 = \M{P}^{-1}\M{A}^2\M{P}$. Explain what this means geometrically.
+6. []{#exercise-basis-change-6}Show that if $\M{B} = \M{P}^{-1}\M{A}\M{P}$, then $\M{B}^2 = \M{P}^{-1}\M{A}^2\M{P}$. Explain what this means geometrically. (*Hint*: write $\M{B}^2 = (\M{P}^{-1}\M{A}\M{P})(\M{P}^{-1}\M{A}\M{P})$ and simplify the middle.)
 
    [Solution to exercise 6](../appendices/solutions-3.qmd#solution-basis-change-6){.sol-link}
 

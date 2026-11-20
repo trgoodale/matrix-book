@@ -257,19 +257,19 @@ It shrinks to $\zerovec$, eventually along the eigenvector for 0.9, shrinking by
 
    [Solution to exercise 2](../appendices/solutions-4.qmd#solution-diagonalisation-2){.sol-link}
 
-3. []{#exercise-diagonalisation-3}Show that $\mat{2 & 1 \\ 0 & 2}$ can't be diagonalised.
+3. []{#exercise-diagonalisation-3}Show that $\mat{2 & 1 \\ 0 & 2}$ can't be diagonalised. (*Hint*: find the eigenvalues, then show that the eigenvectors all lie on one line, so there aren't enough of them to form a basis.)
 
    [Solution to exercise 3](../appendices/solutions-4.qmd#solution-diagonalisation-3){.sol-link}
 
-4. []{#exercise-diagonalisation-4}Use $\M{A} = \M{P}\M{D}\M{P}^{-1}$ to show that $\det\M{A}$ is the product of the eigenvalues, for a diagonalisable matrix.
+4. []{#exercise-diagonalisation-4}Use $\M{A} = \M{P}\M{D}\M{P}^{-1}$ to show that $\det\M{A}$ is the product of the eigenvalues, for a diagonalisable matrix. (*Hint*: take determinants of both sides, using $\det(\M{X}\M{Y}) = \det\M{X}\,\det\M{Y}$ and $\det(\M{P}^{-1}) = 1/\det\M{P}$.)
 
    [Solution to exercise 4](../appendices/solutions-4.qmd#solution-diagonalisation-4){.sol-link}
 
-5. []{#exercise-diagonalisation-5}The Lucas numbers $2, 1, 3, 4, 7, 11, \dots$ follow the same rule as the Fibonacci numbers, $L_{k+1} = L_k + L_{k-1}$, but start from $L_0 = 2$, $L_1 = 1$. Show that $L_k = \lambda_1^k + \lambda_2^k$, with $\lambda_1$ and $\lambda_2$ as in Example 3.
+5. []{#exercise-diagonalisation-5}The Lucas numbers $2, 1, 3, 4, 7, 11, \dots$ follow the same rule as the Fibonacci numbers, $L_{k+1} = L_k + L_{k-1}$, but start from $L_0 = 2$, $L_1 = 1$. Show that $L_k = \lambda_1^k + \lambda_2^k$, with $\lambda_1$ and $\lambda_2$ as in Example 3. (*Hint*: as in Example 3, $L_k = a\lambda_1^k + b\lambda_2^k$ for some numbers $a$ and $b$. Use $L_0 = 2$ and $L_1 = 1$ to find them.)
 
    [Solution to exercise 5](../appendices/solutions-4.qmd#solution-diagonalisation-5){.sol-link}
 
-6. []{#exercise-diagonalisation-6}A matrix has eigenvalues 1 and $-1$, with independent eigenvectors. Show that $\M{A}^2 = \M{I}$, and give a geometric example of such a matrix.
+6. []{#exercise-diagonalisation-6}A matrix has eigenvalues 1 and $-1$, with independent eigenvectors. Show that $\M{A}^2 = \M{I}$, and give a geometric example of such a matrix. (*Hint*: write $\M{A} = \M{P}\M{D}\M{P}^{-1}$ with $\M{D} = \operatorname{diag}(1, -1)$, and work out $\M{A}^2$.)
 
    [Solution to exercise 6](../appendices/solutions-4.qmd#solution-diagonalisation-6){.sol-link}
 

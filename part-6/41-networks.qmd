@@ -308,7 +308,7 @@ $\vect{1}$ is the eigenvector for $\lambda_1 = 0$, and eigenvectors of a symmetr
 
    [Solution to exercise 1](../appendices/solutions-6.qmd#solution-networks-1){.sol-link}
 
-2. []{#exercise-networks-2}Show that $\vect{x}\T\M{L}\vect{x} = \sum_{\text{edges } ij}(x_i - x_j)^2$ directly from $\M{L} = \M{D} - \M{A}$, by writing out $\vect{x}\T\M{D}\vect{x}$ and $\vect{x}\T\M{A}\vect{x}$ as sums.
+2. []{#exercise-networks-2}Show that $\vect{x}\T\M{L}\vect{x} = \sum_{\text{edges } ij}(x_i - x_j)^2$ directly from $\M{L} = \M{D} - \M{A}$, by writing out $\vect{x}\T\M{D}\vect{x}$ and $\vect{x}\T\M{A}\vect{x}$ as sums. (*Hint*: $\vect{x}\T\M{D}\vect{x} = \sum_i d_i x_i^2$ and $\vect{x}\T\M{A}\vect{x} = \sum_{\text{edges } ij} 2x_ix_j$. Share each $d_ix_i^2$ out as one $x_i^2$ for each edge at node $i$.)
 
    [Solution to exercise 2](../appendices/solutions-6.qmd#solution-networks-2){.sol-link}
 
@@ -324,7 +324,7 @@ $\vect{1}$ is the eigenvector for $\lambda_1 = 0$, and eigenvectors of a symmetr
 
    [Solution to exercise 5](../appendices/solutions-6.qmd#solution-networks-5){.sol-link}
 
-6. []{#exercise-networks-6}Explain why, if the nodes of a network are numbered so that each connected component's nodes come together, $\M{L}$ is block diagonal. Use this to show that the number of zero eigenvalues is at least the number of components.
+6. []{#exercise-networks-6}Explain why, if the nodes of a network are numbered so that each connected component's nodes come together, $\M{L}$ is block diagonal. Use this to show that the number of zero eigenvalues is at least the number of components. (*Hint*: each block is the Laplacian of one component, and every Laplacian has eigenvalue 0 with eigenvector $\vect{1}$. Pad that vector with zeros outside the block.)
 
    [Solution to exercise 6](../appendices/solutions-6.qmd#solution-networks-6){.sol-link}
 

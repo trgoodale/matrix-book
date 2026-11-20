@@ -275,7 +275,7 @@ Fecundities can be large numbers, like 127 eggs, while survival rates are at mos
 
    [Solution to exercise 1](../appendices/solutions-6.qmd#solution-population-models-1){.sol-link}
 
-2. []{#exercise-population-models-2}For the two-class Leslie matrix $\mat{f_1 & f_2 \\ s & 0}$, show that the population grows in the long run ($\lambda > 1$) exactly when $f_1 + sf_2 > 1$. Interpret $f_1 + sf_2$.
+2. []{#exercise-population-models-2}For the two-class Leslie matrix $\mat{f_1 & f_2 \\ s & 0}$, show that the population grows in the long run ($\lambda > 1$) exactly when $f_1 + sf_2 > 1$. Interpret $f_1 + sf_2$. (*Hint*: the characteristic equation is $p(\lambda) = \lambda^2 - f_1\lambda - sf_2 = 0$. Since $p(0) < 0$, there is exactly one positive root, and it is greater than 1 exactly when $p(1) < 0$.)
 
    [Solution to exercise 2](../appendices/solutions-6.qmd#solution-population-models-2){.sol-link}
 

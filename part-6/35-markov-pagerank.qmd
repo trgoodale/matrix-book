@@ -310,7 +310,7 @@ A student in year 2 has already survived the risk of leaving in year 1, the larg
 
    [Solution to exercise 2](../appendices/solutions-6.qmd#solution-markov-pagerank-2){.sol-link}
 
-3. []{#exercise-markov-pagerank-3}Show that if $\M{M}$ is column-stochastic and $\vect{x}$ is a probability vector, then $\M{M}\vect{x}$ is also a probability vector.
+3. []{#exercise-markov-pagerank-3}Show that if $\M{M}$ is column-stochastic and $\vect{x}$ is a probability vector, then $\M{M}\vect{x}$ is also a probability vector. (*Hint*: check the two conditions separately. Each entry of $\M{M}\vect{x}$ is a sum of products of non-negative numbers; for the total, add up the entries of $\M{M}\vect{x}$ column by column.)
 
    [Solution to exercise 3](../appendices/solutions-6.qmd#solution-markov-pagerank-3){.sol-link}
 

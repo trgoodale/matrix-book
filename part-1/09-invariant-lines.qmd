@@ -349,11 +349,11 @@ The origin is the only one, because $(\M{A} - \M{I})\vect{x} = \zerovec$ then ha
 
    [Solution to exercise 3](../appendices/solutions-1.qmd#solution-invariant-lines-3){.sol-link}
 
-4. []{#exercise-invariant-lines-4}Show that the rotation by $\theta$ about the origin, $\mat{\cos\theta & -\sin\theta \\ \sin\theta & \cos\theta}$, has no invariant lines unless $\theta = 0°$ or $180°$. What happens in those two cases?
+4. []{#exercise-invariant-lines-4}Show that the rotation by $\theta$ about the origin, $\mat{\cos\theta & -\sin\theta \\ \sin\theta & \cos\theta}$, has no invariant lines unless $\theta = 0°$ or $180°$. What happens in those two cases? (*Hint*: a line through the origin along $\vect{v}$ is invariant only if $\M{A}\vect{v}$ points along the same line as $\vect{v}$. A rotation turns every vector through $\theta$; when does that leave it on the same line?)
 
    [Solution to exercise 4](../appendices/solutions-1.qmd#solution-invariant-lines-4){.sol-link}
 
-5. []{#exercise-invariant-lines-5}Show that the shear $\mat{1 & 0 & k \\ 0 & 1 & 0 \\ 0 & 0 & 1}$ with $k \neq 0$ has a plane of invariant points, and find it.
+5. []{#exercise-invariant-lines-5}Show that the shear $\mat{1 & 0 & k \\ 0 & 1 & 0 \\ 0 & 0 & 1}$ with $k \neq 0$ has a plane of invariant points, and find it. (*Hint*: an invariant point satisfies $\M{A}\vect{x} = \vect{x}$, that is $(\M{A} - \M{I})\vect{x} = \zerovec$.)
 
    [Solution to exercise 5](../appendices/solutions-1.qmd#solution-invariant-lines-5){.sol-link}
 

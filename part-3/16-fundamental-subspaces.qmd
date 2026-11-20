@@ -294,7 +294,7 @@ No. The column space lives in $\R^3$, and its dimension is the rank, which is at
 
    [Solution to exercise 4](../appendices/solutions-3.qmd#solution-fundamental-subspaces-4){.sol-link}
 
-5. []{#exercise-fundamental-subspaces-5}Show that if $\M{A}\vect{x} = \vect{b}$ has a solution for every $\vect{b}$ in $\R^m$, then $\operatorname{rank}\M{A} = m$, and so $m \le n$.
+5. []{#exercise-fundamental-subspaces-5}Show that if $\M{A}\vect{x} = \vect{b}$ has a solution for every $\vect{b}$ in $\R^m$, then $\operatorname{rank}\M{A} = m$, and so $m \le n$. (*Hint*: if every $\vect{b}$ can be reached, the column space is all of $\R^m$. What is its dimension, and how many columns are there to span it?)
 
    [Solution to exercise 5](../appendices/solutions-3.qmd#solution-fundamental-subspaces-5){.sol-link}
 

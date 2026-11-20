@@ -242,7 +242,7 @@ No. Complex eigenvalues come in conjugate pairs, so with three eigenvalues at le
 
    [Solution to exercise 3](../appendices/solutions-4.qmd#solution-eigenvalues-3){.sol-link}
 
-4. []{#exercise-eigenvalues-4}Suppose $\M{A}\vect{v} = \lambda\vect{v}$. Show that (a) $(\M{A} + c\M{I})\vect{v} = (\lambda + c)\vect{v}$ for any number $c$; (b) if $\M{A}$ is invertible, $\M{A}^{-1}\vect{v} = \tfrac{1}{\lambda}\vect{v}$.
+4. []{#exercise-eigenvalues-4}Suppose $\M{A}\vect{v} = \lambda\vect{v}$. Show that (a) $(\M{A} + c\M{I})\vect{v} = (\lambda + c)\vect{v}$ for any number $c$; (b) if $\M{A}$ is invertible, $\M{A}^{-1}\vect{v} = \tfrac{1}{\lambda}\vect{v}$. (*Hint*: for (a), expand $(\M{A} + c\M{I})\vect{v}$. For (b), multiply both sides of $\M{A}\vect{v} = \lambda\vect{v}$ by $\M{A}^{-1}$, and explain why $\lambda \neq 0$.)
 
    [Solution to exercise 4](../appendices/solutions-4.qmd#solution-eigenvalues-4){.sol-link}
 

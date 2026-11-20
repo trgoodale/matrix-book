@@ -296,7 +296,7 @@ $\M{A}^{-1} = \M{A}$, since $\M{A}\M{A} = \M{I}$. Any reflection is an example: 
 
    [Solution to exercise 4](../appendices/solutions-1.qmd#solution-inverses-4){.sol-link}
 
-5. []{#exercise-inverses-5}A matrix satisfies $\M{A}^2 - 3\M{A} + 2\M{I} = \M{0}$. Show that $\M{A}$ is invertible and that $\M{A}^{-1} = \tfrac{1}{2}(3\M{I} - \M{A})$.
+5. []{#exercise-inverses-5}A matrix satisfies $\M{A}^2 - 3\M{A} + 2\M{I} = \M{0}$. Show that $\M{A}$ is invertible and that $\M{A}^{-1} = \tfrac{1}{2}(3\M{I} - \M{A})$. (*Hint*: rearrange the equation to $\M{A}(3\M{I} - \M{A}) = 2\M{I}$.)
 
    [Solution to exercise 5](../appendices/solutions-1.qmd#solution-inverses-5){.sol-link}
 

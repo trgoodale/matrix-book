@@ -444,7 +444,7 @@ $\det\M{A} = 0$ means the two columns lie along the same line through the origin
 
 5. []{#exercise-linear-systems-5}(a) Show that if $\vect{h}_1$ and $\vect{h}_2$ both solve $\M{A}\vect{x} = \zerovec$, then so does $s\vect{h}_1 + t\vect{h}_2$ for any numbers $s$ and $t$.
    (b) Show that if $\M{A}\vect{p} = \vect{b}$ and $\M{A}\vect{h} = \zerovec$, then $\M{A}(\vect{p} + \vect{h}) = \vect{b}$.
-   (c) Show that if $\M{A}\vect{p} = \vect{b}$ and $\M{A}\vect{q} = \vect{b}$, then $\vect{q} - \vect{p}$ solves $\M{A}\vect{x} = \zerovec$. Explain why (b) and (c) together prove @eq-general-solution.
+   (c) Show that if $\M{A}\vect{p} = \vect{b}$ and $\M{A}\vect{q} = \vect{b}$, then $\vect{q} - \vect{p}$ solves $\M{A}\vect{x} = \zerovec$. Explain why (b) and (c) together prove @eq-general-solution. (*Hint*: each part needs only $\M{A}(\vect{u} + \vect{v}) = \M{A}\vect{u} + \M{A}\vect{v}$ and $\M{A}(c\vect{u}) = c\M{A}\vect{u}$.)
 
    [Solution to exercise 5](../appendices/solutions-2.qmd#solution-linear-systems-5){.sol-link}
 

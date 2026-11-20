@@ -32,7 +32,19 @@ These exercises mix ideas from Parts I to IV. They don't say which chapter they 
 
    [Solution to exercise 7](../appendices/solutions-4.qmd#solution-review-4-7){.sol-link}
 
-8. []{#exercise-review-4-8}**Code.** For the system in exercise 5, compute $\vect{x}(1)$ in two ways: with the built-in matrix exponential, and with $\M{V}e^{\M{\Lambda}t}\M{V}^{-1}\vect{x}(0)$ using the eigenvalues and eigenvectors. Compare both with your formula.
+8. []{#exercise-review-4-8}A transformation of the plane stretches the direction $(2, 1)\T$ by a factor of 4 and leaves every vector along $(1, 1)\T$ unchanged. Find its matrix $\M{A}$. Then find $\det\M{A}$ and $\M{A}^{-1}$, and say what $\M{A}^{-1}$ does to each of the two directions.
 
    [Solution to exercise 8](../appendices/solutions-4.qmd#solution-review-4-8){.sol-link}
+
+9. []{#exercise-review-4-9}Let $\M{B} = \mat{2 & 1 & 1 \\ 1 & 2 & 1 \\ 1 & 1 & 2}$. Find the rank of $\M{B} - \M{I}$, and use it to show that 1 is an eigenvalue of $\M{B}$ and to find the dimension of its eigenspace. Find a basis for that eigenspace, and the remaining eigenvalue and its eigenvector. Check that eigenvectors for different eigenvalues are perpendicular. Why was this bound to happen?
+
+   [Solution to exercise 9](../appendices/solutions-4.qmd#solution-review-4-9){.sol-link}
+
+10. []{#exercise-review-4-10}The reflection in the line $y = 2x$ has matrix $\M{R} = \tfrac{1}{5}\mat{-3 & 4 \\ 4 & 3}$. Without solving the characteristic equation, write down its eigenvalues and eigenvectors, using what a reflection does to vectors along the mirror and across it. Check your answer with the trace and the determinant. What are $\M{R}^2$ and $\M{R}^{25}$?
+
+    [Solution to exercise 10](../appendices/solutions-4.qmd#solution-review-4-10){.sol-link}
+
+11. []{#exercise-review-4-11}**Code.** For the system in exercise 5, compute $\vect{x}(1)$ in two ways: with the built-in matrix exponential, and with $\M{V}e^{\M{\Lambda}t}\M{V}^{-1}\vect{x}(0)$ using the eigenvalues and eigenvectors. Compare both with your formula.
+
+    [Solution to exercise 11](../appendices/solutions-4.qmd#solution-review-4-11){.sol-link}
 

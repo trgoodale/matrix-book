@@ -274,7 +274,7 @@ So that translations leave it unchanged: the last column of a translation matrix
 
    [Solution to exercise 3](../appendices/solutions-6.qmd#solution-graphics-robotics-3){.sol-link}
 
-4. []{#exercise-graphics-robotics-4}Show that the inverse of $\mat{\M{R} & \vect{t} \\ \zerovec\T & 1}$, where $\M{R}$ is a rotation, is $\mat{\M{R}\T & -\M{R}\T\vect{t} \\ \zerovec\T & 1}$. Why is this useful for building a view matrix from the camera's position and orientation?
+4. []{#exercise-graphics-robotics-4}Show that the inverse of $\mat{\M{R} & \vect{t} \\ \zerovec\T & 1}$, where $\M{R}$ is a rotation, is $\mat{\M{R}\T & -\M{R}\T\vect{t} \\ \zerovec\T & 1}$. Why is this useful for building a view matrix from the camera's position and orientation? (*Hint*: multiply the two block matrices together, block by block, using $\M{R}\T\M{R} = \M{I}$.)
 
    [Solution to exercise 4](../appendices/solutions-6.qmd#solution-graphics-robotics-4){.sol-link}
 

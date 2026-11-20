@@ -298,7 +298,7 @@ It is $\M{R}(-\theta)$, since $\cos(-\theta) = \cos\theta$ and $\sin(-\theta) = 
 
    [Solution to exercise 4](../appendices/solutions-1.qmd#solution-transformations-4){.sol-link}
 
-5. []{#exercise-transformations-5}*(Uses the optional formula.)* Show that the reflection matrix $\mat{\cos 2\theta & \sin 2\theta \\ \sin 2\theta & -\cos 2\theta}$ leaves the vector $(\cos\theta, \sin\theta)\T$ unchanged, and sends $(-\sin\theta, \cos\theta)\T$ to its negative. Explain why this proves that it is the reflection in the line at angle $\theta$.
+5. []{#exercise-transformations-5}*(Uses the optional formula.)* Show that the reflection matrix $\mat{\cos 2\theta & \sin 2\theta \\ \sin 2\theta & -\cos 2\theta}$ leaves the vector $(\cos\theta, \sin\theta)\T$ unchanged, and sends $(-\sin\theta, \cos\theta)\T$ to its negative. Explain why this proves that it is the reflection in the line at angle $\theta$. (*Hint*: a reflection is fixed once you know what it does to two perpendicular directions: the mirror line, and the direction straight across it.)
 
    [Solution to exercise 5](../appendices/solutions-1.qmd#solution-transformations-5){.sol-link}
 

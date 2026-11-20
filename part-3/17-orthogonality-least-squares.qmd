@@ -272,7 +272,7 @@ The identity matrix.
 
    [Solution to exercise 3](../appendices/solutions-3.qmd#solution-orthogonality-least-squares-3){.sol-link}
 
-4. []{#exercise-orthogonality-least-squares-4}Show that a projection matrix $\M{P} = \M{A}(\M{A}\T\M{A})^{-1}\M{A}\T$ satisfies $\M{P}\T = \M{P}$ and $\M{P}^2 = \M{P}$. Explain the second property geometrically.
+4. []{#exercise-orthogonality-least-squares-4}Show that a projection matrix $\M{P} = \M{A}(\M{A}\T\M{A})^{-1}\M{A}\T$ satisfies $\M{P}\T = \M{P}$ and $\M{P}^2 = \M{P}$. Explain the second property geometrically. (*Hint*: use $(\M{X}\M{Y})\T = \M{Y}\T\M{X}\T$, and note that $\M{A}\T\M{A}$ is symmetric, so its inverse is too. For $\M{P}^2$, multiply out and cancel $\M{A}\T\M{A}$ against its inverse.)
 
    [Solution to exercise 4](../appendices/solutions-3.qmd#solution-orthogonality-least-squares-4){.sol-link}
 
