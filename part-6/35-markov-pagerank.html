@@ -1293,7 +1293,7 @@ n_1 + n_2 + n_3 \approx 3.03 \text{ years}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="a857b4d3" class="cell" data-execution_count="1">
+<div id="c81194fb" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: the steady state of the weather</span></span>
@@ -1448,13 +1448,13 @@ outcome =
 <p><a href="../appendices/solutions-6.html#solution-markov-pagerank-1" class="sol-link">Solution to exercise 1</a></p></li>
 <li><p><span id="exercise-markov-pagerank-2"></span>For the weather chain of Example 1, find the probability that it rains three days from now, given that it is cloudy today.</p>
 <p><a href="../appendices/solutions-6.html#solution-markov-pagerank-2" class="sol-link">Solution to exercise 2</a></p></li>
-<li><p><span id="exercise-markov-pagerank-3"></span>Show that if <span class="math inline">\(\M{M}\)</span> is column-stochastic and <span class="math inline">\(\vect{x}\)</span> is a probability vector, then <span class="math inline">\(\M{M}\vect{x}\)</span> is also a probability vector.</p>
+<li><p><span id="exercise-markov-pagerank-3"></span>Show that if <span class="math inline">\(\M{M}\)</span> is column-stochastic and <span class="math inline">\(\vect{x}\)</span> is a probability vector, then <span class="math inline">\(\M{M}\vect{x}\)</span> is also a probability vector. (<em>Hint</em>: check the two conditions separately. Each entry of <span class="math inline">\(\M{M}\vect{x}\)</span> is a sum of products of non-negative numbers; for the total, add up the entries of <span class="math inline">\(\M{M}\vect{x}\)</span> column by column.)</p>
 <p><a href="../appendices/solutions-6.html#solution-markov-pagerank-3" class="sol-link">Solution to exercise 3</a></p></li>
 <li><p><span id="exercise-markov-pagerank-4"></span>Show that <span class="math inline">\(\mat{0 &amp; 1 \\ 1 &amp; 0}\)</span> is a transition matrix with a steady state, but that <span class="math inline">\(\M{M}^k\vect{x}_0\)</span> doesn’t approach it from <span class="math inline">\(\vect{x}_0 = (1, 0)\T\)</span>. Which condition of the Perron–Frobenius theorem fails?</p>
 <p><a href="../appendices/solutions-6.html#solution-markov-pagerank-4" class="sol-link">Solution to exercise 4</a></p></li>
 <li><p><span id="exercise-markov-pagerank-5"></span>Three pages link as follows: A links to B, B links to A and C, and C links to A. Find the PageRank with <span class="math inline">\(d = 0.85\)</span> by solving the linear system.</p>
 <p><a href="../appendices/solutions-6.html#solution-markov-pagerank-5" class="sol-link">Solution to exercise 5</a></p></li>
-<li><p><span id="exercise-markov-pagerank-6"></span><strong>Code.</strong> Write a PageRank function that handles dead ends, by treating a page with no links as linking to every page. Apply it to the <strong>Dead end</strong> web of the app (A links to B and C; B to C; C to nothing; D to A and C; E to D and F; F to D and E), and check your results against the app.</p>
+<li><p><span id="exercise-markov-pagerank-6"></span><strong>Code.</strong> Write a PageRank function that handles dead ends, by treating a page with no links as linking to every page. Apply it to the <a href="../apps/random-surfer.html?preset=Dead end" target="_blank" aria-label="Dead end preset in the random surfer (opens in a new tab)"><strong>Dead end</strong></a> web of the app (A links to B and C; B to C; C to nothing; D to A and C; E to D and F; F to D and E), and check your results against the app.</p>
 <p><a href="../appendices/solutions-6.html#solution-markov-pagerank-6" class="sol-link">Solution to exercise 6</a></p></li>
 </ol>
 <p>Solutions are in <a href="../appendices/solutions-6.html#sec-solutions-markov-pagerank" class="quarto-xref"><span>Section J.5</span></a>.</p>

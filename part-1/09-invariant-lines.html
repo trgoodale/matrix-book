@@ -1165,7 +1165,7 @@ window.Quarto = {
 <div id="fig-invariant-lines" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Points in the plane with arrows to their images. Points on the line y = x move outwards along it, points on y = −2x stay put, and a grey point off both lines moves off its line.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-invariant-lines-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="09-invariant-lines_files/figure-html/fig-invariant-lines-output-1.png" alt="Points in the plane with arrows to their images. Points on the line y = x move outwards along it, points on y = −2x stay put, and a grey point off both lines moves off its line." width="520" height="518" class="figure-img">
+<img src="09-invariant-lines_files/figure-html/fig-invariant-lines-output-1.png" alt="Points in the plane with arrows to their images. Points on the line y = x move outwards along it, points on y = −2x stay put, and a grey point off both lines moves off its line." width="521" height="514" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-invariant-lines-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;9.1: The matrix with rows (3, 1) and (2, 2) moves each point (dot) to its image (arrow tip). Points on y = x (green) stay on that line, four times as far from the origin. Points on y = −2x (blue) do not move at all. A point on neither line (grey) is carried off the line it started on.
@@ -1249,7 +1249,7 @@ y - z &amp;= 0
 <div id="fig-cube-rotation" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A 3D view of a dashed cube and its rotated, shaded image, with the blue axis of rotation through the origin and (1, 1, 1).">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cube-rotation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="09-invariant-lines_files/figure-html/fig-cube-rotation-output-1.png" alt="A 3D view of a dashed cube and its rotated, shaded image, with the blue axis of rotation through the origin and (1, 1, 1)." width="479" height="467" class="figure-img">
+<img src="09-invariant-lines_files/figure-html/fig-cube-rotation-output-1.png" alt="A 3D view of a dashed cube and its rotated, shaded image, with the blue axis of rotation through the origin and (1, 1, 1)." width="481" height="467" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cube-rotation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;9.2: A cube (dashed) and its image (shaded) under a rotation by 120° about the line through the origin and (1, 1, 1). Every point on the axis of rotation (blue) stays where it is: a line of invariant points.
@@ -1361,7 +1361,7 @@ m^2 + m - 2 = 0 \quad\Longrightarrow\quad (m - 1)(m + 2) = 0,
 <div class="callout-body-container callout-body">
 <p>Find the invariant lines through the origin of the shear <span class="math inline">\(\M{H} = \mat{1 &amp; 1 \\ 0 &amp; 1}\)</span>.</p>
 <p><strong>Solution.</strong> Here <span class="math inline">\(a = 1\)</span>, <span class="math inline">\(b = 1\)</span>, <span class="math inline">\(c = 0\)</span>, <span class="math inline">\(d = 1\)</span>, so <a href="#eq-invariant-lines" class="quarto-xref">Equation&nbsp;<span>9.3</span></a> is <span class="math inline">\(m^2 = 0\)</span>, with the single solution <span class="math inline">\(m = 0\)</span>: the <span class="math inline">\(x\)</span>-axis. Then <span class="math inline">\(\lambda = a + bm = 1\)</span>, so the <span class="math inline">\(x\)</span>-axis is a line of invariant points. Since <span class="math inline">\(b \neq 0\)</span>, the <span class="math inline">\(y\)</span>-axis is not invariant.</p>
-<p>So a shear has only one invariant line through the origin. Every other line is tipped over, as you can see by pressing <strong>Shear</strong> in the app. This is a sign of something you will meet again in <a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>: some matrices do not have enough invariant directions to describe them completely.</p>
+<p>So a shear has only one invariant line through the origin. Every other line is tipped over, as you can see by pressing <a href="../apps/invariant-lines.html?preset=Shear" target="_blank" aria-label="Shear preset in the invariant line finder (opens in a new tab)"><strong>Shear</strong></a> in the app. This is a sign of something you will meet again in <a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>: some matrices do not have enough invariant directions to describe them completely.</p>
 </div>
 </div>
 </section>
@@ -1373,7 +1373,7 @@ m^2 + m - 2 = 0 \quad\Longrightarrow\quad (m - 1)(m + 2) = 0,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="937d5d92" class="cell" data-execution_count="3">
+<div id="906eaf14" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">3</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">2</span>]])</span>
@@ -1521,9 +1521,9 @@ ans =
 <p><a href="../appendices/solutions-1.html#solution-invariant-lines-2" class="sol-link">Solution to exercise 2</a></p></li>
 <li><p><span id="exercise-invariant-lines-3"></span>Show that the stretch <span class="math inline">\(\mat{2 &amp; 0 \\ 0 &amp; 3}\)</span> has the two axes as invariant lines, and that its only invariant point is the origin.</p>
 <p><a href="../appendices/solutions-1.html#solution-invariant-lines-3" class="sol-link">Solution to exercise 3</a></p></li>
-<li><p><span id="exercise-invariant-lines-4"></span>Show that the rotation by <span class="math inline">\(\theta\)</span> about the origin, <span class="math inline">\(\mat{\cos\theta &amp; -\sin\theta \\ \sin\theta &amp; \cos\theta}\)</span>, has no invariant lines unless <span class="math inline">\(\theta = 0°\)</span> or <span class="math inline">\(180°\)</span>. What happens in those two cases?</p>
+<li><p><span id="exercise-invariant-lines-4"></span>Show that the rotation by <span class="math inline">\(\theta\)</span> about the origin, <span class="math inline">\(\mat{\cos\theta &amp; -\sin\theta \\ \sin\theta &amp; \cos\theta}\)</span>, has no invariant lines unless <span class="math inline">\(\theta = 0°\)</span> or <span class="math inline">\(180°\)</span>. What happens in those two cases? (<em>Hint</em>: a line through the origin along <span class="math inline">\(\vect{v}\)</span> is invariant only if <span class="math inline">\(\M{A}\vect{v}\)</span> points along the same line as <span class="math inline">\(\vect{v}\)</span>. A rotation turns every vector through <span class="math inline">\(\theta\)</span>; when does that leave it on the same line?)</p>
 <p><a href="../appendices/solutions-1.html#solution-invariant-lines-4" class="sol-link">Solution to exercise 4</a></p></li>
-<li><p><span id="exercise-invariant-lines-5"></span>Show that the shear <span class="math inline">\(\mat{1 &amp; 0 &amp; k \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1}\)</span> with <span class="math inline">\(k \neq 0\)</span> has a plane of invariant points, and find it.</p>
+<li><p><span id="exercise-invariant-lines-5"></span>Show that the shear <span class="math inline">\(\mat{1 &amp; 0 &amp; k \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1}\)</span> with <span class="math inline">\(k \neq 0\)</span> has a plane of invariant points, and find it. (<em>Hint</em>: an invariant point satisfies <span class="math inline">\(\M{A}\vect{x} = \vect{x}\)</span>, that is <span class="math inline">\((\M{A} - \M{I})\vect{x} = \zerovec\)</span>.)</p>
 <p><a href="../appendices/solutions-1.html#solution-invariant-lines-5" class="sol-link">Solution to exercise 5</a></p></li>
 <li><p><span id="exercise-invariant-lines-6"></span>The matrix <span class="math inline">\(\M{Q} = \frac{1}{3}\mat{2 &amp; -1 &amp; 2 \\ 2 &amp; 2 &amp; -1 \\ -1 &amp; 2 &amp; 2}\)</span> is a rotation. Check that <span class="math inline">\(\M{Q}\T\M{Q} = \M{I}\)</span> and <span class="math inline">\(\det\M{Q} = 1\)</span>, and find its axis.</p>
 <p><a href="../appendices/solutions-1.html#solution-invariant-lines-6" class="sol-link">Solution to exercise 6</a></p></li>

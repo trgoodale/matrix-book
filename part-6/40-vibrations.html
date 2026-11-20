@@ -1106,7 +1106,24 @@ window.Quarto = {
 </ul>
 </div>
 </div>
-<p><strong>Builds on</strong> <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>, <a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>. The stiffness matrix of <a href="31-trusses.html" class="quarto-xref"><span>Chapter 31</span></a> helps, but this chapter explains what it needs.</p>
+<p><strong>Builds on</strong> <a href="../part-4/18-eigenvalues.html" class="quarto-xref"><span>Chapter 18</span></a>. It also uses three results from <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a> and <a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>, given in the box below, so you can read it without those chapters. The stiffness matrix of <a href="31-trusses.html" class="quarto-xref"><span>Chapter 31</span></a> helps, but this chapter explains what it needs.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What you need from Chapters 20 and 23
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>A symmetric matrix has real eigenvalues and a full set of perpendicular eigenvectors, even when an eigenvalue repeats.</li>
+<li>If <span class="math inline">\(\vect{x}\T\M{S}\vect{x} \ge 0\)</span> for every <span class="math inline">\(\vect{x}\)</span> (the matrix is <strong>positive semidefinite</strong>), every eigenvalue of <span class="math inline">\(\M{S}\)</span> is at least 0.</li>
+<li>A linear system of differential equations can be solved one eigenvector at a time: write the starting state as a combination of eigenvectors, and each part then changes on its own. This chapter does the same for equations with second derivatives, and explains it as it goes.</li>
+</ul>
+</div>
+</div>
 <section id="the-problem" class="level2" data-number="40.1">
 <h2 data-number="40.1" class="anchored" data-anchor-id="the-problem"><span class="header-section-number">40.1</span> The problem</h2>
 <p>Everything with mass and stiffness vibrates: buildings and bridges, car suspensions, aircraft wings, guitar strings, the atoms in a molecule. Each structure has a few <strong>natural frequencies</strong> at which it prefers to vibrate, and at each one it moves in a particular pattern, its <strong>mode shape</strong>. Engineers need to know both. If an earthquake, a machine, the wind or footsteps push a structure at one of its natural frequencies, the vibrations build up: this is <strong>resonance</strong>, and it can break things. Chemists use the same ideas the other way round: a molecule absorbs infrared light at its natural frequencies, which identifies the molecule.</p>
@@ -1305,7 +1322,7 @@ X_2 = \frac{100F}{(100 - \Omega^2)(300 - \Omega^2)}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="35e8defe" class="cell" data-execution_count="1">
+<div id="69a064fb" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1365,7 +1382,7 @@ omega = 28.2843 rad/s, f = 4.5016 Hz, mode (1, -1.0000)
 <section id="check-your-understanding" class="level2" data-number="40.5">
 <h2 data-number="40.5" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">40.5</span> Check your understanding</h2>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1374,25 +1391,9 @@ omega = 28.2843 rad/s, f = 4.5016 Hz, mode (1, -1.0000)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>They are divided by <span class="math inline">\(\sqrt{2}\)</span>. Doubling <span class="math inline">\(\M{M}\)</span> turns <span class="math inline">\(\M{K}\vect{v} = \omega^2\M{M}\vect{v}\)</span> into <span class="math inline">\(\M{K}\vect{v} = \omega^2(2\M{M})\vect{v}\)</span>, which has the same mode shapes with <span class="math inline">\(\omega^2\)</span> halved. Heavier structures vibrate more slowly; stiffer ones more quickly.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>In Example 1, can equal forces <span class="math inline">\(F\cos(\Omega t)\)</span> on both masses make the second mode resonate?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>No.&nbsp;The force vector is <span class="math inline">\(F(1, 1)\)</span>, and <span class="math inline">\(\vect{v}_2\T(1, 1) = 1 - 1 = 0\)</span>, so the second mode isn’t excited at all, whatever <span class="math inline">\(\Omega\)</span> is. Pushing both masses the same way can only drive the mode in which they move together.</p>
+<p>They are divided by <span class="math inline">\(\sqrt{2}\)</span>. Doubling <span class="math inline">\(\M{M}\)</span> turns <span class="math inline">\(\M{K}\vect{v} = \omega^2\M{M}\vect{v}\)</span> into <span class="math inline">\(\M{K}\vect{v} = \omega^2(2\M{M})\vect{v}\)</span>, which has the same mode shapes with <span class="math inline">\(\omega^2\)</span> halved. Heavier structures vibrate more slowly; stiffer ones more quickly.</p>
 </div>
 </div>
 </div>
@@ -1402,11 +1403,27 @@ omega = 28.2843 rad/s, f = 4.5016 Hz, mode (1, -1.0000)
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>What does a natural frequency of zero mean?
+<span class="screen-reader-only">Tip</span>In Example 1, can equal forces <span class="math inline">\(F\cos(\Omega t)\)</span> on both masses make the second mode resonate?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>No.&nbsp;The force vector is <span class="math inline">\(F(1, 1)\)</span>, and <span class="math inline">\(\vect{v}_2\T(1, 1) = 1 - 1 = 0\)</span>, so the second mode isn’t excited at all, whatever <span class="math inline">\(\Omega\)</span> is. Pushing both masses the same way can only drive the mode in which they move together.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What does a natural frequency of zero mean?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>That <span class="math inline">\(\M{K}\vect{v} = \zerovec\)</span> for the mode shape <span class="math inline">\(\vect{v}\)</span>: the structure can move in that pattern without stretching any spring, so nothing pulls it back. It is a rigid-body motion, such as a whole molecule drifting, or a mechanism.</p>
 </div>
@@ -1430,13 +1447,13 @@ omega = 28.2843 rad/s, f = 4.5016 Hz, mode (1, -1.0000)
 <p><a href="../appendices/solutions-6.html#solution-vibrations-1" class="sol-link">Solution to exercise 1</a></p></li>
 <li><p><span id="exercise-vibrations-2"></span>Suppose <span class="math inline">\(\M{K}\vect{v} = \lambda\M{M}\vect{v}\)</span> and <span class="math inline">\(\M{K}\vect{w} = \mu\M{M}\vect{w}\)</span>, with <span class="math inline">\(\M{K}\)</span> and <span class="math inline">\(\M{M}\)</span> symmetric and <span class="math inline">\(\lambda \neq \mu\)</span>. Show that <span class="math inline">\(\vect{v}\T\M{M}\vect{w} = 0\)</span> and <span class="math inline">\(\vect{v}\T\M{K}\vect{w} = 0\)</span>. (Hint: compute <span class="math inline">\(\vect{v}\T\M{K}\vect{w}\)</span> in two ways.)</p>
 <p><a href="../appendices/solutions-6.html#solution-vibrations-2" class="sol-link">Solution to exercise 2</a></p></li>
-<li><p><span id="exercise-vibrations-3"></span>A diatomic molecule is two atoms of masses <span class="math inline">\(m_1\)</span> and <span class="math inline">\(m_2\)</span> joined by a bond that acts like a spring of stiffness <span class="math inline">\(k\)</span>, with no walls. Write down <span class="math inline">\(\M{K}\)</span> and <span class="math inline">\(\M{M}\)</span>, and show that one natural frequency is 0 and the other is <span class="math inline">\(\omega = \sqrt{k(1/m_1 + 1/m_2)}\)</span>. Describe both modes. For carbon monoxide, <span class="math inline">\(k \approx 1900\)</span> N/m, the atoms have masses 12 and 16 atomic mass units, and <span class="math inline">\(1 \text{ u} = 1.661 \times 10^{-27}\)</span> kg. Find the vibration frequency in hertz.</p>
+<li><p><span id="exercise-vibrations-3"></span>A diatomic molecule is two atoms of masses <span class="math inline">\(m_1\)</span> and <span class="math inline">\(m_2\)</span> joined by a bond that acts like a spring of stiffness <span class="math inline">\(k\)</span>, with no walls. Write down <span class="math inline">\(\M{K}\)</span> and <span class="math inline">\(\M{M}\)</span>, and show that one natural frequency is 0 and the other is <span class="math inline">\(\omega = \sqrt{k(1/m_1 + 1/m_2)}\)</span>. Describe both modes. For carbon monoxide, <span class="math inline">\(k \approx 1900\)</span> N/m, the atoms have masses 12 and 16 atomic mass units, and <span class="math inline">\(1 \text{ u} = 1.661 \times 10^{-27}\)</span> kg. Find the vibration frequency in hertz. (<em>Hint</em>: with no walls, <span class="math inline">\(\M{K} = k\mat{1 &amp; -1 \\ -1 &amp; 1}\)</span>. Set <span class="math inline">\(\det(\M{K} - \omega^2\M{M}) = 0\)</span> and take out the factor <span class="math inline">\(\omega^2\)</span>.)</p>
 <p><a href="../appendices/solutions-6.html#solution-vibrations-3" class="sol-link">Solution to exercise 3</a></p></li>
 <li><p><span id="exercise-vibrations-4"></span>In Example 1, both masses start at rest in their resting positions, and mass 1 is struck so that it starts with velocity 0.5 m/s. Find <span class="math inline">\(\vect{x}(t)\)</span>.</p>
 <p><a href="../appendices/solutions-6.html#solution-vibrations-4" class="sol-link">Solution to exercise 4</a></p></li>
 <li><p><span id="exercise-vibrations-5"></span>The lower storey of the building in Example 3 is stiffened to <span class="math inline">\(k_1 = 16\)</span> MN/m. Find the new natural frequencies and mode shapes. Which way did the frequencies move, and how did the first mode shape change?</p>
 <p><a href="../appendices/solutions-6.html#solution-vibrations-5" class="sol-link">Solution to exercise 5</a></p></li>
-<li><p><span id="exercise-vibrations-6"></span>A machine of mass <span class="math inline">\(m_1\)</span> sits on a mounting of stiffness <span class="math inline">\(k_1\)</span>, and an unbalanced motor shakes it with force <span class="math inline">\(F\cos(\Omega t)\)</span>. A small mass <span class="math inline">\(m_2\)</span> is attached to it by a spring <span class="math inline">\(k_2\)</span>. Show that the machine doesn’t move at all when <span class="math inline">\(\Omega^2 = k_2/m_2\)</span>, whatever <span class="math inline">\(m_1\)</span> and <span class="math inline">\(k_1\)</span> are. If the motor runs at 50 Hz and <span class="math inline">\(m_2 = 2\)</span> kg, what should <span class="math inline">\(k_2\)</span> be?</p>
+<li><p><span id="exercise-vibrations-6"></span>A machine of mass <span class="math inline">\(m_1\)</span> sits on a mounting of stiffness <span class="math inline">\(k_1\)</span>, and an unbalanced motor shakes it with force <span class="math inline">\(F\cos(\Omega t)\)</span>. A small mass <span class="math inline">\(m_2\)</span> is attached to it by a spring <span class="math inline">\(k_2\)</span>. Show that the machine doesn’t move at all when <span class="math inline">\(\Omega^2 = k_2/m_2\)</span>, whatever <span class="math inline">\(m_1\)</span> and <span class="math inline">\(k_1\)</span> are. If the motor runs at 50 Hz and <span class="math inline">\(m_2 = 2\)</span> kg, what should <span class="math inline">\(k_2\)</span> be? (<em>Hint</em>: write the amplitude equations <span class="math inline">\((\M{K} - \Omega^2\M{M})\vect{X} = (F, 0)\T\)</span> and eliminate <span class="math inline">\(X_2\)</span>: the answer for <span class="math inline">\(X_1\)</span> has a factor <span class="math inline">\(k_2 - \Omega^2 m_2\)</span>.)</p>
 <p><a href="../appendices/solutions-6.html#solution-vibrations-6" class="sol-link">Solution to exercise 6</a></p></li>
 <li><p><span id="exercise-vibrations-7"></span><strong>Code.</strong> For <span class="math inline">\(n\)</span> equal masses <span class="math inline">\(m\)</span> joined by <span class="math inline">\(n + 1\)</span> equal springs <span class="math inline">\(k\)</span> between two walls, the natural frequencies are <span class="math display">\[
 \omega_j = 2\sqrt{k/m}\,\sin\frac{j\pi}{2(n + 1)},

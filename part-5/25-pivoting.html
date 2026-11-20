@@ -1228,7 +1228,7 @@ b_2 = 1.569 - 0.0008686 \times 1.018 = 1.568,
 <li><strong>Scaled partial pivoting</strong> compares each candidate pivot with the largest entry in its own row, and picks the row where the pivot is largest relative to the rest of its row.</li>
 <li><strong>Complete pivoting</strong> searches the whole remaining submatrix for the largest entry and swaps both rows and columns to bring it into the pivot position. Its growth factor is much better bounded, but the search costs about <span class="math inline">\(n^3/3\)</span> comparisons, so it is rarely used.</li>
 </ul>
-<p>To see this, go back to the app at the start of the chapter and choose <strong>Badly scaled</strong>. Partial pivoting doesn’t help: look at the sizes of the numbers in each row, and then try <strong>Scaled partial</strong>.</p>
+<p>To see this, go back to the app at the start of the chapter and choose <a href="../apps/pivoting.html?preset=Badly scaled" target="_blank" aria-label="Badly scaled preset in the pivoting explorer (opens in a new tab)"><strong>Badly scaled</strong></a>. Partial pivoting doesn’t help: look at the sizes of the numbers in each row, and then try <strong>Scaled partial</strong>.</p>
 <p>A simpler and very effective alternative to scaled pivoting is to <strong>equilibrate</strong> the system first, dividing each row by its largest entry, so that all rows have similar sizes.</p>
 <div id="ex-pivoting-3" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1247,7 +1247,7 @@ b_2 = 1.569 - 0.0008686 \times 1.018 = 1.568,
 \end{aligned}
 \]</span> whose exact solution is <span class="math inline">\(x = 10\)</span>, <span class="math inline">\(y = 1\)</span>.</p>
 <p><strong>Solution.</strong> This is Example 1 with the first equation multiplied by <span class="math inline">\(10^5\)</span>. Partial pivoting compares 30 with 5.291 and makes no swap, so it repeats the mistake of Example 1: the 4-digit result is <span class="math inline">\(x = -10.00\)</span>, <span class="math inline">\(y = 1.001\)</span>. The pivot 30 looked large, but it is tiny compared with the rest of its row.</p>
-<p>Scaled partial pivoting compares <span class="math inline">\(30/591\,400 \approx 0.00005\)</span> with <span class="math inline">\(5.291/6.130 \approx 0.86\)</span>, swaps the equations, and gets <span class="math inline">\(x = 10.00\)</span>, <span class="math inline">\(y = 1.000\)</span>. This is <strong>Badly scaled</strong> in the app.</p>
+<p>Scaled partial pivoting compares <span class="math inline">\(30/591\,400 \approx 0.00005\)</span> with <span class="math inline">\(5.291/6.130 \approx 0.86\)</span>, swaps the equations, and gets <span class="math inline">\(x = 10.00\)</span>, <span class="math inline">\(y = 1.000\)</span>. This is <a href="../apps/pivoting.html?preset=Badly scaled" target="_blank" aria-label="Badly scaled preset in the pivoting explorer (opens in a new tab)"><strong>Badly scaled</strong></a> in the app.</p>
 </div>
 </div>
 </section>
@@ -1267,7 +1267,7 @@ b_2 = 1.569 - 0.0008686 \times 1.018 = 1.568,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="3c40f2b3" class="cell" data-execution_count="1">
+<div id="31706d6f" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.linalg</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>

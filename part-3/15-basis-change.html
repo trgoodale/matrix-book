@@ -1198,7 +1198,7 @@ window.Quarto = {
 c_1 + c_2 &amp;= 5 \\
 c_1 - c_2 &amp;= 1
 \end{aligned}
-\]</span> Adding gives <span class="math inline">\(2c_1 = 6\)</span>, so <span class="math inline">\(c_1 = 3\)</span> and <span class="math inline">\(c_2 = 2\)</span>: <span class="math inline">\([\vect{v}]_B = (3, 2)\T\)</span>. Check: <span class="math inline">\(3(1, 1)\T + 2(1, -1)\T = (5, 1)\T\)</span>. ✓ This is <strong>Example 2</strong> in the app.</p>
+\]</span> Adding gives <span class="math inline">\(2c_1 = 6\)</span>, so <span class="math inline">\(c_1 = 3\)</span> and <span class="math inline">\(c_2 = 2\)</span>: <span class="math inline">\([\vect{v}]_B = (3, 2)\T\)</span>. Check: <span class="math inline">\(3(1, 1)\T + 2(1, -1)\T = (5, 1)\T\)</span>. ✓ This is <a href="../apps/basis-grids.html?preset=Example 2" target="_blank" aria-label="Example 2 preset in the basis grids app (opens in a new tab)"><strong>Example 2</strong></a> in the app.</p>
 </div>
 </div>
 </section>
@@ -1259,7 +1259,7 @@ Figure&nbsp;15.1: The convenient basis for the reflection in <span class="math i
 \M{A}\M{P} = \mat{4 &amp; 1 \\ 4 &amp; -2}.
 \]</span> Column 1 is <span class="math inline">\(4\vect{b}_1\)</span> and column 2 is <span class="math inline">\(1\vect{b}_2\)</span>, so in the new basis the images have coordinates <span class="math inline">\((4, 0)\T\)</span> and <span class="math inline">\((0, 1)\T\)</span>: <span class="math display">\[
 \M{P}^{-1}\M{A}\M{P} = \mat{4 &amp; 0 \\ 0 &amp; 1}.
-\]</span> In the basis of its invariant lines, the matrix is <strong>diagonal</strong>: it just stretches each new coordinate. This is the idea behind diagonalisation (<a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>), and the <strong>Invariant lines</strong> preset in the app shows this basis.</p>
+\]</span> In the basis of its invariant lines, the matrix is <strong>diagonal</strong>: it just stretches each new coordinate. This is the idea behind diagonalisation (<a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>), and the <a href="../apps/basis-grids.html?preset=Invariant lines" target="_blank" aria-label="Invariant lines preset in the basis grids app (opens in a new tab)"><strong>Invariant lines</strong></a> preset in the app shows this basis.</p>
 </div>
 </div>
 </section>
@@ -1271,7 +1271,7 @@ Figure&nbsp;15.1: The convenient basis for the reflection in <span class="math i
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="3a1d98c7" class="cell" data-execution_count="1">
+<div id="50deafc9" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>P <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>]])            <span class="co"># basis vectors as columns</span></span>
@@ -1390,7 +1390,7 @@ B =
 <p><a href="../appendices/solutions-3.html#solution-basis-change-4" class="sol-link">Solution to exercise 4</a></p></li>
 <li><p><span id="exercise-basis-change-5"></span>Use a convenient basis, as in Example 3, to find the matrix of the projection onto the line <span class="math inline">\(y = x\)</span>.</p>
 <p><a href="../appendices/solutions-3.html#solution-basis-change-5" class="sol-link">Solution to exercise 5</a></p></li>
-<li><p><span id="exercise-basis-change-6"></span>Show that if <span class="math inline">\(\M{B} = \M{P}^{-1}\M{A}\M{P}\)</span>, then <span class="math inline">\(\M{B}^2 = \M{P}^{-1}\M{A}^2\M{P}\)</span>. Explain what this means geometrically.</p>
+<li><p><span id="exercise-basis-change-6"></span>Show that if <span class="math inline">\(\M{B} = \M{P}^{-1}\M{A}\M{P}\)</span>, then <span class="math inline">\(\M{B}^2 = \M{P}^{-1}\M{A}^2\M{P}\)</span>. Explain what this means geometrically. (<em>Hint</em>: write <span class="math inline">\(\M{B}^2 = (\M{P}^{-1}\M{A}\M{P})(\M{P}^{-1}\M{A}\M{P})\)</span> and simplify the middle.)</p>
 <p><a href="../appendices/solutions-3.html#solution-basis-change-6" class="sol-link">Solution to exercise 6</a></p></li>
 <li><p><span id="exercise-basis-change-7"></span><strong>Code.</strong> In <a href="../part-1/09-invariant-lines.html" class="quarto-xref"><span>Chapter 9</span></a> you found that <span class="math inline">\(\M{C} = \mat{0 &amp; 0 &amp; 1 \\ 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0}\)</span> is the rotation by <span class="math inline">\(120°\)</span> about the line through <span class="math inline">\((1, 1, 1)\)</span>. Build it the other way, by a change of basis. Use <span class="math inline">\(\vect{p} = \tfrac{1}{\sqrt{2}}(1, -1, 0)\T\)</span>, <span class="math inline">\(\vect{q} = \tfrac{1}{\sqrt{6}}(1, 1, -2)\T\)</span> and <span class="math inline">\(\vect{u} = \tfrac{1}{\sqrt{3}}(1, 1, 1)\T\)</span> as the columns of <span class="math inline">\(\M{P}\)</span>, so that the axis <span class="math inline">\(\vect{u}\)</span> plays the part of the <span class="math inline">\(z\)</span>-axis. Compute <span class="math inline">\(\M{P}\,\M{R}_z(120°)\,\M{P}^{-1}\)</span> and compare it with <span class="math inline">\(\M{C}\)</span>. (These three vectors are perpendicular unit vectors, so <span class="math inline">\(\M{P}\)</span> is orthogonal and <span class="math inline">\(\M{P}^{-1} = \M{P}\T\)</span>.)</p>
 <p><a href="../appendices/solutions-3.html#solution-basis-change-7" class="sol-link">Solution to exercise 7</a></p></li>

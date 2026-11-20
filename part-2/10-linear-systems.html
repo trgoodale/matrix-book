@@ -1313,7 +1313,7 @@ x - y + z &amp;= 1 \\
 \end{aligned}
 \]</span></p>
 <p><strong>Solution.</strong> Adding the first two equations gives <span class="math inline">\(2x + 2z = 4\)</span>. But the third equation says <span class="math inline">\(2x + 2z = 5\)</span>. Both cannot hold, so there is no solution: the system is inconsistent.</p>
-<p>No two of the planes are parallel (no equation’s coefficients are a multiple of another’s), so each pair of planes meets in a line. But the three lines never meet: they are parallel, and the planes form a triangular tube (<a href="#fig-three-planes" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>, left). This is the <strong>Triangular tube</strong> preset in the app.</p>
+<p>No two of the planes are parallel (no equation’s coefficients are a multiple of another’s), so each pair of planes meets in a line. But the three lines never meet: they are parallel, and the planes form a triangular tube (<a href="#fig-three-planes" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>, left). This is the <a href="../apps/linear-systems.html?preset=Triangular tube" target="_blank" aria-label="Triangular tube preset in the systems explorer (opens in a new tab)"><strong>Triangular tube</strong></a> preset in the app.</p>
 </div>
 </div>
 <div id="ex-linear-systems-3" class="callout callout-style-simple callout-note no-icon callout-titled">
@@ -1393,7 +1393,7 @@ a &amp;= c \quad\text{(carbon)} \\
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="aedae367" class="cell" data-execution_count="2">
+<div id="b5f71ab3" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">0.6</span>, <span class="fl">0.8</span>, <span class="fl">0.5</span>],</span>
@@ -1410,7 +1410,7 @@ a &amp;= c \quad\text{(carbon)} \\
 </div>
 </div>
 <p>When <span class="math inline">\(\det\M{A} = 0\)</span>, <code>np.linalg.solve</code> stops with an error rather than guess:</p>
-<div id="819c6c4b" class="cell" data-execution_count="3">
+<div id="893fd877" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A2 <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>b2 <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -1422,7 +1422,7 @@ a &amp;= c \quad\text{(carbon)} \\
 </div>
 </div>
 <p>To tell “no solution” from “infinitely many”, compare the <strong>rank</strong> of <span class="math inline">\(\M{A}\)</span> with the rank of the augmented matrix. The rank counts the genuinely independent equations (<a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a> explains it fully). If adding <span class="math inline">\(\vect{b}\)</span> increases the rank, <span class="math inline">\(\vect{b}\)</span> brings in an equation that contradicts the others, and there is no solution:</p>
-<div id="de3a408a" class="cell" data-execution_count="4">
+<div id="ec57b12b" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Ab2 <span class="op">=</span> np.column_stack([A2, b2])          <span class="co"># the augmented matrix [A | b]</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.matrix_rank(A2), np.linalg.matrix_rank(Ab2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1549,7 +1549,7 @@ x_1 + x_2 + x_3 &amp;= 0 \\
 <li><p><span id="exercise-linear-systems-5"></span>(a) Show that if <span class="math inline">\(\vect{h}_1\)</span> and <span class="math inline">\(\vect{h}_2\)</span> both solve <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>, then so does <span class="math inline">\(s\vect{h}_1 + t\vect{h}_2\)</span> for any numbers <span class="math inline">\(s\)</span> and <span class="math inline">\(t\)</span>.</p>
 <ol start="2" type="a">
 <li>Show that if <span class="math inline">\(\M{A}\vect{p} = \vect{b}\)</span> and <span class="math inline">\(\M{A}\vect{h} = \zerovec\)</span>, then <span class="math inline">\(\M{A}(\vect{p} + \vect{h}) = \vect{b}\)</span>.</li>
-<li>Show that if <span class="math inline">\(\M{A}\vect{p} = \vect{b}\)</span> and <span class="math inline">\(\M{A}\vect{q} = \vect{b}\)</span>, then <span class="math inline">\(\vect{q} - \vect{p}\)</span> solves <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>. Explain why (b) and (c) together prove <a href="#eq-general-solution" class="quarto-xref">Equation&nbsp;<span>10.1</span></a>.</li>
+<li>Show that if <span class="math inline">\(\M{A}\vect{p} = \vect{b}\)</span> and <span class="math inline">\(\M{A}\vect{q} = \vect{b}\)</span>, then <span class="math inline">\(\vect{q} - \vect{p}\)</span> solves <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>. Explain why (b) and (c) together prove <a href="#eq-general-solution" class="quarto-xref">Equation&nbsp;<span>10.1</span></a>. (<em>Hint</em>: each part needs only <span class="math inline">\(\M{A}(\vect{u} + \vect{v}) = \M{A}\vect{u} + \M{A}\vect{v}\)</span> and <span class="math inline">\(\M{A}(c\vect{u}) = c\M{A}\vect{u}\)</span>.)</li>
 </ol>
 <p><a href="../appendices/solutions-2.html#solution-linear-systems-5" class="sol-link">Solution to exercise 5</a></p></li>
 <li><p><span id="exercise-linear-systems-6"></span>Propane (<span class="math inline">\(\mathrm{C_3H_8}\)</span>), the gas in camping stoves, burns to give carbon dioxide and water. Balance <span class="math inline">\(a\,\mathrm{C_3H_8} + b\,\mathrm{O_2} \to c\,\mathrm{CO_2} + d\,\mathrm{H_2O}\)</span> with the smallest whole numbers.</p>

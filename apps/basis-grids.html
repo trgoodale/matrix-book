@@ -291,7 +291,8 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
 
   // Optional start-up settings: ?b1=1,1&b2=1,-1&v=5,1
   const q = new URLSearchParams(location.search), pv = k => { const a = (q.get(k) || '').split(',').map(Number); return a.length === 2 && a.every(isFinite) ? a : null; };
-  S.b1 = pv('b1') || PRESETS[0][1].slice(); S.b2 = pv('b2') || PRESETS[0][2].slice(); S.v = pv('v') || PRESETS[0][3].slice();
+  const qp = PRESETS.find(p => p[0] === q.get('preset')) || PRESETS[0];
+  S.b1 = pv('b1') || qp[1].slice(); S.b2 = pv('b2') || qp[2].slice(); S.v = pv('v') || qp[3].slice();
   new ResizeObserver(resize).observe(cv.parentElement);
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
   new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });

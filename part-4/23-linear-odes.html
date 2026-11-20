@@ -1173,7 +1173,7 @@ Figure&nbsp;23.1: The two rooms of Example 1. Each loses heat to the outside at 
 </div>
 <p><strong>Solution.</strong> The matrix is <span class="math inline">\(\M{A} = \mat{-2 &amp; 1 \\ 1 &amp; -2}\)</span>, with trace <span class="math inline">\(-4\)</span> and determinant 3, so <span class="math inline">\(\lambda^2 + 4\lambda + 3 = 0\)</span> and <span class="math inline">\(\lambda = -1\)</span> or <span class="math inline">\(-3\)</span>. Eigenvectors: <span class="math inline">\((1, 1)\T\)</span> for <span class="math inline">\(\lambda = -1\)</span> and <span class="math inline">\((1, -1)\T\)</span> for <span class="math inline">\(\lambda = -3\)</span>. Writing <span class="math inline">\(\vect{x}_0 = (3, 1)\T = 2(1, 1)\T + 1(1, -1)\T\)</span>, <span class="math display">\[
 \vect{x}(t) = 2e^{-t}\mat{1 \\ 1} + e^{-3t}\mat{1 \\ -1}.
-\]</span> The modes have a physical meaning. In the first, both rooms are equally warm, so no heat crosses the wall and both cool at rate 1. In the second, one room is warmer than the other by as much as the other is cooler; heat also flows through the wall, so this difference dies away three times as fast. After a short time the temperatures are almost equal, and both fall together. This is <strong>Two rooms cooling</strong> in the app: paths first move parallel to <span class="math inline">\((1, -1)\)</span> onto the line through <span class="math inline">\((1, 1)\)</span>, then slide along it to the origin.</p>
+\]</span> The modes have a physical meaning. In the first, both rooms are equally warm, so no heat crosses the wall and both cool at rate 1. In the second, one room is warmer than the other by as much as the other is cooler; heat also flows through the wall, so this difference dies away three times as fast. After a short time the temperatures are almost equal, and both fall together. This is <a href="../apps/phase-portrait.html?preset=Two rooms cooling" target="_blank" aria-label="Two rooms cooling preset in the phase portrait explorer (opens in a new tab)"><strong>Two rooms cooling</strong></a> in the app: paths first move parallel to <span class="math inline">\((1, -1)\)</span> onto the line through <span class="math inline">\((1, 1)\)</span>, then slide along it to the origin.</p>
 </div>
 </div>
 </section>
@@ -1197,7 +1197,7 @@ e^{(\alpha + \beta i)t} = e^{\alpha t}(\cos\beta t + i\sin\beta t).
 x(t) = e^{-t}(a\cos 2t + b\sin 2t).
 \]</span> From <span class="math inline">\(x(0) = 1\)</span>, <span class="math inline">\(a = 1\)</span>. Differentiating, <span class="math inline">\(\dot{x}(0) = -a + 2b = 0\)</span>, so <span class="math inline">\(b = \tfrac{1}{2}\)</span>, and <span class="math display">\[
 x(t) = e^{-t}\left(\cos 2t + \tfrac{1}{2}\sin 2t\right).
-\]</span> The mass oscillates with angular frequency 2, and the amplitude decays like <span class="math inline">\(e^{-t}\)</span>: a stable spiral in the phase plane, <strong>Damped spring</strong> in the app. Without damping (<span class="math inline">\(\ddot{x} + 4x = 0\)</span>, <strong>Undamped spring</strong>), the eigenvalues would be <span class="math inline">\(\pm 2i\)</span> and the paths closed ellipses.</p>
+\]</span> The mass oscillates with angular frequency 2, and the amplitude decays like <span class="math inline">\(e^{-t}\)</span>: a stable spiral in the phase plane, <a href="../apps/phase-portrait.html?preset=Damped spring" target="_blank" aria-label="Damped spring preset in the phase portrait explorer (opens in a new tab)"><strong>Damped spring</strong></a> in the app. Without damping (<span class="math inline">\(\ddot{x} + 4x = 0\)</span>, <strong>Undamped spring</strong>), the eigenvalues would be <span class="math inline">\(\pm 2i\)</span> and the paths closed ellipses.</p>
 </div>
 </div>
 </section>
@@ -1296,7 +1296,7 @@ e^{\M{A}t} = \M{P}\mat{e^{-t} &amp; 0 \\ 0 &amp; e^{-3t}}\M{P}\T = \frac{1}{2}\m
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="c66dbede" class="cell" data-execution_count="1">
+<div id="6df107ed" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>

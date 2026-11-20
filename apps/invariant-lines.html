@@ -450,6 +450,8 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   cv.addEventListener('pointerleave', () => { if (!drag && hover) { hover = false; cv.className = ''; draw(); } });
 
   // Optional start-up matrix from the page address: ?m=3,1,2,2 (row by row)
+  // Optional start-up settings: ?preset=Shear (a preset's name) or ?m=a,b,c,d
+  const qp = PRESETS.find(p => p[0] === new URLSearchParams(location.search).get('preset')); if (qp) S.A = qp[1].map(r => r.slice());
   const qm = new URLSearchParams(location.search).get('m');
   if (qm) { const x = qm.split(',').map(Number); if (x.length === 4 && x.every(isFinite)) S.A = [[x[0], x[1]], [x[2], x[3]]]; }
 

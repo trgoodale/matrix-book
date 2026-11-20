@@ -1238,7 +1238,7 @@ c_1\vect{v}_1 + \dots + c_k\vect{v}_k = \zerovec \quad\text{only when}\quad c_1 
 \mat{1 &amp; 2 &amp; 0 \\ 0 &amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 0}.
 \]</span> There is no pivot in column 3, so <span class="math inline">\(c_3\)</span> is free and the vectors are <strong>dependent</strong>. Take <span class="math inline">\(c_3 = 1\)</span>. Then row 2 gives <span class="math inline">\(c_2 = -1\)</span>, and row 1 gives <span class="math inline">\(c_1 = -2c_2 = 2\)</span>. So <span class="math display">\[
 2\vect{v}_1 - \vect{v}_2 + \vect{v}_3 = \zerovec,
-\]</span> which you can check entry by entry. The three vectors lie in one plane, the one spanned by <span class="math inline">\(\vect{v}_1\)</span> and <span class="math inline">\(\vect{v}_2\)</span>. This is the <strong>Three in a plane</strong> example in the app.</p>
+\]</span> which you can check entry by entry. The three vectors lie in one plane, the one spanned by <span class="math inline">\(\vect{v}_1\)</span> and <span class="math inline">\(\vect{v}_2\)</span>. This is the <a href="../apps/span-explorer.html?preset=Three in a plane" target="_blank" aria-label="Three in a plane preset in the span explorer (opens in a new tab)"><strong>Three in a plane</strong></a> example in the app.</p>
 </div>
 </div>
 <div id="ex-span-independence-3" class="callout callout-style-simple callout-note no-icon callout-titled">
@@ -1263,7 +1263,7 @@ c_1\vect{v}_1 + \dots + c_k\vect{v}_k = \zerovec \quad\text{only when}\quad c_1 
 <h3 class="anchored" data-anchor-id="why-independence-matters">Why independence matters</h3>
 <p>If the vectors are independent, every vector in their span can be made from them in <strong>exactly one way</strong>. For if <span class="math display">\[
 \vect{b} = c_1\vect{v}_1 + \dots + c_k\vect{v}_k = d_1\vect{v}_1 + \dots + d_k\vect{v}_k,
-\]</span> then subtracting gives <span class="math inline">\((c_1 - d_1)\vect{v}_1 + \dots + (c_k - d_k)\vect{v}_k = \zerovec\)</span>, and independence forces every <span class="math inline">\(c_i = d_i\)</span>. With dependent vectors, there are always infinitely many ways (the app shows this in <strong>Parallel: a line</strong>). This is the idea behind coordinates, in <a href="15-basis-change.html" class="quarto-xref"><span>Chapter 15</span></a>.</p>
+\]</span> then subtracting gives <span class="math inline">\((c_1 - d_1)\vect{v}_1 + \dots + (c_k - d_k)\vect{v}_k = \zerovec\)</span>, and independence forces every <span class="math inline">\(c_i = d_i\)</span>. With dependent vectors, there are always infinitely many ways (the app shows this in <a href="../apps/span-explorer.html?preset=Parallel%3A a line" target="_blank" aria-label="Parallel: a line preset in the span explorer (opens in a new tab)"><strong>Parallel: a line</strong></a>). This is the idea behind coordinates, in <a href="15-basis-change.html" class="quarto-xref"><span>Chapter 15</span></a>.</p>
 </section>
 <section id="subspaces" class="level3">
 <h3 class="anchored" data-anchor-id="subspaces">Subspaces</h3>
@@ -1277,7 +1277,7 @@ c_1\vect{v}_1 + \dots + c_k\vect{v}_k = \zerovec \quad\text{only when}\quad c_1 
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="8e5efc61" class="cell" data-execution_count="1">
+<div id="305e8ad5" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> null_space</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>

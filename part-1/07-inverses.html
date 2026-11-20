@@ -1298,7 +1298,7 @@ C_{31} &amp;= +(8 - 3) = 5, &amp; C_{32} &amp;= -(4 - 0) = -4, &amp; C_{33} &amp
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="572a0487" class="cell" data-execution_count="1">
+<div id="65e7fa9b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">4</span>, <span class="dv">7</span>], [<span class="dv">2</span>, <span class="dv">6</span>]])</span>
@@ -1313,7 +1313,7 @@ C_{31} &amp;= +(8 - 3) = 5, &amp; C_{32} &amp;= -(4 - 0) = -4, &amp; C_{33} &amp
 </div>
 </div>
 <p>The difference matters for large systems. Here both approaches solve a random <span class="math inline">\(2000 \times 2000\)</span> system, and we compare the time taken and the size of the error, measured by how far <span class="math inline">\(\M{A}\vect{x}\)</span> is from <span class="math inline">\(\vect{b}\)</span>:</p>
-<div id="2e67a932" class="cell" data-execution_count="2">
+<div id="bfc9a829" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">2</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">2000</span></span>
@@ -1325,8 +1325,8 @@ C_{31} &amp;= +(8 - 3) = 5, &amp; C_{32} &amp;= -(4 - 0) = -4, &amp; C_{33} &amp
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"solve: </span><span class="sc">{</span>t1 <span class="op">-</span> t0<span class="sc">:.3f}</span><span class="ss"> s, error </span><span class="sc">{</span>np<span class="sc">.</span>linalg<span class="sc">.</span>norm(M <span class="op">@</span> x1 <span class="op">-</span> v)<span class="sc">:.1e}</span><span class="ss">"</span>)</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"inv:   </span><span class="sc">{</span>t2 <span class="op">-</span> t1<span class="sc">:.3f}</span><span class="ss"> s, error </span><span class="sc">{</span>np<span class="sc">.</span>linalg<span class="sc">.</span>norm(M <span class="op">@</span> x2 <span class="op">-</span> v)<span class="sc">:.1e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>solve: 0.130 s, error 5.9e-11
-inv:   0.491 s, error 3.4e-10</code></pre>
+<pre><code>solve: 0.644 s, error 6.0e-11
+inv:   1.017 s, error 3.5e-10</code></pre>
 </div>
 </div>
 <p>Using the inverse typically takes several times as long and gives a larger error.</p>
@@ -1439,7 +1439,7 @@ ans =
 <p><a href="../appendices/solutions-1.html#solution-inverses-3" class="sol-link">Solution to exercise 3</a></p></li>
 <li><p><span id="exercise-inverses-4"></span>Show that if <span class="math inline">\(\M{A}\)</span> and <span class="math inline">\(\M{B}\)</span> are invertible <span class="math inline">\(n \times n\)</span> matrices, then <span class="math inline">\((\M{A}\M{B})^{-1} = \M{B}^{-1}\M{A}^{-1}\)</span> by multiplying <span class="math inline">\(\M{A}\M{B}\)</span> by <span class="math inline">\(\M{B}^{-1}\M{A}^{-1}\)</span>. Find <span class="math inline">\((\M{A}\M{B}\M{C})^{-1}\)</span> in terms of the individual inverses.</p>
 <p><a href="../appendices/solutions-1.html#solution-inverses-4" class="sol-link">Solution to exercise 4</a></p></li>
-<li><p><span id="exercise-inverses-5"></span>A matrix satisfies <span class="math inline">\(\M{A}^2 - 3\M{A} + 2\M{I} = \M{0}\)</span>. Show that <span class="math inline">\(\M{A}\)</span> is invertible and that <span class="math inline">\(\M{A}^{-1} = \tfrac{1}{2}(3\M{I} - \M{A})\)</span>.</p>
+<li><p><span id="exercise-inverses-5"></span>A matrix satisfies <span class="math inline">\(\M{A}^2 - 3\M{A} + 2\M{I} = \M{0}\)</span>. Show that <span class="math inline">\(\M{A}\)</span> is invertible and that <span class="math inline">\(\M{A}^{-1} = \tfrac{1}{2}(3\M{I} - \M{A})\)</span>. (<em>Hint</em>: rearrange the equation to <span class="math inline">\(\M{A}(3\M{I} - \M{A}) = 2\M{I}\)</span>.)</p>
 <p><a href="../appendices/solutions-1.html#solution-inverses-5" class="sol-link">Solution to exercise 5</a></p></li>
 <li><p><span id="exercise-inverses-6"></span>Solve for <span class="math inline">\(\M{X}\)</span>, assuming every matrix that needs to be invertible is: (a) <span class="math inline">\(\M{X}\M{A} = \M{B}\)</span>; (b) <span class="math inline">\(\M{A}\M{X} + \M{B} = \M{C}\)</span>; (c) <span class="math inline">\(\M{A}\M{X}\M{A}^{-1} = \M{D}\)</span>.</p>
 <p><a href="../appendices/solutions-1.html#solution-inverses-6" class="sol-link">Solution to exercise 6</a></p></li>

@@ -1107,7 +1107,24 @@ window.Quarto = {
 </ul>
 </div>
 </div>
-<p><strong>Builds on</strong> <a href="../part-1/03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a>, <a href="../part-3/16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a>, <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>. The circuits of <a href="32-circuits.html" class="quarto-xref"><span>Chapter 32</span></a> and the PageRank of <a href="35-markov-pagerank.html" class="quarto-xref"><span>Chapter 35</span></a> use some of the same ideas.</p>
+<p><strong>Builds on</strong> <a href="../part-1/03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a>, <a href="../part-3/16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a>, <a href="../part-4/18-eigenvalues.html" class="quarto-xref"><span>Chapter 18</span></a>. It also uses three results from <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>, given in the box below, so you can read it without that chapter. The circuits of <a href="32-circuits.html" class="quarto-xref"><span>Chapter 32</span></a> and the PageRank of <a href="35-markov-pagerank.html" class="quarto-xref"><span>Chapter 35</span></a> use some of the same ideas.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What you need from Chapter 20
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>A symmetric matrix has real eigenvalues and a full set of perpendicular eigenvectors.</li>
+<li>If <span class="math inline">\(\vect{x}\T\M{S}\vect{x} \ge 0\)</span> for every <span class="math inline">\(\vect{x}\)</span> (the matrix is <strong>positive semidefinite</strong>), every eigenvalue of <span class="math inline">\(\M{S}\)</span> is at least 0.</li>
+<li>Among unit vectors, <span class="math inline">\(\vect{x}\T\M{S}\vect{x}\)</span> is smallest at the eigenvector of the smallest eigenvalue, where it equals that eigenvalue. Among unit vectors perpendicular to that eigenvector, it is smallest at the eigenvector of the next eigenvalue. This is used only in an optional aside on splitting networks.</li>
+</ul>
+</div>
+</div>
 <section id="the-problem" class="level2" data-number="41.1">
 <h2 data-number="41.1" class="anchored" data-anchor-id="the-problem"><span class="header-section-number">41.1</span> The problem</h2>
 <p>Friendships, flights between airports, roads between towns, links between web pages, proteins that interact in a cell, neurons in a brain: all are <strong>networks</strong>, made of <strong>nodes</strong> joined by <strong>edges</strong>. The questions people ask about them are surprisingly similar across all these fields. How many ways are there to get from one node to another? Is the network in one piece, or several? Does it fall naturally into groups, or communities? Which nodes matter most?</p>
@@ -1197,8 +1214,24 @@ Figure&nbsp;41.1: The friendships of Example 1. The shaded triangle 1–2–3 is
 <h3 class="anchored" data-anchor-id="splitting-a-network-the-fiedler-vector">Splitting a network: the Fiedler vector</h3>
 <p>Suppose we want to split a connected network into two groups, cutting as few edges as possible, without making one group tiny. Label the nodes in one group <span class="math inline">\(x_i = +1\)</span> and in the other <span class="math inline">\(x_i = -1\)</span>. An edge inside a group contributes 0 to <a href="#eq-laplacian-form" class="quarto-xref">Equation&nbsp;<span>41.1</span></a>, and an edge between groups contributes <span class="math inline">\(2^2 = 4\)</span>, so <span class="math display">\[
 \vect{x}\T\M{L}\vect{x} = 4 \times (\text{number of edges cut}).
-\]</span> Requiring <span class="math inline">\(\vect{x} \perp \vect{1}\)</span> makes the two groups the same size. Finding the best <span class="math inline">\(\pm 1\)</span> vector is very hard for large networks, but if we allow any real numbers, with <span class="math inline">\(\lVert\vect{x}\rVert = 1\)</span> and <span class="math inline">\(\vect{x} \perp \vect{1}\)</span>, the minimum of <span class="math inline">\(\vect{x}\T\M{L}\vect{x}\)</span> is <span class="math inline">\(\lambda_2\)</span>, reached at its eigenvector <span class="math inline">\(\vect{v}_2\)</span>. This is the Rayleigh quotient idea of <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>: the smallest eigenvalue minimises <span class="math inline">\(\vect{x}\T\M{L}\vect{x}\)</span> over unit vectors, and the next one does so over unit vectors perpendicular to the first eigenvector, here <span class="math inline">\(\vect{1}\)</span>.</p>
-<p>So <strong>spectral partitioning</strong> splits the nodes by the signs of <span class="math inline">\(\vect{v}_2\)</span>, which is called the <strong>Fiedler vector</strong>, after Miroslav Fiedler. Its eigenvalue <span class="math inline">\(\lambda_2\)</span>, the <strong>algebraic connectivity</strong>, measures how well connected the network is: a small <span class="math inline">\(\lambda_2\)</span> means that some split cuts few edges, and a network with a bottleneck has a small <span class="math inline">\(\lambda_2\)</span>.</p>
+\]</span> Finding the best split exactly is very hard for a large network, but an eigenvector of <span class="math inline">\(\M{L}\)</span> gives an excellent approximate one.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Optional: why the eigenvector gives a good split
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Requiring <span class="math inline">\(\vect{x} \perp \vect{1}\)</span> makes the two groups the same size. Finding the best <span class="math inline">\(\pm 1\)</span> vector is very hard for large networks, but if we allow any real numbers, with <span class="math inline">\(\lVert\vect{x}\rVert = 1\)</span> and <span class="math inline">\(\vect{x} \perp \vect{1}\)</span>, the minimum of <span class="math inline">\(\vect{x}\T\M{L}\vect{x}\)</span> is <span class="math inline">\(\lambda_2\)</span>, reached at its eigenvector <span class="math inline">\(\vect{v}_2\)</span>. This is the third fact in the box at the start of the chapter, the Rayleigh quotient idea of <a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>: the smallest eigenvalue minimises <span class="math inline">\(\vect{x}\T\M{L}\vect{x}\)</span> over unit vectors, and the next one does so over unit vectors perpendicular to the first eigenvector, here <span class="math inline">\(\vect{1}\)</span>.</p>
+</div>
+</div>
+</div>
+<p><strong>Spectral partitioning</strong> splits the nodes by the signs of <span class="math inline">\(\vect{v}_2\)</span>, the eigenvector of the second smallest eigenvalue <span class="math inline">\(\lambda_2\)</span>. This eigenvector is called the <strong>Fiedler vector</strong>, after Miroslav Fiedler. Its eigenvalue <span class="math inline">\(\lambda_2\)</span>, the <strong>algebraic connectivity</strong>, measures how well connected the network is: a small <span class="math inline">\(\lambda_2\)</span> means that some split cuts few edges, and a network with a bottleneck has a small <span class="math inline">\(\lambda_2\)</span>.</p>
 <div id="ex-networks-3" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1291,7 +1324,7 @@ Figure&nbsp;41.3: The network of Example 4, with each node’s eigenvector centr
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="358f42cb" class="cell" data-execution_count="1">
+<div id="e97151d7" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> adjacency(n, edges):</span>
@@ -1385,7 +1418,7 @@ groupB =
 <section id="check-your-understanding" class="level2" data-number="41.5">
 <h2 data-number="41.5" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">41.5</span> Check your understanding</h2>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1394,14 +1427,14 @@ groupB =
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The diagonal entry of row <span class="math inline">\(i\)</span> is the degree <span class="math inline">\(d_i\)</span>, and the row has a <span class="math inline">\(-1\)</span> for each of the <span class="math inline">\(d_i\)</span> neighbours. So <span class="math inline">\(\M{L}\vect{1} = \zerovec\)</span>: the vector of all ones is in the null space.</p>
 </div>
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1410,14 +1443,14 @@ groupB =
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Three: the number of zero eigenvalues is the dimension of the null space, which equals the number of connected components.</p>
 </div>
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1426,7 +1459,7 @@ groupB =
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><span class="math inline">\(\vect{1}\)</span> is the eigenvector for <span class="math inline">\(\lambda_1 = 0\)</span>, and eigenvectors of a symmetric matrix for different eigenvalues are orthogonal. So the entries of the Fiedler vector add up to zero: some are positive and some negative, which is what makes it split the nodes into two groups.</p>
 </div>
@@ -1448,7 +1481,7 @@ groupB =
 <ol type="1">
 <li><p><span id="exercise-networks-1"></span>A <strong>star</strong> has a centre, node 1, joined to three leaves, nodes 2, 3 and 4, and no other edges. Find <span class="math inline">\(\M{A}^2\)</span> and <span class="math inline">\(\M{A}^3\)</span>, and explain what their entries count. Why is <span class="math inline">\(\operatorname{trace}(\M{A}^3) = 0\)</span>?</p>
 <p><a href="../appendices/solutions-6.html#solution-networks-1" class="sol-link">Solution to exercise 1</a></p></li>
-<li><p><span id="exercise-networks-2"></span>Show that <span class="math inline">\(\vect{x}\T\M{L}\vect{x} = \sum_{\text{edges } ij}(x_i - x_j)^2\)</span> directly from <span class="math inline">\(\M{L} = \M{D} - \M{A}\)</span>, by writing out <span class="math inline">\(\vect{x}\T\M{D}\vect{x}\)</span> and <span class="math inline">\(\vect{x}\T\M{A}\vect{x}\)</span> as sums.</p>
+<li><p><span id="exercise-networks-2"></span>Show that <span class="math inline">\(\vect{x}\T\M{L}\vect{x} = \sum_{\text{edges } ij}(x_i - x_j)^2\)</span> directly from <span class="math inline">\(\M{L} = \M{D} - \M{A}\)</span>, by writing out <span class="math inline">\(\vect{x}\T\M{D}\vect{x}\)</span> and <span class="math inline">\(\vect{x}\T\M{A}\vect{x}\)</span> as sums. (<em>Hint</em>: <span class="math inline">\(\vect{x}\T\M{D}\vect{x} = \sum_i d_i x_i^2\)</span> and <span class="math inline">\(\vect{x}\T\M{A}\vect{x} = \sum_{\text{edges } ij} 2x_ix_j\)</span>. Share each <span class="math inline">\(d_ix_i^2\)</span> out as one <span class="math inline">\(x_i^2\)</span> for each edge at node <span class="math inline">\(i\)</span>.)</p>
 <p><a href="../appendices/solutions-6.html#solution-networks-2" class="sol-link">Solution to exercise 2</a></p></li>
 <li><p><span id="exercise-networks-3"></span>Find the Laplacian eigenvalues of (a) the complete graph on 4 nodes, in which every pair is joined, and (b) the path 1–2–3–4. Which has the larger algebraic connectivity <span class="math inline">\(\lambda_2\)</span>, and why does that make sense? (For (a), try the vectors <span class="math inline">\(\vect{1}\)</span> and <span class="math inline">\((1, -1, 0, 0)\T\)</span>.)</p>
 <p><a href="../appendices/solutions-6.html#solution-networks-3" class="sol-link">Solution to exercise 3</a></p></li>
@@ -1456,7 +1489,7 @@ groupB =
 <p><a href="../appendices/solutions-6.html#solution-networks-4" class="sol-link">Solution to exercise 4</a></p></li>
 <li><p><span id="exercise-networks-5"></span>In Example 3, add an edge between nodes 2 and 5. Show that <span class="math inline">\(\vect{x} = (2, 1, 1, -1, -1, -2)\T\)</span> is now an eigenvector of <span class="math inline">\(\M{L}\)</span> with eigenvalue 1, and (using the computer, or the app) that this is <span class="math inline">\(\lambda_2\)</span>. Where does its sign split the network, and what does the increase in <span class="math inline">\(\lambda_2\)</span> from 0.438 to 1 tell you?</p>
 <p><a href="../appendices/solutions-6.html#solution-networks-5" class="sol-link">Solution to exercise 5</a></p></li>
-<li><p><span id="exercise-networks-6"></span>Explain why, if the nodes of a network are numbered so that each connected component’s nodes come together, <span class="math inline">\(\M{L}\)</span> is block diagonal. Use this to show that the number of zero eigenvalues is at least the number of components.</p>
+<li><p><span id="exercise-networks-6"></span>Explain why, if the nodes of a network are numbered so that each connected component’s nodes come together, <span class="math inline">\(\M{L}\)</span> is block diagonal. Use this to show that the number of zero eigenvalues is at least the number of components. (<em>Hint</em>: each block is the Laplacian of one component, and every Laplacian has eigenvalue 0 with eigenvector <span class="math inline">\(\vect{1}\)</span>. Pad that vector with zeros outside the block.)</p>
 <p><a href="../appendices/solutions-6.html#solution-networks-6" class="sol-link">Solution to exercise 6</a></p></li>
 <li><p><span id="exercise-networks-7"></span><strong>Code.</strong> Make a random network with two hidden communities of 50 nodes each: join each pair of nodes in the same community with probability 0.3, and each pair in different communities with probability 0.05. Find the Fiedler vector, split the nodes by its signs, and count how many nodes end up in the right group. Repeat with a between-community probability of 0.15. What happens, and why?</p>
 <p><a href="../appendices/solutions-6.html#solution-networks-7" class="sol-link">Solution to exercise 7</a></p></li>

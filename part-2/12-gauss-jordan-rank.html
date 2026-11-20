@@ -1285,7 +1285,7 @@ x_3 = 1 - t,
 \amat{rrr|rrr}{1 &amp; 0 &amp; 0 &amp; 3 &amp; -2 &amp; 1 \\ 0 &amp; 1 &amp; 0 &amp; -2 &amp; 2 &amp; -1 \\ 0 &amp; 0 &amp; 1 &amp; 1 &amp; -1 &amp; 1}.
 \]</span> The left half is <span class="math inline">\(\M{I}\)</span>, so <span class="math display">\[
 \M{A}^{-1} = \mat{3 &amp; -2 &amp; 1 \\ -2 &amp; 2 &amp; -1 \\ 1 &amp; -1 &amp; 1}.
-\]</span> Check one entry of <span class="math inline">\(\M{A}\M{A}^{-1}\)</span>: row 2 of <span class="math inline">\(\M{A}\)</span> times column 1 of <span class="math inline">\(\M{A}^{-1}\)</span> is <span class="math inline">\(3 - 4 + 1 = 0\)</span>, as it should be off the diagonal. ✓ This is the <strong>Inverse</strong> example in the app.</p>
+\]</span> Check one entry of <span class="math inline">\(\M{A}\M{A}^{-1}\)</span>: row 2 of <span class="math inline">\(\M{A}\)</span> times column 1 of <span class="math inline">\(\M{A}^{-1}\)</span> is <span class="math inline">\(3 - 4 + 1 = 0\)</span>, as it should be off the diagonal. ✓ This is the <a href="../apps/row-reduction.html?mode=rref&amp;preset=Inverse" target="_blank" aria-label="Inverse preset in the row reduction stepper (opens in a new tab)"><strong>Inverse</strong></a> example in the app.</p>
 </div>
 </div>
 </section>
@@ -1297,7 +1297,7 @@ x_3 = 1 - t,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="488f30dd" class="cell" data-execution_count="1">
+<div id="89ac1449" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rref(M, tol<span class="op">=</span><span class="fl">1e-10</span>):</span>
@@ -1334,7 +1334,7 @@ pivot columns: [0, 2]</code></pre>
 </div>
 </div>
 <p><code>np.linalg.matrix_rank</code> finds the rank directly. It uses a more reliable method than counting pivots (the singular value decomposition, <a href="../part-4/21-svd-pca.html" class="quarto-xref"><span>Chapter 21</span></a>):</p>
-<div id="f6773a90" class="cell" data-execution_count="2">
+<div id="44b403b0" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array(Ab)[:, :<span class="dv">4</span>]</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.matrix_rank(A), np.linalg.matrix_rank(Ab))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>

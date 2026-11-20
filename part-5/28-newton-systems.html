@@ -1262,7 +1262,7 @@ Figure&nbsp;28.2: The two solutions of Example 2. Newton’s method from <span c
 <h3 class="anchored" data-anchor-id="when-newtons-method-fails">When Newton’s method fails</h3>
 <p>The guarantee holds only <em>near</em> a root. Further away, several things can go wrong:</p>
 <ul>
-<li><strong>A singular Jacobian.</strong> If <span class="math inline">\(\M{J}(\vect{x}_k)\)</span> is singular, the linear system has no unique solution and the method breaks down. Near such points the steps are huge and throw the guess far away. In the app’s <strong>Circle and hyperbola</strong>, the Jacobian is singular along the lines <span class="math inline">\(y = \pm x\)</span>, which is why the colours change there.</li>
+<li><strong>A singular Jacobian.</strong> If <span class="math inline">\(\M{J}(\vect{x}_k)\)</span> is singular, the linear system has no unique solution and the method breaks down. Near such points the steps are huge and throw the guess far away. In the app’s <a href="../apps/newton-basins.html?preset=Circle and hyperbola" target="_blank" aria-label="Circle and hyperbola preset in the Newton basins app (opens in a new tab)"><strong>Circle and hyperbola</strong></a>, the Jacobian is singular along the lines <span class="math inline">\(y = \pm x\)</span>, which is why the colours change there.</li>
 <li><strong>A bad start.</strong> From a poor starting guess, the steps can wander, cycle or run off to infinity, or reach a different root from the one you wanted. The <strong>basins of attraction</strong>, the sets of starting points that lead to each root, can have very complicated, fractal boundaries, as <strong>Cube roots of 1</strong> shows.</li>
 <li><strong>No root nearby.</strong> If the equations have no solution near the start, Newton’s method has nothing to converge to, and wanders.</li>
 <li><strong>Multiple roots.</strong> Where the Jacobian at the root itself is singular, convergence slows to linear.</li>
@@ -1300,7 +1300,7 @@ Figure&nbsp;28.2: The two solutions of Example 2. Newton’s method from <span c
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="231cfbf6" class="cell" data-execution_count="1">
+<div id="12f7ce44" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> fsolve</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
