@@ -239,7 +239,7 @@ $$
 
 **Solution.** Adding the first two equations gives $2x + 2z = 4$. But the third equation says $2x + 2z = 5$. Both cannot hold, so there is no solution: the system is inconsistent.
 
-No two of the planes are parallel (no equation's coefficients are a multiple of another's), so each pair of planes meets in a line. But the three lines never meet: they are parallel, and the planes form a triangular tube (@fig-three-planes, left). This is the **Triangular tube** preset in the app.
+No two of the planes are parallel (no equation's coefficients are a multiple of another's), so each pair of planes meets in a line. But the three lines never meet: they are parallel, and the planes form a triangular tube (@fig-three-planes, left). This is the [**Triangular tube**](../apps/linear-systems.html?preset=Triangular%20tube){target="_blank" aria-label="Triangular tube preset in the systems explorer (opens in a new tab)"} preset in the app.
 :::
 
 ::: {#ex-linear-systems-3 .callout-note appearance="simple" icon=false}

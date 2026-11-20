@@ -139,7 +139,7 @@ Partial pivoting compares the sizes of entries in one column, but that compariso
 - **Scaled partial pivoting** compares each candidate pivot with the largest entry in its own row, and picks the row where the pivot is largest relative to the rest of its row.
 - **Complete pivoting** searches the whole remaining submatrix for the largest entry and swaps both rows and columns to bring it into the pivot position. Its growth factor is much better bounded, but the search costs about $n^3/3$ comparisons, so it is rarely used.
 
-To see this, go back to the app at the start of the chapter and choose **Badly scaled**. Partial pivoting doesn't help: look at the sizes of the numbers in each row, and then try **Scaled partial**.
+To see this, go back to the app at the start of the chapter and choose [**Badly scaled**](../apps/pivoting.html?preset=Badly%20scaled){target="_blank" aria-label="Badly scaled preset in the pivoting explorer (opens in a new tab)"}. Partial pivoting doesn't help: look at the sizes of the numbers in each row, and then try **Scaled partial**.
 
 A simpler and very effective alternative to scaled pivoting is to **equilibrate** the system first, dividing each row by its largest entry, so that all rows have similar sizes.
 
@@ -157,7 +157,7 @@ whose exact solution is $x = 10$, $y = 1$.
 
 **Solution.** This is Example 1 with the first equation multiplied by $10^5$. Partial pivoting compares 30 with 5.291 and makes no swap, so it repeats the mistake of Example 1: the 4-digit result is $x = -10.00$, $y = 1.001$. The pivot 30 looked large, but it is tiny compared with the rest of its row.
 
-Scaled partial pivoting compares $30/591\,400 \approx 0.00005$ with $5.291/6.130 \approx 0.86$, swaps the equations, and gets $x = 10.00$, $y = 1.000$. This is **Badly scaled** in the app.
+Scaled partial pivoting compares $30/591\,400 \approx 0.00005$ with $5.291/6.130 \approx 0.86$, swaps the equations, and gets $x = 10.00$, $y = 1.000$. This is [**Badly scaled**](../apps/pivoting.html?preset=Badly%20scaled){target="_blank" aria-label="Badly scaled preset in the pivoting explorer (opens in a new tab)"} in the app.
 :::
 
 ### When pivoting isn't needed

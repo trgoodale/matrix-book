@@ -576,6 +576,8 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   const q = new URLSearchParams(location.search);
   if (q.get('dim') === '3') S.dim = 3;
   if (q.get('view') === 'col') S.view = 'col';
+  // ?preset=Triangular tube (a preset's name) picks the matching number of unknowns too
+  if (q.get('preset')) { for (const n of [2, 3]) { const p = PRESETS[n].find(x => x[0] === q.get('preset')); if (p) { S.dim = n; S.M[n] = p[1].map(r => r.slice()); break; } } }
   if (q.get('m')) {
     const m = q.get('m').split(';').map(r => r.split(',').map(Number));
     const n = m.length; if ((n === 2 || n === 3) && m.every(r => r.length === n + 1 && r.every(isFinite))) { S.dim = n; S.M[n] = m; }

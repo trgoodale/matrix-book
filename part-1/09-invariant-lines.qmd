@@ -228,7 +228,7 @@ Find the invariant lines through the origin of the shear $\M{H} = \mat{1 & 1 \\ 
 
 **Solution.** Here $a = 1$, $b = 1$, $c = 0$, $d = 1$, so @eq-invariant-lines is $m^2 = 0$, with the single solution $m = 0$: the $x$-axis. Then $\lambda = a + bm = 1$, so the $x$-axis is a line of invariant points. Since $b \neq 0$, the $y$-axis is not invariant.
 
-So a shear has only one invariant line through the origin. Every other line is tipped over, as you can see by pressing **Shear** in the app. This is a sign of something you will meet again in @sec-diagonalisation: some matrices do not have enough invariant directions to describe them completely.
+So a shear has only one invariant line through the origin. Every other line is tipped over, as you can see by pressing [**Shear**](../apps/invariant-lines.html?preset=Shear){target="_blank" aria-label="Shear preset in the invariant line finder (opens in a new tab)"} in the app. This is a sign of something you will meet again in @sec-diagonalisation: some matrices do not have enough invariant directions to describe them completely.
 :::
 
 ## In code

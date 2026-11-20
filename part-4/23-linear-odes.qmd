@@ -79,7 +79,7 @@ Starting from $\vect{x}_0 = (3, 1)\T$, find $\vect{x}(t)$.
 $$
 \vect{x}(t) = 2e^{-t}\mat{1 \\ 1} + e^{-3t}\mat{1 \\ -1}.
 $$
-The modes have a physical meaning. In the first, both rooms are equally warm, so no heat crosses the wall and both cool at rate 1. In the second, one room is warmer than the other by as much as the other is cooler; heat also flows through the wall, so this difference dies away three times as fast. After a short time the temperatures are almost equal, and both fall together. This is **Two rooms cooling** in the app: paths first move parallel to $(1, -1)$ onto the line through $(1, 1)$, then slide along it to the origin.
+The modes have a physical meaning. In the first, both rooms are equally warm, so no heat crosses the wall and both cool at rate 1. In the second, one room is warmer than the other by as much as the other is cooler; heat also flows through the wall, so this difference dies away three times as fast. After a short time the temperatures are almost equal, and both fall together. This is [**Two rooms cooling**](../apps/phase-portrait.html?preset=Two%20rooms%20cooling){target="_blank" aria-label="Two rooms cooling preset in the phase portrait explorer (opens in a new tab)"} in the app: paths first move parallel to $(1, -1)$ onto the line through $(1, 1)$, then slide along it to the origin.
 :::
 
 ### Complex eigenvalues: oscillation
@@ -103,7 +103,7 @@ From $x(0) = 1$, $a = 1$. Differentiating, $\dot{x}(0) = -a + 2b = 0$, so $b = \
 $$
 x(t) = e^{-t}\left(\cos 2t + \tfrac{1}{2}\sin 2t\right).
 $$
-The mass oscillates with angular frequency 2, and the amplitude decays like $e^{-t}$: a stable spiral in the phase plane, **Damped spring** in the app. Without damping ($\ddot{x} + 4x = 0$, **Undamped spring**), the eigenvalues would be $\pm 2i$ and the paths closed ellipses.
+The mass oscillates with angular frequency 2, and the amplitude decays like $e^{-t}$: a stable spiral in the phase plane, [**Damped spring**](../apps/phase-portrait.html?preset=Damped%20spring){target="_blank" aria-label="Damped spring preset in the phase portrait explorer (opens in a new tab)"} in the app. Without damping ($\ddot{x} + 4x = 0$, **Undamped spring**), the eigenvalues would be $\pm 2i$ and the paths closed ellipses.
 :::
 
 ### Stability

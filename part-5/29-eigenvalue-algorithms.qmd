@@ -89,7 +89,7 @@ $$
 $$
 which is tiny when $\mu$ is a good guess. **Shifted inverse iteration** can find any eigenvalue you have a rough estimate of, and is the standard way to find an eigenvector once its eigenvalue is known accurately.
 
-To see it, go back to the app at the start of the chapter and choose **Equal sizes**, where the power method never settles. Then choose **Shifted inverse** and move the shift. Which eigenvalue does it find for each shift, and how fast? What happens as the shift gets close to an eigenvalue?
+To see it, go back to the app at the start of the chapter and choose [**Equal sizes**](../apps/power-method.html?preset=Equal%20sizes){target="_blank" aria-label="Equal sizes preset in the power method app (opens in a new tab)"}, where the power method never settles. Then choose **Shifted inverse** and move the shift. Which eigenvalue does it find for each shift, and how fast? What happens as the shift gets close to an eigenvalue?
 
 Taking the shift to be the current Rayleigh quotient at every step gives **Rayleigh quotient iteration**, which, for symmetric matrices, converges **cubically**: the number of correct digits roughly triples at each step. The price is a new factorisation at every step.
 

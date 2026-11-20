@@ -101,7 +101,7 @@ Finding $\rho(\M{T})$ is as hard as solving the system, so a simple sufficient c
 $$
 \lvert a_{ii}\rvert > \sum_{j \neq i}\lvert a_{ij}\rvert \quad\text{for every } i.
 $$
-For such matrices, both Jacobi and Gauss–Seidel are sure to converge (@sec-proofs-iterative-methods). Gauss–Seidel also always converges for symmetric positive definite matrices. Reordering the equations can sometimes make a matrix diagonally dominant, as **Diverges** in the app shows.
+For such matrices, both Jacobi and Gauss–Seidel are sure to converge (@sec-proofs-iterative-methods). Gauss–Seidel also always converges for symmetric positive definite matrices. Reordering the equations can sometimes make a matrix diagonally dominant, as [**Diverges**](../apps/iteration-race.html?preset=Diverges){target="_blank" aria-label="Diverges preset in the iteration race (opens in a new tab)"} in the app shows.
 
 ::: {#ex-iterative-methods-2 .callout-note appearance="simple" icon=false}
 ### Example 2: the spectral radius

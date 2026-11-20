@@ -181,7 +181,7 @@ The left half is $\M{I}$, so
 $$
 \M{A}^{-1} = \mat{3 & -2 & 1 \\ -2 & 2 & -1 \\ 1 & -1 & 1}.
 $$
-Check one entry of $\M{A}\M{A}^{-1}$: row 2 of $\M{A}$ times column 1 of $\M{A}^{-1}$ is $3 - 4 + 1 = 0$, as it should be off the diagonal. ✓ This is the **Inverse** example in the app.
+Check one entry of $\M{A}\M{A}^{-1}$: row 2 of $\M{A}$ times column 1 of $\M{A}^{-1}$ is $3 - 4 + 1 = 0$, as it should be off the diagonal. ✓ This is the [**Inverse**](../apps/row-reduction.html?mode=rref&preset=Inverse){target="_blank" aria-label="Inverse preset in the row reduction stepper (opens in a new tab)"} example in the app.
 :::
 
 ## In code

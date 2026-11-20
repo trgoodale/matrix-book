@@ -120,7 +120,7 @@ If the error is $10^{-3}$, the next is about $10^{-6}$, then $10^{-12}$. The rea
 
 The guarantee holds only *near* a root. Further away, several things can go wrong:
 
-- **A singular Jacobian.** If $\M{J}(\vect{x}_k)$ is singular, the linear system has no unique solution and the method breaks down. Near such points the steps are huge and throw the guess far away. In the app's **Circle and hyperbola**, the Jacobian is singular along the lines $y = \pm x$, which is why the colours change there.
+- **A singular Jacobian.** If $\M{J}(\vect{x}_k)$ is singular, the linear system has no unique solution and the method breaks down. Near such points the steps are huge and throw the guess far away. In the app's [**Circle and hyperbola**](../apps/newton-basins.html?preset=Circle%20and%20hyperbola){target="_blank" aria-label="Circle and hyperbola preset in the Newton basins app (opens in a new tab)"}, the Jacobian is singular along the lines $y = \pm x$, which is why the colours change there.
 - **A bad start.** From a poor starting guess, the steps can wander, cycle or run off to infinity, or reach a different root from the one you wanted. The **basins of attraction**, the sets of starting points that lead to each root, can have very complicated, fractal boundaries, as **Cube roots of 1** shows.
 - **No root nearby.** If the equations have no solution near the start, Newton's method has nothing to converge to, and wanders.
 - **Multiple roots.** Where the Jacobian at the root itself is singular, convergence slows to linear.

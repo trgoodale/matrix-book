@@ -322,7 +322,7 @@ A student in year 2 has already survived the risk of leaving in year 1, the larg
 
    [Solution to exercise 5](../appendices/solutions-6.qmd#solution-markov-pagerank-5){.sol-link}
 
-6. []{#exercise-markov-pagerank-6}**Code.** Write a PageRank function that handles dead ends, by treating a page with no links as linking to every page. Apply it to the **Dead end** web of the app (A links to B and C; B to C; C to nothing; D to A and C; E to D and F; F to D and E), and check your results against the app.
+6. []{#exercise-markov-pagerank-6}**Code.** Write a PageRank function that handles dead ends, by treating a page with no links as linking to every page. Apply it to the [**Dead end**](../apps/random-surfer.html?preset=Dead%20end){target="_blank" aria-label="Dead end preset in the random surfer (opens in a new tab)"} web of the app (A links to B and C; B to C; C to nothing; D to A and C; E to D and F; F to D and E), and check your results against the app.
 
    [Solution to exercise 6](../appendices/solutions-6.qmd#solution-markov-pagerank-6){.sol-link}
 

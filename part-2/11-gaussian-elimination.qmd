@@ -206,7 +206,7 @@ $$
 \xrightarrow{R_3 \,\leftarrow\, R_3 - R_2}
 \amat{rrr|r}{1 & 1 & 1 & 6 \\ 0 & 1 & 1 & 3 \\ 0 & 0 & -2 & -4}.
 $$
-Back substitution: $-2z = -4$ gives $z = 2$; then $y + 2 = 3$ gives $y = 1$; then $x + 1 + 2 = 6$ gives $x = 3$. This is the **Zero pivot** example in the app.
+Back substitution: $-2z = -4$ gives $z = 2$; then $y + 2 = 3$ gives $y = 1$; then $x + 1 + 2 = 6$ gives $x = 3$. This is the [**Zero pivot**](../apps/row-reduction.html?preset=Zero%20pivot){target="_blank" aria-label="Zero pivot preset in the row reduction stepper (opens in a new tab)"} example in the app.
 :::
 
 ::: {#ex-gaussian-elimination-3 .callout-note appearance="simple" icon=false}

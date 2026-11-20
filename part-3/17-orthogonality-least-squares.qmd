@@ -127,7 +127,7 @@ $$
 $$
 y = 0.9 + 1.4t.
 $$
-The spring is about 0.9 cm long unloaded, and stretches about 1.4 cm per newton. The errors are $\vect{e} = \vect{y} - \M{A}\hat{\vect{x}} = (0.1, -0.3, 0.3, -0.1)\T$, so the sum of squared errors is $0.01 + 0.09 + 0.09 + 0.01 = 0.2$. As the theory says, $\vect{e}$ is at right angles to both columns: its entries add up to 0, and $0(0.1) + 1(-0.3) + 2(0.3) + 3(-0.1) = 0$. This is the **Spring** example in the app.
+The spring is about 0.9 cm long unloaded, and stretches about 1.4 cm per newton. The errors are $\vect{e} = \vect{y} - \M{A}\hat{\vect{x}} = (0.1, -0.3, 0.3, -0.1)\T$, so the sum of squared errors is $0.01 + 0.09 + 0.09 + 0.01 = 0.2$. As the theory says, $\vect{e}$ is at right angles to both columns: its entries add up to 0, and $0(0.1) + 1(-0.3) + 2(0.3) + 3(-0.1) = 0$. This is the [**Spring**](../apps/line-fit.html?preset=Spring){target="_blank" aria-label="Spring preset in the line of best fit app (opens in a new tab)"} example in the app.
 :::
 
 ### Orthonormal bases and Gram–Schmidt

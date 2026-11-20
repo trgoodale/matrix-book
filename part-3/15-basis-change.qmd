@@ -102,7 +102,7 @@ c_1 + c_2 &= 5 \\
 c_1 - c_2 &= 1
 \end{aligned}
 $$
-Adding gives $2c_1 = 6$, so $c_1 = 3$ and $c_2 = 2$: $[\vect{v}]_B = (3, 2)\T$. Check: $3(1, 1)\T + 2(1, -1)\T = (5, 1)\T$. ✓ This is **Example 2** in the app.
+Adding gives $2c_1 = 6$, so $c_1 = 3$ and $c_2 = 2$: $[\vect{v}]_B = (3, 2)\T$. Check: $3(1, 1)\T + 2(1, -1)\T = (5, 1)\T$. ✓ This is [**Example 2**](../apps/basis-grids.html?preset=Example%202){target="_blank" aria-label="Example 2 preset in the basis grids app (opens in a new tab)"} in the app.
 :::
 
 ### A transformation in a new basis
@@ -156,7 +156,7 @@ Column 1 is $4\vect{b}_1$ and column 2 is $1\vect{b}_2$, so in the new basis the
 $$
 \M{P}^{-1}\M{A}\M{P} = \mat{4 & 0 \\ 0 & 1}.
 $$
-In the basis of its invariant lines, the matrix is **diagonal**: it just stretches each new coordinate. This is the idea behind diagonalisation (@sec-diagonalisation), and the **Invariant lines** preset in the app shows this basis.
+In the basis of its invariant lines, the matrix is **diagonal**: it just stretches each new coordinate. This is the idea behind diagonalisation (@sec-diagonalisation), and the [**Invariant lines**](../apps/basis-grids.html?preset=Invariant%20lines){target="_blank" aria-label="Invariant lines preset in the basis grids app (opens in a new tab)"} preset in the app shows this basis.
 :::
 
 ## In code

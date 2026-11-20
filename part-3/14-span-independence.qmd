@@ -129,7 +129,7 @@ There is no pivot in column 3, so $c_3$ is free and the vectors are **dependent*
 $$
 2\vect{v}_1 - \vect{v}_2 + \vect{v}_3 = \zerovec,
 $$
-which you can check entry by entry. The three vectors lie in one plane, the one spanned by $\vect{v}_1$ and $\vect{v}_2$. This is the **Three in a plane** example in the app.
+which you can check entry by entry. The three vectors lie in one plane, the one spanned by $\vect{v}_1$ and $\vect{v}_2$. This is the [**Three in a plane**](../apps/span-explorer.html?preset=Three%20in%20a%20plane){target="_blank" aria-label="Three in a plane preset in the span explorer (opens in a new tab)"} example in the app.
 :::
 
 ::: {#ex-span-independence-3 .callout-note appearance="simple" icon=false}
@@ -151,7 +151,7 @@ If the vectors are independent, every vector in their span can be made from them
 $$
 \vect{b} = c_1\vect{v}_1 + \dots + c_k\vect{v}_k = d_1\vect{v}_1 + \dots + d_k\vect{v}_k,
 $$
-then subtracting gives $(c_1 - d_1)\vect{v}_1 + \dots + (c_k - d_k)\vect{v}_k = \zerovec$, and independence forces every $c_i = d_i$. With dependent vectors, there are always infinitely many ways (the app shows this in **Parallel: a line**). This is the idea behind coordinates, in @sec-basis-change.
+then subtracting gives $(c_1 - d_1)\vect{v}_1 + \dots + (c_k - d_k)\vect{v}_k = \zerovec$, and independence forces every $c_i = d_i$. With dependent vectors, there are always infinitely many ways (the app shows this in [**Parallel: a line**](../apps/span-explorer.html?preset=Parallel%3A%20a%20line){target="_blank" aria-label="Parallel: a line preset in the span explorer (opens in a new tab)"}). This is the idea behind coordinates, in @sec-basis-change.
 
 ### Subspaces
 
