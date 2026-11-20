@@ -34,7 +34,7 @@ $$
 $$
 Each ciphertext letter depends on both letters of the pair, so the same letter is encrypted differently in different pairs, and a single-letter count reveals little. Larger keys, $3 \times 3$ or more, mix more letters together.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-cryptography-1 .callout-note appearance="simple" icon=false}
 ### Example 1: encrypting
 
 Encrypt HELP with the key $\M{K} = \mat{3 & 3 \\ 2 & 5}$.
@@ -46,6 +46,9 @@ $$
 \M{K}\mat{11 \\ 15} = \mat{33 + 45 \\ 22 + 75} = \mat{78 \\ 97} \equiv \mat{0 \\ 19} = \text{AT}.
 $$
 The ciphertext is HIAT. The two letters of the second pair are both affected by both letters of the first: changing HELP to HELD would change the AT.
+
+[Open this encryption in the Hill cipher machine](../apps/hill-cipher.html?key=3,3,2,5&msg=HELP){target="_blank" aria-label="Open this encryption in the Hill cipher machine (opens in a new tab)"} to see each pair worked through.
+
 :::
 
 ### Inverses modulo 26
@@ -65,7 +68,7 @@ $\M{K}$ has an inverse modulo 26 if and only if $\gcd(\det\M{K}, 26) = 1$: the d
 
 A non-zero determinant, which is enough over the real numbers, is not enough here. If $\det\M{K}$ is even, for example, then two different messages encrypt to the same ciphertext (exercise 4), and no one, not even the intended recipient, can tell which was sent. The proof is in @sec-proofs-cryptography.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-cryptography-2 .callout-note appearance="simple" icon=false}
 ### Example 2: decrypting
 
 Find $\M{K}^{-1}$ modulo 26 and decrypt HIAT.
@@ -75,6 +78,9 @@ $$
 \M{K}^{-1} \equiv 3\mat{5 & -3 \\ -2 & 3} = \mat{15 & -9 \\ -6 & 9} \equiv \mat{15 & 17 \\ 20 & 9} \pmod{26}.
 $$
 Check: $\M{K}^{-1}\M{K} = \mat{45 + 34 & 45 + 85 \\ 60 + 18 & 60 + 45} = \mat{79 & 130 \\ 78 & 105} \equiv \mat{1 & 0 \\ 0 & 1}$. ✓ Decrypting the first pair, $\M{K}^{-1}(7, 8)\T = (105 + 136, \; 140 + 72) = (241, 212) \equiv (7, 4)$ = HE, and the second, $\M{K}^{-1}(0, 19)\T = (323, 171) \equiv (11, 15)$ = LP.
+
+[Open this decryption in the Hill cipher machine](../apps/hill-cipher.html?key=3,3,2,5&msg=HIAT&mode=dec){target="_blank" aria-label="Open this decryption in the Hill cipher machine (opens in a new tab)"} to see $\M{K}^{-1}$ and each pair worked through.
+
 :::
 
 ### Breaking the cipher
@@ -85,7 +91,7 @@ $$
 $$
 Four known letters reveal the whole key, and with it every message. This is a **known-plaintext attack**. For an $n \times n$ key, $n$ known pairs of length $n$ are enough. Even without known plaintext, the attacker can try all $26^4 = 456\,976$ possible $2 \times 2$ keys, a moment's work for a computer, and pick the one that gives readable English.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-cryptography-3 .callout-note appearance="simple" icon=false}
 ### Example 3: a known-plaintext attack
 
 An attacker intercepts the ciphertext HIAT and correctly guesses that the message is HELP. Find the key.

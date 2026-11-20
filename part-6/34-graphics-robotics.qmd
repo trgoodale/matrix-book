@@ -45,7 +45,7 @@ The same sandwich scales about a point, or reflects in a line that doesn't pass 
 
 ![Rotating $(3, 1)$ by $90°$ about $\vect{c} = (2, 1)$, as in Example 1, in three steps: move $\vect{c}$ to the origin, rotate about the origin, and move back.](images/rotate-about-point.png){#fig-rotate-about-point fig-alt="Four small panels with axes. Start: the centre c at (2, 1) joined to the point (3, 1). After moving c to the origin, the point is at (1, 0). After rotating by 90 degrees about the origin, it is at (0, 1). After moving back, c is at (2, 1) again and the point is at (2, 2), directly above c." width=100%}
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-graphics-robotics-1 .callout-note appearance="simple" icon=false}
 ### Example 1: rotating about a point
 
 Find the matrix that rotates the plane by $90°$ anticlockwise about the point $(2, 1)$, and apply it to $(3, 1)$.
@@ -75,7 +75,7 @@ sends $(x, y, z, 1)$ to $(dx, dy, z, -z)$, and the rule is that homogeneous coor
 
 ![Perspective, seen from the side, for the two points of Example 2. Each point appears where the line from it to the camera crosses the screen, at distance $d = 1$: the point twice as far away appears half as high. (The vertical scale is stretched.)](images/perspective.png){#fig-perspective fig-alt="A side view. The camera is at the left, looking right along the negative z direction, with a screen 1 unit in front of it. Two upright posts of height 1 stand at z equals minus 4 (blue) and z equals minus 8 (brown). Dashed lines from the top of each post to the camera cross the screen at heights 0.25 and 0.125." width=85%}
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-graphics-robotics-2 .callout-note appearance="simple" icon=false}
 ### Example 2: perspective
 
 A camera at the origin looks along the negative $z$ axis, with focal length $d = 1$. Where do the points $(2, 1, -4)$ and $(2, 1, -8)$ appear on the screen?
@@ -83,7 +83,7 @@ A camera at the origin looks along the negative $z$ axis, with focal length $d =
 **Solution.** $\M{P}(2, 1, -4, 1)\T = (2, 1, -4, 4)\T$, which stands for $(0.5, 0.25, -1)$, so the point appears at $(0.5, 0.25)$. The second point gives $(2, 1, -8, 8)\T$, appearing at $(0.25, 0.125)$: twice as far away, so half the size on the screen. All the points along the line from the camera through $(2, 1, -4)$ project to the same place, which is why a single photograph can't tell you how far away something is.
 :::
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-graphics-robotics-3 .callout-note appearance="simple" icon=false}
 ### Example 3: a camera's view
 
 A camera stands at $\vect{c} = (6, 0, 0)$, looking towards the origin, with the $y$ axis upwards. Find its view matrix, and where the points $(0, 0, 0)$ and $(0, 1, -2)$ appear on its screen, with focal length $d = 1$.
@@ -123,7 +123,7 @@ Its last column gives the hand's position, and its top-left $2 \times 2$ block i
 
 The reverse problem, **inverse kinematics**, finds joint angles that put the hand at a chosen point. It is a system of nonlinear equations, usually solved by Newton's method with the Jacobian of the forward kinematics (@sec-newton-systems, Example 2). Where the Jacobian is singular, as when the arm is fully stretched out, the hand can't move in some direction at all: a **singularity**, which robot controllers must steer around.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-graphics-robotics-4 .callout-note appearance="simple" icon=false}
 ### Example 4: forward kinematics
 
 A two-link arm has $L_1 = 1.5$ and $L_2 = 1$, with joint angles $\theta_1 = 30°$ and $\theta_2 = 60°$. Where is its hand, and which way is it pointing?
@@ -133,6 +133,9 @@ $$
 \M{T}_1\M{T}_2 = \mat{0.866 & -0.5 & 1.299 \\ 0.5 & 0.866 & 0.75 \\ 0 & 0 & 1}\mat{0.5 & -0.866 & 0.5 \\ 0.866 & 0.5 & 0.866 \\ 0 & 0 & 1} = \mat{0 & -1 & 1.299 \\ 1 & 0 & 1.75 \\ 0 & 0 & 1}.
 $$
 The elbow is at $(1.299, 0.75)$, the last column of $\M{T}_1$, and the hand at $(1.299, 1.75)$. The rotation block is a rotation by $90° = \theta_1 + \theta_2$, so the second link points straight up. This is the starting position of the app below.
+
+[Open this arm in the robot arm app](../apps/robot-arm.html?angles=30,60&lengths=1.5,1){target="_blank" aria-label="Open this arm in the robot arm app (opens in a new tab)"} to see the same product $\M{T}_1\M{T}_2$ and the hand's position.
+
 :::
 
 ## Explore

@@ -50,7 +50,7 @@ $$
 $$
 exactly the pattern $\M{B}\T\M{D}\M{B}$ of the truss stiffness matrix (@sec-trusses), with voltages for displacements and currents for forces.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-circuits-1 .callout-note appearance="simple" icon=false}
 ### Example 1: nodal analysis
 
 ![](images/circuit-current.png){fig-alt="A circuit with a 3 amp current source feeding node 1. Node 1 connects to ground through 10 ohms and to node 2 through 5 ohms; node 2 connects to ground through 10 ohms and to node 3 through 5 ohms; node 3 connects to ground through 10 ohms." width=70%}
@@ -72,7 +72,7 @@ $$
 $$
 The matrix is still symmetric, but no longer positive definite (it has a zero on its diagonal), so solvers pivot. MNA is how SPICE handles every kind of component.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-circuits-2 .callout-note appearance="simple" icon=false}
 ### Example 2: a voltage source
 
 ![](images/circuit-voltage.png){fig-alt="The same circuit with the current source replaced by a 12 volt voltage source between ground and node 1." width=70%}
@@ -90,7 +90,7 @@ With $V_1 = 12$, the third row gives $V_3 = \tfrac{2}{3}V_2$, and the second the
 
 For sinusoidal signals at angular frequency $\omega$, capacitors and inductors behave like resistors with complex **impedances**: $Z_C = 1/(j\omega C)$ and $Z_L = j\omega L$, where $j = \sqrt{-1}$ (engineers write $j$, not $i$). Each voltage is represented by a complex number, a **phasor**, whose size is the amplitude and whose angle is the phase. Nodal analysis works unchanged, with complex conductances $Y = 1/Z$ (called **admittances**), giving a complex system $\M{Y}\vect{v} = \vect{i}$. NumPy and MATLAB solve complex systems exactly as they solve real ones.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-circuits-3 .callout-note appearance="simple" icon=false}
 ### Example 3: an AC filter
 
 ![](images/circuit-rc.png){fig-alt="A two-stage RC filter: an AC source feeds node 1 through a resistor R; node 1 has a capacitor C to ground and a second resistor R to node 2; node 2 has a capacitor C to ground." width=55%}

@@ -57,7 +57,7 @@ If some power $\M{M}^k$ has all its entries positive, so that every state can re
 
 To find the steady state, solve $(\M{M} - \M{I})\vect{x} = \zerovec$ together with $\sum x_i = 1$, or use the **power method** (@sec-eigenvalue-algorithms): start from any probability vector and multiply by $\M{M}$ again and again until it stops changing. For a Markov chain this is just simulating the probabilities forward.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-markov-pagerank-1 .callout-note appearance="simple" icon=false}
 ### Example 1: the weather
 
 Each day is sunny (S), cloudy (C) or rainy (R). After a sunny day, the next is sunny with probability 0.7, cloudy 0.2 and rainy 0.1; after a cloudy day, the probabilities are 0.3, 0.4 and 0.3; after a rainy day, 0.2, 0.3 and 0.5 (@fig-weather-chain). If today is sunny, what are the chances for the day after tomorrow? In the long run, what fraction of days are rainy?
@@ -100,7 +100,7 @@ $$
 (\M{I} - d\M{M})\vect{x} = \frac{1 - d}{n}\vect{1}.
 $$
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-markov-pagerank-2 .callout-note appearance="simple" icon=false}
 ### Example 2: PageRank for a small web
 
 Four pages link as follows: A links to B and C; B links to C; C links to A; D links to C (@fig-four-pages). Find the PageRank with $d = 0.85$.
@@ -141,7 +141,7 @@ This is the matrix version of the geometric series $1 + q + q^2 + \dots = 1/(1 -
 
 For one starting state, there is no need to form the inverse: solve $(\M{I} - \M{Q})\vect{n} = \vect{e}_j$ for column $j$ of $\M{N}$ (@sec-linear-systems).
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-markov-pagerank-3 .callout-note appearance="simple" icon=false}
 ### Example 3: getting a degree
 
 A three-year degree is modelled year by year. In each year, a student repeats the year with probability 0.1. Otherwise, in year 1 they progress with probability 0.8 and leave with probability 0.1; in year 2 they progress with probability 0.85 and leave with probability 0.05; and in year 3 they graduate with probability 0.85 and leave with probability 0.05 (@fig-degree-chain). For a new student, how many years do they spend at university, on average, and how likely are they to graduate?

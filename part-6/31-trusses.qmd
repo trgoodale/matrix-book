@@ -38,7 +38,7 @@ $$
 $$
 where $\vect{p}$ lists the applied loads, joint by joint. Column $k$ of the **equilibrium matrix** $\M{A}$ shows where unknown $k$ pushes or pulls: a member's column holds $\vect{e}$ in the rows of joint $i$ and $-\vect{e}$ in the rows of joint $j$, and a reaction's column holds a single 1.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-trusses-1 .callout-note appearance="simple" icon=false}
 ### Example 1: a triangular truss
 
 Joints 1 at $(0, 0)$ and 2 at $(4, 0)$ (in metres) sit on a pin and a roller, and joint 3 at $(2, 2)$ carries a load of 10 kN downwards (@fig-truss-triangle). Find the force in each member and the reactions.
@@ -53,6 +53,9 @@ $$
 \mat{0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 10}.
 $$
 The last two rows (joint 3) give $N_b = N_c$ and $N_b + N_c = -10\sqrt{2}$, so $N_b = N_c = -5\sqrt{2} \approx -7.07$ kN: both sloping members are in compression. Row 3 then gives $N_a = -N_c/\sqrt{2} = 5$ kN, in tension: the bottom member ties the feet together. Finally $R_{1x} = 0$, $R_{1y} = 5$ and $R_{2y} = 5$ kN: each support carries half the load, as symmetry demands. Here $m + r = 3 + 3 = 6 = 2j$, and the matrix is invertible, so these are the only forces that balance the load: the next section calls such a truss determinate.
+
+[Open this truss in the truss solver](../apps/truss-solver.html?preset=Triangle&kN=10){target="_blank" aria-label="Open this truss in the truss solver (opens in a new tab)"} to check the member forces and reactions.
+
 :::
 
 ### Determinate, indeterminate and mechanisms
@@ -65,7 +68,7 @@ The truss has $m$ members and $r$ reaction components, so $\M{A}$ is $2j \times 
 
 The simplest stable shape is the triangle. Adding a joint connected by two new members to a triangle keeps the count $m + r = 2j$, which is why trusses are built from triangles.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-trusses-2 .callout-note appearance="simple" icon=false}
 ### Example 2: a square is a mechanism
 
 Four members join the corners of a square, on a pin and a roller. Show that it is a mechanism, and that one diagonal fixes it.
@@ -96,7 +99,7 @@ $$
 $$
 to the rows and columns of its two joints, so $\M{K}$ can be assembled member by member.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-trusses-3 .callout-note appearance="simple" icon=false}
 ### Example 3: an indeterminate truss by the stiffness method
 
 A joint at the origin hangs from three supports, at $(-1, 1)$, $(0, 1)$ and $(1, 1)$, by three bars with the same $EA$, and carries a 10 kN load downwards (@fig-truss-three-bars). Find the bar forces.

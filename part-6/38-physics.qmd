@@ -30,7 +30,7 @@ where $\M{I}_3$ is the $3 \times 3$ identity. The **inertia tensor** $\M{I}$ is 
 
 Because $\M{I}$ is symmetric, the spectral theorem (@sec-symmetric-matrices) says that it has three perpendicular eigenvectors: the **principal axes**. About a principal axis, $\vect{L} = \lambda\vect{\omega}$ is parallel to $\vect{\omega}$, and the body spins smoothly; the eigenvalues are the **principal moments of inertia**. About any other axis, $\vect{L}$ and $\vect{\omega}$ point different ways, and keeping the body spinning about that axis needs a constantly changing torque, felt as vibration. Balancing a car wheel means adding small weights to make its axle a principal axis.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-physics-1 .callout-note appearance="simple" icon=false}
 ### Example 1: a dumbbell
 
 Two masses of 1 kg are at $(1, 1, 0)$ and $(-1, -1, 0)$ (in metres), joined by a light rod. Find the inertia tensor and its principal axes. If the dumbbell spins about the $x$ axis with $\vect{\omega} = (1, 0, 0)$ rad/s, what is its angular momentum?
@@ -60,7 +60,7 @@ $$
 $$
 So the angular velocity vector is hidden in the three independent entries of a skew-symmetric matrix, and $\dot{\M{R}} = \M{\Omega}\M{R}$. For a constant $\vect{\omega}$, this is a linear differential equation with solution $\M{R}(t) = e^{\M{\Omega}t}\M{R}(0)$ (@sec-linear-odes): **the exponential of a skew-symmetric matrix is a rotation**. Gyroscopes in phones and aircraft measure $\vect{\omega}$, and navigation software integrates this equation to track orientation.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-physics-2 .callout-note appearance="simple" icon=false}
 ### Example 2: angular velocity from a rotation
 
 A body rotates about the $z$ axis at a constant rate $\omega$: $\M{R}(t)$ is the rotation by $\omega t$ about $z$. Find $\M{\Omega} = \dot{\M{R}}\M{R}\T$.
@@ -95,7 +95,7 @@ $$
 $$
 each with eigenvalues $+1$ and $-1$: a measurement of spin along any axis gives only "up" or "down", never anything in between. The three matrices don't commute, and so they have no common eigenvectors: a state can't have a definite spin along $x$ and along $z$ at once. That is the uncertainty principle, in its simplest form, and it is a statement about matrices.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-physics-3 .callout-note appearance="simple" icon=false}
 ### Example 3: measuring a spin
 
 An electron is prepared spin up along $z$, $\vect{\psi} = (1, 0)\T$. Its spin is then measured along $x$. What results are possible, with what probabilities? What if instead it evolves for a time under $\M{H} = \tfrac{1}{2}\hbar\omega\M{\sigma}_x$ (a magnetic field along $x$) before its spin along $z$ is measured?

@@ -54,7 +54,7 @@ So:
 - $\vect{w}$, scaled so that its entries add up to 1, is the **stable age distribution** (or stable stage distribution): the proportions in each class that the population settles into, whatever it started with.
 - The other eigenvalues decide how quickly it settles: the transient effects die away like $\lvert\lambda_2/\lambda_1\rvert^k$.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-population-models-1 .callout-note appearance="simple" icon=false}
 ### Example 1: a three-class Leslie matrix
 
 An animal lives for at most three years. Half the newborns survive their first year, and a quarter of one-year-olds survive their second. One-year-olds have 4 female young on average and two-year-olds have 3 (@fig-life-cycle). Find the long-run growth rate and the stable age distribution.
@@ -74,7 +74,7 @@ so the eigenvalues solve $\lambda^3 - 2\lambda - 0.375 = 0$. Trying $\lambda = 1
 The second eigenvalue, $-1.309$, is not much smaller in size than 1.5, so the population takes a long time to settle, oscillating as it does (the ratio $1.309/1.5 \approx 0.87$ per year). Starting from 100 newborns, after 10 years the proportions are still $(0.81, 0.14, 0.05)$.
 :::
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-population-models-2 .callout-note appearance="simple" icon=false}
 ### Example 2: loggerhead sea turtles
 
 Crouse, Crowder and Caswell divided the loggerhead's life into seven stages: eggs and hatchlings (H), small juveniles ($J_s$), large juveniles ($J_l$), subadults (Sub), novice breeders ($B_1$), first-year remigrants ($B_2$) and mature breeders (M). Their matrix, from field data, is
@@ -106,7 +106,7 @@ $$
 $$
 where $\vect{w}$ is the right eigenvector (the stable distribution) and $\vect{v}$ is the **left eigenvector**, $\vect{v}\T\M{L} = \lambda\vect{v}\T$, whose entries are the **reproductive values** of the stages: how much an individual in each stage will contribute to future generations. Because fecundities and survival rates are on very different scales, ecologists compare **elasticities**, $e_{ij} = (a_{ij}/\lambda)\,\partial\lambda/\partial a_{ij}$: the proportional change in $\lambda$ for a 1% change in $a_{ij}$. The elasticities add up to 1.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-population-models-3 .callout-note appearance="simple" icon=false}
 ### Example 3: eggs or juveniles?
 
 Compare two strategies for the turtles: (a) protecting nests and hatchlings so well that *every* egg survives its first year; (b) using turtle excluder devices to raise the annual survival of large juveniles from 0.676 to 0.776.

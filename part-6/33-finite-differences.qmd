@@ -54,7 +54,7 @@ The matrix is tridiagonal, symmetric and positive definite (its eigenvalues are 
 
 ![The grid on the rod for $n = 3$, as in Example 1, with $h = 1/4$. The end values (black) are known, and the interior values (blue) are the unknowns.](images/rod-grid.png){#fig-rod-grid fig-alt="A rod from 0 to 1 with five equally spaced grid points at 0, h, 2h, 3h and 1. The end points are black squares labelled u 0 equals T 0 and u 4 equals T 1. The three interior points are blue circles labelled u 1, u 2 and u 3. The spacing between neighbouring points is h." width=75%}
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-finite-differences-1 .callout-note appearance="simple" icon=false}
 ### Example 1: a heated rod
 
 A rod has its ends at $u(0) = 0$ °C and $u(1) = 100$ °C, and a heat source with $q/k = 200$ °C/m² along its length. Use $n = 3$ interior points.
@@ -66,7 +66,7 @@ $$
 Solving (by the Thomas algorithm, or elimination) gives $u_1 = 43.75$, $u_2 = 75$ and $u_3 = 93.75$ °C. The exact solution is $u = 200x - 100x^2$, which gives exactly these values at $x = 0.25$, 0.5 and 0.75. That is no coincidence: the exact solution is a quadratic, whose third and higher derivatives are zero, so the central difference has no error at all.
 :::
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-finite-differences-2 .callout-note appearance="simple" icon=false}
 ### Example 2: how accuracy improves
 
 Solve $-u'' = \pi^2\sin\pi x$ with $u(0) = u(1) = 0$, whose exact solution is $u = \sin\pi x$, with $n = 3, 7, 15, 31$ and $63$ interior points. How does the largest error depend on $h$?
@@ -104,7 +104,7 @@ $$
 $$
 where $\M{T}$ is the $n \times n$ tridiagonal matrix of the rod. A grid of $1000 \times 1000$ points gives a million unknowns, but only five million non-zeros, so sparse solvers handle it easily, while a dense solver could not even store it. In three dimensions the stencil has seven points, and fill-in makes direct solvers expensive, so iterative methods such as preconditioned conjugate gradients take over (@sec-iterative-methods).
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-finite-differences-3 .callout-note appearance="simple" icon=false}
 ### Example 3: a plate with a hot edge
 
 A square plate has its top edge at 100 °C and the other three at 0 °C. Find the temperatures on a $2 \times 2$ grid of interior points (@fig-plate-grid), then describe the $3 \times 3$ case.
@@ -129,6 +129,9 @@ $$
 0 & 0 & 0 & 0 & 0 & -1 & 0 & -1 & 4
 \end{array}\right),
 $$
+
+[Open this plate in the heat plate app](../apps/heat-plate.html?edges=100,0,0,0){target="_blank" aria-label="Open this plate in the heat plate app (opens in a new tab)"} to see the same temperatures settle on much finer grids.
+
 :::
 
 **block tridiagonal**: tridiagonal blocks $4\M{I} - (\text{neighbours in the row})$ on the diagonal, and $-\M{I}$ for the rows above and below. The centre temperature turns out to be exactly 25 °C, on any grid with a centre point. Here is why: rotating the plate four times puts the hot edge on each side in turn, and adding the four solutions gives a plate with all edges at 100 °C, which is 100 °C everywhere. The four solutions agree at the centre, so each is 25 °C there.

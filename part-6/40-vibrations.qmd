@@ -90,6 +90,9 @@ $$
 The mode that stretches more springs, for the same displacements, is the stiffer one, and so the faster one. That is true in general: higher modes have more changes of direction along the structure.
 
 ![The two mode shapes of Example 1. In mode 1 the masses move together and the middle spring keeps its length; in mode 2 they move in opposite directions, so the middle spring is stretched and squashed too, and the mode is faster.](images/two-mass-modes.png){#fig-two-mass-modes fig-alt="Two rows, each showing two masses between walls joined by three springs, with blue arrows under the masses for their displacements. Mode 1: both arrows point right, and the middle spring is its normal length. Mode 2: the arrows point towards each other, and the middle spring is compressed." width=80%}
+
+[Open the two masses in the normal modes app](../apps/normal-modes.html?preset=Two%20masses){target="_blank" aria-label="Open the two masses in the normal modes app (opens in a new tab)"} to watch each mode on its own.
+
 :::
 
 ### Building any motion from the modes
@@ -154,6 +157,9 @@ $$
 Earthquakes often shake the ground strongly at frequencies of a few hertz, close to these, which is why low-rise buildings in earthquake zones need careful design.
 
 ![The two-storey building of Example 3 and its two mode shapes. In mode 1 both floors sway the same way, the top one twice as far; in mode 2 they sway in opposite directions.](images/building-modes.png){#fig-building-modes fig-alt="Three sketches of a two-storey frame on hatched ground. The model: floors labelled m1 equals 20 t and m2 equals 10 t, with storeys labelled k1 equals 8 MN per m and k2 equals 4 MN per m. Mode 1, 2.25 Hz: both floors shifted right, the top twice as far. Mode 2, 4.50 Hz: the lower floor shifted right and the top floor shifted left by the same amount." width=95%}
+
+[Open the building in the normal modes app](../apps/normal-modes.html?preset=Building){target="_blank" aria-label="Open the building in the normal modes app (opens in a new tab)"} to watch its two modes.
+
 :::
 
 ### Forced vibration and resonance
@@ -190,6 +196,9 @@ $$
 Both blow up at $\Omega = 10$ and $\Omega = \sqrt{300} \approx 17.3$ rad/s: the natural frequencies. But at $\Omega = \sqrt{200} \approx 14.1$ rad/s, $X_1 = 0$: mass 1 stands still, even though it is the one being pushed, while mass 2 moves with amplitude $X_2 = -F/100$. Mass 2 pulls on mass 1, through the middle spring, with a force that exactly cancels the push.
 
 This is the principle of the **tuned mass damper**. A large mass attached to a vibrating structure by a spring, tuned to the troublesome frequency, absorbs the vibration. The 101-storey Taipei 101 tower has a 660-tonne steel ball hanging near its top for this reason.
+
+[Open the normal modes app shaking mass 1 at 14.14 rad/s](../apps/normal-modes.html?preset=Two%20masses&drive=1&omega=14.14){target="_blank" aria-label="Open the normal modes app shaking mass 1 at 14.14 rad/s (opens in a new tab)"} to see mass 1 stand almost still, then move the slider towards 10 or 17.3.
+
 :::
 
 ## Explore

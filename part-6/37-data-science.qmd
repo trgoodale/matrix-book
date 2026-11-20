@@ -51,7 +51,7 @@ R^2 = 1 - \frac{\lVert\vect{y} - \hat{\vect{y}}\rVert^2}{\lVert\vect{y} - \bar{y
 $$
 the fraction of the variation in $y$ that the model explains. Statistical theory adds a measure of the uncertainty in each coefficient, its **standard error**, which is proportional to the square root of the corresponding diagonal entry of $(\M{X}\T\M{X})^{-1}$.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-data-science-1 .callout-note appearance="simple" icon=false}
 ### Example 1: a regression by hand
 
 In an experiment, two settings $x_1$ and $x_2$ were varied, coded as in the table, and a response $y$ was measured. Fit $y \approx \beta_0 + \beta_1x_1 + \beta_2x_2$.
@@ -80,7 +80,7 @@ If two explanatory variables are nearly proportional, the columns of $\M{X}$ are
 
 This is **collinearity** (or multicollinearity). The fitted values $\hat{\vect{y}}$ are still fine, since the column space is still well defined; it is the individual coefficients that become unreliable, and with them any story about which variable "matters". The remedies are to drop or combine variables, to collect data that separate them, or to use **ridge regression** (@sec-matrix-calculus, exercise 6), which adds $\mu\M{I}$ to $\M{X}\T\M{X}$.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-data-science-2 .callout-note appearance="simple" icon=false}
 ### Example 2: collinearity in the iris data
 
 Predict sepal length from petal width, then from petal length and petal width together.
@@ -106,7 +106,7 @@ Predict sepal length from petal width, then from petal length and petal width to
 
 Then interpret the **loadings**, the entries of each principal component vector, which say how much each original variable contributes; and plot the **scores**, each item's coordinates along the first two components.
 
-::: {.callout-note appearance="simple" icon=false}
+::: {#ex-data-science-3 .callout-note appearance="simple" icon=false}
 ### Example 3: principal components of the iris data
 
 Standardise the four measurements and find the principal components.
