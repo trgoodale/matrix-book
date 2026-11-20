@@ -177,8 +177,15 @@
 
     // Size embedded apps to their content (same origin)
     document.querySelectorAll("iframe.app-frame").forEach(function (f) {
+      // The frame's height includes its border (box-sizing: border-box), so add the border,
+      // and measure the content itself rather than scrollHeight so that the frame can shrink too.
       function fit() {
-        try { var d = f.contentDocument; if (d && d.documentElement) f.style.height = d.documentElement.scrollHeight + "px"; } catch (e) {}
+        try {
+          var d = f.contentDocument; if (!d || !d.documentElement) return;
+          var content = Math.ceil(d.documentElement.getBoundingClientRect().height);
+          var border = f.offsetHeight - f.clientHeight;
+          f.style.height = (content + border) + "px";
+        } catch (e) {}
       }
       f.addEventListener("load", function () {
         fit();
