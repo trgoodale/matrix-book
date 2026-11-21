@@ -227,7 +227,7 @@ Two equations drawn as lines, and the solutions after 160 random nudges of the r
 
 - **Used in:** @sec-floating-point-conditioning.
 - **Open:** [condition explorer](../apps/condition-explorer.html){target="_blank"}.
-- **Start-up settings:** `?m=` sets the matrix, row by row, and `&b=` the right-hand side, as in [`?m=1,1,1,1.01&b=2,2.01`](../apps/condition-explorer.html?m=1,1,1,1.01&b=2,2.01){target="_blank"} for Example 2 of @sec-floating-point-conditioning. `?preset=` picks a preset by its label.
+- **Start-up settings:** `?m=` sets the matrix, row by row, and `&b=` the right-hand side, as in [`?m=1,1,1,1.01&b=2,2.01`](../apps/condition-explorer.html?m=1,1,1,1.01&b=2,2.01){target="_blank"} for [Example 2](../part-5/24-floating-point-conditioning.qmd#ex-floating-point-conditioning-2) of @sec-floating-point-conditioning. `?preset=` picks a preset by its label.
 - **Teaching ideas:** ask students to rank the presets by how much they amplify errors before revealing the condition numbers. **Badly scaled** makes the point that a large condition number is not only about nearly parallel lines.
 
 ## Pivoting explorer {#app-pivoting}
@@ -249,7 +249,7 @@ The paths of the Jacobi, Gauss–Seidel and SOR iterations for two equations, fr
 
 - **Used in:** @sec-iterative-methods.
 - **Open:** [iteration race](../apps/iteration-race.html){target="_blank"}.
-- **Start-up settings:** `?m=`, `&b=` and `&x=` set the matrix (row by row), the right-hand side and the starting guess, and `&omega=` the SOR factor, as in [`?m=4,1,2,5&b=5,7&x=0,0`](../apps/iteration-race.html?m=4,1,2,5&b=5,7&x=0,0){target="_blank"} for Example 1 of @sec-iterative-methods. `?preset=` picks a preset by its label.
+- **Start-up settings:** `?m=`, `&b=` and `&x=` set the matrix (row by row), the right-hand side and the starting guess, and `&omega=` the SOR factor, as in [`?m=4,1,2,5&b=5,7&x=0,0`](../apps/iteration-race.html?m=4,1,2,5&b=5,7&x=0,0){target="_blank"} for [Example 1](../part-5/27-iterative-methods.qmd#ex-iterative-methods-1) of @sec-iterative-methods. `?preset=` picks a preset by its label.
 - **Teaching ideas:** ask why Gauss–Seidel moves in a staircase and Jacobi diagonally. In **Diverges**, ask students to fix the system without changing its solution.
 
 ## Newton basins {#app-newton-basins}
@@ -260,7 +260,7 @@ The plane coloured by which root of a pair of nonlinear equations Newton's metho
 
 - **Used in:** @sec-newton-systems.
 - **Open:** [Newton basins](../apps/newton-basins.html){target="_blank"}.
-- **Start-up settings:** `?preset=` picks a system by its label, `&x=` the starting point, and `&damped` turns on damping, as in [`?preset=Circle%20and%20hyperbola&x=2,0.5`](../apps/newton-basins.html?preset=Circle%20and%20hyperbola&x=2,0.5){target="_blank"} for Example 1 of @sec-newton-systems.
+- **Start-up settings:** `?preset=` picks a system by its label, `&x=` the starting point, and `&damped` turns on damping, as in [`?preset=Circle%20and%20hyperbola&x=2,0.5`](../apps/newton-basins.html?preset=Circle%20and%20hyperbola&x=2,0.5){target="_blank"} for [Example 1](../part-5/28-newton-systems.qmd#ex-newton-systems-1) of @sec-newton-systems.
 - **Teaching ideas:** ask students to count the zeros in the "distance to root" column from step to step, to discover quadratic convergence. In **Circle and hyperbola**, ask why the colours meet along the lines $y = \pm x$.
 
 ## Power method {#app-power-method}
@@ -271,7 +271,7 @@ A vector on the unit circle, repeatedly multiplied by a $2 \times 2$ matrix (or 
 
 - **Used in:** @sec-eigenvalue-algorithms.
 - **Open:** [power method](../apps/power-method.html){target="_blank"}.
-- **Start-up settings:** `?m=` sets the matrix, row by row, `&method=` the method (`power`, `inverse` or `shift`) and `&mu=` the shift, as in [`?m=2,1,1,3&method=shift&mu=1`](../apps/power-method.html?m=2,1,1,3&method=shift&mu=1){target="_blank"} for Example 2 of @sec-eigenvalue-algorithms. `?preset=` picks a preset by its label.
+- **Start-up settings:** `?m=` sets the matrix, row by row, `&method=` the method (`power`, `inverse` or `shift`) and `&mu=` the shift, as in [`?m=2,1,1,3&method=shift&mu=1`](../apps/power-method.html?m=2,1,1,3&method=shift&mu=1){target="_blank"} for [Example 2](../part-5/29-eigenvalue-algorithms.qmd#ex-eigenvalue-algorithms-2) of @sec-eigenvalue-algorithms. `?preset=` picks a preset by its label.
 - **Teaching ideas:** in **Close eigenvalues**, ask students to choose a shift that makes convergence as fast as possible, and to explain their choice using the convergence factor.
 
 ## Truss solver {#app-truss-solver}
