@@ -12,7 +12,7 @@
 
 **Builds on** @sec-arithmetic, @sec-gauss-jordan-rank.
 
-The column picture of @sec-linear-systems turned every system of equations into a question about vectors: can $\vect{b}$ be made by combining the columns of $\M{A}$, and if so, in how many ways? Part III gives these questions names and develops the language for answering them. This chapter introduces the two central ideas. The **span** of some vectors is everything they can make. They are **linearly independent** if none of them is wasted: none can be made from the others.
+The column picture of @sec-linear-systems turned every system of equations into a question about vectors: can $\vect{b}$ be made by combining the columns of $\M{A}$, and if so, in how many ways? Part III gives these questions names and develops the language for answering them. This chapter introduces the two central ideas. The **span** of some vectors is everything they can make. They are linearly independent if none of them is wasted: none can be made from the others.
 
 From here on, it helps to name the spaces that vectors live in. $\R^n$ (said "R n") stands for the set of all vectors with $n$ real-number entries. So $\R^2$ is the plane, $\R^3$ is ordinary space, and $\R^n$ for larger $n$ is the same idea with more entries, even though it can't be drawn.
 
@@ -36,7 +36,7 @@ Things to try:
 
 ### Span
 
-A **linear combination** of vectors $\vect{v}_1, \dots, \vect{v}_k$ is any vector
+A linear combination of vectors $\vect{v}_1, \dots, \vect{v}_k$ is any vector
 $$
 c_1\vect{v}_1 + c_2\vect{v}_2 + \dots + c_k\vect{v}_k
 $$

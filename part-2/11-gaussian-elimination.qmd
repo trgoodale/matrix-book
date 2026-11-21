@@ -90,7 +90,7 @@ $$
 \vect{b} = \mat{8 \\ -11 \\ -3}.
 $$
 
-Elimination works on the **augmented matrix** $[\M{A} \mid \vect{b}]$, which holds everything that matters:
+Elimination works on the augmented matrix $[\M{A} \mid \vect{b}]$, which holds everything that matters:
 
 $$
 \amat{rrr|r}{2 & 1 & -1 & 8 \\ -3 & -1 & 2 & -11 \\ -2 & 1 & 2 & -3}.
@@ -100,7 +100,7 @@ Each row is one equation. The vertical line stands for the equals signs.
 
 ### Row operations
 
-The **row operations** of @sec-determinants are exactly the steps you use to solve simultaneous equations by hand. All three change a system without changing its solutions:
+The row operations of @sec-determinants are exactly the steps you use to solve simultaneous equations by hand. All three change a system without changing its solutions:
 
 1. **Add a multiple of one row to another**, written $R_i \leftarrow R_i - m R_j$.
 2. **Swap two rows**, written $R_i \leftrightarrow R_j$.
@@ -177,7 +177,7 @@ So $\vect{x} = \mat{2 \\ 3 \\ -1}$. **Check** in the second original equation: $
 
 Elimination also tells you when there is no unique solution. Suppose a row reduces to all zeros on the left of the line.
 
-- If it reads $\amat{ccc|c}{0 & 0 & 0 & 5}$, it says $0 = 5$. The system is **inconsistent** and has no solution.
+- If it reads $\amat{ccc|c}{0 & 0 & 0 & 5}$, it says $0 = 5$. The system is inconsistent and has no solution.
 - If it reads $\amat{ccc|c}{0 & 0 & 0 & 0}$, it says $0 = 0$. That equation was a combination of the others, and the system has **infinitely many solutions** (as long as no other row is inconsistent).
 
 @sec-gauss-jordan-rank shows how to write down all the solutions in the second case.

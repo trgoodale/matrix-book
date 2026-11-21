@@ -13,7 +13,7 @@
 
 **Builds on** @sec-determinants, @sec-invariant-lines, @sec-fundamental-subspaces.
 
-@sec-invariant-lines found the lines that a $2 \times 2$ matrix maps onto themselves, with a formula that only works in two dimensions. Along such a line the matrix just stretches: $\M{A}\vect{v} = \lambda\vect{v}$. The vectors $\vect{v}$ are **eigenvectors** and the stretch factors $\lambda$ are **eigenvalues**. This chapter gives the method that works for a square matrix of any size.
+@sec-invariant-lines found the lines that a $2 \times 2$ matrix maps onto themselves, with a formula that only works in two dimensions. Along such a line the matrix just stretches: $\M{A}\vect{v} = \lambda\vect{v}$. The vectors $\vect{v}$ are eigenvectors and the stretch factors $\lambda$ are eigenvalues. This chapter gives the method that works for a square matrix of any size.
 
 Eigenvalues are among the most useful numbers in applied mathematics. They give the natural frequencies of a vibrating structure, the growth rate of a population, the stability of a control system, the principal stresses in a loaded beam and the most important directions in a data set. The rest of Part IV is built on them.
 
@@ -262,7 +262,7 @@ Exercises marked † are harder: they take longer, or need an idea that the work
 
    [Solution to exercise 6](../appendices/solutions-4.qmd#solution-eigenvalues-6){.sol-link}
 
-7. []{#exercise-eigenvalues-7}**Code.** Three equal masses are joined in a line by four equal springs, with the outer springs fixed to walls. Their vibrations are governed by the matrix $\M{K} = \mat{2 & -1 & 0 \\ -1 & 2 & -1 \\ 0 & -1 & 2}$: the natural frequencies are proportional to the square roots of its eigenvalues, and the eigenvectors are the **mode shapes**, the patterns in which the masses move together. Find the eigenvalues and eigenvectors, and describe each mode shape in words.
+7. []{#exercise-eigenvalues-7}**Code.** Three equal masses are joined in a line by four equal springs, with the outer springs fixed to walls. Their vibrations are governed by the matrix $\M{K} = \mat{2 & -1 & 0 \\ -1 & 2 & -1 \\ 0 & -1 & 2}$: the natural frequencies are proportional to the square roots of its eigenvalues, and the eigenvectors are the mode shapes, the patterns in which the masses move together. Find the eigenvalues and eigenvectors, and describe each mode shape in words.
 
    [Solution to exercise 7](../appendices/solutions-4.qmd#solution-eigenvalues-7){.sol-link}
 

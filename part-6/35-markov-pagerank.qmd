@@ -45,7 +45,7 @@ Many statistics books write probability vectors as rows and use the transpose, a
 
 ### Steady states
 
-A **steady state** (or **stationary distribution**) is a probability vector that the chain leaves unchanged:
+A **steady state** (or stationary distribution) is a probability vector that the chain leaves unchanged:
 $$
 \M{M}\vect{x} = \vect{x},
 \qquad
@@ -55,13 +55,13 @@ x_i \ge 0.
 $$
 It is an eigenvector with eigenvalue 1. Every column-stochastic matrix has 1 as an eigenvalue, because the rows of $\M{M} - \M{I}$ add up to the zero row, so $\M{M} - \M{I}$ is singular (equivalently, $\M{M}\T\vect{1} = \vect{1}$, and a matrix and its transpose have the same eigenvalues). Every other eigenvalue has $\lvert\lambda\rvert \le 1$.
 
-If some power $\M{M}^k$ has all its entries positive, so that every state can reach every other in exactly $k$ steps, the chain is called **regular**, and the **Perron–Frobenius theorem** guarantees that:
+If some power $\M{M}^k$ has all its entries positive, so that every state can reach every other in exactly $k$ steps, the chain is called **regular**, and the Perron–Frobenius theorem guarantees that:
 
 - the steady state is unique, and all its entries are positive;
 - every other eigenvalue has $\lvert\lambda\rvert < 1$;
 - from any starting distribution, $\vect{x}_k$ approaches the steady state, with the error shrinking like $\lvert\lambda_2\rvert^k$, where $\lambda_2$ is the next largest eigenvalue in size (@sec-diagonalisation).
 
-To find the steady state, solve $(\M{M} - \M{I})\vect{x} = \zerovec$ together with $\sum x_i = 1$, or use the **power method** (@sec-eigenvalue-algorithms): start from any probability vector and multiply by $\M{M}$ again and again until it stops changing. For a Markov chain this is just simulating the probabilities forward.
+To find the steady state, solve $(\M{M} - \M{I})\vect{x} = \zerovec$ together with $\sum x_i = 1$, or use the power method (@sec-eigenvalue-algorithms): start from any probability vector and multiply by $\M{M}$ again and again until it stops changing. For a Markov chain this is just simulating the probabilities forward.
 
 ::: {#ex-markov-pagerank-1 .callout-note appearance="simple" icon=false}
 ### Example 1: the weather
@@ -99,7 +99,7 @@ Page and Brin's fix for traps is **damping**: at each step, with probability $d$
 $$
 \M{G} = d\M{M} + \frac{1 - d}{n}\vect{1}\vect{1}\T,
 $$
-whose entries are all positive, so it is regular, with a unique steady state: the **PageRank** vector. Page and Brin used $d = 0.85$.
+whose entries are all positive, so it is regular, with a unique steady state: the PageRank vector. Page and Brin used $d = 0.85$.
 
 For the real web, $n$ is in the billions, but $\M{M}$ is extremely sparse, and the second term never needs to be stored: $\M{G}\vect{x} = d\M{M}\vect{x} + \tfrac{1 - d}{n}\vect{1}$ for any probability vector $\vect{x}$. The power method needs only sparse matrix–vector products, and every eigenvalue of $\M{G}$ other than 1 has size at most $d$, so the error shrinks by a factor of at least 0.85 at each step: about 43 steps for every three more correct digits, whatever the size of the web. Equivalently, PageRank solves the sparse linear system
 $$

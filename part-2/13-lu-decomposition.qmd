@@ -324,6 +324,6 @@ Solutions are in @sec-solutions-lu-decomposition.
 
 - Software stores $\M{L}$ and $\M{U}$ together in one array, overwriting $\M{A}$: the 1s on the diagonal of $\M{L}$ need no storage. This is what `scipy.linalg.lu_factor` returns.
 - There are other ways to arrange the same computation. The **Doolittle** method computes $\M{L}$ and $\M{U}$ directly, entry by entry, from $\M{A} = \M{L}\M{U}$; the **Crout** method puts the 1s on the diagonal of $\M{U}$ instead.
-- For a symmetric matrix with positive pivots (a **positive definite** matrix), elimination can be arranged so that $\M{U} = \M{L}\T$, giving the **Cholesky factorisation** $\M{A} = \M{L}\M{L}\T$ with half the work and half the storage (@sec-symmetric-matrices).
+- For a symmetric matrix with positive pivots (a positive definite matrix), elimination can be arranged so that $\M{U} = \M{L}\T$, giving the Cholesky factorisation $\M{A} = \M{L}\M{L}\T$ with half the work and half the storage (@sec-symmetric-matrices).
 - For large sparse matrices, those that are mostly zeros, the factors can fill in with many new non-zeros. Reordering the rows and columns cleverly keeps them sparse (@sec-cost-sparse). Why row swaps are needed for accuracy, not just for zero pivots: @sec-pivoting.
 - Proof that elimination without swaps gives $\M{A} = \M{L}\M{U}$, and that the factors are unique: @sec-proofs-lu-decomposition.

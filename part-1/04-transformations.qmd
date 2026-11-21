@@ -322,4 +322,4 @@ Solutions are in @sec-solutions-transformations.
 
 ## Going further
 
-Not every useful transformation is linear. Sliding everything sideways (a translation) moves the origin, and the perspective of a camera, where distant things look smaller, makes parallel lines meet. A clever trick handles both: give every point an extra coordinate, always equal to 1, and these transformations become matrix multiplications in one dimension higher. This trick, called **homogeneous coordinates**, is used by every graphics card; see @sec-graphics-robotics.
+Not every useful transformation is linear. Sliding everything sideways (a translation) moves the origin, and the perspective of a camera, where distant things look smaller, makes parallel lines meet. A clever trick handles both: give every point an extra coordinate, always equal to 1, and these transformations become matrix multiplications in one dimension higher. This trick, called homogeneous coordinates, is used by every graphics card; see @sec-graphics-robotics.

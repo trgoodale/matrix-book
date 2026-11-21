@@ -286,5 +286,5 @@ Solutions are in @sec-solutions-composition.
 ## Going further
 
 - Matrices of the form $\mat{a & -b \\ b & a}$ multiply exactly like the complex numbers $a + bi$. Multiplying by a complex number rotates and enlarges, which is why complex numbers are so useful for waves and alternating current.
-- *Every* $2 \times 2$ matrix can be written as a rotation (or reflection), then a stretch along the axes, then another rotation (or reflection). This is the **singular value decomposition** of @sec-svd-pca, one of the most useful results in applied mathematics.
+- *Every* $2 \times 2$ matrix can be written as a rotation (or reflection), then a stretch along the axes, then another rotation (or reflection). This is the singular value decomposition of @sec-svd-pca, one of the most useful results in applied mathematics.
 - Rotations about the origin form what mathematicians call a **group**: combining two rotations gives a rotation, every rotation can be undone by another, and doing nothing counts as a rotation. Groups of transformations describe the symmetries of crystals, molecules and the laws of physics.

@@ -13,7 +13,7 @@
 
 **Builds on** @sec-inverses, @sec-gaussian-elimination.
 
-Computers almost never do exact arithmetic. Every number is stored to about 16 significant digits, and every result is rounded. Usually this is harmless: 16 digits is far more than any measurement deserves. But some problems magnify small errors enormously, so that a tiny rounding error, or a tiny error in the data, ruins the answer. This chapter explains how to tell when that will happen. The key number is the **condition number** of a matrix, which says how many digits you can expect to lose when you solve a system with it. You met the warning sign in @sec-linear-systems: lines that are nearly parallel.
+Computers almost never do exact arithmetic. Every number is stored to about 16 significant digits, and every result is rounded. Usually this is harmless: 16 digits is far more than any measurement deserves. But some problems magnify small errors enormously, so that a tiny rounding error, or a tiny error in the data, ruins the answer. This chapter explains how to tell when that will happen. The key number is the condition number of a matrix, which says how many digits you can expect to lose when you solve a system with it. You met the warning sign in @sec-linear-systems: lines that are nearly parallel.
 
 ## Build intuition
 
@@ -163,7 +163,7 @@ Two different things can go wrong, and it helps to keep them apart.
 
 The standard way to judge a method is **backward error analysis**. Instead of asking how wrong the computed answer $\hat{\vect{x}}$ is, ask: is $\hat{\vect{x}}$ the exact answer to a slightly different problem, $(\M{A} + \delta\M{A})\hat{\vect{x}} = \vect{b}$, with $\delta\M{A}$ about as small as the rounding errors in storing $\M{A}$? If so, the method is **backward stable**: it has done as well as anyone could, and any remaining error is due to the problem's conditioning. Gaussian elimination with partial pivoting is backward stable in practice, and so the error in its answer is roughly $\kappa(\M{A})\,\varepsilon$.
 
-One consequence is easy to miss. The **residual** $\vect{r} = \vect{b} - \M{A}\hat{\vect{x}}$ measures how well $\hat{\vect{x}}$ satisfies the equations, and a stable method always makes it tiny. But a tiny residual doesn't mean a small error: for an ill-conditioned matrix, a vector far from the solution can still almost satisfy the equations (exercise 6).
+One consequence is easy to miss. The residual $\vect{r} = \vect{b} - \M{A}\hat{\vect{x}}$ measures how well $\hat{\vect{x}}$ satisfies the equations, and a stable method always makes it tiny. But a tiny residual doesn't mean a small error: for an ill-conditioned matrix, a vector far from the solution can still almost satisfy the equations (exercise 6).
 
 ## In code
 
@@ -306,7 +306,7 @@ Solutions are in @sec-solutions-floating-point-conditioning.
 
 - **Calibration and fitting**: fitting a polynomial of high degree with the powers $1, t, t^2, \dots$ as basis functions leads to Hilbert-like matrices. Using orthogonal polynomials, or centring and scaling the data first, gives much better conditioned problems (@sec-qr-least-squares).
 - **Structural analysis**: a structure with one very stiff member and one very flexible one gives a stiffness matrix with a large condition number. Analysts check condition numbers, or the warnings their software prints, before trusting results.
-- **Statistics**: when two explanatory variables in a regression are nearly proportional (**collinearity**), the fitted coefficients are ill-conditioned: small changes in the data swing them wildly, even though the fitted values hardly change.
+- **Statistics**: when two explanatory variables in a regression are nearly proportional (collinearity), the fitted coefficients are ill-conditioned: small changes in the data swing them wildly, even though the fitted values hardly change.
 - **Units matter**: measuring one quantity in millimetres and another in kilometres can make $\kappa$ huge for no physical reason. Rescaling the unknowns or equations to similar sizes is cheap and often fixes it.
 - **Money**: never store amounts of money as floating-point numbers of pounds or dollars; $0.1$ can't be stored exactly. Use whole numbers of pence or cents, or a decimal type.
 

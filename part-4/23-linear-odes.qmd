@@ -60,7 +60,7 @@ The equation is linear, so sums of solutions are solutions. If $\M{A}$ has $n$ i
 $$
 \vect{x}(t) = c_1e^{\lambda_1 t}\vect{v}_1 + c_2e^{\lambda_2 t}\vect{v}_2 + \dots + c_ne^{\lambda_n t}\vect{v}_n.
 $$ {#eq-ode-modes}
-Each term is a **mode** of the system, evolving independently of the others. This is @eq-modes of @sec-diagonalisation with $\lambda^k$ replaced by $e^{\lambda t}$. In the long run, the mode with the largest $\lambda$ dominates.
+Each term is a mode of the system, evolving independently of the others. This is @eq-modes of @sec-diagonalisation with $\lambda^k$ replaced by $e^{\lambda t}$. In the long run, the mode with the largest $\lambda$ dominates.
 
 ::: {#ex-linear-odes-1 .callout-note appearance="simple" icon=false}
 ### Example 1: two rooms cooling
@@ -320,6 +320,6 @@ Solutions are in @sec-solutions-linear-odes.
 ## Going further
 
 - Proofs that $\frac{d}{dt}e^{\M{A}t} = \M{A}e^{\M{A}t}$ and that the solution is unique: @sec-proofs-linear-odes.
-- A defective matrix, such as $\mat{\lambda & 1 \\ 0 & \lambda}$, gives solutions containing $te^{\lambda t}$, as exercise 4(b) shows for $\lambda = 0$. The **Jordan form** organises all such cases, but in practice `expm` handles them without it.
+- A defective matrix, such as $\mat{\lambda & 1 \\ 0 & \lambda}$, gives solutions containing $te^{\lambda t}$, as exercise 4(b) shows for $\lambda = 0$. The Jordan form organises all such cases, but in practice `expm` handles them without it.
 - Forced systems $\dot{\vect{x}} = \M{A}\vect{x} + \vect{f}(t)$ are solved by $\vect{x}(t) = e^{\M{A}t}\vect{x}_0 + \int_0^t e^{\M{A}(t - s)}\vect{f}(s)\,ds$, the vector version of the integrating factor method.
 - When eigenvalues differ hugely in size, as in chemical kinetics, the fast modes die almost at once but force ordinary solvers to take tiny steps. Such **stiff** systems need special solvers, such as `solve_ivp(..., method="BDF")` or MATLAB's `ode15s`.

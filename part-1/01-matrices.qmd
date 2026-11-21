@@ -317,4 +317,4 @@ Solutions are in @sec-solutions-matrices.
 
 ## Going further
 
-A large matrix can be split into **blocks**, smaller matrices placed side by side and on top of each other. For example, the coefficient matrix of a set of equations with the right-hand sides added as an extra column, written $[\M{A} \mid \vect{b}]$, is a block matrix with two blocks. It is called an **augmented matrix**, and @sec-gaussian-elimination uses it to solve equations. Block structure often reflects the physics of a problem, such as separate parts of a structure joined at a few points, and good software exploits it to save time and memory.
+A large matrix can be split into **blocks**, smaller matrices placed side by side and on top of each other. For example, the coefficient matrix of a set of equations with the right-hand sides added as an extra column, written $[\M{A} \mid \vect{b}]$, is a block matrix with two blocks. It is called an augmented matrix, and @sec-gaussian-elimination uses it to solve equations. Block structure often reflects the physics of a problem, such as separate parts of a structure joined at a few points, and good software exploits it to save time and memory.

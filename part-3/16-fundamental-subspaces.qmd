@@ -21,7 +21,7 @@ The span explorer is showing the three columns of
 $$
 \M{A} = \mat{1 & 0 & 1 \\ 2 & 1 & 3 \\ 1 & 2 & 3}.
 $$
-Their span is the **column space** of $\M{A}$: all the vectors $\M{A}\vect{x}$ that the matrix can produce.
+Their span is the column space of $\M{A}$: all the vectors $\M{A}\vect{x}$ that the matrix can produce.
 
 ::: {.app-embed}
 <iframe class="app-frame" src="../apps/span-explorer.html?embed=1&v=1,2,1;0,1,2;1,3,3&b=1,5,7" title="Span explorer: the column space of a matrix" loading="lazy"></iframe>
@@ -187,7 +187,7 @@ a particular solution plus the null space: a plane of solutions in $\R^4$.
 
 ## In code
 
-SciPy's `null_space` and `orth`, and MATLAB's `null` and `orth`, return bases for the null space and column space. They give **orthonormal** bases (perpendicular vectors of length 1, @sec-orthogonality-least-squares), computed from the singular value decomposition, so they look different from the bases found by hand. They span the same subspaces, which you can check by testing that $\M{A}$ times each null space vector is zero.
+SciPy's `null_space` and `orth`, and MATLAB's `null` and `orth`, return bases for the null space and column space. They give orthonormal bases (perpendicular vectors of length 1, @sec-orthogonality-least-squares), computed from the singular value decomposition, so they look different from the bases found by hand. They span the same subspaces, which you can check by testing that $\M{A}$ times each null space vector is zero.
 
 ::: {.panel-tabset group="language"}
 ## Python
@@ -312,7 +312,7 @@ Solutions are in @sec-solutions-fundamental-subspaces.
 
 ## In practice
 
-- **Structures and mechanisms**: the equilibrium equations of a pin-jointed frame relate the forces in its bars to the loads at its joints. A non-zero vector in the null space of the matrix that maps joint movements to bar stretches is a way the frame can move without stretching any bar: a **mechanism**, which an engineer must design out. A non-zero vector in the null space of the equilibrium matrix is a set of bar forces that balances with no load at all: a **self-stress**, as in a pre-tensioned cable net.
+- **Structures and mechanisms**: the equilibrium equations of a pin-jointed frame relate the forces in its bars to the loads at its joints. A non-zero vector in the null space of the matrix that maps joint movements to bar stretches is a way the frame can move without stretching any bar: a mechanism, which an engineer must design out. A non-zero vector in the null space of the equilibrium matrix is a set of bar forces that balances with no load at all: a self-stress, as in a pre-tensioned cable net.
 - **Chemical reactions**: the null space of a matrix of atom counts (as in @sec-linear-systems, Example 4) gives the balanced reactions. For a network of reactions, the left null space gives the quantities that are conserved, such as the total number of atoms of each element.
 - **Networks and circuits**: for the matrix that records which nodes each link of a network joins, the null space describes flows around closed loops, and the left null space reflects the network's connected pieces (@sec-circuits).
 - **Data**: when the columns of a data matrix are dependent, the null space describes exactly which combinations of the measured variables carry no information.

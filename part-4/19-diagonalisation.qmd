@@ -50,7 +50,7 @@ This is **diagonalisation**. By @sec-basis-change, it says exactly what you woul
 When is it possible? Exactly when $\M{A}$ has $n$ independent eigenvectors.
 
 - If the $n$ eigenvalues are all *different*, it always is: eigenvectors for different eigenvalues are independent (a proof is in @sec-proofs-diagonalisation).
-- If some eigenvalue is repeated, it is possible exactly when each eigenspace has as many dimensions as its eigenvalue repeats (@sec-eigenvalues, Example 2 is fine). A **defective** matrix, such as the shear, can't be diagonalised.
+- If some eigenvalue is repeated, it is possible exactly when each eigenspace has as many dimensions as its eigenvalue repeats (@sec-eigenvalues, Example 2 is fine). A defective matrix, such as the shear, can't be diagonalised.
 - Complex eigenvalues are allowed, but then $\M{P}$ and $\M{D}$ contain complex numbers.
 
 ::: {#ex-diagonalisation-1 .callout-note appearance="simple" icon=false}
@@ -275,7 +275,7 @@ Exercises marked † are harder: they take longer, or need an idea that the work
 
    [Solution to exercise 6](../appendices/solutions-4.qmd#solution-diagonalisation-6){.sol-link}
 
-7. []{#exercise-diagonalisation-7}**Code.** A **Leslie matrix** models a population divided into age groups. For a species with three age groups (young, adult, old), suppose each adult has 1.5 young per year and each old animal 1, 60% of the young survive to become adults, and 70% of adults survive to become old:
+7. []{#exercise-diagonalisation-7}**Code.** A Leslie matrix models a population divided into age groups. For a species with three age groups (young, adult, old), suppose each adult has 1.5 young per year and each old animal 1, 60% of the young survive to become adults, and 70% of adults survive to become old:
    $$
    \M{L} = \mat{0 & 1.5 & 1 \\ 0.6 & 0 & 0 \\ 0 & 0.7 & 0}.
    $$
@@ -294,7 +294,7 @@ Solutions are in @sec-solutions-diagonalisation.
 
 ## Going further
 
-- Every square matrix, even a defective one, can be written as $\M{P}\M{J}\M{P}^{-1}$, where the **Jordan form** $\M{J}$ is diagonal apart from some 1s just above the diagonal. Example 1's shear is already in Jordan form. Jordan forms are fragile in floating-point arithmetic, so they are a tool for theory rather than computation.
-- Repeatedly multiplying by $\M{A}$ and rescaling is itself a way to find the dominant eigenvector: the **power method**, which underlies PageRank (@sec-eigenvalue-algorithms).
+- Every square matrix, even a defective one, can be written as $\M{P}\M{J}\M{P}^{-1}$, where the Jordan form $\M{J}$ is diagonal apart from some 1s just above the diagonal. Example 1's shear is already in Jordan form. Jordan forms are fragile in floating-point arithmetic, so they are a tool for theory rather than computation.
+- Repeatedly multiplying by $\M{A}$ and rescaling is itself a way to find the dominant eigenvector: the power method, which underlies PageRank (@sec-eigenvalue-algorithms).
 - Diagonalisation lets you apply other functions to matrices, such as square roots and exponentials, by applying them to the eigenvalues: $f(\M{A}) = \M{P}f(\M{D})\M{P}^{-1}$. The matrix exponential is the key to @sec-linear-odes.
 - Proof that eigenvectors for different eigenvalues are independent: @sec-proofs-diagonalisation.

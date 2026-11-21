@@ -12,7 +12,7 @@
 
 **Builds on** @sec-gaussian-elimination, @sec-lu-decomposition, @sec-floating-point-conditioning.
 
-Gaussian elimination, as described in @sec-gaussian-elimination, swaps rows only when a pivot is exactly zero. On a computer that is not enough. A pivot that is merely *small* produces huge multipliers, which swamp the other numbers in the matrix, and the rounding errors that follow can destroy the answer, even for a perfectly well-conditioned system. The cure is cheap: before each elimination step, swap rows so that the pivot is as large as possible. This is **partial pivoting**, and every library solver does it.
+Gaussian elimination, as described in @sec-gaussian-elimination, swaps rows only when a pivot is exactly zero. On a computer that is not enough. A pivot that is merely *small* produces huge multipliers, which swamp the other numbers in the matrix, and the rounding errors that follow can destroy the answer, even for a perfectly well-conditioned system. The cure is cheap: before each elimination step, swap rows so that the pivot is as large as possible. This is partial pivoting, and every library solver does it.
 
 ## Build intuition
 

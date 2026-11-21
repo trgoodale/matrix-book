@@ -19,7 +19,7 @@ In 1936 the statistician Ronald Fisher published measurements of 150 iris flower
 - **Prediction**: how well can one measurement be predicted from the others, and which of the others matter?
 - **Structure**: four measurements per flower is four dimensions, too many to plot. Is there a simpler picture, in two dimensions, that captures most of the variation, and does it separate the species?
 
-The first is answered by **multiple regression**, which is least squares (@sec-orthogonality-least-squares). The second is answered by **principal component analysis**, which is the SVD (@sec-svd-pca). Both are matrix calculations on the $150 \times 4$ table of data.
+The first is answered by **multiple regression**, which is least squares (@sec-orthogonality-least-squares). The second is answered by principal component analysis, which is the SVD (@sec-svd-pca). Both are matrix calculations on the $150 \times 4$ table of data.
 
 The data are in the file `data/iris.csv` in the book's repository ([download it here](../data/iris.csv)), one row per flower; the code below reads it from there.
 
@@ -78,7 +78,7 @@ If two explanatory variables are nearly proportional, the columns of $\M{X}$ are
 - coefficients that change a lot, even changing sign, when a variable is added or removed, or the data change slightly;
 - a large condition number of $\M{X}$ (after scaling its columns to comparable sizes).
 
-This is **collinearity** (or multicollinearity). The fitted values $\hat{\vect{y}}$ are still fine, since the column space is still well defined; it is the individual coefficients that become unreliable, and with them any story about which variable "matters". The remedies are to drop or combine variables, to collect data that separate them, or to use **ridge regression** (@sec-matrix-calculus, exercise 6), which adds $\mu\M{I}$ to $\M{X}\T\M{X}$.
+This is **collinearity** (or multicollinearity). The fitted values $\hat{\vect{y}}$ are still fine, since the column space is still well defined; it is the individual coefficients that become unreliable, and with them any story about which variable "matters". The remedies are to drop or combine variables, to collect data that separate them, or to use ridge regression (@sec-matrix-calculus, exercise 6), which adds $\mu\M{I}$ to $\M{X}\T\M{X}$.
 
 ::: {#ex-data-science-2 .callout-note appearance="simple" icon=false}
 ### Example 2: collinearity in the iris data
@@ -104,7 +104,7 @@ Predict sepal length from petal width, then from petal length and petal width to
 - **Standardise** each column, by dividing by its standard deviation, when the variables are measured in different units or on very different scales. Otherwise the variables with the largest numbers dominate. (For the iris data all four are lengths in centimetres, so either choice is reasonable; standardising is the common default.)
 - **Choose how many components to keep**, typically enough to explain 80–95% of the variance, or where a plot of the explained variance against the component number (a **scree plot**) levels off.
 
-Then interpret the **loadings**, the entries of each principal component vector, which say how much each original variable contributes; and plot the **scores**, each item's coordinates along the first two components.
+Then interpret the **loadings**, the entries of each principal component vector, which say how much each original variable contributes; and plot the scores, each item's coordinates along the first two components.
 
 ::: {#ex-data-science-3 .callout-note appearance="simple" icon=false}
 ### Example 3: principal components of the iris data

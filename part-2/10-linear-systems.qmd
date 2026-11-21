@@ -268,39 +268,6 @@ $$
 $$ {#eq-general-solution}
 In words: the solutions of $\M{A}\vect{x} = \vect{b}$ are the solutions of $\M{A}\vect{x} = \zerovec$, shifted by $\vect{p}$. In the row picture, the solution set of $\M{A}\vect{x} = \vect{b}$ is a point, line or plane, parallel to the one for $\M{A}\vect{x} = \zerovec$ through the origin. Exercise 5 asks you to prove it; @sec-gauss-jordan-rank uses it to write down every solution.
 
-::: {#ex-linear-systems-4 .callout-note appearance="simple" icon=false}
-### Example 4: balancing a chemical equation
-
-When methane (natural gas, $\mathrm{CH_4}$) burns in oxygen ($\mathrm{O_2}$), it produces carbon dioxide ($\mathrm{CO_2}$) and water ($\mathrm{H_2O}$). Find whole numbers $a$, $b$, $c$, $d$ to balance
-$$
-a\,\mathrm{CH_4} + b\,\mathrm{O_2} \longrightarrow c\,\mathrm{CO_2} + d\,\mathrm{H_2O}.
-$$
-
-**Solution.** A chemical reaction rearranges atoms but never creates or destroys them, so each element must appear equally often on both sides. Counting atoms of carbon, hydrogen and oxygen:
-$$
-\begin{aligned}
-a &= c \quad\text{(carbon)} \\
-4a &= 2d \quad\text{(hydrogen)} \\
-2b &= 2c + d \quad\text{(oxygen)}
-\end{aligned}
-$$
-Moving everything to the left gives a homogeneous system of three equations in four unknowns:
-$$
-\amat{rrrr|r}{1 & 0 & -1 & 0 & 0 \\ 4 & 0 & 0 & -2 & 0 \\ 0 & 2 & -2 & -1 & 0}.
-$$
-It has fewer equations than unknowns, so it has infinitely many solutions. That makes sense: if a set of numbers balances the equation, so does twice that set. Choose $a = 1$; then $c = 1$, $d = 2$, and $2b = 2 + 2$, so $b = 2$:
-$$
-\mathrm{CH_4} + 2\,\mathrm{O_2} \longrightarrow \mathrm{CO_2} + 2\,\mathrm{H_2O}.
-$$
-:::
-
-### More equations than unknowns, or fewer
-
-Systems do not have to be square.
-
-- **More equations than unknowns** (an **overdetermined** system), such as three lines in a plane: usually there is no solution, because three lines rarely pass through one point. This is the normal situation when fitting a model to measured data, and the fix is to look for the *best* approximate solution instead (@sec-orthogonality-least-squares).
-- **Fewer equations than unknowns** (an **underdetermined** system), such as two planes in space: usually there are infinitely many solutions, because two planes that are not parallel meet in a whole line. There can still be none, if the planes are parallel.
-
 ## In code
 
 Both languages solve square systems with one command, which uses the elimination method of @sec-gaussian-elimination. Always check the answer by multiplying back: the **residual** $\M{A}\vect{x} - \vect{b}$ should be zero, apart from tiny rounding errors.
@@ -332,7 +299,7 @@ except np.linalg.LinAlgError as err:
     print("Error:", err)
 ```
 
-To tell "no solution" from "infinitely many", compare the **rank** of $\M{A}$ with the rank of the augmented matrix. The rank counts the genuinely independent equations (@sec-gauss-jordan-rank explains it fully). If adding $\vect{b}$ increases the rank, $\vect{b}$ brings in an equation that contradicts the others, and there is no solution:
+To tell "no solution" from "infinitely many", compare the rank of $\M{A}$ with the rank of the augmented matrix. The rank counts the genuinely independent equations (@sec-gauss-jordan-rank explains it fully). If adding $\vect{b}$ increases the rank, $\vect{b}$ brings in an equation that contradicts the others, and there is no solution:
 
 ```{python}
 Ab2 = np.column_stack([A2, b2])          # the augmented matrix [A | b]
@@ -367,7 +334,7 @@ ans =
 
 Here the residual happens to be exactly zero. On another computer it might be something like `1.0e-14`: tiny, which is all that matters. When $\det\M{A} = 0$, MATLAB still returns an answer but warns that the matrix is singular, and the answer is meaningless (often `Inf` or `NaN`, "not a number"). Never ignore that warning.
 
-To tell "no solution" from "infinitely many", compare the **rank** of $\M{A}$ with the rank of the augmented matrix. The rank counts the genuinely independent equations (@sec-gauss-jordan-rank explains it fully). If adding $\vect{b}$ increases the rank, $\vect{b}$ brings in an equation that contradicts the others, and there is no solution:
+To tell "no solution" from "infinitely many", compare the rank of $\M{A}$ with the rank of the augmented matrix. The rank counts the genuinely independent equations (@sec-gauss-jordan-rank explains it fully). If adding $\vect{b}$ increases the rank, $\vect{b}$ brings in an equation that contradicts the others, and there is no solution:
 
 ```matlab
 A2 = [1 1 1; 1 -1 1; 2 0 2];
@@ -450,17 +417,13 @@ Exercises marked † are harder: they take longer, or need an idea that the work
 
    [Solution to exercise 5](../appendices/solutions-2.qmd#solution-linear-systems-5){.sol-link}
 
-6. []{#exercise-linear-systems-6}Propane ($\mathrm{C_3H_8}$), the gas in camping stoves, burns to give carbon dioxide and water. Balance $a\,\mathrm{C_3H_8} + b\,\mathrm{O_2} \to c\,\mathrm{CO_2} + d\,\mathrm{H_2O}$ with the smallest whole numbers.
+6. []{#exercise-linear-systems-6}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Describe in words, or with a sketch, how three planes can be arranged so that the system has (a) exactly one solution, (b) infinitely many solutions forming a line, (c) infinitely many solutions forming a plane, (d) no solution, in as many different ways as you can.
 
    [Solution to exercise 6](../appendices/solutions-2.qmd#solution-linear-systems-6){.sol-link}
 
-7. []{#exercise-linear-systems-7}[†]{.harder aria-hidden="true" title="Harder"}[Harder exercise.]{.visually-hidden} Describe in words, or with a sketch, how three planes can be arranged so that the system has (a) exactly one solution, (b) infinitely many solutions forming a line, (c) infinitely many solutions forming a plane, (d) no solution, in as many different ways as you can.
+7. []{#exercise-linear-systems-7}**Code.** In Example 1, find the mixture for a new alloy of 100 kg containing 65 kg of copper, 20 kg of zinc and 15 kg of tin. Then try 55 kg of copper, 30 kg of zinc and 15 kg of tin. What goes wrong, and what does it mean for the workshop?
 
    [Solution to exercise 7](../appendices/solutions-2.qmd#solution-linear-systems-7){.sol-link}
-
-8. []{#exercise-linear-systems-8}**Code.** In Example 1, find the mixture for a new alloy of 100 kg containing 65 kg of copper, 20 kg of zinc and 15 kg of tin. Then try 55 kg of copper, 30 kg of zinc and 15 kg of tin. What goes wrong, and what does it mean for the workshop?
-
-   [Solution to exercise 8](../appendices/solutions-2.qmd#solution-linear-systems-8){.sol-link}
 
 Solutions are in @sec-solutions-linear-systems.
 
@@ -469,11 +432,11 @@ Solutions are in @sec-solutions-linear-systems.
 - **Mass balances**: chemical engineers track each substance through a plant, with one equation per substance per unit: what goes in equals what comes out, plus what is made, minus what is used. A large plant gives thousands of equations.
 - **Electrical circuits**: Kirchhoff's laws, that the currents into any junction add up to zero and the voltages around any closed loop add up to zero, give one linear equation per junction or loop. Circuit simulators solve them for every component (@sec-circuits).
 - **Structures**: in a bridge or roof truss, the forces at every joint must balance, giving one equation per joint and direction (@sec-trusses).
-- **Balancing chemical equations**, as in Example 4, and finding which reactions are possible in a network of them.
+- **Balancing chemical equations** (@sec-gauss-jordan-rank), and finding which reactions are possible in a network of them.
 - **Data fitting**: fitting a straight line to many measured points gives far more equations than unknowns, solved in the least-squares sense (@sec-orthogonality-least-squares).
 
 ## Going further
 
-- A system is called **ill-conditioned** when its lines or planes are *nearly* parallel. Then the crossing point moves a long way when the numbers change a little, and small measurement or rounding errors can ruin the answer. @sec-floating-point-conditioning shows how to measure this.
+- A system is called ill-conditioned when its lines or planes are *nearly* parallel. Then the crossing point moves a long way when the numbers change a little, and small measurement or rounding errors can ruin the answer. @sec-floating-point-conditioning shows how to measure this.
 - The idea that solutions are "a particular solution plus anything that solves the homogeneous system" reappears for differential equations, where it is called the complementary function plus particular integral (@sec-linear-odes).
-- The set of right-hand sides $\vect{b}$ that can be reached, and the set of solutions of $\M{A}\vect{x} = \zerovec$, are called the **column space** and the **null space** of $\M{A}$. They are the subject of @sec-fundamental-subspaces.
+- The set of right-hand sides $\vect{b}$ that can be reached, and the set of solutions of $\M{A}\vect{x} = \zerovec$, are called the column space and the null space of $\M{A}$. They are the subject of @sec-fundamental-subspaces.

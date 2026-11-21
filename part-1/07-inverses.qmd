@@ -148,7 +148,7 @@ C_{21} &= -(0 - 18) = 18, & C_{22} &= +(0 - 15) = -15, & C_{23} &= -(6 - 10) = 4
 C_{31} &= +(8 - 3) = 5, & C_{32} &= -(4 - 0) = -4, & C_{33} &= +(1 - 0) = 1.
 \end{aligned}
 $$
-The adjugate is the **transpose** of the cofactor matrix, and $\det\M{A} = 1$, so
+The adjugate is the transpose of the cofactor matrix, and $\det\M{A} = 1$, so
 $$
 \M{A}^{-1} = \mat{-24 & 18 & 5 \\ 20 & -15 & -4 \\ -5 & 4 & 1}.
 $$
@@ -325,5 +325,5 @@ Solutions are in @sec-solutions-inverses.
 ## Going further
 
 - Finding inverses by row reduction, which works for any size: @sec-gauss-jordan-rank.
-- For non-square matrices, or singular square ones, the **pseudoinverse** gives the best available substitute, used for least squares: @sec-svd-pca.
+- For non-square matrices, or singular square ones, the pseudoinverse gives the best available substitute, used for least squares: @sec-svd-pca.
 - Proofs that the inverse is unique and that $(\M{A}\M{B})^{-1} = \M{B}^{-1}\M{A}^{-1}$: @sec-proofs-inverses.

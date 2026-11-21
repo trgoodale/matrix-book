@@ -41,7 +41,7 @@ If $\M{A}$ is a real symmetric matrix, then
 
 1. all its eigenvalues are real;
 2. eigenvectors for different eigenvalues are perpendicular;
-3. it has an **orthonormal** basis of eigenvectors, so it can be diagonalised as
+3. it has an orthonormal basis of eigenvectors, so it can be diagonalised as
 $$
 \M{A} = \M{Q}\M{\Lambda}\M{Q}\T,
 $$
@@ -304,7 +304,7 @@ Solutions are in @sec-solutions-symmetric-matrices.
 
 ## Going further
 
-- The **Rayleigh quotient** $R(\vect{x}) = \dfrac{\vect{x}\T\M{A}\vect{x}}{\vect{x}\T\vect{x}}$ of a symmetric matrix lies between its smallest and largest eigenvalues, reaching them at the corresponding eigenvectors. Many algorithms find eigenvalues by optimising it.
+- The Rayleigh quotient $R(\vect{x}) = \dfrac{\vect{x}\T\M{A}\vect{x}}{\vect{x}\T\vect{x}}$ of a symmetric matrix lies between its smallest and largest eigenvalues, reaching them at the corresponding eigenvectors. Many algorithms find eigenvalues by optimising it.
 - **Generalised eigenproblems** $\M{K}\vect{v} = \lambda\M{M}\vect{v}$, with a stiffness matrix $\M{K}$ and a mass matrix $\M{M}$, give the natural frequencies of vibrating structures. When $\M{M}$ is positive definite, its Cholesky factor turns them into ordinary symmetric eigenproblems.
 - Every square matrix is the sum of a symmetric and an antisymmetric matrix, $\M{A} = \tfrac{1}{2}(\M{A} + \M{A}\T) + \tfrac{1}{2}(\M{A} - \M{A}\T)$, and only the symmetric part affects $\vect{x}\T\M{A}\vect{x}$.
 - Proofs that the eigenvalues of a symmetric matrix are real and its eigenvectors perpendicular: @sec-proofs-symmetric-matrices.
