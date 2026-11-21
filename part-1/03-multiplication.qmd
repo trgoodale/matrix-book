@@ -140,7 +140,10 @@ Multiplying by it changes nothing: $\M{I}\M{A} = \M{A}$ and $\M{A}\M{I} = \M{A}$
 
 Several familiar rules still hold, as long as the sizes fit. Brackets can be multiplied out, $\M{A}(\M{B} + \M{C}) = \M{A}\M{B} + \M{A}\M{C}$; a scalar can be moved anywhere in a product; and in a product of three matrices it doesn't matter which pair you multiply first, $(\M{A}\M{B})\M{C} = \M{A}(\M{B}\M{C})$. (The full list is in @sec-reference.)
 
-Three things that are true for numbers are **not** true for matrices, and these cause most mistakes.
+::: {.callout-warning appearance="simple"}
+## Watch out: three rules that fail for matrices
+
+Three things that are true for numbers are not true for matrices, and these cause most mistakes.
 
 **Order matters.** In general $\M{A}\M{B} \neq \M{B}\M{A}$. Often only one of them is even defined. When both are, they can be different sizes, and even for square matrices they are usually different:
 $$
@@ -158,6 +161,7 @@ $$
 So you can't conclude from $\M{A}\M{B} = \M{0}$ that $\M{A} = \M{0}$ or $\M{B} = \M{0}$, and you can't cancel: $\M{A}\M{B} = \M{A}\M{C}$ does not imply $\M{B} = \M{C}$. (@sec-inverses shows when you *can* cancel.)
 
 **Expanding brackets keeps the order.** Writing $\M{A}^2$ for $\M{A}\M{A}$, $(\M{A} + \M{B})^2 = \M{A}^2 + \M{A}\M{B} + \M{B}\M{A} + \M{B}^2$, which is not $\M{A}^2 + 2\M{A}\M{B} + \M{B}^2$ unless $\M{A}\M{B} = \M{B}\M{A}$.
+:::
 
 ### Two more rules
 

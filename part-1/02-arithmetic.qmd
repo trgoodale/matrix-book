@@ -207,7 +207,7 @@ X =
 :::
 
 ::: {.callout-warning appearance="simple"}
-## A trap: adding things of different sizes
+## Watch out: adding things of different sizes
 In mathematics, adding matrices of different sizes is not allowed. **NumPy and MATLAB sometimes do it anyway.** If you add a column of 3 numbers to a row of 3 numbers, both stretch the smaller pieces to fit and give a $3 \times 3$ result (this is called *broadcasting* in NumPy and *implicit expansion* in MATLAB). It is useful on purpose, for example to subtract the average of each column from a table, but it can hide mistakes. If a result comes out an unexpected size, check the sizes of what you added.
 :::
 

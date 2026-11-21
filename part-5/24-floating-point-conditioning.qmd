@@ -114,7 +114,11 @@ When you solve $\M{A}\vect{x} = \vect{b}$ on a computer, expect to lose about $\
 
 With $\kappa = 10^4$ you can trust about 12 digits; with $\kappa = 10^{12}$, about 4; with $\kappa = 10^{16}$, perhaps none. The same reasoning applies to errors in the data: if $\vect{b}$ comes from measurements accurate to 3 digits and $\kappa = 1000$, the solution may have no correct digits at all, however accurately it is computed.
 
-A small determinant does **not** mean a large condition number. $10^{-3}\M{I}$, of size $100 \times 100$, has determinant $10^{-300}$ but condition number 1 (@sec-determinants).
+::: {.callout-warning appearance="simple"}
+## Watch out: a small determinant is not a warning sign
+
+A small determinant does not mean a large condition number. $10^{-3}\M{I}$, of size $100 \times 100$, has determinant $10^{-300}$ but condition number 1 (@sec-determinants). Use the condition number, not the determinant, to judge how much accuracy you can trust.
+:::
 
 ::: {#ex-floating-point-conditioning-2 .callout-note appearance="simple" icon=false}
 ### Example 2: a condition number by hand

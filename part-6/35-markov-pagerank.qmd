@@ -35,7 +35,13 @@ $$
 \qquad\text{so}\qquad
 \vect{x}_k = \M{M}^k\vect{x}_0.
 $$
-Entry $(i, j)$ of $\M{M}^k$ is the probability of being in state $i$ after $k$ steps, starting from state $j$. (Many statistics books write probability vectors as rows and use the transpose, row-stochastic matrices, with $\vect{x}_{k+1}\T = \vect{x}_k\T\M{P}$. It's the same mathematics.)
+Entry $(i, j)$ of $\M{M}^k$ is the probability of being in state $i$ after $k$ steps, starting from state $j$.
+
+::: {.callout-warning appearance="simple"}
+## Watch out: rows or columns
+
+Many statistics books write probability vectors as rows and use the transpose, a row-stochastic matrix $\M{P} = \M{M}\T$, with $\vect{x}_{k+1}\T = \vect{x}_k\T\M{P}$. It's the same mathematics, but the steady state is then an eigenvector of $\M{P}\T$, not of $\M{P}$: a matrix and its transpose have the same eigenvalues but usually different eigenvectors (@sec-eigenvalues).
+:::
 
 ### Steady states
 

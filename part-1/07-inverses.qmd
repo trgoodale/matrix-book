@@ -116,9 +116,13 @@ The list grows as the book goes on; @sec-fundamental-subspaces gives the full ve
 
 A few more are listed in @sec-reference.
 
-The reversed order in the first rule is sometimes called the *socks and shoes* rule: you put on socks, then shoes, but take off shoes, then socks. It is proved in @sec-proofs-inverses.
+::: {.callout-warning appearance="simple"}
+## Watch out: order and sides
 
-Inverses also let you **cancel**, as long as you are careful about sides. If $\M{A}$ is invertible and $\M{A}\M{B} = \M{A}\M{C}$, multiplying both sides on the left by $\M{A}^{-1}$ gives $\M{B} = \M{C}$. Without invertibility this fails, as @sec-multiplication showed.
+The order in $(\M{A}\M{B})^{-1} = \M{B}^{-1}\M{A}^{-1}$ is reversed. This is sometimes called the *socks and shoes* rule: you put on socks, then shoes, but take off shoes, then socks. It is proved in @sec-proofs-inverses.
+
+Inverses also let you cancel, but only from the same side. If $\M{A}$ is invertible and $\M{A}\M{B} = \M{A}\M{C}$, multiplying both sides on the left by $\M{A}^{-1}$ gives $\M{B} = \M{C}$. But $\M{A}\M{B} = \M{C}\M{A}$ does not give $\M{B} = \M{C}$. Without invertibility, cancelling fails altogether, as @sec-multiplication showed.
+:::
 
 ### Larger inverses: cofactors
 

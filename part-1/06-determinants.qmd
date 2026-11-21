@@ -93,7 +93,11 @@ These follow from the scale factor idea, and are proved in @sec-proofs-determina
 | $\det(\M{A}\T) = \det\M{A}$ | So every rule about rows also holds for columns |
 | $\det(k\M{A}) = k^n\det\M{A}$ for $n \times n$ $\M{A}$ | Every one of the $n$ directions is scaled by $k$ |
 
-Note that $\det(\M{A} + \M{B})$ is **not** in general $\det\M{A} + \det\M{B}$.
+::: {.callout-warning appearance="simple"}
+## Watch out: sums and multiples
+
+$\det(\M{A} + \M{B})$ is not in general $\det\M{A} + \det\M{B}$: for $\M{A} = \M{B} = \M{I}$, of size $2 \times 2$, the left side is 4 and the right side is 2. And $\det(k\M{A})$ is $k^n\det\M{A}$, not $k\det\M{A}$, because multiplying the matrix by $k$ multiplies every one of its $n$ rows by $k$.
+:::
 
 ::: {.callout-tip appearance="simple"}
 ## Working determinants out

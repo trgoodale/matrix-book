@@ -67,6 +67,12 @@ $$
 $$ {#eq-char-2x2}
 This gives a useful check in any size: **the eigenvalues add up to the trace, and multiply to give the determinant** (a proof is in @sec-proofs-eigenvalues).
 
+::: {.callout-warning appearance="simple"}
+## Watch out: row reduction changes eigenvalues
+
+Find the eigenvalues from $\M{A}$ itself. Row operations change them: $\mat{2 & 0 \\ 0 & 3}$ has eigenvalues 2 and 3, but halving its first row gives $\mat{1 & 0 \\ 0 & 3}$, with eigenvalues 1 and 3. Row reduce only $\M{A} - \lambda\M{I}$, once you know $\lambda$, to find the eigenvectors.
+:::
+
 ### Finding the eigenvectors
 
 For each eigenvalue $\lambda$, the eigenvectors are the non-zero solutions of $(\M{A} - \lambda\M{I})\vect{v} = \zerovec$: the null space of $\M{A} - \lambda\M{I}$ (@sec-fundamental-subspaces). Row reduce, and read the solutions off in terms of free variables, as in @sec-gauss-jordan-rank. Because $\M{A} - \lambda\M{I}$ is singular, there is always at least one free variable. If there isn't, the eigenvalue is wrong.

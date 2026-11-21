@@ -146,7 +146,13 @@ e^{\M{A}t} = \M{P}e^{\M{D}t}\M{P}^{-1},
 \qquad
 e^{\M{D}t} = \mat{e^{\lambda_1 t} & & \\ & \ddots & \\ & & e^{\lambda_n t}}.
 $$
-This is @eq-ode-modes again, written as a single matrix. One warning: $e^{\M{A}}e^{\M{B}}$ equals $e^{\M{A} + \M{B}}$ only when $\M{A}\M{B} = \M{B}\M{A}$, because matrix multiplication is not commutative.
+This is @eq-ode-modes again, written as a single matrix.
+
+::: {.callout-warning appearance="simple"}
+## Watch out: exponentials of sums
+
+For numbers, $e^a e^b = e^{a + b}$. For matrices, $e^{\M{A}}e^{\M{B}}$ equals $e^{\M{A} + \M{B}}$ only when $\M{A}\M{B} = \M{B}\M{A}$, because matrix multiplication is not commutative.
+:::
 
 ::: {#ex-linear-odes-3 .callout-note appearance="simple" icon=false}
 ### Example 3: a matrix exponential
