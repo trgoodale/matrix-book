@@ -169,7 +169,14 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
     <section class="panel plane-box" aria-label="Picture">
       <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
       <div class="legend" id="legend"></div>
-      <p class="hint" id="dragHint" hidden>Drag the picture, or focus it and use the arrow keys, to turn it.</p>
+      <p class="hint" id="dragHint" hidden>Drag the picture, use these buttons, or focus the picture and use the arrow keys, to turn it.</p>
+      <div class="row" role="group" aria-label="Turn the view" id="turnRow" hidden>
+        <span class="hint">Turn:</span>
+        <button data-turn="ArrowLeft" aria-label="Turn left">←</button>
+        <button data-turn="ArrowRight" aria-label="Turn right">→</button>
+        <button data-turn="ArrowUp" aria-label="Tilt up">↑</button>
+        <button data-turn="ArrowDown" aria-label="Tilt down">↓</button>
+      </div>
     </section>
 
     <div class="side">
@@ -516,7 +523,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
       ? M.map((r, i) => `<span><span class="sw ${['a', 'b', 'c'][i]}"></span>${eqText(r)}</span>`).join('') + '<span><span class="sw s"></span>solutions</span>'
       : cols.map((c, j) => `<span><span class="sw ${['a', 'b', 'c'][j]}"></span>column ${j + 1}, times ${VAR[j]}</span>`).join('') + '<span><span class="sw w"></span>right-hand side b</span>';
     $('legend').innerHTML = lg;
-    $('dragHint').hidden = n !== 3;
+    $('dragHint').hidden = n !== 3; $('turnRow').hidden = n !== 3;
     cv.setAttribute('aria-label', (S.view === 'row' ? 'Row picture. ' : 'Column picture. ') + M.map(eqText).join('; ') + '. ' + st.textContent);
   }
   function update() { draw(); readout(); }
@@ -585,6 +592,8 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   document.querySelectorAll('[data-dim]').forEach(x => x.setAttribute('aria-pressed', String(+x.dataset.dim === S.dim)));
   document.querySelectorAll('[data-view]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.view === S.view)));
 
+  // Turn buttons do what the arrow keys do, so dragging is never the only way to turn the view.
+  document.querySelectorAll('[data-turn]').forEach(b => b.addEventListener('click', () => cv.dispatchEvent(new KeyboardEvent('keydown', { key: b.dataset.turn, cancelable: true }))));
   new ResizeObserver(resize).observe(cv.parentElement);
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
   new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });

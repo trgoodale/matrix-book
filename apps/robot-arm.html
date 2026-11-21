@@ -153,7 +153,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
 <main class="wrap">
   <header>
     <h1>Turn the joints, <em>place the hand</em></h1>
-    <p>Each link of a robot arm is a rotation followed by a translation, which one 3 × 3 matrix in homogeneous coordinates can hold. Multiply the matrices for the two links and the last column tells you where the hand is. Or drag the target and let Newton’s method find the joint angles.</p>
+    <p>Each link of a robot arm is a rotation followed by a translation, which one 3 × 3 matrix in homogeneous coordinates can hold. Multiply the matrices for the two links and the last column tells you where the hand is. Or move the target (drag it, or click where it should go) and let Newton’s method find the joint angles.</p>
   </header>
 
   <div class="layout">
@@ -165,7 +165,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
         <span><span class="sw t"></span>target (drag)</span>
         <span><span class="sw ws"></span>edge of the reachable region</span>
       </div>
-      <p class="hint">Small arrows show each joint's own x and y axes. With the picture focused, the arrow keys move the target.</p>
+      <p class="hint">Small arrows show each joint's own x and y axes. Drag the target or click where it should go. With the picture focused, the arrow keys move it.</p>
     </section>
 
     <div class="side">
@@ -313,11 +313,15 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   $('frames').addEventListener('change', e => { S.frames = e.target.checked; draw(); });
   function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
   const onT = (sx, sy) => { const s = P(S.target); return Math.hypot(s[0] - sx, s[1] - sy) < 18; };
-  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); if (!onT(sx, sy)) return; drag = true; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); });
+  // Pressing anywhere moves the point there, so dragging is never the only way to move it.
+  function moveTo(sx, sy) {
+    S.target = [Math.round(((sx - W / 2) / W * 2 * R) * 10) / 10, Math.round(((W / 2 - sy) / W * 2 * R) * 10) / 10]; S.steps = []; draw();
+  }
+  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); const onIt = onT(sx, sy); drag = true; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); if (!onIt) moveTo(sx, sy); });
   cv.addEventListener('pointermove', e => {
     const [sx, sy] = pos(e);
     if (!drag) { const h = onT(sx, sy); if (h !== hover) { hover = h; cv.className = h ? 'grab' : ''; draw(); } return; }
-    S.target = [Math.round(((sx - W / 2) / W * 2 * R) * 10) / 10, Math.round(((W / 2 - sy) / W * 2 * R) * 10) / 10]; S.steps = []; draw();
+    moveTo(sx, sy);
   });
   const end = () => { if (drag) { drag = false; cv.className = hover ? 'grab' : ''; draw(); } };
   cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);

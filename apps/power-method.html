@@ -152,11 +152,11 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
     <section class="panel plane-box" aria-label="Plane">
       <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
       <div class="legend">
-        <span><span class="sw a"></span>start, <b>q</b>₀ (drag round the circle)</span>
+        <span><span class="sw a"></span>start, <b>q</b>₀ (drag round the circle, or click)</span>
         <span><span class="sw w"></span><b>q</b>₁, <b>q</b>₂, … each rescaled to length 1</span>
         <span><span class="sw t"></span>eigenvector lines</span>
       </div>
-      <p class="hint">With the picture focused, the arrow keys turn <b>q</b>₀ and the space bar takes a step.</p>
+      <p class="hint">Click anywhere to point <b>q</b>₀ that way. With the picture focused, the arrow keys turn <b>q</b>₀ and the space bar takes a step.</p>
     </section>
 
     <div class="side">
@@ -317,11 +317,15 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
 
   function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
   const onTip = (sx, sy) => { const s = P(S.qs[0]); return Math.hypot(s[0] - sx, s[1] - sy) < 18; };
-  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); if (!onTip(sx, sy)) return; drag = true; stop(); cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); });
+  // Pressing anywhere moves the point there, so dragging is never the only way to move it.
+  function moveTo(sx, sy) {
+    S.th = Math.round(Math.atan2(W / 2 - sy, sx - W / 2) * 180 / Math.PI) * Math.PI / 180; restart();
+  }
+  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); const onIt = onTip(sx, sy); drag = true; stop(); cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); if (!onIt) moveTo(sx, sy); });
   cv.addEventListener('pointermove', e => {
     const [sx, sy] = pos(e);
     if (!drag) { const h = onTip(sx, sy); if (h !== hover) { hover = h; cv.className = h ? 'grab' : ''; draw(); } return; }
-    S.th = Math.round(Math.atan2(W / 2 - sy, sx - W / 2) * 180 / Math.PI) * Math.PI / 180; restart();
+    moveTo(sx, sy);
   });
   const end = () => { if (drag) { drag = false; cv.className = hover ? 'grab' : ''; draw(); } };
   cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);

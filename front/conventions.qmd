@@ -7,7 +7,9 @@ Linear algebra is written in several different notations. None of them is wrong:
 
 You can change these settings at any time with the **Notation** button at the bottom right of every page.
 
-The settings change the mathematics in the text and in figure captions. Labels drawn inside the diagrams are part of the image, so they always use the default style, with bold vectors and bold matrices. The apps follow your choice of brackets.
+The last setting is for keyboard users: it chooses whether the Tab key stops at each formula or skips over them (see [Using a keyboard or screen reader](how-to-use.qmd#using-a-keyboard-or-screen-reader)).
+
+The notation settings change the mathematics in the text and in figure captions. Labels drawn inside the diagrams are part of the image, so they always use the default style, with bold vectors and bold matrices. The apps follow your choice of brackets.
 
 ## The options
 

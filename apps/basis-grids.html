@@ -161,7 +161,13 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
           <label><input type="checkbox" id="gNew" checked> New grid</label>
           <label><input type="checkbox" id="path" checked> Show the steps along b₁ and b₂</label>
         </div>
-        <p class="hint">Drag the tips of the arrows; they snap to half-squares. With the picture focused, the arrow keys move <b>v</b>.</p>
+        <div class="row" role="group" aria-label="What a click or the arrow keys move">
+          <span class="hint">Move:</span>
+          <button data-move="b1" aria-pressed="false" aria-label="Move b1"><b>b</b>₁</button>
+          <button data-move="b2" aria-pressed="false" aria-label="Move b2"><b>b</b>₂</button>
+          <button data-move="v" aria-pressed="true" aria-label="Move v"><b>v</b></button>
+        </div>
+        <p class="hint">Drag the tips of the arrows, or choose one here and click where it should go; they snap to half-squares. With the picture focused, the arrow keys move it.</p>
       </section>
     </div>
   </div>
@@ -179,7 +185,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   const S = { b1: null, b2: null, v: null };
   const R = 6;
   const cv = $('cv'), ctx = cv.getContext('2d');
-  let W = 500, dpr = 1, drag = null, hover = null;
+  let W = 500, dpr = 1, drag = null, hover = null, sel = 'v';
   const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
   const css = () => { const g = getComputedStyle(document.documentElement); const v = n => g.getPropertyValue(n).trim();
     return { ink: v('--ink'), muted: v('--muted'), a: v('--row'), b: v('--col'), t: v('--tgt'), w: v('--res'), plane: v('--plane'), pgrid: v('--pgrid'), surface: v('--surface'), num: v('--font-num') }; };
@@ -249,7 +255,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
     }
     arrow([0, 0], S.v, C.w, 3.4);
     arrow([0, 0], S.b1, C.a, 3); arrow([0, 0], S.b2, C.b, 3);
-    handle(S.b1, C.a, hover === 'b1' || drag === 'b1'); handle(S.b2, C.b, hover === 'b2' || drag === 'b2'); handle(S.v, C.w, hover === 'v' || drag === 'v');
+    handle(S.b1, C.a, hover === 'b1' || drag === 'b1' || sel === 'b1'); handle(S.b2, C.b, hover === 'b2' || drag === 'b2' || sel === 'b2'); handle(S.v, C.w, hover === 'v' || drag === 'v' || sel === 'v');
     label('b₁', S.b1, C.a, 14); label('b₂', S.b2, C.b, -14); label('v', S.v, C.w, 0);
   }
   function colv(v, cls) { return `<span class="colv ${cls}"><span>${fmt(v[0])}</span><span>${fmt(v[1])}</span></span>`; }
@@ -275,18 +281,33 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
   function hit(sx, sy) { for (const k of ['v', 'b1', 'b2']) { const s = P(S[k]); if (Math.hypot(s[0] - sx, s[1] - sy) < 20) return k; } return null; }
   const toWorld = (sx, sy) => [Math.max(-R, Math.min(R, Math.round((sx - W / 2) / u() * 2) / 2)), Math.max(-R, Math.min(R, Math.round((W / 2 - sy) / u() * 2) / 2))];
-  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); const k = hit(sx, sy); if (!k) return; drag = k; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); });
+  // What a click on empty space, or the arrow keys, will move. Dragging is never the only way.
+  function select(k) { sel = k; document.querySelectorAll('[data-move]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.move === k))); draw(); }
+  function place(k, p) {
+    if (k !== 'v' && p[0] === 0 && p[1] === 0) return;     // a basis vector cannot be zero
+    if (p[0] !== S[k][0] || p[1] !== S[k][1]) { S[k] = p; update(); }
+  }
+  document.querySelectorAll('[data-move]').forEach(b => b.addEventListener('click', () => select(b.dataset.move)));
+  cv.addEventListener('pointerdown', e => {
+    const [sx, sy] = pos(e), h = hit(sx, sy), k = h || sel;
+    if (k !== sel) select(k);
+    drag = k; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault();
+    if (!h) place(k, toWorld(sx, sy));
+  });
   cv.addEventListener('pointermove', e => {
     const [sx, sy] = pos(e);
     if (!drag) { const h = hit(sx, sy); if (h !== hover) { hover = h; cv.className = h ? 'grab' : ''; draw(); } return; }
-    const p = toWorld(sx, sy); if (drag !== 'v' && p[0] === 0 && p[1] === 0) return;
-    if (p[0] !== S[drag][0] || p[1] !== S[drag][1]) { S[drag] = p; update(); }
+    place(drag, toWorld(sx, sy));
   });
   const end = () => { if (drag) { drag = null; cv.className = hover ? 'grab' : ''; draw(); } };
   cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
   cv.addEventListener('keydown', e => {
     const d = { ArrowLeft: [-0.5, 0], ArrowRight: [0.5, 0], ArrowUp: [0, 0.5], ArrowDown: [0, -0.5] }[e.key];
-    if (!d) return; e.preventDefault(); S.v = [Math.max(-R, Math.min(R, S.v[0] + d[0])), Math.max(-R, Math.min(R, S.v[1] + d[1]))]; update();
+    if (!d) return; e.preventDefault();
+    const c = v => Math.max(-R, Math.min(R, v));
+    let p = [c(S[sel][0] + d[0]), c(S[sel][1] + d[1])];
+    if (sel !== 'v' && p[0] === 0 && p[1] === 0) p = [c(p[0] + d[0]), c(p[1] + d[1])];   // step over the origin
+    place(sel, p);
   });
 
   // Optional start-up settings: ?b1=1,1&b2=1,-1&v=5,1

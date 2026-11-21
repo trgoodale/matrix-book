@@ -168,8 +168,11 @@ The book resizes the frame to fit the app. With `?embed=1`, the app hides its ow
 - **Avoid long inline maths** such as a matrix or a six-number tuple in running text; it cannot wrap. Use a display, or plain text for lists of numbers.
 - `assets/notation-header.html` ends with a script that repairs some of Quarto's markup: it makes the "Check your understanding" headers keyboard-operable buttons, labels the sidebar landmark, and makes sideways-scrolling code output focusable.
 - **Apps** must keep: an `aria-label` on every control, `tabindex="0"` with `role="region"` on any scrolling box, checkboxes inside their `<label>`, and a Play/Pause button for any animation (never start moving on load).
+- **Never make dragging the only way** (WCAG 2.2). A point that can be dragged must also move to where the reader clicks; when there are several, add a **Move:** row of buttons choosing which one a click (and the arrow keys) moves, as in the vector mixer, basis grids and vector explorer. A 3D view that turns by dragging needs **Turn** buttons (they send the arrow keys to the canvas), as in the span explorer. Anything the mouse can change, the keyboard must change too.
+- **Colours drawn on a canvas** (lines, grids, labels) need 3:1 contrast against the plot background in both themes, at the opacity they are drawn with. Automated checkers cannot see inside a canvas.
+- **Small controls** need a target of at least 24 by 24 pixels; `assets/components.scss` enlarges Quarto's own (the GitHub button, "Edit this page", breadcrumbs).
 
-To check, render, serve `_book` locally and run [axe-core](https://github.com/dequelabs/axe-core) over the pages in light and dark modes, and load each page at 320, 390, 768 and 1280 pixels wide.
+To check, render, serve `_book` locally and run [axe-core](https://github.com/dequelabs/axe-core) over every page and app, in light and dark modes, with the WCAG 2.2 rules on, and load each page at 320, 390, 768 and 1280 pixels wide. Make sure MathJax actually loads in the test browser (if the CDN is blocked, serve a local copy of `mathjax@4.0.0`): without it the maths is missing and the results are misleading.
 
 ## Publishing to GitHub Pages
 

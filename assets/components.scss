@@ -122,3 +122,17 @@ pre[role="region"]:focus-visible { outline: 2px solid var(--mb-row); outline-off
 @media (max-width: 600px) {
   .quarto-figure img, figure img { width: 100% !important; }
 }
+
+/* WCAG 2.2 target size: give Quarto's small controls at least 24px to tap
+   (the GitHub button, "Edit this page" / "Report an issue", and the breadcrumbs) */
+.quarto-navigation-tool { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; min-height: 24px; }
+.toc-actions a.toc-action { display: inline-block; min-height: 24px; line-height: 24px; }
+.quarto-page-breadcrumbs .breadcrumb-item a { display: inline-block; min-height: 24px; line-height: 24px; }
+
+/* Narrow screens: Quarto keeps cross-reference links on one line, but a long one
+   ("Appendix E — Solutions: Part I") is wider than a 320px phone, so let them wrap there.
+   Long URLs in the references may break anywhere. */
+@media (max-width: 600px) {
+  a.quarto-xref, a.quarto-xref span { white-space: normal; }
+}
+#refs a, .csl-entry a { overflow-wrap: anywhere; }

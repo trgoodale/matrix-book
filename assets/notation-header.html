@@ -13,10 +13,16 @@
   here, before MathJax loads, so every page is typeset in their notation.
 */
 (function () {
-  var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python" };
+  var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python", mtab: "off" };
   var s = {};
   try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) { s = {}; }
   for (var k in DEFAULTS) if (!(k in s)) s[k] = DEFAULTS[k];
+  // Whether the Tab key stops at each formula. MathJax's own menu ("Include in Tab Order")
+  // saves the same choice under "MathJax-Menu-Settings"; follow it if the reader used it there.
+  try {
+    var mjs = JSON.parse(localStorage.getItem("MathJax-Menu-Settings") || "{}") || {};
+    if (typeof mjs.inTabOrder === "boolean") s.mtab = mjs.inTabOrder ? "on" : "off";
+  } catch (e) {}
   window.mbSettings = s;
   window.mbDefaults = DEFAULTS;
 
@@ -48,7 +54,11 @@
     },
     // MathJax 4: break long equations across lines to fit narrow screens
     output: { displayOverflow: "linebreak", linebreaks: { inline: true, width: "100%", lineleading: 0.6 } },
-    chtml: { scale: 1.0 }
+    chtml: { scale: 1.0 },
+    // Formulas are left out of the Tab order by default: otherwise a keyboard user must press
+    // Tab once per formula (over 200 times in some chapters). Readers can turn it back on in
+    // the Notation panel or in MathJax's own menu (How to use this book explains).
+    options: { menuOptions: { settings: { inTabOrder: s.mtab === "on" } } }
   };
 
   // Default language for code tabs: Quarto reads this when the page is shown.
@@ -65,7 +75,8 @@
     { key: "basis", label: "Unit vectors", opts: [["ijk", "i, j, k", "\\mathbf{i},\\ \\mathbf{j},\\ \\mathbf{k}"], ["hat", "Hats", "\\hat{\\imath},\\ \\hat{\\jmath},\\ \\hat{k}"], ["e", "e₁, e₂, e₃", "\\mathbf{e}_1,\\ \\mathbf{e}_2,\\ \\mathbf{e}_3"]] },
     { key: "br", label: "Brackets", opts: [["round", "Round", "\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}"], ["square", "Square", "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}"]] },
     { key: "tr", label: "Transpose", opts: [["T", "Letter T", "\\mathbf{A}^{\\mathsf{T}}"], ["top", "Symbol ⊤", "\\mathbf{A}^{\\top}"]] },
-    { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] }
+    { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] },
+    { key: "mtab", label: "Tab key and formulas", opts: [["off", "Tab skips formulas", ""], ["on", "Tab stops at each formula", ""]] }
   ];
 
   function buildForm(prefix) {
@@ -131,6 +142,10 @@
       var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
       tabs.language = next.code;
       localStorage.setItem(key, JSON.stringify(tabs));
+      var mk = "MathJax-Menu-Settings";
+      var mjs = JSON.parse(localStorage.getItem(mk) || "{}") || {};
+      mjs.inTabOrder = next.mtab === "on";
+      localStorage.setItem(mk, JSON.stringify(mjs));
       sessionStorage.setItem("mb-scroll", String(window.scrollY));
     } catch (e) {}
     location.reload();
@@ -174,6 +189,37 @@
     btn.addEventListener("click", function () { dlg.showModal(); typeset(dlg); });
     dlg.querySelector(".btn-close").addEventListener("click", function () { dlg.close(); });
     dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+    // MathJax 4.0's formula explorer puts every formula in the Tab order (tabindex="0")
+    // whatever its "Include in Tab Order" setting says, so enforce that setting here.
+    // It follows MathJax's live setting, so turning it on in either menu still works.
+    // Remove this if a later MathJax version respects the setting itself.
+    function mathInTabOrder() {
+      try { return !!window.MathJax.startup.document.menu.settings.inTabOrder; } catch (e) { return s.mtab === "on"; }
+    }
+    // A formula too wide for the screen scrolls sideways, so it stays in the Tab order:
+    // keyboard users need to reach it to scroll it.
+    function untab(el) {
+      if (mathInTabOrder()) return;
+      var want = el.scrollWidth > el.clientWidth + 1 ? "0" : "-1";
+      if (el.getAttribute("tabindex") !== want) el.setAttribute("tabindex", want);
+    }
+    var untabTimer = 0;
+    function untabAll() { document.querySelectorAll("mjx-container").forEach(untab); }
+    window.addEventListener("resize", function () { clearTimeout(untabTimer); untabTimer = setTimeout(untabAll, 200); });
+    window.addEventListener("load", function () {
+      try { window.MathJax.startup.promise.then(function () { setTimeout(untabAll, 300); }); } catch (e) { setTimeout(untabAll, 1500); }
+    });
+    new MutationObserver(function (list) {
+      list.forEach(function (m) {
+        if (m.type === "attributes") { if (m.target.tagName === "MJX-CONTAINER") untab(m.target); return; }
+        m.addedNodes.forEach(function (n) {
+          if (n.nodeType !== 1) return;
+          if (n.tagName === "MJX-CONTAINER") untab(n);
+          else if (n.querySelectorAll) n.querySelectorAll("mjx-container").forEach(untab);
+        });
+      });
+    }).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ["tabindex"] });
 
     // Size embedded apps to their content (same origin)
     document.querySelectorAll("iframe.app-frame").forEach(function (f) {

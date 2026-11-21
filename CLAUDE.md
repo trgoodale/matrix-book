@@ -85,8 +85,15 @@ Accessibility
   The arrow keys move whatever the Move selector picks.
 - `assets/components.scss` enlarges Quarto's small controls to 24 px, lets
   cross-reference links wrap on narrow screens, and lets long reference URLs break.
-- MathJax 4 provides speech and braille for every formula. Every formula is also a Tab
-  stop (MathJax default `inTabOrder: true`): an open question for Tom (see Ideas).
+- MathJax 4 provides speech and braille for every formula. Decided 2026-11-21 (Tom):
+  formulas are **not** Tab stops by default (otherwise 200+ Tab presses in some chapters).
+  Readers turn it back on with the Notation panel ("Tab key and formulas") or MathJax's
+  menu (Accessibility > Options > Include in Tab Order); the two share the setting via
+  localStorage `MathJax-Menu-Settings`. *How to use this book* ("Using a keyboard or screen
+  reader") explains; the conventions page points there. MathJax 4.0.0 ignores the setting
+  (its explorer sets tabindex="0"), so `notation-header.html` enforces it with a
+  MutationObserver; formulas that scroll sideways on narrow screens stay focusable. Remove
+  the workaround if a later MathJax respects the setting.
 - Animated apps only move after Play; eight of them (heat plate, iteration race, matrix
   powers, normal modes, power method, random surfer, robot arm, row reduction) do not
   check prefers-reduced-motion (AAA only, since motion is user-started); phase portrait does.
@@ -114,9 +121,6 @@ Accessibility
 - PDF and EPUB editions (static images in place of apps), then an index.
 - Optional: Chapter 28 script skips `fsolve` with a message when the toolbox is
   missing.
-- Decide: take MathJax formulas out of the Tab order (`options.menuOptions.settings.
-  inTabOrder: false`)? Fewer Tab presses for keyboard users; harder for screen-reader
-  users to reach the formula explorer. Raised with Tom 2026-11-21.
 - Optional: honour prefers-reduced-motion in the eight animated apps listed above.
 - Reader testing: a few students thinking aloud through one Core and one Part VI
   chapter (the review could not judge clarity for novices).

@@ -154,7 +154,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
         <span><span class="sw w"></span><b>x</b>₁, <b>x</b>₂, … after each step</span>
         <span><span class="sw t"></span>eigenvector lines</span>
       </div>
-      <p class="hint">The view zooms out as the vector grows; the number on the x-axis gives its size. With the picture focused, the arrow keys move <b>x</b>₀ and the space bar multiplies by A.</p>
+      <p class="hint">The view zooms out as the vector grows; the number on the x-axis gives its size. Drag <b>x</b>₀, or click where you want it to start. With the picture focused, the arrow keys move <b>x</b>₀ and the space bar multiplies by A.</p>
     </section>
 
     <div class="side">
@@ -310,12 +310,16 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
 
   function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
   const onTip = (sx, sy) => { const s = P(S.x0); return Math.hypot(s[0] - sx, s[1] - sy) < 18; };
-  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); if (!onTip(sx, sy)) return; drag = true; stop(); S.xs = [S.x0.slice()]; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); });
+  // Pressing anywhere moves the point there, so dragging is never the only way to move it.
+  function moveTo(sx, sy) {
+    const sn = v => Math.round(v * 10) / 10;
+    S.x0 = [sn(Math.max(-R, Math.min(R, (sx - W / 2) / W * 2 * R))), sn(Math.max(-R, Math.min(R, (W / 2 - sy) / W * 2 * R)))]; S.xs = [S.x0.slice()]; draw(); readout();
+  }
+  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); const onIt = onTip(sx, sy); drag = true; stop(); S.xs = [S.x0.slice()]; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); if (!onIt) moveTo(sx, sy); });
   cv.addEventListener('pointermove', e => {
     const [sx, sy] = pos(e);
     if (!drag) { const h = onTip(sx, sy); if (h !== hover) { hover = h; cv.className = h ? 'grab' : ''; draw(); } return; }
-    const sn = v => Math.round(v * 10) / 10;
-    S.x0 = [sn(Math.max(-R, Math.min(R, (sx - W / 2) / W * 2 * R))), sn(Math.max(-R, Math.min(R, (W / 2 - sy) / W * 2 * R)))]; S.xs = [S.x0.slice()]; draw(); readout();
+    moveTo(sx, sy);
   });
   const end = () => { if (drag) { drag = false; cv.className = hover ? 'grab' : ''; draw(); } };
   cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
