@@ -16,9 +16,9 @@
 
 %% Chapter 1, exercise 6
 % Create the 6 × 6 matrix with entries a_ij = 1/(i + j - 1), and check that
-% it is symmetric. (It is called the Hilbert matrix, and it returns in the
-% chapter as a famously difficult matrix for computers.) In Python you may
-% find np.fromfunction useful; in MATLAB, try hilb(6) and compare.
+% it is symmetric. (It is called the Hilbert matrix, and it returns in
+% Chapter 24 as a famously difficult matrix for computers.) In Python you
+% may find np.fromfunction useful; in MATLAB, try hilb(6) and compare.
 
 [J, I] = meshgrid(1:6);       % I(i,j) = i and J(i,j) = j
 H = 1 ./ (I + J - 1);
@@ -30,7 +30,7 @@ isequal(H, hilb(6))
 % --------------------------------------------------------------------------
 
 %% Chapter 2, exercise 6
-% The matrix T from the chapter holds four hourly readings from three
+% The matrix T from Chapter 1 holds four hourly readings from three
 % temperature sensors. Subtract each sensor's average reading from its
 % column, using broadcasting, and check that each column of the result adds
 % up to zero (up to rounding).
@@ -65,8 +65,8 @@ N^3
 
 %% Chapter 4, exercise 7
 % Apply the rotation R(θ) to the F shape (corner coordinates are in the code
-% for fig-transformation-gallery) for θ= 0°, 45°, 90°, ..., 315°, and plot
-% all eight images on one set of axes.
+% for Figure 4.1) for θ= 0°, 45°, 90°, ..., 315°, and plot all eight images
+% on one set of axes.
 
 F = [0 0.5 0.5  1.1  1.1 0.5 0.5  1.3  1.3 0;
      0 0   0.85 0.85 1.3 1.3 1.75 1.75 2.2 2.2];
@@ -96,8 +96,8 @@ M = [1 2; 2 1];                   % a candidate
 isequal(S*M, M*S)                 % true
 
 % Any matrix of the form [a b; b a] commutes with [2 1; 1 2]. (These
-% matrices all have the same invariant lines, y = x and y = -x, which the
-% chapter explains.)
+% matrices all have the same invariant lines, y = x and y = -x, which
+% Chapter 19 explains.)
 
 % --------------------------------------------------------------------------
 % Chapter 6: Determinants
@@ -121,7 +121,7 @@ end
 % although the matrices are no closer to or further from being singular. A
 % determinant multiplies together n scale factors, so it depends on the size
 % of the entries and on n, not just on how close the matrix is to singular.
-% The condition number (the chapter) measures nearness to singularity
+% The condition number (Chapter 24) measures nearness to singularity
 % properly.
 
 % --------------------------------------------------------------------------
@@ -135,7 +135,7 @@ end
 % modulo 26"), so that it is a letter again. With key K = [3 3; 2 5], the
 % message HELP becomes the vectors (7, 4)^T and (11, 15)^T. Encrypt it. Then
 % check that K^-1 modulo 26 is [15 17; 20 9], by showing that K times this
-% matrix is I modulo 26, and use it to decrypt. (the chapter explains how
+% matrix is I modulo 26, and use it to decrypt. (Chapter 39 explains how
 % this inverse is found.)
 
 K = [3 3; 2 5];
@@ -181,9 +181,9 @@ fprintf('The two orientations differ by %.2f degrees\n', acosd((trace(M) - 1) / 
 
 %% Chapter 9, exercise 7
 % Use eigenvalues and eigenvectors to find the invariant lines of [1 2; 3
-% 2], and the stretch factor along each. Check your answer with eq-
-% invariant-lines, and then with the app. What does the negative stretch
-% factor mean for the points on that line?
+% 2], and the stretch factor along each. Check your answer with
+% Equation 9.3, and then with the app. What does the negative stretch factor
+% mean for the points on that line?
 
 A = [1 2; 3 2];
 [V, D] = eig(A);
@@ -191,9 +191,9 @@ lambda = diag(D)'
 slopes = V(2, :) ./ V(1, :)
 
 % The invariant lines are y = -x with λ= -1 and y = (3/2)x with λ= 4. By
-% hand, b = 2, a - d = -1, c = 3, so eq-invariant-lines is 2m^2 - m - 3 = 0,
-% that is (2m - 3)(m + 1) = 0, giving the same slopes. The stretch factors
-% are a + bm = 1 + 2 × (-1) = -1 and 1 + 2 × (3/2) = 4.
+% hand, b = 2, a - d = -1, c = 3, so Equation 9.3 is 2m^2 - m - 3 = 0, that
+% is (2m - 3)(m + 1) = 0, giving the same slopes. The stretch factors are a
+% + bm = 1 + 2 × (-1) = -1 and 1 + 2 × (3/2) = 4.
 %
 % On y = -x, the stretch factor -1 means each point flips to the opposite
 % side of the origin, at the same distance: (1, -1)^T → (-1, 1)^T. The line
@@ -208,7 +208,7 @@ slopes = V(2, :) ./ V(1, :)
 % B^-1A^-1, and that this is not the same as A^-1B^-1. Explain the order
 % using the idea of undoing two transformations.
 
-% Uses the chapter and the chapter.
+% Uses Chapter 7 and Chapter 5.
 
 rng(1)
 A = randn(4);  B = randn(4);

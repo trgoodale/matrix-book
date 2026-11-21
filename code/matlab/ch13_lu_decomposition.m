@@ -45,7 +45,7 @@ x2 = dA \ [1; 1; 1]
 %% Exercise 7
 % Write a function forward_substitution(L, b) that solves Ly = b for a lower
 % triangular L with 1s on its diagonal. Use it, with the back substitution
-% from the chapter, to solve the systems in Exercise 2, and check your
+% from Chapter 11, to solve the systems in Exercise 2, and check your
 % answers against a library solver.
 
 % Your code here

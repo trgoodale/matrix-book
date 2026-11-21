@@ -39,8 +39,8 @@ null(C - eye(3))         % a multiple of (1, 1, 1)
 
 %% Exercise 7
 % Use eigenvalues and eigenvectors to find the invariant lines of [1 2; 3
-% 2], and the stretch factor along each. Check your answer with eq-
-% invariant-lines, and then with the app. What does the negative stretch
-% factor mean for the points on that line?
+% 2], and the stretch factor along each. Check your answer with
+% Equation 9.3, and then with the app. What does the negative stretch factor
+% mean for the points on that line?
 
 % Your code here

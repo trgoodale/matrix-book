@@ -13,7 +13,7 @@
 %% In code
 % The diagonalisation comes straight from eig. For powers with a specific k,
 % matrix_power (or A^k in MATLAB) multiplies efficiently by repeated
-% squaring; the formula eq-powers is most useful for understanding.
+% squaring; the formula Equation 19.2 is most useful for understanding.
 
 A = [4 1; 2 3];
 [P, D] = eig(A);

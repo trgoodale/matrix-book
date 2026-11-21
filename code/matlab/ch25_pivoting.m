@@ -11,7 +11,7 @@
 % Code licensed under the MIT licence: https://trgoodale.github.io/matrix-book/LICENSE.md
 
 %% In code
-% Adding partial pivoting to the elimination function from the chapter takes
+% Adding partial pivoting to the elimination function from Chapter 11 takes
 % three lines: find the row with the largest entry in the pivot column, and
 % swap it into place, in both A and b.
 

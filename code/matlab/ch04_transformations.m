@@ -36,7 +36,7 @@ axis equal; grid on
 
 %% Exercise 7
 % Apply the rotation R(θ) to the F shape (corner coordinates are in the code
-% for fig-transformation-gallery) for θ= 0°, 45°, 90°, ..., 315°, and plot
-% all eight images on one set of axes.
+% for Figure 4.1) for θ= 0°, 45°, 90°, ..., 315°, and plot all eight images
+% on one set of axes.
 
 % Your code here

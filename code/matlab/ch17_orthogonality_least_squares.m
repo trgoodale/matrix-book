@@ -14,9 +14,9 @@
 % For least squares, use a solver that works on A directly rather than
 % forming A^T A: NumPy's lstsq, or MATLAB's backslash, which automatically
 % gives the least-squares solution when A has more rows than columns. They
-% use the QR factorisation, which is more accurate (the chapter). For
-% fitting polynomials there is also polyfit, which lists the coefficients
-% from the highest power down.
+% use the QR factorisation, which is more accurate (Chapter 30). For fitting
+% polynomials there is also polyfit, which lists the coefficients from the
+% highest power down.
 
 t = [0; 1; 2; 3];
 y = [1; 2; 4; 5];

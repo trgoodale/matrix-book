@@ -36,7 +36,7 @@ rank(V(:, 1:3))            % 3: the first three are independent
 % --------------------------------------------------------------------------
 
 %% Chapter 15, exercise 7
-% In the chapter you found that C = [0 0 1; 1 0 0; 0 1 0] is the rotation by
+% In Chapter 9 you found that C = [0 0 1; 1 0 0; 0 1 0] is the rotation by
 % 120° about the line through (1, 1, 1). Build it the other way, by a change
 % of basis. Use p = (1/sqrt(2))(1, -1, 0)^T, q = (1/sqrt(6))(1, 1, -2)^T and
 % u = (1/sqrt(3))(1, 1, 1)^T as the columns of P, so that the axis u plays
@@ -107,7 +107,7 @@ g = -2 * c(3)
 % (1, 1, 0)^T, (1, 0, 1)^T, (0, 1, 1)^T, check that Q^T Q = I, and compare Q
 % with the built-in QR factorisation.
 
-% Uses the chapter.
+% Uses Chapter 17.
 
 % Save the function as gram_schmidt.m:
 

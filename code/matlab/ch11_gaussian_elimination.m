@@ -13,7 +13,7 @@
 %% In code
 % The function below follows the method exactly: a loop over pivot columns,
 % an inner loop over the rows below, then back substitution. It stops with
-% an error if it meets a zero pivot. the chapter adds row swaps.
+% an error if it meets a zero pivot. Chapter 25 adds row swaps.
 
 A = [2 1 -1; -3 -1 2; -2 1 2];
 b = [8; -11; -3];

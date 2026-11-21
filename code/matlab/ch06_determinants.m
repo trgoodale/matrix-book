@@ -27,9 +27,9 @@ d = det(S)
 % a perfectly healthy matrix can have a tiny determinant just because its
 % entries are small: det(0.1*eye(10)) is 10^-10. To check whether a matrix
 % is close to singular, use its rank, the number of independent directions
-% it keeps (3 for a healthy 3 × 3 matrix; see the chapter), or its condition
-% number, which is huge for a matrix that is singular or nearly so (the
-% chapter):
+% it keeps (3 for a healthy 3 × 3 matrix; see Chapter 12), or its condition
+% number, which is huge for a matrix that is singular or nearly so (Chapter
+% 24):
 
 rank(S)          % 2, not 3: S is singular
 cond(S)          % enormous: S is singular or nearly so

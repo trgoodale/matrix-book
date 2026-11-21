@@ -205,7 +205,7 @@ xlabel('time (hours)'), ylabel('amount (mg)'), legend('gut', 'blood')
 % matrix exponential, and with Ve^ΛtV^-1x(0) using the eigenvalues and
 % eigenvectors. Compare both with your formula.
 
-% Uses the chapter and the chapter.
+% Uses Chapter 23 and Chapter 19.
 
 A = [-2 1; 1 -2];  x0 = [1; 0];  t = 1;
 x_expm = expm(A*t) * x0;

@@ -43,8 +43,8 @@ isequal(A, A')
 
 %% Exercise 6
 % Create the 6 × 6 matrix with entries a_ij = 1/(i + j - 1), and check that
-% it is symmetric. (It is called the Hilbert matrix, and it returns in the
-% chapter as a famously difficult matrix for computers.) In Python you may
-% find np.fromfunction useful; in MATLAB, try hilb(6) and compare.
+% it is symmetric. (It is called the Hilbert matrix, and it returns in
+% Chapter 24 as a famously difficult matrix for computers.) In Python you
+% may find np.fromfunction useful; in MATLAB, try hilb(6) and compare.
 
 % Your code here
