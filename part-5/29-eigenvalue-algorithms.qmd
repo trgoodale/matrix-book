@@ -81,9 +81,9 @@ the number $\lambda$ that makes $\M{A}\vect{q} - \lambda\vect{q}$ as short as po
 
 ### Inverse iteration and shifts
 
-The eigenvalues of $\M{A}^{-1}$ are $1/\lambda_i$, with the same eigenvectors (@sec-eigenvalues, exercise 4). So the power method applied to $\M{A}^{-1}$ finds the eigenvalue of $\M{A}$ **smallest** in size. This is **inverse iteration**. Each step needs $\vect{y} = \M{A}^{-1}\vect{q}_k$, but, as always, don't form the inverse: factorise $\M{A} = \M{L}\M{U}$ once, and solve $\M{A}\vect{y} = \vect{q}_k$ with the factors at each step (@sec-lu-decomposition).
+The eigenvalues of $\M{A}^{-1}$ are $1/\lambda_i$, with the same eigenvectors (@sec-eigenvalues, exercise 4). So the power method applied to $\M{A}^{-1}$ finds the eigenvalue of $\M{A}$ *smallest* in size. This is **inverse iteration**. Each step needs $\vect{y} = \M{A}^{-1}\vect{q}_k$, but, as always, don't form the inverse: factorise $\M{A} = \M{L}\M{U}$ once, and solve $\M{A}\vect{y} = \vect{q}_k$ with the factors at each step (@sec-lu-decomposition).
 
-A **shift** makes this far more useful. The eigenvalues of $\M{A} - \mu\M{I}$ are $\lambda_i - \mu$, so inverse iteration with $\M{A} - \mu\M{I}$ finds the eigenvalue of $\M{A}$ **closest to $\mu$**. The error factor per step is
+A **shift** makes this far more useful. The eigenvalues of $\M{A} - \mu\M{I}$ are $\lambda_i - \mu$, so inverse iteration with $\M{A} - \mu\M{I}$ finds the eigenvalue of $\M{A}$ *closest to $\mu$*. The error factor per step is
 $$
 \frac{\lvert\lambda_{\text{closest}} - \mu\rvert}{\lvert\lambda_{\text{next closest}} - \mu\rvert},
 $$

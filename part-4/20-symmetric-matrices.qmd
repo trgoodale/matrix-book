@@ -76,7 +76,7 @@ A **quadratic form** is an expression like
 $$
 q(x, y) = ax^2 + 2bxy + cy^2 = \mat{x & y}\mat{a & b \\ b & c}\mat{x \\ y} = \vect{x}\T\M{A}\vect{x},
 $$
-with every term of degree 2. Each one has a symmetric matrix, with the squared coefficients on the diagonal and **half** of each cross-term coefficient off it. Quadratic forms appear as energies (the energy stored in a spring system is $\tfrac{1}{2}\vect{x}\T\M{K}\vect{x}$), as squared errors (@sec-orthogonality-least-squares), and as the second-order terms of any smooth function near a point (@sec-matrix-calculus).
+with every term of degree 2. Each one has a symmetric matrix, with the squared coefficients on the diagonal and *half* of each cross-term coefficient off it. Quadratic forms appear as energies (the energy stored in a spring system is $\tfrac{1}{2}\vect{x}\T\M{K}\vect{x}$), as squared errors (@sec-orthogonality-least-squares), and as the second-order terms of any smooth function near a point (@sec-matrix-calculus).
 
 The cross term makes $q$ hard to picture. But in the coordinates of the eigenvectors, $\vect{y} = \M{Q}\T\vect{x}$, it disappears:
 $$
@@ -98,7 +98,7 @@ Describe the curves (a) $5x^2 + 4xy + 2y^2 = 6$ and (b) $x^2 + 4xy + y^2 = 3$.
 
 ### Positive definite matrices
 
-A symmetric matrix $\M{A}$ is **positive definite** if $\vect{x}\T\M{A}\vect{x} > 0$ for every $\vect{x} \neq \zerovec$: its quadratic form is a bowl with its lowest point at the origin. From $q = \sum \lambda_iy_i^2$, this happens exactly when **every eigenvalue is positive**. Similarly:
+A symmetric matrix $\M{A}$ is **positive definite** if $\vect{x}\T\M{A}\vect{x} > 0$ for every $\vect{x} \neq \zerovec$: its quadratic form is a bowl with its lowest point at the origin. From $q = \sum \lambda_iy_i^2$, this happens exactly when *every eigenvalue is positive*. Similarly:
 
 | Eigenvalues | Name | Shape of $q$ |
 |:--|:--|:--|
@@ -157,7 +157,7 @@ $$
 $$
 Find the principal stresses and the direction of the largest.
 
-**Solution.** The trace is 20 and the determinant $-1500 - 900 = -2400$, so $\lambda^2 - 20\lambda - 2400 = 0$, giving $\lambda = 10 \pm \sqrt{100 + 2400} = 10 \pm 50$. The principal stresses are **60 MPa** (tension) and **$-40$ MPa** (compression). Both are larger in size than any entry of $\M{\sigma}$: the shear has made the worst case worse than either the $x$ or the $y$ stress alone.
+**Solution.** The trace is 20 and the determinant $-1500 - 900 = -2400$, so $\lambda^2 - 20\lambda - 2400 = 0$, giving $\lambda = 10 \pm \sqrt{100 + 2400} = 10 \pm 50$. The principal stresses are 60 MPa (tension) and $-40$ MPa (compression). Both are larger in size than any entry of $\M{\sigma}$: the shear has made the worst case worse than either the $x$ or the $y$ stress alone.
 
 For $\lambda = 60$, $\M{\sigma} - 60\M{I} = \mat{-10 & 30 \\ 30 & -90}$ gives $x = 3y$, so the direction is $(3, 1)\T$, at an angle of $\tan^{-1}\tfrac{1}{3} \approx 18.4°$ to the $x$-axis. The compression acts at right angles to this (@fig-principal-stresses).
 
@@ -166,7 +166,7 @@ For $\lambda = 60$, $\M{\sigma} - 60\M{I} = \mat{-10 & 30 \\ 30 & -90}$ gives $x
 
 ## In code
 
-For symmetric matrices, use `np.linalg.eigh` rather than `eig`. It is faster, guarantees real eigenvalues (in increasing order) and orthonormal eigenvectors, and is not upset by tiny rounding errors that make a matrix very slightly unsymmetric. MATLAB's `eig` detects symmetric matrices itself. Cholesky factorisation fails, with an error, exactly when a matrix is not positive definite, which makes it the standard test. Note that MATLAB's `chol` returns the **upper** triangular factor $\M{R} = \M{L}\T$.
+For symmetric matrices, use `np.linalg.eigh` rather than `eig`. It is faster, guarantees real eigenvalues (in increasing order) and orthonormal eigenvectors, and is not upset by tiny rounding errors that make a matrix very slightly unsymmetric. MATLAB's `eig` detects symmetric matrices itself. Cholesky factorisation fails, with an error, exactly when a matrix is not positive definite, which makes it the standard test. Note that MATLAB's `chol` returns the *upper* triangular factor $\M{R} = \M{L}\T$.
 
 ::: {.panel-tabset group="language"}
 ## Python

@@ -98,7 +98,7 @@ $$
 $$
 The closest point of the column space to $\vect{b}$ is its projection, so the least-squares solution is the solution of the **normal equations** @eq-normal-equations. When $\M{A}\vect{x} = \vect{b}$ does have a solution, the normal equations give it, with zero error.
 
-The most common use is **fitting a model to data**. To fit a straight line $y = c + mt$ to points $(t_1, y_1), \dots, (t_k, y_k)$, ask for every point to lie on the line:
+The most common use is *fitting a model to data*. To fit a straight line $y = c + mt$ to points $(t_1, y_1), \dots, (t_k, y_k)$, ask for every point to lie on the line:
 $$
 \mat{1 & t_1 \\ 1 & t_2 \\ \vdots & \vdots \\ 1 & t_k}\mat{c \\ m} = \mat{y_1 \\ y_2 \\ \vdots \\ y_k}.
 $$

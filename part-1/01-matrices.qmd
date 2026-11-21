@@ -155,7 +155,7 @@ symmetric?
 
 ## In code
 
-Both languages store matrices as arrays. The main trap is indexing: **Python counts from 0 and MATLAB counts from 1**, so the entry $a_{23}$ is `A[1, 2]` in Python and `A(2,3)` in MATLAB.
+Both languages store matrices as arrays. The main trap is indexing: *Python counts from 0 and MATLAB counts from 1*, so the entry $a_{23}$ is `A[1, 2]` in Python and `A(2,3)` in MATLAB.
 
 ::: {.panel-tabset group="language"}
 ## Python

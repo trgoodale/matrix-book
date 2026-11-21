@@ -13,7 +13,7 @@
 
 **Builds on** @sec-multiplication, @sec-transformations.
 
-@sec-multiplication defined matrix multiplication by the row-times-column rule and promised a reason for it. Here is the reason: **multiplying matrices is doing one transformation after another**. The strange-looking rule is exactly what makes this work.
+@sec-multiplication defined matrix multiplication by the row-times-column rule and promised a reason for it. Here is the reason: *multiplying matrices is doing one transformation after another*. The strange-looking rule is exactly what makes this work.
 
 ## Build intuition
 
@@ -44,7 +44,7 @@ Suppose we apply $\M{B}$ to a vector $\vect{x}$, then apply $\M{A}$ to the resul
 "Apply $\M{B}$, then $\M{A}$" is the single transformation with matrix $\M{A}\M{B}$.
 :::
 
-Notice the order: the transformation done **first is written on the right**, nearest to $\vect{x}$. This matches function notation, where $f(g(x))$ means "do $g$, then $f$". A sequence $\M{A}_1$, then $\M{A}_2$, then $\M{A}_3$ has matrix $\M{A}_3\M{A}_2\M{A}_1$.
+Notice the order: the transformation done *first is written on the right*, nearest to $\vect{x}$. This matches function notation, where $f(g(x))$ means "do $g$, then $f$". A sequence $\M{A}_1$, then $\M{A}_2$, then $\M{A}_3$ has matrix $\M{A}_3\M{A}_2\M{A}_1$.
 
 You can also see why the row-times-column rule had to be the definition. Column 1 of the combined matrix must be where $\ui$ ends up (@sec-transformations). First $\M{B}$ sends $\ui$ to column 1 of $\M{B}$; then $\M{A}$ sends that to $\M{A}$ times column 1 of $\M{B}$. That is exactly column 1 of $\M{A}\M{B}$, by the column view of multiplication (@sec-multiplication). The same goes for $\uj$ and column 2.
 

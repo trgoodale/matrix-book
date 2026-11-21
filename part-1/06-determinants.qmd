@@ -13,7 +13,7 @@
 
 **Builds on** @sec-transformations, @sec-composition.
 
-Every square matrix has a single number attached to it, its **determinant**. It is often taught as a formula to memorise, but it has a simple meaning: it tells you **how much the matrix scales areas** (in two dimensions) **or volumes** (in three), and whether it turns space over. Almost every property of determinants follows from that one idea.
+Every square matrix has a single number attached to it, its **determinant**. It is often taught as a formula to memorise, but it has a simple meaning: it tells you *how much the matrix scales areas* (in two dimensions) *or volumes* (in three), and whether it turns space over. Almost every property of determinants follows from that one idea.
 
 ## Build intuition
 
@@ -28,7 +28,7 @@ Drag the arrow tips, type entries or pick a preset, and compare the area (or, in
 Things to notice:
 
 - The unit square always becomes the parallelogram with the two columns as its sides, and its area is the determinant (ignoring sign).
-- The square, the circle and the F are all scaled by the **same** factor. Area scaling doesn't depend on the shape.
+- The square, the circle and the F are all scaled by the *same* factor. Area scaling doesn't depend on the shape.
 - When the F comes out mirrored, the determinant is negative.
 - When the two columns line up, the parallelogram collapses and the determinant is zero.
 
@@ -36,7 +36,7 @@ Things to notice:
 
 ### The area scale factor
 
-A linear transformation turns the grid of unit squares into a grid of identical parallelograms (@sec-transformations). So every unit square has its area multiplied by the same number. Any shape can be approximated by small squares, so **every** area is multiplied by that number.
+A linear transformation turns the grid of unit squares into a grid of identical parallelograms (@sec-transformations). So every unit square has its area multiplied by the same number. Any shape can be approximated by small squares, so *every* area is multiplied by that number.
 
 For $\M{A} = \mat{a & b \\ c & d}$, the unit square becomes the parallelogram with sides $(a, c)\T$ and $(b, d)\T$, the columns of $\M{A}$ (@fig-det-area). Its area is $|ad - bc|$. (To see this for $a, b, c, d > 0$, draw the parallelogram inside the rectangle of width $a + b$ and height $c + d$, and subtract the two triangles and two small rectangles around it; Exercise 7 asks you to do this.)
 
@@ -116,7 +116,7 @@ $$ {#eq-det3}
 
 Each entry of the row is multiplied by the determinant of the $2 \times 2$ matrix left when you cross out its row and column (its **minor**), with signs alternating $+, -, +$.
 
-You can expand along **any** row or column instead, using the checkerboard of signs
+You can expand along *any* row or column instead, using the checkerboard of signs
 $$
 \begin{matrix} + & - & + \\ - & + & - \\ + & - & + \end{matrix}
 $$
@@ -194,7 +194,7 @@ print(np.linalg.det(B))
 
 The exact answer is $-9$. If you see something like `-8.999999999999998`, the tiny error comes from rounding in floating-point arithmetic: NumPy computes determinants by elimination (as in Example 4), not by cofactors, and each step is rounded.
 
-For the same reason, **never test whether a matrix is singular with `det(A) == 0`**. A singular matrix may give a tiny non-zero determinant, and a perfectly healthy matrix can have a tiny determinant just because its entries are small: $\det(0.1\M{I}_{10}) = 10^{-10}$. To check whether a matrix is close to singular, use its **rank**, the number of independent directions it keeps (3 for a healthy $3 \times 3$ matrix; see @sec-gauss-jordan-rank), or its **condition number**, which is huge for a matrix that is singular or nearly so (@sec-floating-point-conditioning):
+For the same reason, *never test whether a matrix is singular with `det(A) == 0`*. A singular matrix may give a tiny non-zero determinant, and a perfectly healthy matrix can have a tiny determinant just because its entries are small: $\det(0.1\M{I}_{10}) = 10^{-10}$. To check whether a matrix is close to singular, use its **rank**, the number of independent directions it keeps (3 for a healthy $3 \times 3$ matrix; see @sec-gauss-jordan-rank), or its **condition number**, which is huge for a matrix that is singular or nearly so (@sec-floating-point-conditioning):
 
 ```{python}
 S = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
@@ -217,7 +217,7 @@ d =
 
 This matrix is singular (its rows are in arithmetic progression, so row 1 minus twice row 2 plus row 3 is zero), so its determinant should be exactly 0. The tiny error comes from rounding in floating-point arithmetic, because MATLAB computes determinants by elimination (as in Example 4), not by cofactors.
 
-For the same reason, **never test whether a matrix is singular with `det(A) == 0`**. A singular matrix may give a tiny non-zero determinant, as here, and a perfectly healthy matrix can have a tiny determinant just because its entries are small: `det(0.1*eye(10))` is $10^{-10}$. To check whether a matrix is close to singular, use its **rank**, the number of independent directions it keeps (3 for a healthy $3 \times 3$ matrix; see @sec-gauss-jordan-rank), or its **condition number**, which is huge for a matrix that is singular or nearly so (@sec-floating-point-conditioning):
+For the same reason, *never test whether a matrix is singular with `det(A) == 0`*. A singular matrix may give a tiny non-zero determinant, as here, and a perfectly healthy matrix can have a tiny determinant just because its entries are small: `det(0.1*eye(10))` is $10^{-10}$. To check whether a matrix is close to singular, use its **rank**, the number of independent directions it keeps (3 for a healthy $3 \times 3$ matrix; see @sec-gauss-jordan-rank), or its **condition number**, which is huge for a matrix that is singular or nearly so (@sec-floating-point-conditioning):
 
 ```matlab
 rank(S)          % 2, not 3: S is singular

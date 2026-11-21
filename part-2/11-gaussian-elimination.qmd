@@ -19,7 +19,7 @@ The idea is the one you already use for simultaneous equations: subtract multipl
 
 ## Build intuition
 
-Here is the key fact behind the whole method. Each step replaces the system with a simpler one **that has exactly the same solutions**. In two dimensions, each equation is a line, and the solution is the point where the lines cross. Subtracting a multiple of one equation from another swaps one line for a different line through the same crossing point. Elimination keeps swapping lines until one of them is horizontal or vertical, and the answer can be read off.
+Here is the key fact behind the whole method. Each step replaces the system with a simpler one *that has exactly the same solutions*. In two dimensions, each equation is a line, and the solution is the point where the lines cross. Subtracting a multiple of one equation from another swaps one line for a different line through the same crossing point. Elimination keeps swapping lines until one of them is horizontal or vertical, and the answer can be read off.
 
 You have probably done this already, with simultaneous equations at school. Take
 $$
@@ -260,7 +260,7 @@ $$
 \sum_{k=1}^{n-1} 2(n-k)^2 \approx \frac{2}{3} n^3.
 $$
 
-Back substitution needs only about $n^2$ operations, so elimination dominates. **Doubling the number of unknowns multiplies the work by about eight.** That is why large problems need the structure-aware methods in @sec-cost-sparse and @sec-iterative-methods.
+Back substitution needs only about $n^2$ operations, so elimination dominates. Doubling the number of unknowns multiplies the work by about eight. That is why large problems need the structure-aware methods in @sec-cost-sparse and @sec-iterative-methods.
 
 ```{python}
 #| fig-alt: "Log-log plot of solve time against matrix size; the measured times follow a straight line of slope about 3 for large sizes."

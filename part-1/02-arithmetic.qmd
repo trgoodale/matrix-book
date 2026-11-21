@@ -42,7 +42,7 @@ That is 1.2 kg of flour, 0.65 kg of sugar and 0.85 kg of butter. This chapter is
 
 ### Adding and subtracting
 
-Two matrices **of the same size** are added by adding the entries in matching positions:
+Two matrices *of the same size* are added by adding the entries in matching positions:
 
 $$
 \mat{1 & 4 \\ -2 & 0 \\ 3 & 5} + \mat{2 & -1 \\ 6 & 3 \\ 0 & -4} = \mat{3 & 3 \\ 4 & 3 \\ 3 & 1}.
@@ -208,7 +208,7 @@ X =
 
 ::: {.callout-warning appearance="simple"}
 ## Watch out: adding things of different sizes
-In mathematics, adding matrices of different sizes is not allowed. **NumPy and MATLAB sometimes do it anyway.** If you add a column of 3 numbers to a row of 3 numbers, both stretch the smaller pieces to fit and give a $3 \times 3$ result (this is called *broadcasting* in NumPy and *implicit expansion* in MATLAB). It is useful on purpose, for example to subtract the average of each column from a table, but it can hide mistakes. If a result comes out an unexpected size, check the sizes of what you added.
+In mathematics, adding matrices of different sizes is not allowed. NumPy and MATLAB sometimes do it anyway. If you add a column of 3 numbers to a row of 3 numbers, both stretch the smaller pieces to fit and give a $3 \times 3$ result (this is called *broadcasting* in NumPy and *implicit expansion* in MATLAB). It is useful on purpose, for example to subtract the average of each column from a table, but it can hide mistakes. If a result comes out an unexpected size, check the sizes of what you added.
 :::
 
 ## Check your understanding

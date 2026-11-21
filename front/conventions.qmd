@@ -70,6 +70,7 @@ Some notation is the same everywhere in the book.
 - **Determinants** are written $\det \M{A}$, or with vertical bars, $\begin{vmatrix} a & b \\ c & d \end{vmatrix}$.
 - **Lengths** of vectors are written $\lVert \vect{v} \rVert$.
 - **The real numbers** are $\R$, and $\R^n$ is the set of vectors with $n$ real entries.
+- **Bold and italic text.** In the text, bold marks a new term where it is defined, or a label such as the name of a button in an app. Italic marks emphasis.
 
 ## Writing your own work
 

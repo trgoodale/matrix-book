@@ -53,13 +53,13 @@ $$
 $$
 which rounds to $y = 1$, and then $x = 2 - y = 1$. Both answers are correct to 16 digits.
 
-The general lesson: **a large multiplier magnifies the rounding errors in the pivot row**, and lets them swamp the other rows. Small multipliers keep errors small.
+The general lesson: *a large multiplier magnifies the rounding errors in the pivot row*, and lets them swamp the other rows. Small multipliers keep errors small.
 
 ### Partial pivoting
 
 ::: {.callout-important appearance="simple"}
 ## Partial pivoting
-At each step $k$ of elimination, look at the entries in column $k$ on and below the diagonal. Swap the row containing the **largest in size** into the pivot position, then eliminate as usual.
+At each step $k$ of elimination, look at the entries in column $k$ on and below the diagonal. Swap the row containing the *largest in size* into the pivot position, then eliminate as usual.
 :::
 
 The pivot is then at least as large as every entry below it, so every multiplier is at most 1 in size. This doesn't remove rounding errors, but it stops them from being magnified at each step.

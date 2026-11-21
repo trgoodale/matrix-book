@@ -13,7 +13,7 @@
 
 **Builds on** @sec-transformations, @sec-determinants.
 
-Most of a transformation is movement: points slide, turn and stretch. This chapter asks the opposite question: **what does a transformation leave unchanged?** Some points may not move at all. Some lines may be carried onto themselves, even though the points along them move. These fixed features are often the most useful thing to know about a matrix. They give the axis of a rotation, the mirror of a reflection, and the directions in which a material stretches most. They also lead straight to eigenvalues and eigenvectors (@sec-eigenvalues), which are among the most important ideas in the book.
+Most of a transformation is movement: points slide, turn and stretch. This chapter asks the opposite question: *what does a transformation leave unchanged?* Some points may not move at all. Some lines may be carried onto themselves, even though the points along them move. These fixed features are often the most useful thing to know about a matrix. They give the axis of a rotation, the mirror of a reflection, and the directions in which a material stretches most. They also lead straight to eigenvalues and eigenvectors (@sec-eigenvalues), which are among the most important ideas in the book.
 
 ## Build intuition
 

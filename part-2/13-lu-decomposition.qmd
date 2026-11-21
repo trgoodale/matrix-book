@@ -116,7 +116,7 @@ $$
 $$
 When a swap happens during elimination, the multipliers already stored in $\M{L}$ for the two rows swap with them, so that each multiplier stays with its row. The app shows this in **Needs a swap**.
 
-Software always swaps rows, even when no pivot is zero: at each step it brings up the row with the **largest** entry in the pivot column. This is called **partial pivoting**, and it keeps rounding errors under control (@sec-pivoting). So the factors that software returns are usually not the ones you find by hand, but they are equally valid. To solve $\M{A}\vect{x} = \vect{b}$, apply the same reordering to $\vect{b}$: solve $\M{L}\vect{y} = \M{P}\vect{b}$, then $\M{U}\vect{x} = \vect{y}$.
+Software always swaps rows, even when no pivot is zero: at each step it brings up the row with the *largest* entry in the pivot column. This is called **partial pivoting**, and it keeps rounding errors under control (@sec-pivoting). So the factors that software returns are usually not the ones you find by hand, but they are equally valid. To solve $\M{A}\vect{x} = \vect{b}$, apply the same reordering to $\vect{b}$: solve $\M{L}\vect{y} = \M{P}\vect{b}$, then $\M{U}\vect{x} = \vect{y}$.
 
 ::: {#ex-lu-decomposition-2 .callout-note appearance="simple" icon=false}
 ### Example 2: a factorisation with a row swap

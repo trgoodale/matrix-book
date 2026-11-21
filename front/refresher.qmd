@@ -141,7 +141,7 @@ The dot product measures how much two vectors point the same way. If $\theta$ is
 $$
 \vect{a} \cdot \vect{b} = \lVert \vect{a} \rVert \, \lVert \vect{b} \rVert \cos\theta.
 $$
-Geometrically, $\lVert \vect{b} \rVert \cos\theta$ is how far $\vect{b}$ reaches along the direction of $\vect{a}$: the length of its shadow on the line of $\vect{a}$. So the dot product is positive when the angle is less than $90°$, negative when it is more, and **zero exactly when the vectors are at right angles** (perpendicular).
+Geometrically, $\lVert \vect{b} \rVert \cos\theta$ is how far $\vect{b}$ reaches along the direction of $\vect{a}$: the length of its shadow on the line of $\vect{a}$. So the dot product is positive when the angle is less than $90°$, negative when it is more, and *zero exactly when the vectors are at right angles* (perpendicular).
 
 Drag the two vectors below and compare the two ways of working out the dot product.
 
@@ -268,7 +268,7 @@ plt.show()
 ```
 
 - $x + y = 2$ and $2x + 2y = 5$ are **parallel** lines: no solution. (Doubling the first gives $2x + 2y = 4$, which contradicts the second.)
-- $x + y = 2$ and $2x + 2y = 4$ are the **same** line: infinitely many solutions, one for every point on it.
+- $x + y = 2$ and $2x + 2y = 4$ are the *same* line: infinitely many solutions, one for every point on it.
 
 @sec-gaussian-elimination turns elimination into a systematic method that works for any number of equations, and shows how to spot these cases.
 

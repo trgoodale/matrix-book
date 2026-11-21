@@ -13,7 +13,7 @@
 
 **Builds on** @sec-multiplication, @sec-determinants, @sec-inverses.
 
-Part I treated a matrix as a table, and as a machine that moves points. Part II turns to the question that matrices are most often used to answer: **given $\M{A}$ and $\vect{b}$, find every $\vect{x}$ with $\M{A}\vect{x} = \vect{b}$**. Structures, circuits, chemical plants, data fits and computer simulations all come down to it, often with thousands or millions of unknowns.
+Part I treated a matrix as a table, and as a machine that moves points. Part II turns to the question that matrices are most often used to answer: *given $\M{A}$ and $\vect{b}$, find every $\vect{x}$ with $\M{A}\vect{x} = \vect{b}$*. Structures, circuits, chemical plants, data fits and computer simulations all come down to it, often with thousands or millions of unknowns.
 
 This chapter sets up the problem and asks what the answer can look like. @sec-gaussian-elimination gives the method for finding it.
 
@@ -127,7 +127,7 @@ Nothing has been added or lost; the same six numbers have only been rearranged.
 - **Reading down** gives the columns of $\M{A}$. The first vector, $\vect{a}_1 = (3, 4)\T$, holds the coefficients of $x$: 3 from the first equation and 4 from the second. The second, $\vect{a}_2 = (2, -5)\T$, holds the coefficients of $y$. The right-hand side $\vect{b} = (7, -6)\T$ holds the right-hand sides.
 - **Reading across** gives the equations back. The top entries say $3x + 2y = 7$, and the bottom entries say $4x - 5y = -6$.
 
-The question has changed its form. Instead of "which point lies on both lines?", it asks **how much of $\vect{a}_1$ and how much of $\vect{a}_2$ make $\vect{b}$?** The answer is $x = 1$ and $y = 2$: one of the first column and two of the second,
+The question has changed its form. Instead of "which point lies on both lines?", it asks *how much of $\vect{a}_1$ and how much of $\vect{a}_2$ make $\vect{b}$?* The answer is $x = 1$ and $y = 2$: one of the first column and two of the second,
 $$
 1\mat{3 \\ 4} + 2\mat{2 \\ -5} = \mat{3 \\ 4} + \mat{4 \\ -10} = \mat{7 \\ -6}.
 $$
@@ -187,7 +187,7 @@ The same rearrangement works for any system. By the column view of multiplicatio
 $$
 x\mat{2 \\ -3 \\ -2} + y\mat{1 \\ -1 \\ 1} + z\mat{-1 \\ 2 \\ 2} = \mat{8 \\ -11 \\ -3}.
 $$
-Again, reading down each vector gives the coefficients of one unknown, and reading across the top entries gives back the first equation, $2x + y - z = 8$. Solving the system means finding **how much of each column to take** to make $\vect{b}$.
+Again, reading down each vector gives the coefficients of one unknown, and reading across the top entries gives back the first equation, $2x + y - z = 8$. Solving the system means finding *how much of each column to take* to make $\vect{b}$.
 
 Here is the systems explorer again, now opened in the column picture. The coefficient boxes are coloured by column, and under the picture the vector equation is read across, row by row, to give back the equations.
 
@@ -208,7 +208,7 @@ The two pictures describe the same system and always give the same answer. The r
 
 ### One solution, none or infinitely many
 
-Every system of linear equations has **exactly one solution**, **no solution** or **infinitely many solutions**. It can never have exactly two, or exactly five.
+Every system of linear equations has *exactly one solution*, *no solution* or *infinitely many solutions*. It can never have exactly two, or exactly five.
 
 The reason is linearity. Suppose $\vect{p}$ and $\vect{q}$ are two different solutions, so $\M{A}\vect{p} = \vect{b}$ and $\M{A}\vect{q} = \vect{b}$. Then for any number $t$,
 $$

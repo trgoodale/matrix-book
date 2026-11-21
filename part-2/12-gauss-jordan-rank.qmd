@@ -51,7 +51,7 @@ $$
 \qquad
 \mat{1 & \ast & 0 & \ast \\ 0 & 0 & 1 & \ast \\ 0 & 0 & 0 & 0} \text{ (reduced)}.
 $$
-A matrix can be reduced to many different echelon forms, depending on which row operations you use. But it has **only one** reduced row echelon form, however you get there (a proof is in @sec-proofs-gauss-jordan-rank). That is what makes the reduced form useful: everything you read from it is a property of the original matrix.
+A matrix can be reduced to many different echelon forms, depending on which row operations you use. But it has *only one* reduced row echelon form, however you get there (a proof is in @sec-proofs-gauss-jordan-rank). That is what makes the reduced form useful: everything you read from it is a property of the original matrix.
 
 ### Gauss–Jordan elimination
 
@@ -59,7 +59,7 @@ To reach the reduced form, work through the columns from left to right. In each 
 
 1. find a non-zero entry at or below the current row, and swap it up into the pivot position if necessary (if there is none, move on to the next column);
 2. divide the pivot row by the pivot, to make the pivot 1;
-3. subtract multiples of the pivot row from **every other row**, above and below, to make the rest of the column zero.
+3. subtract multiples of the pivot row from *every other row*, above and below, to make the rest of the column zero.
 
 An equally good way, and often less work by hand, is to reach echelon form first as in @sec-gaussian-elimination, then make the pivots 1 and clear the columns upwards, starting from the last pivot.
 
@@ -67,7 +67,7 @@ An equally good way, and often less work by hand, is to reach echelon form first
 
 The **rank** of a matrix is the number of pivots in its echelon form, which is the same as the number of non-zero rows. It doesn't depend on which echelon form you reach, because they all lead to the same reduced form.
 
-The rank counts how many of the rows are **genuinely independent**. A row of zeros appears in the echelon form exactly when some row was a combination of others: it carried no new information, and elimination cleared it away. So for a system of equations, the rank is the number of different conditions the equations really impose. In the language of transformations (@sec-determinants), it is the number of independent directions that the matrix keeps: a $3 \times 3$ matrix of rank 2 squashes space onto a plane, and one of rank 1 squashes it onto a line.
+The rank counts how many of the rows are *genuinely independent*. A row of zeros appears in the echelon form exactly when some row was a combination of others: it carried no new information, and elimination cleared it away. So for a system of equations, the rank is the number of different conditions the equations really impose. In the language of transformations (@sec-determinants), it is the number of independent directions that the matrix keeps: a $3 \times 3$ matrix of rank 2 squashes space onto a plane, and one of rank 1 squashes it onto a line.
 
 Some facts follow straight from the definition. An $m \times n$ matrix has at most one pivot in each row and in each column, so
 $$
@@ -102,7 +102,7 @@ The coefficient matrix has rank 2 whatever $k$ is. The last row says $0 = k^2 - 
 
 Reduce the augmented matrix $[\M{A} \mid \vect{b}]$ of a system with $n$ unknowns. Each column of $\M{A}$ belongs to one unknown.
 
-- If a row reads $\amat{ccc|c}{0 & \cdots & 0 & c}$ with $c \neq 0$, it says $0 = c$, and there is **no solution**. This happens exactly when attaching $\vect{b}$ adds a pivot, so that $\operatorname{rank}[\M{A} \mid \vect{b}] > \operatorname{rank}\M{A}$.
+- If a row reads $\amat{ccc|c}{0 & \cdots & 0 & c}$ with $c \neq 0$, it says $0 = c$, and there is *no solution*. This happens exactly when attaching $\vect{b}$ adds a pivot, so that $\operatorname{rank}[\M{A} \mid \vect{b}] > \operatorname{rank}\M{A}$.
 - Otherwise the system is consistent. The unknowns whose columns contain a pivot are **pivot variables** (or basic variables). The others are **free variables**: they can take any values at all. Each row of the reduced form then gives one pivot variable in terms of the free ones.
 
 Writing $r = \operatorname{rank}\M{A}$, there are $r$ pivot variables and $n - r$ free variables, which gives the complete picture:

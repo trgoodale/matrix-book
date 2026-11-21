@@ -147,7 +147,7 @@ So the vectors are independent. And since $\det\M{A} \neq 0$, $\M{A}\vect{c} = \
 
 ### Why independence matters
 
-If the vectors are independent, every vector in their span can be made from them in **exactly one way**. For if
+If the vectors are independent, every vector in their span can be made from them in *exactly one way*. For if
 $$
 \vect{b} = c_1\vect{v}_1 + \dots + c_k\vect{v}_k = d_1\vect{v}_1 + \dots + d_k\vect{v}_k,
 $$

@@ -66,7 +66,7 @@ $$
 \mat{1 & 2 & 3}\mat{7 \\ 9 \\ 11} = 1 \times 7 + 2 \times 9 + 3 \times 11 = 58.
 $$
 
-Matrix multiplication is a table of these row-times-column dot products. If $\M{A}$ is $m \times n$ and $\M{B}$ is $n \times p$, then $\M{C} = \M{A}\M{B}$ is the $m \times p$ matrix whose $(i, j)$ entry is **row $i$ of $\M{A}$ dotted with column $j$ of $\M{B}$**:
+Matrix multiplication is a table of these row-times-column dot products. If $\M{A}$ is $m \times n$ and $\M{B}$ is $n \times p$, then $\M{C} = \M{A}\M{B}$ is the $m \times p$ matrix whose $(i, j)$ entry is *row $i$ of $\M{A}$ dotted with column $j$ of $\M{B}$*:
 
 $$
 c_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \dots + a_{in}b_{nj} = \sum_{k=1}^{n} a_{ik} b_{kj}.
@@ -82,7 +82,7 @@ $$
 
 ### When is a product defined?
 
-Each row of $\M{A}$ must pair up with each column of $\M{B}$, so a row of $\M{A}$ must be as long as a column of $\M{B}$. In terms of sizes, **the inner numbers must match**, and the outer numbers give the size of the answer:
+Each row of $\M{A}$ must pair up with each column of $\M{B}$, so a row of $\M{A}$ must be as long as a column of $\M{B}$. In terms of sizes, *the inner numbers must match*, and the outer numbers give the size of the answer:
 
 $$
 (m \times \underbrace{n) \; (n}_{\text{must match}} \times p) \;\longrightarrow\; m \times p.
@@ -192,7 +192,7 @@ What do the entries of $\M{N}^2$ mean?
 
 ## In code
 
-This is the most common bug in numerical code, so it is worth stating plainly. In both languages there are two different multiplications, and the one that looks natural is **not** the same in each.
+This is the most common bug in numerical code, so it is worth stating plainly. In both languages there are two different multiplications, and the one that looks natural is *not* the same in each.
 
 | Operation | Python (NumPy) | MATLAB |
 |:--|:--:|:--:|

@@ -13,7 +13,7 @@
 
 **Builds on** @sec-multiplication.
 
-So far a matrix has been a table of numbers. This chapter gives it a second meaning, which is the key to most of the book: **a matrix is a machine that moves points**. Feed in a vector $\vect{x}$ and out comes $\M{A}\vect{x}$. Seeing matrices this way explains what multiplication means, what determinants and inverses measure, and what eigenvectors are.
+So far a matrix has been a table of numbers. This chapter gives it a second meaning, which is the key to most of the book: *a matrix is a machine that moves points*. Feed in a vector $\vect{x}$ and out comes $\M{A}\vect{x}$. Seeing matrices this way explains what multiplication means, what determinants and inverses measure, and what eigenvectors are.
 
 ## Build intuition
 
@@ -84,7 +84,7 @@ Geometrically this means:
 - straight lines go to straight lines (or, if the matrix squashes the plane, to single points);
 - parallel lines stay parallel, and equally spaced points stay equally spaced.
 
-So the grid always becomes a grid of identical parallelograms. Conversely, **any** transformation of the plane with these properties is given by a matrix: the one whose columns are the images of $\ui$ and $\uj$.
+So the grid always becomes a grid of identical parallelograms. Conversely, *any* transformation of the plane with these properties is given by a matrix: the one whose columns are the images of $\ui$ and $\uj$.
 
 A **translation** (sliding everything by a fixed vector) is not linear, because it moves the origin. It cannot be written as a $2 \times 2$ matrix. @sec-graphics-robotics shows the standard trick for handling translations with matrices anyway.
 

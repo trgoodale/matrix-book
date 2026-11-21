@@ -39,11 +39,11 @@ A **basis** for a subspace (@sec-span-independence) is a set of vectors that
 1. **spans** the subspace, so every vector in it can be made from them, and
 2. is **linearly independent**, so none of them is wasted.
 
-Together these say that every vector in the subspace can be written as a combination of the basis vectors in **exactly one way** (@sec-span-independence). The **standard basis** of $\R^n$ is $\ue{1}, \dots, \ue{n}$, the columns of the identity matrix; in $\R^2$ and $\R^3$ these are $\ui$, $\uj$ and $\uk$. But there are infinitely many other bases. Any two vectors in $\R^2$ that don't lie along the same line form a basis for $\R^2$.
+Together these say that every vector in the subspace can be written as a combination of the basis vectors in *exactly one way* (@sec-span-independence). The **standard basis** of $\R^n$ is $\ue{1}, \dots, \ue{n}$, the columns of the identity matrix; in $\R^2$ and $\R^3$ these are $\ui$, $\uj$ and $\uk$. But there are infinitely many other bases. Any two vectors in $\R^2$ that don't lie along the same line form a basis for $\R^2$.
 
 ### Dimension
 
-A subspace has many different bases, but they all have **the same number of vectors** (a proof is in @sec-proofs-basis-change). That number is the **dimension** of the subspace:
+A subspace has many different bases, but they all have *the same number of vectors* (a proof is in @sec-proofs-basis-change). That number is the **dimension** of the subspace:
 
 - a line through the origin has dimension 1;
 - a plane through the origin has dimension 2;

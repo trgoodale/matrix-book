@@ -58,7 +58,7 @@ $$
 \qquad
 \M{\Omega}\vect{r} = \vect{\omega} \times \vect{r}.
 $$
-So the angular velocity vector is hidden in the three independent entries of a skew-symmetric matrix, and $\dot{\M{R}} = \M{\Omega}\M{R}$. For a constant $\vect{\omega}$, this is a linear differential equation with solution $\M{R}(t) = e^{\M{\Omega}t}\M{R}(0)$ (@sec-linear-odes): **the exponential of a skew-symmetric matrix is a rotation**. Gyroscopes in phones and aircraft measure $\vect{\omega}$, and navigation software integrates this equation to track orientation.
+So the angular velocity vector is hidden in the three independent entries of a skew-symmetric matrix, and $\dot{\M{R}} = \M{\Omega}\M{R}$. For a constant $\vect{\omega}$, this is a linear differential equation with solution $\M{R}(t) = e^{\M{\Omega}t}\M{R}(0)$ (@sec-linear-odes): *the exponential of a skew-symmetric matrix is a rotation*. Gyroscopes in phones and aircraft measure $\vect{\omega}$, and navigation software integrates this equation to track orientation.
 
 ::: {#ex-physics-2 .callout-note appearance="simple" icon=false}
 ### Example 2: angular velocity from a rotation

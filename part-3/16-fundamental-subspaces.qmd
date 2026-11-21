@@ -45,7 +45,7 @@ The **column space** of $\M{A}$, written $C(\M{A})$, is the span of its columns.
 $\M{A}\vect{x} = \vect{b}$ has a solution exactly when $\vect{b}$ is in the column space of $\M{A}$.
 :::
 
-A basis for $C(\M{A})$ is given by the **pivot columns of $\M{A}$ itself** (not of its echelon form), as in @sec-basis-change. So the dimension of the column space is the rank $r$.
+A basis for $C(\M{A})$ is given by the *pivot columns of $\M{A}$ itself* (not of its echelon form), as in @sec-basis-change. So the dimension of the column space is the rank $r$.
 
 ### The null space
 
@@ -77,7 +77,7 @@ A $5 \times 7$ matrix has rank 4. What are the dimensions of its four subspaces?
 
 Applying the same ideas to $\M{A}\T$ gives two more subspaces.
 
-- The **row space** $C(\M{A}\T)$ is the span of the rows of $\M{A}$, a subspace of $\R^n$. Row operations replace rows by combinations of rows, so they don't change it, and the non-zero rows of the echelon form are a basis. So **the row space also has dimension $r$**: the number of independent rows equals the number of independent columns. This is not obvious at all, but it falls out of elimination.
+- The **row space** $C(\M{A}\T)$ is the span of the rows of $\M{A}$, a subspace of $\R^n$. Row operations replace rows by combinations of rows, so they don't change it, and the non-zero rows of the echelon form are a basis. So *the row space also has dimension $r$*: the number of independent rows equals the number of independent columns. This is not obvious at all, but it falls out of elimination.
 - The **left null space** $N(\M{A}\T)$ is the set of solutions of $\M{A}\T\vect{y} = \zerovec$, a subspace of $\R^m$. Each such $\vect{y}$ is a combination of the rows of $\M{A}$ that adds up to zero, a dependence relation between the rows. By rank–nullity for $\M{A}\T$, its dimension is $m - r$.
 
 | Subspace | Lives in | Dimension | Basis from |
@@ -120,7 +120,7 @@ Check the right angles: $(1, 2, 0, 1) \cdot (-2, 1, 0, 0) = 0$ and $(0, 0, 1, 2)
 
 ### Right angles between the subspaces
 
-Write out $\M{A}\vect{x} = \zerovec$ row by row. Each equation says that a row of $\M{A}$, dotted with $\vect{x}$, gives zero. So every vector in the null space is **perpendicular** to every row, and so to every combination of rows:
+Write out $\M{A}\vect{x} = \zerovec$ row by row. Each equation says that a row of $\M{A}$, dotted with $\vect{x}$, gives zero. So every vector in the null space is *perpendicular* to every row, and so to every combination of rows:
 
 ::: {.callout-important appearance="simple"}
 ## Orthogonality

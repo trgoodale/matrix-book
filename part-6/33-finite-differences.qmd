@@ -94,7 +94,7 @@ On a square grid of spacing $h$, with $u_{i,j}$ at the point in row $i$ and colu
 $$
 4u_{i,j} - u_{i-1,j} - u_{i+1,j} - u_{i,j-1} - u_{i,j+1} = 0:
 $$
-in the steady state, **each temperature is the average of its four neighbours**. Neighbours on the edge are known and move to the right-hand side.
+in the steady state, *each temperature is the average of its four neighbours*. Neighbours on the edge are known and move to the right-hand side.
 
 ![The five-point stencil. The equation at point $(i, j)$ has coefficient 4 there and $-1$ at each of its four neighbours, a distance $h$ away. Row $i - 1$ is the row above.](images/five-point-stencil.png){#fig-five-point-stencil fig-alt="A square grid. The centre point, u i j, is a filled blue circle containing 4. Its four neighbours, each a blue circle containing minus 1, are u i minus 1 j above, u i plus 1 j below, u i j minus 1 to the left and u i j plus 1 to the right. The grid spacing is h." width=45%}
 

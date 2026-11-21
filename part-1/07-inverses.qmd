@@ -32,7 +32,7 @@ Think about which transformations from @sec-transformations can be undone:
 - A reflection is undone by doing the same reflection again.
 - A shear with factor $k$ is undone by a shear with factor $-k$.
 - An enlargement by 3 is undone by an enlargement by $\tfrac{1}{3}$.
-- A projection onto the $x$-axis **cannot** be undone. The points $(2, 0)$, $(2, 1)$ and $(2, -5)$ all land on $(2, 0)$, so given only $(2, 0)$, there is no way to know where it started.
+- A projection onto the $x$-axis *cannot* be undone. The points $(2, 0)$, $(2, 1)$ and $(2, -5)$ all land on $(2, 0)$, so given only $(2, 0)$, there is no way to know where it started.
 
 The projection is the one with determinant zero. That is not a coincidence. Try **Project onto x-axis** and **Squash flat** in the app: the app marks two different starting points that end up in the same place.
 
@@ -161,14 +161,14 @@ If $\M{A}$ is invertible, multiplying $\M{A}\vect{x} = \vect{b}$ on the left by 
 $$
 \vect{x} = \M{A}^{-1}\vect{b}.
 $$
-This is a neat way to write the solution, and for $2 \times 2$ systems it is a quick way to find it. For anything larger, **computing the inverse and then multiplying is slower and less accurate than solving the system directly** by elimination (@sec-gaussian-elimination). Numerical software follows this rule, and so should you. When you see $\M{A}^{-1}\vect{b}$ in a formula, read it as "the solution of $\M{A}\vect{x} = \vect{b}$".
+This is a neat way to write the solution, and for $2 \times 2$ systems it is a quick way to find it. For anything larger, *computing the inverse and then multiplying is slower and less accurate than solving the system directly* by elimination (@sec-gaussian-elimination). Numerical software follows this rule, and so should you. When you see $\M{A}^{-1}\vect{b}$ in a formula, read it as "the solution of $\M{A}\vect{x} = \vect{b}$".
 
 ::: {#ex-inverses-4 .callout-note appearance="simple" icon=false}
 ### Example 4: solving a matrix equation
 
 $\M{A}$ and $\M{B}$ are invertible. Solve $\M{A}\M{X}\M{B} = \M{C}$ for $\M{X}$.
 
-**Solution.** Multiply on the **left** by $\M{A}^{-1}$ and on the **right** by $\M{B}^{-1}$:
+**Solution.** Multiply on the *left* by $\M{A}^{-1}$ and on the *right* by $\M{B}^{-1}$:
 $$
 \M{A}^{-1}\M{A}\M{X}\M{B}\M{B}^{-1} = \M{A}^{-1}\M{C}\M{B}^{-1}
 \quad\Longrightarrow\quad

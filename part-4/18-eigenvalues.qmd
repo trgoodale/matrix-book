@@ -65,7 +65,7 @@ The coefficient $a + d$ is the **trace** of $\M{A}$, written $\operatorname{tr}\
 $$
 \lambda^2 - (\operatorname{tr}\M{A})\,\lambda + \det\M{A} = 0.
 $$ {#eq-char-2x2}
-This gives a useful check in any size: **the eigenvalues add up to the trace, and multiply to give the determinant** (a proof is in @sec-proofs-eigenvalues).
+This gives a useful check in any size: *the eigenvalues add up to the trace, and multiply to give the determinant* (a proof is in @sec-proofs-eigenvalues).
 
 ::: {.callout-warning appearance="simple"}
 ## Watch out: row reduction changes eigenvalues

@@ -49,7 +49,7 @@ This is **diagonalisation**. By @sec-basis-change, it says exactly what you woul
 
 When is it possible? Exactly when $\M{A}$ has $n$ independent eigenvectors.
 
-- If the $n$ eigenvalues are all **different**, it always is: eigenvectors for different eigenvalues are independent (a proof is in @sec-proofs-diagonalisation).
+- If the $n$ eigenvalues are all *different*, it always is: eigenvectors for different eigenvalues are independent (a proof is in @sec-proofs-diagonalisation).
 - If some eigenvalue is repeated, it is possible exactly when each eigenspace has as many dimensions as its eigenvalue repeats (@sec-eigenvalues, Example 2 is fine). A **defective** matrix, such as the shear, can't be diagonalised.
 - Complex eigenvalues are allowed, but then $\M{P}$ and $\M{D}$ contain complex numbers.
 
@@ -133,7 +133,7 @@ Now order the eigenvalues so that $\lvert\lambda_1\rvert$ is the largest, the **
 $$
 \vect{x}_k \approx c_1\lambda_1^k\,\vect{v}_1 \quad\text{for large } k.
 $$
-Two things follow. The **direction** of $\vect{x}_k$ settles along the dominant eigenvector, whatever the start. And the **size** changes by a factor of about $\lvert\lambda_1\rvert$ per step: it grows without limit if $\lvert\lambda_1\rvert > 1$, dies away if every $\lvert\lambda_i\rvert < 1$, and settles to a steady state if $\lambda_1 = 1$ and the others are smaller. The speed of settling is set by the ratio $\lvert\lambda_2\rvert / \lvert\lambda_1\rvert$: the smaller it is, the faster the other modes fade.
+Two things follow. The **direction** of $\vect{x}_k$ settles along the dominant eigenvector, whatever the start. And the *size* changes by a factor of about $\lvert\lambda_1\rvert$ per step: it grows without limit if $\lvert\lambda_1\rvert > 1$, dies away if every $\lvert\lambda_i\rvert < 1$, and settles to a steady state if $\lambda_1 = 1$ and the others are smaller. The speed of settling is set by the ratio $\lvert\lambda_2\rvert / \lvert\lambda_1\rvert$: the smaller it is, the faster the other modes fade.
 
 ::: {#ex-diagonalisation-4 .callout-note appearance="simple" icon=false}
 ### Example 4: where do the bikes end up?
