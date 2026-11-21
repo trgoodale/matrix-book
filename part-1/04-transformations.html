@@ -1106,7 +1106,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>Builds on</strong> <a href="03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a>.</p>
-<p>So far a matrix has been a table of numbers. This chapter gives it a second meaning, which is the key to most of the book: <strong>a matrix is a machine that moves points</strong>. Feed in a vector <span class="math inline">\(\vect{x}\)</span> and out comes <span class="math inline">\(\M{A}\vect{x}\)</span>. Seeing matrices this way explains what multiplication means, what determinants and inverses measure, and what eigenvectors are.</p>
+<p>So far a matrix has been a table of numbers. This chapter gives it a second meaning, which is the key to most of the book: <em>a matrix is a machine that moves points</em>. Feed in a vector <span class="math inline">\(\vect{x}\)</span> and out comes <span class="math inline">\(\M{A}\vect{x}\)</span>. Seeing matrices this way explains what multiplication means, what determinants and inverses measure, and what eigenvectors are.</p>
 <section id="build-intuition" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">4.1</span> Build intuition</h2>
 <p>Take the matrix <span class="math inline">\(\M{A} = \mat{2 &amp; 1 \\ 1 &amp; 3}\)</span> and apply it to the two unit vectors along the axes: <span class="math display">\[
@@ -1177,7 +1177,7 @@ window.Quarto = {
 <li>straight lines go to straight lines (or, if the matrix squashes the plane, to single points);</li>
 <li>parallel lines stay parallel, and equally spaced points stay equally spaced.</li>
 </ul>
-<p>So the grid always becomes a grid of identical parallelograms. Conversely, <strong>any</strong> transformation of the plane with these properties is given by a matrix: the one whose columns are the images of <span class="math inline">\(\ui\)</span> and <span class="math inline">\(\uj\)</span>.</p>
+<p>So the grid always becomes a grid of identical parallelograms. Conversely, <em>any</em> transformation of the plane with these properties is given by a matrix: the one whose columns are the images of <span class="math inline">\(\ui\)</span> and <span class="math inline">\(\uj\)</span>.</p>
 <p>A <strong>translation</strong> (sliding everything by a fixed vector) is not linear, because it moves the origin. It cannot be written as a <span class="math inline">\(2 \times 2\)</span> matrix. <a href="../part-6/34-graphics-robotics.html" class="quarto-xref"><span>Chapter 34</span></a> shows the standard trick for handling translations with matrices anyway.</p>
 <div id="ex-transformations-2" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1313,7 +1313,7 @@ Figure&nbsp;4.1: Six transformations applied to a letter F. The dashed outline i
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="5ebf7d2f" class="cell" data-execution_count="2">
+<div id="91104ee6" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1463,7 +1463,7 @@ Figure&nbsp;4.1: Six transformations applied to a letter F. The dashed outline i
 </section>
 <section id="going-further" class="level2" data-number="4.8">
 <h2 data-number="4.8" class="anchored" data-anchor-id="going-further"><span class="header-section-number">4.8</span> Going further</h2>
-<p>Not every useful transformation is linear. Sliding everything sideways (a translation) moves the origin, and the perspective of a camera, where distant things look smaller, makes parallel lines meet. A clever trick handles both: give every point an extra coordinate, always equal to 1, and these transformations become matrix multiplications in one dimension higher. This trick, called <strong>homogeneous coordinates</strong>, is used by every graphics card; see <a href="../part-6/34-graphics-robotics.html" class="quarto-xref"><span>Chapter 34</span></a>.</p>
+<p>Not every useful transformation is linear. Sliding everything sideways (a translation) moves the origin, and the perspective of a camera, where distant things look smaller, makes parallel lines meet. A clever trick handles both: give every point an extra coordinate, always equal to 1, and these transformations become matrix multiplications in one dimension higher. This trick, called homogeneous coordinates, is used by every graphics card; see <a href="../part-6/34-graphics-robotics.html" class="quarto-xref"><span>Chapter 34</span></a>.</p>
 
 
 </section>

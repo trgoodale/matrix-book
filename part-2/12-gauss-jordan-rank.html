@@ -1054,6 +1054,7 @@ window.Quarto = {
   <li><a href="#gaussjordan-elimination" id="toc-gaussjordan-elimination" class="nav-link" data-scroll-target="#gaussjordan-elimination">Gauss–Jordan elimination</a></li>
   <li><a href="#rank" id="toc-rank" class="nav-link" data-scroll-target="#rank">Rank</a></li>
   <li><a href="#reading-off-the-solutions" id="toc-reading-off-the-solutions" class="nav-link" data-scroll-target="#reading-off-the-solutions">Reading off the solutions</a></li>
+  <li><a href="#more-equations-than-unknowns-or-fewer" id="toc-more-equations-than-unknowns-or-fewer" class="nav-link" data-scroll-target="#more-equations-than-unknowns-or-fewer">More equations than unknowns, or fewer</a></li>
   <li><a href="#inverses-by-row-reduction" id="toc-inverses-by-row-reduction" class="nav-link" data-scroll-target="#inverses-by-row-reduction">Inverses by row reduction</a></li>
   </ul></li>
   <li><a href="#in-code" id="toc-in-code" class="nav-link" data-scroll-target="#in-code"><span class="header-section-number">12.3</span> In code</a></li>
@@ -1103,12 +1104,13 @@ window.Quarto = {
 <li>reduce a matrix to reduced row echelon form by Gauss–Jordan elimination</li>
 <li>find the rank of a matrix, and use it to decide whether a system has no solution, one or infinitely many</li>
 <li>write every solution of a system in terms of free variables</li>
+<li>say what to expect from a system with more equations than unknowns, or fewer</li>
 <li>find inverses by row reducing <span class="math inline">\([\M{A} \mid \M{I}]\)</span></li>
 </ul>
 </div>
 </div>
 <p><strong>Builds on</strong> <a href="11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a>.</p>
-<p>Gaussian elimination (<a href="11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a>) stops at row echelon form and finishes with back substitution. <strong>Gauss–Jordan elimination</strong> keeps going until the answer can be read straight off the matrix. It takes more arithmetic, so computers rarely use it to solve large systems, but it shows the whole structure of a system at a glance: which unknowns are fixed, which can be chosen freely, and how many equations are genuinely different. That last number, the <strong>rank</strong>, is one of the most important numbers attached to a matrix.</p>
+<p>Gaussian elimination (<a href="11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a>) stops at row echelon form and finishes with back substitution. <strong>Gauss–Jordan elimination</strong> keeps going until the answer can be read straight off the matrix. It takes more arithmetic, so computers rarely use it to solve large systems, but it shows the whole structure of a system at a glance: which unknowns are fixed, which can be chosen freely, and how many equations are genuinely different. That last number, the rank, is one of the most important numbers attached to a matrix.</p>
 <section id="build-intuition" class="level2" data-number="12.1">
 <h2 data-number="12.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">12.1</span> Build intuition</h2>
 <p>The row reduction stepper from <a href="11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a> is now in Gauss–Jordan mode. At each pivot it first divides the row to make the pivot 1, then clears the rest of the column, above the pivot as well as below.</p>
@@ -1128,10 +1130,10 @@ window.Quarto = {
 <h2 data-number="12.2" class="anchored" data-anchor-id="the-ideas"><span class="header-section-number">12.2</span> The ideas</h2>
 <section id="echelon-forms" class="level3">
 <h3 class="anchored" data-anchor-id="echelon-forms">Echelon forms</h3>
-<p><a href="11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a> aimed for a staircase shape. Here is the precise version. A matrix is in <strong>row echelon form</strong> if:</p>
+<p><a href="11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a> aimed for a staircase shape. Here is the precise version. A matrix is in row echelon form if:</p>
 <ol type="1">
 <li>any rows of zeros are at the bottom;</li>
-<li>the first non-zero entry of each row, its <strong>pivot</strong>, is further to the right than the pivot of the row above.</li>
+<li>the first non-zero entry of each row, its pivot, is further to the right than the pivot of the row above.</li>
 </ol>
 <p>So every entry below a pivot is zero. It is in <strong>reduced row echelon form</strong> (RREF) if, as well:</p>
 <ol start="3" type="1">
@@ -1142,7 +1144,7 @@ window.Quarto = {
 \mat{2 &amp; \ast &amp; \ast &amp; \ast \\ 0 &amp; 0 &amp; 5 &amp; \ast \\ 0 &amp; 0 &amp; 0 &amp; 0} \text{ (echelon)},
 \qquad
 \mat{1 &amp; \ast &amp; 0 &amp; \ast \\ 0 &amp; 0 &amp; 1 &amp; \ast \\ 0 &amp; 0 &amp; 0 &amp; 0} \text{ (reduced)}.
-\]</span> A matrix can be reduced to many different echelon forms, depending on which row operations you use. But it has <strong>only one</strong> reduced row echelon form, however you get there (a proof is in <a href="../appendices/proofs.html#sec-proofs-gauss-jordan-rank" class="quarto-xref"><span>Section C.6</span></a>). That is what makes the reduced form useful: everything you read from it is a property of the original matrix.</p>
+\]</span> A matrix can be reduced to many different echelon forms, depending on which row operations you use. But it has <em>only one</em> reduced row echelon form, however you get there (a proof is in <a href="../appendices/proofs.html#sec-proofs-gauss-jordan-rank" class="quarto-xref"><span>Section C.6</span></a>). That is what makes the reduced form useful: everything you read from it is a property of the original matrix.</p>
 </section>
 <section id="gaussjordan-elimination" class="level3">
 <h3 class="anchored" data-anchor-id="gaussjordan-elimination">Gauss–Jordan elimination</h3>
@@ -1150,14 +1152,14 @@ window.Quarto = {
 <ol type="1">
 <li>find a non-zero entry at or below the current row, and swap it up into the pivot position if necessary (if there is none, move on to the next column);</li>
 <li>divide the pivot row by the pivot, to make the pivot 1;</li>
-<li>subtract multiples of the pivot row from <strong>every other row</strong>, above and below, to make the rest of the column zero.</li>
+<li>subtract multiples of the pivot row from <em>every other row</em>, above and below, to make the rest of the column zero.</li>
 </ol>
 <p>An equally good way, and often less work by hand, is to reach echelon form first as in <a href="11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a>, then make the pivots 1 and clear the columns upwards, starting from the last pivot.</p>
 </section>
 <section id="rank" class="level3">
 <h3 class="anchored" data-anchor-id="rank">Rank</h3>
 <p>The <strong>rank</strong> of a matrix is the number of pivots in its echelon form, which is the same as the number of non-zero rows. It doesn’t depend on which echelon form you reach, because they all lead to the same reduced form.</p>
-<p>The rank counts how many of the rows are <strong>genuinely independent</strong>. A row of zeros appears in the echelon form exactly when some row was a combination of others: it carried no new information, and elimination cleared it away. So for a system of equations, the rank is the number of different conditions the equations really impose. In the language of transformations (<a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a>), it is the number of independent directions that the matrix keeps: a <span class="math inline">\(3 \times 3\)</span> matrix of rank 2 squashes space onto a plane, and one of rank 1 squashes it onto a line.</p>
+<p>The rank counts how many of the rows are <em>genuinely independent</em>. A row of zeros appears in the echelon form exactly when some row was a combination of others: it carried no new information, and elimination cleared it away. So for a system of equations, the rank is the number of different conditions the equations really impose. In the language of transformations (<a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a>), it is the number of independent directions that the matrix keeps: a <span class="math inline">\(3 \times 3\)</span> matrix of rank 2 squashes space onto a plane, and one of rank 1 squashes it onto a line.</p>
 <p>Some facts follow straight from the definition. An <span class="math inline">\(m \times n\)</span> matrix has at most one pivot in each row and in each column, so <span class="math display">\[
 \operatorname{rank}\M{A} \le m \quad\text{and}\quad \operatorname{rank}\M{A} \le n.
 \]</span> A square <span class="math inline">\(n \times n\)</span> matrix is invertible exactly when its rank is <span class="math inline">\(n\)</span>, so that there is a pivot in every column. This adds one more item to the list of equivalent conditions in <a href="../part-1/07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a>.</p>
@@ -1192,7 +1194,7 @@ x + 4y + 10z &amp;= k^2
 <h3 class="anchored" data-anchor-id="reading-off-the-solutions">Reading off the solutions</h3>
 <p>Reduce the augmented matrix <span class="math inline">\([\M{A} \mid \vect{b}]\)</span> of a system with <span class="math inline">\(n\)</span> unknowns. Each column of <span class="math inline">\(\M{A}\)</span> belongs to one unknown.</p>
 <ul>
-<li>If a row reads <span class="math inline">\(\amat{ccc|c}{0 &amp; \cdots &amp; 0 &amp; c}\)</span> with <span class="math inline">\(c \neq 0\)</span>, it says <span class="math inline">\(0 = c\)</span>, and there is <strong>no solution</strong>. This happens exactly when attaching <span class="math inline">\(\vect{b}\)</span> adds a pivot, so that <span class="math inline">\(\operatorname{rank}[\M{A} \mid \vect{b}] &gt; \operatorname{rank}\M{A}\)</span>.</li>
+<li>If a row reads <span class="math inline">\(\amat{ccc|c}{0 &amp; \cdots &amp; 0 &amp; c}\)</span> with <span class="math inline">\(c \neq 0\)</span>, it says <span class="math inline">\(0 = c\)</span>, and there is <em>no solution</em>. This happens exactly when attaching <span class="math inline">\(\vect{b}\)</span> adds a pivot, so that <span class="math inline">\(\operatorname{rank}[\M{A} \mid \vect{b}] &gt; \operatorname{rank}\M{A}\)</span>.</li>
 <li>Otherwise the system is consistent. The unknowns whose columns contain a pivot are <strong>pivot variables</strong> (or basic variables). The others are <strong>free variables</strong>: they can take any values at all. Each row of the reduced form then gives one pivot variable in terms of the free ones.</li>
 </ul>
 <p>Writing <span class="math inline">\(r = \operatorname{rank}\M{A}\)</span>, there are <span class="math inline">\(r\)</span> pivot variables and <span class="math inline">\(n - r\)</span> free variables, which gives the complete picture:</p>
@@ -1258,18 +1260,54 @@ x_3 = 1 - t,
 </div>
 </div>
 </section>
-<section id="inverses-by-row-reduction" class="level3">
-<h3 class="anchored" data-anchor-id="inverses-by-row-reduction">Inverses by row reduction</h3>
-<p>The inverse of an <span class="math inline">\(n \times n\)</span> matrix can be found with the same method. Column <span class="math inline">\(j\)</span> of <span class="math inline">\(\M{A}^{-1}\)</span> is the solution of <span class="math inline">\(\M{A}\vect{x} = \ue{j}\)</span>, where <span class="math inline">\(\ue{j}\)</span> is column <span class="math inline">\(j\)</span> of <span class="math inline">\(\M{I}\)</span>, because <span class="math inline">\(\M{A}\M{A}^{-1} = \M{I}\)</span> column by column. Each of these <span class="math inline">\(n\)</span> systems needs exactly the same row operations, so do them all at once: reduce <span class="math display">\[
-[\M{A} \mid \M{I}] \;\longrightarrow\; [\M{I} \mid \M{A}^{-1}].
-\]</span> If the left half reduces to <span class="math inline">\(\M{I}\)</span>, the right half is the inverse. If a pivot is missing, so that the left half can’t become <span class="math inline">\(\M{I}\)</span>, then <span class="math inline">\(\M{A}\)</span> has no inverse. For anything bigger than <span class="math inline">\(2 \times 2\)</span> this is much less work than the cofactor method of <a href="../part-1/07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a>: about <span class="math inline">\(n^3\)</span> operations instead of a number that grows like <span class="math inline">\(n!\)</span>.</p>
+<section id="more-equations-than-unknowns-or-fewer" class="level3">
+<h3 class="anchored" data-anchor-id="more-equations-than-unknowns-or-fewer">More equations than unknowns, or fewer</h3>
+<p>Systems do not have to be square.</p>
+<ul>
+<li><strong>More equations than unknowns</strong> (an <strong>overdetermined</strong> system), such as three lines in a plane: usually there is no solution, because three lines rarely pass through one point. This is the normal situation when fitting a model to measured data, and the fix is to look for the <em>best</em> approximate solution instead (<a href="../part-3/17-orthogonality-least-squares.html" class="quarto-xref"><span>Chapter 17</span></a>).</li>
+<li><strong>Fewer equations than unknowns</strong> (an <strong>underdetermined</strong> system), such as two planes in space: usually there are infinitely many solutions, because two planes that are not parallel meet in a whole line. There can still be none, if the planes are parallel.</li>
+</ul>
 <div id="ex-gauss-jordan-rank-3" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example 3: an inverse by row reduction
+<span class="screen-reader-only">Note</span>Example 3: balancing a chemical equation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When methane (natural gas, <span class="math inline">\(\mathrm{CH_4}\)</span>) burns in oxygen (<span class="math inline">\(\mathrm{O_2}\)</span>), it produces carbon dioxide (<span class="math inline">\(\mathrm{CO_2}\)</span>) and water (<span class="math inline">\(\mathrm{H_2O}\)</span>). Find whole numbers <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span>, <span class="math inline">\(d\)</span> to balance <span class="math display">\[
+a\,\mathrm{CH_4} + b\,\mathrm{O_2} \longrightarrow c\,\mathrm{CO_2} + d\,\mathrm{H_2O}.
+\]</span></p>
+<p><strong>Solution.</strong> A chemical reaction rearranges atoms but never creates or destroys them, so each element must appear equally often on both sides. Counting atoms of carbon, hydrogen and oxygen: <span class="math display">\[
+\begin{aligned}
+a &amp;= c \quad\text{(carbon)} \\
+4a &amp;= 2d \quad\text{(hydrogen)} \\
+2b &amp;= 2c + d \quad\text{(oxygen)}
+\end{aligned}
+\]</span> Moving everything to the left gives a homogeneous system (<a href="10-linear-systems.html" class="quarto-xref"><span>Chapter 10</span></a>) of three equations in four unknowns. Gauss–Jordan elimination gives <span class="math display">\[
+\amat{rrrr|r}{1 &amp; 0 &amp; -1 &amp; 0 &amp; 0 \\ 4 &amp; 0 &amp; 0 &amp; -2 &amp; 0 \\ 0 &amp; 2 &amp; -2 &amp; -1 &amp; 0}
+\longrightarrow
+\amat{rrrr|r}{1 &amp; 0 &amp; 0 &amp; -\tfrac{1}{2} &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; -1 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; -\tfrac{1}{2} &amp; 0}.
+\]</span> There is no pivot in column 4, so <span class="math inline">\(d\)</span> is free, as it must be with fewer equations than unknowns: <span class="math inline">\(a = \tfrac{1}{2}d\)</span>, <span class="math inline">\(b = d\)</span> and <span class="math inline">\(c = \tfrac{1}{2}d\)</span>. That makes sense: if a set of numbers balances the equation, so does twice that set. The smallest whole numbers come from <span class="math inline">\(d = 2\)</span>, giving <span class="math inline">\(a = 1\)</span>, <span class="math inline">\(b = 2\)</span>, <span class="math inline">\(c = 1\)</span>: <span class="math display">\[
+\mathrm{CH_4} + 2\,\mathrm{O_2} \longrightarrow \mathrm{CO_2} + 2\,\mathrm{H_2O}.
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="inverses-by-row-reduction" class="level3">
+<h3 class="anchored" data-anchor-id="inverses-by-row-reduction">Inverses by row reduction</h3>
+<p>The inverse of an <span class="math inline">\(n \times n\)</span> matrix can be found with the same method. Column <span class="math inline">\(j\)</span> of <span class="math inline">\(\M{A}^{-1}\)</span> is the solution of <span class="math inline">\(\M{A}\vect{x} = \ue{j}\)</span>, where <span class="math inline">\(\ue{j}\)</span> is column <span class="math inline">\(j\)</span> of <span class="math inline">\(\M{I}\)</span>, because <span class="math inline">\(\M{A}\M{A}^{-1} = \M{I}\)</span> column by column. Each of these <span class="math inline">\(n\)</span> systems needs exactly the same row operations, so do them all at once: reduce <span class="math display">\[
+[\M{A} \mid \M{I}] \;\longrightarrow\; [\M{I} \mid \M{A}^{-1}].
+\]</span> If the left half reduces to <span class="math inline">\(\M{I}\)</span>, the right half is the inverse. If a pivot is missing, so that the left half can’t become <span class="math inline">\(\M{I}\)</span>, then <span class="math inline">\(\M{A}\)</span> has no inverse. For anything bigger than <span class="math inline">\(2 \times 2\)</span> this is much less work than the cofactor method of <a href="../part-1/07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a>: about <span class="math inline">\(n^3\)</span> operations instead of a number that grows like <span class="math inline">\(n!\)</span>.</p>
+<div id="ex-gauss-jordan-rank-4" class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example 4: an inverse by row reduction
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1297,7 +1335,7 @@ x_3 = 1 - t,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="7aa1b2d7" class="cell" data-execution_count="1">
+<div id="661006ad" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rref(M, tol<span class="op">=</span><span class="fl">1e-10</span>):</span>
@@ -1334,11 +1372,11 @@ pivot columns: [0, 2]</code></pre>
 </div>
 </div>
 <p><code>np.linalg.matrix_rank</code> finds the rank directly. It uses a more reliable method than counting pivots (the singular value decomposition, <a href="../part-4/21-svd-pca.html" class="quarto-xref"><span>Chapter 21</span></a>):</p>
-<div id="3c1de7e8" class="cell" data-execution_count="2">
+<div id="0fb382e5" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array(Ab)[:, :<span class="dv">4</span>]</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.matrix_rank(A), np.linalg.matrix_rank(Ab))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>A2 <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>]])    <span class="co"># Example 3</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>A2 <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>]])    <span class="co"># Example 4</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.inv(A2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2 2
@@ -1356,7 +1394,7 @@ pivot columns: [0, 2]</code></pre>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="va">rref</span>(<span class="va">Ab</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>[<span class="va">rank</span>(<span class="va">Ab</span>(<span class="op">:,</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>))<span class="op">,</span> <span class="va">rank</span>(<span class="va">Ab</span>)]</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="va">A2</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span><span class="op">;</span> <span class="fl">1</span> <span class="fl">2</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">2</span>]<span class="op">;</span> <span class="co">% Example 3</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="va">A2</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span><span class="op">;</span> <span class="fl">1</span> <span class="fl">2</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">2</span>]<span class="op">;</span> <span class="co">% Example 4</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="va">rref</span>([<span class="va">A2</span> <span class="va">eye</span>(<span class="fl">3</span>)])           <span class="co">% the right half is the inverse</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <pre class="text code-output"><code>ans =
 
@@ -1381,7 +1419,7 @@ ans =
 <section id="check-your-understanding" class="level2" data-number="12.4">
 <h2 data-number="12.4" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">12.4</span> Check your understanding</h2>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1390,25 +1428,9 @@ ans =
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>No.&nbsp;It is in echelon form, but the second pivot is 2, not 1. Dividing row 2 by 2 gives the reduced form <span class="math inline">\(\mat{1 &amp; 0 &amp; 3 \\ 0 &amp; 1 &amp; 1/2}\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>What is the largest possible rank of a <span class="math inline">\(4 \times 6\)</span> matrix?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>4: there is at most one pivot in each row.</p>
+<p>No.&nbsp;It is in echelon form, but the second pivot is 2, not 1. Dividing row 2 by 2 gives the reduced form <span class="math inline">\(\mat{1 &amp; 0 &amp; 3 \\ 0 &amp; 1 &amp; 1/2}\)</span>.</p>
 </div>
 </div>
 </div>
@@ -1418,11 +1440,27 @@ ans =
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>A consistent system has 5 unknowns, and its coefficient matrix has rank 3. How many free variables are there?
+<span class="screen-reader-only">Tip</span>What is the largest possible rank of a <span class="math inline">\(4 \times 6\)</span> matrix?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>4: there is at most one pivot in each row.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A consistent system has 5 unknowns, and its coefficient matrix has rank 3. How many free variables are there?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><span class="math inline">\(5 - 3 = 2\)</span>.</p>
 </div>
@@ -1461,8 +1499,10 @@ ans =
 <p><a href="../appendices/solutions-2.html#solution-gauss-jordan-rank-5" class="sol-link">Solution to exercise 5</a></p></li>
 <li><p><span id="exercise-gauss-jordan-rank-6"></span>Explain why a homogeneous system with more unknowns than equations always has a solution other than <span class="math inline">\(\vect{x} = \zerovec\)</span>.</p>
 <p><a href="../appendices/solutions-2.html#solution-gauss-jordan-rank-6" class="sol-link">Solution to exercise 6</a></p></li>
-<li><p><span id="exercise-gauss-jordan-rank-7"></span><strong>Code.</strong> In photosynthesis, plants turn carbon dioxide and water into glucose and oxygen: <span class="math inline">\(a\,\mathrm{CO_2} + b\,\mathrm{H_2O} \to c\,\mathrm{C_6H_{12}O_6} + d\,\mathrm{O_2}\)</span>. Write the atom balances for carbon, hydrogen and oxygen as a homogeneous system (as in <a href="10-linear-systems.html" class="quarto-xref"><span>Chapter 10</span></a>, Example 4), find its reduced row echelon form with code, and use it to balance the equation with the smallest whole numbers.</p>
+<li><p><span id="exercise-gauss-jordan-rank-7"></span>Propane (<span class="math inline">\(\mathrm{C_3H_8}\)</span>), the gas in camping stoves, burns to give carbon dioxide and water. Balance <span class="math inline">\(a\,\mathrm{C_3H_8} + b\,\mathrm{O_2} \to c\,\mathrm{CO_2} + d\,\mathrm{H_2O}\)</span> with the smallest whole numbers.</p>
 <p><a href="../appendices/solutions-2.html#solution-gauss-jordan-rank-7" class="sol-link">Solution to exercise 7</a></p></li>
+<li><p><span id="exercise-gauss-jordan-rank-8"></span><strong>Code.</strong> In photosynthesis, plants turn carbon dioxide and water into glucose and oxygen: <span class="math inline">\(a\,\mathrm{CO_2} + b\,\mathrm{H_2O} \to c\,\mathrm{C_6H_{12}O_6} + d\,\mathrm{O_2}\)</span>. Write the atom balances for carbon, hydrogen and oxygen as a homogeneous system (as in <a href="10-linear-systems.html" class="quarto-xref"><span>Chapter 10</span></a>, Example 4), find its reduced row echelon form with code, and use it to balance the equation with the smallest whole numbers.</p>
+<p><a href="../appendices/solutions-2.html#solution-gauss-jordan-rank-8" class="sol-link">Solution to exercise 8</a></p></li>
 </ol>
 <p>Solutions are in <a href="../appendices/solutions-2.html#sec-solutions-gauss-jordan-rank" class="quarto-xref"><span>Section F.3</span></a>.</p>
 </section>
@@ -1479,7 +1519,7 @@ ans =
 <h2 data-number="12.8" class="anchored" data-anchor-id="going-further"><span class="header-section-number">12.8</span> Going further</h2>
 <ul>
 <li>Every row operation is the same as multiplying on the left by a simple matrix, called an <strong>elementary matrix</strong>: the identity with the same row operation applied to it. Gauss–Jordan elimination on an invertible matrix therefore writes <span class="math inline">\(\M{A}^{-1}\)</span> as a product of elementary matrices, which is why reducing <span class="math inline">\([\M{A} \mid \M{I}]\)</span> works. The same idea turns elimination into the LU factorisation of <a href="13-lu-decomposition.html" class="quarto-xref"><span>Chapter 13</span></a>.</li>
-<li>The rank is the dimension of the column space, and <span class="math inline">\(n - \operatorname{rank}\M{A}\)</span> is the dimension of the null space: the <strong>rank–nullity theorem</strong> of <a href="../part-3/16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a>.</li>
+<li>The rank is the dimension of the column space, and <span class="math inline">\(n - \operatorname{rank}\M{A}\)</span> is the dimension of the null space: the rank–nullity theorem of <a href="../part-3/16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a>.</li>
 <li>On a computer, deciding whether a tiny number “is really zero” is delicate, so the rank of a matrix of measured data is better found from its singular values (<a href="../part-4/21-svd-pca.html" class="quarto-xref"><span>Chapter 21</span></a>).</li>
 <li>Proof that the reduced row echelon form is unique: <a href="../appendices/proofs.html#sec-proofs-gauss-jordan-rank" class="quarto-xref"><span>Section C.6</span></a>.</li>
 </ul>

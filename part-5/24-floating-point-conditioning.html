@@ -1108,7 +1108,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>Builds on</strong> <a href="../part-1/07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a>, <a href="../part-2/11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a>.</p>
-<p>Computers almost never do exact arithmetic. Every number is stored to about 16 significant digits, and every result is rounded. Usually this is harmless: 16 digits is far more than any measurement deserves. But some problems magnify small errors enormously, so that a tiny rounding error, or a tiny error in the data, ruins the answer. This chapter explains how to tell when that will happen. The key number is the <strong>condition number</strong> of a matrix, which says how many digits you can expect to lose when you solve a system with it. You met the warning sign in <a href="../part-2/10-linear-systems.html" class="quarto-xref"><span>Chapter 10</span></a>: lines that are nearly parallel.</p>
+<p>Computers almost never do exact arithmetic. Every number is stored to about 16 significant digits, and every result is rounded. Usually this is harmless: 16 digits is far more than any measurement deserves. But some problems magnify small errors enormously, so that a tiny rounding error, or a tiny error in the data, ruins the answer. This chapter explains how to tell when that will happen. The key number is the condition number of a matrix, which says how many digits you can expect to lose when you solve a system with it. You met the warning sign in <a href="../part-2/10-linear-systems.html" class="quarto-xref"><span>Chapter 10</span></a>: lines that are nearly parallel.</p>
 <section id="build-intuition" class="level2" data-number="24.1">
 <h2 data-number="24.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">24.1</span> Build intuition</h2>
 <p>The app solves two equations in two unknowns, then nudges the right-hand side <span class="math inline">\(\vect{b}\)</span> by a small amount in many random directions and plots where the solution goes.</p>
@@ -1223,7 +1223,19 @@ x_2 = \frac{1}{x_1} = \frac{1}{10^8} = 10^{-8},
 </div>
 </div>
 <p>With <span class="math inline">\(\kappa = 10^4\)</span> you can trust about 12 digits; with <span class="math inline">\(\kappa = 10^{12}\)</span>, about 4; with <span class="math inline">\(\kappa = 10^{16}\)</span>, perhaps none. The same reasoning applies to errors in the data: if <span class="math inline">\(\vect{b}\)</span> comes from measurements accurate to 3 digits and <span class="math inline">\(\kappa = 1000\)</span>, the solution may have no correct digits at all, however accurately it is computed.</p>
-<p>A small determinant does <strong>not</strong> mean a large condition number. <span class="math inline">\(10^{-3}\M{I}\)</span>, of size <span class="math inline">\(100 \times 100\)</span>, has determinant <span class="math inline">\(10^{-300}\)</span> but condition number 1 (<a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a>).</p>
+<div class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Watch out: a small determinant is not a warning sign
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A small determinant does not mean a large condition number. <span class="math inline">\(10^{-3}\M{I}\)</span>, of size <span class="math inline">\(100 \times 100\)</span>, has determinant <span class="math inline">\(10^{-300}\)</span> but condition number 1 (<a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a>). Use the condition number, not the determinant, to judge how much accuracy you can trust.</p>
+</div>
+</div>
 <div id="ex-floating-point-conditioning-2" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1303,7 +1315,7 @@ x_2 = \frac{1}{x_1} = \frac{1}{10^8} = 10^{-8},
 <li>A <strong>method</strong> is <strong>unstable</strong> if it introduces more error than the problem’s conditioning makes unavoidable. Gaussian elimination without row swaps is unstable (<a href="25-pivoting.html" class="quarto-xref"><span>Chapter 25</span></a>); computing <span class="math inline">\(1 - \cos x\)</span> directly for small <span class="math inline">\(x\)</span> is unstable.</li>
 </ul>
 <p>The standard way to judge a method is <strong>backward error analysis</strong>. Instead of asking how wrong the computed answer <span class="math inline">\(\hat{\vect{x}}\)</span> is, ask: is <span class="math inline">\(\hat{\vect{x}}\)</span> the exact answer to a slightly different problem, <span class="math inline">\((\M{A} + \delta\M{A})\hat{\vect{x}} = \vect{b}\)</span>, with <span class="math inline">\(\delta\M{A}\)</span> about as small as the rounding errors in storing <span class="math inline">\(\M{A}\)</span>? If so, the method is <strong>backward stable</strong>: it has done as well as anyone could, and any remaining error is due to the problem’s conditioning. Gaussian elimination with partial pivoting is backward stable in practice, and so the error in its answer is roughly <span class="math inline">\(\kappa(\M{A})\,\varepsilon\)</span>.</p>
-<p>One consequence is easy to miss. The <strong>residual</strong> <span class="math inline">\(\vect{r} = \vect{b} - \M{A}\hat{\vect{x}}\)</span> measures how well <span class="math inline">\(\hat{\vect{x}}\)</span> satisfies the equations, and a stable method always makes it tiny. But a tiny residual doesn’t mean a small error: for an ill-conditioned matrix, a vector far from the solution can still almost satisfy the equations (exercise 6).</p>
+<p>One consequence is easy to miss. The residual <span class="math inline">\(\vect{r} = \vect{b} - \M{A}\hat{\vect{x}}\)</span> measures how well <span class="math inline">\(\hat{\vect{x}}\)</span> satisfies the equations, and a stable method always makes it tiny. But a tiny residual doesn’t mean a small error: for an ill-conditioned matrix, a vector far from the solution can still almost satisfy the equations (exercise 6).</p>
 </section>
 </section>
 <section id="in-code" class="level2" data-number="24.3">
@@ -1313,7 +1325,7 @@ x_2 = \frac{1}{x_1} = \frac{1}{10^8} = 10^{-8},
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="f18de465" class="cell" data-execution_count="1">
+<div id="26688c55" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> hilbert</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1387,7 +1399,7 @@ n = 12: cond = 1.6e+16, error = 3.6e-01</code></pre>
 <section id="check-your-understanding" class="level2" data-number="24.4">
 <h2 data-number="24.4" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">24.4</span> Check your understanding</h2>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1396,25 +1408,9 @@ n = 12: cond = 1.6e+16, error = 3.6e-01</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>1: the matrix scales every vector by 2, so relative errors are not magnified at all, even though the matrix is not the identity.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>A system has <span class="math inline">\(\kappa(\M{A}) \approx 10^{9}\)</span>. Roughly how many correct digits should you expect in double precision?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>About <span class="math inline">\(16 - 9 = 7\)</span>.</p>
+<p>1: the matrix scales every vector by 2, so relative errors are not magnified at all, even though the matrix is not the identity.</p>
 </div>
 </div>
 </div>
@@ -1424,11 +1420,27 @@ n = 12: cond = 1.6e+16, error = 3.6e-01</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>The residual <span class="math inline">\(\M{A}\hat{\vect{x}} - \vect{b}\)</span> is <span class="math inline">\(10^{-15}\)</span>. Is <span class="math inline">\(\hat{\vect{x}}\)</span> accurate?
+<span class="screen-reader-only">Tip</span>A system has <span class="math inline">\(\kappa(\M{A}) \approx 10^{9}\)</span>. Roughly how many correct digits should you expect in double precision?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>About <span class="math inline">\(16 - 9 = 7\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>The residual <span class="math inline">\(\M{A}\hat{\vect{x}} - \vect{b}\)</span> is <span class="math inline">\(10^{-15}\)</span>. Is <span class="math inline">\(\hat{\vect{x}}\)</span> accurate?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Not necessarily. A small residual shows the method was stable, but the error in <span class="math inline">\(\hat{\vect{x}}\)</span> can still be up to about <span class="math inline">\(\kappa(\M{A})\)</span> times larger, in relative terms.</p>
 </div>
@@ -1471,7 +1483,7 @@ n = 12: cond = 1.6e+16, error = 3.6e-01</code></pre>
 <ul>
 <li><strong>Calibration and fitting</strong>: fitting a polynomial of high degree with the powers <span class="math inline">\(1, t, t^2, \dots\)</span> as basis functions leads to Hilbert-like matrices. Using orthogonal polynomials, or centring and scaling the data first, gives much better conditioned problems (<a href="30-qr-least-squares.html" class="quarto-xref"><span>Chapter 30</span></a>).</li>
 <li><strong>Structural analysis</strong>: a structure with one very stiff member and one very flexible one gives a stiffness matrix with a large condition number. Analysts check condition numbers, or the warnings their software prints, before trusting results.</li>
-<li><strong>Statistics</strong>: when two explanatory variables in a regression are nearly proportional (<strong>collinearity</strong>), the fitted coefficients are ill-conditioned: small changes in the data swing them wildly, even though the fitted values hardly change.</li>
+<li><strong>Statistics</strong>: when two explanatory variables in a regression are nearly proportional (collinearity), the fitted coefficients are ill-conditioned: small changes in the data swing them wildly, even though the fitted values hardly change.</li>
 <li><strong>Units matter</strong>: measuring one quantity in millimetres and another in kilometres can make <span class="math inline">\(\kappa\)</span> huge for no physical reason. Rescaling the unknowns or equations to similar sizes is cheap and often fixes it.</li>
 <li><strong>Money</strong>: never store amounts of money as floating-point numbers of pounds or dollars; <span class="math inline">\(0.1\)</span> can’t be stored exactly. Use whole numbers of pence or cents, or a decimal type.</li>
 </ul>

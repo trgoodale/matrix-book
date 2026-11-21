@@ -1113,7 +1113,7 @@ window.Quarto = {
 <li><strong>Prediction</strong>: how well can one measurement be predicted from the others, and which of the others matter?</li>
 <li><strong>Structure</strong>: four measurements per flower is four dimensions, too many to plot. Is there a simpler picture, in two dimensions, that captures most of the variation, and does it separate the species?</li>
 </ul>
-<p>The first is answered by <strong>multiple regression</strong>, which is least squares (<a href="../part-3/17-orthogonality-least-squares.html" class="quarto-xref"><span>Chapter 17</span></a>). The second is answered by <strong>principal component analysis</strong>, which is the SVD (<a href="../part-4/21-svd-pca.html" class="quarto-xref"><span>Chapter 21</span></a>). Both are matrix calculations on the <span class="math inline">\(150 \times 4\)</span> table of data.</p>
+<p>The first is answered by <strong>multiple regression</strong>, which is least squares (<a href="../part-3/17-orthogonality-least-squares.html" class="quarto-xref"><span>Chapter 17</span></a>). The second is answered by principal component analysis, which is the SVD (<a href="../part-4/21-svd-pca.html" class="quarto-xref"><span>Chapter 21</span></a>). Both are matrix calculations on the <span class="math inline">\(150 \times 4\)</span> table of data.</p>
 <p>The data are in the file <code>data/iris.csv</code> in the book’s repository (<a href="../data/iris.csv">download it here</a>), one row per flower; the code below reads it from there.</p>
 </section>
 <section id="the-model" class="level2" data-number="37.2">
@@ -1192,7 +1192,7 @@ R^2 = 1 - \frac{\lVert\vect{y} - \hat{\vect{y}}\rVert^2}{\lVert\vect{y} - \bar{y
 <li>coefficients that change a lot, even changing sign, when a variable is added or removed, or the data change slightly;</li>
 <li>a large condition number of <span class="math inline">\(\M{X}\)</span> (after scaling its columns to comparable sizes).</li>
 </ul>
-<p>This is <strong>collinearity</strong> (or multicollinearity). The fitted values <span class="math inline">\(\hat{\vect{y}}\)</span> are still fine, since the column space is still well defined; it is the individual coefficients that become unreliable, and with them any story about which variable “matters”. The remedies are to drop or combine variables, to collect data that separate them, or to use <strong>ridge regression</strong> (<a href="../part-4/22-matrix-calculus.html" class="quarto-xref"><span>Chapter 22</span></a>, exercise 6), which adds <span class="math inline">\(\mu\M{I}\)</span> to <span class="math inline">\(\M{X}\T\M{X}\)</span>.</p>
+<p>This is <strong>collinearity</strong> (or multicollinearity). The fitted values <span class="math inline">\(\hat{\vect{y}}\)</span> are still fine, since the column space is still well defined; it is the individual coefficients that become unreliable, and with them any story about which variable “matters”. The remedies are to drop or combine variables, to collect data that separate them, or to use ridge regression (<a href="../part-4/22-matrix-calculus.html" class="quarto-xref"><span>Chapter 22</span></a>, exercise 6), which adds <span class="math inline">\(\mu\M{I}\)</span> to <span class="math inline">\(\M{X}\T\M{X}\)</span>.</p>
 <div id="ex-data-science-2" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1253,7 +1253,7 @@ R^2 = 1 - \frac{\lVert\vect{y} - \hat{\vect{y}}\rVert^2}{\lVert\vect{y} - \bar{y
 <li><strong>Standardise</strong> each column, by dividing by its standard deviation, when the variables are measured in different units or on very different scales. Otherwise the variables with the largest numbers dominate. (For the iris data all four are lengths in centimetres, so either choice is reasonable; standardising is the common default.)</li>
 <li><strong>Choose how many components to keep</strong>, typically enough to explain 80–95% of the variance, or where a plot of the explained variance against the component number (a <strong>scree plot</strong>) levels off.</li>
 </ul>
-<p>Then interpret the <strong>loadings</strong>, the entries of each principal component vector, which say how much each original variable contributes; and plot the <strong>scores</strong>, each item’s coordinates along the first two components.</p>
+<p>Then interpret the <strong>loadings</strong>, the entries of each principal component vector, which say how much each original variable contributes; and plot the scores, each item’s coordinates along the first two components.</p>
 <div id="ex-data-science-3" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1328,7 +1328,7 @@ Figure&nbsp;37.1: The 150 iris flowers plotted by their scores on the first two 
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="bbc10d4b" class="cell" data-execution_count="2">
+<div id="608e398b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.genfromtxt(<span class="st">"../data/iris.csv"</span>, delimiter<span class="op">=</span><span class="st">","</span>, skip_header<span class="op">=</span><span class="dv">1</span>, usecols<span class="op">=</span><span class="bu">range</span>(<span class="dv">4</span>))</span>

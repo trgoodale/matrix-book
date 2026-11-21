@@ -1145,7 +1145,7 @@ window.Quarto = {
 <p>For one equation, <span class="math inline">\(\dot{x} = ax\)</span> has solution <span class="math inline">\(x = e^{at}x_0\)</span>. So try <span class="math inline">\(\vect{x}(t) = e^{\lambda t}\vect{v}\)</span> for a fixed vector <span class="math inline">\(\vect{v}\)</span>. Then <span class="math inline">\(\dot{\vect{x}} = \lambda e^{\lambda t}\vect{v}\)</span> and <span class="math inline">\(\M{A}\vect{x} = e^{\lambda t}\M{A}\vect{v}\)</span>, and these are equal exactly when <span class="math inline">\(\M{A}\vect{v} = \lambda\vect{v}\)</span>. Every eigenvector gives a solution that stays on its line through the origin, growing if <span class="math inline">\(\lambda &gt; 0\)</span> and shrinking if <span class="math inline">\(\lambda &lt; 0\)</span>.</p>
 <p>The equation is linear, so sums of solutions are solutions. If <span class="math inline">\(\M{A}\)</span> has <span class="math inline">\(n\)</span> independent eigenvectors, write the starting state in terms of them, <span class="math inline">\(\vect{x}_0 = c_1\vect{v}_1 + \dots + c_n\vect{v}_n\)</span> (<a href="../part-3/15-basis-change.html" class="quarto-xref"><span>Chapter 15</span></a>). Then <span id="eq-ode-modes"><span class="math display">\[
 \vect{x}(t) = c_1e^{\lambda_1 t}\vect{v}_1 + c_2e^{\lambda_2 t}\vect{v}_2 + \dots + c_ne^{\lambda_n t}\vect{v}_n.
-\tag{23.1}\]</span></span> Each term is a <strong>mode</strong> of the system, evolving independently of the others. This is <a href="19-diagonalisation.html#eq-modes" class="quarto-xref">Equation&nbsp;<span>19.3</span></a> of <a href="19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a> with <span class="math inline">\(\lambda^k\)</span> replaced by <span class="math inline">\(e^{\lambda t}\)</span>. In the long run, the mode with the largest <span class="math inline">\(\lambda\)</span> dominates.</p>
+\tag{23.1}\]</span></span> Each term is a mode of the system, evolving independently of the others. This is <a href="19-diagonalisation.html#eq-modes" class="quarto-xref">Equation&nbsp;<span>19.3</span></a> of <a href="19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a> with <span class="math inline">\(\lambda^k\)</span> replaced by <span class="math inline">\(e^{\lambda t}\)</span>. In the long run, the mode with the largest <span class="math inline">\(\lambda\)</span> dominates.</p>
 <div id="ex-linear-odes-1" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1268,7 +1268,20 @@ e^{\M{A}t} = \M{I} + \M{A}t + \frac{(\M{A}t)^2}{2!} + \frac{(\M{A}t)^3}{3!} + \c
 e^{\M{A}t} = \M{P}e^{\M{D}t}\M{P}^{-1},
 \qquad
 e^{\M{D}t} = \mat{e^{\lambda_1 t} &amp; &amp; \\ &amp; \ddots &amp; \\ &amp; &amp; e^{\lambda_n t}}.
-\]</span> This is <a href="#eq-ode-modes" class="quarto-xref">Equation&nbsp;<span>23.1</span></a> again, written as a single matrix. One warning: <span class="math inline">\(e^{\M{A}}e^{\M{B}}\)</span> equals <span class="math inline">\(e^{\M{A} + \M{B}}\)</span> only when <span class="math inline">\(\M{A}\M{B} = \M{B}\M{A}\)</span>, because matrix multiplication is not commutative.</p>
+\]</span> This is <a href="#eq-ode-modes" class="quarto-xref">Equation&nbsp;<span>23.1</span></a> again, written as a single matrix.</p>
+<div class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Watch out: exponentials of sums
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For numbers, <span class="math inline">\(e^a e^b = e^{a + b}\)</span>. For matrices, <span class="math inline">\(e^{\M{A}}e^{\M{B}}\)</span> equals <span class="math inline">\(e^{\M{A} + \M{B}}\)</span> only when <span class="math inline">\(\M{A}\M{B} = \M{B}\M{A}\)</span>, because matrix multiplication is not commutative.</p>
+</div>
+</div>
 <div id="ex-linear-odes-3" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1296,7 +1309,7 @@ e^{\M{A}t} = \M{P}\mat{e^{-t} &amp; 0 \\ 0 &amp; e^{-3t}}\M{P}\T = \frac{1}{2}\m
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="ee670a89" class="cell" data-execution_count="1">
+<div id="2fa78381" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
@@ -1355,7 +1368,7 @@ ans =
 <section id="check-your-understanding" class="level2" data-number="23.4">
 <h2 data-number="23.4" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">23.4</span> Check your understanding</h2>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1364,25 +1377,9 @@ ans =
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>No: it is a saddle. Paths along the eigenvector for <span class="math inline">\(-1\)</span> go in, but almost every other path is eventually carried away along the eigenvector for 2.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>What is <span class="math inline">\(e^{\M{A}t}\)</span> when <span class="math inline">\(\M{A} = \M{0}\)</span>?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(\M{I}\)</span>, for every <span class="math inline">\(t\)</span>: nothing changes.</p>
+<p>No: it is a saddle. Paths along the eigenvector for <span class="math inline">\(-1\)</span> go in, but almost every other path is eventually carried away along the eigenvector for 2.</p>
 </div>
 </div>
 </div>
@@ -1392,11 +1389,27 @@ ans =
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Can the trace alone tell you that a <span class="math inline">\(2 \times 2\)</span> system is unstable?
+<span class="screen-reader-only">Tip</span>What is <span class="math inline">\(e^{\M{A}t}\)</span> when <span class="math inline">\(\M{A} = \M{0}\)</span>?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\M{I}\)</span>, for every <span class="math inline">\(t\)</span>: nothing changes.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Can the trace alone tell you that a <span class="math inline">\(2 \times 2\)</span> system is unstable?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Yes, if it is positive: the trace is the sum of the eigenvalues (or twice their real part), so at least one eigenvalue has positive real part. A negative trace alone is not enough, since a saddle can have negative trace.</p>
 </div>
@@ -1464,7 +1477,7 @@ ans =
 <h2 data-number="23.8" class="anchored" data-anchor-id="going-further"><span class="header-section-number">23.8</span> Going further</h2>
 <ul>
 <li>Proofs that <span class="math inline">\(\frac{d}{dt}e^{\M{A}t} = \M{A}e^{\M{A}t}\)</span> and that the solution is unique: <a href="../appendices/proofs.html#sec-proofs-linear-odes" class="quarto-xref"><span>Section C.16</span></a>.</li>
-<li>A defective matrix, such as <span class="math inline">\(\mat{\lambda &amp; 1 \\ 0 &amp; \lambda}\)</span>, gives solutions containing <span class="math inline">\(te^{\lambda t}\)</span>, as exercise 4(b) shows for <span class="math inline">\(\lambda = 0\)</span>. The <strong>Jordan form</strong> organises all such cases, but in practice <code>expm</code> handles them without it.</li>
+<li>A defective matrix, such as <span class="math inline">\(\mat{\lambda &amp; 1 \\ 0 &amp; \lambda}\)</span>, gives solutions containing <span class="math inline">\(te^{\lambda t}\)</span>, as exercise 4(b) shows for <span class="math inline">\(\lambda = 0\)</span>. The Jordan form organises all such cases, but in practice <code>expm</code> handles them without it.</li>
 <li>Forced systems <span class="math inline">\(\dot{\vect{x}} = \M{A}\vect{x} + \vect{f}(t)\)</span> are solved by <span class="math inline">\(\vect{x}(t) = e^{\M{A}t}\vect{x}_0 + \int_0^t e^{\M{A}(t - s)}\vect{f}(s)\,ds\)</span>, the vector version of the integrating factor method.</li>
 <li>When eigenvalues differ hugely in size, as in chemical kinetics, the fast modes die almost at once but force ordinary solvers to take tiny steps. Such <strong>stiff</strong> systems need special solvers, such as <code>solve_ivp(..., method="BDF")</code> or MATLAB’s <code>ode15s</code>.</li>
 </ul>

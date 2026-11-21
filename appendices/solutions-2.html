@@ -1113,24 +1113,20 @@ window.Quarto = {
 </ol>
 <p>Part (b) shows that every vector <span class="math inline">\(\vect{p} + \vect{h}\)</span> is a solution. Part (c) shows that every solution <span class="math inline">\(\vect{q}\)</span> is of this form, with <span class="math inline">\(\vect{h} = \vect{q} - \vect{p}\)</span>. Together they say that the solutions are exactly the vectors <span class="math inline">\(\vect{p} + \vect{h}\)</span>.</p>
 <p><a href="../part-2/10-linear-systems.html#exercise-linear-systems-5" class="sol-link">Back to exercise 5</a></p>
-<p><span id="solution-linear-systems-6"><strong>6.</strong></span> Carbon: <span class="math inline">\(3a = c\)</span>. Hydrogen: <span class="math inline">\(8a = 2d\)</span>. Oxygen: <span class="math inline">\(2b = 2c + d\)</span>. Taking <span class="math inline">\(a = 1\)</span> gives <span class="math inline">\(c = 3\)</span> and <span class="math inline">\(d = 4\)</span>, and then <span class="math inline">\(2b = 6 + 4\)</span>, so <span class="math inline">\(b = 5\)</span>: <span class="math display">\[
-\mathrm{C_3H_8} + 5\,\mathrm{O_2} \longrightarrow 3\,\mathrm{CO_2} + 4\,\mathrm{H_2O}.
-\]</span></p>
-<p><a href="../part-2/10-linear-systems.html#exercise-linear-systems-6" class="sol-link">Back to exercise 6</a></p>
-<p><span id="solution-linear-systems-7"><strong>7.</strong></span> Some of the possibilities:</p>
+<p><span id="solution-linear-systems-6"><strong>6.</strong></span> Some of the possibilities:</p>
 <ol type="a">
 <li><p>One solution: three planes meeting at a single point, like the floor and two walls in the corner of a room.</p></li>
 <li><p>A line of solutions: three different planes through one line, like pages of a book; or two equations describing the same plane, with the third plane crossing it.</p></li>
 <li><p>A plane of solutions: all three equations describe the same plane.</p></li>
 <li><p>No solution: two parallel planes (the third can be anything); three parallel planes; two equations describing the same plane, with the third parallel to it; or a triangular tube, where each pair of planes meets in a line but the three lines are parallel.</p></li>
 </ol>
-<p><a href="../part-2/10-linear-systems.html#exercise-linear-systems-7" class="sol-link">Back to exercise 7</a></p>
-<p><span id="solution-linear-systems-8"><strong>8.</strong></span></p>
+<p><a href="../part-2/10-linear-systems.html#exercise-linear-systems-6" class="sol-link">Back to exercise 6</a></p>
+<p><span id="solution-linear-systems-7"><strong>7.</strong></span></p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="a115cae3" class="cell" data-execution_count="1">
+<div id="b04ff64d" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">0.6</span>, <span class="fl">0.8</span>, <span class="fl">0.5</span>],</span>
@@ -1163,7 +1159,7 @@ x2 =
 </div>
 </div>
 <p>The first alloy needs 37.5 kg of alloy 1, 37.5 kg of alloy 2 and 25 kg of alloy 3. The second “needs” <span class="math inline">\(-12.5\)</span> kg of alloy 2, which is impossible: the workshop can’t add a negative amount. The equations have a solution, but it has no physical meaning, so this alloy can’t be made from these three scraps. In the column picture, <span class="math inline">\(\vect{b}\)</span> can be made from the columns, but not with amounts that are all positive.</p>
-<p><a href="../part-2/10-linear-systems.html#exercise-linear-systems-8" class="sol-link">Back to exercise 8</a></p>
+<p><a href="../part-2/10-linear-systems.html#exercise-linear-systems-7" class="sol-link">Back to exercise 7</a></p>
 </section>
 <section id="sec-solutions-gaussian-elimination" class="level2" data-number="F.2">
 <h2 data-number="F.2" class="anchored" data-anchor-id="sec-solutions-gaussian-elimination"><span class="header-section-number">F.2</span> Gaussian elimination</h2>
@@ -1211,7 +1207,7 @@ x = 2 - y - z = -1 + z,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div id="68a068cb" class="cell" data-execution_count="2">
+<div id="eac8bf3f" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> elimination_count(A, b):</span>
@@ -1329,12 +1325,16 @@ n =  80   operations =  357240   2n^3/3 =    341333   ratio = 1.05</code></pre>
 <p><a href="../part-2/12-gauss-jordan-rank.html#exercise-gauss-jordan-rank-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-gauss-jordan-rank-6"><strong>6.</strong></span> With <span class="math inline">\(m\)</span> equations and <span class="math inline">\(n &gt; m\)</span> unknowns, there is at most one pivot per row, so the rank is at most <span class="math inline">\(m\)</span>, and there are at least <span class="math inline">\(n - m \ge 1\)</span> free variables. A homogeneous system is always consistent, so we can set one free variable to 1 (and any others to 0), and solve for the pivot variables. That gives a solution with a non-zero entry.</p>
 <p><a href="../part-2/12-gauss-jordan-rank.html#exercise-gauss-jordan-rank-6" class="sol-link">Back to exercise 6</a></p>
-<p><span id="solution-gauss-jordan-rank-7"><strong>7.</strong></span> The balances are: carbon, <span class="math inline">\(a = 6c\)</span>; hydrogen, <span class="math inline">\(2b = 12c\)</span>; oxygen, <span class="math inline">\(2a + b = 6c + 2d\)</span>. As a homogeneous system in <span class="math inline">\(a, b, c, d\)</span>:</p>
+<p><span id="solution-gauss-jordan-rank-7"><strong>7.</strong></span> Carbon: <span class="math inline">\(3a = c\)</span>. Hydrogen: <span class="math inline">\(8a = 2d\)</span>. Oxygen: <span class="math inline">\(2b = 2c + d\)</span>. Taking <span class="math inline">\(a = 1\)</span> gives <span class="math inline">\(c = 3\)</span> and <span class="math inline">\(d = 4\)</span>, and then <span class="math inline">\(2b = 6 + 4\)</span>, so <span class="math inline">\(b = 5\)</span>: <span class="math display">\[
+\mathrm{C_3H_8} + 5\,\mathrm{O_2} \longrightarrow 3\,\mathrm{CO_2} + 4\,\mathrm{H_2O}.
+\]</span></p>
+<p><a href="../part-2/12-gauss-jordan-rank.html#exercise-gauss-jordan-rank-7" class="sol-link">Back to exercise 7</a></p>
+<p><span id="solution-gauss-jordan-rank-8"><strong>8.</strong></span> The balances are: carbon, <span class="math inline">\(a = 6c\)</span>; hydrogen, <span class="math inline">\(2b = 12c\)</span>; oxygen, <span class="math inline">\(2a + b = 6c + 2d\)</span>. As a homogeneous system in <span class="math inline">\(a, b, c, d\)</span>:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div id="2e1ba43f" class="cell" data-execution_count="3">
+<div id="8dc6007f" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rref(M, tol<span class="op">=</span><span class="fl">1e-10</span>):</span>
@@ -1384,7 +1384,7 @@ n =  80   operations =  357240   2n^3/3 =    341333   ratio = 1.05</code></pre>
 <p>The free variable is <span class="math inline">\(d\)</span>, and the rows say <span class="math inline">\(a = d\)</span>, <span class="math inline">\(b = d\)</span> and <span class="math inline">\(c = d/6\)</span>. The smallest whole numbers come from <span class="math inline">\(d = 6\)</span>: <span class="math display">\[
 6\,\mathrm{CO_2} + 6\,\mathrm{H_2O} \longrightarrow \mathrm{C_6H_{12}O_6} + 6\,\mathrm{O_2}.
 \]</span></p>
-<p><a href="../part-2/12-gauss-jordan-rank.html#exercise-gauss-jordan-rank-7" class="sol-link">Back to exercise 7</a></p>
+<p><a href="../part-2/12-gauss-jordan-rank.html#exercise-gauss-jordan-rank-8" class="sol-link">Back to exercise 8</a></p>
 </section>
 <section id="sec-solutions-lu-decomposition" class="level2" data-number="F.4">
 <h2 data-number="F.4" class="anchored" data-anchor-id="sec-solutions-lu-decomposition"><span class="header-section-number">F.4</span> LU decomposition</h2>
@@ -1425,7 +1425,7 @@ n =  80   operations =  357240   2n^3/3 =    341333   ratio = 1.05</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<div id="0328d580" class="cell" data-execution_count="4">
+<div id="d68e63fa" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward_substitution(L, b):</span>
@@ -1574,7 +1574,7 @@ ans =
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
-<div id="6fe95cfe" class="cell" data-execution_count="5">
+<div id="1294fe3e" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.linalg <span class="im">as</span> sl</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>

@@ -1114,7 +1114,7 @@ window.Quarto = {
 <p>The idea is the one you already use for simultaneous equations: subtract multiples of one equation from another to eliminate unknowns, until the last equation has only one unknown left. Then work backwards.</p>
 <section id="build-intuition" class="level2" data-number="11.1">
 <h2 data-number="11.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">11.1</span> Build intuition</h2>
-<p>Here is the key fact behind the whole method. Each step replaces the system with a simpler one <strong>that has exactly the same solutions</strong>. In two dimensions, each equation is a line, and the solution is the point where the lines cross. Subtracting a multiple of one equation from another swaps one line for a different line through the same crossing point. Elimination keeps swapping lines until one of them is horizontal or vertical, and the answer can be read off.</p>
+<p>Here is the key fact behind the whole method. Each step replaces the system with a simpler one <em>that has exactly the same solutions</em>. In two dimensions, each equation is a line, and the solution is the point where the lines cross. Subtracting a multiple of one equation from another swaps one line for a different line through the same crossing point. Elimination keeps swapping lines until one of them is horizontal or vertical, and the answer can be read off.</p>
 <p>You have probably done this already, with simultaneous equations at school. Take <span class="math display">\[
 \begin{aligned}
 2x + y &amp;= 5 \\
@@ -1181,7 +1181,7 @@ Figure&nbsp;11.1: One step of elimination. Subtracting 3 times the first equatio
 \]</span> <span class="math display">\[
 \vect{b} = \mat{8 \\ -11 \\ -3}.
 \]</span></p>
-<p>Elimination works on the <strong>augmented matrix</strong> <span class="math inline">\([\M{A} \mid \vect{b}]\)</span>, which holds everything that matters:</p>
+<p>Elimination works on the augmented matrix <span class="math inline">\([\M{A} \mid \vect{b}]\)</span>, which holds everything that matters:</p>
 <p><span class="math display">\[
 \amat{rrr|r}{2 &amp; 1 &amp; -1 &amp; 8 \\ -3 &amp; -1 &amp; 2 &amp; -11 \\ -2 &amp; 1 &amp; 2 &amp; -3}.
 \]</span></p>
@@ -1189,7 +1189,7 @@ Figure&nbsp;11.1: One step of elimination. Subtracting 3 times the first equatio
 </section>
 <section id="row-operations" class="level3">
 <h3 class="anchored" data-anchor-id="row-operations">Row operations</h3>
-<p>The <strong>row operations</strong> of <a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a> are exactly the steps you use to solve simultaneous equations by hand. All three change a system without changing its solutions:</p>
+<p>The row operations of <a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a> are exactly the steps you use to solve simultaneous equations by hand. All three change a system without changing its solutions:</p>
 <ol type="1">
 <li><strong>Add a multiple of one row to another</strong>, written <span class="math inline">\(R_i \leftarrow R_i - m R_j\)</span>.</li>
 <li><strong>Swap two rows</strong>, written <span class="math inline">\(R_i \leftrightarrow R_j\)</span>.</li>
@@ -1257,7 +1257,7 @@ x_i = \frac{1}{u_{ii}}\left( c_i - \sum_{j=i+1}^{n} u_{ij} x_j \right)
 <h3 class="anchored" data-anchor-id="when-things-go-wrong">When things go wrong</h3>
 <p>Elimination also tells you when there is no unique solution. Suppose a row reduces to all zeros on the left of the line.</p>
 <ul>
-<li>If it reads <span class="math inline">\(\amat{ccc|c}{0 &amp; 0 &amp; 0 &amp; 5}\)</span>, it says <span class="math inline">\(0 = 5\)</span>. The system is <strong>inconsistent</strong> and has no solution.</li>
+<li>If it reads <span class="math inline">\(\amat{ccc|c}{0 &amp; 0 &amp; 0 &amp; 5}\)</span>, it says <span class="math inline">\(0 = 5\)</span>. The system is inconsistent and has no solution.</li>
 <li>If it reads <span class="math inline">\(\amat{ccc|c}{0 &amp; 0 &amp; 0 &amp; 0}\)</span>, it says <span class="math inline">\(0 = 0\)</span>. That equation was a combination of the others, and the system has <strong>infinitely many solutions</strong> (as long as no other row is inconsistent).</li>
 </ul>
 <p><a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a> shows how to write down all the solutions in the second case.</p>
@@ -1340,7 +1340,7 @@ x + 2y + z &amp;= 5.
 <p><span class="math display">\[
 \sum_{k=1}^{n-1} 2(n-k)^2 \approx \frac{2}{3} n^3.
 \]</span></p>
-<p>Back substitution needs only about <span class="math inline">\(n^2\)</span> operations, so elimination dominates. <strong>Doubling the number of unknowns multiplies the work by about eight.</strong> That is why large problems need the structure-aware methods in <a href="../part-5/26-cost-sparse.html" class="quarto-xref"><span>Chapter 26</span></a> and <a href="../part-5/27-iterative-methods.html" class="quarto-xref"><span>Chapter 27</span></a>.</p>
+<p>Back substitution needs only about <span class="math inline">\(n^2\)</span> operations, so elimination dominates. Doubling the number of unknowns multiplies the work by about eight. That is why large problems need the structure-aware methods in <a href="../part-5/26-cost-sparse.html" class="quarto-xref"><span>Chapter 26</span></a> and <a href="../part-5/27-iterative-methods.html" class="quarto-xref"><span>Chapter 27</span></a>.</p>
 <div id="cell-fig-ge-cost" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code for this plot</summary>
@@ -1399,7 +1399,7 @@ Figure&nbsp;11.2: Time taken by NumPy’s solver as the system grows, on log sca
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="ae3f8a2f" class="cell" data-execution_count="3">
+<div id="40641546" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gaussian_elimination(A, b):</span>
@@ -1431,7 +1431,7 @@ Figure&nbsp;11.2: Time taken by NumPy’s solver as the system grows, on log sca
 </div>
 </div>
 <p>In practice, use the library solver, which adds pivoting and is far faster:</p>
-<div id="470d5ace" class="cell" data-execution_count="4">
+<div id="ef17f6c8" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.solve(A, b))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[ 2.  3. -1.]</code></pre>

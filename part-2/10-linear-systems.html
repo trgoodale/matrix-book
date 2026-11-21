@@ -1055,7 +1055,6 @@ window.Quarto = {
   <li><a href="#the-column-picture" id="toc-the-column-picture" class="nav-link" data-scroll-target="#the-column-picture">The column picture</a></li>
   <li><a href="#one-solution-none-or-infinitely-many" id="toc-one-solution-none-or-infinitely-many" class="nav-link" data-scroll-target="#one-solution-none-or-infinitely-many">One solution, none or infinitely many</a></li>
   <li><a href="#homogeneous-systems" id="toc-homogeneous-systems" class="nav-link" data-scroll-target="#homogeneous-systems">Homogeneous systems</a></li>
-  <li><a href="#more-equations-than-unknowns-or-fewer" id="toc-more-equations-than-unknowns-or-fewer" class="nav-link" data-scroll-target="#more-equations-than-unknowns-or-fewer">More equations than unknowns, or fewer</a></li>
   </ul></li>
   <li><a href="#in-code" id="toc-in-code" class="nav-link" data-scroll-target="#in-code"><span class="header-section-number">10.3</span> In code</a></li>
   <li><a href="#check-your-understanding" id="toc-check-your-understanding" class="nav-link" data-scroll-target="#check-your-understanding"><span class="header-section-number">10.4</span> Check your understanding</a></li>
@@ -1109,7 +1108,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>Builds on</strong> <a href="../part-1/03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a>, <a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a>, <a href="../part-1/07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a>.</p>
-<p>Part I treated a matrix as a table, and as a machine that moves points. Part II turns to the question that matrices are most often used to answer: <strong>given <span class="math inline">\(\M{A}\)</span> and <span class="math inline">\(\vect{b}\)</span>, find every <span class="math inline">\(\vect{x}\)</span> with <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span></strong>. Structures, circuits, chemical plants, data fits and computer simulations all come down to it, often with thousands or millions of unknowns.</p>
+<p>Part I treated a matrix as a table, and as a machine that moves points. Part II turns to the question that matrices are most often used to answer: <em>given <span class="math inline">\(\M{A}\)</span> and <span class="math inline">\(\vect{b}\)</span>, find every <span class="math inline">\(\vect{x}\)</span> with <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span></em>. Structures, circuits, chemical plants, data fits and computer simulations all come down to it, often with thousands or millions of unknowns.</p>
 <p>This chapter sets up the problem and asks what the answer can look like. <a href="11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a> gives the method for finding it.</p>
 <section id="build-intuition" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">10.1</span> Build intuition</h2>
@@ -1202,7 +1201,7 @@ x\mat{3 \\ 4} + y\mat{2 \\ -5} = \mat{7 \\ -6}.
 <li><strong>Reading down</strong> gives the columns of <span class="math inline">\(\M{A}\)</span>. The first vector, <span class="math inline">\(\vect{a}_1 = (3, 4)\T\)</span>, holds the coefficients of <span class="math inline">\(x\)</span>: 3 from the first equation and 4 from the second. The second, <span class="math inline">\(\vect{a}_2 = (2, -5)\T\)</span>, holds the coefficients of <span class="math inline">\(y\)</span>. The right-hand side <span class="math inline">\(\vect{b} = (7, -6)\T\)</span> holds the right-hand sides.</li>
 <li><strong>Reading across</strong> gives the equations back. The top entries say <span class="math inline">\(3x + 2y = 7\)</span>, and the bottom entries say <span class="math inline">\(4x - 5y = -6\)</span>.</li>
 </ul>
-<p>The question has changed its form. Instead of “which point lies on both lines?”, it asks <strong>how much of <span class="math inline">\(\vect{a}_1\)</span> and how much of <span class="math inline">\(\vect{a}_2\)</span> make <span class="math inline">\(\vect{b}\)</span>?</strong> The answer is <span class="math inline">\(x = 1\)</span> and <span class="math inline">\(y = 2\)</span>: one of the first column and two of the second, <span class="math display">\[
+<p>The question has changed its form. Instead of “which point lies on both lines?”, it asks <em>how much of <span class="math inline">\(\vect{a}_1\)</span> and how much of <span class="math inline">\(\vect{a}_2\)</span> make <span class="math inline">\(\vect{b}\)</span>?</em> The answer is <span class="math inline">\(x = 1\)</span> and <span class="math inline">\(y = 2\)</span>: one of the first column and two of the second, <span class="math display">\[
 1\mat{3 \\ 4} + 2\mat{2 \\ -5} = \mat{3 \\ 4} + \mat{4 \\ -10} = \mat{7 \\ -6}.
 \]</span> <a href="#fig-two-pictures" class="quarto-xref">Figure&nbsp;<span>10.1</span></a> shows both pictures of this system. In the row picture, the solution is the point <span class="math inline">\((1, 2)\)</span> where the lines cross. In the column picture, it is the recipe for reaching <span class="math inline">\(\vect{b}\)</span>: go along <span class="math inline">\(\vect{a}_1\)</span> once, then along <span class="math inline">\(\vect{a}_2\)</span> twice.</p>
 <div id="cell-fig-two-pictures" class="cell" data-execution_count="1">
@@ -1266,7 +1265,7 @@ Figure&nbsp;10.1: The same system in two pictures. Left: each equation is a line
 </div>
 <p>The same rearrangement works for any system. By the column view of multiplication (<a href="../part-1/03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a>), <span class="math inline">\(\M{A}\vect{x}\)</span> is a linear combination of the columns of <span class="math inline">\(\M{A}\)</span>, so the three equations at the start of this section say <span class="math display">\[
 x\mat{2 \\ -3 \\ -2} + y\mat{1 \\ -1 \\ 1} + z\mat{-1 \\ 2 \\ 2} = \mat{8 \\ -11 \\ -3}.
-\]</span> Again, reading down each vector gives the coefficients of one unknown, and reading across the top entries gives back the first equation, <span class="math inline">\(2x + y - z = 8\)</span>. Solving the system means finding <strong>how much of each column to take</strong> to make <span class="math inline">\(\vect{b}\)</span>.</p>
+\]</span> Again, reading down each vector gives the coefficients of one unknown, and reading across the top entries gives back the first equation, <span class="math inline">\(2x + y - z = 8\)</span>. Solving the system means finding <em>how much of each column to take</em> to make <span class="math inline">\(\vect{b}\)</span>.</p>
 <p>Here is the systems explorer again, now opened in the column picture. The coefficient boxes are coloured by column, and under the picture the vector equation is read across, row by row, to give back the equations.</p>
 <div class="app-embed">
 <iframe class="app-frame" src="../apps/linear-systems.html?embed=1&amp;view=col" title="Systems explorer, column picture" loading="lazy">
@@ -1284,7 +1283,7 @@ x\mat{2 \\ -3 \\ -2} + y\mat{1 \\ -1 \\ 1} + z\mat{-1 \\ 2 \\ 2} = \mat{8 \\ -11
 </section>
 <section id="one-solution-none-or-infinitely-many" class="level3">
 <h3 class="anchored" data-anchor-id="one-solution-none-or-infinitely-many">One solution, none or infinitely many</h3>
-<p>Every system of linear equations has <strong>exactly one solution</strong>, <strong>no solution</strong> or <strong>infinitely many solutions</strong>. It can never have exactly two, or exactly five.</p>
+<p>Every system of linear equations has <em>exactly one solution</em>, <em>no solution</em> or <em>infinitely many solutions</em>. It can never have exactly two, or exactly five.</p>
 <p>The reason is linearity. Suppose <span class="math inline">\(\vect{p}\)</span> and <span class="math inline">\(\vect{q}\)</span> are two different solutions, so <span class="math inline">\(\M{A}\vect{p} = \vect{b}\)</span> and <span class="math inline">\(\M{A}\vect{q} = \vect{b}\)</span>. Then for any number <span class="math inline">\(t\)</span>, <span class="math display">\[
 \M{A}\big(\vect{p} + t(\vect{q} - \vect{p})\big) = \M{A}\vect{p} + t(\M{A}\vect{q} - \M{A}\vect{p}) = \vect{b} + t(\vect{b} - \vect{b}) = \vect{b}.
 \]</span> So every point on the line through <span class="math inline">\(\vect{p}\)</span> and <span class="math inline">\(\vect{q}\)</span> is a solution too. Once there are two solutions, there are infinitely many.</p>
@@ -1350,40 +1349,6 @@ Figure&nbsp;10.2: The planes of Examples 2 and 3, viewed along the direction <sp
 <p>Homogeneous systems describe the structure of every other system. If <span class="math inline">\(\vect{p}\)</span> is one solution of <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span> (a <strong>particular solution</strong>), then <span id="eq-general-solution"><span class="math display">\[
 \text{every solution of } \M{A}\vect{x} = \vect{b} \text{ is } \vect{p} + \vect{h}, \text{ where } \M{A}\vect{h} = \zerovec.
 \tag{10.1}\]</span></span> In words: the solutions of <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span> are the solutions of <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>, shifted by <span class="math inline">\(\vect{p}\)</span>. In the row picture, the solution set of <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span> is a point, line or plane, parallel to the one for <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span> through the origin. Exercise 5 asks you to prove it; <a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a> uses it to write down every solution.</p>
-<div id="ex-linear-systems-4" class="callout callout-style-simple callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example 4: balancing a chemical equation
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>When methane (natural gas, <span class="math inline">\(\mathrm{CH_4}\)</span>) burns in oxygen (<span class="math inline">\(\mathrm{O_2}\)</span>), it produces carbon dioxide (<span class="math inline">\(\mathrm{CO_2}\)</span>) and water (<span class="math inline">\(\mathrm{H_2O}\)</span>). Find whole numbers <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span>, <span class="math inline">\(d\)</span> to balance <span class="math display">\[
-a\,\mathrm{CH_4} + b\,\mathrm{O_2} \longrightarrow c\,\mathrm{CO_2} + d\,\mathrm{H_2O}.
-\]</span></p>
-<p><strong>Solution.</strong> A chemical reaction rearranges atoms but never creates or destroys them, so each element must appear equally often on both sides. Counting atoms of carbon, hydrogen and oxygen: <span class="math display">\[
-\begin{aligned}
-a &amp;= c \quad\text{(carbon)} \\
-4a &amp;= 2d \quad\text{(hydrogen)} \\
-2b &amp;= 2c + d \quad\text{(oxygen)}
-\end{aligned}
-\]</span> Moving everything to the left gives a homogeneous system of three equations in four unknowns: <span class="math display">\[
-\amat{rrrr|r}{1 &amp; 0 &amp; -1 &amp; 0 &amp; 0 \\ 4 &amp; 0 &amp; 0 &amp; -2 &amp; 0 \\ 0 &amp; 2 &amp; -2 &amp; -1 &amp; 0}.
-\]</span> It has fewer equations than unknowns, so it has infinitely many solutions. That makes sense: if a set of numbers balances the equation, so does twice that set. Choose <span class="math inline">\(a = 1\)</span>; then <span class="math inline">\(c = 1\)</span>, <span class="math inline">\(d = 2\)</span>, and <span class="math inline">\(2b = 2 + 2\)</span>, so <span class="math inline">\(b = 2\)</span>: <span class="math display">\[
-\mathrm{CH_4} + 2\,\mathrm{O_2} \longrightarrow \mathrm{CO_2} + 2\,\mathrm{H_2O}.
-\]</span></p>
-</div>
-</div>
-</section>
-<section id="more-equations-than-unknowns-or-fewer" class="level3">
-<h3 class="anchored" data-anchor-id="more-equations-than-unknowns-or-fewer">More equations than unknowns, or fewer</h3>
-<p>Systems do not have to be square.</p>
-<ul>
-<li><strong>More equations than unknowns</strong> (an <strong>overdetermined</strong> system), such as three lines in a plane: usually there is no solution, because three lines rarely pass through one point. This is the normal situation when fitting a model to measured data, and the fix is to look for the <em>best</em> approximate solution instead (<a href="../part-3/17-orthogonality-least-squares.html" class="quarto-xref"><span>Chapter 17</span></a>).</li>
-<li><strong>Fewer equations than unknowns</strong> (an <strong>underdetermined</strong> system), such as two planes in space: usually there are infinitely many solutions, because two planes that are not parallel meet in a whole line. There can still be none, if the planes are parallel.</li>
-</ul>
 </section>
 </section>
 <section id="in-code" class="level2" data-number="10.3">
@@ -1393,7 +1358,7 @@ a &amp;= c \quad\text{(carbon)} \\
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="865e85b9" class="cell" data-execution_count="2">
+<div id="c041e9c3" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">0.6</span>, <span class="fl">0.8</span>, <span class="fl">0.5</span>],</span>
@@ -1410,7 +1375,7 @@ a &amp;= c \quad\text{(carbon)} \\
 </div>
 </div>
 <p>When <span class="math inline">\(\det\M{A} = 0\)</span>, <code>np.linalg.solve</code> stops with an error rather than guess:</p>
-<div id="069f51c7" class="cell" data-execution_count="3">
+<div id="9ce68b78" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A2 <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>b2 <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -1421,8 +1386,8 @@ a &amp;= c \quad\text{(carbon)} \\
 <pre><code>Error: Singular matrix</code></pre>
 </div>
 </div>
-<p>To tell “no solution” from “infinitely many”, compare the <strong>rank</strong> of <span class="math inline">\(\M{A}\)</span> with the rank of the augmented matrix. The rank counts the genuinely independent equations (<a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a> explains it fully). If adding <span class="math inline">\(\vect{b}\)</span> increases the rank, <span class="math inline">\(\vect{b}\)</span> brings in an equation that contradicts the others, and there is no solution:</p>
-<div id="c614d11d" class="cell" data-execution_count="4">
+<p>To tell “no solution” from “infinitely many”, compare the rank of <span class="math inline">\(\M{A}\)</span> with the rank of the augmented matrix. The rank counts the genuinely independent equations (<a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a> explains it fully). If adding <span class="math inline">\(\vect{b}\)</span> increases the rank, <span class="math inline">\(\vect{b}\)</span> brings in an equation that contradicts the others, and there is no solution:</p>
+<div id="84e205d0" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Ab2 <span class="op">=</span> np.column_stack([A2, b2])          <span class="co"># the augmented matrix [A | b]</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.matrix_rank(A2), np.linalg.matrix_rank(Ab2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1450,7 +1415,7 @@ ans =
      0
      0</code></pre>
 <p>Here the residual happens to be exactly zero. On another computer it might be something like <code>1.0e-14</code>: tiny, which is all that matters. When <span class="math inline">\(\det\M{A} = 0\)</span>, MATLAB still returns an answer but warns that the matrix is singular, and the answer is meaningless (often <code>Inf</code> or <code>NaN</code>, “not a number”). Never ignore that warning.</p>
-<p>To tell “no solution” from “infinitely many”, compare the <strong>rank</strong> of <span class="math inline">\(\M{A}\)</span> with the rank of the augmented matrix. The rank counts the genuinely independent equations (<a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a> explains it fully). If adding <span class="math inline">\(\vect{b}\)</span> increases the rank, <span class="math inline">\(\vect{b}\)</span> brings in an equation that contradicts the others, and there is no solution:</p>
+<p>To tell “no solution” from “infinitely many”, compare the rank of <span class="math inline">\(\M{A}\)</span> with the rank of the augmented matrix. The rank counts the genuinely independent equations (<a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a> explains it fully). If adding <span class="math inline">\(\vect{b}\)</span> increases the rank, <span class="math inline">\(\vect{b}\)</span> brings in an equation that contradicts the others, and there is no solution:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">A2</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">1</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">1</span> <span class="op">-</span><span class="fl">1</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">2</span> <span class="fl">0</span> <span class="fl">2</span>]<span class="op">;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="va">b2</span> <span class="op">=</span> [<span class="fl">3</span><span class="op">;</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">5</span>]<span class="op">;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>[<span class="va">rank</span>(<span class="va">A2</span>)<span class="op">,</span> <span class="va">rank</span>([<span class="va">A2</span> <span class="va">b2</span>])]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1465,7 +1430,7 @@ ans =
 <section id="check-your-understanding" class="level2" data-number="10.4">
 <h2 data-number="10.4" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">10.4</span> Check your understanding</h2>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1474,9 +1439,25 @@ ans =
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>It has infinitely many solutions: every point on the line through <span class="math inline">\((1, 2)\)</span> and <span class="math inline">\((3, 0)\)</span>, which is <span class="math inline">\(x + y = 3\)</span>, is a solution.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Can a homogeneous system be inconsistent?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>No.&nbsp;<span class="math inline">\(\vect{x} = \zerovec\)</span> always solves <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>.</p>
 </div>
 </div>
 </div>
@@ -1486,27 +1467,11 @@ ans =
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Can a homogeneous system be inconsistent?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>No.&nbsp;<span class="math inline">\(\vect{x} = \zerovec\)</span> always solves <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
 <span class="screen-reader-only">Tip</span>In the column picture, why does <span class="math inline">\(\det\M{A} = 0\)</span> for a <span class="math inline">\(2 \times 2\)</span> matrix mean that most right-hand sides can’t be reached?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><span class="math inline">\(\det\M{A} = 0\)</span> means the two columns lie along the same line through the origin, so every combination of them lies on that line too. Only vectors <span class="math inline">\(\vect{b}\)</span> on that line can be made.</p>
 </div>
@@ -1553,12 +1518,10 @@ x_1 + x_2 + x_3 &amp;= 0 \\
 <li>Show that if <span class="math inline">\(\M{A}\vect{p} = \vect{b}\)</span> and <span class="math inline">\(\M{A}\vect{q} = \vect{b}\)</span>, then <span class="math inline">\(\vect{q} - \vect{p}\)</span> solves <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>. Explain why (b) and (c) together prove <a href="#eq-general-solution" class="quarto-xref">Equation&nbsp;<span>10.1</span></a>. (<em>Hint</em>: each part needs only <span class="math inline">\(\M{A}(\vect{u} + \vect{v}) = \M{A}\vect{u} + \M{A}\vect{v}\)</span> and <span class="math inline">\(\M{A}(c\vect{u}) = c\M{A}\vect{u}\)</span>.)</li>
 </ol>
 <p><a href="../appendices/solutions-2.html#solution-linear-systems-5" class="sol-link">Solution to exercise 5</a></p></li>
-<li><p><span id="exercise-linear-systems-6"></span>Propane (<span class="math inline">\(\mathrm{C_3H_8}\)</span>), the gas in camping stoves, burns to give carbon dioxide and water. Balance <span class="math inline">\(a\,\mathrm{C_3H_8} + b\,\mathrm{O_2} \to c\,\mathrm{CO_2} + d\,\mathrm{H_2O}\)</span> with the smallest whole numbers.</p>
+<li><p><span id="exercise-linear-systems-6"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Describe in words, or with a sketch, how three planes can be arranged so that the system has (a) exactly one solution, (b) infinitely many solutions forming a line, (c) infinitely many solutions forming a plane, (d) no solution, in as many different ways as you can.</p>
 <p><a href="../appendices/solutions-2.html#solution-linear-systems-6" class="sol-link">Solution to exercise 6</a></p></li>
-<li><p><span id="exercise-linear-systems-7"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Describe in words, or with a sketch, how three planes can be arranged so that the system has (a) exactly one solution, (b) infinitely many solutions forming a line, (c) infinitely many solutions forming a plane, (d) no solution, in as many different ways as you can.</p>
+<li><p><span id="exercise-linear-systems-7"></span><strong>Code.</strong> In Example 1, find the mixture for a new alloy of 100 kg containing 65 kg of copper, 20 kg of zinc and 15 kg of tin. Then try 55 kg of copper, 30 kg of zinc and 15 kg of tin. What goes wrong, and what does it mean for the workshop?</p>
 <p><a href="../appendices/solutions-2.html#solution-linear-systems-7" class="sol-link">Solution to exercise 7</a></p></li>
-<li><p><span id="exercise-linear-systems-8"></span><strong>Code.</strong> In Example 1, find the mixture for a new alloy of 100 kg containing 65 kg of copper, 20 kg of zinc and 15 kg of tin. Then try 55 kg of copper, 30 kg of zinc and 15 kg of tin. What goes wrong, and what does it mean for the workshop?</p>
-<p><a href="../appendices/solutions-2.html#solution-linear-systems-8" class="sol-link">Solution to exercise 8</a></p></li>
 </ol>
 <p>Solutions are in <a href="../appendices/solutions-2.html#sec-solutions-linear-systems" class="quarto-xref"><span>Section F.1</span></a>.</p>
 </section>
@@ -1568,16 +1531,16 @@ x_1 + x_2 + x_3 &amp;= 0 \\
 <li><strong>Mass balances</strong>: chemical engineers track each substance through a plant, with one equation per substance per unit: what goes in equals what comes out, plus what is made, minus what is used. A large plant gives thousands of equations.</li>
 <li><strong>Electrical circuits</strong>: Kirchhoff’s laws, that the currents into any junction add up to zero and the voltages around any closed loop add up to zero, give one linear equation per junction or loop. Circuit simulators solve them for every component (<a href="../part-6/32-circuits.html" class="quarto-xref"><span>Chapter 32</span></a>).</li>
 <li><strong>Structures</strong>: in a bridge or roof truss, the forces at every joint must balance, giving one equation per joint and direction (<a href="../part-6/31-trusses.html" class="quarto-xref"><span>Chapter 31</span></a>).</li>
-<li><strong>Balancing chemical equations</strong>, as in Example 4, and finding which reactions are possible in a network of them.</li>
+<li><strong>Balancing chemical equations</strong> (<a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a>), and finding which reactions are possible in a network of them.</li>
 <li><strong>Data fitting</strong>: fitting a straight line to many measured points gives far more equations than unknowns, solved in the least-squares sense (<a href="../part-3/17-orthogonality-least-squares.html" class="quarto-xref"><span>Chapter 17</span></a>).</li>
 </ul>
 </section>
 <section id="going-further" class="level2" data-number="10.8">
 <h2 data-number="10.8" class="anchored" data-anchor-id="going-further"><span class="header-section-number">10.8</span> Going further</h2>
 <ul>
-<li>A system is called <strong>ill-conditioned</strong> when its lines or planes are <em>nearly</em> parallel. Then the crossing point moves a long way when the numbers change a little, and small measurement or rounding errors can ruin the answer. <a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a> shows how to measure this.</li>
+<li>A system is called ill-conditioned when its lines or planes are <em>nearly</em> parallel. Then the crossing point moves a long way when the numbers change a little, and small measurement or rounding errors can ruin the answer. <a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a> shows how to measure this.</li>
 <li>The idea that solutions are “a particular solution plus anything that solves the homogeneous system” reappears for differential equations, where it is called the complementary function plus particular integral (<a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>).</li>
-<li>The set of right-hand sides <span class="math inline">\(\vect{b}\)</span> that can be reached, and the set of solutions of <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>, are called the <strong>column space</strong> and the <strong>null space</strong> of <span class="math inline">\(\M{A}\)</span>. They are the subject of <a href="../part-3/16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a>.</li>
+<li>The set of right-hand sides <span class="math inline">\(\vect{b}\)</span> that can be reached, and the set of solutions of <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span>, are called the column space and the null space of <span class="math inline">\(\M{A}\)</span>. They are the subject of <a href="../part-3/16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a>.</li>
 </ul>
 
 

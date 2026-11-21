@@ -1155,7 +1155,7 @@ Figure&nbsp;38.1: The dumbbell of Example 1, spinning about the <span class="mat
 \M{\Omega} = \mat{0 &amp; -\omega_z &amp; \omega_y \\ \omega_z &amp; 0 &amp; -\omega_x \\ -\omega_y &amp; \omega_x &amp; 0},
 \qquad
 \M{\Omega}\vect{r} = \vect{\omega} \times \vect{r}.
-\]</span> So the angular velocity vector is hidden in the three independent entries of a skew-symmetric matrix, and <span class="math inline">\(\dot{\M{R}} = \M{\Omega}\M{R}\)</span>. For a constant <span class="math inline">\(\vect{\omega}\)</span>, this is a linear differential equation with solution <span class="math inline">\(\M{R}(t) = e^{\M{\Omega}t}\M{R}(0)\)</span> (<a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>): <strong>the exponential of a skew-symmetric matrix is a rotation</strong>. Gyroscopes in phones and aircraft measure <span class="math inline">\(\vect{\omega}\)</span>, and navigation software integrates this equation to track orientation.</p>
+\]</span> So the angular velocity vector is hidden in the three independent entries of a skew-symmetric matrix, and <span class="math inline">\(\dot{\M{R}} = \M{\Omega}\M{R}\)</span>. For a constant <span class="math inline">\(\vect{\omega}\)</span>, this is a linear differential equation with solution <span class="math inline">\(\M{R}(t) = e^{\M{\Omega}t}\M{R}(0)\)</span> (<a href="../part-4/23-linear-odes.html" class="quarto-xref"><span>Chapter 23</span></a>): <em>the exponential of a skew-symmetric matrix is a rotation</em>. Gyroscopes in phones and aircraft measure <span class="math inline">\(\vect{\omega}\)</span>, and navigation software integrates this equation to track orientation.</p>
 <div id="ex-physics-2" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1267,7 +1267,7 @@ Figure&nbsp;38.2: Rabi oscillation: the probability of finding the spin up along
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="16c6e626" class="cell" data-execution_count="2">
+<div id="3cdb4f80" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>

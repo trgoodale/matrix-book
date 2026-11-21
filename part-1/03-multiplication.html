@@ -1171,7 +1171,7 @@ window.Quarto = {
 <p>The calculation in the bakery example is the <strong>dot product</strong> from the <a href="../front/refresher.html">Refresher</a>: multiply matching entries and add. Here it pairs a row of one matrix with a column of the other: <span class="math display">\[
 \mat{1 &amp; 2 &amp; 3}\mat{7 \\ 9 \\ 11} = 1 \times 7 + 2 \times 9 + 3 \times 11 = 58.
 \]</span></p>
-<p>Matrix multiplication is a table of these row-times-column dot products. If <span class="math inline">\(\M{A}\)</span> is <span class="math inline">\(m \times n\)</span> and <span class="math inline">\(\M{B}\)</span> is <span class="math inline">\(n \times p\)</span>, then <span class="math inline">\(\M{C} = \M{A}\M{B}\)</span> is the <span class="math inline">\(m \times p\)</span> matrix whose <span class="math inline">\((i, j)\)</span> entry is <strong>row <span class="math inline">\(i\)</span> of <span class="math inline">\(\M{A}\)</span> dotted with column <span class="math inline">\(j\)</span> of <span class="math inline">\(\M{B}\)</span></strong>:</p>
+<p>Matrix multiplication is a table of these row-times-column dot products. If <span class="math inline">\(\M{A}\)</span> is <span class="math inline">\(m \times n\)</span> and <span class="math inline">\(\M{B}\)</span> is <span class="math inline">\(n \times p\)</span>, then <span class="math inline">\(\M{C} = \M{A}\M{B}\)</span> is the <span class="math inline">\(m \times p\)</span> matrix whose <span class="math inline">\((i, j)\)</span> entry is <em>row <span class="math inline">\(i\)</span> of <span class="math inline">\(\M{A}\)</span> dotted with column <span class="math inline">\(j\)</span> of <span class="math inline">\(\M{B}\)</span></em>:</p>
 <p><span id="eq-matmul"><span class="math display">\[
 c_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \dots + a_{in}b_{nj} = \sum_{k=1}^{n} a_{ik} b_{kj}.
 \tag{3.1}\]</span></span></p>
@@ -1184,7 +1184,7 @@ c_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \dots + a_{in}b_{nj} = \sum_{k=1}^{n} a_{
 </section>
 <section id="when-is-a-product-defined" class="level3">
 <h3 class="anchored" data-anchor-id="when-is-a-product-defined">When is a product defined?</h3>
-<p>Each row of <span class="math inline">\(\M{A}\)</span> must pair up with each column of <span class="math inline">\(\M{B}\)</span>, so a row of <span class="math inline">\(\M{A}\)</span> must be as long as a column of <span class="math inline">\(\M{B}\)</span>. In terms of sizes, <strong>the inner numbers must match</strong>, and the outer numbers give the size of the answer:</p>
+<p>Each row of <span class="math inline">\(\M{A}\)</span> must pair up with each column of <span class="math inline">\(\M{B}\)</span>, so a row of <span class="math inline">\(\M{A}\)</span> must be as long as a column of <span class="math inline">\(\M{B}\)</span>. In terms of sizes, <em>the inner numbers must match</em>, and the outer numbers give the size of the answer:</p>
 <p><span class="math display">\[
 (m \times \underbrace{n) \; (n}_{\text{must match}} \times p) \;\longrightarrow\; m \times p.
 \]</span></p>
@@ -1236,7 +1236,17 @@ c_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \dots + a_{in}b_{nj} = \sum_{k=1}^{n} a_{
 <section id="what-works-and-what-doesnt" class="level3">
 <h3 class="anchored" data-anchor-id="what-works-and-what-doesnt">What works, and what doesn’t</h3>
 <p>Several familiar rules still hold, as long as the sizes fit. Brackets can be multiplied out, <span class="math inline">\(\M{A}(\M{B} + \M{C}) = \M{A}\M{B} + \M{A}\M{C}\)</span>; a scalar can be moved anywhere in a product; and in a product of three matrices it doesn’t matter which pair you multiply first, <span class="math inline">\((\M{A}\M{B})\M{C} = \M{A}(\M{B}\M{C})\)</span>. (The full list is in <a href="../appendices/reference.html" class="quarto-xref"><span>Appendix B</span></a>.)</p>
-<p>Three things that are true for numbers are <strong>not</strong> true for matrices, and these cause most mistakes.</p>
+<div class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Watch out: three rules that fail for matrices
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Three things that are true for numbers are not true for matrices, and these cause most mistakes.</p>
 <p><strong>Order matters.</strong> In general <span class="math inline">\(\M{A}\M{B} \neq \M{B}\M{A}\)</span>. Often only one of them is even defined. When both are, they can be different sizes, and even for square matrices they are usually different: <span class="math display">\[
 \mat{3 &amp; 1 \\ 2 &amp; 4}\mat{1 &amp; 2 \\ 0 &amp; 1} = \mat{3 &amp; 7 \\ 2 &amp; 8},
 \]</span> <span class="math display">\[
@@ -1246,6 +1256,8 @@ c_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \dots + a_{in}b_{nj} = \sum_{k=1}^{n} a_{
 \mat{1 &amp; 1 \\ 2 &amp; 2}\mat{1 &amp; -1 \\ -1 &amp; 1} = \mat{0 &amp; 0 \\ 0 &amp; 0}.
 \]</span> So you can’t conclude from <span class="math inline">\(\M{A}\M{B} = \M{0}\)</span> that <span class="math inline">\(\M{A} = \M{0}\)</span> or <span class="math inline">\(\M{B} = \M{0}\)</span>, and you can’t cancel: <span class="math inline">\(\M{A}\M{B} = \M{A}\M{C}\)</span> does not imply <span class="math inline">\(\M{B} = \M{C}\)</span>. (<a href="07-inverses.html" class="quarto-xref"><span>Chapter 7</span></a> shows when you <em>can</em> cancel.)</p>
 <p><strong>Expanding brackets keeps the order.</strong> Writing <span class="math inline">\(\M{A}^2\)</span> for <span class="math inline">\(\M{A}\M{A}\)</span>, <span class="math inline">\((\M{A} + \M{B})^2 = \M{A}^2 + \M{A}\M{B} + \M{B}\M{A} + \M{B}^2\)</span>, which is not <span class="math inline">\(\M{A}^2 + 2\M{A}\M{B} + \M{B}^2\)</span> unless <span class="math inline">\(\M{A}\M{B} = \M{B}\M{A}\)</span>.</p>
+</div>
+</div>
 </section>
 <section id="two-more-rules" class="level3">
 <h3 class="anchored" data-anchor-id="two-more-rules">Two more rules</h3>
@@ -1276,7 +1288,7 @@ c_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \dots + a_{in}b_{nj} = \sum_{k=1}^{n} a_{
 </section>
 <section id="in-code" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="in-code"><span class="header-section-number">3.3</span> In code</h2>
-<p>This is the most common bug in numerical code, so it is worth stating plainly. In both languages there are two different multiplications, and the one that looks natural is <strong>not</strong> the same in each.</p>
+<p>This is the most common bug in numerical code, so it is worth stating plainly. In both languages there are two different multiplications, and the one that looks natural is <em>not</em> the same in each.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1312,7 +1324,7 @@ c_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \dots + a_{in}b_{nj} = \sum_{k=1}^{n} a_{
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="415d4212" class="cell" data-execution_count="1">
+<div id="71792471" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]])</span>
@@ -1336,7 +1348,7 @@ c_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \dots + a_{in}b_{nj} = \sum_{k=1}^{n} a_{
 </div>
 </div>
 <p>The column view of <span class="math inline">\(\M{A}\vect{x}\)</span>, checked in code:</p>
-<div id="e48a9296" class="cell" data-execution_count="2">
+<div id="3f38135e" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">3</span>]])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">2</span>])</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(M <span class="op">@</span> x)</span>
@@ -1397,7 +1409,7 @@ ans =
 <section id="check-your-understanding" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">3.4</span> Check your understanding</h2>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1406,25 +1418,9 @@ ans =
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\(\M{A}\M{B}\)</span> is <span class="math inline">\(4 \times 5\)</span>. <span class="math inline">\(\M{B}\M{A}\)</span> would be <span class="math inline">\((2 \times 5)(4 \times 2)\)</span>; the inner sizes 5 and 4 differ, so it is not defined.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Without multiplying everything out, what is the <span class="math inline">\((2, 1)\)</span> entry of <span class="math inline">\(\mat{1 &amp; 0 &amp; 2 \\ 3 &amp; -1 &amp; 4}\mat{5 &amp; 1 \\ 2 &amp; 0 \\ 1 &amp; 6}\)</span>?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Row 2 of the first matrix dotted with column 1 of the second: <span class="math inline">\(3 \cdot 5 + (-1) \cdot 2 + 4 \cdot 1 = 17\)</span>.</p>
+<p><span class="math inline">\(\M{A}\M{B}\)</span> is <span class="math inline">\(4 \times 5\)</span>. <span class="math inline">\(\M{B}\M{A}\)</span> would be <span class="math inline">\((2 \times 5)(4 \times 2)\)</span>; the inner sizes 5 and 4 differ, so it is not defined.</p>
 </div>
 </div>
 </div>
@@ -1434,11 +1430,27 @@ ans =
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Is <span class="math inline">\((\M{A}\M{B})\T = \M{A}\T\M{B}\T\)</span>?
+<span class="screen-reader-only">Tip</span>Without multiplying everything out, what is the <span class="math inline">\((2, 1)\)</span> entry of <span class="math inline">\(\mat{1 &amp; 0 &amp; 2 \\ 3 &amp; -1 &amp; 4}\mat{5 &amp; 1 \\ 2 &amp; 0 \\ 1 &amp; 6}\)</span>?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Row 2 of the first matrix dotted with column 1 of the second: <span class="math inline">\(3 \cdot 5 + (-1) \cdot 2 + 4 \cdot 1 = 17\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Is <span class="math inline">\((\M{A}\M{B})\T = \M{A}\T\M{B}\T\)</span>?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Not in general. The correct rule reverses the order: <span class="math inline">\((\M{A}\M{B})\T = \M{B}\T\M{A}\T\)</span>. In fact <span class="math inline">\(\M{A}\T\M{B}\T\)</span> is often not even defined: try <span class="math inline">\(\M{A}\)</span> <span class="math inline">\(2 \times 3\)</span> and <span class="math inline">\(\M{B}\)</span> <span class="math inline">\(3 \times 4\)</span>.</p>
 </div>

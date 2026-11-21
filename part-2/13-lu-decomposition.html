@@ -1202,7 +1202,7 @@ y_3 &amp;= 24 - 4(4) - 3(2) = 2,
 \]</span> Every invertible matrix has a factorisation <span class="math display">\[
 \M{P}\M{A} = \M{L}\M{U}.
 \]</span> When a swap happens during elimination, the multipliers already stored in <span class="math inline">\(\M{L}\)</span> for the two rows swap with them, so that each multiplier stays with its row. The app shows this in <strong>Needs a swap</strong>.</p>
-<p>Software always swaps rows, even when no pivot is zero: at each step it brings up the row with the <strong>largest</strong> entry in the pivot column. This is called <strong>partial pivoting</strong>, and it keeps rounding errors under control (<a href="../part-5/25-pivoting.html" class="quarto-xref"><span>Chapter 25</span></a>). So the factors that software returns are usually not the ones you find by hand, but they are equally valid. To solve <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span>, apply the same reordering to <span class="math inline">\(\vect{b}\)</span>: solve <span class="math inline">\(\M{L}\vect{y} = \M{P}\vect{b}\)</span>, then <span class="math inline">\(\M{U}\vect{x} = \vect{y}\)</span>.</p>
+<p>Software always swaps rows, even when no pivot is zero: at each step it brings up the row with the <em>largest</em> entry in the pivot column. This is called <strong>partial pivoting</strong>, and it keeps rounding errors under control (<a href="../part-5/25-pivoting.html" class="quarto-xref"><span>Chapter 25</span></a>). So the factors that software returns are usually not the ones you find by hand, but they are equally valid. To solve <span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span>, apply the same reordering to <span class="math inline">\(\vect{b}\)</span>: solve <span class="math inline">\(\M{L}\vect{y} = \M{P}\vect{b}\)</span>, then <span class="math inline">\(\M{U}\vect{x} = \vect{y}\)</span>.</p>
 <div id="ex-lu-decomposition-2" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1248,7 +1248,7 @@ y_3 &amp;= 24 - 4(4) - 3(2) = 2,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="78cecaa1" class="cell" data-execution_count="1">
+<div id="78e51962" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.linalg <span class="im">as</span> sl</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1272,7 +1272,7 @@ True</code></pre>
 </div>
 </div>
 <p>Partial pivoting chose 8, the largest entry in column 1, as the first pivot, so these factors differ from the ones found by hand. For solving, use <code>lu_factor</code> once and <code>lu_solve</code> for each right-hand side:</p>
-<div id="3b7d6019" class="cell" data-execution_count="2">
+<div id="9e1e2b4e" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>factors <span class="op">=</span> sl.lu_factor(A)          <span class="co"># the expensive step, done once</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> b <span class="kw">in</span> ([<span class="dv">4</span>, <span class="dv">10</span>, <span class="dv">24</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]):</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(np.<span class="bu">round</span>(sl.lu_solve(factors, b), <span class="dv">10</span>) <span class="op">+</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1282,7 +1282,7 @@ True</code></pre>
 </div>
 </div>
 <p>The saving is real. Here 100 right-hand sides are solved for a <span class="math inline">\(1000 \times 1000\)</span> matrix, first by solving from scratch each time, then by factorising once:</p>
-<div id="cc3934f0" class="cell" data-execution_count="3">
+<div id="4e935f76" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">3</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>n, k <span class="op">=</span> <span class="dv">1000</span>, <span class="dv">100</span></span>
@@ -1299,7 +1299,7 @@ True</code></pre>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>t2 <span class="op">=</span> time.perf_counter()</span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"solve each time: </span><span class="sc">{</span>t1 <span class="op">-</span> t0<span class="sc">:.2f}</span><span class="ss"> s,  factorise once: </span><span class="sc">{</span>t2 <span class="op">-</span> t1<span class="sc">:.2f}</span><span class="ss"> s"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>solve each time: 57.60 s,  factorise once: 0.29 s</code></pre>
+<pre><code>solve each time: 48.20 s,  factorise once: 0.37 s</code></pre>
 </div>
 </div>
 </div>
@@ -1437,7 +1437,7 @@ x =
 <ul>
 <li>Software stores <span class="math inline">\(\M{L}\)</span> and <span class="math inline">\(\M{U}\)</span> together in one array, overwriting <span class="math inline">\(\M{A}\)</span>: the 1s on the diagonal of <span class="math inline">\(\M{L}\)</span> need no storage. This is what <code>scipy.linalg.lu_factor</code> returns.</li>
 <li>There are other ways to arrange the same computation. The <strong>Doolittle</strong> method computes <span class="math inline">\(\M{L}\)</span> and <span class="math inline">\(\M{U}\)</span> directly, entry by entry, from <span class="math inline">\(\M{A} = \M{L}\M{U}\)</span>; the <strong>Crout</strong> method puts the 1s on the diagonal of <span class="math inline">\(\M{U}\)</span> instead.</li>
-<li>For a symmetric matrix with positive pivots (a <strong>positive definite</strong> matrix), elimination can be arranged so that <span class="math inline">\(\M{U} = \M{L}\T\)</span>, giving the <strong>Cholesky factorisation</strong> <span class="math inline">\(\M{A} = \M{L}\M{L}\T\)</span> with half the work and half the storage (<a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>).</li>
+<li>For a symmetric matrix with positive pivots (a positive definite matrix), elimination can be arranged so that <span class="math inline">\(\M{U} = \M{L}\T\)</span>, giving the Cholesky factorisation <span class="math inline">\(\M{A} = \M{L}\M{L}\T\)</span> with half the work and half the storage (<a href="../part-4/20-symmetric-matrices.html" class="quarto-xref"><span>Chapter 20</span></a>).</li>
 <li>For large sparse matrices, those that are mostly zeros, the factors can fill in with many new non-zeros. Reordering the rows and columns cleverly keeps them sparse (<a href="../part-5/26-cost-sparse.html" class="quarto-xref"><span>Chapter 26</span></a>). Why row swaps are needed for accuracy, not just for zero pivots: <a href="../part-5/25-pivoting.html" class="quarto-xref"><span>Chapter 25</span></a>.</li>
 <li>Proof that elimination without swaps gives <span class="math inline">\(\M{A} = \M{L}\M{U}\)</span>, and that the factors are unique: <a href="../appendices/proofs.html#sec-proofs-lu-decomposition" class="quarto-xref"><span>Section C.7</span></a>.</li>
 </ul>

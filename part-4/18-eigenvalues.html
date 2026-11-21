@@ -1109,7 +1109,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>Builds on</strong> <a href="../part-1/06-determinants.html" class="quarto-xref"><span>Chapter 6</span></a>, <a href="../part-1/09-invariant-lines.html" class="quarto-xref"><span>Chapter 9</span></a>, <a href="../part-3/16-fundamental-subspaces.html" class="quarto-xref"><span>Chapter 16</span></a>.</p>
-<p><a href="../part-1/09-invariant-lines.html" class="quarto-xref"><span>Chapter 9</span></a> found the lines that a <span class="math inline">\(2 \times 2\)</span> matrix maps onto themselves, with a formula that only works in two dimensions. Along such a line the matrix just stretches: <span class="math inline">\(\M{A}\vect{v} = \lambda\vect{v}\)</span>. The vectors <span class="math inline">\(\vect{v}\)</span> are <strong>eigenvectors</strong> and the stretch factors <span class="math inline">\(\lambda\)</span> are <strong>eigenvalues</strong>. This chapter gives the method that works for a square matrix of any size.</p>
+<p><a href="../part-1/09-invariant-lines.html" class="quarto-xref"><span>Chapter 9</span></a> found the lines that a <span class="math inline">\(2 \times 2\)</span> matrix maps onto themselves, with a formula that only works in two dimensions. Along such a line the matrix just stretches: <span class="math inline">\(\M{A}\vect{v} = \lambda\vect{v}\)</span>. The vectors <span class="math inline">\(\vect{v}\)</span> are eigenvectors and the stretch factors <span class="math inline">\(\lambda\)</span> are eigenvalues. This chapter gives the method that works for a square matrix of any size.</p>
 <p>Eigenvalues are among the most useful numbers in applied mathematics. They give the natural frequencies of a vibrating structure, the growth rate of a population, the stability of a control system, the principal stresses in a loaded beam and the most important directions in a data set. The rest of Part IV is built on them.</p>
 <section id="build-intuition" class="level2" data-number="18.1">
 <h2 data-number="18.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">18.1</span> Build intuition</h2>
@@ -1146,7 +1146,20 @@ window.Quarto = {
 \det\mat{a - \lambda &amp; b \\ c &amp; d - \lambda} = \lambda^2 - (a + d)\lambda + (ad - bc).
 \]</span> The coefficient <span class="math inline">\(a + d\)</span> is the <strong>trace</strong> of <span class="math inline">\(\M{A}\)</span>, written <span class="math inline">\(\operatorname{tr}\M{A}\)</span>: the sum of its diagonal entries. So <span id="eq-char-2x2"><span class="math display">\[
 \lambda^2 - (\operatorname{tr}\M{A})\,\lambda + \det\M{A} = 0.
-\tag{18.2}\]</span></span> This gives a useful check in any size: <strong>the eigenvalues add up to the trace, and multiply to give the determinant</strong> (a proof is in <a href="../appendices/proofs.html#sec-proofs-eigenvalues" class="quarto-xref"><span>Section C.11</span></a>).</p>
+\tag{18.2}\]</span></span> This gives a useful check in any size: <em>the eigenvalues add up to the trace, and multiply to give the determinant</em> (a proof is in <a href="../appendices/proofs.html#sec-proofs-eigenvalues" class="quarto-xref"><span>Section C.11</span></a>).</p>
+<div class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Watch out: row reduction changes eigenvalues
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Find the eigenvalues from <span class="math inline">\(\M{A}\)</span> itself. Row operations change them: <span class="math inline">\(\mat{2 &amp; 0 \\ 0 &amp; 3}\)</span> has eigenvalues 2 and 3, but halving its first row gives <span class="math inline">\(\mat{1 &amp; 0 \\ 0 &amp; 3}\)</span>, with eigenvalues 1 and 3. Row reduce only <span class="math inline">\(\M{A} - \lambda\M{I}\)</span>, once you know <span class="math inline">\(\lambda\)</span>, to find the eigenvectors.</p>
+</div>
+</div>
 </section>
 <section id="finding-the-eigenvectors" class="level3">
 <h3 class="anchored" data-anchor-id="finding-the-eigenvectors">Finding the eigenvectors</h3>
@@ -1250,7 +1263,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="9f59ddd9" class="cell" data-execution_count="1">
+<div id="4a0307ae" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">4</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">3</span>]])</span>
@@ -1298,7 +1311,7 @@ ans =
 <section id="check-your-understanding" class="level2" data-number="18.4">
 <h2 data-number="18.4" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">18.4</span> Check your understanding</h2>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1307,25 +1320,9 @@ ans =
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Trace <span class="math inline">\(2 + 2 - 1 = 3\)</span>; determinant <span class="math inline">\(2 \times 2 \times (-1) = -4\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>If 0 is an eigenvalue of <span class="math inline">\(\M{A}\)</span>, what can you say about <span class="math inline">\(\M{A}\)</span>?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>It is singular: it has no inverse, and <span class="math inline">\(\det\M{A} = 0\)</span>.</p>
+<p>Trace <span class="math inline">\(2 + 2 - 1 = 3\)</span>; determinant <span class="math inline">\(2 \times 2 \times (-1) = -4\)</span>.</p>
 </div>
 </div>
 </div>
@@ -1335,11 +1332,27 @@ ans =
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Can a real <span class="math inline">\(3 \times 3\)</span> matrix have no real eigenvalues?
+<span class="screen-reader-only">Tip</span>If 0 is an eigenvalue of <span class="math inline">\(\M{A}\)</span>, what can you say about <span class="math inline">\(\M{A}\)</span>?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>It is singular: it has no inverse, and <span class="math inline">\(\det\M{A} = 0\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Can a real <span class="math inline">\(3 \times 3\)</span> matrix have no real eigenvalues?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>No.&nbsp;Complex eigenvalues come in conjugate pairs, so with three eigenvalues at least one must be real. (Geometrically: every rotation of space has an axis.)</p>
 </div>
@@ -1372,7 +1385,7 @@ ans =
 <p><a href="../appendices/solutions-4.html#solution-eigenvalues-5" class="sol-link">Solution to exercise 5</a></p></li>
 <li><p><span id="exercise-eigenvalues-6"></span><span class="harder" aria-hidden="true" title="Harder">†</span><span class="visually-hidden">Harder exercise.</span> Show that <span class="math inline">\(\mat{a &amp; b \\ c &amp; d}\)</span> has real eigenvalues whenever <span class="math inline">\(b\)</span> and <span class="math inline">\(c\)</span> have the same sign. (<em>Hint</em>: look at the discriminant of <a href="#eq-char-2x2" class="quarto-xref">Equation&nbsp;<span>18.2</span></a>.)</p>
 <p><a href="../appendices/solutions-4.html#solution-eigenvalues-6" class="sol-link">Solution to exercise 6</a></p></li>
-<li><p><span id="exercise-eigenvalues-7"></span><strong>Code.</strong> Three equal masses are joined in a line by four equal springs, with the outer springs fixed to walls. Their vibrations are governed by the matrix <span class="math inline">\(\M{K} = \mat{2 &amp; -1 &amp; 0 \\ -1 &amp; 2 &amp; -1 \\ 0 &amp; -1 &amp; 2}\)</span>: the natural frequencies are proportional to the square roots of its eigenvalues, and the eigenvectors are the <strong>mode shapes</strong>, the patterns in which the masses move together. Find the eigenvalues and eigenvectors, and describe each mode shape in words.</p>
+<li><p><span id="exercise-eigenvalues-7"></span><strong>Code.</strong> Three equal masses are joined in a line by four equal springs, with the outer springs fixed to walls. Their vibrations are governed by the matrix <span class="math inline">\(\M{K} = \mat{2 &amp; -1 &amp; 0 \\ -1 &amp; 2 &amp; -1 \\ 0 &amp; -1 &amp; 2}\)</span>: the natural frequencies are proportional to the square roots of its eigenvalues, and the eigenvectors are the mode shapes, the patterns in which the masses move together. Find the eigenvalues and eigenvectors, and describe each mode shape in words.</p>
 <p><a href="../appendices/solutions-4.html#solution-eigenvalues-7" class="sol-link">Solution to exercise 7</a></p></li>
 </ol>
 <p>Solutions are in <a href="../appendices/solutions-4.html#sec-solutions-eigenvalues" class="quarto-xref"><span>Section H.1</span></a>.</p>

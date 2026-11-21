@@ -1108,7 +1108,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>Builds on</strong> <a href="03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a>, <a href="04-transformations.html" class="quarto-xref"><span>Chapter 4</span></a>.</p>
-<p><a href="03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a> defined matrix multiplication by the row-times-column rule and promised a reason for it. Here is the reason: <strong>multiplying matrices is doing one transformation after another</strong>. The strange-looking rule is exactly what makes this work.</p>
+<p><a href="03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a> defined matrix multiplication by the row-times-column rule and promised a reason for it. Here is the reason: <em>multiplying matrices is doing one transformation after another</em>. The strange-looking rule is exactly what makes this work.</p>
 <section id="build-intuition" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">5.1</span> Build intuition</h2>
 <p>Take a quarter turn anticlockwise, <span class="math inline">\(\M{R} = \mat{0 &amp; -1 \\ 1 &amp; 0}\)</span>, and the reflection in the <span class="math inline">\(x\)</span>-axis, <span class="math inline">\(\M{X} = \mat{1 &amp; 0 \\ 0 &amp; -1}\)</span>. The app below applies them to a letter F in both orders: on the left the rotation first, on the right the reflection first. The dotted outline shows the F after the first step.</p>
@@ -1143,7 +1143,7 @@ window.Quarto = {
 <p>“Apply <span class="math inline">\(\M{B}\)</span>, then <span class="math inline">\(\M{A}\)</span>” is the single transformation with matrix <span class="math inline">\(\M{A}\M{B}\)</span>.</p>
 </div>
 </div>
-<p>Notice the order: the transformation done <strong>first is written on the right</strong>, nearest to <span class="math inline">\(\vect{x}\)</span>. This matches function notation, where <span class="math inline">\(f(g(x))\)</span> means “do <span class="math inline">\(g\)</span>, then <span class="math inline">\(f\)</span>”. A sequence <span class="math inline">\(\M{A}_1\)</span>, then <span class="math inline">\(\M{A}_2\)</span>, then <span class="math inline">\(\M{A}_3\)</span> has matrix <span class="math inline">\(\M{A}_3\M{A}_2\M{A}_1\)</span>.</p>
+<p>Notice the order: the transformation done <em>first is written on the right</em>, nearest to <span class="math inline">\(\vect{x}\)</span>. This matches function notation, where <span class="math inline">\(f(g(x))\)</span> means “do <span class="math inline">\(g\)</span>, then <span class="math inline">\(f\)</span>”. A sequence <span class="math inline">\(\M{A}_1\)</span>, then <span class="math inline">\(\M{A}_2\)</span>, then <span class="math inline">\(\M{A}_3\)</span> has matrix <span class="math inline">\(\M{A}_3\M{A}_2\M{A}_1\)</span>.</p>
 <p>You can also see why the row-times-column rule had to be the definition. Column 1 of the combined matrix must be where <span class="math inline">\(\ui\)</span> ends up (<a href="04-transformations.html" class="quarto-xref"><span>Chapter 4</span></a>). First <span class="math inline">\(\M{B}\)</span> sends <span class="math inline">\(\ui\)</span> to column 1 of <span class="math inline">\(\M{B}\)</span>; then <span class="math inline">\(\M{A}\)</span> sends that to <span class="math inline">\(\M{A}\)</span> times column 1 of <span class="math inline">\(\M{B}\)</span>. That is exactly column 1 of <span class="math inline">\(\M{A}\M{B}\)</span>, by the column view of multiplication (<a href="03-multiplication.html" class="quarto-xref"><span>Chapter 3</span></a>). The same goes for <span class="math inline">\(\uj\)</span> and column 2.</p>
 <div id="ex-composition-1" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1255,7 +1255,7 @@ Figure&nbsp;5.1: Reflecting in the first mirror and then in the second has the s
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="db00abf4" class="cell" data-execution_count="1">
+<div id="2bcec12b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> R(theta_deg):</span>
@@ -1418,7 +1418,7 @@ ans =
 <h2 data-number="5.8" class="anchored" data-anchor-id="going-further"><span class="header-section-number">5.8</span> Going further</h2>
 <ul>
 <li>Matrices of the form <span class="math inline">\(\mat{a &amp; -b \\ b &amp; a}\)</span> multiply exactly like the complex numbers <span class="math inline">\(a + bi\)</span>. Multiplying by a complex number rotates and enlarges, which is why complex numbers are so useful for waves and alternating current.</li>
-<li><em>Every</em> <span class="math inline">\(2 \times 2\)</span> matrix can be written as a rotation (or reflection), then a stretch along the axes, then another rotation (or reflection). This is the <strong>singular value decomposition</strong> of <a href="../part-4/21-svd-pca.html" class="quarto-xref"><span>Chapter 21</span></a>, one of the most useful results in applied mathematics.</li>
+<li><em>Every</em> <span class="math inline">\(2 \times 2\)</span> matrix can be written as a rotation (or reflection), then a stretch along the axes, then another rotation (or reflection). This is the singular value decomposition of <a href="../part-4/21-svd-pca.html" class="quarto-xref"><span>Chapter 21</span></a>, one of the most useful results in applied mathematics.</li>
 <li>Rotations about the origin form what mathematicians call a <strong>group</strong>: combining two rotations gives a rotation, every rotation can be undone by another, and doing nothing counts as a rotation. Groups of transformations describe the symmetries of crystals, molecules and the laws of physics.</li>
 </ul>
 

@@ -1218,7 +1218,7 @@ Figure&nbsp;33.1: The grid on the rod for <span class="math inline">\(n = 3\)</s
 \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0.
 \]</span> On a square grid of spacing <span class="math inline">\(h\)</span>, with <span class="math inline">\(u_{i,j}\)</span> at the point in row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span>, the central difference in each direction gives the <strong>five-point stencil</strong> (<a href="#fig-five-point-stencil" class="quarto-xref">Figure&nbsp;<span>33.2</span></a>) <span class="math display">\[
 4u_{i,j} - u_{i-1,j} - u_{i+1,j} - u_{i,j-1} - u_{i,j+1} = 0:
-\]</span> in the steady state, <strong>each temperature is the average of its four neighbours</strong>. Neighbours on the edge are known and move to the right-hand side.</p>
+\]</span> in the steady state, <em>each temperature is the average of its four neighbours</em>. Neighbours on the edge are known and move to the right-hand side.</p>
 <div id="fig-five-point-stencil" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A square grid. The centre point, u i j, is a filled blue circle containing 4. Its four neighbours, each a blue circle containing minus 1, are u i minus 1 j above, u i plus 1 j below, u i j minus 1 to the left and u i j plus 1 to the right. The grid spacing is h.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-five-point-stencil-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1299,7 +1299,7 @@ Figure&nbsp;33.3: The plate of Example 3. The edge values (squares) are known; b
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="1b7e7ad0" class="cell" data-execution_count="1">
+<div id="75a2f5ec" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.sparse <span class="im">as</span> sp</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse.linalg <span class="im">import</span> spsolve, cg</span>

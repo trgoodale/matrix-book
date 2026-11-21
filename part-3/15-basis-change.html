@@ -1130,13 +1130,13 @@ window.Quarto = {
 <p>A <strong>basis</strong> for a subspace (<a href="14-span-independence.html" class="quarto-xref"><span>Chapter 14</span></a>) is a set of vectors that</p>
 <ol type="1">
 <li><strong>spans</strong> the subspace, so every vector in it can be made from them, and</li>
-<li>is <strong>linearly independent</strong>, so none of them is wasted.</li>
+<li>is linearly independent, so none of them is wasted.</li>
 </ol>
-<p>Together these say that every vector in the subspace can be written as a combination of the basis vectors in <strong>exactly one way</strong> (<a href="14-span-independence.html" class="quarto-xref"><span>Chapter 14</span></a>). The <strong>standard basis</strong> of <span class="math inline">\(\R^n\)</span> is <span class="math inline">\(\ue{1}, \dots, \ue{n}\)</span>, the columns of the identity matrix; in <span class="math inline">\(\R^2\)</span> and <span class="math inline">\(\R^3\)</span> these are <span class="math inline">\(\ui\)</span>, <span class="math inline">\(\uj\)</span> and <span class="math inline">\(\uk\)</span>. But there are infinitely many other bases. Any two vectors in <span class="math inline">\(\R^2\)</span> that don’t lie along the same line form a basis for <span class="math inline">\(\R^2\)</span>.</p>
+<p>Together these say that every vector in the subspace can be written as a combination of the basis vectors in <em>exactly one way</em> (<a href="14-span-independence.html" class="quarto-xref"><span>Chapter 14</span></a>). The <strong>standard basis</strong> of <span class="math inline">\(\R^n\)</span> is <span class="math inline">\(\ue{1}, \dots, \ue{n}\)</span>, the columns of the identity matrix; in <span class="math inline">\(\R^2\)</span> and <span class="math inline">\(\R^3\)</span> these are <span class="math inline">\(\ui\)</span>, <span class="math inline">\(\uj\)</span> and <span class="math inline">\(\uk\)</span>. But there are infinitely many other bases. Any two vectors in <span class="math inline">\(\R^2\)</span> that don’t lie along the same line form a basis for <span class="math inline">\(\R^2\)</span>.</p>
 </section>
 <section id="dimension" class="level3">
 <h3 class="anchored" data-anchor-id="dimension">Dimension</h3>
-<p>A subspace has many different bases, but they all have <strong>the same number of vectors</strong> (a proof is in <a href="../appendices/proofs.html#sec-proofs-basis-change" class="quarto-xref"><span>Section C.8</span></a>). That number is the <strong>dimension</strong> of the subspace:</p>
+<p>A subspace has many different bases, but they all have <em>the same number of vectors</em> (a proof is in <a href="../appendices/proofs.html#sec-proofs-basis-change" class="quarto-xref"><span>Section C.8</span></a>). That number is the <strong>dimension</strong> of the subspace:</p>
 <ul>
 <li>a line through the origin has dimension 1;</li>
 <li>a plane through the origin has dimension 2;</li>
@@ -1271,7 +1271,7 @@ Figure&nbsp;15.1: The convenient basis for the reflection in <span class="math i
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="8d32bea4" class="cell" data-execution_count="1">
+<div id="e3558b68" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>P <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>]])            <span class="co"># basis vectors as columns</span></span>

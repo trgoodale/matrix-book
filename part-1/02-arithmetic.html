@@ -1149,7 +1149,7 @@ window.Quarto = {
 <h2 data-number="2.2" class="anchored" data-anchor-id="the-ideas"><span class="header-section-number">2.2</span> The ideas</h2>
 <section id="adding-and-subtracting" class="level3">
 <h3 class="anchored" data-anchor-id="adding-and-subtracting">Adding and subtracting</h3>
-<p>Two matrices <strong>of the same size</strong> are added by adding the entries in matching positions:</p>
+<p>Two matrices <em>of the same size</em> are added by adding the entries in matching positions:</p>
 <p><span class="math display">\[
 \mat{1 &amp; 4 \\ -2 &amp; 0 \\ 3 &amp; 5} + \mat{2 &amp; -1 \\ 6 &amp; 3 \\ 0 &amp; -4} = \mat{3 &amp; 3 \\ 4 &amp; 3 \\ 3 &amp; 1}.
 \]</span></p>
@@ -1312,7 +1312,7 @@ s\mat{2 \\ 1} + t\mat{-1 \\ 1} = \mat{1 \\ 5}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="b41f589b" class="cell" data-execution_count="1">
+<div id="52dadf3d" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> np.array([<span class="fl">0.2</span>, <span class="fl">0.15</span>, <span class="fl">0.15</span>])     <span class="co"># cake recipe: flour, sugar, butter (kg)</span></span>
@@ -1357,11 +1357,11 @@ X =
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>A trap: adding things of different sizes
+<span class="screen-reader-only">Warning</span>Watch out: adding things of different sizes
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In mathematics, adding matrices of different sizes is not allowed. <strong>NumPy and MATLAB sometimes do it anyway.</strong> If you add a column of 3 numbers to a row of 3 numbers, both stretch the smaller pieces to fit and give a <span class="math inline">\(3 \times 3\)</span> result (this is called <em>broadcasting</em> in NumPy and <em>implicit expansion</em> in MATLAB). It is useful on purpose, for example to subtract the average of each column from a table, but it can hide mistakes. If a result comes out an unexpected size, check the sizes of what you added.</p>
+<p>In mathematics, adding matrices of different sizes is not allowed. NumPy and MATLAB sometimes do it anyway. If you add a column of 3 numbers to a row of 3 numbers, both stretch the smaller pieces to fit and give a <span class="math inline">\(3 \times 3\)</span> result (this is called <em>broadcasting</em> in NumPy and <em>implicit expansion</em> in MATLAB). It is useful on purpose, for example to subtract the average of each column from a table, but it can hide mistakes. If a result comes out an unexpected size, check the sizes of what you added.</p>
 </div>
 </div>
 </section>

@@ -1107,7 +1107,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>Builds on</strong> <a href="../part-1/02-arithmetic.html" class="quarto-xref"><span>Chapter 2</span></a>, <a href="../part-2/12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a>.</p>
-<p>The column picture of <a href="../part-2/10-linear-systems.html" class="quarto-xref"><span>Chapter 10</span></a> turned every system of equations into a question about vectors: can <span class="math inline">\(\vect{b}\)</span> be made by combining the columns of <span class="math inline">\(\M{A}\)</span>, and if so, in how many ways? Part III gives these questions names and develops the language for answering them. This chapter introduces the two central ideas. The <strong>span</strong> of some vectors is everything they can make. They are <strong>linearly independent</strong> if none of them is wasted: none can be made from the others.</p>
+<p>The column picture of <a href="../part-2/10-linear-systems.html" class="quarto-xref"><span>Chapter 10</span></a> turned every system of equations into a question about vectors: can <span class="math inline">\(\vect{b}\)</span> be made by combining the columns of <span class="math inline">\(\M{A}\)</span>, and if so, in how many ways? Part III gives these questions names and develops the language for answering them. This chapter introduces the two central ideas. The <strong>span</strong> of some vectors is everything they can make. They are linearly independent if none of them is wasted: none can be made from the others.</p>
 <p>From here on, it helps to name the spaces that vectors live in. <span class="math inline">\(\R^n\)</span> (said “R n”) stands for the set of all vectors with <span class="math inline">\(n\)</span> real-number entries. So <span class="math inline">\(\R^2\)</span> is the plane, <span class="math inline">\(\R^3\)</span> is ordinary space, and <span class="math inline">\(\R^n\)</span> for larger <span class="math inline">\(n\)</span> is the same idea with more entries, even though it can’t be drawn.</p>
 <section id="build-intuition" class="level2" data-number="14.1">
 <h2 data-number="14.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">14.1</span> Build intuition</h2>
@@ -1128,7 +1128,7 @@ window.Quarto = {
 <h2 data-number="14.2" class="anchored" data-anchor-id="the-ideas"><span class="header-section-number">14.2</span> The ideas</h2>
 <section id="span" class="level3">
 <h3 class="anchored" data-anchor-id="span">Span</h3>
-<p>A <strong>linear combination</strong> of vectors <span class="math inline">\(\vect{v}_1, \dots, \vect{v}_k\)</span> is any vector <span class="math display">\[
+<p>A linear combination of vectors <span class="math inline">\(\vect{v}_1, \dots, \vect{v}_k\)</span> is any vector <span class="math display">\[
 c_1\vect{v}_1 + c_2\vect{v}_2 + \dots + c_k\vect{v}_k
 \]</span> with numbers <span class="math inline">\(c_1, \dots, c_k\)</span>, as in <a href="../part-1/02-arithmetic.html" class="quarto-xref"><span>Chapter 2</span></a>. The <strong>span</strong> of the vectors, written <span class="math inline">\(\operatorname{span}\{\vect{v}_1, \dots, \vect{v}_k\}\)</span>, is the set of <em>all</em> their linear combinations: every point you can reach by scaling them and adding.</p>
 <p>In three dimensions the possibilities are:</p>
@@ -1261,7 +1261,7 @@ c_1\vect{v}_1 + \dots + c_k\vect{v}_k = \zerovec \quad\text{only when}\quad c_1 
 </section>
 <section id="why-independence-matters" class="level3">
 <h3 class="anchored" data-anchor-id="why-independence-matters">Why independence matters</h3>
-<p>If the vectors are independent, every vector in their span can be made from them in <strong>exactly one way</strong>. For if <span class="math display">\[
+<p>If the vectors are independent, every vector in their span can be made from them in <em>exactly one way</em>. For if <span class="math display">\[
 \vect{b} = c_1\vect{v}_1 + \dots + c_k\vect{v}_k = d_1\vect{v}_1 + \dots + d_k\vect{v}_k,
 \]</span> then subtracting gives <span class="math inline">\((c_1 - d_1)\vect{v}_1 + \dots + (c_k - d_k)\vect{v}_k = \zerovec\)</span>, and independence forces every <span class="math inline">\(c_i = d_i\)</span>. With dependent vectors, there are always infinitely many ways (the app shows this in <a href="../apps/span-explorer.html?preset=Parallel%3A a line" target="_blank" aria-label="Parallel: a line preset in the span explorer (opens in a new tab)"><strong>Parallel: a line</strong></a>). This is the idea behind coordinates, in <a href="15-basis-change.html" class="quarto-xref"><span>Chapter 15</span></a>.</p>
 </section>
@@ -1277,7 +1277,7 @@ c_1\vect{v}_1 + \dots + c_k\vect{v}_k = \zerovec \quad\text{only when}\quad c_1 
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="1bdea804" class="cell" data-execution_count="1">
+<div id="7b019047" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> null_space</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>

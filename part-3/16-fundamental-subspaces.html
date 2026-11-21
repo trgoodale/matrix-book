@@ -1114,7 +1114,7 @@ window.Quarto = {
 <h2 data-number="16.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">16.1</span> Build intuition</h2>
 <p>The span explorer is showing the three columns of <span class="math display">\[
 \M{A} = \mat{1 &amp; 0 &amp; 1 \\ 2 &amp; 1 &amp; 3 \\ 1 &amp; 2 &amp; 3}.
-\]</span> Their span is the <strong>column space</strong> of <span class="math inline">\(\M{A}\)</span>: all the vectors <span class="math inline">\(\M{A}\vect{x}\)</span> that the matrix can produce.</p>
+\]</span> Their span is the column space of <span class="math inline">\(\M{A}\)</span>: all the vectors <span class="math inline">\(\M{A}\vect{x}\)</span> that the matrix can produce.</p>
 <div class="app-embed">
 <iframe class="app-frame" src="../apps/span-explorer.html?embed=1&amp;v=1,2,1;0,1,2;1,3,3&amp;b=1,5,7" title="Span explorer: the column space of a matrix" loading="lazy">
 </iframe>
@@ -1144,7 +1144,7 @@ window.Quarto = {
 <p><span class="math inline">\(\M{A}\vect{x} = \vect{b}\)</span> has a solution exactly when <span class="math inline">\(\vect{b}\)</span> is in the column space of <span class="math inline">\(\M{A}\)</span>.</p>
 </div>
 </div>
-<p>A basis for <span class="math inline">\(C(\M{A})\)</span> is given by the <strong>pivot columns of <span class="math inline">\(\M{A}\)</span> itself</strong> (not of its echelon form), as in <a href="15-basis-change.html" class="quarto-xref"><span>Chapter 15</span></a>. So the dimension of the column space is the rank <span class="math inline">\(r\)</span>.</p>
+<p>A basis for <span class="math inline">\(C(\M{A})\)</span> is given by the <em>pivot columns of <span class="math inline">\(\M{A}\)</span> itself</em> (not of its echelon form), as in <a href="15-basis-change.html" class="quarto-xref"><span>Chapter 15</span></a>. So the dimension of the column space is the rank <span class="math inline">\(r\)</span>.</p>
 </section>
 <section id="the-null-space" class="level3">
 <h3 class="anchored" data-anchor-id="the-null-space">The null space</h3>
@@ -1177,7 +1177,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="the-row-space-and-the-left-null-space">The row space and the left null space</h3>
 <p>Applying the same ideas to <span class="math inline">\(\M{A}\T\)</span> gives two more subspaces.</p>
 <ul>
-<li>The <strong>row space</strong> <span class="math inline">\(C(\M{A}\T)\)</span> is the span of the rows of <span class="math inline">\(\M{A}\)</span>, a subspace of <span class="math inline">\(\R^n\)</span>. Row operations replace rows by combinations of rows, so they don’t change it, and the non-zero rows of the echelon form are a basis. So <strong>the row space also has dimension <span class="math inline">\(r\)</span></strong>: the number of independent rows equals the number of independent columns. This is not obvious at all, but it falls out of elimination.</li>
+<li>The <strong>row space</strong> <span class="math inline">\(C(\M{A}\T)\)</span> is the span of the rows of <span class="math inline">\(\M{A}\)</span>, a subspace of <span class="math inline">\(\R^n\)</span>. Row operations replace rows by combinations of rows, so they don’t change it, and the non-zero rows of the echelon form are a basis. So <em>the row space also has dimension <span class="math inline">\(r\)</span></em>: the number of independent rows equals the number of independent columns. This is not obvious at all, but it falls out of elimination.</li>
 <li>The <strong>left null space</strong> <span class="math inline">\(N(\M{A}\T)\)</span> is the set of solutions of <span class="math inline">\(\M{A}\T\vect{y} = \zerovec\)</span>, a subspace of <span class="math inline">\(\R^m\)</span>. Each such <span class="math inline">\(\vect{y}\)</span> is a combination of the rows of <span class="math inline">\(\M{A}\)</span> that adds up to zero, a dependence relation between the rows. By rank–nullity for <span class="math inline">\(\M{A}\T\)</span>, its dimension is <span class="math inline">\(m - r\)</span>.</li>
 </ul>
 <table class="caption-top table">
@@ -1256,7 +1256,7 @@ window.Quarto = {
 </section>
 <section id="right-angles-between-the-subspaces" class="level3">
 <h3 class="anchored" data-anchor-id="right-angles-between-the-subspaces">Right angles between the subspaces</h3>
-<p>Write out <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span> row by row. Each equation says that a row of <span class="math inline">\(\M{A}\)</span>, dotted with <span class="math inline">\(\vect{x}\)</span>, gives zero. So every vector in the null space is <strong>perpendicular</strong> to every row, and so to every combination of rows:</p>
+<p>Write out <span class="math inline">\(\M{A}\vect{x} = \zerovec\)</span> row by row. Each equation says that a row of <span class="math inline">\(\M{A}\)</span>, dotted with <span class="math inline">\(\vect{x}\)</span>, gives zero. So every vector in the null space is <em>perpendicular</em> to every row, and so to every combination of rows:</p>
 <div class="callout callout-style-simple callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1340,12 +1340,12 @@ Figure&nbsp;16.1: For the matrix with rows (1, 1, 2) and (1, 2, 3), the row spac
 </section>
 <section id="in-code" class="level2" data-number="16.3">
 <h2 data-number="16.3" class="anchored" data-anchor-id="in-code"><span class="header-section-number">16.3</span> In code</h2>
-<p>SciPy’s <code>null_space</code> and <code>orth</code>, and MATLAB’s <code>null</code> and <code>orth</code>, return bases for the null space and column space. They give <strong>orthonormal</strong> bases (perpendicular vectors of length 1, <a href="17-orthogonality-least-squares.html" class="quarto-xref"><span>Chapter 17</span></a>), computed from the singular value decomposition, so they look different from the bases found by hand. They span the same subspaces, which you can check by testing that <span class="math inline">\(\M{A}\)</span> times each null space vector is zero.</p>
+<p>SciPy’s <code>null_space</code> and <code>orth</code>, and MATLAB’s <code>null</code> and <code>orth</code>, return bases for the null space and column space. They give orthonormal bases (perpendicular vectors of length 1, <a href="17-orthogonality-least-squares.html" class="quarto-xref"><span>Chapter 17</span></a>), computed from the singular value decomposition, so they look different from the bases found by hand. They span the same subspaces, which you can check by testing that <span class="math inline">\(\M{A}\)</span> times each null space vector is zero.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="3928f3d1" class="cell" data-execution_count="2">
+<div id="c97d50bc" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> null_space, orth</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1489,7 +1489,7 @@ ans =
 <section id="in-practice" class="level2" data-number="16.7">
 <h2 data-number="16.7" class="anchored" data-anchor-id="in-practice"><span class="header-section-number">16.7</span> In practice</h2>
 <ul>
-<li><strong>Structures and mechanisms</strong>: the equilibrium equations of a pin-jointed frame relate the forces in its bars to the loads at its joints. A non-zero vector in the null space of the matrix that maps joint movements to bar stretches is a way the frame can move without stretching any bar: a <strong>mechanism</strong>, which an engineer must design out. A non-zero vector in the null space of the equilibrium matrix is a set of bar forces that balances with no load at all: a <strong>self-stress</strong>, as in a pre-tensioned cable net.</li>
+<li><strong>Structures and mechanisms</strong>: the equilibrium equations of a pin-jointed frame relate the forces in its bars to the loads at its joints. A non-zero vector in the null space of the matrix that maps joint movements to bar stretches is a way the frame can move without stretching any bar: a mechanism, which an engineer must design out. A non-zero vector in the null space of the equilibrium matrix is a set of bar forces that balances with no load at all: a self-stress, as in a pre-tensioned cable net.</li>
 <li><strong>Chemical reactions</strong>: the null space of a matrix of atom counts (as in <a href="../part-2/10-linear-systems.html" class="quarto-xref"><span>Chapter 10</span></a>, Example 4) gives the balanced reactions. For a network of reactions, the left null space gives the quantities that are conserved, such as the total number of atoms of each element.</li>
 <li><strong>Networks and circuits</strong>: for the matrix that records which nodes each link of a network joins, the null space describes flows around closed loops, and the left null space reflects the network’s connected pieces (<a href="../part-6/32-circuits.html" class="quarto-xref"><span>Chapter 32</span></a>).</li>
 <li><strong>Data</strong>: when the columns of a data matrix are dependent, the null space describes exactly which combinations of the measured variables carry no information.</li>

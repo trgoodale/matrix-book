@@ -1258,7 +1258,7 @@ r = \sqrt{x^2 + y^2}.
 \]</span></p>
 <p>The dot product measures how much two vectors point the same way. If <span class="math inline">\(\theta\)</span> is the angle between them, <span class="math display">\[
 \vect{a} \cdot \vect{b} = \lVert \vect{a} \rVert \, \lVert \vect{b} \rVert \cos\theta.
-\]</span> Geometrically, <span class="math inline">\(\lVert \vect{b} \rVert \cos\theta\)</span> is how far <span class="math inline">\(\vect{b}\)</span> reaches along the direction of <span class="math inline">\(\vect{a}\)</span>: the length of its shadow on the line of <span class="math inline">\(\vect{a}\)</span>. So the dot product is positive when the angle is less than <span class="math inline">\(90°\)</span>, negative when it is more, and <strong>zero exactly when the vectors are at right angles</strong> (perpendicular).</p>
+\]</span> Geometrically, <span class="math inline">\(\lVert \vect{b} \rVert \cos\theta\)</span> is how far <span class="math inline">\(\vect{b}\)</span> reaches along the direction of <span class="math inline">\(\vect{a}\)</span>: the length of its shadow on the line of <span class="math inline">\(\vect{a}\)</span>. So the dot product is positive when the angle is less than <span class="math inline">\(90°\)</span>, negative when it is more, and <em>zero exactly when the vectors are at right angles</em> (perpendicular).</p>
 <p>Drag the two vectors below and compare the two ways of working out the dot product.</p>
 <div class="app-embed">
 <iframe class="app-frame" src="../apps/vector-explorer.html?embed=1&amp;mode=dot&amp;lock" title="Dot product explorer" loading="lazy">
@@ -1388,7 +1388,7 @@ Figure&nbsp;2: Two equations in two unknowns are two lines. Left: they cross onc
 </div>
 <ul>
 <li><span class="math inline">\(x + y = 2\)</span> and <span class="math inline">\(2x + 2y = 5\)</span> are <strong>parallel</strong> lines: no solution. (Doubling the first gives <span class="math inline">\(2x + 2y = 4\)</span>, which contradicts the second.)</li>
-<li><span class="math inline">\(x + y = 2\)</span> and <span class="math inline">\(2x + 2y = 4\)</span> are the <strong>same</strong> line: infinitely many solutions, one for every point on it.</li>
+<li><span class="math inline">\(x + y = 2\)</span> and <span class="math inline">\(2x + 2y = 4\)</span> are the <em>same</em> line: infinitely many solutions, one for every point on it.</li>
 </ul>
 <p><a href="../part-2/11-gaussian-elimination.html" class="quarto-xref"><span>11&nbsp; Gaussian elimination</span></a> turns elimination into a systematic method that works for any number of equations, and shows how to spot these cases.</p>
 <div class="callout callout-style-simple callout-tip callout-titled">
@@ -1551,7 +1551,7 @@ e^{i\theta} = \cos\theta + i\sin\theta,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div id="0510d90c" class="cell" data-execution_count="2">
+<div id="a90a5b00" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1608,7 +1608,7 @@ e^{i\theta} = \cos\theta + i\sin\theta,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div id="3ecb170e" class="cell" data-execution_count="3">
+<div id="59925c2a" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rotation(theta_deg):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Matrix of the rotation by theta degrees anticlockwise."""</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> np.radians(theta_deg)</span>

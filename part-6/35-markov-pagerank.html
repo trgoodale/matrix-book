@@ -1126,24 +1126,37 @@ window.Quarto = {
 \vect{x}_{k+1} = \M{M}\vect{x}_k,
 \qquad\text{so}\qquad
 \vect{x}_k = \M{M}^k\vect{x}_0.
-\]</span> Entry <span class="math inline">\((i, j)\)</span> of <span class="math inline">\(\M{M}^k\)</span> is the probability of being in state <span class="math inline">\(i\)</span> after <span class="math inline">\(k\)</span> steps, starting from state <span class="math inline">\(j\)</span>. (Many statistics books write probability vectors as rows and use the transpose, row-stochastic matrices, with <span class="math inline">\(\vect{x}_{k+1}\T = \vect{x}_k\T\M{P}\)</span>. It’s the same mathematics.)</p>
+\]</span> Entry <span class="math inline">\((i, j)\)</span> of <span class="math inline">\(\M{M}^k\)</span> is the probability of being in state <span class="math inline">\(i\)</span> after <span class="math inline">\(k\)</span> steps, starting from state <span class="math inline">\(j\)</span>.</p>
+<div class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Watch out: rows or columns
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Many statistics books write probability vectors as rows and use the transpose, a row-stochastic matrix <span class="math inline">\(\M{P} = \M{M}\T\)</span>, with <span class="math inline">\(\vect{x}_{k+1}\T = \vect{x}_k\T\M{P}\)</span>. It’s the same mathematics, but the steady state is then an eigenvector of <span class="math inline">\(\M{P}\T\)</span>, not of <span class="math inline">\(\M{P}\)</span>: a matrix and its transpose have the same eigenvalues but usually different eigenvectors (<a href="../part-4/18-eigenvalues.html" class="quarto-xref"><span>Chapter 18</span></a>).</p>
+</div>
+</div>
 </section>
 <section id="steady-states" class="level3">
 <h3 class="anchored" data-anchor-id="steady-states">Steady states</h3>
-<p>A <strong>steady state</strong> (or <strong>stationary distribution</strong>) is a probability vector that the chain leaves unchanged: <span class="math display">\[
+<p>A <strong>steady state</strong> (or stationary distribution) is a probability vector that the chain leaves unchanged: <span class="math display">\[
 \M{M}\vect{x} = \vect{x},
 \qquad
 x_1 + \dots + x_n = 1,
 \qquad
 x_i \ge 0.
 \]</span> It is an eigenvector with eigenvalue 1. Every column-stochastic matrix has 1 as an eigenvalue, because the rows of <span class="math inline">\(\M{M} - \M{I}\)</span> add up to the zero row, so <span class="math inline">\(\M{M} - \M{I}\)</span> is singular (equivalently, <span class="math inline">\(\M{M}\T\vect{1} = \vect{1}\)</span>, and a matrix and its transpose have the same eigenvalues). Every other eigenvalue has <span class="math inline">\(\lvert\lambda\rvert \le 1\)</span>.</p>
-<p>If some power <span class="math inline">\(\M{M}^k\)</span> has all its entries positive, so that every state can reach every other in exactly <span class="math inline">\(k\)</span> steps, the chain is called <strong>regular</strong>, and the <strong>Perron–Frobenius theorem</strong> guarantees that:</p>
+<p>If some power <span class="math inline">\(\M{M}^k\)</span> has all its entries positive, so that every state can reach every other in exactly <span class="math inline">\(k\)</span> steps, the chain is called <strong>regular</strong>, and the Perron–Frobenius theorem guarantees that:</p>
 <ul>
 <li>the steady state is unique, and all its entries are positive;</li>
 <li>every other eigenvalue has <span class="math inline">\(\lvert\lambda\rvert &lt; 1\)</span>;</li>
 <li>from any starting distribution, <span class="math inline">\(\vect{x}_k\)</span> approaches the steady state, with the error shrinking like <span class="math inline">\(\lvert\lambda_2\rvert^k\)</span>, where <span class="math inline">\(\lambda_2\)</span> is the next largest eigenvalue in size (<a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>).</li>
 </ul>
-<p>To find the steady state, solve <span class="math inline">\((\M{M} - \M{I})\vect{x} = \zerovec\)</span> together with <span class="math inline">\(\sum x_i = 1\)</span>, or use the <strong>power method</strong> (<a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a>): start from any probability vector and multiply by <span class="math inline">\(\M{M}\)</span> again and again until it stops changing. For a Markov chain this is just simulating the probabilities forward.</p>
+<p>To find the steady state, solve <span class="math inline">\((\M{M} - \M{I})\vect{x} = \zerovec\)</span> together with <span class="math inline">\(\sum x_i = 1\)</span>, or use the power method (<a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a>): start from any probability vector and multiply by <span class="math inline">\(\M{M}\)</span> again and again until it stops changing. For a Markov chain this is just simulating the probabilities forward.</p>
 <div id="ex-markov-pagerank-1" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1187,7 +1200,7 @@ Figure&nbsp;35.1: The weather chain of Example 1. Each arrow is labelled with th
 </ul>
 <p>Page and Brin’s fix for traps is <strong>damping</strong>: at each step, with probability <span class="math inline">\(d\)</span> the surfer follows a link, and with probability <span class="math inline">\(1 - d\)</span> they get bored and jump to a page chosen at random. The transition matrix becomes the <strong>Google matrix</strong> <span class="math display">\[
 \M{G} = d\M{M} + \frac{1 - d}{n}\vect{1}\vect{1}\T,
-\]</span> whose entries are all positive, so it is regular, with a unique steady state: the <strong>PageRank</strong> vector. Page and Brin used <span class="math inline">\(d = 0.85\)</span>.</p>
+\]</span> whose entries are all positive, so it is regular, with a unique steady state: the PageRank vector. Page and Brin used <span class="math inline">\(d = 0.85\)</span>.</p>
 <p>For the real web, <span class="math inline">\(n\)</span> is in the billions, but <span class="math inline">\(\M{M}\)</span> is extremely sparse, and the second term never needs to be stored: <span class="math inline">\(\M{G}\vect{x} = d\M{M}\vect{x} + \tfrac{1 - d}{n}\vect{1}\)</span> for any probability vector <span class="math inline">\(\vect{x}\)</span>. The power method needs only sparse matrix–vector products, and every eigenvalue of <span class="math inline">\(\M{G}\)</span> other than 1 has size at most <span class="math inline">\(d\)</span>, so the error shrinks by a factor of at least 0.85 at each step: about 43 steps for every three more correct digits, whatever the size of the web. Equivalently, PageRank solves the sparse linear system <span class="math display">\[
 (\M{I} - d\M{M})\vect{x} = \frac{1 - d}{n}\vect{1}.
 \]</span></p>
@@ -1293,7 +1306,7 @@ n_1 + n_2 + n_3 \approx 3.03 \text{ years}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="5a8008ea" class="cell" data-execution_count="1">
+<div id="c5a5f653" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: the steady state of the weather</span></span>
@@ -1383,7 +1396,7 @@ outcome =
 <section id="check-your-understanding" class="level2" data-number="35.5">
 <h2 data-number="35.5" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">35.5</span> Check your understanding</h2>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1392,25 +1405,9 @@ outcome =
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>No.&nbsp;With columns as the “from” states, each column must add up to 1, and the first adds up to 1.1.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>What would go wrong with PageRank, without damping, on a web with a trap?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>The random surfer would eventually enter the trap and never leave, so all the rank would pile up on the trapped pages, and the steady state need not be unique. Damping lets the surfer jump anywhere, which makes every entry of <span class="math inline">\(\M{G}\)</span> positive and the steady state unique.</p>
+<p>No.&nbsp;With columns as the “from” states, each column must add up to 1, and the first adds up to 1.1.</p>
 </div>
 </div>
 </div>
@@ -1420,11 +1417,27 @@ outcome =
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>In Example 3, why does a student starting in year 2 graduate with a higher probability than a new student?
+<span class="screen-reader-only">Tip</span>What would go wrong with PageRank, without damping, on a web with a trap?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The random surfer would eventually enter the trap and never leave, so all the rank would pile up on the trapped pages, and the steady state need not be unique. Damping lets the surfer jump anywhere, which makes every entry of <span class="math inline">\(\M{G}\)</span> positive and the steady state unique.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>In Example 3, why does a student starting in year 2 graduate with a higher probability than a new student?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A student in year 2 has already survived the risk of leaving in year 1, the largest risk in the model. Column 2 of <span class="math inline">\(\M{R}\M{N}\)</span> gives their chance of graduating as 0.892, against 0.793 for a new student.</p>
 </div>

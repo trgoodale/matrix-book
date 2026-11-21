@@ -1111,7 +1111,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>Builds on</strong> <a href="04-transformations.html" class="quarto-xref"><span>Chapter 4</span></a>, <a href="05-composition.html" class="quarto-xref"><span>Chapter 5</span></a>.</p>
-<p>Every square matrix has a single number attached to it, its <strong>determinant</strong>. It is often taught as a formula to memorise, but it has a simple meaning: it tells you <strong>how much the matrix scales areas</strong> (in two dimensions) <strong>or volumes</strong> (in three), and whether it turns space over. Almost every property of determinants follows from that one idea.</p>
+<p>Every square matrix has a single number attached to it, its <strong>determinant</strong>. It is often taught as a formula to memorise, but it has a simple meaning: it tells you <em>how much the matrix scales areas</em> (in two dimensions) <em>or volumes</em> (in three), and whether it turns space over. Almost every property of determinants follows from that one idea.</p>
 <section id="build-intuition" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">6.1</span> Build intuition</h2>
 <p>Drag the arrow tips, type entries or pick a preset, and compare the area (or, in 3D, the volume) of a shape before and after the transformation. The ratio is always the determinant. Try <strong>Reflect</strong> and <strong>Squash flat</strong>.</p>
@@ -1123,7 +1123,7 @@ window.Quarto = {
 <p>Things to notice:</p>
 <ul>
 <li>The unit square always becomes the parallelogram with the two columns as its sides, and its area is the determinant (ignoring sign).</li>
-<li>The square, the circle and the F are all scaled by the <strong>same</strong> factor. Area scaling doesn’t depend on the shape.</li>
+<li>The square, the circle and the F are all scaled by the <em>same</em> factor. Area scaling doesn’t depend on the shape.</li>
 <li>When the F comes out mirrored, the determinant is negative.</li>
 <li>When the two columns line up, the parallelogram collapses and the determinant is zero.</li>
 </ul>
@@ -1132,7 +1132,7 @@ window.Quarto = {
 <h2 data-number="6.2" class="anchored" data-anchor-id="the-ideas"><span class="header-section-number">6.2</span> The ideas</h2>
 <section id="the-area-scale-factor" class="level3">
 <h3 class="anchored" data-anchor-id="the-area-scale-factor">The area scale factor</h3>
-<p>A linear transformation turns the grid of unit squares into a grid of identical parallelograms (<a href="04-transformations.html" class="quarto-xref"><span>Chapter 4</span></a>). So every unit square has its area multiplied by the same number. Any shape can be approximated by small squares, so <strong>every</strong> area is multiplied by that number.</p>
+<p>A linear transformation turns the grid of unit squares into a grid of identical parallelograms (<a href="04-transformations.html" class="quarto-xref"><span>Chapter 4</span></a>). So every unit square has its area multiplied by the same number. Any shape can be approximated by small squares, so <em>every</em> area is multiplied by that number.</p>
 <p>For <span class="math inline">\(\M{A} = \mat{a &amp; b \\ c &amp; d}\)</span>, the unit square becomes the parallelogram with sides <span class="math inline">\((a, c)\T\)</span> and <span class="math inline">\((b, d)\T\)</span>, the columns of <span class="math inline">\(\M{A}\)</span> (<a href="#fig-det-area" class="quarto-xref">Figure&nbsp;<span>6.1</span></a>). Its area is <span class="math inline">\(|ad - bc|\)</span>. (To see this for <span class="math inline">\(a, b, c, d &gt; 0\)</span>, draw the parallelogram inside the rectangle of width <span class="math inline">\(a + b\)</span> and height <span class="math inline">\(c + d\)</span>, and subtract the two triangles and two small rectangles around it; Exercise 7 asks you to do this.)</p>
 <div id="fig-det-area" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two grids at the same scale. Left: the unit square, with i along the x axis in blue and j up the y axis in brown, labelled area 1. Right: a parallelogram with sides A i equals (3, 2) in blue and A j equals (minus 1, 4) in brown, labelled area det A equals 14.">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1234,7 +1234,19 @@ Figure&nbsp;6.1: The unit square and its image under the matrix of Example 1, <s
 </tr>
 </tbody>
 </table>
-<p>Note that <span class="math inline">\(\det(\M{A} + \M{B})\)</span> is <strong>not</strong> in general <span class="math inline">\(\det\M{A} + \det\M{B}\)</span>.</p>
+<div class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Watch out: sums and multiples
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\det(\M{A} + \M{B})\)</span> is not in general <span class="math inline">\(\det\M{A} + \det\M{B}\)</span>: for <span class="math inline">\(\M{A} = \M{B} = \M{I}\)</span>, of size <span class="math inline">\(2 \times 2\)</span>, the left side is 4 and the right side is 2. And <span class="math inline">\(\det(k\M{A})\)</span> is <span class="math inline">\(k^n\det\M{A}\)</span>, not <span class="math inline">\(k\det\M{A}\)</span>, because multiplying the matrix by <span class="math inline">\(k\)</span> multiplies every one of its <span class="math inline">\(n\)</span> rows by <span class="math inline">\(k\)</span>.</p>
+</div>
+</div>
 <div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1258,7 +1270,7 @@ Figure&nbsp;6.1: The unit square and its image under the matrix of Example 1, <s
 + c\begin{vmatrix} d &amp; e \\ g &amp; h \end{vmatrix}.
 \tag{6.2}\]</span></span></p>
 <p>Each entry of the row is multiplied by the determinant of the <span class="math inline">\(2 \times 2\)</span> matrix left when you cross out its row and column (its <strong>minor</strong>), with signs alternating <span class="math inline">\(+, -, +\)</span>.</p>
-<p>You can expand along <strong>any</strong> row or column instead, using the checkerboard of signs <span class="math display">\[
+<p>You can expand along <em>any</em> row or column instead, using the checkerboard of signs <span class="math display">\[
 \begin{matrix} + &amp; - &amp; + \\ - &amp; + &amp; - \\ + &amp; - &amp; + \end{matrix}
 \]</span> and you always get the same answer. Choose the row or column with the most zeros. The same pattern defines determinants of any size: an <span class="math inline">\(n \times n\)</span> determinant expands into <span class="math inline">\(n\)</span> determinants of size <span class="math inline">\(n - 1\)</span>.</p>
 <div id="ex-determinants-3" class="callout callout-style-simple callout-note no-icon callout-titled">
@@ -1344,7 +1356,7 @@ Figure&nbsp;6.1: The unit square and its image under the matrix of Example 1, <s
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="ab94d74f" class="cell" data-execution_count="1">
+<div id="8582c0e2" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>], [<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">4</span>], [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>]])</span>
@@ -1354,8 +1366,8 @@ Figure&nbsp;6.1: The unit square and its image under the matrix of Example 1, <s
 </div>
 </div>
 <p>The exact answer is <span class="math inline">\(-9\)</span>. If you see something like <code>-8.999999999999998</code>, the tiny error comes from rounding in floating-point arithmetic: NumPy computes determinants by elimination (as in Example 4), not by cofactors, and each step is rounded.</p>
-<p>For the same reason, <strong>never test whether a matrix is singular with <code>det(A) == 0</code></strong>. A singular matrix may give a tiny non-zero determinant, and a perfectly healthy matrix can have a tiny determinant just because its entries are small: <span class="math inline">\(\det(0.1\M{I}_{10}) = 10^{-10}\)</span>. To check whether a matrix is close to singular, use its <strong>rank</strong>, the number of independent directions it keeps (3 for a healthy <span class="math inline">\(3 \times 3\)</span> matrix; see <a href="../part-2/12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a>), or its <strong>condition number</strong>, which is huge for a matrix that is singular or nearly so (<a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>):</p>
-<div id="1e879628" class="cell" data-execution_count="2">
+<p>For the same reason, <em>never test whether a matrix is singular with <code>det(A) == 0</code></em>. A singular matrix may give a tiny non-zero determinant, and a perfectly healthy matrix can have a tiny determinant just because its entries are small: <span class="math inline">\(\det(0.1\M{I}_{10}) = 10^{-10}\)</span>. To check whether a matrix is close to singular, use its rank, the number of independent directions it keeps (3 for a healthy <span class="math inline">\(3 \times 3\)</span> matrix; see <a href="../part-2/12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a>), or its condition number, which is huge for a matrix that is singular or nearly so (<a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>):</p>
+<div id="cc5ffd8f" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>], [<span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>]])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.matrix_rank(S))      <span class="co"># 2, not 3: S is singular</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.cond(S))             <span class="co"># enormous: S is singular or nearly so</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1372,7 +1384,7 @@ Figure&nbsp;6.1: The unit square and its image under the matrix of Example 1, <s
 
    6.6613e-16</code></pre>
 <p>This matrix is singular (its rows are in arithmetic progression, so row 1 minus twice row 2 plus row 3 is zero), so its determinant should be exactly 0. The tiny error comes from rounding in floating-point arithmetic, because MATLAB computes determinants by elimination (as in Example 4), not by cofactors.</p>
-<p>For the same reason, <strong>never test whether a matrix is singular with <code>det(A) == 0</code></strong>. A singular matrix may give a tiny non-zero determinant, as here, and a perfectly healthy matrix can have a tiny determinant just because its entries are small: <code>det(0.1*eye(10))</code> is <span class="math inline">\(10^{-10}\)</span>. To check whether a matrix is close to singular, use its <strong>rank</strong>, the number of independent directions it keeps (3 for a healthy <span class="math inline">\(3 \times 3\)</span> matrix; see <a href="../part-2/12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a>), or its <strong>condition number</strong>, which is huge for a matrix that is singular or nearly so (<a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>):</p>
+<p>For the same reason, <em>never test whether a matrix is singular with <code>det(A) == 0</code></em>. A singular matrix may give a tiny non-zero determinant, as here, and a perfectly healthy matrix can have a tiny determinant just because its entries are small: <code>det(0.1*eye(10))</code> is <span class="math inline">\(10^{-10}\)</span>. To check whether a matrix is close to singular, use its rank, the number of independent directions it keeps (3 for a healthy <span class="math inline">\(3 \times 3\)</span> matrix; see <a href="../part-2/12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a>), or its condition number, which is huge for a matrix that is singular or nearly so (<a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>):</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">rank</span>(<span class="va">S</span>)          <span class="co">% 2, not 3: S is singular</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">cond</span>(<span class="va">S</span>)          <span class="co">% enormous: S is singular or nearly so</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1382,7 +1394,7 @@ Figure&nbsp;6.1: The unit square and its image under the matrix of Example 1, <s
 <section id="check-your-understanding" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="check-your-understanding"><span class="header-section-number">6.4</span> Check your understanding</h2>
 <div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1391,25 +1403,9 @@ Figure&nbsp;6.1: The unit square and its image under the matrix of Example 1, <s
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\(\det(\M{A}\M{B}) = 3 \times (-2) = -6\)</span>; <span class="math inline">\(\det(2\M{A}) = 2^3 \times 3 = 24\)</span>; <span class="math inline">\(\det(\M{B}\T) = -2\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Without calculating, why is <span class="math inline">\(\begin{vmatrix} 1 &amp; 4 &amp; 7 \\ 2 &amp; 8 &amp; 14 \\ 5 &amp; 0 &amp; 3 \end{vmatrix} = 0\)</span>?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Row 2 is twice row 1. Subtracting twice row 1 from row 2 (which doesn’t change the determinant) gives a row of zeros.</p>
+<p><span class="math inline">\(\det(\M{A}\M{B}) = 3 \times (-2) = -6\)</span>; <span class="math inline">\(\det(2\M{A}) = 2^3 \times 3 = 24\)</span>; <span class="math inline">\(\det(\M{B}\T) = -2\)</span>.</p>
 </div>
 </div>
 </div>
@@ -1419,11 +1415,27 @@ Figure&nbsp;6.1: The unit square and its image under the matrix of Example 1, <s
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Can <span class="math inline">\(\M{A}\M{B}\)</span> be singular if <span class="math inline">\(\M{A}\)</span> is not?
+<span class="screen-reader-only">Tip</span>Without calculating, why is <span class="math inline">\(\begin{vmatrix} 1 &amp; 4 &amp; 7 \\ 2 &amp; 8 &amp; 14 \\ 5 &amp; 0 &amp; 3 \end{vmatrix} = 0\)</span>?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Row 2 is twice row 1. Subtracting twice row 1 from row 2 (which doesn’t change the determinant) gives a row of zeros.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Can <span class="math inline">\(\M{A}\M{B}\)</span> be singular if <span class="math inline">\(\M{A}\)</span> is not?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Yes, if <span class="math inline">\(\M{B}\)</span> is singular: <span class="math inline">\(\det(\M{A}\M{B}) = \det\M{A}\det\M{B} = 0\)</span> whenever either factor has determinant zero.</p>
 </div>
