@@ -12,7 +12,7 @@
 
 %% In code
 % Both languages solve square systems with one command, which uses the
-% elimination method of the chapter. Always check the answer by multiplying
+% elimination method of Chapter 11. Always check the answer by multiplying
 % back: the residual Ax - b should be zero, apart from tiny rounding errors.
 
 A = [0.6 0.8 0.5;
@@ -32,7 +32,7 @@ A*x - b              % the residual: zero, up to rounding
 %
 % To tell "no solution" from "infinitely many", compare the rank of A with
 % the rank of the augmented matrix. The rank counts the genuinely
-% independent equations (the chapter explains it fully). If adding b
+% independent equations (Chapter 12 explains it fully). If adding b
 % increases the rank, b brings in an equation that contradicts the others,
 % and there is no solution:
 

@@ -81,7 +81,7 @@ rref(M)
 %% Chapter 13, exercise 7
 % Write a function forward_substitution(L, b) that solves Ly = b for a lower
 % triangular L with 1s on its diagonal. Use it, with the back substitution
-% from the chapter, to solve the systems in Exercise 2, and check your
+% from Chapter 11, to solve the systems in Exercise 2, and check your
 % answers against a library solver.
 
 L = [1 0 0; 2 1 0; 3 2 1];
@@ -101,7 +101,7 @@ norm(x - A \ b)              % zero: the answers agree
 % and e_3. Use the last three solutions to build A^-1, and compare it with
 % the built-in inverse.
 
-% Uses the chapter and the chapter.
+% Uses Chapter 13 and Chapter 7.
 
 A = [2 1 1; 4 3 3; 8 7 9];
 [L, U, P] = lu(A);               % P*A = L*U, factorised once

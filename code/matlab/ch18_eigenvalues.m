@@ -15,7 +15,7 @@
 % eigenvectors as the columns of a matrix in the same order, each scaled to
 % length 1. They don't use the characteristic polynomial, which would be
 % slow and inaccurate for large matrices. Instead they use the QR algorithm
-% of the chapter. The order of the eigenvalues, and the sign of each
+% of Chapter 29. The order of the eigenvalues, and the sign of each
 % eigenvector, may differ from a hand calculation.
 
 A = [4 1; 2 3];

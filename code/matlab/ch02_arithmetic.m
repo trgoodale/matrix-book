@@ -28,7 +28,7 @@ X = (3*B - A) / 2
 % https://trgoodale.github.io/matrix-book/appendices/solutions-1.html#sec-solutions-arithmetic
 
 %% Exercise 6
-% The matrix T from the chapter holds four hourly readings from three
+% The matrix T from Chapter 1 holds four hourly readings from three
 % temperature sensors. Subtract each sensor's average reading from its
 % column, using broadcasting, and check that each column of the result adds
 % up to zero (up to rounding).

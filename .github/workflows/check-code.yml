@@ -1,0 +1,72 @@
+# Checks the code files that readers download or open in Colab (code/):
+#  - that they match the chapters (if not, regenerate them; see README.md),
+#  - that every Python notebook runs without errors,
+#  - that every MATLAB script runs without errors.
+#
+# It runs on every push and pull request, and once a week, so that a new
+# release of NumPy, SciPy, Matplotlib or MATLAB that breaks the book's code
+# is noticed. A failure does not stop the website from being published.
+name: Check code
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+  schedule:
+    - cron: "17 6 * * 1"     # Mondays at 06:17 UTC
+
+concurrency:
+  group: check-code-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: Python notebooks
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Python packages
+        run: pip install -r requirements.txt
+
+      # The generator reads figure, equation and chapter numbers from the
+      # rendered book, so render it first (frozen chapters are not re-run).
+      - name: Render the book
+        run: quarto render
+
+      - name: Check that code/ matches the chapters
+        run: python tools/make_code_files.py --check
+
+      - name: Run every notebook
+        run: python tools/run_notebooks.py
+
+  matlab:
+    name: MATLAB scripts
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      # MATLAB is free on GitHub's runners for public repositories.
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v3
+        with:
+          release: latest
+          cache: true
+
+      - name: Run every MATLAB script
+        uses: matlab-actions/run-command@v3
+        with:
+          command: addpath(fullfile(pwd, 'tools')); run_matlab_scripts

@@ -16,6 +16,11 @@ _book/ to find the numbers Quarto gives figures, equations and chapters):
 
     python3 tools/make_code_files.py            # all chapters
     python3 tools/make_code_files.py part-1/01-matrices.qmd
+    python3 tools/make_code_files.py --check    # report out-of-date files
+
+With --check nothing is written: it lists any file in code/ that differs
+from what the chapters would give (ignoring line endings) and exits with
+status 1 if there are any. The GitHub workflow check-code.yml runs this.
 
 The notebooks are saved without outputs; run them to see the results.
 """
@@ -43,7 +48,7 @@ PAGE_LABEL = {}   # page path -> label of a link to the whole page ("Chapter 24"
 
 
 def load_xrefs():
-    for path in glob.glob(os.path.join(ROOT, "_book", "**", "*.html"), recursive=True):
+    for path in sorted(glob.glob(os.path.join(ROOT, "_book", "**", "*.html"), recursive=True)):
         rel = os.path.relpath(path, os.path.join(ROOT, "_book"))
         txt = open(path, encoding="utf-8").read()
         for m in re.finditer(r'<a href="([^"#]*)#((?:sec|fig|eq|tbl|ex)-[\w-]+)"[^>]*class="quarto-xref"[^>]*>(.*?)</a>', txt, re.S):
@@ -57,10 +62,12 @@ def load_xrefs():
             target, label = m.groups()
             label = htmllib.unescape(re.sub(r"<[^>]+>", "", label)).strip()
             page = os.path.normpath(os.path.join(os.path.dirname(rel), target)).replace(os.sep, "/")
+            # some links (the glossary's) show the full title, "1  What is a matrix?"
+            label = re.sub(r"^(\d+)\s.*", r"Chapter \1", label, flags=re.S)
             if label:
                 PAGE_LABEL.setdefault(page, label)
     # chapter headings that are never cross-referenced still need a page
-    for qmd in glob.glob(os.path.join(ROOT, "*", "*.qmd")):
+    for qmd in sorted(glob.glob(os.path.join(ROOT, "*", "*.qmd"))):
         m = re.search(r"^# .*\{#(sec-[\w-]+)", open(qmd, encoding="utf-8").read(), re.M)
         if m:
             rel = os.path.relpath(qmd, ROOT)[:-4] + ".html"
@@ -425,6 +432,8 @@ def code_cell(src):
 
 
 def notebook(cells):
+    # nbformat 4.5 needs an id on each cell; numbering them keeps the files stable
+    cells = [{"id": f"cell-{k}", **cell} for k, cell in enumerate(cells, 1)]
     return {"cells": cells, "metadata": {
         "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
         "language_info": {"name": "python"}}, "nbformat": 4, "nbformat_minor": 5}
@@ -678,26 +687,70 @@ def build_part(n):
     return out
 
 
+def render(nb, ml):
+    """The text of a notebook and a MATLAB script, as written to disk."""
+    nb_text = json.dumps(nb, indent=1, ensure_ascii=False) + "\n"
+    ml_text = re.sub(r"\n{3,}", "\n\n", ml).rstrip() + "\n"
+    return nb_text, ml_text
+
+
 def write(nb_name, nb, ml_name, ml):
-    os.makedirs(os.path.join(ROOT, PY_DIR), exist_ok=True)
-    os.makedirs(os.path.join(ROOT, ML_DIR), exist_ok=True)
-    with open(os.path.join(ROOT, PY_DIR, nb_name), "w", encoding="utf-8") as f:
-        json.dump(nb, f, indent=1, ensure_ascii=False); f.write("\n")
-    with open(os.path.join(ROOT, ML_DIR, ml_name), "w", encoding="utf-8") as f:
-        f.write(re.sub(r"\n{3,}", "\n\n", ml).rstrip() + "\n")
+    nb_text, ml_text = render(nb, ml)
+    for folder, name, text in ((PY_DIR, nb_name, nb_text), (ML_DIR, ml_name, ml_text)):
+        os.makedirs(os.path.join(ROOT, folder), exist_ok=True)
+        with open(os.path.join(ROOT, folder, name), "w", encoding="utf-8", newline="\n") as f:
+            f.write(text)
+
+
+def check(items):
+    """Compare what would be written with the files in code/; return the problems."""
+    expected = {}
+    for nb_name, nb, ml_name, ml in items:
+        nb_text, ml_text = render(nb, ml)
+        expected[f"{PY_DIR}/{nb_name}"] = nb_text
+        expected[f"{ML_DIR}/{ml_name}"] = ml_text
+    problems = []
+    for rel, text in sorted(expected.items()):
+        path = os.path.join(ROOT, rel)
+        if not os.path.exists(path):
+            problems.append(f"{rel}: missing")
+            continue
+        with open(path, encoding="utf-8", newline="") as f:
+            current = f.read().replace("\r\n", "\n")
+        if current != text:
+            problems.append(f"{rel}: out of date")
+    for folder, pattern in ((PY_DIR, "*.ipynb"), (ML_DIR, "*.m")):
+        for path in glob.glob(os.path.join(ROOT, folder, pattern)):
+            rel = f"{folder}/{os.path.basename(path)}"
+            if rel not in expected:
+                problems.append(f"{rel}: no longer made from any chapter (delete it?)")
+    return problems
 
 
 def main(args):
+    checking = "--check" in args
+    args = [a for a in args if a != "--check"]
     load_xrefs()
     files = args or sorted(glob.glob("part-*/[0-9]*.qmd", root_dir=ROOT))
-    for qmd in files:
-        write(*build_chapter(qmd))
-        print("wrote", qmd)
+    items = [build_chapter(qmd) for qmd in files]
     if not args:
         for n in range(1, 7):
-            for item in build_part(n):
-                write(*item)
-            print("wrote part", n, "review and solutions")
+            items.extend(build_part(n))
+    if checking:
+        if args:
+            sys.exit("--check works on the whole book; leave out the chapter names")
+        problems = check(items)
+        for p in problems:
+            print(p)
+        if problems:
+            print(f"\n{len(problems)} file(s) in code/ do not match the chapters. Render the book,\n"
+                  "then run  python3 tools/make_code_files.py  and commit the changes.")
+            sys.exit(1)
+        print(f"All {2 * len(items)} files in code/ match the chapters.")
+        return
+    for item in items:
+        write(*item)
+    print(f"wrote {2 * len(items)} files in code/")
 
 
 if __name__ == "__main__":

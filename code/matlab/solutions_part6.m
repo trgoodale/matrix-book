@@ -330,7 +330,7 @@ xlabel('mass number'); ylabel('displacement'); legend('mode 1', 'mode 2', 'mode 
 % (the signs may be flipped). A long chain of masses and springs
 % approximates a stretched string, such as a guitar string, whose modes are
 % exactly these sines, with frequencies in the ratio 1 : 2 : 3 for the low
-% modes. The matrix is the finite difference matrix of the chapter.
+% modes. The matrix is the finite difference matrix of Chapter 33.
 
 % --------------------------------------------------------------------------
 % Chapter 41: Networks and graphs
@@ -410,7 +410,7 @@ fprintf('%.1f%% ', 100 * (f - f_new) ./ f); fprintf('lower\n')
 % solving a linear system. Explain why D and E rank lowest, even though they
 % link to each other.
 
-% Uses the chapter, the chapter and the chapter.
+% Uses Chapter 35, Chapter 29 and Chapter 26.
 
 links = {2, [1 3], 1, [3 5], 4};    % page j links to the pages in links{j}
 n = 5;  d = 0.85;

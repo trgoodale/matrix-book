@@ -24,7 +24,11 @@ python3 tools/make_code_files.py
 ```
 
 The script reads the rendered book in `_book/` to find the numbers of chapters, figures and
-equations. A few solutions are given in the book in Python only; their MATLAB versions are in
+equations. `python3 tools/make_code_files.py --check` reports any out-of-date files, and the
+**Check code** GitHub workflow runs every notebook and MATLAB script on each push.
+
+These notebooks have no outputs. The copies on the book's website have outputs: they are run
+when the book is published. A few solutions are given in the book in Python only; their MATLAB versions are in
 `tools/matlab_solutions/`.
 
 Code licensed under the [MIT licence](../LICENSE.md).

@@ -15,7 +15,7 @@
 % scipy.sparse.linalg.spsolve solves sparse systems. In MATLAB, sparse and
 % spdiags create sparse matrices, and backslash automatically uses a sparse
 % solver for them. The example solves -u'' = 1 on 0 < t < 1, with u = 0 at
-% both ends, by finite differences (the chapter): n grid points give a
+% both ends, by finite differences (Chapter 33): n grid points give a
 % tridiagonal system. Its exact solution is u = t(1 - t)/2.
 
 n = 100000;

@@ -14,8 +14,8 @@
 % MATLAB has rref built in. NumPy doesn't, because computers rarely need the
 % reduced form (elimination and back substitution is cheaper), but a short
 % function does it. It chooses the largest available entry as each pivot,
-% which keeps rounding errors small (the chapter), and treats tiny numbers
-% as zero.
+% which keeps rounding errors small (Chapter 25), and treats tiny numbers as
+% zero.
 
 Ab = [ 1  2 -1  3  4;
        2  4 -1  7  9;
@@ -27,7 +27,7 @@ A2 = [1 1 0; 1 2 1; 0 1 2]; % Example 4
 rref([A2 eye(3)])           % the right half is the inverse
 
 %%
-% rank uses the singular value decomposition (the chapter), which is more
+% rank uses the singular value decomposition (Chapter 21), which is more
 % reliable than counting pivots when the numbers have rounding errors. For
 % exact fractions in the output, use rats(rref(Ab)).
 

@@ -28,9 +28,24 @@ jobs:
       - name: Install Python packages
         run: pip install -r requirements.txt
 
-      - name: Render and publish to GitHub Pages
+      - name: Render the book
+        uses: quarto-dev/quarto-actions/render@v2
+
+      # The website's notebooks are copies with outputs, so readers who
+      # download one can see the results before running it. Colab opens the
+      # notebooks in the repository, which have no outputs. The code files
+      # are regenerated first, so the website matches the chapters even if
+      # code/ has not been updated (check-code.yml reports that).
+      - name: Add the notebooks and MATLAB scripts, with outputs
+        run: |
+          python tools/make_code_files.py
+          cp -r code/. _book/code/
+          python tools/run_notebooks.py --warn-only --save _book/code/python
+
+      - name: Publish to GitHub Pages
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+          render: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -221,7 +221,7 @@ legend('classical', 'modified', 'Householder')
 % ||x_k - x||, and compare it with the spectral radius. Repeat with
 % Gauss–Seidel.
 
-% Uses the chapter.
+% Uses Chapter 27.
 
 A = [4 1; 2 5];  b = [6; 12];  x_true = A \ b;
 D = diag(diag(A));  L = tril(A, -1);

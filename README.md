@@ -12,10 +12,11 @@ A Quarto book on matrices, linear algebra and numerical methods, with interactiv
 | `appendices/` | Proofs, matrix calculus identities, solutions (one file per Part), glossary |
 | `apps/` | Interactive apps (self-contained HTML), embedded in chapters |
 | `code/` | Jupyter notebooks and MATLAB scripts of each chapter's code, generated from the chapters (see below) |
-| `tools/` | `make_code_files.py`, which generates `code/`, and MATLAB versions of the few Python-only solutions |
+| `tools/` | `make_code_files.py`, which generates `code/`; `run_notebooks.py` and `run_matlab_scripts.m`, which check that the files run; and MATLAB versions of the few Python-only solutions |
 | `assets/` | Notation settings script, fonts and themes |
 | `references.bib` | Bibliography |
 | `.github/workflows/publish.yml` | Builds and publishes the book on every push to `main` |
+| `.github/workflows/check-code.yml` | Checks that `code/` matches the chapters and that every notebook and MATLAB script runs, on every push and weekly |
 
 ## Working on the book
 
@@ -114,7 +115,7 @@ x =
 
 Keep the tab names exactly `Python` and `MATLAB`.
 
-Python runs during the build. MATLAB cannot run on GitHub's servers, so MATLAB code is shown with its output pasted below it. Check MATLAB examples in MATLAB or in [GNU Octave](https://octave.org) before pasting the output.
+Python runs during the build. MATLAB does not, so MATLAB code is shown with its output pasted below it. Check MATLAB examples in MATLAB or in [GNU Octave](https://octave.org) before pasting the output.
 
 ### Notebooks and MATLAB scripts
 
@@ -125,7 +126,17 @@ quarto render
 python3 tools/make_code_files.py
 ```
 
-and commit the changed files in `code/` (the script reads `_book/` for chapter, figure and equation numbers). If a code solution is given in Python only, put its MATLAB version in `tools/matlab_solutions/<exercise id>.m`, with any functions it defines in `<exercise id>.functions.m`. A new chapter's code is picked up automatically if it is under a `## In code` heading in Python/MATLAB tabs; add the `::: {.code-files}` link block under that heading, copied from another chapter.
+and commit the changed files in `code/` (the script reads `_book/` for chapter, figure and equation numbers). `python3 tools/make_code_files.py --check` lists any files that are out of date without changing anything. If a code solution is given in Python only, put its MATLAB version in `tools/matlab_solutions/<exercise id>.m`, with any functions it defines in `<exercise id>.functions.m`. A new chapter's code is picked up automatically if it is under a `## In code` heading in Python/MATLAB tabs; add the `::: {.code-files}` link block under that heading, copied from another chapter.
+
+The **Check code** workflow (`.github/workflows/check-code.yml`) checks these files on every push and pull request, and every Monday so that a new release of NumPy, SciPy, Matplotlib or MATLAB that breaks the code is noticed. It fails if `code/` doesn't match the chapters, if a notebook raises an error, or if a MATLAB script does; the failing file and line show on the run's summary page under the **Actions** tab. MATLAB is free on GitHub's servers for public repositories, so the MATLAB check needs no licence while the repository stays public. A failed check doesn't stop the book being published. To run the checks yourself:
+
+```
+python3 tools/make_code_files.py --check
+python3 tools/run_notebooks.py
+matlab -batch "addpath(fullfile(pwd, 'tools')); run_matlab_scripts"
+```
+
+The notebooks in the repository have no outputs, so they stay small and Colab opens them clean. When the book is published, the notebooks on the website are run first, so a reader who downloads one sees the results before running it; a notebook that fails is published without outputs instead.
 
 ### Embedding an app
 
@@ -169,7 +180,7 @@ One-time setup:
 3. In the repository on GitHub, go to **Settings → Pages** and set the source to the `gh-pages` branch.
 4. `repo-url` in `_quarto.yml` is set to `https://github.com/trgoodale/matrix-book`; change it if the repository moves.
 
-After that, every push to `main` rebuilds and publishes the book automatically. Progress shows under the repository's **Actions** tab.
+After that, every push to `main` rebuilds and publishes the book automatically, with freshly generated code files. Progress shows under the repository's **Actions** tab.
 
 ## A note on OneDrive
 

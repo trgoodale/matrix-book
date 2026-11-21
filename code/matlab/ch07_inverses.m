@@ -49,7 +49,7 @@ fprintf('inv:       %.3f s, error %.1e\n', t2, norm(M*x2 - v));
 % modulo 26"), so that it is a letter again. With key K = [3 3; 2 5], the
 % message HELP becomes the vectors (7, 4)^T and (11, 15)^T. Encrypt it. Then
 % check that K^-1 modulo 26 is [15 17; 20 9], by showing that K times this
-% matrix is I modulo 26, and use it to decrypt. (the chapter explains how
+% matrix is I modulo 26, and use it to decrypt. (Chapter 39 explains how
 % this inverse is found.)
 
 % Your code here

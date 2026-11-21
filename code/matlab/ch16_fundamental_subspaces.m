@@ -13,7 +13,7 @@
 %% In code
 % SciPy's null_space and orth, and MATLAB's null and orth, return bases for
 % the null space and column space. They give orthonormal bases
-% (perpendicular vectors of length 1, the chapter), computed from the
+% (perpendicular vectors of length 1, Chapter 17), computed from the
 % singular value decomposition, so they look different from the bases found
 % by hand. They span the same subspaces, which you can check by testing that
 % A times each null space vector is zero.
