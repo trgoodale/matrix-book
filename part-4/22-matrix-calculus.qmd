@@ -17,7 +17,7 @@ Much of applied mathematics is about finding the best of something: the line tha
 
 ## Build intuition
 
-There is no app for this chapter. Instead, study the picture below. It shows the contours (lines of constant height) of the quadratic function of Example 1, like the contour lines on a map of a valley, with arrows showing the gradient at points across the plane, and the path taken by gradient descent from $(-2, -1)$.
+There is no app for this chapter. Instead, study @fig-gradient-descent below. It shows the contours (lines of constant height) of the quadratic function of Example 1, like the contour lines on a map of a valley, with arrows showing the gradient at points across the plane, and the path taken by gradient descent from $(-2, -1)$.
 
 ```{python}
 #| fig-alt: "Elliptical contour lines around a minimum at (1, 2), grey gradient arrows pointing downhill, and a red zigzag path of gradient descent from (−2, −1) to the minimum."

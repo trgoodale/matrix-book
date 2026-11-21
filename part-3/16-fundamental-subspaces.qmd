@@ -120,7 +120,7 @@ Check the right angles: $(1, 2, 0, 1) \cdot (-2, 1, 0, 0) = 0$ and $(0, 0, 1, 2)
 
 ### Right angles between the subspaces
 
-Write out $\M{A}\vect{x} = \zerovec$ row by row. Each equation says that a row of $\M{A}$, dotted with $\vect{x}$, gives zero. So every vector in the null space is *perpendicular* to every row, and so to every combination of rows:
+Write out $\M{A}\vect{x} = \zerovec$ row by row. Each equation says that a row of $\M{A}$, dotted with $\vect{x}$, gives zero. So every vector in the null space is *perpendicular* to every row, and so to every combination of rows, as @fig-row-null shows for a $2 \times 3$ matrix:
 
 ::: {.callout-important appearance="simple"}
 ## Orthogonality

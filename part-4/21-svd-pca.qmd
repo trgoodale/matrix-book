@@ -203,7 +203,7 @@ print(Vt[0])                               # first principal component
 print(s**2 / np.sum(s**2))                 # fraction of variance explained
 ```
 
-The figure compresses a $120 \times 120$ picture, made of simple shapes, by keeping $k$ terms of its SVD.
+@fig-svd-compress compresses a $120 \times 120$ picture, made of simple shapes, by keeping $k$ terms of its SVD.
 
 ```{python}
 #| fig-alt: "A row of four greyscale images, the original and rank 1, 5 and 20 approximations, becoming clearer as the rank grows, followed by a log-scale plot of singular values that drops steeply then levels off."
