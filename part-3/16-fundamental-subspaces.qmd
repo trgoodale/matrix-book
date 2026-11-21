@@ -7,7 +7,7 @@
 
 - find bases for the column space, null space, row space and left null space of a matrix
 - use the rank–nullity theorem to count dimensions
-- see why the row space and the null space are at right angles
+- explain why the row space and the null space are at right angles
 - describe every solution of $\M{A}\vect{x} = \vect{b}$ in terms of these subspaces
 :::
 

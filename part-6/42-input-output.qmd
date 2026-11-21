@@ -7,7 +7,7 @@
 
 - model an economy whose industries use each other's products, as the linear system $(\M{I} - \M{A})\vect{x} = \vect{d}$
 - read the Leontief inverse $(\M{I} - \M{A})^{-1}$ as the total effect, direct and indirect, of extra demand
-- see that effect build up round by round, as the series $\M{I} + \M{A} + \M{A}^2 + \cdots$
+- add up that effect round by round, as the series $\M{I} + \M{A} + \M{A}^2 + \cdots$
 - trace the carbon emissions, or jobs, behind what people buy
 :::
 

@@ -7,8 +7,8 @@
 
 - multiply matrices using the row-times-column rule
 - decide whether a product is defined, and predict its size
-- see a matrix times a vector both as dot products and as a combination of columns
-- know which rules of ordinary algebra still hold, and which fail, especially $\M{A}\M{B} \neq \M{B}\M{A}$
+- work out a matrix times a vector in two ways: as dot products with the rows, and as a combination of the columns
+- say which rules of ordinary algebra still hold for matrices, and which fail, especially $\M{A}\M{B} \neq \M{B}\M{A}$
 - use the identity matrix, which plays the role of the number 1
 :::
 

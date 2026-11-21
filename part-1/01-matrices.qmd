@@ -5,7 +5,7 @@
 ::: {.callout-note appearance="simple" icon=false}
 ## In this chapter you will
 
-- see how matrices store equations, data and networks
+- write a set of equations, a table of data or a network as a matrix
 - read and write matrix notation: size, entries $a_{ij}$, rows and columns
 - recognise square and symmetric matrices
 - find the transpose of a matrix
