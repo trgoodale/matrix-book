@@ -4,9 +4,9 @@
 
 Each chapter carries a badge.
 
-[Core]{.level-badge .core} chapters cover what most first-year university courses expect.
+[Core]{.level-badge .core} chapters cover what most introductory university courses on matrices and linear algebra expect.
 
-[Further]{.level-badge .further} chapters go beyond that, into second-year material and the methods used in research and industry.
+[Further]{.level-badge .further} chapters go beyond that, into more advanced material and the methods used in research and industry.
 
 ## Routes through the book
 
@@ -25,7 +25,7 @@ The book has six parts, shown in the contents list on the left:
 
 These routes pick out the chapters for common courses and goals.
 
-**First-year engineering mathematics**
+**Engineering mathematics**
 
 - Part I: Matrices and transformations (Chapters [1](../part-1/01-matrices.qmd)–[9](../part-1/09-invariant-lines.qmd))
 - Part II: Linear systems (Chapters [10](../part-2/10-linear-systems.qmd)–[13](../part-2/13-lu-decomposition.qmd))
@@ -35,7 +35,7 @@ These routes pick out the chapters for common courses and goals.
 
 **Numerical methods**
 
-This is a second course. It assumes Parts I–III and Chapters [18](../part-4/18-eigenvalues.qmd)–[20](../part-4/20-symmetric-matrices.qmd), or a first course that covered the same ground.
+This route builds on earlier material. It assumes Parts I–III and Chapters [18](../part-4/18-eigenvalues.qmd)–[20](../part-4/20-symmetric-matrices.qmd), or an earlier course that covered the same ground.
 
 - Chapter [11](../part-2/11-gaussian-elimination.qmd), Gaussian elimination, and Chapter [13](../part-2/13-lu-decomposition.qmd), LU decomposition
 - Chapter [17](../part-3/17-orthogonality-least-squares.qmd), orthogonality and least squares
