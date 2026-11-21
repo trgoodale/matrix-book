@@ -60,10 +60,13 @@ jobs:
         uses: actions/checkout@v5
 
       # MATLAB is free on GitHub's runners for public repositories.
+      # Chapter 28 uses fsolve, from the Optimization Toolbox; add any other
+      # toolbox the book's code comes to need to the products line.
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v3
         with:
           release: latest
+          products: Optimization_Toolbox
           cache: true
 
       - name: Run every MATLAB script
