@@ -110,6 +110,13 @@ pre[role="region"]:focus-visible { outline: 2px solid var(--mb-row); outline-off
 /* Links between each exercise and its solution: small, so they don't invite a look before trying. */
 .sol-link { font-size: 0.875rem; }
 .harder { color: var(--mb-row); font-weight: 700; margin-right: 0.3em; cursor: help; }
+.glossary-az { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0 0 1.5rem; padding: 0; }
+.glossary-az a, .glossary-az span {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 2rem;
+  border: 1px solid var(--mb-line); border-radius: 6px; font-weight: 600; text-decoration: none; }
+.glossary-az a:hover { border-color: var(--mb-row); background: var(--mb-surface); }
+.glossary-az a:focus-visible { outline: 2px solid var(--mb-row); outline-offset: 2px; }
+.glossary-az .az-empty { color: var(--mb-muted); opacity: 0.45; border-style: dashed; }
 
 /* On narrow screens, let every figure use the full column width so its labels stay readable */
 @media (max-width: 600px) {
