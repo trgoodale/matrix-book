@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-1ef61aeb916250e80622d445f15389d2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-c067f14cbdc1f8441377b425125aaab4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-1ef61aeb916250e80622d445f15389d2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e788e926c29bd5ef974d4e8b1e8cb3d9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1306,11 +1306,14 @@ C_{31} &amp;= +(8 - 3) = 5, &amp; C_{32} &amp;= -(4 - 0) = -4, &amp; C_{33} &amp
 </section>
 <section id="in-code" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="in-code"><span class="header-section-number">7.3</span> In code</h2>
+<div class="code-files">
+<p><strong>Run this chapter’s code yourself:</strong> <a href="https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/07-inverses.ipynb" target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)">open the notebook in Colab</a>, or download the <a href="../code/python/07-inverses.ipynb" download="">Jupyter notebook</a> or the <a href="../code/matlab/ch07_inverses.m" download="">MATLAB script</a>.</p>
+</div>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="d4c92cb5" class="cell" data-execution_count="1">
+<div id="70b6cca1" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">4</span>, <span class="dv">7</span>], [<span class="dv">2</span>, <span class="dv">6</span>]])</span>
@@ -1325,7 +1328,7 @@ C_{31} &amp;= +(8 - 3) = 5, &amp; C_{32} &amp;= -(4 - 0) = -4, &amp; C_{33} &amp
 </div>
 </div>
 <p>The difference matters for large systems. Here both approaches solve a random <span class="math inline">\(2000 \times 2000\)</span> system, and we compare the time taken and the size of the error, measured by how far <span class="math inline">\(\M{A}\vect{x}\)</span> is from <span class="math inline">\(\vect{b}\)</span>:</p>
-<div id="947af3c4" class="cell" data-execution_count="2">
+<div id="c8f1d26b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">2</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">2000</span></span>
@@ -1337,8 +1340,8 @@ C_{31} &amp;= +(8 - 3) = 5, &amp; C_{32} &amp;= -(4 - 0) = -4, &amp; C_{33} &amp
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"solve: </span><span class="sc">{</span>t1 <span class="op">-</span> t0<span class="sc">:.3f}</span><span class="ss"> s, error </span><span class="sc">{</span>np<span class="sc">.</span>linalg<span class="sc">.</span>norm(M <span class="op">@</span> x1 <span class="op">-</span> v)<span class="sc">:.1e}</span><span class="ss">"</span>)</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"inv:   </span><span class="sc">{</span>t2 <span class="op">-</span> t1<span class="sc">:.3f}</span><span class="ss"> s, error </span><span class="sc">{</span>np<span class="sc">.</span>linalg<span class="sc">.</span>norm(M <span class="op">@</span> x2 <span class="op">-</span> v)<span class="sc">:.1e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>solve: 0.901 s, error 6.0e-11
-inv:   1.431 s, error 3.5e-10</code></pre>
+<pre><code>solve: 1.950 s, error 6.0e-11
+inv:   1.647 s, error 3.5e-10</code></pre>
 </div>
 </div>
 <p>Using the inverse typically takes several times as long and gives a larger error.</p>

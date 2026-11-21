@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-1ef61aeb916250e80622d445f15389d2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-c067f14cbdc1f8441377b425125aaab4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-1ef61aeb916250e80622d445f15389d2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e788e926c29bd5ef974d4e8b1e8cb3d9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1394,12 +1394,15 @@ Figure&nbsp;11.2: Time taken by NumPy’s solver as the system grows, on log sca
 </section>
 <section id="in-code" class="level2" data-number="11.3">
 <h2 data-number="11.3" class="anchored" data-anchor-id="in-code"><span class="header-section-number">11.3</span> In code</h2>
+<div class="code-files">
+<p><strong>Run this chapter’s code yourself:</strong> <a href="https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/11-gaussian-elimination.ipynb" target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)">open the notebook in Colab</a>, or download the <a href="../code/python/11-gaussian-elimination.ipynb" download="">Jupyter notebook</a> or the <a href="../code/matlab/ch11_gaussian_elimination.m" download="">MATLAB script</a>.</p>
+</div>
 <p>The function below follows the method exactly: a loop over pivot columns, an inner loop over the rows below, then back substitution. It stops with an error if it meets a zero pivot. <a href="../part-5/25-pivoting.html" class="quarto-xref"><span>Chapter 25</span></a> adds row swaps.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="f3df6c31" class="cell" data-execution_count="3">
+<div id="cce12341" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gaussian_elimination(A, b):</span>
@@ -1431,7 +1434,7 @@ Figure&nbsp;11.2: Time taken by NumPy’s solver as the system grows, on log sca
 </div>
 </div>
 <p>In practice, use the library solver, which adds pivoting and is far faster:</p>
-<div id="28c51180" class="cell" data-execution_count="4">
+<div id="29852362" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.solve(A, b))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[ 2.  3. -1.]</code></pre>

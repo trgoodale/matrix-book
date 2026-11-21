@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-1ef61aeb916250e80622d445f15389d2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-c067f14cbdc1f8441377b425125aaab4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-1ef61aeb916250e80622d445f15389d2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e788e926c29bd5ef974d4e8b1e8cb3d9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1352,11 +1352,14 @@ Figure&nbsp;6.1: The unit square and its image under the matrix of Example 1, <s
 </section>
 <section id="in-code" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="in-code"><span class="header-section-number">6.3</span> In code</h2>
+<div class="code-files">
+<p><strong>Run this chapter’s code yourself:</strong> <a href="https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/06-determinants.ipynb" target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)">open the notebook in Colab</a>, or download the <a href="../code/python/06-determinants.ipynb" download="">Jupyter notebook</a> or the <a href="../code/matlab/ch06_determinants.m" download="">MATLAB script</a>.</p>
+</div>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="8582c0e2" class="cell" data-execution_count="1">
+<div id="a155c530" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>], [<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">4</span>], [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>]])</span>
@@ -1367,7 +1370,7 @@ Figure&nbsp;6.1: The unit square and its image under the matrix of Example 1, <s
 </div>
 <p>The exact answer is <span class="math inline">\(-9\)</span>. If you see something like <code>-8.999999999999998</code>, the tiny error comes from rounding in floating-point arithmetic: NumPy computes determinants by elimination (as in Example 4), not by cofactors, and each step is rounded.</p>
 <p>For the same reason, <em>never test whether a matrix is singular with <code>det(A) == 0</code></em>. A singular matrix may give a tiny non-zero determinant, and a perfectly healthy matrix can have a tiny determinant just because its entries are small: <span class="math inline">\(\det(0.1\M{I}_{10}) = 10^{-10}\)</span>. To check whether a matrix is close to singular, use its rank, the number of independent directions it keeps (3 for a healthy <span class="math inline">\(3 \times 3\)</span> matrix; see <a href="../part-2/12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a>), or its condition number, which is huge for a matrix that is singular or nearly so (<a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>):</p>
-<div id="cc5ffd8f" class="cell" data-execution_count="2">
+<div id="100b8632" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>], [<span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>]])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.matrix_rank(S))      <span class="co"># 2, not 3: S is singular</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.cond(S))             <span class="co"># enormous: S is singular or nearly so</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

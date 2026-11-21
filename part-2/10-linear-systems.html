@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-1ef61aeb916250e80622d445f15389d2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-c067f14cbdc1f8441377b425125aaab4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-1ef61aeb916250e80622d445f15389d2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e788e926c29bd5ef974d4e8b1e8cb3d9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1353,12 +1353,15 @@ Figure&nbsp;10.2: The planes of Examples 2 and 3, viewed along the direction <sp
 </section>
 <section id="in-code" class="level2" data-number="10.3">
 <h2 data-number="10.3" class="anchored" data-anchor-id="in-code"><span class="header-section-number">10.3</span> In code</h2>
+<div class="code-files">
+<p><strong>Run this chapter’s code yourself:</strong> <a href="https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/10-linear-systems.ipynb" target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)">open the notebook in Colab</a>, or download the <a href="../code/python/10-linear-systems.ipynb" download="">Jupyter notebook</a> or the <a href="../code/matlab/ch10_linear_systems.m" download="">MATLAB script</a>.</p>
+</div>
 <p>Both languages solve square systems with one command, which uses the elimination method of <a href="11-gaussian-elimination.html" class="quarto-xref"><span>Chapter 11</span></a>. Always check the answer by multiplying back: the <strong>residual</strong> <span class="math inline">\(\M{A}\vect{x} - \vect{b}\)</span> should be zero, apart from tiny rounding errors.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="c041e9c3" class="cell" data-execution_count="2">
+<div id="550a9d00" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">0.6</span>, <span class="fl">0.8</span>, <span class="fl">0.5</span>],</span>
@@ -1375,7 +1378,7 @@ Figure&nbsp;10.2: The planes of Examples 2 and 3, viewed along the direction <sp
 </div>
 </div>
 <p>When <span class="math inline">\(\det\M{A} = 0\)</span>, <code>np.linalg.solve</code> stops with an error rather than guess:</p>
-<div id="9ce68b78" class="cell" data-execution_count="3">
+<div id="213cc763" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A2 <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>b2 <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -1387,7 +1390,7 @@ Figure&nbsp;10.2: The planes of Examples 2 and 3, viewed along the direction <sp
 </div>
 </div>
 <p>To tell “no solution” from “infinitely many”, compare the rank of <span class="math inline">\(\M{A}\)</span> with the rank of the augmented matrix. The rank counts the genuinely independent equations (<a href="12-gauss-jordan-rank.html" class="quarto-xref"><span>Chapter 12</span></a> explains it fully). If adding <span class="math inline">\(\vect{b}\)</span> increases the rank, <span class="math inline">\(\vect{b}\)</span> brings in an equation that contradicts the others, and there is no solution:</p>
-<div id="84e205d0" class="cell" data-execution_count="4">
+<div id="d2f79d1e" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Ab2 <span class="op">=</span> np.column_stack([A2, b2])          <span class="co"># the augmented matrix [A | b]</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.matrix_rank(A2), np.linalg.matrix_rank(Ab2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">

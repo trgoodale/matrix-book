@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-1ef61aeb916250e80622d445f15389d2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-c067f14cbdc1f8441377b425125aaab4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-1ef61aeb916250e80622d445f15389d2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e788e926c29bd5ef974d4e8b1e8cb3d9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1243,12 +1243,15 @@ y_3 &amp;= 24 - 4(4) - 3(2) = 2,
 </section>
 <section id="in-code" class="level2" data-number="13.3">
 <h2 data-number="13.3" class="anchored" data-anchor-id="in-code"><span class="header-section-number">13.3</span> In code</h2>
+<div class="code-files">
+<p><strong>Run this chapter’s code yourself:</strong> <a href="https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/13-lu-decomposition.ipynb" target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)">open the notebook in Colab</a>, or download the <a href="../code/python/13-lu-decomposition.ipynb" download="">Jupyter notebook</a> or the <a href="../code/matlab/ch13_lu_decomposition.m" download="">MATLAB script</a>.</p>
+</div>
 <p>SciPy, the scientific companion to NumPy, has the factorisation in <code>scipy.linalg</code>. Watch out for one difference of convention: SciPy’s <code>lu</code> returns <span class="math inline">\(\M{P}\)</span>, <span class="math inline">\(\M{L}\)</span>, <span class="math inline">\(\M{U}\)</span> with <span class="math inline">\(\M{A} = \M{P}\M{L}\M{U}\)</span>, so its <span class="math inline">\(\M{P}\)</span> is the transpose of the <span class="math inline">\(\M{P}\)</span> in <span class="math inline">\(\M{P}\M{A} = \M{L}\M{U}\)</span>. MATLAB’s <code>lu</code> follows the convention of this chapter.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="78e51962" class="cell" data-execution_count="1">
+<div id="88183938" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.linalg <span class="im">as</span> sl</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1272,7 +1275,7 @@ True</code></pre>
 </div>
 </div>
 <p>Partial pivoting chose 8, the largest entry in column 1, as the first pivot, so these factors differ from the ones found by hand. For solving, use <code>lu_factor</code> once and <code>lu_solve</code> for each right-hand side:</p>
-<div id="9e1e2b4e" class="cell" data-execution_count="2">
+<div id="046838d5" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>factors <span class="op">=</span> sl.lu_factor(A)          <span class="co"># the expensive step, done once</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> b <span class="kw">in</span> ([<span class="dv">4</span>, <span class="dv">10</span>, <span class="dv">24</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]):</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(np.<span class="bu">round</span>(sl.lu_solve(factors, b), <span class="dv">10</span>) <span class="op">+</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1282,7 +1285,7 @@ True</code></pre>
 </div>
 </div>
 <p>The saving is real. Here 100 right-hand sides are solved for a <span class="math inline">\(1000 \times 1000\)</span> matrix, first by solving from scratch each time, then by factorising once:</p>
-<div id="4e935f76" class="cell" data-execution_count="3">
+<div id="982f85ed" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">3</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>n, k <span class="op">=</span> <span class="dv">1000</span>, <span class="dv">100</span></span>
@@ -1299,7 +1302,7 @@ True</code></pre>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>t2 <span class="op">=</span> time.perf_counter()</span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"solve each time: </span><span class="sc">{</span>t1 <span class="op">-</span> t0<span class="sc">:.2f}</span><span class="ss"> s,  factorise once: </span><span class="sc">{</span>t2 <span class="op">-</span> t1<span class="sc">:.2f}</span><span class="ss"> s"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>solve each time: 48.20 s,  factorise once: 0.37 s</code></pre>
+<pre><code>solve each time: 56.61 s,  factorise once: 0.46 s</code></pre>
 </div>
 </div>
 </div>
