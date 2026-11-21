@@ -1335,7 +1335,7 @@ a &amp;= c \quad\text{(carbon)} \\
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="661006ad" class="cell" data-execution_count="1">
+<div id="ee156914" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rref(M, tol<span class="op">=</span><span class="fl">1e-10</span>):</span>
@@ -1372,7 +1372,7 @@ pivot columns: [0, 2]</code></pre>
 </div>
 </div>
 <p><code>np.linalg.matrix_rank</code> finds the rank directly. It uses a more reliable method than counting pivots (the singular value decomposition, <a href="../part-4/21-svd-pca.html" class="quarto-xref"><span>Chapter 21</span></a>):</p>
-<div id="0fb382e5" class="cell" data-execution_count="2">
+<div id="fd7c7e08" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array(Ab)[:, :<span class="dv">4</span>]</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.matrix_rank(A), np.linalg.matrix_rank(Ab))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1501,7 +1501,7 @@ ans =
 <p><a href="../appendices/solutions-2.html#solution-gauss-jordan-rank-6" class="sol-link">Solution to exercise 6</a></p></li>
 <li><p><span id="exercise-gauss-jordan-rank-7"></span>Propane (<span class="math inline">\(\mathrm{C_3H_8}\)</span>), the gas in camping stoves, burns to give carbon dioxide and water. Balance <span class="math inline">\(a\,\mathrm{C_3H_8} + b\,\mathrm{O_2} \to c\,\mathrm{CO_2} + d\,\mathrm{H_2O}\)</span> with the smallest whole numbers.</p>
 <p><a href="../appendices/solutions-2.html#solution-gauss-jordan-rank-7" class="sol-link">Solution to exercise 7</a></p></li>
-<li><p><span id="exercise-gauss-jordan-rank-8"></span><strong>Code.</strong> In photosynthesis, plants turn carbon dioxide and water into glucose and oxygen: <span class="math inline">\(a\,\mathrm{CO_2} + b\,\mathrm{H_2O} \to c\,\mathrm{C_6H_{12}O_6} + d\,\mathrm{O_2}\)</span>. Write the atom balances for carbon, hydrogen and oxygen as a homogeneous system (as in <a href="10-linear-systems.html" class="quarto-xref"><span>Chapter 10</span></a>, Example 4), find its reduced row echelon form with code, and use it to balance the equation with the smallest whole numbers.</p>
+<li><p><span id="exercise-gauss-jordan-rank-8"></span><strong>Code.</strong> In photosynthesis, plants turn carbon dioxide and water into glucose and oxygen: <span class="math inline">\(a\,\mathrm{CO_2} + b\,\mathrm{H_2O} \to c\,\mathrm{C_6H_{12}O_6} + d\,\mathrm{O_2}\)</span>. Write the atom balances for carbon, hydrogen and oxygen as a homogeneous system (as in Example 3), find its reduced row echelon form with code, and use it to balance the equation with the smallest whole numbers.</p>
 <p><a href="../appendices/solutions-2.html#solution-gauss-jordan-rank-8" class="sol-link">Solution to exercise 8</a></p></li>
 </ol>
 <p>Solutions are in <a href="../appendices/solutions-2.html#sec-solutions-gauss-jordan-rank" class="quarto-xref"><span>Section F.3</span></a>.</p>

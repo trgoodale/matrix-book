@@ -1266,7 +1266,7 @@ R^2 = 1 - \frac{\lVert\vect{y} - \hat{\vect{y}}\rVert^2}{\lVert\vect{y} - \bar{y
 <div class="callout-body-container callout-body">
 <p>Standardise the four measurements and find the principal components.</p>
 <p><strong>Solution.</strong> The singular values of the <span class="math inline">\(150 \times 4\)</span> standardised matrix give the explained variances: 73.0%, 22.9%, 3.7% and 0.5%. Two components capture 96% of the variation, so a two-dimensional plot loses little. The first two loadings are about <span class="math display">\[
-\vect{v}_1 = (0.52, -0.27, 0.58, 0.57),
+\vect{v}_1 = (0.52, -0.27, 0.58, 0.56),
 \qquad
 \vect{v}_2 = (-0.38, -0.92, -0.02, -0.07),
 \]</span> in the order sepal length, sepal width, petal length, petal width. The first component is roughly the average of three size measurements, minus a little sepal width: overall flower size. The second is almost entirely sepal width. <a href="#fig-iris-pca" class="quarto-xref">Figure&nbsp;<span>37.1</span></a> plots the scores: <em>setosa</em> forms a separate cluster on the left, far from the other two species, which overlap slightly. PCA never used the species labels, but it found them.</p>
@@ -1328,7 +1328,7 @@ Figure&nbsp;37.1: The 150 iris flowers plotted by their scores on the first two 
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="608e398b" class="cell" data-execution_count="2">
+<div id="2c5eec0b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.genfromtxt(<span class="st">"../data/iris.csv"</span>, delimiter<span class="op">=</span><span class="st">","</span>, skip_header<span class="op">=</span><span class="dv">1</span>, usecols<span class="op">=</span><span class="bu">range</span>(<span class="dv">4</span>))</span>
@@ -1478,7 +1478,7 @@ ans =
 <p><a href="../appendices/solutions-6.html#solution-data-science-3" class="sol-link">Solution to exercise 3</a></p></li>
 <li><p><span id="exercise-data-science-4"></span>Show that the residuals <span class="math inline">\(\vect{y} - \M{X}\hat{\vect{\beta}}\)</span> of a model with an intercept add up to zero.</p>
 <p><a href="../appendices/solutions-6.html#solution-data-science-4" class="sol-link">Solution to exercise 4</a></p></li>
-<li><p><span id="exercise-data-science-5"></span>The first loading vector of the iris data is about <span class="math inline">\((0.52, -0.27, 0.58, 0.57)\)</span>. A flower has standardised measurements <span class="math inline">\((1.0, 0.5, 1.2, 1.1)\)</span>. Find its score on the first component. Is it more likely to be <em>setosa</em> or <em>virginica</em>?</p>
+<li><p><span id="exercise-data-science-5"></span>The first loading vector of the iris data is about <span class="math inline">\((0.52, -0.27, 0.58, 0.56)\)</span>. A flower has standardised measurements <span class="math inline">\((1.0, 0.5, 1.2, 1.1)\)</span>. Find its score on the first component. Is it more likely to be <em>setosa</em> or <em>virginica</em>?</p>
 <p><a href="../appendices/solutions-6.html#solution-data-science-5" class="sol-link">Solution to exercise 5</a></p></li>
 <li><p><span id="exercise-data-science-6"></span><strong>Code.</strong> Fit sepal length on all three other measurements. Then refit using only the 50 <em>setosa</em> flowers. Compare the coefficients and their signs, and the condition numbers of the two design matrices. What does this suggest about fitting one model to data from several groups?</p>
 <p><a href="../appendices/solutions-6.html#solution-data-science-6" class="sol-link">Solution to exercise 6</a></p></li>

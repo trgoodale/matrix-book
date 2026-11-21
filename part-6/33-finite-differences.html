@@ -1269,9 +1269,9 @@ Figure&nbsp;33.3: The plate of Example 3. The edge values (squares) are known; b
 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 0 &amp; -1 &amp; 4
 \end{array}\right),
 \]</span></p>
-<p><a href="../apps/heat-plate.html?edges=100,0,0,0" target="_blank" aria-label="Open this plate in the heat plate app (opens in a new tab)">Open this plate in the heat plate app</a> to see the same temperatures settle on much finer grids.</p>
 </div>
 <p><strong>block tridiagonal</strong>: tridiagonal blocks <span class="math inline">\(4\M{I} - (\text{neighbours in the row})\)</span> on the diagonal, and <span class="math inline">\(-\M{I}\)</span> for the rows above and below. The centre temperature turns out to be exactly 25 °C, on any grid with a centre point. Here is why: rotating the plate four times puts the hot edge on each side in turn, and adding the four solutions gives a plate with all edges at 100 °C, which is 100 °C everywhere. The four solutions agree at the centre, so each is 25 °C there.</p>
+<p><a href="../apps/heat-plate.html?edges=100,0,0,0" target="_blank" aria-label="Open this plate in the heat plate app (opens in a new tab)">Open this plate in the heat plate app</a> to see the same temperatures settle on much finer grids.</p>
 </div>
 </div>
 </section>
@@ -1299,7 +1299,7 @@ Figure&nbsp;33.3: The plate of Example 3. The edge values (squares) are known; b
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="75a2f5ec" class="cell" data-execution_count="1">
+<div id="7053a4b7" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.sparse <span class="im">as</span> sp</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse.linalg <span class="im">import</span> spsolve, cg</span>

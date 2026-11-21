@@ -1108,7 +1108,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="47739d11" class="cell" data-execution_count="1">
+<div id="ac0a798a" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> hilbert</span>
@@ -1131,7 +1131,7 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions-5_files/figure-html/cell-2-output-1.png" alt="Log-scale plot against n from 2 to 14. The condition number of the Hilbert matrix rises in a straight line from about 10 to 10 to the 18; the error in the solution rises in parallel from about 10 to the minus 16, closely following the dashed line of condition number times epsilon over 2." width="505" height="325" class="figure-img"></p>
+<p><img src="solutions-5_files/figure-html/cell-2-output-1.png" alt="Log-scale plot against n from 2 to 14. The condition number of the Hilbert matrix rises in a straight line from about 10 to 10 to the 18; the error in the solution rises in parallel from about 10 to the minus 16, closely following the dashed line of condition number times epsilon over 2." width="512" height="319" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1186,7 +1186,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div id="6e0e2a11" class="cell" data-execution_count="2">
+<div id="1b0a7e31" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.linalg</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1252,7 +1252,7 @@ m = 4 - \tfrac{4}{15} = \tfrac{56}{15},\; b'_3 = \bigl(5 - \tfrac{19}{15}\bigr)\
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div id="ab4e5330" class="cell" data-execution_count="3">
+<div id="f65cd9ab" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.sparse <span class="im">as</span> sp</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse.linalg <span class="im">import</span> spsolve</span>
@@ -1271,8 +1271,8 @@ m = 4 - \tfrac{4}{15} = \tfrac{56}{15},\; b'_3 = \bigl(5 - \tfrac{19}{15}\bigr)\
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    slope <span class="op">=</span> np.polyfit(np.log(ns), np.log(t), <span class="dv">1</span>)[<span class="dv">0</span>]</span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: times </span><span class="sc">{</span>[<span class="ss">f'</span><span class="sc">{</span>x<span class="sc">:.4f}</span><span class="ss">'</span> <span class="cf">for</span> x <span class="kw">in</span> t]<span class="sc">}</span><span class="ss">, grows like n^</span><span class="sc">{</span>slope<span class="sc">:.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>dense: times ['0.0041', '0.0209', '0.1157', '0.8124'], grows like n^2.5
-sparse: times ['0.0006', '0.0003', '0.0007', '0.0013'], grows like n^0.4</code></pre>
+<pre><code>dense: times ['0.3740', '0.5458', '1.0130', '2.5000'], grows like n^0.9
+sparse: times ['0.0012', '0.0013', '0.0015', '0.0028'], grows like n^0.4</code></pre>
 </div>
 </div>
 </div>
@@ -1300,7 +1300,7 @@ sparse: times ['0.0006', '0.0003', '0.0007', '0.0013'], grows like n^0.4</code><
 <section id="sec-solutions-iterative-methods" class="level2" data-number="I.4">
 <h2 data-number="I.4" class="anchored" data-anchor-id="sec-solutions-iterative-methods"><span class="header-section-number">I.4</span> Iterative methods</h2>
 <p>Exercises from <a href="../part-5/27-iterative-methods.html" class="quarto-xref"><span>Chapter 27</span></a>.</p>
-<p><span id="solution-iterative-methods-1"><strong>1.</strong></span> The update formulas are <span class="math inline">\(x_1 = (4 + x_2)/5\)</span> and <span class="math inline">\(x_2 = (6 - 2x_1)/4\)</span>. Jacobi: <span class="math inline">\((0.8, 1.5)\)</span>, then <span class="math inline">\((1.1, 1.1)\)</span>. Gauss–Seidel: <span class="math inline">\(x_1 = 0.8\)</span>, <span class="math inline">\(x_2 = (6 - 1.6)/4 = 1.1\)</span>; then <span class="math inline">\(x_1 = 2.1/5 = 1.02\)</span>, <span class="math inline">\(x_2 = (6 - 2.04)/4 = 0.99\)</span>. The exact solution is <span class="math inline">\((1, 1)\T\)</span>.</p>
+<p><span id="solution-iterative-methods-1"><strong>1.</strong></span> The update formulas are <span class="math inline">\(x_1 = (4 + x_2)/5\)</span> and <span class="math inline">\(x_2 = (6 - 2x_1)/4\)</span>. Jacobi: <span class="math inline">\((0.8, 1.5)\)</span>, then <span class="math inline">\((1.1, 1.1)\)</span>. Gauss–Seidel: <span class="math inline">\(x_1 = 0.8\)</span>, <span class="math inline">\(x_2 = (6 - 1.6)/4 = 1.1\)</span>; then <span class="math inline">\(x_1 = 5.1/5 = 1.02\)</span>, <span class="math inline">\(x_2 = (6 - 2.04)/4 = 0.99\)</span>. The exact solution is <span class="math inline">\((1, 1)\T\)</span>.</p>
 <p><a href="../part-5/27-iterative-methods.html#exercise-iterative-methods-1" class="sol-link">Back to exercise 1</a></p>
 <p><span id="solution-iterative-methods-2"><strong>2.</strong></span> <span class="math inline">\(\M{T}_J = \mat{0 &amp; -\tfrac{1}{2} \\ -\tfrac{1}{2} &amp; 0}\)</span>, with eigenvalues <span class="math inline">\(\pm\tfrac{1}{2}\)</span>, so <span class="math inline">\(\rho(\M{T}_J) = 0.5\)</span>, and <span class="math inline">\(\rho(\M{T}_{GS}) = 0.25\)</span> (exercise 4). Gaining 6 digits needs <span class="math inline">\(6/\log_{10}2 \approx 20\)</span> Jacobi steps and <span class="math inline">\(6/\log_{10}4 \approx 10\)</span> Gauss–Seidel steps.</p>
 <p><a href="../part-5/27-iterative-methods.html#exercise-iterative-methods-2" class="sol-link">Back to exercise 2</a></p>
@@ -1315,7 +1315,7 @@ sparse: times ['0.0006', '0.0003', '0.0007', '0.0013'], grows like n^0.4</code><
 <p><span id="solution-iterative-methods-6"><strong>6.</strong></span> A factor of 1000 needs <span class="math inline">\(k\)</span> steps with <span class="math inline">\(\rho^k = 10^{-3}\)</span>, so <span class="math inline">\(k = 3/(-\log_{10}\rho)\)</span>: about 66 steps for <span class="math inline">\(\rho = 0.9\)</span>, but about 687 for <span class="math inline">\(\rho = 0.99\)</span>. When <span class="math inline">\(\rho\)</span> is close to 1, <span class="math inline">\(-\log_{10}\rho \approx (1 - \rho)/2.3\)</span>, so the number of steps is inversely proportional to <span class="math inline">\(1 - \rho\)</span>: ten times closer to 1 means ten times as many steps.</p>
 <p><a href="../part-5/27-iterative-methods.html#exercise-iterative-methods-6" class="sol-link">Back to exercise 6</a></p>
 <p><span id="solution-iterative-methods-7"><strong>7.</strong></span></p>
-<div id="abcac629" class="cell" data-execution_count="4">
+<div id="5a65c51c" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> solve_triangular</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse.linalg <span class="im">import</span> cg</span>
@@ -1380,7 +1380,7 @@ sparse: times ['0.0006', '0.0003', '0.0007', '0.0013'], grows like n^0.4</code><
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<div id="12914b48" class="cell" data-execution_count="5">
+<div id="5b7b134d" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(v):</span>
@@ -1466,7 +1466,7 @@ sparse: times ['0.0006', '0.0003', '0.0007', '0.0013'], grows like n^0.4</code><
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
-<div id="46ee7300" class="cell" data-execution_count="6">
+<div id="ea836b99" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.sparse <span class="im">as</span> sp</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse.linalg <span class="im">import</span> eigsh</span>
@@ -1534,7 +1534,7 @@ sparse: times ['0.0006', '0.0003', '0.0007', '0.0013'], grows like n^0.4</code><
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
-<div id="7a9d6a6c" class="cell" data-execution_count="7">
+<div id="7616b301" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1572,7 +1572,7 @@ sparse: times ['0.0006', '0.0003', '0.0007', '0.0013'], grows like n^0.4</code><
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions-5_files/figure-html/cell-8-output-1.png" alt="Log-log plot of the loss of orthogonality against the condition number of A. Classical Gram–Schmidt grows fastest, reaching about 1; modified Gram–Schmidt grows more slowly, to about 10 to the minus 9; Householder stays flat near 10 to the minus 15." width="527" height="325" class="figure-img"></p>
+<p><img src="solutions-5_files/figure-html/cell-8-output-1.png" alt="Log-log plot of the loss of orthogonality against the condition number of A. Classical Gram–Schmidt grows fastest, reaching about 1; modified Gram–Schmidt grows more slowly, to about 10 to the minus 9; Householder stays flat near 10 to the minus 15." width="531" height="326" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1686,7 +1686,7 @@ sparse: times ['0.0006', '0.0003', '0.0007', '0.0013'], grows like n^0.4</code><
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
-<div id="87b53992" class="cell" data-execution_count="8">
+<div id="f3b89f3f" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">4.0</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">5</span>]])</span>

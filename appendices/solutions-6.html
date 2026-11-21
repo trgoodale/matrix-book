@@ -1113,7 +1113,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="227f87bb" class="cell" data-execution_count="1">
+<div id="6bb86af8" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> truss(P, members, supports, loads):</span>
@@ -1226,7 +1226,7 @@ window.Quarto = {
 <p><span id="solution-circuits-5"><strong>5.</strong></span> KCL at the output node: <span class="math inline">\((V_{\text{out}} - V_{\text{in}})/R + j\omega CV_{\text{out}} = 0\)</span>, so <span class="math inline">\(V_{\text{out}}(1 + j\omega RC) = V_{\text{in}}\)</span> and <span class="math inline">\(V_{\text{out}}/V_{\text{in}} = 1/(1 + j\omega RC)\)</span>. With <span class="math inline">\(\omega RC = 2\)</span>, this is <span class="math inline">\(1/(1 + 2j) = (1 - 2j)/5 = 0.2 - 0.4j\)</span>, of size <span class="math inline">\(1/\sqrt{5} \approx 0.447\)</span> and phase <span class="math inline">\(-\arctan 2 \approx -63.4°\)</span>.</p>
 <p><a href="../part-6/32-circuits.html#exercise-circuits-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-circuits-6"><strong>6.</strong></span></p>
-<div id="5a8ae1b7" class="cell" data-execution_count="2">
+<div id="a37bedff" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> brentq</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1264,7 +1264,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div id="45b6f91c" class="cell" data-execution_count="3">
+<div id="1600ee1f" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.sparse <span class="im">as</span> sp</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse.linalg <span class="im">import</span> spsolve, cg</span>
@@ -1279,10 +1279,10 @@ window.Quarto = {
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    cg(A, b.ravel(), rtol<span class="op">=</span><span class="fl">1e-8</span>, callback<span class="op">=</span><span class="kw">lambda</span> xk: steps.append(<span class="dv">1</span>))<span class="op">;</span> t2 <span class="op">=</span> time.perf_counter()</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"n = </span><span class="sc">{</span>n<span class="sc">:3d}</span><span class="ss">: direct </span><span class="sc">{</span>t1 <span class="op">-</span> t0<span class="sc">:.4f}</span><span class="ss"> s, CG </span><span class="sc">{</span>t2 <span class="op">-</span> t1<span class="sc">:.4f}</span><span class="ss"> s in </span><span class="sc">{</span><span class="bu">len</span>(steps)<span class="sc">}</span><span class="ss"> steps"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>n =  10: direct 0.0004 s, CG 0.0025 s in 28 steps
-n =  20: direct 0.0009 s, CG 0.0012 s in 57 steps
-n =  40: direct 0.0036 s, CG 0.0030 s in 111 steps
-n =  80: direct 0.0161 s, CG 0.0116 s in 217 steps</code></pre>
+<pre><code>n =  10: direct 0.0010 s, CG 0.0028 s in 28 steps
+n =  20: direct 0.0014 s, CG 0.0044 s in 57 steps
+n =  40: direct 0.0051 s, CG 0.0082 s in 111 steps
+n =  80: direct 0.0286 s, CG 0.0273 s in 217 steps</code></pre>
 </div>
 </div>
 </div>
@@ -1326,7 +1326,7 @@ n =  80: direct 0.0161 s, CG 0.0116 s in 217 steps</code></pre>
 <p><span id="solution-graphics-robotics-5"><strong>5.</strong></span> <span class="math inline">\(\M{T}_1\M{T}_2\M{T}_3\)</span> with angles <span class="math inline">\(45°\)</span>, <span class="math inline">\(-90°\)</span>, <span class="math inline">\(45°\)</span>. The links point in the directions <span class="math inline">\(45°\)</span>, <span class="math inline">\(45° - 90° = -45°\)</span> and <span class="math inline">\(-45° + 45° = 0°\)</span>, so the hand is at <span class="math inline">\((\cos 45° + \cos(-45°) + 1, \; \sin 45° + \sin(-45°) + 0) = (1 + \sqrt{2}, 0) \approx (2.414, 0)\)</span>, and the last link points along the positive <span class="math inline">\(x\)</span> axis (the rotation block of the product is the identity).</p>
 <p><a href="../part-6/34-graphics-robotics.html#exercise-graphics-robotics-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-graphics-robotics-6"><strong>6.</strong></span></p>
-<div id="a536d4e3" class="cell" data-execution_count="4">
+<div id="40ef746e" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1345,7 +1345,7 @@ n =  80: direct 0.0161 s, CG 0.0116 s in 217 steps</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions-6_files/figure-html/cell-5-output-1.png" alt="The workspace of a two-link arm: a grey ring of reachable points between two concentric circles, with two coloured circles showing the hand positions when the elbow angle is fixed at 60 and at 120 degrees." width="415" height="414" class="figure-img"></p>
+<p><img src="solutions-6_files/figure-html/cell-5-output-1.png" alt="The workspace of a two-link arm: a grey ring of reachable points between two concentric circles, with two coloured circles showing the hand positions when the elbow angle is fixed at 60 and at 120 degrees." width="418" height="411" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1406,7 +1406,7 @@ x_A - 0.02125 - 0.36125x_A - 0.0605625 - 0.3070625x_A = 0.05,
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div id="efbd519c" class="cell" data-execution_count="5">
+<div id="812c4dab" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pagerank(links, d<span class="op">=</span><span class="fl">0.85</span>, steps<span class="op">=</span><span class="dv">200</span>):</span>
@@ -1469,7 +1469,7 @@ P + G = \frac{s - s^D + s^D - s^{D+1}}{1 - s^D} = \frac{s(1 - s^D)}{1 - s^D} = s
 <p><span id="solution-population-models-5"><strong>5.</strong></span> Writing <span class="math inline">\(\vect{x}_0 = c_1\vect{w}_1 + c_2\vect{w}_2 + c_3\vect{w}_3\)</span> in terms of the eigenvectors (<a href="../part-4/19-diagonalisation.html" class="quarto-xref"><span>Chapter 19</span></a>), <span class="math inline">\(\vect{x}_k = c_1(1.5)^k\vect{w}_1 + c_2(-1.309)^k\vect{w}_2 + c_3(-0.191)^k\vect{w}_3\)</span>. Relative to the dominant term, the second shrinks by a factor of only <span class="math inline">\(1.309/1.5 \approx 0.87\)</span> a year, so it takes about 17 years to fall to a tenth. It is negative, so it changes sign every year, alternately adding to and subtracting from the age classes: the proportions overshoot and undershoot the stable distribution. Biologically, a large cohort of newborns becomes a large cohort of breeders, which produces another large cohort of newborns.</p>
 <p><a href="../part-6/36-population-models.html#exercise-population-models-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-population-models-6"><strong>6.</strong></span></p>
-<div id="eab2b5cf" class="cell" data-execution_count="6">
+<div id="593bc783" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1499,7 +1499,7 @@ P + G = \frac{s - s^D + s^D - s^{D+1}}{1 - s^D} = \frac{s(1 - s^D)}{1 - s^D} = s
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions-6_files/figure-html/cell-7-output-1.png" alt="Total population on a log scale over 100 years: an initial drop and wobble over the first 15 years, then a straight-line decline to below 1." width="517" height="325" class="figure-img"></p>
+<p><img src="solutions-6_files/figure-html/cell-7-output-1.png" alt="Total population on a log scale over 100 years: an initial drop and wobble over the first 15 years, then a straight-line decline to below 1." width="517" height="319" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1522,10 +1522,10 @@ P + G = \frac{s - s^D + s^D - s^{D+1}}{1 - s^D} = \frac{s(1 - s^D)}{1 - s^D} = s
 <p><a href="../part-6/37-data-science.html#exercise-data-science-3" class="sol-link">Back to exercise 3</a></p>
 <p><span id="solution-data-science-4"><strong>4.</strong></span> The first normal equation, from the column of 1s, is <span class="math inline">\(\vect{1}\T(\vect{y} - \M{X}\hat{\vect{\beta}}) = 0\)</span> (the residual is orthogonal to every column, <a href="../part-3/17-orthogonality-least-squares.html" class="quarto-xref"><span>Chapter 17</span></a>). That says exactly that the residuals add up to zero.</p>
 <p><a href="../part-6/37-data-science.html#exercise-data-science-4" class="sol-link">Back to exercise 4</a></p>
-<p><span id="solution-data-science-5"><strong>5.</strong></span> The score is <span class="math inline">\(0.52 \times 1.0 - 0.27 \times 0.5 + 0.58 \times 1.2 + 0.57 \times 1.1 \approx 1.71\)</span>. In <a href="../part-6/37-data-science.html#fig-iris-pca" class="quarto-xref">Figure&nbsp;<span>37.1</span></a>, <em>setosa</em> flowers have first scores around <span class="math inline">\(-2.2\)</span> and <em>virginica</em> around <span class="math inline">\(+1.7\)</span>, so it is very likely a <em>virginica</em>: large petals and a long sepal.</p>
+<p><span id="solution-data-science-5"><strong>5.</strong></span> The score is <span class="math inline">\(0.52 \times 1.0 - 0.27 \times 0.5 + 0.58 \times 1.2 + 0.56 \times 1.1 \approx 1.70\)</span>. In <a href="../part-6/37-data-science.html#fig-iris-pca" class="quarto-xref">Figure&nbsp;<span>37.1</span></a>, <em>setosa</em> flowers have first scores around <span class="math inline">\(-2.2\)</span> and <em>virginica</em> around <span class="math inline">\(+1.7\)</span>, so it is very likely a <em>virginica</em>: large petals and a long sepal.</p>
 <p><a href="../part-6/37-data-science.html#exercise-data-science-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-data-science-6"><strong>6.</strong></span></p>
-<div id="195591c0" class="cell" data-execution_count="7">
+<div id="79a2f61b" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.genfromtxt(<span class="st">"../data/iris.csv"</span>, delimiter<span class="op">=</span><span class="st">","</span>, skip_header<span class="op">=</span><span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">str</span>)</span>
@@ -1557,7 +1557,7 @@ setosa only: [2.352 0.655 0.238 0.252], cond = 50.4</code></pre>
 <p><span id="solution-physics-5"><strong>5.</strong></span> <span class="math inline">\(\M{\sigma}_y\)</span> has trace 0 and determinant <span class="math inline">\(0 - (-i)(i) = -1\)</span>, so its eigenvalues are <span class="math inline">\(\pm 1\)</span>. For <span class="math inline">\(+1\)</span>: <span class="math inline">\(-iy = x\)</span>, giving <span class="math inline">\(\tfrac{1}{\sqrt{2}}(1, i)\T\)</span>; for <span class="math inline">\(-1\)</span>: <span class="math inline">\(\tfrac{1}{\sqrt{2}}(1, -i)\T\)</span>. For <span class="math inline">\(\vect{\psi} = (1, 0)\T\)</span>, the probabilities are <span class="math inline">\(\lvert\vect{e}^*\vect{\psi}\rvert^2 = \lvert\tfrac{1}{\sqrt{2}}\rvert^2 = \tfrac{1}{2}\)</span> each (the conjugate of the first entry is 1 in both cases).</p>
 <p><a href="../part-6/38-physics.html#exercise-physics-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-physics-6"><strong>6.</strong></span></p>
-<div id="201433f5" class="cell" data-execution_count="8">
+<div id="b397a3f3" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1579,7 +1579,7 @@ setosa only: [2.352 0.655 0.238 0.252], cond = 50.4</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions-6_files/figure-html/cell-9-output-2.png" alt="The probability of measuring (1, 0) plotted against phi from 0 to 2 pi: a cosine-shaped curve starting at 1, falling to 0 at pi and returning to 1." width="517" height="288" class="figure-img"></p>
+<p><img src="solutions-6_files/figure-html/cell-9-output-2.png" alt="The probability of measuring (1, 0) plotted against phi from 0 to 2 pi: a cosine-shaped curve starting at 1, falling to 0 at pi and returning to 1." width="515" height="282" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1603,7 +1603,7 @@ setosa only: [2.352 0.655 0.238 0.252], cond = 50.4</code></pre>
 <p><span id="solution-cryptography-5"><strong>5.</strong></span> Encrypting with <span class="math inline">\(\M{K}_1\)</span> and then <span class="math inline">\(\M{K}_2\)</span> gives <span class="math inline">\(\M{K}_2\M{K}_1\vect{p}\)</span>, which is a Hill cipher with the single key <span class="math inline">\(\M{K}_2\M{K}_1\)</span> (reduced modulo 26). The attacker doesn’t need to find <span class="math inline">\(\M{K}_1\)</span> and <span class="math inline">\(\M{K}_2\)</span>, only their product, which the same known-plaintext attack reveals. Linear steps combined are still linear; that is why modern ciphers must include non-linear steps.</p>
 <p><a href="../part-6/39-cryptography.html#exercise-cryptography-5" class="sol-link">Back to exercise 5</a></p>
 <p><span id="solution-cryptography-6"><strong>6.</strong></span></p>
-<div id="ce8ea955" class="cell" data-execution_count="9">
+<div id="24679ad4" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> to_nums(text):</span>
@@ -1686,7 +1686,7 @@ k_2 = m_2\Omega^2 = 2 \times 314.2^2 \approx 1.97 \times 10^5 \text{ N/m}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<div id="7062be0e" class="cell" data-execution_count="10">
+<div id="c4db77c2" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1710,7 +1710,7 @@ k_2 = m_2\Omega^2 = 2 \times 314.2^2 \approx 1.97 \times 10^5 \text{ N/m}.
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solutions-6_files/figure-html/cell-11-output-2.png" alt="The first three mode shapes of a chain of 30 masses between two walls, plotted against mass number: half a sine wave, a full sine wave and one and a half sine waves, each zero at both ends." width="525" height="288" class="figure-img"></p>
+<p><img src="solutions-6_files/figure-html/cell-11-output-2.png" alt="The first three mode shapes of a chain of 30 masses between two walls, plotted against mass number: half a sine wave, a full sine wave and one and a half sine waves, each zero at both ends." width="527" height="283" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1773,7 +1773,7 @@ k_2 = m_2\Omega^2 = 2 \times 314.2^2 \approx 1.97 \times 10^5 \text{ N/m}.
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
-<div id="0fa9dc58" class="cell" data-execution_count="11">
+<div id="9f65300a" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">1</span>)</span>
@@ -1852,7 +1852,7 @@ p_out = 0.15: lambda2 = 11.35, 94 of 100 correct</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
-<div id="29827716" class="cell" data-execution_count="12">
+<div id="21a588cf" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">0.10</span>, <span class="fl">0.05</span>, <span class="fl">0.02</span>], [<span class="fl">0.20</span>, <span class="fl">0.35</span>, <span class="fl">0.10</span>], [<span class="fl">0.10</span>, <span class="fl">0.20</span>, <span class="fl">0.25</span>]])</span>
@@ -1939,7 +1939,7 @@ p_out = 0.15: lambda2 = 11.35, 94 of 100 correct</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
-<div id="26386771" class="cell" data-execution_count="13">
+<div id="f7c10416" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> {<span class="dv">0</span>: [<span class="dv">1</span>], <span class="dv">1</span>: [<span class="dv">0</span>, <span class="dv">2</span>], <span class="dv">2</span>: [<span class="dv">0</span>], <span class="dv">3</span>: [<span class="dv">2</span>, <span class="dv">4</span>], <span class="dv">4</span>: [<span class="dv">3</span>]}   <span class="co"># pages A to E as 0 to 4</span></span>
