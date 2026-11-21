@@ -181,6 +181,10 @@ For an invertible matrix it is the ordinary inverse. For any $\M{A}$, $\hat{\vec
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/21-svd-pca.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/21-svd-pca.ipynb){download=""} or the [MATLAB script](../code/matlab/ch21_svd_pca.m){download=""}.
+:::
+
 `np.linalg.svd` returns $\M{U}$, the singular values as a list, and $\M{V}\T$ (not $\M{V}$). MATLAB's `svd` returns $\M{U}$, $\M{\Sigma}$ and $\M{V}$. With `full_matrices=False`, or `'econ'` in MATLAB, a tall matrix gets only the columns of $\M{U}$ that matter, which saves a lot of memory for data sets.
 
 ::: {.panel-tabset group="language"}

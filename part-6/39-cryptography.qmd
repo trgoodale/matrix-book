@@ -128,6 +128,10 @@ Things to try:
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/39-cryptography.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/39-cryptography.ipynb){download=""} or the [MATLAB script](../code/matlab/ch39_cryptography.m){download=""}.
+:::
+
 Python's built-in `pow(a, -1, 26)` finds an inverse modulo 26 (and raises an error if there is none). In MATLAB, `[g, u] = gcd(a, 26)` gives the greatest common divisor `g`, and when `g` is 1, `u` is an inverse of `a`.
 
 ::: {.panel-tabset group="language"}

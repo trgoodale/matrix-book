@@ -39,5 +39,9 @@ These exercises mix ideas from Parts I to III. They don't say which chapter they
 
 8. []{#exercise-review-3-8}**Code.** Write a Gram–Schmidt function that takes a matrix and returns a matrix $\M{Q}$ with orthonormal columns spanning the same space. Apply it to the columns $(1, 1, 0)\T$, $(1, 0, 1)\T$, $(0, 1, 1)\T$, check that $\M{Q}\T\M{Q} = \M{I}$, and compare $\M{Q}$ with the built-in QR factorisation.
 
+   ::: {.code-files}
+   **Run this exercise yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/part-3-review.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/part-3-review.ipynb){download=""} or the [MATLAB script](../code/matlab/part3_review.m){download=""}.
+   :::
+
    [Solution to exercise 8](../appendices/solutions-3.qmd#solution-review-3-8){.sol-link}
 

@@ -2,6 +2,11 @@
 
 Solutions to the exercises in Part II, grouped by chapter, followed by the solutions to the Part II review. Try each exercise before reading its solution. The link after each solution takes you back to its exercise.
 
+
+::: {.code-files}
+**The code solutions as files:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/solutions-part-2.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/solutions-part-2.ipynb){download=""} or the [MATLAB script](../code/matlab/solutions_part2.m){download=""}.
+:::
+
 ## Systems of linear equations {#sec-solutions-linear-systems}
 
 Exercises from @sec-linear-systems.

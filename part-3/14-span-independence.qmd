@@ -159,6 +159,10 @@ Spans have a special property. Adding two combinations of $\vect{v}_1, \dots, \v
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/14-span-independence.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/14-span-independence.ipynb){download=""} or the [MATLAB script](../code/matlab/ch14_span_independence.m){download=""}.
+:::
+
 Both tests come down to rank. To find a dependence relation, find the solutions of $\M{A}\vect{c} = \zerovec$: SciPy's `null_space` and MATLAB's `null` do this. They return a vector of length 1, so divide by one of its entries to get tidier numbers.
 
 ::: {.panel-tabset group="language"}

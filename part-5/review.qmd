@@ -43,5 +43,9 @@ These exercises mix ideas from Parts I to V. They don't say which chapter they c
 
 9. []{#exercise-review-5-9}**Code.** Run the Jacobi method on $\M{A}\vect{x} = \vect{b}$, with $\M{A}$ from exercise 4 and $\vect{b} = (6, 12)\T$, starting from $\zerovec$. Print the ratio of successive errors $\lVert\vect{x}_{k+1} - \vect{x}\rVert / \lVert\vect{x}_k - \vect{x}\rVert$, and compare it with the spectral radius. Repeat with Gauss–Seidel.
 
+   ::: {.code-files}
+   **Run this exercise yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/part-5-review.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/part-5-review.ipynb){download=""} or the [MATLAB script](../code/matlab/part5_review.m){download=""}.
+   :::
+
    [Solution to exercise 9](../appendices/solutions-5.qmd#solution-review-5-9){.sol-link}
 

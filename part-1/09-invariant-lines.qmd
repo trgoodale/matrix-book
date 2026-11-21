@@ -233,6 +233,10 @@ So a shear has only one invariant line through the origin. Every other line is t
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/09-invariant-lines.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/09-invariant-lines.ipynb){download=""} or the [MATLAB script](../code/matlab/ch09_invariant_lines.m){download=""}.
+:::
+
 To find invariant lines with a computer, ask for the eigenvalues and eigenvectors. Each eigenvector is a direction of an invariant line, and its eigenvalue is the stretch factor. Python's `np.linalg.eig` returns the eigenvalues as an array and the eigenvectors as the columns of a matrix, in the same order.
 
 ::: {.panel-tabset group="language"}

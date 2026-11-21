@@ -222,6 +222,10 @@ Check one entry of $\M{A}\M{A}^{-1}$: row 2 of $\M{A}$ times column 1 of $\M{A}^
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/12-gauss-jordan-rank.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/12-gauss-jordan-rank.ipynb){download=""} or the [MATLAB script](../code/matlab/ch12_gauss_jordan_rank.m){download=""}.
+:::
+
 MATLAB has `rref` built in. NumPy doesn't, because computers rarely need the reduced form (elimination and back substitution is cheaper), but a short function does it. It chooses the largest available entry as each pivot, which keeps rounding errors small (@sec-pivoting), and treats tiny numbers as zero.
 
 ::: {.panel-tabset group="language"}

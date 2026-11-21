@@ -159,6 +159,10 @@ with a minus sign if an odd number of row swaps were made. This is how software 
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/13-lu-decomposition.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/13-lu-decomposition.ipynb){download=""} or the [MATLAB script](../code/matlab/ch13_lu_decomposition.m){download=""}.
+:::
+
 SciPy, the scientific companion to NumPy, has the factorisation in `scipy.linalg`. Watch out for one difference of convention: SciPy's `lu` returns $\M{P}$, $\M{L}$, $\M{U}$ with $\M{A} = \M{P}\M{L}\M{U}$, so its $\M{P}$ is the transpose of the $\M{P}$ in $\M{P}\M{A} = \M{L}\M{U}$. MATLAB's `lu` follows the convention of this chapter.
 
 ::: {.panel-tabset group="language"}

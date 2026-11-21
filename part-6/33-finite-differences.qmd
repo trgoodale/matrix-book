@@ -156,6 +156,10 @@ Things to try:
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/33-finite-differences.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/33-finite-differences.ipynb){download=""} or the [MATLAB script](../code/matlab/ch33_finite_differences.m){download=""}.
+:::
+
 The Kronecker product builds the plate matrix in one line. The example solves a $49 \times 49$ grid, 2401 unknowns, with a sparse direct solver and with conjugate gradients.
 
 ::: {.panel-tabset group="language"}

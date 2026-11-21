@@ -270,6 +270,10 @@ In words: the solutions of $\M{A}\vect{x} = \vect{b}$ are the solutions of $\M{A
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/10-linear-systems.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/10-linear-systems.ipynb){download=""} or the [MATLAB script](../code/matlab/ch10_linear_systems.m){download=""}.
+:::
+
 Both languages solve square systems with one command, which uses the elimination method of @sec-gaussian-elimination. Always check the answer by multiplying back: the **residual** $\M{A}\vect{x} - \vect{b}$ should be zero, apart from tiny rounding errors.
 
 ::: {.panel-tabset group="language"}

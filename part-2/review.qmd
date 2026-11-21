@@ -54,5 +54,9 @@ These exercises mix ideas from Parts I and II. They don't say which chapter they
 
 8. []{#exercise-review-2-8}**Code.** For the matrix in exercise 4, factorise once (with `lu_factor` in Python or `lu` in MATLAB), then solve for the right-hand sides $(4, 10, 24)\T$, $\ue{1}$, $\ue{2}$ and $\ue{3}$. Use the last three solutions to build $\M{A}^{-1}$, and compare it with the built-in inverse.
 
+   ::: {.code-files}
+   **Run this exercise yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/part-2-review.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/part-2-review.ipynb){download=""} or the [MATLAB script](../code/matlab/part2_review.m){download=""}.
+   :::
+
    [Solution to exercise 8](../appendices/solutions-2.qmd#solution-review-2-8){.sol-link}
 

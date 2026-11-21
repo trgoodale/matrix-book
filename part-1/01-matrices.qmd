@@ -155,6 +155,10 @@ symmetric?
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/01-matrices.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/01-matrices.ipynb){download=""} or the [MATLAB script](../code/matlab/ch01_matrices.m){download=""}.
+:::
+
 Both languages store matrices as arrays. The main trap is indexing: *Python counts from 0 and MATLAB counts from 1*, so the entry $a_{23}$ is `A[1, 2]` in Python and `A(2,3)` in MATLAB.
 
 ::: {.panel-tabset group="language"}

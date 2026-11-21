@@ -187,6 +187,10 @@ a particular solution plus the null space: a plane of solutions in $\R^4$.
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/16-fundamental-subspaces.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/16-fundamental-subspaces.ipynb){download=""} or the [MATLAB script](../code/matlab/ch16_fundamental_subspaces.m){download=""}.
+:::
+
 SciPy's `null_space` and `orth`, and MATLAB's `null` and `orth`, return bases for the null space and column space. They give orthonormal bases (perpendicular vectors of length 1, @sec-orthogonality-least-squares), computed from the singular value decomposition, so they look different from the bases found by hand. They span the same subspaces, which you can check by testing that $\M{A}$ times each null space vector is zero.
 
 ::: {.panel-tabset group="language"}

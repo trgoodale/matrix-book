@@ -197,6 +197,10 @@ $$
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/04-transformations.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/04-transformations.ipynb){download=""} or the [MATLAB script](../code/matlab/ch04_transformations.m){download=""}.
+:::
+
 To transform a whole shape at once, store its points as the **columns** of a matrix. Then one multiplication moves every point, because column $j$ of $\M{A}\M{P}$ is $\M{A}$ times column $j$ of $\M{P}$.
 
 ::: {.panel-tabset group="language"}

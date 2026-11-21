@@ -159,6 +159,10 @@ The second term dies away, so in the long run $\tfrac{2}{3}$ of the bikes are at
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/19-diagonalisation.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/19-diagonalisation.ipynb){download=""} or the [MATLAB script](../code/matlab/ch19_diagonalisation.m){download=""}.
+:::
+
 The diagonalisation comes straight from `eig`. For powers with a specific $k$, `matrix_power` (or `A^k` in MATLAB) multiplies efficiently by repeated squaring; the formula @eq-powers is most useful for understanding.
 
 ::: {.panel-tabset group="language"}

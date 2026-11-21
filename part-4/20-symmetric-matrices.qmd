@@ -166,6 +166,10 @@ For $\lambda = 60$, $\M{\sigma} - 60\M{I} = \mat{-10 & 30 \\ 30 & -90}$ gives $x
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/20-symmetric-matrices.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/20-symmetric-matrices.ipynb){download=""} or the [MATLAB script](../code/matlab/ch20_symmetric_matrices.m){download=""}.
+:::
+
 For symmetric matrices, use `np.linalg.eigh` rather than `eig`. It is faster, guarantees real eigenvalues (in increasing order) and orthonormal eigenvectors, and is not upset by tiny rounding errors that make a matrix very slightly unsymmetric. MATLAB's `eig` detects symmetric matrices itself. Cholesky factorisation fails, with an error, exactly when a matrix is not positive definite, which makes it the standard test. Note that MATLAB's `chol` returns the *upper* triangular factor $\M{R} = \M{L}\T$.
 
 ::: {.panel-tabset group="language"}

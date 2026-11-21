@@ -192,6 +192,10 @@ What do the entries of $\M{N}^2$ mean?
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/03-multiplication.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/03-multiplication.ipynb){download=""} or the [MATLAB script](../code/matlab/ch03_multiplication.m){download=""}.
+:::
+
 This is the most common bug in numerical code, so it is worth stating plainly. In both languages there are two different multiplications, and the one that looks natural is *not* the same in each.
 
 | Operation | Python (NumPy) | MATLAB |

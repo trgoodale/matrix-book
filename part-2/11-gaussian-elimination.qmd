@@ -305,6 +305,10 @@ For small $n$, other overheads hide the $n^3$ growth; it shows clearly once the 
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/11-gaussian-elimination.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/11-gaussian-elimination.ipynb){download=""} or the [MATLAB script](../code/matlab/ch11_gaussian_elimination.m){download=""}.
+:::
+
 The function below follows the method exactly: a loop over pivot columns, an inner loop over the rows below, then back substitution. It stops with an error if it meets a zero pivot. @sec-pivoting adds row swaps.
 
 ::: {.panel-tabset group="language"}

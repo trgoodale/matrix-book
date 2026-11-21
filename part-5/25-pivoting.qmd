@@ -169,6 +169,10 @@ Two important kinds of matrix are safe without any row swaps:
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/25-pivoting.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/25-pivoting.ipynb){download=""} or the [MATLAB script](../code/matlab/ch25_pivoting.m){download=""}.
+:::
+
 Adding partial pivoting to the elimination function from @sec-gaussian-elimination takes three lines: find the row with the largest entry in the pivot column, and swap it into place, in both $\M{A}$ and $\vect{b}$.
 
 ::: {.panel-tabset group="language"}

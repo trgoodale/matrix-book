@@ -150,6 +150,10 @@ Things to try, with the code:
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/38-physics.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/38-physics.ipynb){download=""} or the [MATLAB script](../code/matlab/ch38_physics.m){download=""}.
+:::
+
 The code finds the principal axes of four point masses in an L shape, and applies a quantum time evolution.
 
 ::: {.panel-tabset group="language"}

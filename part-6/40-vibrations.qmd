@@ -220,6 +220,10 @@ Things to try:
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/40-vibrations.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/40-vibrations.ipynb){download=""} or the [MATLAB script](../code/matlab/ch40_vibrations.m){download=""}.
+:::
+
 `scipy.linalg.eigh` and MATLAB's `eig` both solve the generalised problem $\M{K}\vect{v} = \lambda\M{M}\vect{v}$ directly, when given both matrices.
 
 ::: {.panel-tabset group="language"}

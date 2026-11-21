@@ -94,6 +94,10 @@ As always, each column is the image of a unit vector. Reflections have determina
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/08-transformations-3d.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/08-transformations-3d.ipynb){download=""} or the [MATLAB script](../code/matlab/ch08_transformations_3d.m){download=""}.
+:::
+
 ::: {.panel-tabset group="language"}
 ## Python
 

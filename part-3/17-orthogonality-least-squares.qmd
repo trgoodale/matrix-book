@@ -169,6 +169,10 @@ The error $\vect{b} - \vect{p} = \tfrac{4}{3}(-1, 1, 1)\T$ is at right angles to
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/17-orthogonality-least-squares.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/17-orthogonality-least-squares.ipynb){download=""} or the [MATLAB script](../code/matlab/ch17_orthogonality_least_squares.m){download=""}.
+:::
+
 For least squares, use a solver that works on $\M{A}$ directly rather than forming $\M{A}\T\M{A}$: NumPy's `lstsq`, or MATLAB's backslash, which automatically gives the least-squares solution when $\M{A}$ has more rows than columns. They use the QR factorisation, which is more accurate (@sec-qr-least-squares). For fitting polynomials there is also `polyfit`, which lists the coefficients from the highest power down.
 
 ::: {.panel-tabset group="language"}

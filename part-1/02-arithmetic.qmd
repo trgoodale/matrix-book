@@ -162,6 +162,10 @@ Adding them gives $3s = 6$, so $s = 2$, and then $t = 3$. Check: $2(2, 1)\T + 3(
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/02-arithmetic.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/02-arithmetic.ipynb){download=""} or the [MATLAB script](../code/matlab/ch02_arithmetic.m){download=""}.
+:::
+
 In both languages, `+`, `-` and multiplying by a number work entry by entry, just as in the mathematics.
 
 ::: {.panel-tabset group="language"}

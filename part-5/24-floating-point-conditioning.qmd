@@ -167,6 +167,10 @@ One consequence is easy to miss. The residual $\vect{r} = \vect{b} - \M{A}\hat{\
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/24-floating-point-conditioning.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/24-floating-point-conditioning.ipynb){download=""} or the [MATLAB script](../code/matlab/ch24_floating_point_conditioning.m){download=""}.
+:::
+
 `np.linalg.norm(x, p)` and `np.linalg.cond(A, p)` compute norms and condition numbers, with `p` equal to `1`, `2` (the default) or `np.inf`; in MATLAB they are `norm(x, p)` and `cond(A, p)`. Computing $\kappa$ exactly needs $\M{A}^{-1}$ or the SVD, which costs more than solving the system, so solvers estimate it cheaply instead: MATLAB's `rcond` gives an estimate of $1/\kappa_1$, and MATLAB warns you when it is close to $\varepsilon$.
 
 ::: {.panel-tabset group="language"}

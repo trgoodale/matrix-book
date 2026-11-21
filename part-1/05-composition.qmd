@@ -146,6 +146,10 @@ so it is a rotation by $45°$ followed by an enlargement with factor $\sqrt{2}$ 
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/05-composition.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/05-composition.ipynb){download=""} or the [MATLAB script](../code/matlab/ch05_composition.m){download=""}.
+:::
+
 ::: {.panel-tabset group="language"}
 ## Python
 

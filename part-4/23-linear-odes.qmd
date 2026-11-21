@@ -172,6 +172,10 @@ which agrees with Example 1.
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/23-linear-odes.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/23-linear-odes.ipynb){download=""} or the [MATLAB script](../code/matlab/ch23_linear_odes.m){download=""}.
+:::
+
 SciPy's `expm` and MATLAB's `expm` compute the matrix exponential directly, without needing eigenvectors, and work for any square matrix. For systems that are not linear, or not constant in time, numerical solvers such as `solve_ivp` and `ode45` step the solution forward in time; they are worth trying on linear systems too, where you can check their answers.
 
 ::: {.panel-tabset group="language"}

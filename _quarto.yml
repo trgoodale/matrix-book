@@ -4,6 +4,7 @@ project:
   resources:
     - apps/
     - data/
+    - code/
     - LICENSE.md
 
 execute:

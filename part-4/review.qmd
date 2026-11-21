@@ -46,5 +46,9 @@ These exercises mix ideas from Parts I to IV. They don't say which chapter they 
 
 11. []{#exercise-review-4-11}**Code.** For the system in exercise 5, compute $\vect{x}(1)$ in two ways: with the built-in matrix exponential, and with $\M{V}e^{\M{\Lambda}t}\M{V}^{-1}\vect{x}(0)$ using the eigenvalues and eigenvectors. Compare both with your formula.
 
+    ::: {.code-files}
+    **Run this exercise yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/part-4-review.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/part-4-review.ipynb){download=""} or the [MATLAB script](../code/matlab/part4_review.m){download=""}.
+    :::
+
     [Solution to exercise 11](../appendices/solutions-4.qmd#solution-review-4-11){.sol-link}
 

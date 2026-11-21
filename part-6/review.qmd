@@ -49,5 +49,9 @@ These exercises mix the applications of Part VI with methods from the whole book
 
 11. []{#exercise-review-6-11}**Code.** Five web pages link as follows: A links to B; B links to A and C; C links to A; D links to C and E; E links to D. Find the PageRank with damping $d = 0.85$ by the power method, counting the iterations needed, and check it by solving a linear system. Explain why D and E rank lowest, even though they link to each other.
 
+    ::: {.code-files}
+    **Run this exercise yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/part-6-review.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/part-6-review.ipynb){download=""} or the [MATLAB script](../code/matlab/part6_review.m){download=""}.
+    :::
+
     [Solution to exercise 11](../appendices/solutions-6.qmd#solution-review-6-11){.sol-link}
 

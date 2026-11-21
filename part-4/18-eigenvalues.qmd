@@ -158,6 +158,10 @@ Each has size $\lvert\lambda\rvert = \sqrt{2}$ and angle $45°$. Indeed $\M{A} =
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/18-eigenvalues.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/18-eigenvalues.ipynb){download=""} or the [MATLAB script](../code/matlab/ch18_eigenvalues.m){download=""}.
+:::
+
 `np.linalg.eig` and MATLAB's `eig` return the eigenvalues, and the eigenvectors as the columns of a matrix in the same order, each scaled to length 1. They don't use the characteristic polynomial, which would be slow and inaccurate for large matrices. Instead they use the QR algorithm of @sec-eigenvalue-algorithms. The order of the eigenvalues, and the sign of each eigenvector, may differ from a hand calculation.
 
 ::: {.panel-tabset group="language"}

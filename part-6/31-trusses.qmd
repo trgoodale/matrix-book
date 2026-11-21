@@ -138,6 +138,10 @@ Things to try:
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/31-trusses.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/31-trusses.ipynb){download=""} or the [MATLAB script](../code/matlab/ch31_trusses.m){download=""}.
+:::
+
 The function below builds the equilibrium matrix from lists of joints, members and supports, following the model above, and solves it. For the Pratt bridge it prints the force in each member with the 20 kN load at the middle of the span.
 
 ::: {.panel-tabset group="language"}

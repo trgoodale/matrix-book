@@ -215,6 +215,10 @@ That ratio is the condition number of $\M{A}$, the same number that measures sen
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/22-matrix-calculus.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/22-matrix-calculus.ipynb){download=""} or the [MATLAB script](../code/matlab/ch22_matrix_calculus.m){download=""}.
+:::
+
 Getting gradients right by hand is error-prone, so it is worth checking them numerically: compare each entry with a **finite difference** $(f(\vect{x} + h\ue{i}) - f(\vect{x} - h\ue{i}))/(2h)$ for a small $h$. In Python, the SymPy package (`pip install sympy`) can also find gradients, Jacobians and Hessians symbolically, as can MATLAB's Symbolic Math Toolbox with `gradient`, `jacobian` and `hessian`.
 
 ::: {.panel-tabset group="language"}

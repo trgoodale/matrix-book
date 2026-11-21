@@ -165,6 +165,10 @@ When even the reordered factors are too large, which happens for big three-dimen
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/26-cost-sparse.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/26-cost-sparse.ipynb){download=""} or the [MATLAB script](../code/matlab/ch26_cost_sparse.m){download=""}.
+:::
+
 SciPy's `scipy.sparse` module stores sparse matrices, and `scipy.sparse.linalg.spsolve` solves sparse systems. In MATLAB, `sparse` and `spdiags` create sparse matrices, and backslash automatically uses a sparse solver for them. The example solves $-u'' = 1$ on $0 < t < 1$, with $u = 0$ at both ends, by finite differences (@sec-finite-differences): $n$ grid points give a tridiagonal system. Its exact solution is $u = t(1 - t)/2$.
 
 ::: {.panel-tabset group="language"}

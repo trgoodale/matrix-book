@@ -147,6 +147,10 @@ Every $\M{A}_k$ is symmetric with trace 5 and determinant 5, as it must be, sinc
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/29-eigenvalue-algorithms.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/29-eigenvalue-algorithms.ipynb){download=""} or the [MATLAB script](../code/matlab/ch29_eigenvalue_algorithms.m){download=""}.
+:::
+
 For large sparse matrices, when only a few eigenvalues are needed, use `scipy.sparse.linalg.eigs` (or `eigsh` for symmetric matrices) in Python and `eigs` in MATLAB. They use **Krylov** methods, Lanczos and Arnoldi, which extract far more from the sequence $\vect{q}, \M{A}\vect{q}, \M{A}^2\vect{q}, \dots$ than the power method does, and with the option `sigma` they use shifted inverse iteration to find the eigenvalues nearest a given value.
 
 ::: {.panel-tabset group="language"}

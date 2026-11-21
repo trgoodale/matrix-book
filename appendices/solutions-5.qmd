@@ -2,6 +2,11 @@
 
 Solutions to the exercises in Part V, grouped by chapter, followed by the solutions to the Part V review. Try each exercise before reading its solution. The link after each solution takes you back to its exercise.
 
+
+::: {.code-files}
+**The code solutions as files:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/solutions-part-5.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/solutions-part-5.ipynb){download=""} or the [MATLAB script](../code/matlab/solutions_part5.m){download=""}.
+:::
+
 ## Floating point and conditioning {#sec-solutions-floating-point-conditioning}
 
 Exercises from @sec-floating-point-conditioning.

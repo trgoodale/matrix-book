@@ -147,6 +147,10 @@ Library solvers, `scipy.optimize.fsolve` and `root` in Python and `fsolve` in MA
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/28-newton-systems.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/28-newton-systems.ipynb){download=""} or the [MATLAB script](../code/matlab/ch28_newton_systems.m){download=""}.
+:::
+
 ::: {.panel-tabset group="language"}
 ## Python
 

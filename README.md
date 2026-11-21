@@ -11,6 +11,8 @@ A Quarto book on matrices, linear algebra and numerical methods, with interactiv
 | `part-1/` to `part-6/` | Chapters, one `.qmd` file each |
 | `appendices/` | Proofs, matrix calculus identities, solutions (one file per Part), glossary |
 | `apps/` | Interactive apps (self-contained HTML), embedded in chapters |
+| `code/` | Jupyter notebooks and MATLAB scripts of each chapter's code, generated from the chapters (see below) |
+| `tools/` | `make_code_files.py`, which generates `code/`, and MATLAB versions of the few Python-only solutions |
 | `assets/` | Notation settings script, fonts and themes |
 | `references.bib` | Bibliography |
 | `.github/workflows/publish.yml` | Builds and publishes the book on every push to `main` |
@@ -113,6 +115,17 @@ x =
 Keep the tab names exactly `Python` and `MATLAB`.
 
 Python runs during the build. MATLAB cannot run on GitHub's servers, so MATLAB code is shown with its output pasted below it. Check MATLAB examples in MATLAB or in [GNU Octave](https://octave.org) before pasting the output.
+
+### Notebooks and MATLAB scripts
+
+`code/` holds a Jupyter notebook and a MATLAB script for each chapter, for each part review's code exercise, and for the worked solutions of each part. Every chapter, review and solutions page links to its files, and the notebooks open in Google Colab straight from GitHub. Don't edit these files by hand: they are generated from the chapters. After changing any code, an exercise marked **Code.**, or its solution, run
+
+```
+quarto render
+python3 tools/make_code_files.py
+```
+
+and commit the changed files in `code/` (the script reads `_book/` for chapter, figure and equation numbers). If a code solution is given in Python only, put its MATLAB version in `tools/matlab_solutions/<exercise id>.m`, with any functions it defines in `<exercise id>.functions.m`. A new chapter's code is picked up automatically if it is under a `## In code` heading in Python/MATLAB tabs; add the `::: {.code-files}` link block under that heading, copied from another chapter.
 
 ### Embedding an app
 

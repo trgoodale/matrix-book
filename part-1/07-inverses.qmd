@@ -179,6 +179,10 @@ Writing $\M{X} = \M{C}\M{A}^{-1}\M{B}^{-1}$, or anything else in a different ord
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/07-inverses.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/07-inverses.ipynb){download=""} or the [MATLAB script](../code/matlab/ch07_inverses.m){download=""}.
+:::
+
 ::: {.panel-tabset group="language"}
 ## Python
 

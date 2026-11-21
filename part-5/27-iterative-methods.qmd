@@ -184,6 +184,10 @@ As a rough guide:
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/27-iterative-methods.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/27-iterative-methods.ipynb){download=""} or the [MATLAB script](../code/matlab/ch27_iterative_methods.m){download=""}.
+:::
+
 Jacobi and Gauss–Seidel take only a few lines. For real problems, use the library Krylov solvers: `scipy.sparse.linalg.cg` and `gmres` in Python, `pcg` and `gmres` in MATLAB.
 
 ::: {.panel-tabset group="language"}

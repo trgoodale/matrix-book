@@ -161,6 +161,10 @@ In the basis of its invariant lines, the matrix is **diagonal**: it just stretch
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/15-basis-change.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/15-basis-change.ipynb){download=""} or the [MATLAB script](../code/matlab/ch15_basis_change.m){download=""}.
+:::
+
 Coordinates come from solving $\M{P}\vect{c} = \vect{v}$, and the change of basis from solving $\M{P}\M{B} = \M{A}\M{P}$. As usual, it is better to solve than to compute $\M{P}^{-1}$ (@sec-inverses).
 
 ::: {.panel-tabset group="language"}

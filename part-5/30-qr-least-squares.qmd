@@ -145,6 +145,10 @@ Libraries compute the SVD in two stages. Householder reflections, applied altern
 
 ## In code
 
+::: {.code-files}
+**Run this chapter's code yourself:** [open the notebook in Colab](https://colab.research.google.com/github/trgoodale/matrix-book/blob/main/code/python/30-qr-least-squares.ipynb){target="_blank" aria-label="Open the notebook in Colab (opens in a new tab)"}, or download the [Jupyter notebook](../code/python/30-qr-least-squares.ipynb){download=""} or the [MATLAB script](../code/matlab/ch30_qr_least_squares.m){download=""}.
+:::
+
 `np.linalg.qr(A)` returns the reduced factorisation by default, and MATLAB's `qr(A, 0)` (or `qr(A, "econ")`) does the same. For least squares, use `np.linalg.lstsq` (which uses the SVD), `scipy.linalg.lstsq`, or MATLAB's backslash `A \ b`, which uses Householder QR for a non-square $\M{A}$.
 
 ::: {.panel-tabset group="language"}
