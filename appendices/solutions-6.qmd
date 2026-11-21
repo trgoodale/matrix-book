@@ -511,7 +511,7 @@ Exercises from @sec-data-science.
 
 [Back to exercise 4](../part-6/37-data-science.qmd#exercise-data-science-4){.sol-link}
 
-[**5.**]{#solution-data-science-5} The score is $0.52 \times 1.0 - 0.27 \times 0.5 + 0.58 \times 1.2 + 0.57 \times 1.1 \approx 1.71$. In @fig-iris-pca, *setosa* flowers have first scores around $-2.2$ and *virginica* around $+1.7$, so it is very likely a *virginica*: large petals and a long sepal.
+[**5.**]{#solution-data-science-5} The score is $0.52 \times 1.0 - 0.27 \times 0.5 + 0.58 \times 1.2 + 0.56 \times 1.1 \approx 1.70$. In @fig-iris-pca, *setosa* flowers have first scores around $-2.2$ and *virginica* around $+1.7$, so it is very likely a *virginica*: large petals and a long sepal.
 
 [Back to exercise 5](../part-6/37-data-science.qmd#exercise-data-science-5){.sol-link}
 

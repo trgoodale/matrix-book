@@ -369,7 +369,7 @@ Exercises marked † are harder: they take longer, or need an idea that the work
 
    [Solution to exercise 7](../appendices/solutions-2.qmd#solution-gauss-jordan-rank-7){.sol-link}
 
-8. []{#exercise-gauss-jordan-rank-8}**Code.** In photosynthesis, plants turn carbon dioxide and water into glucose and oxygen: $a\,\mathrm{CO_2} + b\,\mathrm{H_2O} \to c\,\mathrm{C_6H_{12}O_6} + d\,\mathrm{O_2}$. Write the atom balances for carbon, hydrogen and oxygen as a homogeneous system (as in @sec-linear-systems, Example 4), find its reduced row echelon form with code, and use it to balance the equation with the smallest whole numbers.
+8. []{#exercise-gauss-jordan-rank-8}**Code.** In photosynthesis, plants turn carbon dioxide and water into glucose and oxygen: $a\,\mathrm{CO_2} + b\,\mathrm{H_2O} \to c\,\mathrm{C_6H_{12}O_6} + d\,\mathrm{O_2}$. Write the atom balances for carbon, hydrogen and oxygen as a homogeneous system (as in Example 3), find its reduced row echelon form with code, and use it to balance the equation with the smallest whole numbers.
 
    [Solution to exercise 8](../appendices/solutions-2.qmd#solution-gauss-jordan-rank-8){.sol-link}
 

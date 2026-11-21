@@ -113,7 +113,7 @@ Standardise the four measurements and find the principal components.
 
 **Solution.** The singular values of the $150 \times 4$ standardised matrix give the explained variances: 73.0%, 22.9%, 3.7% and 0.5%. Two components capture 96% of the variation, so a two-dimensional plot loses little. The first two loadings are about
 $$
-\vect{v}_1 = (0.52, -0.27, 0.58, 0.57),
+\vect{v}_1 = (0.52, -0.27, 0.58, 0.56),
 \qquad
 \vect{v}_2 = (-0.38, -0.92, -0.02, -0.07),
 $$
@@ -288,7 +288,7 @@ Exercises marked † are harder: they take longer, or need an idea that the work
 
    [Solution to exercise 4](../appendices/solutions-6.qmd#solution-data-science-4){.sol-link}
 
-5. []{#exercise-data-science-5}The first loading vector of the iris data is about $(0.52, -0.27, 0.58, 0.57)$. A flower has standardised measurements $(1.0, 0.5, 1.2, 1.1)$. Find its score on the first component. Is it more likely to be *setosa* or *virginica*?
+5. []{#exercise-data-science-5}The first loading vector of the iris data is about $(0.52, -0.27, 0.58, 0.56)$. A flower has standardised measurements $(1.0, 0.5, 1.2, 1.1)$. Find its score on the first component. Is it more likely to be *setosa* or *virginica*?
 
    [Solution to exercise 5](../appendices/solutions-6.qmd#solution-data-science-5){.sol-link}
 

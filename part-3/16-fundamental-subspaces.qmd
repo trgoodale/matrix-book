@@ -313,7 +313,7 @@ Solutions are in @sec-solutions-fundamental-subspaces.
 ## In practice
 
 - **Structures and mechanisms**: the equilibrium equations of a pin-jointed frame relate the forces in its bars to the loads at its joints. A non-zero vector in the null space of the matrix that maps joint movements to bar stretches is a way the frame can move without stretching any bar: a mechanism, which an engineer must design out. A non-zero vector in the null space of the equilibrium matrix is a set of bar forces that balances with no load at all: a self-stress, as in a pre-tensioned cable net.
-- **Chemical reactions**: the null space of a matrix of atom counts (as in @sec-linear-systems, Example 4) gives the balanced reactions. For a network of reactions, the left null space gives the quantities that are conserved, such as the total number of atoms of each element.
+- **Chemical reactions**: the null space of a matrix of atom counts (as in @sec-gauss-jordan-rank, Example 3) gives the balanced reactions. For a network of reactions, the left null space gives the quantities that are conserved, such as the total number of atoms of each element.
 - **Networks and circuits**: for the matrix that records which nodes each link of a network joins, the null space describes flows around closed loops, and the left null space reflects the network's connected pieces (@sec-circuits).
 - **Data**: when the columns of a data matrix are dependent, the null space describes exactly which combinations of the measured variables carry no information.
 

@@ -265,7 +265,7 @@ Timings vary from run to run and between computers, especially for small, fast c
 
 Exercises from @sec-iterative-methods.
 
-[**1.**]{#solution-iterative-methods-1} The update formulas are $x_1 = (4 + x_2)/5$ and $x_2 = (6 - 2x_1)/4$. Jacobi: $(0.8, 1.5)$, then $(1.1, 1.1)$. Gauss–Seidel: $x_1 = 0.8$, $x_2 = (6 - 1.6)/4 = 1.1$; then $x_1 = 2.1/5 = 1.02$, $x_2 = (6 - 2.04)/4 = 0.99$. The exact solution is $(1, 1)\T$.
+[**1.**]{#solution-iterative-methods-1} The update formulas are $x_1 = (4 + x_2)/5$ and $x_2 = (6 - 2x_1)/4$. Jacobi: $(0.8, 1.5)$, then $(1.1, 1.1)$. Gauss–Seidel: $x_1 = 0.8$, $x_2 = (6 - 1.6)/4 = 1.1$; then $x_1 = 5.1/5 = 1.02$, $x_2 = (6 - 2.04)/4 = 0.99$. The exact solution is $(1, 1)\T$.
 
 [Back to exercise 1](../part-5/27-iterative-methods.qmd#exercise-iterative-methods-1){.sol-link}
 

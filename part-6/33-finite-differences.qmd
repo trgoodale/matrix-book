@@ -130,11 +130,11 @@ $$
 \end{array}\right),
 $$
 
-[Open this plate in the heat plate app](../apps/heat-plate.html?edges=100,0,0,0){target="_blank" aria-label="Open this plate in the heat plate app (opens in a new tab)"} to see the same temperatures settle on much finer grids.
-
 :::
 
 **block tridiagonal**: tridiagonal blocks $4\M{I} - (\text{neighbours in the row})$ on the diagonal, and $-\M{I}$ for the rows above and below. The centre temperature turns out to be exactly 25 °C, on any grid with a centre point. Here is why: rotating the plate four times puts the hot edge on each side in turn, and adding the four solutions gives a plate with all edges at 100 °C, which is 100 °C everywhere. The four solutions agree at the centre, so each is 25 °C there.
+
+[Open this plate in the heat plate app](../apps/heat-plate.html?edges=100,0,0,0){target="_blank" aria-label="Open this plate in the heat plate app (opens in a new tab)"} to see the same temperatures settle on much finer grids.
 :::
 
 ## Explore
