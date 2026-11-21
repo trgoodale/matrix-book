@@ -280,7 +280,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
       st.textContent = `Target reached: ${fmt(S.s)} a + ${fmt(S.t)} b = (${fmt(T[0])}, ${fmt(T[1])}).`;
     } else {
       st.className = 'status';
-      st.textContent = `Change s and t until the green arrow ends on the target at (${fmt(T[0])}, ${fmt(T[1])}).`;
+      st.innerHTML = `<span class="sr-only">s = ${fmt(S.s)}, t = ${fmt(S.t)}: the arrow ends at (${fmt(w[0])}, ${fmt(w[1])}). </span>Change s and t until the green arrow ends on the target at (${fmt(T[0])}, ${fmt(T[1])}).`;
     }
     $('show').disabled = sol === null;
     cv.setAttribute('aria-label', `a = (${fmt(S.a[0])}, ${fmt(S.a[1])}), b = (${fmt(S.b[0])}, ${fmt(S.b[1])}). ` +

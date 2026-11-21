@@ -394,6 +394,10 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
     if (res.mech) { st.className = 'status bad'; st.innerHTML = `<b>Mechanism.</b> The stiffness matrix is singular (rank ${res.rank} of ${res.n}), so the structure can move without stretching any member, as the orange dashed shape shows. It would collapse. ` + (m + r < j2 ? `There are fewer unknowns (${m + r}) than equations (${j2}).` : 'There are enough members, but they are badly arranged: some are redundant while another part is free to move.'); }
     else if (m + r === j2) { st.className = 'status hit'; st.innerHTML = '<b>Statically determinate.</b> The equilibrium equations alone fix every member force: a square, invertible system. Remove any member and the truss becomes a mechanism.'; }
     else { st.className = 'status'; st.innerHTML = `<b>Statically indeterminate</b>, with ${m + r - j2} redundant member${m + r - j2 > 1 ? 's' : ''}. Equilibrium alone has many solutions; the forces shown also use how much each member stretches (all members are equally stiff here). You can remove ${m + r - j2 > 1 ? 'some members' : 'one member'} and keep it standing.`; }
+    if (res.N && !res.mech) {
+      const tmax = Math.max(...res.N), cmax = -Math.min(...res.N);
+      st.insertAdjacentHTML('beforeend', `<span class="sr-only"> ${sys()[0]}: largest tension ${tmax > 0.05 ? fmt(tmax, 1) + ' kN' : 'none'}, largest compression ${cmax > 0.05 ? fmt(cmax, 1) + ' kN' : 'none'}.</span>`);
+    }
     cv.setAttribute('aria-label', `${sys()[0]} truss with a ${S.mag} kN load. ` + st.textContent);
   }
   function hit(sx, sy) {

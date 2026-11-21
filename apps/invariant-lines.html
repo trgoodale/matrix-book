@@ -342,9 +342,11 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
         : `<b>Invariant line: ${lineName(n.deg)}.</b> A<b>v</b> = ${fmt(l)}<b>v</b>, so the line maps onto itself. ${lamSentence(l)}`;
     } else {
       st.className = 'status';
-      st.textContent = inv.length === 0 && S.found.size === 0 && S.revealed
+      const mat = `<span class="sr-only">A has rows (${fmt(S.A[0][0])}, ${fmt(S.A[0][1])}) and (${fmt(S.A[1][0])}, ${fmt(S.A[1][1])}). </span>`;
+      st.innerHTML = mat;
+      st.append(inv.length === 0 && S.found.size === 0 && S.revealed
         ? 'This matrix turns every line off itself: it has no invariant lines.'
-        : 'Av points off the dashed line, so this line is moved somewhere else. Turn v until Av lies along the same line.';
+        : 'Av points off the dashed line, so this line is moved somewhere else. Turn v until Av lies along the same line.');
     }
     // List
     const ul = $('found'); ul.innerHTML = '';

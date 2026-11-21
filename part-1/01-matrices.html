@@ -1099,7 +1099,7 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>see how matrices store equations, data and networks</li>
+<li>write a set of equations, a table of data or a network as a matrix</li>
 <li>read and write matrix notation: size, entries <span class="math inline">\(a_{ij}\)</span>, rows and columns</li>
 <li>recognise square and symmetric matrices</li>
 <li>find the transpose of a matrix</li>
@@ -1292,7 +1292,7 @@ x_1 + 3x_2 + x_3 &amp;= 0 \\
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="12edfbfb" class="cell" data-execution_count="1">
+<div id="52659cb8" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Temperature readings: rows are times, columns are sensors</span></span>
@@ -1315,7 +1315,7 @@ x_1 + 3x_2 + x_3 &amp;= 0 \\
 </div>
 </div>
 <p>To check whether a matrix is symmetric, compare it with its transpose:</p>
-<div id="a86ae08b" class="cell" data-execution_count="2">
+<div id="31b0b3bb" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">5</span>], [<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">6</span>], [<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">3</span>]])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.array_equal(A, A.T))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">

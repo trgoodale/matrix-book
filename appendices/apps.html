@@ -1413,7 +1413,7 @@ window.Quarto = {
 <ul>
 <li><strong>Used in:</strong> <a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>.</li>
 <li><strong>Open:</strong> <a href="../apps/condition-explorer.html" target="_blank">condition explorer</a>.</li>
-<li><strong>Start-up settings:</strong> <code>?m=</code> sets the matrix, row by row, and <code>&amp;b=</code> the right-hand side, as in <a href="../apps/condition-explorer.html?m=1,1,1,1.01&amp;b=2,2.01" target="_blank"><code>?m=1,1,1,1.01&amp;b=2,2.01</code></a> for Example 2 of <a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>. <code>?preset=</code> picks a preset by its label.</li>
+<li><strong>Start-up settings:</strong> <code>?m=</code> sets the matrix, row by row, and <code>&amp;b=</code> the right-hand side, as in <a href="../apps/condition-explorer.html?m=1,1,1,1.01&amp;b=2,2.01" target="_blank"><code>?m=1,1,1,1.01&amp;b=2,2.01</code></a> for <a href="../part-5/24-floating-point-conditioning.html#ex-floating-point-conditioning-2">Example 2</a> of <a href="../part-5/24-floating-point-conditioning.html" class="quarto-xref"><span>Chapter 24</span></a>. <code>?preset=</code> picks a preset by its label.</li>
 <li><strong>Teaching ideas:</strong> ask students to rank the presets by how much they amplify errors before revealing the condition numbers. <strong>Badly scaled</strong> makes the point that a large condition number is not only about nearly parallel lines.</li>
 </ul>
 </section>
@@ -1435,7 +1435,7 @@ window.Quarto = {
 <ul>
 <li><strong>Used in:</strong> <a href="../part-5/27-iterative-methods.html" class="quarto-xref"><span>Chapter 27</span></a>.</li>
 <li><strong>Open:</strong> <a href="../apps/iteration-race.html" target="_blank">iteration race</a>.</li>
-<li><strong>Start-up settings:</strong> <code>?m=</code>, <code>&amp;b=</code> and <code>&amp;x=</code> set the matrix (row by row), the right-hand side and the starting guess, and <code>&amp;omega=</code> the SOR factor, as in <a href="../apps/iteration-race.html?m=4,1,2,5&amp;b=5,7&amp;x=0,0" target="_blank"><code>?m=4,1,2,5&amp;b=5,7&amp;x=0,0</code></a> for Example 1 of <a href="../part-5/27-iterative-methods.html" class="quarto-xref"><span>Chapter 27</span></a>. <code>?preset=</code> picks a preset by its label.</li>
+<li><strong>Start-up settings:</strong> <code>?m=</code>, <code>&amp;b=</code> and <code>&amp;x=</code> set the matrix (row by row), the right-hand side and the starting guess, and <code>&amp;omega=</code> the SOR factor, as in <a href="../apps/iteration-race.html?m=4,1,2,5&amp;b=5,7&amp;x=0,0" target="_blank"><code>?m=4,1,2,5&amp;b=5,7&amp;x=0,0</code></a> for <a href="../part-5/27-iterative-methods.html#ex-iterative-methods-1">Example 1</a> of <a href="../part-5/27-iterative-methods.html" class="quarto-xref"><span>Chapter 27</span></a>. <code>?preset=</code> picks a preset by its label.</li>
 <li><strong>Teaching ideas:</strong> ask why Gauss–Seidel moves in a staircase and Jacobi diagonally. In <strong>Diverges</strong>, ask students to fix the system without changing its solution.</li>
 </ul>
 </section>
@@ -1446,7 +1446,7 @@ window.Quarto = {
 <ul>
 <li><strong>Used in:</strong> <a href="../part-5/28-newton-systems.html" class="quarto-xref"><span>Chapter 28</span></a>.</li>
 <li><strong>Open:</strong> <a href="../apps/newton-basins.html" target="_blank">Newton basins</a>.</li>
-<li><strong>Start-up settings:</strong> <code>?preset=</code> picks a system by its label, <code>&amp;x=</code> the starting point, and <code>&amp;damped</code> turns on damping, as in <a href="../apps/newton-basins.html?preset=Circle and hyperbola&amp;x=2,0.5" target="_blank"><code>?preset=Circle%20and%20hyperbola&amp;x=2,0.5</code></a> for Example 1 of <a href="../part-5/28-newton-systems.html" class="quarto-xref"><span>Chapter 28</span></a>.</li>
+<li><strong>Start-up settings:</strong> <code>?preset=</code> picks a system by its label, <code>&amp;x=</code> the starting point, and <code>&amp;damped</code> turns on damping, as in <a href="../apps/newton-basins.html?preset=Circle and hyperbola&amp;x=2,0.5" target="_blank"><code>?preset=Circle%20and%20hyperbola&amp;x=2,0.5</code></a> for <a href="../part-5/28-newton-systems.html#ex-newton-systems-1">Example 1</a> of <a href="../part-5/28-newton-systems.html" class="quarto-xref"><span>Chapter 28</span></a>.</li>
 <li><strong>Teaching ideas:</strong> ask students to count the zeros in the “distance to root” column from step to step, to discover quadratic convergence. In <strong>Circle and hyperbola</strong>, ask why the colours meet along the lines <span class="math inline">\(y = \pm x\)</span>.</li>
 </ul>
 </section>
@@ -1457,7 +1457,7 @@ window.Quarto = {
 <ul>
 <li><strong>Used in:</strong> <a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a>.</li>
 <li><strong>Open:</strong> <a href="../apps/power-method.html" target="_blank">power method</a>.</li>
-<li><strong>Start-up settings:</strong> <code>?m=</code> sets the matrix, row by row, <code>&amp;method=</code> the method (<code>power</code>, <code>inverse</code> or <code>shift</code>) and <code>&amp;mu=</code> the shift, as in <a href="../apps/power-method.html?m=2,1,1,3&amp;method=shift&amp;mu=1" target="_blank"><code>?m=2,1,1,3&amp;method=shift&amp;mu=1</code></a> for Example 2 of <a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a>. <code>?preset=</code> picks a preset by its label.</li>
+<li><strong>Start-up settings:</strong> <code>?m=</code> sets the matrix, row by row, <code>&amp;method=</code> the method (<code>power</code>, <code>inverse</code> or <code>shift</code>) and <code>&amp;mu=</code> the shift, as in <a href="../apps/power-method.html?m=2,1,1,3&amp;method=shift&amp;mu=1" target="_blank"><code>?m=2,1,1,3&amp;method=shift&amp;mu=1</code></a> for <a href="../part-5/29-eigenvalue-algorithms.html#ex-eigenvalue-algorithms-2">Example 2</a> of <a href="../part-5/29-eigenvalue-algorithms.html" class="quarto-xref"><span>Chapter 29</span></a>. <code>?preset=</code> picks a preset by its label.</li>
 <li><strong>Teaching ideas:</strong> in <strong>Close eigenvalues</strong>, ask students to choose a shift that makes convergence as fast as possible, and to explain their choice using the convergence factor.</li>
 </ul>
 </section>

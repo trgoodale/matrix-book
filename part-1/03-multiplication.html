@@ -1103,8 +1103,8 @@ window.Quarto = {
 <ul>
 <li>multiply matrices using the row-times-column rule</li>
 <li>decide whether a product is defined, and predict its size</li>
-<li>see a matrix times a vector both as dot products and as a combination of columns</li>
-<li>know which rules of ordinary algebra still hold, and which fail, especially <span class="math inline">\(\M{A}\M{B} \neq \M{B}\M{A}\)</span></li>
+<li>work out a matrix times a vector in two ways: as dot products with the rows, and as a combination of the columns</li>
+<li>say which rules of ordinary algebra still hold for matrices, and which fail, especially <span class="math inline">\(\M{A}\M{B} \neq \M{B}\M{A}\)</span></li>
 <li>use the identity matrix, which plays the role of the number 1</li>
 </ul>
 </div>
@@ -1324,7 +1324,7 @@ c_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \dots + a_{in}b_{nj} = \sum_{k=1}^{n} a_{
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="71792471" class="cell" data-execution_count="1">
+<div id="b035cc9a" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]])</span>
@@ -1348,7 +1348,7 @@ c_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \dots + a_{in}b_{nj} = \sum_{k=1}^{n} a_{
 </div>
 </div>
 <p>The column view of <span class="math inline">\(\M{A}\vect{x}\)</span>, checked in code:</p>
-<div id="3f38135e" class="cell" data-execution_count="2">
+<div id="85d901ef" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">3</span>]])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">2</span>])</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(M <span class="op">@</span> x)</span>
