@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e788e926c29bd5ef974d4e8b1e8cb3d9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1112,7 +1112,7 @@ window.Quarto = {
 <p>Much of applied mathematics is about finding the best of something: the line that fits the data most closely, the design with the least weight, the model parameters with the smallest error. With one variable you set a derivative to zero. With many variables, the derivatives collect into vectors and matrices, and matrix notation turns pages of partial derivatives into a few lines. This chapter assumes you know how to take partial derivatives; everything else is built from there.</p>
 <section id="build-intuition" class="level2" data-number="22.1">
 <h2 data-number="22.1" class="anchored" data-anchor-id="build-intuition"><span class="header-section-number">22.1</span> Build intuition</h2>
-<p>There is no app for this chapter. Instead, study the picture below. It shows the contours (lines of constant height) of the quadratic function of Example 1, like the contour lines on a map of a valley, with arrows showing the gradient at points across the plane, and the path taken by gradient descent from <span class="math inline">\((-2, -1)\)</span>.</p>
+<p>There is no app for this chapter. Instead, study <a href="#fig-gradient-descent" class="quarto-xref">Figure&nbsp;<span>22.1</span></a> below. It shows the contours (lines of constant height) of the quadratic function of Example 1, like the contour lines on a map of a valley, with arrows showing the gradient at points across the plane, and the path taken by gradient descent from <span class="math inline">\((-2, -1)\)</span>.</p>
 <div id="cell-fig-gradient-descent" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code for this figure</summary>
@@ -1340,7 +1340,7 @@ Figure&nbsp;22.3: Contours of <span class="math inline">\(f(x, y) = x^3 - 3x + y
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="ffc13ec1" class="cell" data-execution_count="2">
+<div id="91225939" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">1.0</span>, <span class="fl">2.0</span>]])</span>
@@ -1363,7 +1363,7 @@ Figure&nbsp;22.3: Contours of <span class="math inline">\(f(x, y) = x^3 - 3x + y
 [1.00000092 2.00000031]</code></pre>
 </div>
 </div>
-<div id="62b98224" class="cell" data-execution_count="3">
+<div id="220a8ac9" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>x, y, r, t <span class="op">=</span> sp.symbols(<span class="st">"x y r theta"</span>)</span>

@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-e49b912b00b41530add8783c7924be7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-e31901f88034fbb8c49269c57bb455d6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e788e926c29bd5ef974d4e8b1e8cb3d9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1340,7 +1340,7 @@ x + 2y + z &amp;= 5.
 <p><span class="math display">\[
 \sum_{k=1}^{n-1} 2(n-k)^2 \approx \frac{2}{3} n^3.
 \]</span></p>
-<p>Back substitution needs only about <span class="math inline">\(n^2\)</span> operations, so elimination dominates. Doubling the number of unknowns multiplies the work by about eight. That is why large problems need the structure-aware methods in <a href="../part-5/26-cost-sparse.html" class="quarto-xref"><span>Chapter 26</span></a> and <a href="../part-5/27-iterative-methods.html" class="quarto-xref"><span>Chapter 27</span></a>.</p>
+<p>Back substitution needs only about <span class="math inline">\(n^2\)</span> operations, so elimination dominates. Doubling the number of unknowns multiplies the work by about eight, and measured times follow this rate (<a href="#fig-ge-cost" class="quarto-xref">Figure&nbsp;<span>11.2</span></a>). That is why large problems need the structure-aware methods in <a href="../part-5/26-cost-sparse.html" class="quarto-xref"><span>Chapter 26</span></a> and <a href="../part-5/27-iterative-methods.html" class="quarto-xref"><span>Chapter 27</span></a>.</p>
 <div id="cell-fig-ge-cost" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code for this plot</summary>
@@ -1399,7 +1399,7 @@ Figure&nbsp;11.2: Time taken by NumPy’s solver as the system grows, on log sca
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="40641546" class="cell" data-execution_count="3">
+<div id="f3df6c31" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gaussian_elimination(A, b):</span>
@@ -1431,7 +1431,7 @@ Figure&nbsp;11.2: Time taken by NumPy’s solver as the system grows, on log sca
 </div>
 </div>
 <p>In practice, use the library solver, which adds pivoting and is far faster:</p>
-<div id="ef17f6c8" class="cell" data-execution_count="4">
+<div id="28c51180" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.linalg.solve(A, b))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[ 2.  3. -1.]</code></pre>
