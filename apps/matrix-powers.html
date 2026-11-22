@@ -304,7 +304,11 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   function step() { if (S.xs.length > 60) return; S.xs.push(mul(S.A, S.xs[S.xs.length - 1])); draw(); readout(); }
   $('step').addEventListener('click', () => { stop(); step(); });
   $('reset').addEventListener('click', restart);
-  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; } $('play').textContent = 'Pause'; S.playing = setInterval(() => { if (S.xs.length > 30) { stop(); return; } step(); }, 700); });
+  // With reduced motion asked for, Play shows the end result at once instead of animating.
+  const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; }
+    if (reduceMotion()) { while (S.xs.length <= 30) { const n = S.xs.length; step(); if (S.xs.length === n) break; } return; }
+    $('play').textContent = 'Pause'; S.playing = setInterval(() => { if (S.xs.length > 30) { stop(); return; } step(); }, 700); });
   const sync = wireMatrix(S, () => { mark(); restart(); });
   const mark = makePresets($('presets'), PRESETS, p => JSON.stringify(p[1]) === JSON.stringify(S.A), p => { S.A = p[1].map(r => r.slice()); S.x0 = p[2].slice(); sync(); mark(); restart(); });
 

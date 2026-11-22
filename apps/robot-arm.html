@@ -307,6 +307,8 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   function stopAnim() { if (S.anim) clearInterval(S.anim); S.anim = 0; }
   $('reach').addEventListener('click', () => {
     stopAnim(); S.steps = [[S.t1, S.t2]]; let k = 0;
+    // With reduced motion asked for, show where Newton's method ends up at once.
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { let r; do { r = newtonStep(); k++; } while (!(r < 1e-6 || k > 30)); draw(); return; }
     S.anim = setInterval(() => { const r = newtonStep(); k++; draw(); if (r < 1e-6 || k > 30) stopAnim(); }, 260);
   });
   [['t1', 't1'], ['t2', 't2'], ['l1', 'l1'], ['l2', 'l2']].forEach(([id, key]) => $(id).addEventListener('input', e => { stopAnim(); S[key] = +e.target.value; S.steps = []; draw(); }));

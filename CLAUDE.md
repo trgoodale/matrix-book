@@ -68,7 +68,8 @@ Code and publishing
 - Python and MATLAB in tabs throughout. Python runs at build time; MATLAB output is
   pasted. A few MATLAB-only functions are used (`decomposition`, `max(...,'all')`,
   `eigs(...,'smallestabs')`), so *How to use* says "almost all" MATLAB code runs in
-  Octave. Chapter 28 uses `fsolve` (Optimization Toolbox, installed in CI).
+  Octave. Chapter 28 uses `fsolve` (Optimization Toolbox, installed in CI), guarded by
+  `exist('fsolve','file')` so the script prints a message instead of failing without it.
 - Notebooks in the repository have no outputs (Colab opens them from `main`); the
   website's copies are run at publish time and include outputs. Tom chose to keep this
   setup rather than point Colab at `gh-pages`.
@@ -94,9 +95,11 @@ Accessibility
   (its explorer sets tabindex="0"), so `notation-header.html` enforces it with a
   MutationObserver; formulas that scroll sideways on narrow screens stay focusable. Remove
   the workaround if a later MathJax respects the setting.
-- Animated apps only move after Play; eight of them (heat plate, iteration race, matrix
-  powers, normal modes, power method, random surfer, robot arm, row reduction) do not
-  check prefers-reduced-motion (AAA only, since motion is user-started); phase portrait does.
+- Animated apps only move after Play. With prefers-reduced-motion, Play (Reach in robot
+  arm) shows the end result at once in heat plate, iteration race, matrix powers, power
+  method, robot arm and row reduction; random surfer's Play does 1000 clicks at once;
+  phase portrait's flow animation starts off. Normal modes still animates when Play is
+  pressed, because the motion is what it shows (decided 2026-11-21).
 
 ## Working practices (for Claude)
 
@@ -119,9 +122,6 @@ Accessibility
 
 - Instructor pack (slides per Part, quiz bank).
 - PDF and EPUB editions (static images in place of apps), then an index.
-- Optional: Chapter 28 script skips `fsolve` with a message when the toolbox is
-  missing.
-- Optional: honour prefers-reduced-motion in the eight animated apps listed above.
 - Reader testing: a few students thinking aloud through one Core and one Part VI
   chapter (the review could not judge clarity for novices).
 
@@ -140,6 +140,7 @@ Update the date and result whenever a check is run. "Sample" means not every pag
 | Apps: keyboard, focus, labels, live regions, motion | 2026-11-21 | All 27, light and dark: every control reachable by Tab with a visible focus ring, no traps, every canvas labelled, every app has a status region, nothing moves on load. Dragging alternatives added to 10 apps |
 | App canvas colours (3:1 against plot) | 2026-11-21 | All pass after the transformed-grid colour in determinant explorer and transformation lab was strengthened |
 | Notebooks run (54) | 2026-11-21 | All run, locally |
-| MATLAB scripts run (54) | 2026-11-21 | GitHub CI, real MATLAB: 53/54; Ch28 `fsolve` needed the Optimization Toolbox (workflow updated; confirm next run) |
+| MATLAB scripts run (54) | 2026-11-21 | GitHub CI, real MATLAB with the Optimization Toolbox: all pass (Tom confirmed). Ch28 tested in Octave with and without `fsolve` on 2026-11-21 |
+| Apps with reduced motion | 2026-11-21 | All seven stepping apps show the end state at once and stay still; normal behaviour unchanged |
 | Reading routes against Builds on lines | 2026-11-20 | All routes complete (Computing and Biology routes added 2026-11-21) |
 | Not yet done | | Testing with a real screen reader (NVDA, VoiceOver) by a person; reader testing with students |

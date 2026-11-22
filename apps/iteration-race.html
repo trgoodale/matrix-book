@@ -363,7 +363,9 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   $('om').addEventListener('input', e => { S.om = +e.target.value; draw(); });
   $('best').addEventListener('click', () => { S.om = Math.round(bestOmega() * 100) / 100; $('om').value = String(S.om); draw(); });
   const stop = () => { if (S.playing) clearInterval(S.playing); S.playing = 0; $('play').textContent = 'Play'; };
-  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; } S.n = 0; $('play').textContent = 'Pause'; S.playing = setInterval(() => { if (S.n >= 25) { stop(); return; } S.n++; $('n').value = String(S.n); draw(); }, 450); });
+  // With reduced motion asked for, Play shows the end result at once instead of animating.
+  const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; } if (reduceMotion()) { S.n = 25; $('n').value = '25'; draw(); return; } S.n = 0; $('play').textContent = 'Pause'; S.playing = setInterval(() => { if (S.n >= 25) { stop(); return; } S.n++; $('n').value = String(S.n); draw(); }, 450); });
 
   function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
   const onTip = (sx, sy) => { const s = P(S.x0); return Math.hypot(s[0] - sx, s[1] - sy) < 18; };
