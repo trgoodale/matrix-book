@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-e788e926c29bd5ef974d4e8b1e8cb3d9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-42a0c8504953793a591d370a1208fe52.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-32c6c7c67f670e067e5ca6fe81e2e6fe.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-42a0c8504953793a591d370a1208fe52.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -95,10 +95,16 @@ ul.task-list li input[type="checkbox"] {
   here, before MathJax loads, so every page is typeset in their notation.
 */
 (function () {
-  var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python" };
+  var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python", mtab: "off" };
   var s = {};
   try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) { s = {}; }
   for (var k in DEFAULTS) if (!(k in s)) s[k] = DEFAULTS[k];
+  // Whether the Tab key stops at each formula. MathJax's own menu ("Include in Tab Order")
+  // saves the same choice under "MathJax-Menu-Settings"; follow it if the reader used it there.
+  try {
+    var mjs = JSON.parse(localStorage.getItem("MathJax-Menu-Settings") || "{}") || {};
+    if (typeof mjs.inTabOrder === "boolean") s.mtab = mjs.inTabOrder ? "on" : "off";
+  } catch (e) {}
   window.mbSettings = s;
   window.mbDefaults = DEFAULTS;
 
@@ -130,7 +136,11 @@ ul.task-list li input[type="checkbox"] {
     },
     // MathJax 4: break long equations across lines to fit narrow screens
     output: { displayOverflow: "linebreak", linebreaks: { inline: true, width: "100%", lineleading: 0.6 } },
-    chtml: { scale: 1.0 }
+    chtml: { scale: 1.0 },
+    // Formulas are left out of the Tab order by default: otherwise a keyboard user must press
+    // Tab once per formula (over 200 times in some chapters). Readers can turn it back on in
+    // the Notation panel or in MathJax's own menu (How to use this book explains).
+    options: { menuOptions: { settings: { inTabOrder: s.mtab === "on" } } }
   };
 
   // Default language for code tabs: Quarto reads this when the page is shown.
@@ -147,7 +157,8 @@ ul.task-list li input[type="checkbox"] {
     { key: "basis", label: "Unit vectors", opts: [["ijk", "i, j, k", "\\mathbf{i},\\ \\mathbf{j},\\ \\mathbf{k}"], ["hat", "Hats", "\\hat{\\imath},\\ \\hat{\\jmath},\\ \\hat{k}"], ["e", "e₁, e₂, e₃", "\\mathbf{e}_1,\\ \\mathbf{e}_2,\\ \\mathbf{e}_3"]] },
     { key: "br", label: "Brackets", opts: [["round", "Round", "\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}"], ["square", "Square", "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}"]] },
     { key: "tr", label: "Transpose", opts: [["T", "Letter T", "\\mathbf{A}^{\\mathsf{T}}"], ["top", "Symbol ⊤", "\\mathbf{A}^{\\top}"]] },
-    { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] }
+    { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] },
+    { key: "mtab", label: "Tab key and formulas", opts: [["off", "Tab skips formulas", ""], ["on", "Tab stops at each formula", ""]] }
   ];
 
   function buildForm(prefix) {
@@ -213,6 +224,10 @@ ul.task-list li input[type="checkbox"] {
       var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
       tabs.language = next.code;
       localStorage.setItem(key, JSON.stringify(tabs));
+      var mk = "MathJax-Menu-Settings";
+      var mjs = JSON.parse(localStorage.getItem(mk) || "{}") || {};
+      mjs.inTabOrder = next.mtab === "on";
+      localStorage.setItem(mk, JSON.stringify(mjs));
       sessionStorage.setItem("mb-scroll", String(window.scrollY));
     } catch (e) {}
     location.reload();
@@ -256,6 +271,37 @@ ul.task-list li input[type="checkbox"] {
     btn.addEventListener("click", function () { dlg.showModal(); typeset(dlg); });
     dlg.querySelector(".btn-close").addEventListener("click", function () { dlg.close(); });
     dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+    // MathJax 4.0's formula explorer puts every formula in the Tab order (tabindex="0")
+    // whatever its "Include in Tab Order" setting says, so enforce that setting here.
+    // It follows MathJax's live setting, so turning it on in either menu still works.
+    // Remove this if a later MathJax version respects the setting itself.
+    function mathInTabOrder() {
+      try { return !!window.MathJax.startup.document.menu.settings.inTabOrder; } catch (e) { return s.mtab === "on"; }
+    }
+    // A formula too wide for the screen scrolls sideways, so it stays in the Tab order:
+    // keyboard users need to reach it to scroll it.
+    function untab(el) {
+      if (mathInTabOrder()) return;
+      var want = el.scrollWidth > el.clientWidth + 1 ? "0" : "-1";
+      if (el.getAttribute("tabindex") !== want) el.setAttribute("tabindex", want);
+    }
+    var untabTimer = 0;
+    function untabAll() { document.querySelectorAll("mjx-container").forEach(untab); }
+    window.addEventListener("resize", function () { clearTimeout(untabTimer); untabTimer = setTimeout(untabAll, 200); });
+    window.addEventListener("load", function () {
+      try { window.MathJax.startup.promise.then(function () { setTimeout(untabAll, 300); }); } catch (e) { setTimeout(untabAll, 1500); }
+    });
+    new MutationObserver(function (list) {
+      list.forEach(function (m) {
+        if (m.type === "attributes") { if (m.target.tagName === "MJX-CONTAINER") untab(m.target); return; }
+        m.addedNodes.forEach(function (n) {
+          if (n.nodeType !== 1) return;
+          if (n.tagName === "MJX-CONTAINER") untab(n);
+          else if (n.querySelectorAll) n.querySelectorAll("mjx-container").forEach(untab);
+        });
+      });
+    }).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ["tabindex"] });
 
     // Size embedded apps to their content (same origin)
     document.querySelectorAll("iframe.app-frame").forEach(function (f) {
@@ -987,6 +1033,7 @@ document.addEventListener("DOMContentLoaded", function () {
   <li><a href="#routes-through-the-book" id="toc-routes-through-the-book" class="nav-link" data-scroll-target="#routes-through-the-book">Routes through the book</a></li>
   <li><a href="#how-each-chapter-works" id="toc-how-each-chapter-works" class="nav-link" data-scroll-target="#how-each-chapter-works">How each chapter works</a></li>
   <li><a href="#using-the-apps" id="toc-using-the-apps" class="nav-link" data-scroll-target="#using-the-apps">Using the apps</a></li>
+  <li><a href="#using-a-keyboard-or-screen-reader" id="toc-using-a-keyboard-or-screen-reader" class="nav-link" data-scroll-target="#using-a-keyboard-or-screen-reader">Using a keyboard or screen reader</a></li>
   <li><a href="#running-the-code" id="toc-running-the-code" class="nav-link" data-scroll-target="#running-the-code">Running the code</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/trgoodale/matrix-book/edit/main/front/how-to-use.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/trgoodale/matrix-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -1148,9 +1195,14 @@ document.addEventListener("DOMContentLoaded", function () {
 <h2 class="anchored" data-anchor-id="using-the-apps">Using the apps</h2>
 <p>The apps run in your browser, with nothing to install. Each one also opens in its own tab, which is useful for teaching from a projector, and <a href="../appendices/apps.html" class="quarto-xref"><span>Appendix A — Interactive apps</span></a> lists them all in one place. They work with a keyboard and a screen reader as well as a mouse or touchscreen.</p>
 </section>
+<section id="using-a-keyboard-or-screen-reader" class="level2">
+<h2 class="anchored" data-anchor-id="using-a-keyboard-or-screen-reader">Using a keyboard or screen reader</h2>
+<p>Screen readers read every formula aloud, and can show it in braille. To keep the Tab key quick, it skips over formulas: otherwise it would stop at every one, more than 200 times in some chapters. Screen readers still read the formulas with the text around them.</p>
+<p>If you want the Tab key to stop at each formula, for example to explore a long formula one piece at a time with the arrow keys, open <strong>Notation</strong> (the button at the bottom right of every page) and choose <em>Tab stops at each formula</em> under <strong>Tab key and formulas</strong>. You can also right-click any formula and choose <em>Include in Tab Order</em> in its menu, under <strong>Accessibility</strong>, <strong>Options</strong>. Either way, the choice is saved in your browser and used on every page.</p>
+</section>
 <section id="running-the-code" class="level2">
 <h2 class="anchored" data-anchor-id="running-the-code">Running the code</h2>
-<p>The Python examples use <a href="https://numpy.org">NumPy</a>, <a href="https://scipy.org">SciPy</a> and <a href="https://matplotlib.org">Matplotlib</a>. The MATLAB examples use only core MATLAB, and almost all of them also run in the free <a href="https://octave.org">GNU Octave</a>. Copy any example with the button at its top right.</p>
+<p>The Python examples use <a href="https://numpy.org">NumPy</a>, <a href="https://scipy.org">SciPy</a> and <a href="https://matplotlib.org">Matplotlib</a>. The MATLAB examples use core MATLAB (one in <a href="../part-5/28-newton-systems.html" class="quarto-xref"><span>28&nbsp; Newton’s method for nonlinear systems</span></a> also uses the Optimization Toolbox), and almost all of them also run in the free <a href="https://octave.org">GNU Octave</a>. Copy any example with the button at its top right.</p>
 <p>Each chapter’s code is also available as a Jupyter notebook and as a MATLAB script, with links at the start of the chapter’s <em>In code</em> section. The notebooks open in <a href="https://colab.research.google.com" target="_blank" aria-label="Google Colab (opens in a new tab)">Google Colab</a>, which runs Python in your web browser with nothing to install. They also include the code for any figures drawn with Python, and a space under each code exercise for your answer. A downloaded notebook shows the results of a run already; in Colab, run the cells to see them. Each part review has its own notebook and script for its code exercise, and the worked solutions to all the code exercises of a part are in one more, linked from the top of the part’s solutions. If you are new to either language, the <a href="../front/refresher.html#sec-code-primer">Refresher</a> explains how to get set up and the basics you need.</p>
 
 

@@ -26,7 +26,7 @@ body{margin:0}
   --kc: #6a3db0;    /* image of k-hat (column 3) */
   --plane: #fbfcfd;
   --pgrid: #e3e8ee;
-  --tgrid: #8fa7c9;
+  --tgrid: #7593bd;
   --font-display: "Newsreader", Georgia, "Times New Roman", serif;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
@@ -35,13 +35,13 @@ body{margin:0}
   :root:not([data-theme="light"]) {
     --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2;
     --line: #2c3644; --row: #74a4ff; --col: #f0a35a; --res: #43c999; --neg: #f07aa8; --kc: #b89cff;
-    --plane: #131920; --pgrid: #222b36; --tgrid: #4d6487; color-scheme: dark;
+    --plane: #131920; --pgrid: #222b36; --tgrid: #50688c; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2;
   --line: #2c3644; --row: #74a4ff; --col: #f0a35a; --res: #43c999; --neg: #f07aa8; --kc: #b89cff;
-  --plane: #131920; --pgrid: #222b36; --tgrid: #4d6487; color-scheme: dark;
+  --plane: #131920; --pgrid: #222b36; --tgrid: #50688c; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 body {
@@ -120,6 +120,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--row); outli
 .seg { display: flex; flex-wrap: wrap; gap: 6px; }
 .opts { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.9rem; }
 .opts label { display: inline-flex; align-items: center; gap: 6px; }
+.opts .turn { display: inline-flex; gap: 6px; }
+.opts .turn[hidden] { display: none; }
 
 .formula { font-family: var(--font-num); font-size: 1rem; line-height: 1.9; overflow-wrap: anywhere; }
 .formula .i { color: var(--row); font-weight: 600; }
@@ -285,6 +287,12 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
           <label><input type="checkbox" id="grid" checked> <span id="gridLbl">Transformed grid</span></label>
           <label id="snapWrap"><input type="checkbox" id="snap" checked> Snap drags to 0.5</label>
           <label id="spinWrap" hidden><input type="checkbox" id="spin"> Slow spin</label>
+          <span id="turnWrap" class="turn" role="group" aria-label="Turn the view" hidden>
+            <button data-turn="ArrowLeft" aria-label="Turn left">←</button>
+            <button data-turn="ArrowRight" aria-label="Turn right">→</button>
+            <button data-turn="ArrowUp" aria-label="Tilt up">↑</button>
+            <button data-turn="ArrowDown" aria-label="Tilt down">↓</button>
+          </span>
           <button id="resetView" hidden>Reset view</button>
         </div>
       </section>
@@ -438,7 +446,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
     ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
     for (let k = -N + 1; k < N; k++) if (k && Math.abs(k) <= R2 - 0.3) { const s = P2([0, k]); ctx.fillText(String(k).replace('-', '−'), s[0] - 5, s[1]); }
     if (S.grid) {
-      const G = 14; ctx.strokeStyle = C.tgrid; ctx.lineWidth = 1; ctx.globalAlpha = 0.75;
+      const G = 14; ctx.strokeStyle = C.tgrid; ctx.lineWidth = 1; ctx.globalAlpha = 1;
       for (let k = -G; k <= G; k++) { seg(P2(ap(m, [k, -G])), P2(ap(m, [k, G]))); seg(P2(ap(m, [-G, k])), P2(ap(m, [G, k]))); }
       ctx.globalAlpha = 1;
     }
@@ -492,7 +500,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
     });
     ctx.globalAlpha = 1;
     if (S.grid) {
-      const g = 3; ctx.strokeStyle = C.tgrid; ctx.lineWidth = 1; ctx.globalAlpha = 0.7;
+      const g = 3; ctx.strokeStyle = C.tgrid; ctx.lineWidth = 1; ctx.globalAlpha = 1;
       for (let k = -g; k <= g; k++) { line3([ap(m, [k, -g, 0]), ap(m, [k, g, 0])]); line3([ap(m, [-g, k, 0]), ap(m, [g, k, 0])]); }
       ctx.globalAlpha = 1;
     }
@@ -573,14 +581,14 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
       ? 'The unit cube becomes the parallelepiped spanned by the three columns of <i>M</i>, and its volume is |det <i>M</i>|. Every unit cell of space becomes the same slanted box, so every solid has its volume multiplied by the same factor. When the determinant is negative the L-shaped block comes out as its mirror image: a right-handed set of axes has become left-handed. When it is zero, space is squashed onto a plane or a line and every volume becomes zero. The determinant is also the scalar triple product of the columns, <i>M</i>î · (<i>M</i>ĵ × <i>M</i>k̂).'
       : 'The unit square becomes the parallelogram spanned by the two columns of <i>M</i>, and its area is |det <i>M</i>| = |<i>ad</i> − <i>bc</i>|. Because the transformation is linear, every grid cell becomes the same parallelogram, so any shape made of cells, and in the limit any shape at all, has its area multiplied by the same factor. When the determinant is negative the letter F comes out mirrored and the little turning arrow runs clockwise instead of anticlockwise. When it is zero the plane is squashed onto a line and every area becomes zero.';
     $('colnote').innerHTML = d3
-      ? 'Columns 1, 2 and 3 are where <b class="i">î</b>, <b class="j">ĵ</b> and <b class="k">k̂</b> land. Drag the picture, or focus it and use the arrow keys, to turn the view.'
+      ? 'Columns 1, 2 and 3 are where <b class="i">î</b>, <b class="j">ĵ</b> and <b class="k">k̂</b> land. Drag the picture, use the turn buttons, or focus the picture and use the arrow keys, to turn the view.'
       : 'Column 1 is where <b class="i">î</b> lands, column 2 is where <b class="j">ĵ</b> lands. Drag the arrow tips to change them.';
     const names = d3 ? SH3 : SH2;
     $('shapes').querySelectorAll('button').forEach(b => b.textContent = names[b.dataset.shape].name.replace(' (radius 1)', ''));
     $('legK').hidden = !d3;
     $('legGrid').textContent = d3 ? 'transformed floor grid' : 'transformed grid';
     $('gridLbl').textContent = d3 ? 'Transformed floor grid' : 'Transformed grid';
-    $('snapWrap').hidden = d3; $('spinWrap').hidden = !d3; $('resetView').hidden = !d3;
+    $('snapWrap').hidden = d3; $('spinWrap').hidden = !d3; $('resetView').hidden = !d3; $('turnWrap').hidden = !d3;
     cv.tabIndex = d3 ? 0 : -1;
     cv.className = d3 ? 'grab' : '';
   }
@@ -713,6 +721,8 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
     e.preventDefault(); S.yaw += k[0]; S.pitch = Math.max(-1.2, Math.min(1.45, S.pitch + k[1])); draw();
   });
 
+  // Turn buttons do what the arrow keys do, so dragging is never the only way to turn the view.
+  document.querySelectorAll('[data-turn]').forEach(b => b.addEventListener('click', () => cv.dispatchEvent(new KeyboardEvent('keydown', { key: b.dataset.turn, cancelable: true }))));
   new ResizeObserver(resize).observe($('holder'));
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
   new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });

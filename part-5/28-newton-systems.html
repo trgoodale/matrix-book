@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-fbd66a4798cb9930ac243873f1f54208.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-e788e926c29bd5ef974d4e8b1e8cb3d9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-75fe0b3cd26128f8adaa06f18fba5cda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-42a0c8504953793a591d370a1208fe52.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-32c6c7c67f670e067e5ca6fe81e2e6fe.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-42a0c8504953793a591d370a1208fe52.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -130,10 +130,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   here, before MathJax loads, so every page is typeset in their notation.
 */
 (function () {
-  var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python" };
+  var DEFAULTS = { vec: "bold", mat: "bold", basis: "ijk", br: "round", tr: "T", code: "Python", mtab: "off" };
   var s = {};
   try { s = JSON.parse(localStorage.getItem("mb-settings") || "{}") || {}; } catch (e) { s = {}; }
   for (var k in DEFAULTS) if (!(k in s)) s[k] = DEFAULTS[k];
+  // Whether the Tab key stops at each formula. MathJax's own menu ("Include in Tab Order")
+  // saves the same choice under "MathJax-Menu-Settings"; follow it if the reader used it there.
+  try {
+    var mjs = JSON.parse(localStorage.getItem("MathJax-Menu-Settings") || "{}") || {};
+    if (typeof mjs.inTabOrder === "boolean") s.mtab = mjs.inTabOrder ? "on" : "off";
+  } catch (e) {}
   window.mbSettings = s;
   window.mbDefaults = DEFAULTS;
 
@@ -165,7 +171,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     },
     // MathJax 4: break long equations across lines to fit narrow screens
     output: { displayOverflow: "linebreak", linebreaks: { inline: true, width: "100%", lineleading: 0.6 } },
-    chtml: { scale: 1.0 }
+    chtml: { scale: 1.0 },
+    // Formulas are left out of the Tab order by default: otherwise a keyboard user must press
+    // Tab once per formula (over 200 times in some chapters). Readers can turn it back on in
+    // the Notation panel or in MathJax's own menu (How to use this book explains).
+    options: { menuOptions: { settings: { inTabOrder: s.mtab === "on" } } }
   };
 
   // Default language for code tabs: Quarto reads this when the page is shown.
@@ -182,7 +192,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     { key: "basis", label: "Unit vectors", opts: [["ijk", "i, j, k", "\\mathbf{i},\\ \\mathbf{j},\\ \\mathbf{k}"], ["hat", "Hats", "\\hat{\\imath},\\ \\hat{\\jmath},\\ \\hat{k}"], ["e", "e₁, e₂, e₃", "\\mathbf{e}_1,\\ \\mathbf{e}_2,\\ \\mathbf{e}_3"]] },
     { key: "br", label: "Brackets", opts: [["round", "Round", "\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}"], ["square", "Square", "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}"]] },
     { key: "tr", label: "Transpose", opts: [["T", "Letter T", "\\mathbf{A}^{\\mathsf{T}}"], ["top", "Symbol ⊤", "\\mathbf{A}^{\\top}"]] },
-    { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] }
+    { key: "code", label: "Code shown first", opts: [["Python", "Python", ""], ["MATLAB", "MATLAB", ""]] },
+    { key: "mtab", label: "Tab key and formulas", opts: [["off", "Tab skips formulas", ""], ["on", "Tab stops at each formula", ""]] }
   ];
 
   function buildForm(prefix) {
@@ -248,6 +259,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       var tabs = JSON.parse(localStorage.getItem(key) || "{}") || {};
       tabs.language = next.code;
       localStorage.setItem(key, JSON.stringify(tabs));
+      var mk = "MathJax-Menu-Settings";
+      var mjs = JSON.parse(localStorage.getItem(mk) || "{}") || {};
+      mjs.inTabOrder = next.mtab === "on";
+      localStorage.setItem(mk, JSON.stringify(mjs));
       sessionStorage.setItem("mb-scroll", String(window.scrollY));
     } catch (e) {}
     location.reload();
@@ -291,6 +306,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     btn.addEventListener("click", function () { dlg.showModal(); typeset(dlg); });
     dlg.querySelector(".btn-close").addEventListener("click", function () { dlg.close(); });
     dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+    // MathJax 4.0's formula explorer puts every formula in the Tab order (tabindex="0")
+    // whatever its "Include in Tab Order" setting says, so enforce that setting here.
+    // It follows MathJax's live setting, so turning it on in either menu still works.
+    // Remove this if a later MathJax version respects the setting itself.
+    function mathInTabOrder() {
+      try { return !!window.MathJax.startup.document.menu.settings.inTabOrder; } catch (e) { return s.mtab === "on"; }
+    }
+    // A formula too wide for the screen scrolls sideways, so it stays in the Tab order:
+    // keyboard users need to reach it to scroll it.
+    function untab(el) {
+      if (mathInTabOrder()) return;
+      var want = el.scrollWidth > el.clientWidth + 1 ? "0" : "-1";
+      if (el.getAttribute("tabindex") !== want) el.setAttribute("tabindex", want);
+    }
+    var untabTimer = 0;
+    function untabAll() { document.querySelectorAll("mjx-container").forEach(untab); }
+    window.addEventListener("resize", function () { clearTimeout(untabTimer); untabTimer = setTimeout(untabAll, 200); });
+    window.addEventListener("load", function () {
+      try { window.MathJax.startup.promise.then(function () { setTimeout(untabAll, 300); }); } catch (e) { setTimeout(untabAll, 1500); }
+    });
+    new MutationObserver(function (list) {
+      list.forEach(function (m) {
+        if (m.type === "attributes") { if (m.target.tagName === "MJX-CONTAINER") untab(m.target); return; }
+        m.addedNodes.forEach(function (n) {
+          if (n.nodeType !== 1) return;
+          if (n.tagName === "MJX-CONTAINER") untab(n);
+          else if (n.querySelectorAll) n.querySelectorAll("mjx-container").forEach(untab);
+        });
+      });
+    }).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ["tabindex"] });
 
     // Size embedded apps to their content (same origin)
     document.querySelectorAll("iframe.app-frame").forEach(function (f) {
@@ -1303,7 +1349,7 @@ Figure&nbsp;28.2: The two solutions of Example 2. Newton’s method from <span c
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">MATLAB</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="e8efe99f" class="cell" data-execution_count="1">
+<div id="5aac860d" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> fsolve</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1341,8 +1387,12 @@ Figure&nbsp;28.2: The two solutions of Example 2. Newton’s method from <span c
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">x</span> <span class="op">=</span> <span class="va">x</span> <span class="op">-</span> <span class="va">J</span>(<span class="va">x</span>) <span class="op">\</span> <span class="va">f</span>(<span class="va">x</span>)<span class="op">;</span>                      <span class="co">% solve, don't invert</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">% Library solver (Optimization Toolbox)</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">fsolve</span>(<span class="va">f</span><span class="op">,</span> [<span class="fl">2</span><span class="op">;</span> <span class="fl">0.5</span>]<span class="op">,</span> <span class="va">optimset</span>(<span class="ss">'Display'</span><span class="op">,</span> <span class="ss">'off'</span>))   <span class="co">% library solver (Optimization Toolbox)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">% Library solver: fsolve is in the Optimization Toolbox (and built into Octave)</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="va">exist</span>(<span class="ss">'fsolve'</span><span class="op">,</span> <span class="ss">'file'</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">x</span> <span class="op">=</span> <span class="va">fsolve</span>(<span class="va">f</span><span class="op">,</span> [<span class="fl">2</span><span class="op">;</span> <span class="fl">0.5</span>]<span class="op">,</span> <span class="va">optimset</span>(<span class="ss">'Display'</span><span class="op">,</span> <span class="ss">'off'</span>))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">else</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="va">disp</span>(<span class="ss">'fsolve needs the Optimization Toolbox, which is not installed.'</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <pre class="text code-output"><code>0  2.000000000000  0.500000000000  2.5e-01
 1  1.933333333333  0.516666666667  4.9e-03
 2  1.931852741096  0.517637054822  3.4e-06

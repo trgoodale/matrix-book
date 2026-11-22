@@ -407,6 +407,8 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   function stop() { if (S.playing) clearInterval(S.playing); S.playing = 0; $('play').textContent = 'Play'; }
   $('play').addEventListener('click', () => {
     if (S.playing) { stop(); return; }
+    // With reduced motion asked for, go straight to the last step; the step buttons still go one at a time.
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { go(S.steps.length - 1); return; }
     if (S.k === S.steps.length - 1) go(0);
     $('play').textContent = 'Pause';
     S.playing = setInterval(() => { if (S.k >= S.steps.length - 1) { stop(); return; } go(S.k + 1); }, 1800);

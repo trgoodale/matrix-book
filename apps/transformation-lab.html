@@ -13,7 +13,7 @@
 :root {
   --paper: #f2f5f8; --grid: #dde4ec; --surface: #ffffff; --ink: #18222f; --muted: #5e6b7c; --line: #c9d2dd;
   --row: #2153b8; --col: #9c5208; --res: #0a7050; --neg: #b0215a; --tgt: #6a3db0;
-  --plane: #fbfcfd; --pgrid: #e3e8ee; --tgrid: #8fa7c9;
+  --plane: #fbfcfd; --pgrid: #e3e8ee; --tgrid: #7593bd;
   --font-display: "Newsreader", Georgia, "Times New Roman", serif;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
@@ -22,13 +22,13 @@
   :root:not([data-theme="light"]) {
     --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
     --row: #74a4ff; --col: #f0a35a; --res: #43c999; --neg: #f07aa8; --tgt: #b89cff;
-    --plane: #131920; --pgrid: #222b36; --tgrid: #4d6487; color-scheme: dark;
+    --plane: #131920; --pgrid: #222b36; --tgrid: #50688c; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --paper: #11161d; --grid: #1a212b; --surface: #171e27; --ink: #e4e9f0; --muted: #94a1b2; --line: #2c3644;
   --row: #74a4ff; --col: #f0a35a; --res: #43c999; --neg: #f07aa8; --tgt: #b89cff;
-  --plane: #131920; --pgrid: #222b36; --tgrid: #4d6487; color-scheme: dark;
+  --plane: #131920; --pgrid: #222b36; --tgrid: #50688c; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { color-scheme: light; }
@@ -311,7 +311,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
     ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
     for (let k = -4; k <= 4; k++) if (k) { const s = P([0, k]); ctx.fillText(String(k).replace('-', '−'), s[0] - 5, s[1]); }
     if (showGrid && M) {
-      const G = 14; ctx.strokeStyle = C.tgrid; ctx.lineWidth = 1; ctx.globalAlpha = 0.7;
+      const G = 14; ctx.strokeStyle = C.tgrid; ctx.lineWidth = 1; ctx.globalAlpha = 1;
       for (let k = -G; k <= G; k++) { seg(ctx, P(ap(M, [k, -G])), P(ap(M, [k, G]))); seg(ctx, P(ap(M, [-G, k])), P(ap(M, [G, k]))); }
       ctx.globalAlpha = 1;
     }

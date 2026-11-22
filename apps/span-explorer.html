@@ -142,7 +142,14 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
     <section class="panel plane-box" aria-label="Picture">
       <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
       <div class="legend" id="legend"></div>
-      <p class="hint">Drag the picture, or focus it and use the arrow keys, to turn it.</p>
+      <p class="hint">Drag the picture, use these buttons, or focus the picture and use the arrow keys, to turn it.</p>
+      <div class="row" role="group" aria-label="Turn the view">
+        <span class="hint">Turn:</span>
+        <button data-turn="ArrowLeft" aria-label="Turn left">←</button>
+        <button data-turn="ArrowRight" aria-label="Turn right">→</button>
+        <button data-turn="ArrowUp" aria-label="Tilt up">↑</button>
+        <button data-turn="ArrowDown" aria-label="Tilt down">↓</button>
+      </div>
     </section>
 
     <div class="side">
@@ -389,6 +396,8 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
       start = ['', V, on, b];
     }
   }
+  // Turn buttons do what the arrow keys do, so dragging is never the only way to turn the view.
+  document.querySelectorAll('[data-turn]').forEach(b => b.addEventListener('click', () => cv.dispatchEvent(new KeyboardEvent('keydown', { key: b.dataset.turn, cancelable: true }))));
   new ResizeObserver(resize).observe(cv.parentElement);
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
   new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });

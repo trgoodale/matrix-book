@@ -167,7 +167,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
         <span><span class="sw s"></span>SOR</span>
         <span><span class="sw t"></span>the two equations</span>
       </div>
-      <p class="hint">Drag the starting guess (the open circle). With the picture focused, the arrow keys move it.</p>
+      <p class="hint">Drag the starting guess (the open circle), or click where you want it to start. With the picture focused, the arrow keys move it.</p>
     </section>
 
     <div class="side">
@@ -363,17 +363,23 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   $('om').addEventListener('input', e => { S.om = +e.target.value; draw(); });
   $('best').addEventListener('click', () => { S.om = Math.round(bestOmega() * 100) / 100; $('om').value = String(S.om); draw(); });
   const stop = () => { if (S.playing) clearInterval(S.playing); S.playing = 0; $('play').textContent = 'Play'; };
-  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; } S.n = 0; $('play').textContent = 'Pause'; S.playing = setInterval(() => { if (S.n >= 25) { stop(); return; } S.n++; $('n').value = String(S.n); draw(); }, 450); });
+  // With reduced motion asked for, Play shows the end result at once instead of animating.
+  const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; } if (reduceMotion()) { S.n = 25; $('n').value = '25'; draw(); return; } S.n = 0; $('play').textContent = 'Pause'; S.playing = setInterval(() => { if (S.n >= 25) { stop(); return; } S.n++; $('n').value = String(S.n); draw(); }, 450); });
 
   function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
   const onTip = (sx, sy) => { const s = P(S.x0); return Math.hypot(s[0] - sx, s[1] - sy) < 18; };
   let frozen = null;
-  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); if (!onTip(sx, sy)) return; drag = true; frozen = [cx, cy, R]; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); });
+  // Pressing anywhere moves the point there, so dragging is never the only way to move it.
+  function moveTo(sx, sy) {
+    const [fx, fy, fr] = frozen, sn = v => Math.round(v * 10) / 10;
+    S.x0 = [sn(fx + (sx - W / 2) / W * 2 * fr), sn(fy + (W / 2 - sy) / W * 2 * fr)]; draw();
+  }
+  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); const onIt = onTip(sx, sy); drag = true; frozen = [cx, cy, R]; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); if (!onIt) moveTo(sx, sy); });
   cv.addEventListener('pointermove', e => {
     const [sx, sy] = pos(e);
     if (!drag) { const h = onTip(sx, sy); if (h !== hover) { hover = h; cv.className = h ? 'grab' : ''; draw(); } return; }
-    const [fx, fy, fr] = frozen, sn = v => Math.round(v * 10) / 10;
-    S.x0 = [sn(fx + (sx - W / 2) / W * 2 * fr), sn(fy + (W / 2 - sy) / W * 2 * fr)]; draw();
+    moveTo(sx, sy);
   });
   const end = () => { if (drag) { drag = false; cv.className = hover ? 'grab' : ''; draw(); } };
   cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);

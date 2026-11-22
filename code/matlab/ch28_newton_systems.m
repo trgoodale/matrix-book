@@ -21,8 +21,12 @@ for k = 0:4
     x = x - J(x) \ f(x);                      % solve, don't invert
 end
 
-% Library solver (Optimization Toolbox)
-x = fsolve(f, [2; 0.5], optimset('Display', 'off'))   % library solver (Optimization Toolbox)
+% Library solver: fsolve is in the Optimization Toolbox (and built into Octave)
+if exist('fsolve', 'file')
+    x = fsolve(f, [2; 0.5], optimset('Display', 'off'))
+else
+    disp('fsolve needs the Optimization Toolbox, which is not installed.')
+end
 
 %% Exercises
 % The code exercises from the end of the chapter. Worked solutions are in

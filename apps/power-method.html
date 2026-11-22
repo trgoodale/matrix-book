@@ -152,11 +152,11 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
     <section class="panel plane-box" aria-label="Plane">
       <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
       <div class="legend">
-        <span><span class="sw a"></span>start, <b>q</b>₀ (drag round the circle)</span>
+        <span><span class="sw a"></span>start, <b>q</b>₀ (drag round the circle, or click)</span>
         <span><span class="sw w"></span><b>q</b>₁, <b>q</b>₂, … each rescaled to length 1</span>
         <span><span class="sw t"></span>eigenvector lines</span>
       </div>
-      <p class="hint">With the picture focused, the arrow keys turn <b>q</b>₀ and the space bar takes a step.</p>
+      <p class="hint">Click anywhere to point <b>q</b>₀ that way. With the picture focused, the arrow keys turn <b>q</b>₀ and the space bar takes a step.</p>
     </section>
 
     <div class="side">
@@ -309,7 +309,11 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   function step() { const M = B(); if (!M || S.qs.length > 40) return; const y = mul(M, S.qs[S.qs.length - 1]), n = Math.hypot(...y); if (n < 1e-300) return; S.qs.push([y[0] / n, y[1] / n]); draw(); readout(); }
   $('step').addEventListener('click', () => { stop(); step(); });
   $('reset').addEventListener('click', restart);
-  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; } $('play').textContent = 'Pause'; S.playing = setInterval(() => { if (S.qs.length > 25) { stop(); return; } step(); }, 600); });
+  // With reduced motion asked for, Play shows the end result at once instead of animating.
+  const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; }
+    if (reduceMotion()) { while (S.qs.length <= 25) { const n = S.qs.length; step(); if (S.qs.length === n) break; } return; }
+    $('play').textContent = 'Pause'; S.playing = setInterval(() => { if (S.qs.length > 25) { stop(); return; } step(); }, 600); });
   $('mu').addEventListener('input', e => { S.mu = +e.target.value; restart(); });
   const sync = wireMatrix(S, () => { mark(); restart(); });
   const mark = makePresets($('presets'), PRESETS, p => JSON.stringify(p[1]) === JSON.stringify(S.A), p => { S.A = p[1].map(r => r.slice()); sync(); mark(); restart(); });
@@ -317,11 +321,15 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
 
   function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
   const onTip = (sx, sy) => { const s = P(S.qs[0]); return Math.hypot(s[0] - sx, s[1] - sy) < 18; };
-  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); if (!onTip(sx, sy)) return; drag = true; stop(); cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); });
+  // Pressing anywhere moves the point there, so dragging is never the only way to move it.
+  function moveTo(sx, sy) {
+    S.th = Math.round(Math.atan2(W / 2 - sy, sx - W / 2) * 180 / Math.PI) * Math.PI / 180; restart();
+  }
+  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e); const onIt = onTip(sx, sy); drag = true; stop(); cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); if (!onIt) moveTo(sx, sy); });
   cv.addEventListener('pointermove', e => {
     const [sx, sy] = pos(e);
     if (!drag) { const h = onTip(sx, sy); if (h !== hover) { hover = h; cv.className = h ? 'grab' : ''; draw(); } return; }
-    S.th = Math.round(Math.atan2(W / 2 - sy, sx - W / 2) * 180 / Math.PI) * Math.PI / 180; restart();
+    moveTo(sx, sy);
   });
   const end = () => { if (drag) { drag = false; cv.className = hover ? 'grab' : ''; draw(); } };
   cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);

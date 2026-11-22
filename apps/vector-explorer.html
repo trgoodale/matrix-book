@@ -84,7 +84,7 @@ button {
   border: 1px solid var(--line); border-radius: 7px; padding: 6px 11px; cursor: pointer;
 }
 button:hover { border-color: var(--ink); }
-button:focus-visible, input:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
+button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--row); outline-offset: 2px; }
 .row { display: flex; flex-wrap: wrap; gap: 6px; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 html.embedded body { background-image: none; }
@@ -131,7 +131,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   </div>
   <div class="layout">
     <section class="panel plane-box" aria-label="Plane">
-      <div class="holder"><canvas id="cv" role="img"></canvas></div>
+      <div class="holder"><canvas id="cv" role="img" tabindex="0"></canvas></div>
       <div class="legend" id="legend"></div>
     </section>
     <div class="side">
@@ -141,11 +141,16 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
         <div class="ctl"><label for="tl">angle θ (°)</label><input type="range" id="tl" min="-180" max="180" step="1"><input type="number" id="tn" min="-180" max="180" step="1" aria-label="Angle in degrees, as a number"></div>
         <div class="ctl"><label for="xn" class="x">x component</label><span></span><input type="number" id="xn" step="0.5" aria-label="x component"></div>
         <div class="ctl"><label for="yn" class="y">y component</label><span></span><input type="number" id="yn" step="0.5" aria-label="y component"></div>
-        <p class="hint">Drag the tip, use the sliders for length and direction, or type the components.</p>
+        <p class="hint">Drag the tip or click where it should go, use the sliders for length and direction, or type the components. With the picture focused, the arrow keys move it.</p>
       </section>
       <section class="panel card wide" id="ctlTwo" aria-label="Vectors" hidden>
         <span class="label">The vectors</span>
-        <p class="hint">Drag the tips of the two vectors. Try making them point the same way, at right angles, and in opposite directions.</p>
+        <p class="hint">Drag the tips of the two vectors, or choose one here and click where it should go. With the picture focused, the arrow keys move it. Try making them point the same way, at right angles, and in opposite directions.</p>
+        <div class="row" role="group" aria-label="What a click or the arrow keys move">
+          <span class="hint">Move:</span>
+          <button data-move="a" aria-pressed="true" aria-label="Move a"><b>a</b></button>
+          <button data-move="b" aria-pressed="false" aria-label="Move b"><b>b</b></button>
+        </div>
         <div class="row">
           <button data-p="perp">Right angles</button>
           <button data-p="same">Same direction</button>
@@ -169,7 +174,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   const R = 5, LIM = 4.5;
   const S = { mode: 'components', v: [3, 2], a: [3, 1], b: [1, 2.5] };
   const cv = $('cv'), ctx = cv.getContext('2d');
-  let W = 400, dpr = 1, drag = null, hover = null;
+  let W = 400, dpr = 1, drag = null, hover = null, sel = 'a';
 
   const fmt = (x, dp = 2) => { const r = Math.round(x * 10 ** dp) / 10 ** dp; return (Object.is(r, -0) ? 0 : r).toString().replace('-', '−'); };
   const len = p => Math.hypot(p[0], p[1]);
@@ -203,7 +208,7 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
     ctx.fillText(t, s[0] + dx, s[1] + dy);
   }
   function handle(p, color, key, dashed) {
-    const s = P(p), big = hover === key || (drag && drag.key === key);
+    const s = P(p), big = hover === key || (drag && drag.key === key) || (S.mode !== 'components' && sel === key);
     ctx.beginPath(); ctx.arc(s[0], s[1], big ? 10 : 7.5, 0, 2 * Math.PI); ctx.fillStyle = css().surface; ctx.fill();
     ctx.strokeStyle = color; ctx.lineWidth = 2.5; if (dashed) ctx.setLineDash([3, 2.5]); ctx.stroke(); ctx.setLineDash([]);
   }
@@ -350,12 +355,28 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
     for (const [k, p] of pts) { const s = P(p), d = Math.hypot(s[0] - sx, s[1] - sy); if (d < bd) { bd = d; best = k; } }
     return best;
   }
-  cv.addEventListener('pointerdown', e => { const [sx, sy] = pos(e), k = hit(sx, sy); if (!k) return; drag = { key: k }; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault(); draw(); });
+  // What a click on empty space, or the arrow keys, will move: v in the components mode,
+  // otherwise the chosen one of a and b. Dragging is never the only way to move a tip.
+  const target = () => S.mode === 'components' ? 'v' : sel;
+  function select(k) { sel = k; document.querySelectorAll('[data-move]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.move === k))); draw(); }
+  const place = (k, x, y) => { S[k] = [clamp(Math.round(x * 2) / 2), clamp(Math.round(y * 2) / 2)]; update(); };
+  const toW = (sx, sy) => [(sx - W / 2) / u(), (W / 2 - sy) / u()];
+  document.querySelectorAll('[data-move]').forEach(b => b.addEventListener('click', () => select(b.dataset.move)));
+  cv.addEventListener('pointerdown', e => {
+    const [sx, sy] = pos(e), h = hit(sx, sy), k = h || target();
+    if (S.mode !== 'components' && k !== sel) select(k);
+    drag = { key: k }; cv.setPointerCapture(e.pointerId); cv.className = 'grabbing'; e.preventDefault();
+    if (!h) place(k, ...toW(sx, sy)); else draw();
+  });
   cv.addEventListener('pointermove', e => {
     const [sx, sy] = pos(e);
     if (!drag) { const h = hit(sx, sy); if (h !== hover) { hover = h; cv.className = h ? 'grab' : ''; draw(); } return; }
-    const x = clamp(Math.round((sx - W / 2) / u() * 2) / 2), y = clamp(Math.round((W / 2 - sy) / u() * 2) / 2);
-    S[drag.key] = [x, y]; update();
+    place(drag.key, ...toW(sx, sy));
+  });
+  cv.addEventListener('keydown', e => {
+    const d = { ArrowLeft: [-0.5, 0], ArrowRight: [0.5, 0], ArrowUp: [0, 0.5], ArrowDown: [0, -0.5] }[e.key];
+    if (!d) return; e.preventDefault(); const k = target(), p = S[k]; place(k, p[0] + d[0], p[1] + d[1]);
+    $('live').textContent = $('status').textContent;
   });
   const end = () => { if (drag) { drag = null; cv.className = hover ? 'grab' : ''; draw(); $('live').textContent = $('status').textContent; } };
   cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);

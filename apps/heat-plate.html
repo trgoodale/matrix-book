@@ -311,7 +311,11 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   function stop() { if (S.playing) clearInterval(S.playing); S.playing = 0; $('play').textContent = 'Play'; }
   $('step').addEventListener('click', () => { stop(); step(); });
   $('reset').addEventListener('click', restart);
-  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; } $('play').textContent = 'Pause'; S.playing = setInterval(() => { if (S.hist[S.hist.length - 1] < 1e-6 || S.k > 3000) { stop(); return; } step(S.k < 40 ? 1 : S.k < 200 ? 4 : 20); }, 80); });
+  // With reduced motion asked for, Play shows the end result at once instead of animating.
+  const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; }
+    if (reduceMotion()) { while (!(S.hist[S.hist.length - 1] < 1e-6 || S.k > 3000)) { S.u = sweep(S.u, S.method); S.k++; S.hist.push(errOf(S.u)); } draw(); return; }
+    $('play').textContent = 'Pause'; S.playing = setInterval(() => { if (S.hist[S.hist.length - 1] < 1e-6 || S.k > 3000) { stop(); return; } step(S.k < 40 ? 1 : S.k < 200 ? 4 : 20); }, 80); });
   ['T', 'B', 'L', 'R'].forEach((s, q) => $('t' + s).addEventListener('input', e => { S.e[q] = +e.target.value; mark(); restart(); }));
   const mark = makePresets($('presets'), PRESETS, p => JSON.stringify(p[1]) === JSON.stringify(S.e), p => { S.e = p[1].slice(); mark(); restart(); });
   const markM = makePresets($('methods'), METHODS, m => m[1] === S.method, m => { S.method = m[1]; markM(); restart(); });

@@ -305,7 +305,9 @@ label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center;
   function resetCounts() { S.visits = new Array(6).fill(0); S.total = 0; S.prev = -1; S.at = 0; }
   $('one').addEventListener('click', () => { stop(); click(); draw(); });
   $('many').addEventListener('click', () => { stop(); for (let k = 0; k < 1000; k++) click(); S.prev = -1; draw(); });
-  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; } $('play').textContent = 'Pause'; S.playing = setInterval(() => { click(); draw(); }, 500); });
+  // With reduced motion asked for, Play does 1000 clicks at once instead of animating them.
+  const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('play').addEventListener('click', () => { if (S.playing) { stop(); return; } if (reduceMotion()) { $('many').click(); return; } $('play').textContent = 'Pause'; S.playing = setInterval(() => { click(); draw(); }, 500); });
   $('reset').addEventListener('click', () => { stop(); resetCounts(); draw(); });
   $('d').addEventListener('input', e => { S.d = +e.target.value; draw(); });
   const mark = makePresets($('presets'), PRESETS, p => JSON.stringify(p[1]) === JSON.stringify(S.links), p => { S.links = p[1].map(o => o.slice()); stop(); resetCounts(); S.sel = -1; mark(); draw(); });
