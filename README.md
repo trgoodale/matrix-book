@@ -1,6 +1,6 @@
 # Matrices in Practice
 
-A Quarto book on matrices, linear algebra and numerical methods, with interactive apps and code in Python and MATLAB. It is published to GitHub Pages.
+A Quarto book on matrices, linear algebra and numerical methods, with interactive apps and code in Python and MATLAB. Read it at <https://trgoodale.github.io/matrix-book/>.
 
 ## Folder layout
 
@@ -20,12 +20,15 @@ A Quarto book on matrices, linear algebra and numerical methods, with interactiv
 
 ## Working on the book
 
-1. Install [Quarto](https://quarto.org/docs/get-started/) and Python 3.
-2. Install the Python packages: `pip install -r requirements.txt`
-3. Preview with live reload: `quarto preview`
-4. Build the whole book into `_book/`: `quarto render`
+1. Clone the repository: `git clone https://github.com/trgoodale/matrix-book.git`
+2. Install [Quarto](https://quarto.org/docs/get-started/) and Python 3.
+3. Install the Python packages: `pip install -r requirements.txt`
+4. Preview with live reload: `quarto preview`
+5. Build the whole book into `_book/`: `quarto render`
 
 Python code runs when the book is built. With `freeze: auto`, a chapter's code only runs again when that chapter changes.
+
+If your copy is in a folder synced by OneDrive, Dropbox or iCloud, the syncing can lock files or copy the `.git` folder in the middle of a change, which can corrupt the repository. If you see problems, clone the repository again into a folder that isn't synced: GitHub already keeps a copy of everything you push.
 
 ## Writing chapters
 
@@ -174,17 +177,8 @@ The book resizes the frame to fit the app. With `?embed=1`, the app hides its ow
 
 To check, render, serve `_book` locally and run [axe-core](https://github.com/dequelabs/axe-core) over every page and app, in light and dark modes, with the WCAG 2.2 rules on, and load each page at 320, 390, 768 and 1280 pixels wide. Make sure MathJax actually loads in the test browser (if the CDN is blocked, serve a local copy of `mathjax@4.0.0`): without it the maths is missing and the results are misleading.
 
-## Publishing to GitHub Pages
+## Publishing
 
-One-time setup:
+Every push to `main` rebuilds the book and publishes it to GitHub Pages (from the `gh-pages` branch), with freshly generated code files. Progress shows under the repository's **Actions** tab. If the repository moves, change `repo-url` in `_quarto.yml`.
 
-1. Create a GitHub repository and push this folder to its `main` branch.
-2. On your computer, run `quarto publish gh-pages` once. This creates the `gh-pages` branch.
-3. In the repository on GitHub, go to **Settings → Pages** and set the source to the `gh-pages` branch.
-4. `repo-url` in `_quarto.yml` is set to `https://github.com/trgoodale/matrix-book`; change it if the repository moves.
-
-After that, every push to `main` rebuilds and publishes the book automatically, with freshly generated code files. Progress shows under the repository's **Actions** tab.
-
-## A note on OneDrive
-
-This folder is inside OneDrive. Git and OneDrive can work together, but OneDrive sometimes locks files or syncs the `.git` folder mid-change, which can corrupt a repository. If you see problems, move the repository to a folder outside OneDrive (for example `C:\Users\<you>\repos\matrix-book`). GitHub then becomes your backup.
+To publish from a new repository (a fork, say), run `quarto publish gh-pages` once on your computer to create the `gh-pages` branch, then set **Settings → Pages** on GitHub to publish from that branch.
